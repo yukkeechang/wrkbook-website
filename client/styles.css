@@ -1,0 +1,241 @@
+body{
+    margin:0;
+    font-family: 'helvetica';
+}
+
+/*
+Navigation Bar styles
+-------------------------------------------------------------------------
+*/
+
+#navBar{
+    width: 100%;
+    display: flex;
+    background: white;
+    margin: 0;
+    padding: 0;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#navBar ul{
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+}
+#navBar ul li{
+    display: flex;
+    padding: 10px;
+    font-size: 1.1em;
+    cursor: pointer;
+    list-style-type: none;
+}
+#left{
+    justify-content: space-between;
+}
+#right{
+    justify-content: space-around;
+}
+.navLink{
+    text-decoration: none;
+}
+.navLink:visited{
+    color: black;
+}
+.navLink:hover{
+    color: #10a96d;
+}
+
+/*
+Home Page Styles
+--------------------------------------------------------------------------
+*/
+
+#hero{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    background-image: url(images/wrkBookV2.jpg);
+    background-size: cover;
+    align-items: center;
+    flex-direction: column;
+}
+#hero h1{
+    color: white;
+    font-size: 3em;
+    padding: 100px;
+    text-align: center;
+}
+#logo{
+    justify-content: center;
+    margin-top: .67em;
+    margin-bottom: .67em;
+    width: 35%;
+}
+#heroSignUp{
+    color: #10a96d;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+#heroOR{
+    color: black;
+    padding: 10px;
+    padding-top: 20px;
+}
+.heroSignUpButton{
+    padding: 10px;
+    margin: 20px;
+    background: white;
+    border-radius: 3px;
+}
+.heroSignUpButton a{
+    text-decoration: none;
+    color: #10a96d;
+}
+.heroSignUpButton a:visited{
+    color: #10a96d;
+}
+#spacer{
+    opacity: 0;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+#info{
+    width: 100%;
+}
+#info h1{
+    font-size: 3em;
+    text-align: center;
+    font-style: italic;
+    text-decoration: underline;
+}
+#info h2{
+    font-size: 2em;
+    text-align: center;
+}
+#info h3{
+    text-align: center;
+}
+#info h5{
+    font-size: 1.5em;
+    text-align: center;
+}
+#employeecontent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+#employercontent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+#employee{
+    color: white;
+    display: flex;
+    font-size: 3em;
+    font-style: italic;
+    padding-left: 30px;
+    justify-content: flex-start;
+    background-color: #0ea56a;
+}
+#employer{
+    color: white;
+    display: flex;
+    font-size: 3em;
+    font-style: italic;
+    padding-left: 30px;
+    justify-content: flex-start;
+    background-color: #344555;
+}
+#flow{
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+    padding-bottom: 20px;
+}
+#inside{
+    display: flex;
+    padding-left: 50px;
+    padding-right: 50px;
+    flex-direction: column;
+}
+#contact{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #0ea56a;
+}
+#contacticons{
+    display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+    flex-direction: column;
+}
+
+/*
+SignUp Styles
+---------------------------------------------------------------------------
+*/
+
+#signupmain{
+
+}
+
+/*
+SignUp2 Styles
+---------------------------------------------------------------------------
+*/
+
+#signup2main{
+
+}
+#signup2header{
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+#signup2header h1{
+    font-size: 2.5em;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+#signup2header h3{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+#signup2content h1{
+    font-size: 1.5em;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+#signup2content h3{
+    font-size: 1em;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+#creditcards{
+}
+
+/*
+SignUp3 Styles
+---------------------------------------------------------------------------
+*/
+
+#signup3main{
+
+}
