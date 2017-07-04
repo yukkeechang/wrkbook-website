@@ -7,9 +7,7 @@ import Home from './Pages/home';
 import Register from './Pages/register';
 import Login from './Pages/login'
 import NotFound from './Pages/notFound';
-import Employeesu2 from './Components/employeesu2';
-import Employeesu3 from './Components/employeesu3';
-import Employeesu4 from './Components/employeesu4';
+import stepTwoContainer from './Pages/stepTwo';
 
 
 
@@ -25,9 +23,7 @@ class App extends Component {
                         <Route exact path="/" component={Home}/>
                         <Route path="/register/:value" component={Register}/>
                         <Route path="/login" component={Login}/>
-                        <Route path="/em_singup_1" component={Employeesu2}/>
-                        <Route path="/em_singup_2" component={Employeesu3}/>
-                        <Route path="/em_singup_3" component={Employeesu4}/>
+                        <Route path="/stepTwo" component={stepTwoContainer}/>
                         <Route path='*' component={NotFound}/>
                     </Switch>
                 </div>
