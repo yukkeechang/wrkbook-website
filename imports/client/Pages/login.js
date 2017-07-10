@@ -3,18 +3,18 @@ import TextField from 'material-ui/TextField';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton  from 'material-ui/RaisedButton';
 import FlatButton  from 'material-ui/FlatButton';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Checkbox from 'material-ui/Checkbox';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Dialog from 'material-ui/Dialog';
 import { Link } from 'react-router-dom';
 import LinearProgress from 'material-ui/LinearProgress';
+import history from '../history';
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
-    
+
   }
 
   handleSubmit(e){
@@ -22,6 +22,10 @@ export default class Login extends React.Component {
     const password = this.refs.password1.getValue();
 
 
+    const User = {
+      "email": email,
+      "password": password
+    }
     Meteor.loginWithPassword(email, password,(err)=>{
       if(err){
         console.log(err);
@@ -29,13 +33,22 @@ export default class Login extends React.Component {
         this.props.history.push('/');
       }
     });
+
+
+
   }
+
+
+
   render(){
+
     return(
 
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+      <MuiThemeProvider>
         <div>
-        <Card>
+        <Card  style={{
+          backgroundColor: '#ECEFF1',
+        }}>
           <CardHeader
             title="Sign In"
           />

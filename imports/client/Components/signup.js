@@ -1,20 +1,22 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import {browserHistory} from 'react-router';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton  from 'material-ui/RaisedButton';
 import FlatButton  from 'material-ui/FlatButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Checkbox from 'material-ui/Checkbox';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Dialog from 'material-ui/Dialog';
+import { Link } from 'react-router-dom';
 import LinearProgress from 'material-ui/LinearProgress';
+import ActionInfoOutline from 'material-ui/svg-icons/action/info-outline';
+import IconButton from 'material-ui/IconButton';
+
 
 injectTapEventPlugin();
 
-export default class SignUpComponent extends React.Component {
+
+
+ export default class SignUpComponent extends React.Component {
   constructor(props) {
     super(props);
     var what_person = props['data-pageName'];
@@ -39,11 +41,12 @@ export default class SignUpComponent extends React.Component {
 
   }
   handleCheck(e) {
-    let checked1 = e.target.id === "C" ? false : true;
+    let checked1 = e.target.id === "C" ? true : false;
     this.setState({
       checked1: checked1,
       checked2: !checked1
     });
+
   }
 
   handleSubmit(e){
@@ -81,7 +84,10 @@ export default class SignUpComponent extends React.Component {
       }
     });
   }
+
+
   render(){
+
     let fnameE = this.state.validations.fEmpty  ? 'First Name is required' : '';
     let lnameE = this.state.validations.lEmpty  ? 'Last Name is required'  : '';
     let p1Err  = this.state.validations.p1Empty
@@ -92,18 +98,30 @@ export default class SignUpComponent extends React.Component {
               || !this.state.validations.isEmail ? 'Not a valid Email' : '';
     let phoneEmpty = this.state.validations.phoneE
               || !this.state.validations.gPhone ? 'Not a valid phone number' : '';
-
     return(
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+
+      <MuiThemeProvider>
         <div>
-        <Card>
+        <Card  style={{
+          backgroundColor: '#ECEFF1',
+        }}>
           <CardHeader
             title="Sign Up"
           />
-          <CardText>
-            <div>
+          <CardText  >
+
+
+            <div
+              style={{display: 'flex', flexDirection: 'row',width:'100vw',
+              textAlign: 'center',}}
+            >
+            <div style={{
+              width:'40%',
+            }}>
               <TextField
                 floatingLabelText="First Name"
+
+                underlineStyle={{borderColor: '#7F8778'}}
                 errorText={fnameE}
                 ref="first_name"
                 fullWidth={true}
@@ -122,6 +140,7 @@ export default class SignUpComponent extends React.Component {
                 ref="email"
                 fullWidth={true}
               /><br />
+
               <TextField
                 floatingLabelText="Phone Number"
                 errorText={phoneEmpty}
@@ -129,46 +148,83 @@ export default class SignUpComponent extends React.Component {
                 type="tel"
                 fullWidth={true}
               /><br />
-              <TextField
-                hintText="Password Field"
-                floatingLabelText="Password"
-                errorText={p1Err}
-                ref="password1"
-                type="password"
-              /><br />
 
-              <TextField
-                hintText="Enter Password Again"
-                floatingLabelText="Confirm Password"
-                errorText={p2E}
-                ref="password2"
-                type="password"
-              /><br /><br/>
-              <Checkbox
-                label="Contractor"
-                id='C'
-                checked={this.state.checked1}
-                onCheck={this.handleCheck.bind(this)}
-              />
-              <br/>
-              <Checkbox
-                label="Professional"
-                id='P'
-                checked={!this.state.checked1}
-                onCheck={this.handleCheck.bind(this)}
-              />
-              <br/>
+              </div>
+
+              <div style={{
+                width:'10%',
+              }}/>
+
+              <div style={{
+                width:'40%',
+              }}>
+              <div
+              style={{
+                width: 'auto',
+                marginLeft:'auto',
+                marginRight:'0',
+                textAlign: 'left',
+              }}
+              >
+
+                <TextField
+                  hintText="Password Field"
+                  floatingLabelText="Password"
+                  errorText={p1Err}
+                  ref="password1"
+                  type="password"
+                /><br />
+
+
+
+
+                <TextField
+                  hintText="Enter Password Again"
+                  floatingLabelText="Confirm Password"
+                  errorText={p2E}
+                  ref="password2"
+                  type="password"
+                /><br /><br/>
+
+
+
+                  <Checkbox
+                  label="Contractor"
+                  id='C'
+                  checked={this.state.checked1}
+                  onCheck={this.handleCheck.bind(this)}
+                  />
+                  <br/>
+                  <Checkbox
+                    label="Professional"
+                    id='P'
+                    checked={this.state.checked2}
+                    onCheck={this.handleCheck.bind(this)}
+                  />
+
+              </div>
+              </div>
+
+
             </div>
+
           </CardText>
           <CardActions>
-            <RaisedButton  onTouchTap={this.handleSubmit.bind(this)} label="Submit" />
+
+            <RaisedButton
+            fullWidth={true}
+            onTouchTap={this.handleSubmit.bind(this)} label="Submit?" />
+
           </CardActions>
           <br/>
           <br/>
           { this.state.showBar && <LinearProgress mode="indeterminate" /> }
         </Card>
-
         </div>
+
+
+
+
       </MuiThemeProvider>
     )
   }
