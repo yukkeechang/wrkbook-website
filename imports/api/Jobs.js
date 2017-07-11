@@ -5,7 +5,7 @@ import { check } from 'meteor/check'
 var schema = {
   _id: String,
   empolyeerId: String,
-  empolyeeIds: Object,
+  empolyeeIds: Array,
   title: String,
   description: String,
   addText: String,
@@ -15,11 +15,18 @@ var schema = {
   location: String,
   createdAt: Date,
   updateAt: Date,
-  tags: Object,
+  tags: Array,
   status: String
 };
 
 Job = new Mongo.Collection('Jobs');
+
+Meteor.publish('job-post', function(skillset){
+
+  this.ready();
+
+  return Job.find({ tags : {$in : skillset}});
+});
 
 Meteor.methods({
   createJob(newJob){
@@ -28,7 +35,7 @@ Meteor.methods({
     newJob.empolyeerId = this.userId;
     newJob.createdAt = new Date();
     newJob.updateAt = new Date();
-    newJob.empolyeeIds = {};
+    newJob.empolyeeIds = [];
 
     check(newJob, _.omit(schema, '_id'));
 
@@ -69,15 +76,6 @@ Meteor.methods({
         throw new Meteor.Error('BADBADNOTGOOD','Could not insert document');
       }else if (ress) {
 
-         for (var channel in newJob.tags) {
-           let channelName = newJob.tags[channel];
-           console.log(channelName);
-           Meteor.publish(channelName, function(){
-             console.log(ress);
-             this.ready();
-             return Job.find({ _id: ress});
-           });
-         }
 
       }
     });
