@@ -17,8 +17,7 @@ export default class Home extends React.Component{
     stuff(e){
       let tag = ['Fire','Water','Earth','Air'];
       let skill = ['Fire'];
-      let tagobject = Object.assign({},tag);
-      let skillobject = Object.assign({},tag);
+
       const job = {
         title: 'New STuff',
         description: "Rich",
@@ -26,7 +25,7 @@ export default class Home extends React.Component{
         startAt: new Date(),
         endAt: new Date(),
         pay: 22,
-        tags: tagobject,
+        tags: tag,
         location: "Location",
         status: 'Yes'
       };
@@ -34,13 +33,13 @@ export default class Home extends React.Component{
         jobTitle: 'Some afdaadTitle',
         education: 'college',
         details: 'something',
-        certifications: skillobject,
-        languages: skillobject,
+        certifications: skill,
+        languages: skill,
         osha: false,
-        skills : skillobject,
+        skills : skill,
         image: 'somelink',
         profileId: Meteor.userId(),
-        reviewIds: {}
+        reviewIds: []
       };
 
       // console.log(Object.keys(tagobject).length);
