@@ -20,9 +20,6 @@ function isEmpty(obj) {
 class Dummy extends Component{
     render(){
 
-      console.log(this.props.employee);
-      console.log(this.props.jobPost);
-
 
 
 
@@ -43,17 +40,15 @@ export default DummyContainer = createContainer(({params}) => {
   let employee = Employee.find({}).fetch();
   let loading = searchHandle.ready();
   let jobPost = {};
-  console.log(employee);
+
   if(!isEmpty(employee)){
-    for( var something in employee){
+      console.log(employee[0]);
+      employ = employee[0];
 
-      for(var skill in employee[something].skills){
-        Meteor.subscribe(employee[something].skills[skill]);
+      Meteor.subscribe('job-post',employ.skills);
+      jobPost = Job.find({}).fetch();
+      console.log(jobPost);
 
-
-        jobPost[jobPost.length] = Job.find({}).fetch();
-      }
-    }
 
   }
 
