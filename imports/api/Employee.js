@@ -6,31 +6,36 @@ var schema = {
   _id: String,
   jobTitle: String,
   education: String,
-  certifications: Object,
-  languages: Object,
+  certifications: Array,
+  languages: Array,
   osha: Boolean,
-  skills: Object,
+  skills: Array,
   details: String,
   image: String,
   profileId: String,
-  reviewIds: Object
+  reviewIds: Array
 };
 
 Employee = new Mongo.Collection('Employees');
+
+
+Meteor.publish('employee-data', function publishfunct(userid){
+  this.ready();
+  return Employee.find({profileId: userid});
+});
 
 Meteor.methods({
   createEmployee(employee){
     if(!this.userId) throw new Meteor.Error('401',"Login required")
     check(employee,_.omit(schema,'_id'));
+    if( !(Employee.findOne({profileId: employee.profileId}) == null) ){
+      throw new Meteor.Error('403','Account already exists');
+    }
     Employee.insert(employee, function(err,ress){
       if(err){
         throw new Meteor.Error('BADBAD', 'Could not insert Employee');
       }else if ( ress) {
-        Meteor.publish('employee-data', function publishfunct(userid){
-          console.log(ress);
-          this.ready();
-          return Employee.find({profileId: userid});
-        });
+
 
       }
     });
