@@ -14,8 +14,11 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 
 export default class Employeesu4 extends React.Component {
+  constructor(props){
+    super(props);
+  }
   handleSubmit(e){
-    this.props.history.push('/')
+    this.props.history.push('/profile')
   }
 
   render(){

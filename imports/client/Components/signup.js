@@ -39,7 +39,7 @@ export default class SignUpComponent extends React.Component {
 
   }
   handleCheck(e) {
-    let checked1 = e.target.id === "C" ? false : true;
+    let checked1 = e.target.id === "C" ? true : false;
     this.setState({
       checked1: checked1,
       checked2: !checked1
@@ -77,7 +77,7 @@ export default class SignUpComponent extends React.Component {
       else{
         let path = isPro ? '/pro_singup_3' : '/con_signup_1';
         Meteor.loginWithPassword(User.email, User.password);
-        this.props.history.push('/stepTwo');
+        this.props.history.push('/steptwo');
       }
     });
   }

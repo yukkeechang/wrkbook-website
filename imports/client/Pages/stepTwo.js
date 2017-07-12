@@ -6,10 +6,10 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Employeesu4 from '../Components/employeesu4';
 import Contractsu2 from '../Components/contractsu2';
 
-class stepTwo extends Component{
+class StepTwo extends Component{
   render(){
     if(this.props.user){
-      let page = this.props.user.profile.isPro ? <Employeesu4/> : <Contractsu2/>;
+      let page = this.props.user.profile.isPro ? <Contractsu2 history={this.props.history} /> : <Employeesu4 history={this.props.history} />;
       return(page);
     }
     else{
@@ -21,8 +21,8 @@ class stepTwo extends Component{
   }
 }
 
-export default stepTwoContainer = createContainer(({ params }) => {
+export default StepTwoContainer = createContainer(({ params }) => {
   return {
     user: Meteor.user(),
   };
-}, stepTwo);
+}, StepTwo);

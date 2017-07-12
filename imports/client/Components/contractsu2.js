@@ -22,7 +22,7 @@ export default class Contactsu2 extends React.Component {
   }
 
   handleSubmit(e){
-    this.props.history.push('/')
+    this.props.history.push('/profile')
   }
 
   handleChange = (event, index, value) => this.setState({value});

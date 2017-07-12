@@ -14,7 +14,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
-    
+
   }
 
   handleSubmit(e){
@@ -26,7 +26,7 @@ export default class Login extends React.Component {
       if(err){
         console.log(err);
       }else{
-        this.props.history.push('/');
+        this.props.history.push('/profile');
       }
     });
   }

@@ -12,6 +12,7 @@ class NavigationBar extends Component {
     if(this.props.user){
       Meteor.logout();
     }
+    this.props.history.push('/');
   }
   render () {
 

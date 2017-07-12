@@ -239,3 +239,25 @@ SignUp3 Styles
 #signup3main{
 
 }
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.column {
+  padding-left: 10px;
+  padding-right: 10px;
+  flex-basis: 100%;
+}
+
+@media screen and (min-width: 800px) {
+  .column {
+    flex: 1;
+  }
+}
+* {
+  min-height: 0;
+  min-width: 0;
+}
