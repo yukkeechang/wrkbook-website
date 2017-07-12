@@ -26,6 +26,11 @@ Meteor.methods({
 
         if(!isEmail || !gPass || fEmpty || lEmpty || eEmpty || pEmpty || phoneE) throw new Meteor.Error('403',Errors);
         Accounts.createUser(User);
+    },
+    findUserbyId(userID){
+      if(!this.userId) throw new Meteor.Error('401',"Login required");
+      return Meteor.users.find({_id : userID}).fetch();
     }
+
 
 });
