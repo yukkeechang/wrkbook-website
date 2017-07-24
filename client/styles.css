@@ -1,263 +1,246 @@
 body{
-    margin:0;
-    font-family: 'helvetica';
+    margin : 0;
+    font-size: 10px;
+    font-family: Arial, Helvetica, sans-serif;
 }
-
-/*
-Navigation Bar styles
--------------------------------------------------------------------------
-*/
-
-#navBar{
-    width: 100%;
+#howTo{
     display: flex;
-    background: white;
-    margin: 0;
-    padding: 0;
-    flex-direction: row;
-    justify-content: space-between;
-}
-#navBar ul{
-    display: flex;
-    list-style-type: none;
-    padding: 0;
-}
-#navBar ul li{
-    display: flex;
-    padding: 10px;
-    font-size: 1.1em;
-    cursor: pointer;
-    list-style-type: none;
-}
-#left{
-    justify-content: space-between;
-}
-#right{
-    justify-content: space-around;
-}
-.navLink{
-    text-decoration: none;
-}
-.navLink:visited{
-    color: black;
-}
-.navLink:hover{
-    color: #10a96d;
-}
-
-/*
-Home Page Styles
---------------------------------------------------------------------------
-*/
-
-#hero{
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    background-image: url(images/wrkBookV2.jpg);
-    background-size: cover;
-    align-items: center;
-    flex-direction: column;
-}
-#hero h1{
-    color: white;
-    font-size: 3em;
-    padding: 100px;
-    text-align: center;
-}
-#logo{
-    justify-content: center;
-    margin-top: .67em;
-    margin-bottom: .67em;
-    width: 35%;
-}
-#heroSignUp{
-    color: #10a96d;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: center;
 }
-#heroOR{
-    color: black;
-    padding: 10px;
-    padding-top: 20px;
+
+.container {
+    width: 980px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-.heroSignUpButton{
-    padding: 10px;
-    margin: 20px;
-    background: white;
-    border-radius: 3px;
+.fullWidth {
+    width: 100%;
+    
 }
-.heroSignUpButton a{
-    text-decoration: none;
-    color: #10a96d;
+.flexRow{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
-.heroSignUpButton a:visited{
-    color: #10a96d;
+#mainC{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-#spacer{
-    opacity: 0;
-    padding-left: 50px;
-    padding-right: 50px;
+.steps{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
-#info{
+#arrow{
+    transform: scaleX(-1);
+    padding-top: 55px;
+    stroke-width: 30px;
+    fill: rgba(160, 160, 160, 1);
+    width: 80px;
+    height: 80px;
+}
+.step{
+    width: 200px;
+}
+.step img{
     width: 100%;
 }
-#info h1{
-    font-size: 3em;
+.step h6{
+    font: normal normal normal 22px/1.4em spinnaker,sans-serif;
     text-align: center;
-    font-style: italic;
-    text-decoration: underline;
+    margin: 10px 0;
+    color: #616161;
 }
-#info h2{
-    font-size: 2em;
+.step p{
     text-align: center;
+    font: normal normal normal 14px/1.4em spinnaker,sans-serif;
+    color: #616161;
 }
-#info h3{
-    text-align: center;
-}
-#info h5{
-    font-size: 1.5em;
-    text-align: center;
-}
-#employeecontent{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-}
-#employercontent{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-}
-#employee{
+#login{
+    padding: 15px 13px 0 13px;
+    text-decoration: none;
+    font: normal normal normal 14px/1.4em spinnaker,sans-serif;
+    font-size: 19px;
     color: white;
-    display: flex;
-    font-size: 3em;
-    font-style: italic;
-    padding-left: 30px;
-    justify-content: flex-start;
-    background-color: #0ea56a;
 }
-#employer{
-    color: white;
-    display: flex;
-    font-size: 3em;
-    font-style: italic;
-    padding-left: 30px;
-    justify-content: flex-start;
-    background-color: #344555;
-}
-#flow{
-    display: flex;
+#hiw{
     text-align: center;
-    flex-direction: row;
-    padding-bottom: 20px;
 }
-#inside{
+#headerC{
+    width: 100%;
     display: flex;
-    padding-left: 50px;
-    padding-right: 50px;
-    flex-direction: column;
+    justify-content: space-around;
+    position : fixed;
+    left: 0;
+    height: 64px;
+    box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.4);
 }
-#contact{
+#header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding : 0;
+    width: 980px;
+    height : 64px;
+}
+.less p{
+    font: normal normal normal 14px/1.4em spinnaker,sans-serif;
+    font-size: 19px;
+    color: white;
+}
+#OStory{
+    color: white;
+}
+#prof{
+    font: normal normal normal 18px/1.4em helvetica-w01-light,sans-serif;
+    background-color: #1BAB6E;
+    font-size:33px;
+    color: #616161;
+    width: 229px;
+    font-style: italic;
+}
+#story{
     display: flex;
     align-items: center;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    background-color: #0ea56a;
+    justify-content: center;
+    height: 600px;
+    background-image: url('./images/worker.jpg');
+    background-position: center center;
+    background-size: auto 100vmax; 
 }
-#contacticons{
-    display: flex;
-    padding-left: 15px;
-    padding-right: 15px;
-    text-align: center;
-    flex-direction: column;
+#hero {
+    display:flex;
+    left: 0;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    height: 900px;
+    background-image: url('./images/heroBG.jpg');
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: auto 100vmax;
 }
-
-/*
-SignUp Styles
----------------------------------------------------------------------------
-*/
-
-#signupmain{
+.wwd{
+    font: normal normal normal 40px/1.4em anton,sans-serif;
+    color: #303030;
+}
+#msg{
+    font-size:30px;
+    color: #616161;
+}
+.less{
+    width: 800px;
+}
+.spin{
+    font: normal normal normal 40px/1.4em spinnaker,sans-serif;
 
 }
-
-/*
-SignUp2 Styles
----------------------------------------------------------------------------
-*/
-
-#signup2main{
-
+#hero div h1{
+    letter-spacing: .1em;
 }
-#signup2header{
+#header img {
+    height: 54px;
     padding-top: 5px;
-    padding-bottom: 10px;
 }
-#signup2header h1{
-    font-size: 2.5em;
-    display: flex;
+.homeBut{
     text-align: center;
+    flex-basis: 235px;
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    padding: 15px 0 15px 0; 
+    border: 2px solid white;
+    background-color: rgba(0,0,0,0);
+}
+.homeBut:hover{
+    background-color: rgba(252, 185, 162, 1);
+    border: 2px solid rgba(252, 185, 162, 1);
+    -webkit-transition: all 300ms ease-in-out;
+    -ms-transition: all 300ms ease-in-out;
+    transition: all 300ms ease-in-out;
+}
+.homeBut:visited{
+    color: white;
+}
+@media screen and (max-width: 1000px){
+    #header{
+        width: 100%;
+    }
+    .container{
+        width: 100%;
+    }
+}
+#footerC{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 200px;
+}
+#footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding : 0;
+    width: 980px;
+    height : 200px;
+}
+#footericons {
+    height: 30px;
+    padding-right: 10px;
+}
+#footerwrkbookimg{
+    height: 80px;
+    padding-top: 10px;
+}
+.footerdivs{
+    height: 100%;
+    display: flex;
+    flex-basis: 320px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     align-items: center;
+    font: normal normal normal 13px/1.4em spinnaker,sans-serif;
+    color: #616161;
+}
+#UserInfoC{
+    width: 980px;
+    margin: 25px;
+    padding: 25px;
+    display: flex;
     justify-content: center;
 }
-#signup2header h3{
+#UserInfoLeft{
     display: flex;
-    text-align: center;
+    flex-basis: 490px;
+    justify-content: center;
     align-items: center;
+}
+#UserInfoRight{
+    display: flex;
+    flex-basis: 490px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#AboutC{
+    width: 980px;
+    margin: 25px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 }
-#signup2content h1{
-    font-size: 1.5em;
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-#signup2content h3{
-    font-size: 1em;
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-#creditcards{
-}
-
-/*
-SignUp3 Styles
----------------------------------------------------------------------------
-*/
-
-#signup3main{
+#AboutHeading{
 
 }
-
-.row {
+#AboutContent{
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-}
-
-.column {
-  padding-left: 10px;
-  padding-right: 10px;
-  flex-basis: 100%;
-}
-
-@media screen and (min-width: 800px) {
-  .column {
-    flex: 1;
-  }
-}
-* {
-  min-height: 0;
-  min-width: 0;
+  font-family: sans-serif;
+  font-weight: lighter;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
