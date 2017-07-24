@@ -21,20 +21,20 @@
       <ul>
         <li><b>Schemas</b><br>Contains the schemas for the back end (validating json objects to check if they match the requirements)
           <ul>
-              <li><b>availableSchema.js</b></li><br>Dates workers are available. 
-              <li><b>basicTextSchema.js</b></li><br>Text field (250 char). 
-              <li><b>employeeSchema.js</b></li><br>Employee structure. 
-              <li><b>employerSchema.js</b></li><br>Employer structure
-              <li><b>jobSchema.js</b></li><br>Job post schema. 
-              <li><b>locationSchema.js</b></li><br>Location schema
-              <li><b>requirementSchema.js</b></li><br>Job requirement schema. 
-              <li><b>reviewSchema.js</b></li><br>Review schema. 
-              <li><b>textListSchema.js</b></li><br>Array of text (job titles e.g. painter, carpenter, etc)
+              <li><b>availableSchema.js</b><br>Dates workers are available. </li>
+              <li><b>basicTextSchema.js</b><br>Text field (250 char). </li>
+              <li><b>employeeSchema.js</b><br>Employee structure. </li>
+              <li><b>employerSchema.js</b><br>Employer structure</li>
+              <li><b>jobSchema.js</b><br>Job post schema. </li>
+              <li><b>locationSchema.js</b><br>Location schema</li>
+              <li><b>requirementSchema.js</b><br>Job requirement schema. </li>
+              <li><b>reviewSchema.js</b><br>Review schema.</li> 
+              <li><b>textListSchema.js</b><br>Array of text (job titles e.g. painter, carpenter, etc)</li>
           </ul>
         </li>
         <li><b>Jobs.js</b><br>API for jobs. Creating, editing, removing, and publishing jobs (client can subscribe and get notifications) to client.</li>
-        <li><b>Reviews.js</b></li>API for reviews. Same as jobs. 
-        <li><b>Users.js</b></li>Create, delete, and update users. Calling meteor.users returns just email and profile. Not all tokens
+        <li><b>Reviews.js</b><br>API for reviews. Same as jobs. </li>
+        <li><b>Users.js</b><br>Create, delete, and update users. Calling meteor.users returns just email and profile. Not all tokens</li>
         </li>
       </ul>
     </li>
