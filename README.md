@@ -40,7 +40,28 @@
     </li>
     <li><b>client</b><br>Contains all the React of the app
       <ul>
-        <li></li>
+      <li><b>Components</b>
+        <ul>
+          <li><b>Dashboard</b>
+            <ul>
+            <li><b></b> 
+            </ul>
+           </li>
+          <li><b>Home</b></li>
+          <li><b>RegisterLogin</b></li>
+          <li><b>Shared</b></li>
+         </ul>
+      </li>
+        <li><b>Pages</b>
+        <ul>
+          <li><b>Dashboard.js</b></li>
+          <li><b>DefaultPage.js</b></li>
+          <li><b>SignIn.js</b></li>
+          <li><b>SignUp.js</b></li>
+          <li><b>home.js</b></li>
+        </ul>
+        </li>
+        <li><b>App.js</b></li>
       </ul>
     </li>
     
