@@ -266,11 +266,15 @@ export default class StepOne extends Component {
                   type="password"
                 />
               }
+              {
+                this.state.showPassField &&
               <IconButton tooltip={
                 <div style={{textAlign:'left',whiteSpace:'normal',width:'100px'}}>
                   Password must contain at least 8 characters, a capital letter  a number and a special character ('!@#$%^&*')
                 </div>
               }>
+              }
+              
                 <ActionInfo color={grey500}/>
               </IconButton>
               <br />
