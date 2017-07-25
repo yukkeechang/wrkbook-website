@@ -1,166 +1,104 @@
 # WrkBook Website
-
-<b>File Structure</b>
 <ul>
-<li><b>.meteor</b><br>
-  Where meteor builds and serves the product from. No code written by us. 
-</li>
-<li><b>client</b>
+  <li>client</li>
   <ul>
-    <li><b>main.html</b>
-    <br>
-    Starting point for the app. What meteor looks at when building it. 
-    </li>
-    <li><b>main.js</b><br>Not applicable to us. For any javascript you want on the client side that isn't in the React. Importing the app is the starting point of the app</li>
-    <li><b>styles.css</b><br>Not applicable to us. For any css you want on the client side that isn't in the React.</li>
+    <li>main.html</li>
+    <li>main.js</li>
+    <li>styles.css</li>
   </ul>
-</li>
-<li><b>imports</b>
+  <li>imports</li>
   <ul>
-    <li><b>api</b><br>Contains all the back end of the app
+    <li>api</li>
+    <ul>
+      <li>Images.js</li>
+      <li>Jobs.js</li>
+      <li>Reviews.js</li>
+      <li>Schemas</li>
       <ul>
-        <li><b>Schemas</b><br>Contains the schemas for the back end (validating json objects to check if they match the requirements)
-          <ul>
-              <li><b>availableSchema.js</b><br>Dates workers are available. </li>
-              <li><b>basicTextSchema.js</b><br>Text field (250 char). </li>
-              <li><b>employeeSchema.js</b><br>Employee structure. </li>
-              <li><b>employerSchema.js</b><br>Employer structure</li>
-              <li><b>jobSchema.js</b><br>Job post schema. </li>
-              <li><b>locationSchema.js</b><br>Location schema</li>
-              <li><b>requirementSchema.js</b><br>Job requirement schema. </li>
-              <li><b>reviewSchema.js</b><br>Review schema.</li> 
-              <li><b>textListSchema.js</b><br>Array of text (job titles e.g. painter, carpenter, etc)</li>
-          </ul>
-        </li>
-        <li><b>Jobs.js</b><br>API for jobs. Creating, editing, removing, and publishing jobs (client can subscribe and get notifications) to client.</li>
-        <li><b>Reviews.js</b><br>API for reviews. Same as jobs. </li>
-        <li><b>Users.js</b><br>Create, delete, and update users. Calling meteor.users returns just email and profile. Not all tokens</li>
-        </li>
+        <li>availableSchema.js</li>
+        <li>basicTextSchema.js</li>
+        <li>employeeSchema.js</li>
+        <li>employerSchema.js</li>
+        <li>jobSchema.js</li>
+        <li>locationSchema.js</li>
+        <li>requirementSchema.js</li>
+        <li>reviewSchema.js</li>
+        <li>textListSchema.js</li>
       </ul>
-    </li>
-    <li><b>client</b><br>Contains all the React of the app
+      <li>Users.js</li>
+    </ul>
+    <li>client</li>
+    <ul>
+      <li>App.js</li>
+      <li>Components</li>
       <ul>
-      <li><b>Components</b>
-        <ul>
-          <li><b>Dashboard</b>
-            <ul>
-              <li><b>Jobs</b>
-                <ul>  
-                  <li><b>JobPost.js</b></li>
-                  <li><b>SearchBar.js</b></li>
-                </ul>
-              </li>
-              <li><b>Profile</b></li>
-              <li><b>Settings</b></li>
-              <li><b>CreateJob.js</b></li> 
-              <li><b>Jobs.js</b></li>
-              <li><b>Links.js</b></li>
-              <li><b>Profile.js</b></li>
-              <li><b>Settings.js</b></li>
-            </ul>
-           </li>
-          <li><b>Home</b></li>
-          <li><b>RegisterLogin</b></li>
-          <li><b>Shared</b></li>
-         </ul>
-      </li>
-        <li><b>Pages</b>
-        <ul>
-          <li><b>Dashboard.js</b></li>
-          <li><b>DefaultPage.js</b></li>
-          <li><b>SignIn.js</b></li>
-          <li><b>SignUp.js</b></li>
-          <li><b>home.js</b></li>
-        </ul>
-        </li>
-        <li><b>App.js</b></li>
+        <li>JobPostEmployer.js</li>
+        <li>avatarcard.js</li>
+        <li>contractsu2.js</li>
+        <li>employeeComponent.js</li>
+        <li>employeesu2.js</li>
+        <li>employeesu3.js</li>
+        <li>employeesu4.js</li>
+        <li>jobPost.js</li>
+        <li>jobpostinfocomponent.js</li>
+        <li>navigationBar.js</li>
+        <li>profileaboutcard.js</li>
+        <li>profilecertification.js</li>
+        <li>profilejob.js</li>
+        <li>profilepayment.js</li>
+        <li>profilereviewcard.js</li>
+        <li>reviewCard.js</li>
+        <li>signup.js</li>
       </ul>
-    </li>
-    
+      <li>Pages</li>
+      <ul>
+        <li>dummy.js</li>
+        <li>home.js</li>
+        <li>jobPosts.js</li>
+        <li>login.js</li>
+        <li>notFound.js</li>
+        <li>profile.js</li>
+        <li>register.js</li>
+        <li>stepTwo.js</li>
+      </ul>
+      <li>history.js</li>
+    </ul>
   </ul>
-</li>
-
-
-
-
+  <li>package.json</li>
+  <li>public</li>
+  <ul>
+    <li>images</li>
+    <ul>
+      <li>Construction.jpg</li>
+      <li>americanexpress.png</li>
+      <li>calendar.png</li>
+      <li> discover.png</li>
+      <li> email.png</li>
+      <li> facebook.png</li>
+      <li> handshake.png</li>
+      <li> handshakesmall.png</li>
+      <li> instagram.png</li>
+      <li> jobpost.png</li>
+      <li> mastercard.ico</li>
+      <li> mastercard.png</li>
+      <li> network.png</li>
+      <li> paypal.png</li>
+      <li> profile.png</li>
+      <li> rate.png</li>
+      <li>tools.png</li>
+      <li> visa.png</li>
+      <li> worker.png</li>
+      <li> wrkBookLogo.png</li>
+      <li> wrkBookV2.jpg</li>
+      <li> wrkbook.png</li>
+    </ul>
+  </ul>
+  <li>server</li>
+  <ul>
+    <li>main.js</li>
+    <li>service-config.js</li>
+  </ul>
 </ul>
 
 
-├── client
-│   ├── main.html
-│   ├── main.js
-│   └── styles.css
-├── imports
-│   ├── api
-│   │   ├── Images.js
-│   │   ├── Jobs.js
-│   │   ├── Reviews.js
-│   │   ├── Schemas
-│   │   │   ├── availableSchema.js
-│   │   │   ├── basicTextSchema.js
-│   │   │   ├── employeeSchema.js
-│   │   │   ├── employerSchema.js
-│   │   │   ├── jobSchema.js
-│   │   │   ├── locationSchema.js
-│   │   │   ├── requirementSchema.js
-│   │   │   ├── reviewSchema.js
-│   │   │   └── textListSchema.js
-│   │   └── Users.js
-│   └── client
-│       ├── App.js
-│       ├── Components
-│       │   ├── JobPostEmployer.js
-│       │   ├── avatarcard.js
-│       │   ├── contractsu2.js
-│       │   ├── employeeComponent.js
-│       │   ├── employeesu2.js
-│       │   ├── employeesu3.js
-│       │   ├── employeesu4.js
-│       │   ├── jobPost.js
-│       │   ├── jobpostinfocomponent.js
-│       │   ├── navigationBar.js
-│       │   ├── profileaboutcard.js
-│       │   ├── profilecertification.js
-│       │   ├── profilejob.js
-│       │   ├── profilepayment.js
-│       │   ├── profilereviewcard.js
-│       │   ├── reviewCard.js
-│       │   └── signup.js
-│       ├── Pages
-│       │   ├── dummy.js
-│       │   ├── home.js
-│       │   ├── jobPosts.js
-│       │   ├── login.js
-│       │   ├── notFound.js
-│       │   ├── profile.js
-│       │   ├── register.js
-│       │   └── stepTwo.js
-│       └── history.js
-├── package.json
-├── public
-│   └── images
-│       ├── Construction.jpg
-│       ├── americanexpress.png
-│       ├── calendar.png
-│       ├── discover.png
-│       ├── email.png
-│       ├── facebook.png
-│       ├── handshake.png
-│       ├── handshakesmall.png
-│       ├── instagram.png
-│       ├── jobpost.png
-│       ├── mastercard.ico
-│       ├── mastercard.png
-│       ├── network.png
-│       ├── paypal.png
-│       ├── profile.png
-│       ├── rate.png
-│       ├── tools.png
-│       ├── visa.png
-│       ├── worker.png
-│       ├── wrkBookLogo.png
-│       ├── wrkBookV2.jpg
-│       └── wrkbook.png
-└── server
-    ├── main.js
-    └── service-config.js
+
