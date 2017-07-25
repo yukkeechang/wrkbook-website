@@ -44,7 +44,19 @@
         <ul>
           <li><b>Dashboard</b>
             <ul>
-            <li><b></b> 
+              <li><b>Jobs</b>
+                <ul>  
+                  <li><b>JobPost.js</b></li>
+                  <li><b>SearchBar.js</b></li>
+                </ul>
+              </li>
+              <li><b>Profile</b></li>
+              <li><b>Settings</b></li>
+              <li><b>CreateJob.js</b></li> 
+              <li><b>Jobs.js</b></li>
+              <li><b>Links.js</b></li>
+              <li><b>Profile.js</b></li>
+              <li><b>Settings.js</b></li>
             </ul>
            </li>
           <li><b>Home</b></li>
@@ -72,3 +84,83 @@
 
 
 </ul>
+
+
+├── client
+│   ├── main.html
+│   ├── main.js
+│   └── styles.css
+├── imports
+│   ├── api
+│   │   ├── Images.js
+│   │   ├── Jobs.js
+│   │   ├── Reviews.js
+│   │   ├── Schemas
+│   │   │   ├── availableSchema.js
+│   │   │   ├── basicTextSchema.js
+│   │   │   ├── employeeSchema.js
+│   │   │   ├── employerSchema.js
+│   │   │   ├── jobSchema.js
+│   │   │   ├── locationSchema.js
+│   │   │   ├── requirementSchema.js
+│   │   │   ├── reviewSchema.js
+│   │   │   └── textListSchema.js
+│   │   └── Users.js
+│   └── client
+│       ├── App.js
+│       ├── Components
+│       │   ├── JobPostEmployer.js
+│       │   ├── avatarcard.js
+│       │   ├── contractsu2.js
+│       │   ├── employeeComponent.js
+│       │   ├── employeesu2.js
+│       │   ├── employeesu3.js
+│       │   ├── employeesu4.js
+│       │   ├── jobPost.js
+│       │   ├── jobpostinfocomponent.js
+│       │   ├── navigationBar.js
+│       │   ├── profileaboutcard.js
+│       │   ├── profilecertification.js
+│       │   ├── profilejob.js
+│       │   ├── profilepayment.js
+│       │   ├── profilereviewcard.js
+│       │   ├── reviewCard.js
+│       │   └── signup.js
+│       ├── Pages
+│       │   ├── dummy.js
+│       │   ├── home.js
+│       │   ├── jobPosts.js
+│       │   ├── login.js
+│       │   ├── notFound.js
+│       │   ├── profile.js
+│       │   ├── register.js
+│       │   └── stepTwo.js
+│       └── history.js
+├── package.json
+├── public
+│   └── images
+│       ├── Construction.jpg
+│       ├── americanexpress.png
+│       ├── calendar.png
+│       ├── discover.png
+│       ├── email.png
+│       ├── facebook.png
+│       ├── handshake.png
+│       ├── handshakesmall.png
+│       ├── instagram.png
+│       ├── jobpost.png
+│       ├── mastercard.ico
+│       ├── mastercard.png
+│       ├── network.png
+│       ├── paypal.png
+│       ├── profile.png
+│       ├── rate.png
+│       ├── tools.png
+│       ├── visa.png
+│       ├── worker.png
+│       ├── wrkBookLogo.png
+│       ├── wrkBookV2.jpg
+│       └── wrkbook.png
+└── server
+    ├── main.js
+    └── service-config.js
