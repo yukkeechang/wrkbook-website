@@ -1,34 +1,50 @@
 # WrkBook Website
 <ul>
-  <li>client</li>><br>
+  <li>client</li>
   Where meteor builds and serves the product from. No code written by us. 
   <ul>
     <li>main.html</li>
-    <br>
     Starting point for the app. What meteor looks at when building it. 
-    <li>main.js</li><br>Not applicable to us. For any javascript you want on the client side that isn't in the React. Importing the app is      the starting point of the app
+    <li>main.js</li>
+    Not applicable to us. For any javascript you want on the client side that isn't in the React. Importing the app is      the starting point of the app
     <li>styles.css</li>
+    Not applicable to us. For any css you want on the client side that isn't in the React.
   </ul>
   <li>imports</li>
   <ul>
     <li>api</li>
+    Contains all the back end of the app
     <ul>
       <li>Images.js</li>
+      API for images. Insert images. 
       <li>Jobs.js</li>
+      API for jobs. Creating, editing, removing, and publishing jobs (client can subscribe and get notifications) to client
       <li>Reviews.js</li>
+      API for reviews. Same as jobs.
       <li>Schemas</li>
+      Contains the schemas for the back end (validating json objects to check if they match the requirements)
       <ul>
         <li>availableSchema.js</li>
+        Dates workers are available. 
         <li>basicTextSchema.js</li>
+        Text field (250 char). 
         <li>employeeSchema.js</li>
+        Employee structure. 
         <li>employerSchema.js</li>
+        Employer structure
         <li>jobSchema.js</li>
+        Job post schema. 
         <li>locationSchema.js</li>
+        Location schema
         <li>requirementSchema.js</li>
+        Job requirement schema. 
         <li>reviewSchema.js</li>
+        Review schema
         <li>textListSchema.js</li>
+        Array of text (job titles e.g. painter, carpenter, etc)</
       </ul>
       <li>Users.js</li>
+      Create, delete, and update users. Calling meteor.users returns just email and profile. Not all tokens
     </ul>
     <li>client</li>
     <ul>
