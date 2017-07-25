@@ -1,9 +1,12 @@
 # WrkBook Website
 <ul>
-  <li>client</li>
+  <li>client</li>><br>
+  Where meteor builds and serves the product from. No code written by us. 
   <ul>
     <li>main.html</li>
-    <li>main.js</li>
+    <br>
+    Starting point for the app. What meteor looks at when building it. 
+    <li>main.js</li><br>Not applicable to us. For any javascript you want on the client side that isn't in the React. Importing the app is      the starting point of the app
     <li>styles.css</li>
   </ul>
   <li>imports</li>
