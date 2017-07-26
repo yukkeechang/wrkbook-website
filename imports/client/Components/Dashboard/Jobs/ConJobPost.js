@@ -7,11 +7,15 @@ import CircularProgress from 'material-ui/CircularProgress';
 import FlatButton from 'material-ui/FlatButton';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import SocialPeople from 'material-ui/svg-icons/social/people';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 import EmployeeComponent from './employeeComponent';
 import Paper from 'material-ui/Paper';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import {List, ListItem} from 'material-ui/List';
 import Dialog from 'material-ui/Dialog';
 import EditJob from './EditJob';
+
+
 class JobPostEmployer extends React.Component {
     constructor(props){
         super(props);
@@ -91,6 +95,15 @@ class JobPostEmployer extends React.Component {
     handleDialog(e){
       this.setState({open:!this.state.open});
     }
+    handleClose = () => {
+      console.log('halp');
+        this.setState({open:!this.state.open});
+};
+    handleClosed(e){
+      console.log('halp');
+      this.setState({open:!this.state.open});
+    }
+
 
 
 
@@ -106,6 +119,10 @@ class JobPostEmployer extends React.Component {
                   <CardTitle
                       title={this.props.title}
                   />
+
+
+
+
                 </div>
                 <div className="column _30">
                   <div className="row" >
@@ -118,7 +135,6 @@ class JobPostEmployer extends React.Component {
                         icon={<ActionSettings/>}
                         onTouchTap={this.handleEdit.bind(this)}
                       />
-
 
                       <FlatButton
                         label="Manage Employees"
@@ -257,13 +273,17 @@ class JobPostEmployer extends React.Component {
                           </Paper>
                           </div>
                           <div className='column _5'/>
+
                       </div>
+
+
 
                   </CardMedia>
                   </Card>
                 </div>
 
                 <Dialog
+                   onRequestClose={this.handleClosed.bind(this)}
 
                   modal={false}
                   open={this.state.open}
@@ -274,6 +294,8 @@ class JobPostEmployer extends React.Component {
 
                   }
                 </Dialog>
+
+
 
 
 

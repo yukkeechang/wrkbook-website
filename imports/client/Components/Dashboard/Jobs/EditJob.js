@@ -3,6 +3,8 @@ import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import DatePicker from 'material-ui/DatePicker';
 import TimePicker from 'material-ui/TimePicker';
+import IconButton from 'material-ui/IconButton';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton  from 'material-ui/RaisedButton';
@@ -87,7 +89,7 @@ export default class EditJob extends React.Component{
         endTime = endTime.substr(idx,endTime.length);
         const endAT = endDate+endTime;
 
-        Meteor.call('updateJob',jobs._id,jobs,(err)=>{
+        Meteor.call('updateJob',job._id,jobs,(err)=>{
             if(err){
               console.log(err);
             }
@@ -95,6 +97,9 @@ export default class EditJob extends React.Component{
 
         this.props.onSelect();
 
+    }
+    handleClose(e){
+      this.props.onSelect();
     }
 
     setStartD(x,event){
@@ -191,6 +196,7 @@ export default class EditJob extends React.Component{
                             onTouchTap={this.handleUpdate.bind(this)}
                             fullWidth={true}
                         /><br />
+
                 </div>
             </MuiThemeProvider>
         )

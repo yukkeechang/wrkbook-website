@@ -91,7 +91,7 @@ class JobPostsA extends Component {
 
     }else{
       return(
-        <h1>Sorry</h1>
+        <h1>Sorry No Jobs</h1>
       );
     }
 
@@ -104,11 +104,14 @@ export default JobPostsEmployeeAdmit= createContainer(({ params }) => {
   let user = Meteor.user();
   let jobPost =[];
   let loading = false;
+  let hackIdThing =[];
   if(!('undefined' === typeof(user))){
 
     let handle = Meteor.subscribe('job-post-admitted',user._id);
     loading = handle.ready();
-    jobPost = Job.find({}).fetch();
+    hackIdThing[0] = user._id;
+    jobPost = Job.find({admitemployeeIds: {$in: hackIdThing}}).fetch();
+    console.log(jobPost);
 
   }
 

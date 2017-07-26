@@ -91,7 +91,7 @@ class JobPosts extends Component {
 
     }else{
       return(
-        <h1>Sorry</h1>
+        <h1>Sorry No Jobs</h1>
       );
     }
 
