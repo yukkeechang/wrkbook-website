@@ -159,7 +159,7 @@ Meteor.methods({
       prevJob.requirements.backgroundCheck = updateJob.requirements.backgroundCheck;
       prevJob.requirements.highGed = updateJob.requirements.highGed;
     }
-    if(prevJob.location.locationName != DEFAULT){
+    if(updateJob.location.locationName != DEFAULT){
       prevJob.location.locationName =
       updateJob.location.locationName;
 
