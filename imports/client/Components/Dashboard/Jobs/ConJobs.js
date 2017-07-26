@@ -4,19 +4,17 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import Avatar from 'material-ui/Avatar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-import EmpJobPost from './EmpJobPost';
+import JobPostEmployer from './ConJobPost';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 function isEmpty(obj) {
    for (var x in obj) { return false; }
    return true;
 }
+Job = new Mongo.Collection('jobs');
 
-
-class JobPosts extends Component {
+class ContractorJobPosts extends Component {
   constructor(props){
     super(props);
     this.state ={
@@ -48,28 +46,31 @@ class JobPosts extends Component {
   render () {
     if(!isEmpty(this.props.jobPost)){
       let jobz = this.props.jobPost;
-          return(
-                  <div>
-                  <br/>
-                  {jobz.map(function(job, index){
-                      return(
+      return(
+              <div>
+              <br/>
+              {jobz.map(function(job, index){
+                  return(
 
-                          <EmpJobPost
-                              key={index}
-                              isAdmitted={false}
-                              jobinfo ={job}
-                              title={job.title.text}
-                              startAt={job.startAt}
-                              endAt={job.endAt}
-                              description={job.description.text}
-                              location={job.location}
-                              pay={job.pay}
-                          />
-                      )
-                  })}
-                  </div>
+                      <JobPostEmployer
+                          key={index}
+                          jobinfo ={job}
+                          title={job.title.text}
+                          startAt={job.startAt}
+                          endAt={job.endAt}
+                          description={job.description.text}
+                          location={job.location}
+                          pay={job.pay}
+                      />
+                  )
+              })}
+              </div>
 
-          );
+      );
+
+
+
+
 
 
     }else if(!this.props.loading){
@@ -98,15 +99,13 @@ class JobPosts extends Component {
   }
 }
 
-export default JobPostsEmployee= createContainer(({ params }) => {
-
+export default ConJobPosts = createContainer(({ params }) => {
 
   let user = Meteor.user();
   let jobPost =[];
   let loading = false;
   if(!('undefined' === typeof(user))){
-
-    let handle = Meteor.subscribe('job-post',user.profile.employeeData);
+    let handle = Meteor.subscribe('job-post-employer',user._id);
     loading = handle.ready();
     jobPost = Job.find({}).fetch();
 
@@ -117,4 +116,4 @@ export default JobPostsEmployee= createContainer(({ params }) => {
     loading:loading,
     jobPost:jobPost
   };
-}, JobPosts);
+}, ContractorJobPosts);

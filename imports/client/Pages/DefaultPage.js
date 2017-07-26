@@ -12,10 +12,10 @@ class DefPage extends Component{
             <MuiThemeProvider >
                 <CircularProgress/>
             </MuiThemeProvider >
-            ) : 
+            ) :
             (this.props.user ? <Dashboard/> : <Home/>);
     }
-    
+
 }
 export default DefaultPage = createContainer(({ params }) => {
     return {

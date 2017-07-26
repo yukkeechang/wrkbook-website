@@ -5,10 +5,13 @@ import EmployerSchema  from './Schemas/employerSchema'
 import EmployeeSchema  from './Schemas/employeeSchema';
 import {DEFAULT} from './Schemas/basicTextSchema';
 
-
+//Global publication do not need to call subscribe on the client side
+// returns user object with the fields email and profile
 Meteor.publish(null, function() {
     return Meteor.users.find({_id: this.userId}, {fields: { email: 1, profile: 1 } });
 });
+//Fired with createdUser is called
+//formats the the user object to be store on the database
 Accounts.onCreateUser(function (options, user) {
 
     if (!user.services.facebook) {
@@ -26,7 +29,12 @@ Accounts.onCreateUser(function (options, user) {
 
     return user;
 });
+
+
 Meteor.methods({
+    /**
+
+    */
     register(User){
         let isEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(User.email);
         let gPhone = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/.test(User.profile.phone);
@@ -52,16 +60,27 @@ Meteor.methods({
 
         };
 
-        if(!isEmail || !gPass || fEmpty || lEmpty || eEmpty || pEmpty || phoneE ) throw new Meteor.Error('403',Errors);
+        if(!isEmail || !gPass || fEmpty || lEmpty || eEmpty || pEmpty || phoneE) throw new Meteor.Error('403',Errors);
         // console.log(User);
 
         Accounts.createUser(User);
     },
+    /**
+
+    */
     findUserbyId(userID){
       if(!this.userId) throw new Meteor.Error('401',"Login required");
+      console.log('halp');
       console.log(userID);
-      return Meteor.users.findOne({_id : userID},{fields: { email: 1, profile: 1 } });
+      check(userID,String);
+      let crap =Meteor.users.findOne({_id : userID},{fields: { email: 1, profile: 1 } });
+      console.log(crap);
+      return crap;
     },
+    /*
+
+
+    */
     updateUserData(User){
 
           if(!this.userId) throw new Meteor.Error('401',"Login required");
@@ -170,6 +189,10 @@ Meteor.methods({
               if(User.profile.employeeData.Availability.length > 0){
                 prevUser.profile.employeeData.Availability=
                 User.profile.employeeData.Availability;
+              }
+              if(User.profile.employeeData.image != DEFAULT){
+                prevUser.profile.employeeData.image =
+                User.profile.employeeData.image;
               }
               prevUser.profile.employeeData.osha = User.profile.employeeData.osha;
               prevUser.profile.employeeData.maxDistance = User.profile.employeeData.maxDistance;

@@ -2,6 +2,7 @@ import  TextList from './textListSchema';
 import  BasicText  from './basicTextSchema';
 import LocationSchema  from './locationSchema';
 import AvailabeSchema from './availableSchema';
+import {DEFAULT} from './basicTextSchema';
 
 export default EmployeeSchema = new SimpleSchema({
   jobTitle:{
@@ -34,6 +35,10 @@ export default EmployeeSchema = new SimpleSchema({
     defaultValue: 25,
     min: 1,
     max: 100
+  },
+  image:{
+    type: String,
+    defaultValue: DEFAULT
   },
   Availability:{
       type: [AvailabeSchema],

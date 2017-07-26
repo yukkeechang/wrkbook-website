@@ -13,6 +13,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Link } from 'react-router-dom';
 import LinearProgress from 'material-ui/LinearProgress';
 import PropTypes from 'prop-types';
+import SelectField from 'material-ui/SelectField';
 import { withRouter } from 'react-router';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
@@ -20,18 +21,15 @@ import GooglePlaceAutocomplete from 'material-ui-autocomplete-google-places';
 
 import EmployerSchema from '../../../../api/Schemas/employerSchema';
 import LocationSchema from '../../../../api/Schemas/locationSchema';
-const stuff = [
-  "","General Contractor","Demolititon","Glazing","Painting","Concrete",
-  "Electrical","Plumbing","Heating/Air conditioning","Masonry/Stone work"
-
-
+const jobtitles = [
+  'Painter','Demolititoner','Glazer','Masonry/Stone Worker',
+  'Concrete Finisher','Plumber','Electrician','Heat/Air conditioning Worker'
 ];
-
 export default class C extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    value: 1,
+    titles: [],
     address: '',
     lat: -100,
     lng: -100};
@@ -41,7 +39,6 @@ export default class C extends React.Component {
 
     const companyName = this.refs.companyName.getValue().trim();
     const companyLicense = this.refs.companyLicense.getValue().trim();
-    const text = stuff[this.state.value];
     const lng = this.state.lng;
     const lat = this.state.lat;
     const address = this.state.address;
@@ -55,10 +52,8 @@ export default class C extends React.Component {
     location.longitude = lng;
     employerData.companyName.text = companyName;
     employerData.licenseNumber.text = companyLicense;
-    employerData.details.text = text;
     employerData.location = location;
     user.profile.employerData = employerData;
-
 
     Meteor.call('updateUserData',user,(err)=>{
       if(err){
@@ -67,7 +62,7 @@ export default class C extends React.Component {
     });
   }
 
-
+handleChangeJob = (event, index, titles) => this.setState({titles});
   getCoords(lat, lng){
 
     this.setState({
@@ -79,11 +74,19 @@ export default class C extends React.Component {
 
 
   }
-
+  menuItems(values) {
+  return jobtitles.map((name) => (
+      <MenuItem
+        key={name}
+        insetChildren={true}
+        checked={values && values.indexOf(name) > -1}
+        value={name}
+        primaryText={name}
+      />
+    ));
+  }
   render(){
-
-
-
+    const {titles} = this.state;
 
     return(
       <MuiThemeProvider  muiTheme={getMuiTheme(darkBaseTheme)}>
@@ -98,23 +101,17 @@ export default class C extends React.Component {
                 />
             </div>
             <div style={{paddingTop:'20px'}}>
-            <CardText>
-              <DropDownMenu
-                value={this.state.value}
-                onChange={this.handleChange}
+            <div>
+              <SelectField
+                multiple={false}
+                hintText="Select your company type"
+                value={titles}
+                onChange={this.handleChangeJob}
                 style={{width:'500px'}}
-                autoWidth={false}>
-                <MenuItem value={1} primaryText={stuff[1]} />
-                <MenuItem value={2} primaryText={stuff[2]} />
-                <MenuItem value={3} primaryText={stuff[3]} />
-                <MenuItem value={4} primaryText={stuff[4]} />
-                <MenuItem value={5} primaryText={stuff[5]} />
-                <MenuItem value={6} primaryText={stuff[6]} />
-                <MenuItem value={7} primaryText={stuff[7]} />
-                <MenuItem value={8} primaryText={stuff[8]} />
-                <MenuItem value={9} primaryText={stuff[9]} />
-              </DropDownMenu>
-            </CardText>
+                >
+                {this.menuItems(titles)}
+              </SelectField>
+            </div>
             </div>
             <div>
               <TextField

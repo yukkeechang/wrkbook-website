@@ -4,6 +4,7 @@ import  BasicText  from './basicTextSchema';
 import LocationSchema  from './locationSchema';
 import  RequirementSchema  from './requirementSchema';
 
+//Make Jobtitle and are of objects where title corresponds to pay
 
 export default JobSchema = new SimpleSchema({
   employerId:{
@@ -35,9 +36,9 @@ export default JobSchema = new SimpleSchema({
     type: Date,
 
   },
+
   endAt:{
     type: Date,
-
 
   },
   pay:{
@@ -67,9 +68,9 @@ export default JobSchema = new SimpleSchema({
   jobTypes:{
     type: TextList
   },
-  status:{
-    type: String,
-    defaultValue:'Open'
+  isOpen:{
+    type: Boolean,
+    defaultValue:true
   },
   requirements:{
     type: RequirementSchema,

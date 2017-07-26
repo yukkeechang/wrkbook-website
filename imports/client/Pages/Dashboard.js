@@ -1,24 +1,28 @@
 import React , { Component } from 'react';
-import Header from '../Components/Shared/Header';
-import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import CircularProgress from 'material-ui/CircularProgress';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import ConDash from '../Components/Dashboard/ConDash.js';
+import EmpDash from '../Components/Dashboard/EmpDash.js';
 
 class Dash extends Component {
-
     render(){
-        return(
-            <div>
-            <Header/>
-            <div className="fullWidth" style={{height:'64px',backgroundColor:'rgba(0,0,0,0.3)'}}></div>
-            <h1>{this.props.user.emails[0].address}</h1>
-
-            </div>
-        );
+        if(this.props.user){
+            let page = this.props.user.profile.isPro ? <EmpDash user={this.props.user}/> : <ConDash user={this.props.user}/>;
+            return(page);
+        }
+        else{
+            return(
+                <MuiThemeProvider >
+                    <CircularProgress/>
+                </MuiThemeProvider >
+            )
+        }
     }
 }
 export default Dashboard = createContainer(({ params }) => {
-  return {
-    loggingIn: Meteor.loggingIn(),
-    user: Meteor.user(),
-  };
+    return {
+        user: Meteor.user(),
+    };
 }, Dash);

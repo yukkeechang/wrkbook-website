@@ -16,7 +16,7 @@ body{
 }
 .fullWidth {
     width: 100%;
-    
+
 }
 .flexRow{
     display: flex;
@@ -109,7 +109,7 @@ body{
     height: 600px;
     background-image: url('./images/worker.jpg');
     background-position: center center;
-    background-size: auto 100vmax; 
+    background-size: auto 100vmax;
 }
 #hero {
     display:flex;
@@ -151,7 +151,7 @@ body{
     text-decoration: none;
     color: white;
     font-size: 20px;
-    padding: 15px 0 15px 0; 
+    padding: 15px 0 15px 0;
     border: 2px solid white;
     background-color: rgba(0,0,0,0);
 }
@@ -206,41 +206,100 @@ body{
     color: #616161;
 }
 #UserInfoC{
-    width: 980px;
-    margin: 25px;
-    padding: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: center;
 }
 #UserInfoLeft{
     display: flex;
+    padding: 10px;
     flex-basis: 490px;
     justify-content: center;
     align-items: center;
 }
 #UserInfoRight{
     display: flex;
+    padding: 10px;
     flex-basis: 490px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 #AboutC{
-    width: 980px;
-    margin: 25px;
-    padding: 25px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 #AboutHeading{
-
+    padding: 10px;
 }
 #AboutContent{
   display: flex;
   flex-wrap: wrap;
-  font-family: sans-serif;
-  font-weight: lighter;
-  margin-top: 5px;
-  margin-bottom: 10px;
+  font: normal normal normal 13px/1.4em spinnaker,sans-serif;
+  padding: 10px;
+}
+.applyButton{
+  border:2px solid blue;
+}
+.deleteButton{
+  border:2px solid red;
+}
+.greyBorder{
+    border:2px solid grey;
+    border-radius: 3px
+}
+.greenBorder{
+    border:2px solid green;
+    border-radius: 3px
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.column {
+  flex-basis: 100%;
+}
+
+@media screen and (min-width: 800px) {
+  .column {
+    flex: 1;
+  }
+  ._45 {
+  flex: 4.5;
+  }
+  ._10 {
+    flex: 1;
+  }
+  ._50{
+    flex: 5;
+  }
+  ._90{
+    flex: 9;
+  }
+  ._30{
+    flex: 3;
+  }
+  ._70{
+    flex: 7;
+  }
+  ._80{
+    flex: 8;
+  }
+  ._20{
+    flex: 2;
+  }
+  ._25{
+    flex: 2.5;
+  }
+  ._5{
+    flex: 0.5;
+  }
+  ._18{
+    flex: 1.8;
+  }
 }

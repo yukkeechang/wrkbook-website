@@ -16,7 +16,7 @@ function isEmpty(obj) {
 }
 
 
-class JobPosts extends Component {
+class JobPostsA extends Component {
   constructor(props){
     super(props);
     this.state ={
@@ -56,7 +56,7 @@ class JobPosts extends Component {
 
                           <EmpJobPost
                               key={index}
-                              isAdmitted={false}
+                              isAdmitted={true}
                               jobinfo ={job}
                               title={job.title.text}
                               startAt={job.startAt}
@@ -98,7 +98,7 @@ class JobPosts extends Component {
   }
 }
 
-export default JobPostsEmployee= createContainer(({ params }) => {
+export default JobPostsEmployeeAdmit= createContainer(({ params }) => {
 
 
   let user = Meteor.user();
@@ -106,7 +106,7 @@ export default JobPostsEmployee= createContainer(({ params }) => {
   let loading = false;
   if(!('undefined' === typeof(user))){
 
-    let handle = Meteor.subscribe('job-post',user.profile.employeeData);
+    let handle = Meteor.subscribe('job-post-admitted',user._id);
     loading = handle.ready();
     jobPost = Job.find({}).fetch();
 
@@ -117,4 +117,4 @@ export default JobPostsEmployee= createContainer(({ params }) => {
     loading:loading,
     jobPost:jobPost
   };
-}, JobPosts);
+}, JobPostsA);
