@@ -2,7 +2,7 @@ import React , { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import Home from './Home';
+import Home from './home';
 import Dashboard from './Dashboard';
 import CircularProgress from 'material-ui/CircularProgress';
 
