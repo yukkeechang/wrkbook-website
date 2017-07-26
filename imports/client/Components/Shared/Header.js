@@ -64,6 +64,8 @@ class Head extends Component {
                     onRequestClose={this.handleRequestClose.bind(this)}
                     >
                     <Menu>
+                        <MenuItem primaryText="Profile" />
+                        <MenuItem primaryText="Settings" />
                         <Link style={{textDecoration: 'none'}}onClick={this.logOut.bind(this)} to="/"><MenuItem primaryText="Sign out" /></Link>
                     </Menu>
                     </Popover>
