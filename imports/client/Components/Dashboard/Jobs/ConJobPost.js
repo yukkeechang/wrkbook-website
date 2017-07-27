@@ -284,7 +284,7 @@ class JobPostEmployer extends React.Component {
 
                 <Dialog
                    onRequestClose={this.handleClosed.bind(this)}
-
+                   autoScrollBodyContent={true}
                   modal={false}
                   open={this.state.open}
                 >
