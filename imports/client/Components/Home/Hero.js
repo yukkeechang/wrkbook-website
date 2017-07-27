@@ -9,11 +9,11 @@ export default Hero = () => {
                 <div className="flexContainer">
                     <h1 className="spin">Linking professionals<br/>and contractors</h1>
                     <div className="flexRow">
-                        <Link className="homeBut" to="/register/Contractor">Click here to post a job</Link>
-                        <Link className="homeBut" to="/register/Professional">Click here to apply to work</Link>
+                        <Link className="homeBut" to="/register/Contractor">Sign up to be a contractor</Link>
+                        <Link className="homeBut" to="/register/Professional">Sign up to be a professional</Link>
                     </div>
                 </div>
             </div>
-        </div>                 
+        </div>
     )
 }
