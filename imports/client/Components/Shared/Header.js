@@ -29,7 +29,7 @@ class Head extends Component {
                     })
                 }
             }
-            
+
         });
     }
     comopnentWillUnmount(){
@@ -51,7 +51,7 @@ class Head extends Component {
         Meteor.logout();
     }
     render(){
-        let right = this.props.user ? 
+        let right = this.props.user ?
         (
             <MuiThemeProvider>
                 <Link ref="userL" to="/" id="login" onClick={this.handleClick.bind(this)}>
@@ -64,8 +64,6 @@ class Head extends Component {
                     onRequestClose={this.handleRequestClose.bind(this)}
                     >
                     <Menu>
-                        <MenuItem primaryText="Profile" />
-                        <MenuItem primaryText="Settings" />
                         <Link style={{textDecoration: 'none'}}onClick={this.logOut.bind(this)} to="/"><MenuItem primaryText="Sign out" /></Link>
                     </Menu>
                     </Popover>
@@ -78,20 +76,20 @@ class Head extends Component {
                     {this.props.user.profile.firstName[0]}
                     </Avatar>
                 </Link>
-                    
+
             </MuiThemeProvider>
-        ) : 
+        ) :
         <Link id="login" to="/login">Login</Link>
         return (
             <div ref="hed" id="headerC" style={this.state}>
                 <div id="header" >
                     <Link to="/"><img src="/images/wrkbook.png"/></Link>
-                    {right} 
+                    {right}
                 </div>
             </div>
         )
     }
-    
+
 }
 export default Header = createContainer(({ params }) => {
   return {
