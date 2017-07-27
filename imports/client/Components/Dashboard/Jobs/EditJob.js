@@ -143,43 +143,47 @@ export default class EditJob extends React.Component{
                         multiLine={true}
                         fullWidth={true}
                         ref="jobDescription"
-                    /><br />
-                    <DatePicker
-                        hintText="Start Date "
-                        mode="landscape"
-                        onChange={(x, event) => this.setStartD(x,event)}
-                    /><br />
-                    <TimePicker
-                        onChange={(x, event) => this.setStartT(x,event)}
-                         hintText="Start Time"
-                     /><br />
-                     <DatePicker
-                         hintText="End Date "
-                         mode="landscape"
-                         onChange={(x, event) => this.setEndD(x,event)}
-                     /><br />
-                     <TimePicker
-                          hintText="End Time"
-                          onChange={(x, event) => this.setEndT(x,event)}
-                      /><br />
+                    />
+                    <div className='row' style={{justifyContent:'space-around'}}>
+                        <DatePicker
+                            hintText="Start Date "
+                            mode="landscape"
+                            onChange={(x, event) => this.setStartD(x,event)}
+                        />
+                        <TimePicker
+                            onChange={(x, event) => this.setStartT(x,event)}
+                            hintText="Start Time"
+                        />
+                    </div>
+                    <div className='row' style={{justifyContent:'space-around'}}>
+                        <DatePicker
+                            hintText="End Date "
+                            mode="landscape"
+                            onChange={(x, event) => this.setEndD(x,event)}
+                        />
+                        <TimePicker
+                            hintText="End Time"
+                            onChange={(x, event) => this.setEndT(x,event)}
+                        />
+                    </div>
                       <TextField
                           floatingLabelText="$0.00"
                           defaultValue={this.state.pay}
                           ref="pay"
                           style={{width:'50px'}}
-                      /><br />
+                      />
                       <GooglePlaceAutocomplete
                           ref = 'GoogleAuto'
                           hintText="Please Enter Address"
                           results={this.getCoords.bind(this)}
-                       /><br />
+                       />
                        <TextField
                            floatingLabelText="Additional Information:"
                            defaultValue={this.state.addition}
                            multiLine={true}
                            fullWidth={true}
                            ref="additional"
-                        /><br />
+                        />
                         <div>
                             <SelectField
                                 multiple={true}
@@ -189,7 +193,7 @@ export default class EditJob extends React.Component{
                                 style={{width:'500px'}}>
                                 {this.menuItems2(titles)}
                             </SelectField>
-                        </div><br />
+                        </div>
                         <RaisedButton
                             backgroundColor="#10a96d"
                             label="Update Job"
