@@ -144,7 +144,6 @@ export default class CreateJob extends React.Component {
         endDate = endDate.split('"').join('');
         endTime = endTime.substr(idx,endTime.length);
         endTime= endTime.replace(toremove2,"Z");
-        endTime = endTime.substr(idx,endTime.length);
         const endAT = endDate+endTime;
 
         job.title.text = title + "needed";
