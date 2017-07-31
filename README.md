@@ -115,7 +115,7 @@
   <li>server</li>
   <ul>
     <li>main.js</li>
-    <li>service-config.js</li>
+    <li><del>service-config.js</del></li>
   </ul>
 </ul>
 
