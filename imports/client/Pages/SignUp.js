@@ -29,7 +29,6 @@ export default class SignUp extends Component{
         return(
             <div>
                 <Header/>
-                <div className="fullWidth" style={{height:'64px',backgroundColor:'rgba(0,0,0,0.3)'}}></div>
                 <div id="howTo"className="fullWidth">
                     <div className="container">
                         {step}

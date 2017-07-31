@@ -1,19 +1,15 @@
 import React , { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import Home from './home';
-import Dashboard from './Dashboard';
-import CircularProgress from 'material-ui/CircularProgress';
+// import MSpinner from '../Components/Shared/MSpinner'
+import Home from './Home';
+// import Dashboard from './Dashboard';
 
 class DefPage extends Component{
     render(){
-        return this.props.loggingIn ? (
-            <MuiThemeProvider >
-                <CircularProgress/>
-            </MuiThemeProvider >
-            ) :
-            (this.props.user ? <Dashboard/> : <Home/>);
+        return (
+            <Home/>
+        )
     }
 
 }

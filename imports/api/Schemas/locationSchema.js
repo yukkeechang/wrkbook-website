@@ -1,4 +1,4 @@
-import { DEFAULT } from './basicTextSchema';
+import {DEFAULT} from './basicTextSchema';
 export default LocationSchema = new SimpleSchema({
   locationName: {
     type: String,
@@ -6,13 +6,13 @@ export default LocationSchema = new SimpleSchema({
   },
    latitude:{
      type: Number,
-     decimal:true,
-     defaultValue: 0
+     decimal:true
+
    },
    longitude:{
      type: Number,
-     decimal:true,
-     defaultValue: 0
+     decimal:true
+
    }
 
 });

@@ -13,6 +13,7 @@ export default ReviewSchema = new SimpleSchema({
     max:5
   },
   review:{
-    type: BasicText
+    type: BasicText,
+    optional:true
   }
 });

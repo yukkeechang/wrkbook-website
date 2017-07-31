@@ -1,305 +1,48 @@
-body{
-    margin : 0;
-    font-size: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-#howTo{
-    display: flex;
-    justify-content: center;
-}
-
-.container {
-    width: 980px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.fullWidth {
-    width: 100%;
-
-}
-.flexRow{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-#mainC{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.steps{
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-#arrow{
-    transform: scaleX(-1);
-    padding-top: 55px;
-    stroke-width: 30px;
-    fill: rgba(160, 160, 160, 1);
-    width: 80px;
-    height: 80px;
-}
-.step{
-    width: 200px;
-}
-.step img{
-    width: 100%;
-}
-.step h6{
-    font: normal normal normal 22px/1.4em spinnaker,sans-serif;
-    text-align: center;
-    margin: 10px 0;
-    color: #616161;
-}
-.step p{
-    text-align: center;
-    font: normal normal normal 14px/1.4em spinnaker,sans-serif;
-    color: #616161;
-}
-#login{
-    padding: 15px 13px 0 13px;
-    text-decoration: none;
-    font: normal normal normal 14px/1.4em spinnaker,sans-serif;
-    font-size: 19px;
-    color: white;
-}
-#hiw{
-    text-align: center;
-}
-#headerC{
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    position : fixed;
-    left: 0;
-    height: 64px;
-    box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.4);
-}
-#header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding : 0;
-    width: 980px;
-    height : 64px;
-}
-.less p{
-    font: normal normal normal 14px/1.4em spinnaker,sans-serif;
-    font-size: 19px;
-    color: white;
-}
-#OStory{
-    color: white;
-}
-#prof{
-    font: normal normal normal 18px/1.4em helvetica-w01-light,sans-serif;
-    background-color: #1BAB6E;
-    font-size:33px;
-    color: #616161;
-    width: 229px;
-    font-style: italic;
-}
-#story{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 600px;
-    background-image: url('./images/worker.jpg');
-    background-position: center center;
+#hero{
+    background-image: url('/images/heroBG.jpg');
     background-size: auto 100vmax;
-}
-#hero {
-    display:flex;
-    left: 0;
-    color: white;
-    align-items: center;
-    justify-content: center;
-    height: 900px;
-    background-image: url('./images/heroBG.jpg');
     background-position: center center;
     background-attachment: fixed;
-    background-size: auto 100vmax;
+    height: 100vmin;
+    min-height: 528px;
 }
-.wwd{
-    font: normal normal normal 40px/1.4em anton,sans-serif;
-    color: #303030;
-}
-#msg{
-    font-size:30px;
-    color: #616161;
-}
-.less{
-    width: 800px;
-}
-.spin{
-    font: normal normal normal 40px/1.4em spinnaker,sans-serif;
-
-}
-#hero div h1{
-    letter-spacing: .1em;
-}
-#header img {
-    height: 54px;
-    padding-top: 5px;
-}
-.homeBut{
-    text-align: center;
-    flex-basis: 235px;
-    text-decoration: none;
-    color: white;
-    font-size: 20px;
-    padding: 15px 0 15px 0;
-    border: 2px solid white;
-    background-color: rgba(0,0,0,0);
-}
-.homeBut:hover{
-    background-color: rgba(252, 185, 162, 1);
-    border: 2px solid rgba(252, 185, 162, 1);
-    -webkit-transition: all 300ms ease-in-out;
-    -ms-transition: all 300ms ease-in-out;
-    transition: all 300ms ease-in-out;
-}
-.homeBut:visited{
-    color: white;
-}
-@media screen and (max-width: 1000px){
-    #header{
-        width: 100%;
-    }
-    .container{
-        width: 100%;
-    }
-}
-#footerC{
+#header{
+    height: 64px; 
     width: 100%;
-    display: flex;
-    justify-content: center;
-    height: 200px;
+    background-color: rgba(0,0,0,0.4);
+    position: fixed; 
+    box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.4);
 }
-#footer{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    padding : 0;
-    width: 980px;
-    height : 200px;
+.titles{
+    color: white;
+    font: normal normal normal 40px/1.4em spinnaker,sans-serif;
+    margin: 0;
 }
-#footericons {
-    height: 30px;
-    padding-right: 10px;
+.heading{
+    font: normal normal normal 16px/1.4em spinnaker,sans-serif;
+
 }
-#footerwrkbookimg{
-    height: 80px;
-    padding-top: 10px;
+.hBut{
+    color: white;
+    text-align: center;
+    border: 3px solid white;
+    padding: 12px 0 12px 0;
 }
-.footerdivs{
-    height: 100%;
-    display: flex;
-    flex-basis: 320px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-    font: normal normal normal 13px/1.4em spinnaker,sans-serif;
-    color: #616161;
+.hBut:visited{
+    color: white;
 }
-#UserInfoC{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
+.hBut:hover{
+    border-color: burlywood;
+    background-color: burlywood; 
+    transition: all 200ms ease-in;
 }
-#UserInfoLeft{
-    display: flex;
-    padding: 10px;
-    flex-basis: 490px;
-    justify-content: center;
-    align-items: center;
-}
-#UserInfoRight{
-    display: flex;
-    padding: 10px;
-    flex-basis: 490px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-#AboutC{
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-#AboutHeading{
-    padding: 10px;
-}
-#AboutContent{
-  display: flex;
-  flex-wrap: wrap;
-  font: normal normal normal 13px/1.4em spinnaker,sans-serif;
-  padding: 10px;
-}
-.applyButton{
-  border:2px solid blue;
-}
-.deleteButton{
-  border:2px solid red;
-}
-.greyBorder{
-    border:2px solid grey;
-    border-radius: 3px
-}
-.greenBorder{
-    border:2px solid green;
-    border-radius: 3px
-}
-.row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+.hBut-appear {
+    left: -100px;
+    opacity: 0;
 }
 
-.column {
-  flex-basis: 100%;
-}
-
-@media screen and (min-width: 800px) {
-  .column {
-    flex: 1;
-  }
-  ._45 {
-  flex: 4.5;
-  }
-  ._10 {
-    flex: 1;
-  }
-  ._50{
-    flex: 5;
-  }
-  ._90{
-    flex: 9;
-  }
-  ._30{
-    flex: 3;
-  }
-  ._70{
-    flex: 7;
-  }
-  ._80{
-    flex: 8;
-  }
-  ._20{
-    flex: 2;
-  }
-  ._25{
-    flex: 2.5;
-  }
-  ._5{
-    flex: 0.5;
-  }
-  ._18{
-    flex: 1.8;
-  }
+.hBut-appear-active {
+    left: 0;
+    opacity: 1;
+    transition: all 700ms ease-out;
 }

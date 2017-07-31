@@ -4,3 +4,7 @@ import { render } from 'react-dom';
 
 
 import '../imports/client/App';
+
+Meteor.startup(()=>{
+    window.localStorage.setItem('isPro',true);
+});

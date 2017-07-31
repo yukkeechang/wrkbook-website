@@ -1,4 +1,5 @@
 export const DEFAULT = 'NONE';
+export const PICLINK = 'LINKTOTHINGZ';
 export default BasicText = new SimpleSchema({
   text:{
     type:String,

@@ -1,10 +1,10 @@
 export default AvailabeSchema = new SimpleSchema({
   beginTime:{
-    type: Date,
-    defaultValue: new Date()
+    type: [Date],
+    defaultValue:[]
   },
   endTime:{
-    type: Date,
-    defaultValue: new Date(2018,1,1)
+    type: [Date],
+    defaultValue:[]
   }
 });

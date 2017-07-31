@@ -15,6 +15,11 @@ import Footer from '../Components/Shared/Footer';
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      Etyped: true,
+      uExists: true,
+      passC  : true
+    }
   }
   handleSubmit(e){
     const email= this.refs.email.getValue();
@@ -26,6 +31,9 @@ export default class Login extends React.Component {
     Meteor.loginWithPassword(email, password,(err)=>{
       if(err){
         console.log(err);
+        if(err.reason === "Match failed") this.setState({Etyped:false,uExists:true,passC: true})
+        if(err.reason === "User not found") this.setState({uExists:false,Etyped:true,passC:true});
+        if(err.reason === "Incorrect password") this.setState({passC:false,Etyped:true,uExists:true});
       }else{
         this.props.history.push('/');
       }
@@ -35,13 +43,13 @@ export default class Login extends React.Component {
 
 
   render(){
-
+    let passErr = this.state.passC ? '' : 'Password is incorrect';
+    let userErr = this.state.uExists ? (this.state.Etyped ? '' : 'Please enter an email') : 'An account with this email does not exist';
     return(
 
         
         <div >
           <Header />
-          <div className="fullWidth" style={{height:'64px',backgroundColor:'rgba(0,0,0,0.3)'}}></div>
           <div id="howTo"className="fullWidth" >
             <div className="container">
               <MuiThemeProvider style={{zIndex:'-1'}}>
@@ -57,11 +65,13 @@ export default class Login extends React.Component {
                     <div>
                       <TextField
                         floatingLabelText="Email Address"
+                        errorText={userErr}
                         ref="email"
                         fullWidth={true}
                       /><br />
                       <TextField
                         hintText="Password Field"
+                        errorText={passErr}
                         floatingLabelText="Password"
                         ref="password1"
                         type="password"

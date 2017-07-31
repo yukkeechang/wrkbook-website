@@ -3,6 +3,7 @@ import  TextList from './textListSchema';
 import  BasicText  from './basicTextSchema';
 import LocationSchema  from './locationSchema';
 import  RequirementSchema  from './requirementSchema';
+import SupervisorSchema from './supervisorSchema';
 
 //Make Jobtitle and are of objects where title corresponds to pay
 
@@ -13,7 +14,6 @@ export default JobSchema = new SimpleSchema({
   applyemployeeIds:{
     type: [String],
     defaultValue: [],
-
   },
   admitemployeeIds:{
     type:[String],
@@ -26,7 +26,7 @@ export default JobSchema = new SimpleSchema({
   title:{
     type: BasicText
   },
-  description:{
+    description:{
     type:BasicText
   },
   additionText:{
@@ -34,17 +34,15 @@ export default JobSchema = new SimpleSchema({
   },
   startAt:{
     type: Date,
-
   },
-
   endAt:{
     type: Date,
-
   },
   pay:{
+    type: [Number],
+  },
+  numWorker:{
     type: Number,
-    defaultValue: 0,
-    min:0
   },
   location:{
     type: LocationSchema
@@ -56,6 +54,9 @@ export default JobSchema = new SimpleSchema({
         return new Date;
       }
     }
+  },
+  supervisor:{
+    type: SupervisorSchema
   },
   updateAt:{
     type:Date,
