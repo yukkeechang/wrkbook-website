@@ -15,20 +15,6 @@ export const NOTAUTH = true;
 Meteor.publish(null, function() {
     return Meteor.users.find({_id: this.userId}, {fields: { emails: 1, profile: 1,roles: 1 } });
 });
-//
-let isRoles = Roles.getAllRoles().fetch();
-if((!(isRoles.length > 0 )) ||  isRoles.length < 2){
-  if( Roles.getAllRoles().fetch()[0].name === PROFESSIONAL){
-    Roles.createRole('PRO');
-  }
-  if(Roles.getAllRoles().fetch()[0].name === CONTRACTOR){
-    Roles.createRole('CON');
-  }
-
-
-}
-
-
 
 Meteor.methods({
 
