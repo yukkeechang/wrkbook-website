@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class ConProfile extends React.Component {
+export default class GeneralInfo extends React.Component {
   render() {
     return (
       <div className="row">
