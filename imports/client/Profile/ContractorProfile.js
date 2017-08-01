@@ -17,6 +17,11 @@ export default class ContractorProfile extends React.Component {
       certDisplayed: false,
       paymentDisplayed: false,
       reviewsDisplayed: false,
+      aboutButtonActive: true,
+      contactButtonActive: false,
+      certButtonActive: false,
+      paymentButtonActive: false,
+      reviewsButtonActive: false,
     };
   }
 
@@ -27,6 +32,11 @@ export default class ContractorProfile extends React.Component {
       certDisplayed: false,
       paymentDisplayed: false,
       reviewsDisplayed: false,
+      aboutButtonActive: true,
+      contactButtonActive: false,
+      certButtonActive: false,
+      paymentButtonActive: false,
+      reviewsButtonActive: false,
     });
   }
 
@@ -37,6 +47,11 @@ export default class ContractorProfile extends React.Component {
       certDisplayed: false,
       paymentDisplayed: false,
       reviewsDisplayed: false,
+      aboutButtonActive: false,
+      contactButtonActive: true,
+      certButtonActive: false,
+      paymentButtonActive: false,
+      reviewsButtonActive: false,
     });
   }
 
@@ -47,6 +62,11 @@ export default class ContractorProfile extends React.Component {
       certDisplayed: true,
       paymentDisplayed: false,
       reviewsDisplayed: false,
+      aboutButtonActive: false,
+      contactButtonActive: false,
+      certButtonActive: true,
+      paymentButtonActive: false,
+      reviewsButtonActive: false,
     });
   }
 
@@ -57,6 +77,11 @@ export default class ContractorProfile extends React.Component {
       certDisplayed: false,
       paymentDisplayed: true,
       reviewsDisplayed: false,
+      aboutButtonActive: false,
+      contactButtonActive: false,
+      certButtonActive: false,
+      paymentButtonActive: true,
+      reviewsButtonActive: false,
     });
   }
 
@@ -67,6 +92,11 @@ export default class ContractorProfile extends React.Component {
       certDisplayed: false,
       paymentDisplayed: false,
       reviewsDisplayed: true,
+      aboutButtonActive: false,
+      contactButtonActive: false,
+      certButtonActive: false,
+      paymentButtonActive: false,
+      reviewsButtonActive: true,
     });
   }
 
@@ -79,20 +109,35 @@ export default class ContractorProfile extends React.Component {
           </div>
           <div className="col s9">
             <div className="row">
-              <a className="waves-effect waves-light btn col s2 offset-s1"
-                style={{fontSize: 12}}
+              <a className="waves-effect waves-light btn-flat col s2 offset-s1"
+                  style = { this.state.aboutButtonActive ?
+                  { fontSize: 12, color: "teal" } :
+                  { fontSize: 12, color: "black" }
+                }
                 onClick={this.onAboutClick}>About</a>
-              <a className="waves-effect waves-light btn col s2"
-                style={{fontSize: 12}}
+              <a className="waves-effect waves-teal btn-flat col s2"
+              style = { this.state.contactButtonActive ?
+                { fontSize: 12, color: "teal" } :
+                { fontSize: 12, color: "black" }
+              }
                 onClick={this.onContactClick}>Contact</a>
-              <a className="waves-effect waves-light btn col s2"
-                style={{fontSize: 12}}
+              <a className="waves-effect waves-teal btn-flat col s2"
+                style = { this.state.certButtonActive ?
+                  { fontSize: 12, color: "teal" } :
+                  { fontSize: 12, color: "black" }
+                }
                 onClick={this.onCertClick}>Certifications</a>
-              <a className="waves-effect waves-light btn col s2"
-                style={{fontSize: 12}}
+              <a className="waves-effect waves-teal btn-flat col s2"
+                style = { this.state.paymentButtonActive ?
+                  { fontSize: 12, color: "teal" } :
+                  { fontSize: 12, color: "black" }
+                }
                 onClick={this.onPaymentClick}>Payment</a>
-              <a className="waves-effect waves-light btn col s2"
-                style={{fontSize: 12}}
+              <a className="waves-effect waves-teal btn-flat col s2"
+                style = { this.state.reviewsButtonActive ?
+                  { fontSize: 12, color: "teal" } :
+                  { fontSize: 12, color: "black" }
+                }
                 onClick={this.onReviewsClick}>Reviews</a>
             </div>
             { this.state.aboutDisplayed && <About /> }

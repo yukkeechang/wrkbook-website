@@ -21,6 +21,9 @@ export default class About extends React.Component {
               <div className="col s12">
                 <p>Languages Spoken: English, Spanish, Albanian</p>
               </div>
+              <div className="col s12">
+                <i class="material-icons">add</i>
+              </div>
             </div>
           </div>
         </div>
