@@ -79,26 +79,16 @@ export default class ContractorProfile extends React.Component {
           </div>
           <div className="col s8">
             <div className="row">
-              <div className="col">
-                <a className="waves-effect waves-light btn"
-                  onClick={this.onAboutClick}>About</a>
-              </div>
-              <div className="col">
-                <a className="waves-effect waves-light btn"
-                  onClick={this.onContactClick}>Contact</a>
-              </div>
-              <div className="col">
-                <a className="waves-effect waves-light btn"
-                  onClick={this.onCertClick}>Certifications</a>
-              </div>
-              <div className="col">
-                <a className="waves-effect waves-light btn"
-                  onClick={this.onPaymentClick}>Payment</a>
-              </div>
-              <div className="col">
-                <a className="waves-effect waves-light btn"
-                  onClick={this.onReviewsClick}>Reviews</a>
-              </div>
+              <a className="waves-effect waves-light btn"
+                onClick={this.onAboutClick}>About</a>
+              <a className="waves-effect waves-light btn"
+                onClick={this.onContactClick}>Contact</a>
+              <a className="waves-effect waves-light btn"
+                onClick={this.onCertClick}>Certifications</a>
+              <a className="waves-effect waves-light btn"
+                onClick={this.onPaymentClick}>Payment</a>
+              <a className="waves-effect waves-light btn"
+                onClick={this.onReviewsClick}>Reviews</a>
             </div>
             { this.state.aboutDisplayed && <About /> }
             { this.state.contactDisplayed && <Contact /> }
