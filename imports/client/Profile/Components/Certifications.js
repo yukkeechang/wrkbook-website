@@ -21,8 +21,6 @@ export default class Certifications extends React.Component {
               <div className="col s6">
                 <p>Apex Painting School</p>
               </div>
-            </div>
-            <div className="row">
               <div className="col s6">
                 <p>Driver's License</p>
               </div>
