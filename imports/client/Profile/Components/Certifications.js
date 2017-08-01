@@ -13,7 +13,7 @@ export default class Certifications extends React.Component {
       <div className="row">
         <div className="col s12 m6">
           <div className="card-panel">
-            <h4>Certifications</h4>
+            <h5>Certifications</h5>
             <div className="row">
               <div className="col s6">
                 <p>Background Check</p>

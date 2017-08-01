@@ -10,7 +10,23 @@ export default class About extends React.Component {
 
   render() {
     return (
-      <p>About Section</p>
+      <div className="row">
+        <div className="col s12 m6">
+          <div className="card-panel">
+            <h5>About</h5>
+            <div className="row">
+              <div className="col s12">
+                <p>10 years of experience in the painting industry. Focuses include level 5 finishes and glazing. Graduated from Apex Painting School.</p>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col s12">
+                <p>Languages Spoken: English, Spanish, Albanian</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 }
