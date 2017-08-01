@@ -74,20 +74,25 @@ export default class ContractorProfile extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col s4">
+          <div className="col s3">
             <GeneralInfo />
           </div>
-          <div className="col s8">
+          <div className="col s9">
             <div className="row">
-              <a className="waves-effect waves-light btn"
+              <a className="waves-effect waves-light btn col s2 offset-s1"
+                style={{fontSize: 12}}
                 onClick={this.onAboutClick}>About</a>
-              <a className="waves-effect waves-light btn"
+              <a className="waves-effect waves-light btn col s2"
+                style={{fontSize: 12}}
                 onClick={this.onContactClick}>Contact</a>
-              <a className="waves-effect waves-light btn"
+              <a className="waves-effect waves-light btn col s2"
+                style={{fontSize: 12}}
                 onClick={this.onCertClick}>Certifications</a>
-              <a className="waves-effect waves-light btn"
+              <a className="waves-effect waves-light btn col s2"
+                style={{fontSize: 12}}
                 onClick={this.onPaymentClick}>Payment</a>
-              <a className="waves-effect waves-light btn"
+              <a className="waves-effect waves-light btn col s2"
+                style={{fontSize: 12}}
                 onClick={this.onReviewsClick}>Reviews</a>
             </div>
             { this.state.aboutDisplayed && <About /> }

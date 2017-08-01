@@ -13,7 +13,7 @@ export default class Reviews extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col s12 m6">
+        <div className="col s12">
           <div className="card-panel">
             <div className="row">
               <div className="col s5">

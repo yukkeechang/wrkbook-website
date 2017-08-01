@@ -11,7 +11,7 @@ export default class About extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col s12 m6">
+        <div className="col s12">
           <div className="card-panel">
             <h5>About</h5>
             <div className="row">
