@@ -12,7 +12,7 @@ export default class ContractorProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      aboutDisplayed: false,
+      aboutDisplayed: true,
       contactDisplayed: false,
       certDisplayed: false,
       paymentDisplayed: false,
@@ -116,10 +116,10 @@ export default class ContractorProfile extends React.Component {
                 }
                 onClick={this.onAboutClick}>About</a>
               <a className="waves-effect waves-teal btn-flat col s2"
-              style = { this.state.contactButtonActive ?
-                { fontSize: 12, color: "teal" } :
-                { fontSize: 12, color: "black" }
-              }
+                style = { this.state.contactButtonActive ?
+                  { fontSize: 12, color: "teal" } :
+                  { fontSize: 12, color: "black" }
+                }
                 onClick={this.onContactClick}>Contact</a>
               <a className="waves-effect waves-teal btn-flat col s2"
                 style = { this.state.certButtonActive ?

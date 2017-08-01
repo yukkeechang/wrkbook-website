@@ -22,7 +22,12 @@ export default class About extends React.Component {
                 <p>Languages Spoken: English, Spanish, Albanian</p>
               </div>
               <div className="col s12">
-                <i class="material-icons">add</i>
+                <a href="https://www.facebook.com/">
+                  <img src="/images/facebook.png"/>
+                </a>
+                <a href="https://www.instagram.com/">
+                  <img src="/images/instagram.png"/>
+                </a>
               </div>
             </div>
           </div>
