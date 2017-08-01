@@ -5,15 +5,18 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { render } from 'react-dom';
 import DefaultPage from './Pages/DefaultPage';
 
+import ContractorProfile from './Profile/ContractorProfile';
+
 class App extends Component {
 
     render(){
-        
+
         return(
             <BrowserRouter>
                 <div >
                     <Switch>
-                        <Route exact path="/" component={DefaultPage}/>                        
+                        <Route exact path="/" component={DefaultPage}/>
+                        <Route path="/profile" component={ContractorProfile}/>
                     </Switch>
                 </div>
             </BrowserRouter>
