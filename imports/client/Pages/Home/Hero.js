@@ -1,11 +1,11 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../Shared/Button';
-import { CSSTransitionGroup } from 'react-transition-group' // ES6
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default Hero = () => {
     return (
-        
+
             <div id="hero" className="valign-wrapper">
                 <div className="container">
                     <div className="row">
@@ -13,7 +13,7 @@ export default Hero = () => {
                             <h1 className="titles">Linking professionals<br/>and contractors</h1>
                         </div>
                     </div>
-                    <CSSTransitionGroup
+                    <ReactCSSTransitionGroup
                         transitionName="hBut"
                         transitionAppear={true}
                         transitionAppearTimeout={700}
@@ -26,9 +26,9 @@ export default Hero = () => {
                             <div className="col s12 m6 l4">
                                 <Button to="/register/professional">Click here to apply for work</Button>                    </div>
                         </div>
-                    </CSSTransitionGroup>
+                    </ReactCSSTransitionGroup>
 
-                </div>                
+                </div>
             </div>
 
     )
