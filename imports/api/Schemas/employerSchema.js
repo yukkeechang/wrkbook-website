@@ -11,7 +11,9 @@ export default  EmployerSchema = new SimpleSchema({
     type: BasicText
   },
   licenseNumber: {
-    type:BasicText,
+    type:String,
+    min:1,
+    max:250,
     optional: true
   },
   webPage:{

@@ -5,21 +5,26 @@ import AvailabeSchema from './availableSchema';
 import {DEFAULT} from './basicTextSchema';
 import OshaSchema from './oshaSchema';
 import {PICLINK} from './basicTextSchema';
+import EducationSchema from './educationSchema';
 
 export const PROFESSIONAL = 'PRO';
 
 export default EmployeeSchema = new SimpleSchema({
   jobTitle:{
-    type: TextList,
+    type: [String],
+    minCount: 1,
+    defaultValue: [],
   },
   education:{
-    type: TextList,
+    type: EducationSchema,
   },
   certifications:{
     type: TextList,
   },
   languages:{
-    type: TextList
+    type: [String],
+    minCount: 1,
+    defaultValue: [],
   },
   osha:{
     type: OshaSchema,
@@ -39,6 +44,9 @@ export default EmployeeSchema = new SimpleSchema({
   driverLicense:{
     type:Boolean,
   },
+  bringTools :{
+    type:Boolean
+  },
   maxDistance:{
     type: Number,
     defaultValue: 25,
@@ -55,6 +63,6 @@ export default EmployeeSchema = new SimpleSchema({
   },
   Availability:{
     type: AvailabeSchema,
-
+    optional: true
   }
 });

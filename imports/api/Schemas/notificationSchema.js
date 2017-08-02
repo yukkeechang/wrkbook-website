@@ -8,6 +8,9 @@ export default NotificationSchema = new SimpleSchema({
   jobId: {
     type: String
   },
+  seen :{
+    type: Boolean
+  },
   createdAt:{
     type: Date,
     autoValue: function() {

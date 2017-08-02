@@ -106,6 +106,9 @@ Meteor.publish('job-post-admitted',function(){
   }
 
 });
+Meteor.publish('all-jobs',function(){
+  return Job.find({});
+});
 Meteor.methods({
   /*
   Inserts a Job into the database. That Job must follow the format of

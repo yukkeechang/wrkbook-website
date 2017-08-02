@@ -43,3 +43,6 @@ Images.allow({
 Meteor.publish('images', function(){
   return Images.find();
  });
+Meteor.publish('images-id',function(imageId){
+  return Images.find({_id: imageId});
+})

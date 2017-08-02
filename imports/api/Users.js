@@ -8,6 +8,11 @@ import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import { Roles } from 'meteor/alanning:roles';
 import {PICLINK} from './Schemas/basicTextSchema';
+import BasicText from './Schemas/basicTextSchema';
+import LocationSchema from './Schemas/locationSchema';
+import EducationSchema from './Schemas/educationSchema';
+import OshaSchema from './Schemas/oshaSchema';
+import TextList from './Schemas/textListSchema';
 
 export const NOTAUTH = true;
 //Global publication do not need to call subscribe on the client side
@@ -47,15 +52,86 @@ Meteor.methods({
 
 
     },
+    validateEmployee(employee){
+      const validationz = EmployeeSchema.newContext('Employees');
+      const employ = employee;
+      let jobs = validationz.validateOne(employ,'jobTitle');
+      let edu = Match.test(employee.education, EducationSchema);
+      let certification = Match.test(employee.certifications, TextList);
+      let languages = validationz.validateOne(employ,'languages');
+      let osha =  Match.test(employee.osha, OshaSchema);
+      let about = Match.test(employee.about,BasicText);
+      let skills = Match.test(employee.skills,BasicText);
+      let location = Match.test(employee.location, LocationSchema);
+      let car = validationz.validateOne(employ,'hasCar');
+      let driver = validationz.validateOne(employ,'driverLicense');
+      let tools = validationz.validateOne(employ,'bringTools');
+      let distance = validationz.validateOne(employ,'maxDistance');
+      let image = validationz.validateOne(employ,'image');
 
+      let Errors ={
+        validJobTitles: jobs,
+        validEdu: edu,
+        validCert : certification,
+        validLang: languages,
+        validOsha: osha,
+        validAbout: about,
+        validSkills : skills,
+        validLocation: location,
+        validCar: car,
+        validDriver: driver,
+        validTools: tools,
+        validDistance: distance,
+        validImage: image
+      };
+      if(!jobs|| !edu || !certification|| !languages || !osha || !about || !skills
+      || !location || !car || !driver || !tools || !distance|| !image){
+        throw new Meteor.Error('403',Errors);
+      }
+      
+
+    },
+    validateEmployer(employer){
+      const validation = EmployerSchema.newContext();
+      // console.log(employer);
+
+      // console.log(EmployerSchema);
+      let company =Match.test(employer.companyName, BasicText);
+      let about = Match.test(employer.about, BasicText);
+      let location = Match.test(employer.location,LocationSchema);
+      let image =  validation.validateOne(employer,'image');
+      let web = true;
+      let licenseNumber = true;
+      if(!('undefined' === typeof(employer.webPage))){
+        web =  validation.validateOne(employer,'webPage');
+      }
+      if(!('undefined' === typeof(employer.licenseNumber))){
+        licenseNumber = validation.validateOne(employer,'licenseNumber');
+      }
+      let Errors = {
+        validCompany: company,
+        validAbout : about,
+        validLocation : location,
+        validImage : image,
+        validWeb: web,
+        validLicense: licenseNumber
+      }
+      console.log(Errors);
+      if(!company || !about || !location || !image || !web ||!licenseNumber){
+        throw new Meteor.Error('403',Errors);
+      }
+    },
     register(User){
 
-      validateBasicUserData(User);
+      Meteor.call('validateBasicUserData',User);
+
 
       if(User.profile.isPro){
-        check(User.profile.employeeData,EmployeeSchema);//GIVES ONLY A MATCH ERROR ON CLIENT NOT DETAILED
+        if(('undefined' === typeof(User.profile.employeeData)))throw new Meteor.Error('403','NAH');
+        Meteor.call('validateEmployee',User.profile.employeeData);
       }else{
-        check(User.profile.employerData,EmployerSchema);
+          if(('undefined' === typeof(User.profile.employerData)))throw new Meteor.Error('403','NAH');
+        Meteor.call('validateEmployer',User.profile.employerData);
       }
       let id = Accounts.createUser(User);
       if(User.profile.isPro){
@@ -63,7 +139,7 @@ Meteor.methods({
       }else{
         Roles.addUsersToRoles(id,CONTRACTOR);
       }
-      Meteor.users.update({_id: id},{$unset : {isPro: ""}});
+      Meteor.users.update({_id: id},{$unset : {'profile.isPro': 1}});
     },
     /**
 
@@ -82,8 +158,6 @@ Meteor.methods({
     updateUserData(User){
 
           if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-
-
 
           let prevUser = Meteor.users.findOne({_id: this.userId});
           prevUser.profile.firstName = User.profile.firstName;
@@ -104,11 +178,11 @@ Meteor.methods({
               oldData.companyName.text = employerData.companyName.text;
             }
             if(('undefined' === typeof(oldData.webPage))  ||
-                ('undefined' === typeof(employerData.webPage)) ){
+                !('undefined' === typeof(employerData.webPage)) ){
               oldData.webPage = employerData.webPage;
             }
             if(('undefined' === typeof(oldData.licenseNumber))  ||
-                ('undefined' === typeof(employerData.licenseNumber))){
+                !('undefined' === typeof(employerData.licenseNumber))){
                   oldData.licenseNumber = employerData.licenseNumber;
             }
             if(employerData.location.locationName != DEFAULT){
@@ -135,17 +209,13 @@ Meteor.methods({
             let employeeData = User.profile.employeeData;
             check(employeeData,EmployeeSchema);
 
-            if(employeeData.jobTitle.texts.length >0 ){
-              oldData.jobTitle.texts =
-              employeeData.jobTitle.texts;
+            if(employeeData.jobTitle.length >0 ){
+              oldData.jobTitle =
+              employeeData.jobTitle;
             }
-            if(employeeData.education.texts.length >0 ){
-              oldData.education.texts =
-              employeeData.education.texts;
-            }
-            if(employeeData.languages.texts.length >0 ){
-              oldData.languages.texts =
-              employeeData.languages.texts;
+            if(employeeData.languages.length >0 ){
+              oldData.languages =
+              employeeData.languages;
             }
             if(employeeData.certifications.texts.length >0 ){
               oldData.certifications.texts =
@@ -180,6 +250,15 @@ Meteor.methods({
               oldData.image =
               employeeData.image;
             }
+            if(employeeData.education.highGED != oldData.education.highGED){
+              oldData.education.highGED = employeeData.education.highGED;
+            }
+            if(employeeData.education.tradeSchool != oldData.education.tradeSchool){
+              oldData.education.tradeSchool = employeeData.education.tradeSchool;
+            }
+            if(employeeData.education.higherEdu != oldData.education.higherEdu){
+              oldData.education.higherEdu = employeeData.education.higherEdu;
+            }
             if(employeeData.osha.osha10 != oldData.osha.osha10){
               oldData.osha.osha10 = employeeData.osha.osha10;
             }
@@ -201,8 +280,6 @@ Meteor.methods({
             prevUser.profile.employeeData = oldData;
 
           }
-
-
           Meteor.users.update({_id: this.userId},{$set: prevUser});
     },
     deleteUser(userId){
@@ -214,8 +291,22 @@ Meteor.methods({
       }
 
     },
+    uploadPic(imageId){
+      if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+      let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
+      let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
+      if(!isPRO || !isCON ) throw new Meteor.Error('401',NOTAUTH);
+      let user = Meteor.user.findOne({_id:this.userId});
+      check(imageId,String);
+      user.image = imageId;
+      Meteor.users.update({_id: this.userId},{$set: user});
+    },
     deleteYourself(){
       if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+      let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
+      let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
+
+      if(!isPRO || !isCON ) throw new Meteor.Error('401',NOTAUTH);
       if(Roles.userIsInRole(this.userId,CONTRACTOR)){
         Job.remove({employerId: this.userId});
       }

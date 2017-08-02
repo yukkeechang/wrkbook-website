@@ -34,4 +34,18 @@ Meteor.methods({
     check(newNotify,NotificationSchema);
     Notification.insert(newNotify);
   },
+  updateNotification(notifyId, seen){
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+    check(notifyId,String);
+    let notification = Notification.findOne({_id: notifyId});
+    if(!(notification)) return;
+    if(notification.employerId == this.userId
+      || notification.employeeId == this.userId){
+        if(seen){
+          notification.seen = seen;
+        }
+
+      }
+      Notification.update({_id:notifyId});
+  }
 });
