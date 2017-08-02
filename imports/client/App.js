@@ -7,7 +7,7 @@ import { CSSTransitionGroup } from 'react-transition-group';
 
 import DefaultPage from './Pages/DefaultPage';
 import SignIn from './Pages/SignIn';
-
+import SignUp from './Pages/SignUp';
 class App extends Component {
 
     render(){
@@ -23,6 +23,12 @@ class App extends Component {
                         <Switch location={location} key={location.pathname}>
                             <Route exact path="/" component={DefaultPage}/> 
                             <Route exact path="/login" component={SignIn}/>
+                            <Route path="/register" >
+                                <Switch>
+                                    <Route path="/:value" component={SignUp}/>
+                                    <Route path="/" component={SignUp}/>
+                                </Switch>
+                            </Route>
                         </Switch>
                     </CSSTransitionGroup>
                 )}/>

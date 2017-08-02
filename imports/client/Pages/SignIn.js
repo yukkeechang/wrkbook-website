@@ -5,27 +5,34 @@ import Footer from './Shared/Footer';
 
 export default class SignIn extends Component{
   componentDidMount(){
-    let el = ReactDOM.findDOMNode(this.refs.sel);
-    $(el).ready(()=>{
-      $('select').material_select();
-    });
+    // let el = ReactDOM.findDOMNode(this.refs.sel);
+    // $(el).ready(()=>{
+    //   $('select').material_select();
+    // });
   }
   render(){
     return(
       <div>
         <Header/>
-          <div style={{height:'64px',flex:'1 0 auto'}}></div>
-          <div className="container">
-            <div className="row">
-              <div className="input-field col s12">
-                <select ref="sel" defaultValue="0">
-                  <option value="0" disabled>O yea?</option>
-                  <option value="1">Nut</option>
-                  <option value="2">Nutt</option>
-                  <option value="3">Nuttt</option>
-                </select>
-                <label>Oh hi mark</label>
-              </div>
+          <div style={{height:'64px'}}></div>
+          <div style={{zIndex:'-1'}} className="container">
+            <div className="card z-depth-0">
+              <div className="row card-content">
+                <form className="col s12">
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input id="email" type="text" className="validate"/>
+                      <label htmlFor="email">Email</label>
+                    </div>
+                    <div className="input-field col s12">
+                      <input id="password" type="password" className="validate"/>
+                      <label htmlFor="password">Password</label>
+                    </div>
+                  </div>
+                  <a className="btn-flat teal lighten-5" style={{color: 'black'}}type="submit">Login</a>
+                </form>
+              </div>  
+
             </div>
           </div>
         <Footer/>

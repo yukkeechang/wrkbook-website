@@ -13,7 +13,7 @@ class Head extends Component {
             </Link> 
         );
         return(
-            <div id="header">
+            <div id="header" style={{zIndex:'1'}} className="z-depth-1">
                 <div className="container">
                     <div style={{height:'64px'}} className="row valign-wrapper">
                         <Link to="/"className="col s10 m4"><img style={{paddingTop:'5px'}} src="/images/wrkbook.png"/></Link>
