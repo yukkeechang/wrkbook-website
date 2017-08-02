@@ -16,16 +16,16 @@ export default class Certifications extends React.Component {
             <h5>Certifications</h5>
             <div className="row">
               <div className="col s6">
-                <p>Background Check</p>
+                <p><i className="material-icons left" style={{ color: "green" }}>check</i>Background Check</p>
               </div>
               <div className="col s6">
-                <p>Apex Painting School</p>
+                <p><i className="material-icons left" style={{ color: "green" }}>check</i>Apex Painting School</p>
               </div>
               <div className="col s6">
-                <p>Driver's License</p>
+                <p><i className="material-icons left" style={{ color: "green" }}>check</i>Driver's License</p>
               </div>
               <div className="col s6">
-                <p>OSHA 30</p>
+                <p><i className="material-icons left" style={{ color: "green" }}>check</i>OSHA 30</p>
               </div>
             </div>
           </div>
