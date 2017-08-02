@@ -49,6 +49,9 @@ Meteor.methods({
 
       };
       if(!isEmail || !gPass || fEmpty || lEmpty || eEmpty || pEmpty || phoneE || nEqual) throw new Meteor.Error('403',Errors);
+      let prevUser =Accounts.findUserbyEmail(User.email);
+      let accountExists = true;
+      if(!(prevUser))throw new Meteor.Error('403',accountExists);
 
 
     },
@@ -88,7 +91,7 @@ Meteor.methods({
       || !location || !car || !driver || !tools || !distance|| !image){
         throw new Meteor.Error('403',Errors);
       }
-      
+
 
     },
     validateEmployer(employer){
@@ -133,6 +136,7 @@ Meteor.methods({
           if(('undefined' === typeof(User.profile.employerData)))throw new Meteor.Error('403','NAH');
         Meteor.call('validateEmployer',User.profile.employerData);
       }
+
       let id = Accounts.createUser(User);
       if(User.profile.isPro){
         Roles.addUsersToRoles(id, PROFESSIONAL );
