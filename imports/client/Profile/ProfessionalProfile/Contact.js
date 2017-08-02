@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class About extends React.Component {
+export default class Contact extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,13 +13,13 @@ export default class About extends React.Component {
       <div className="row">
         <div className="col s12">
           <div className="card-panel">
-            <h5>About</h5>
+            <h5>Contact</h5>
             <div className="row">
               <div className="col s12">
-                <p>10 years of experience in the painting industry. Focuses include level 5 finishes and glazing. Graduated from Apex Painting School.</p>
+                <p>Phone number: 718 678 1343</p>
               </div>
               <div className="col s12">
-                <p>Languages Spoken: English, Spanish, Albanian</p>
+                <p>Email: Johngrego@gmail.com</p>
               </div>
               <div className="col s12">
                 <a href="https://www.facebook.com/">

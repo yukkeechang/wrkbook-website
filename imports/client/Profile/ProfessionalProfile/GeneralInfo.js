@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default class GeneralInfo extends React.Component {
+
   render() {
     return (
       <div className="row">
@@ -11,8 +12,9 @@ export default class GeneralInfo extends React.Component {
               <div className="col s7">
                 <p>4.0</p>
               </div>
-              <div className="col s5">
-                <a href="#">View all</a>
+              <div className="waves-effect waves-teal btn-flat col s5">
+                <a style={{ fontSize: 12 }}
+                  onClick={this.props.onReviewsClick}>View all</a>
               </div>
             </div>
             <h5>Painter</h5>
