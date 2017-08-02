@@ -1,4 +1,5 @@
 import React from 'react';
+import Rating from '../Shared/Rating';
 
 import ReviewCard from './ReviewCard';
 
@@ -20,7 +21,8 @@ export default class Reviews extends React.Component {
                 <h5>Ratings and Reviews</h5>
               </div>
               <div className="col s5">
-                <h5>****</h5>
+              <Rating rating={4.5}
+                size={15} />
               </div>
               <div className="col s2">
                 <h5>4.0</h5>

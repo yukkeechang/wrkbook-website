@@ -110,34 +110,34 @@ export default class ProfessionalProfile extends React.Component {
             </div>
             <div className="col s9"
               style={{ verticalAlign: "bottom" }}>
-            <a className="waves-effect waves-light btn-flat col s2 offset-s1"
+            <a className="waves-effect waves-light btn col s2 offset-s1"
                 style = { this.state.aboutButtonActive ?
-                { fontSize: 12, color: "#10A96D" } :
-                { fontSize: 12, color: "black" }
+                { fontSize: 12, color: "#10A96D", backgroundColor: 'white' } :
+                { fontSize: 12, color: "black", backgroundColor: 'white' }
               }
               onClick={this.onAboutClick}>About</a>
-            <a className="waves-effect waves-teal btn-flat col s2"
+            <a className="waves-effect waves-light btn col s2"
               style = { this.state.contactButtonActive ?
-                { fontSize: 12, color: "#10A96D" } :
-                { fontSize: 12, color: "black" }
+                { fontSize: 12, color: "#10A96D", backgroundColor: 'white' } :
+                { fontSize: 12, color: "black", backgroundColor: 'white' }
               }
               onClick={this.onContactClick}>Contact</a>
-            <a className="waves-effect waves-teal btn-flat col s2"
+            <a className="waves-effect waves-light btn col s2"
               style = { this.state.certButtonActive ?
-                { fontSize: 12, color: "#10A96D" } :
-                { fontSize: 12, color: "black" }
+                { fontSize: 12, color: "#10A96D", backgroundColor: 'white' } :
+                { fontSize: 12, color: "black", backgroundColor: 'white' }
               }
               onClick={this.onCertClick}>Certifications</a>
-            <a className="waves-effect waves-teal btn-flat col s2"
+            <a className="waves-effect waves-light btn col s2"
               style = { this.state.paymentButtonActive ?
-                { fontSize: 12, color: "#10A96D" } :
-                { fontSize: 12, color: "black" }
+                { fontSize: 12, color: "#10A96D", backgroundColor: 'white' } :
+                { fontSize: 12, color: "black", backgroundColor: 'white' }
               }
               onClick={this.onPaymentClick}>Payment</a>
-            <a className="waves-effect waves-teal btn-flat col s2"
+            <a className="waves-effect waves-light btn col s2"
               style = { this.state.reviewsButtonActive ?
-                { fontSize: 12, color: "#10A96D" } :
-                { fontSize: 12, color: "black" }
+                { fontSize: 12, color: "#10A96D", backgroundColor: 'white' } :
+                { fontSize: 12, color: "black", backgroundColor: 'white' }
               }
               onClick={this.onReviewsClick}>Reviews</a>
           </div>
