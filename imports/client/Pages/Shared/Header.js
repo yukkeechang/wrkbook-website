@@ -8,7 +8,7 @@ class Head extends Component {
     render(){
         let account = (
             <Link to="/login" className="col s1 pull-s1 m4 offset-m4">
-                <h3 style={{fontSize: '20px', textAlign:'right',paddingRight:'10px'}} className="hide-on-small-only heading">Login</h3>
+                <h3 style={{color: 'white',fontSize: '20px', textAlign:'right',paddingRight:'10px'}} className="hide-on-small-only heading">Login</h3>
                 <i  style={{color: 'white',cursor:'pointer'}} className="material-icons hide-on-med-and-up">account_circle</i>
             </Link> 
         );
@@ -21,7 +21,8 @@ class Head extends Component {
                     </div>
                 </div>
 
-            </div>            
+            </div>
+                        
         )
     }
     

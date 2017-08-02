@@ -1,0 +1,52 @@
+/*
+Table of Contents
+* 1.0 Body styles
+
+* 2.0 Header
+* 3.0 Common Text styles
+    - 3.1 General text styles
+    - 3.2 Title styles
+    - 3.3 Heading styles
+*/
+/*
+ 1.0
+*/
+body{
+    min-width: 275px;
+}
+
+/*
+ 2.0
+*/
+#header{
+    transform-origin: center top;
+    will-change: top;
+    height: 64px; 
+    width: 100%;
+    background-color: rgba(0,0,0,0.4);
+    position: fixed;
+    /* box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.4); */
+}
+/*
+ 3.0
+
+ 3.1
+*/
+.genText{
+    font-family:avenir-lt-w01_35-light1475496;
+    color: white;
+}
+/*
+ 3.2
+*/
+.titles{
+    color: white;
+    font: normal normal normal 40px/1.4em spinnaker,sans-serif;
+    margin: 0;
+}
+/*
+ 3.3
+*/
+.heading{
+    font: normal normal normal 16px/1.4em spinnaker,sans-serif;
+}

@@ -1,0 +1,73 @@
+/*
+Table of Contents
+* 1.0 Hero Section
+    - 1.1 Hero
+    - 1.2 Buttons
+* 2.0 How it works
+    - 2.1 Step
+    - 2.2 Step img
+    - 2.3 Step text
+* 3.0 Our Story
+*/
+
+/*
+ 1.1
+*/
+#hero{
+    background-image: url('/images/heroBG.jpg');
+    background-size: auto 100vmax;
+    background-position: center center;
+    height: 100vmin;
+    min-height: 528px;
+}
+/*
+ 1.2
+*/
+.hBut{
+    color: white;
+    text-align: center;
+    border: 3px solid white;
+    padding: 12px 0 12px 0;
+}
+.hBut:visited{
+    color: white;
+}
+.hBut:hover{
+    border-color: burlywood;
+    background-color: burlywood; 
+    transition: all 200ms ease-in;
+}
+/*
+ 2.1
+*/
+.step{
+    text-align: center;
+}
+/*
+ 2.3
+*/
+.step img{
+    margin: auto;
+    display: block;
+    width: 100%;
+    max-width:172px;
+}
+/*
+ 1.1
+*/
+.step h6{
+    font: normal normal normal 22px/1.4em spinnaker,sans-serif;
+}
+.step p{
+    font-family: spinnaker,sans-serif;
+}
+/*
+ 3.0
+*/
+#ourStory{
+    background-image: url('/images/worker.jpg');
+    background-size: auto 50vh;
+    background-position: center center;
+    background-attachment: fixed;
+    padding: 40px 0 40px 0;
+}
