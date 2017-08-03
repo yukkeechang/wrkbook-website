@@ -11,14 +11,22 @@ export default class GeneralInfo extends React.Component {
           <div className="card-panel">
             <h4>John Grego</h4>
             <div className="row">
-              <div className="col s9">
-                <Rating rating={4.5}
-                  size={15} />
-                <p style={{ fontSize: 15 }}>4.5</p>
+              <div
+                className="col s8 valign-wrapper"
+              >
+                <Rating
+                  rating={4.5}
+                  starSize={15}
+                  textSize={12}
+                />
               </div>
-              <div className="waves-effect waves-teal btn-flat col s3">
-                <a style={{ fontSize: 12 }}
-                  onClick={this.props.onReviewsClick}>View all</a>
+              <div className="col s4 valign-wrapper">
+                <a
+                  style={{ fontSize: 12 }}
+                  onClick={this.props.onReviewsClick}
+                >
+                  View all
+                </a>
               </div>
             </div>
             <h5>Painter</h5>

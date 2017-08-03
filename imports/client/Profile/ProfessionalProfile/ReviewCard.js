@@ -24,9 +24,10 @@ export default class ReviewCard extends React.Component {
             </div>
             <div className="row">
               <div className="col s12">
-                <Rating rating={4.5}
-                  size={15} />
-                <p>{this.props.rating}</p>
+                <Rating
+                  rating={4.5}
+                  starSize={20}
+                  textSize={15} />
               </div>
             </div>
             <div className="row">

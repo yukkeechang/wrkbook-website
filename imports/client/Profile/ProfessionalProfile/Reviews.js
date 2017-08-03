@@ -21,11 +21,13 @@ export default class Reviews extends React.Component {
                 <h5>Ratings and Reviews</h5>
               </div>
               <div className="col s5">
-              <Rating rating={4.5}
-                size={15} />
+              <Rating
+                rating={4.5}
+                starSize={25}
+                textSize={19} />
               </div>
               <div className="col s2">
-                <h5>4.0</h5>
+                <h5></h5>
               </div>
             </div>
             <ReviewCard

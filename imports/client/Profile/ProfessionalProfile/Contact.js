@@ -23,12 +23,16 @@ export default class Contact extends React.Component {
               </div>
               <div className="col s12">
                 <a href="https://www.facebook.com/">
-                  <img src="/images/facebook.png"
-                    style={{borderRadius: "50%", marginRight: 10}} />
+                  <img
+                    src="/images/facebook.png"
+                    style={{borderRadius: "50%", marginRight: 10}}
+                  />
                 </a>
                 <a href="https://www.instagram.com/">
-                  <img src="/images/instagram.png"
-                    style={{borderRadius: "50%"}} />
+                  <img
+                    src="/images/instagram.png"
+                    style={{borderRadius: "50%"}}
+                  />
                 </a>
               </div>
             </div>

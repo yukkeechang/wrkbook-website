@@ -16,16 +16,48 @@ export default class Payment extends React.Component {
             <h5>Payments Accepted</h5>
             <div className="row">
               <div className="col s6">
-                <p><i className="material-icons left" style={{ color: "green" }}>check</i>Direct Deposit</p>
+                <p>
+                  <i
+                    className="material-icons left"
+                    style={{ color: "green" }}
+                  >
+                    check
+                  </i>
+                  Direct Deposit
+                </p>
               </div>
               <div className="col s6">
-                <p><i className="material-icons left" style={{ color: "green" }}>check</i>WRKBOOK Pay</p>
+                <p>
+                  <i
+                    className="material-icons left"
+                    style={{ color: "green" }}
+                  >
+                    check
+                  </i>
+                  WRKBOOK Pay
+                </p>
               </div>
               <div className="col s6">
-                <p><i className="material-icons left" style={{ color: "green" }}>check</i>Check</p>
+                <p>
+                  <i
+                    className="material-icons left"
+                    style={{ color: "green" }}
+                  >
+                    check
+                  </i>
+                  Check
+                </p>
               </div>
               <div className="col s6">
-                <p><i className="material-icons left" style={{ color: "green" }}>check</i>Cash</p>
+                <p>
+                  <i
+                    className="material-icons left"
+                    style={{ color: "green" }}
+                  >
+                    check
+                  </i>
+                  Cash
+                </p>
               </div>
             </div>
           </div>
