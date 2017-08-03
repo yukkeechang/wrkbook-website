@@ -1,19 +1,25 @@
 import React from 'react';
 import Hero from './Home/Hero';
-// import HowTo from '../Components/Home/HowTo';
-// import About from '../Components/Home/About';
-// import Footer from '../Components/Shared/Footer';
+import HowTo from './Home/HowTo';
+import About from './Home/About';
 
 import Header from './Shared/Header';
+import Footer from './Shared/Footer';
 
 export default Home = ()=>{
     
     return(
+        
         <div>
         <Header/>
+
         <Hero/>
-        <div style={{height: '100px'}}></div>
+        <HowTo/>
+        <About/>
+        <Footer/>
+
         </div>
+
     )
 }
-``
+

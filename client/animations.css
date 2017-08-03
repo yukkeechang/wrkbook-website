@@ -1,0 +1,57 @@
+/*---------------------------------------------------------------------- /
+Table of Contents
+------------------------------------------------------------------------ /
+* 1.0 - Home Button Transitions
+* 2.0 - Page Transitions
+------------------------------------------------------------------------ /
+Table of Contents End
+------------------------------------------------------------------------*/
+
+/* 1.0 - Home Button Transitions
+------------------------------------------------------------------------*/
+.hBut-appear {
+    left: -100px;
+    opacity: 0;
+}
+.hBut-appear-active {
+    left: 0;
+    opacity: 1;
+    transition: all 700ms ease-out;
+}
+/* 1.0 - End Home Button Transitions
+------------------------------------------------------------------------*/
+
+
+/* 2.0 - Page Transitions
+------------------------------------------------------------------------*/
+.page-appear{
+    z-Index: -1;
+    opacity: 0;
+}
+.page-appear-active{
+    opacity: 1;
+    transition: opacity 500ms ease-out;
+}
+.page-enter{
+    position: absolute;
+    top: -100vh;
+    height: 100vh;
+    opacity: 0;
+}
+.page-enter-active{
+    top: 0;
+    opacity: 1;
+    transition: all 300ms linear;
+}
+.page-leave{
+    position: absolute;
+    opacity: 1;
+    top: 0;
+}
+.page-leave-active{
+     opacity: 0;
+    top: 100vh;
+    transition: all 300ms linear;
+}
+/* 2.0 - End Page Transitions
+------------------------------------------------------------------------*/
