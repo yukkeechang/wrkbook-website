@@ -23,8 +23,7 @@ class App extends Component {
                         <Switch location={location} key={location.pathname}>
                             <Route exact path="/" component={DefaultPage}/>
                             <Route exact path="/login" component={SignIn}/>
-                            <Route exact path="/proprofile" component={ProfessionalProfile}/>
-                            <Route exact path="/conprofile" component={ContractorProfile}/>
+
                         </Switch>
                     </CSSTransitionGroup>
                 )}/>
