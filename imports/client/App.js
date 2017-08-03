@@ -6,6 +6,7 @@ import { render } from 'react-dom';
 import DefaultPage from './Pages/DefaultPage';
 
 import ProfessionalProfile from './Profile/ProfessionalProfile';
+import ContractorProfile from './Profile/ContractorProfile';
 
 class App extends Component {
 
@@ -16,7 +17,7 @@ class App extends Component {
                 <div >
                     <Switch>
                         <Route exact path="/" component={DefaultPage}/>
-                        <Route path="/profile" component={ProfessionalProfile}/>
+                        <Route path="/profile" component={ContractorProfile}/>
                     </Switch>
                 </div>
             </BrowserRouter>
