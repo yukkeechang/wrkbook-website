@@ -8,10 +8,6 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import DefaultPage from './Pages/DefaultPage';
 import SignIn from './Pages/SignIn';
 
-// Just for testing, remove later
-import ProfessionalProfile from './Pages/Profile/ProfessionalProfile';
-import ContractorProfile from './Pages/Profile/ContractorProfile';
-
 class App extends Component {
 
     render(){
