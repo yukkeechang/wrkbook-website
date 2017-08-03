@@ -5,7 +5,7 @@ import { CSSTransitionGroup } from 'react-transition-group' // ES6
 
 export default Hero = () => {
     return (
-        
+
             <div id="hero" className="valign-wrapper">
                 <div className="container">
                     <div className="row">
@@ -28,7 +28,7 @@ export default Hero = () => {
                         </div>
                     </CSSTransitionGroup>
 
-                </div>                
+                </div>
             </div>
 
     )
