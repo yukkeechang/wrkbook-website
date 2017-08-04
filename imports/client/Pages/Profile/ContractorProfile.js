@@ -4,7 +4,7 @@ import GeneralInfo from './ContractorProfile/GeneralInfo';
 import About from './ContractorProfile/About';
 import Contact from './ContractorProfile/Contact';
 import Reviews from './ContractorProfile/Reviews';
-
+import Avatar from '../Shared/Avatar';
 export default class ContractorProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -84,8 +84,9 @@ export default class ContractorProfile extends React.Component {
         </div>
         <div
           className="row"
-          style={{ height: 170, backgroundColor: '#F0F0F0', marginBottom: 0 }}
+          style={{ height: 170, backgroundColor: '#e8f5e9', marginBottom: 0 }}
         >
+
           <img
             className=""
             style={{ height: "100%", marginTop: 20, marginLeft: 30 }}

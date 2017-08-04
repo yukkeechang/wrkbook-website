@@ -5,14 +5,17 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Home from './Home';
 // import Dashboard from './Dashboard';
 import Location from './Shared/Location';
-
+import ProfessionalProfile from './Profile/ProfessionalProfile';
+import ContractorProfile from './Profile/ContractorProfile';
 class DefPage extends Component{
-
+  // <Home/>
+  // <Location/>
     render(){
         return (
           <div>
-            <Home/>
-            <Location/>
+            <ProfessionalProfile/>
+            <ContractorProfile/>
+  
           </div>
         )
     }

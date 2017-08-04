@@ -15,7 +15,7 @@ export default class Payment extends React.Component {
           <div className="card-panel">
             <h5>Payments Accepted</h5>
             <div className="row">
-              <div className="col s6">
+              <div className="col  s12 m6">
                 <p>
                   <i
                     className="material-icons left"
@@ -26,7 +26,7 @@ export default class Payment extends React.Component {
                   Direct Deposit
                 </p>
               </div>
-              <div className="col s6">
+              <div className="col  s12 m6">
                 <p>
                   <i
                     className="material-icons left"
@@ -37,7 +37,7 @@ export default class Payment extends React.Component {
                   WRKBOOK Pay
                 </p>
               </div>
-              <div className="col s6">
+              <div className="col  s12 m6">
                 <p>
                   <i
                     className="material-icons left"
@@ -48,7 +48,7 @@ export default class Payment extends React.Component {
                   Check
                 </p>
               </div>
-              <div className="col s6">
+              <div className="col  s12 m6">
                 <p>
                   <i
                     className="material-icons left"
