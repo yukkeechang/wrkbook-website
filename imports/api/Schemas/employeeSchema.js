@@ -61,6 +61,14 @@ export default EmployeeSchema = new SimpleSchema({
     type: String,
     defaultValue: PICLINK
   },
+  facebookLink:{
+    type: String,
+    optional: true
+  },
+  instaLink :{
+    type: String,
+    optional: true
+  },
   Availability:{
     type: AvailabeSchema,
     optional: true

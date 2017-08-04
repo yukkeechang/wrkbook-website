@@ -16,7 +16,7 @@ Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
 
 
-/*
+/**
 *
 * Publishes all Jobs that matchs the jobTitles of a  employee, and
 * within a range of the employee location, the range is  defined by the employee
@@ -73,9 +73,10 @@ Meteor.publish('job-post', function(employee){
 
 
 });
-/*
+/**
 *
 * Publishes all Jobs that was made by a employer
+* ONLY an employer use this function
 * @returns {Array} that contains all jobs made by a specific user.
 */
 Meteor.publish('job-post-employer',function(){
@@ -88,18 +89,18 @@ Meteor.publish('job-post-employer',function(){
   }
 
 });
+/**
+*
+* Publishes all Jobs that a employee was matched with
+* @returns {Array} that contains all jobs made by a specific user.
+*/
 
 Meteor.publish('job-post-admitted',function(){
 
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
     let hackIdThing = [];
     hackIdThing[0] = this.userId;
-    // this.ready();
-    // this.stop();
-
-    let sh =Job.find({admitemployeeIds: {$in: hackIdThing}});
-
-    return sh;
+    return Job.find({admitemployeeIds: {$in: hackIdThing}});;
   }else{
     this.stop();
     return ;
@@ -110,11 +111,11 @@ Meteor.publish('all-jobs',function(){
   return Job.find({});
 });
 Meteor.methods({
-  /*
+  /**
   Inserts a Job into the database. That Job must follow the format of
-  JobSchema.
-  @param {Object} new must match to the JobSchema
-  @throw {Meteor.Error} if the object passed does not match the Schema you will
+  JobSchema. Only a contractor can use this function
+  @param {Object} newJob must match to the JobSchema
+  @throws {Meteor.Error} if the object passed does not match the Schema you will
   get a match error or if the user calling the method is not signin a Meteor.Error
   will be called.
   */
@@ -142,13 +143,15 @@ Meteor.methods({
 
 
   },
-  /*
+  /**
   Updates a JobPost that was already inserted into the database. If the JobPost
   object contains default values no reassignments will occur. If the jobId does
-  not return a value object the function will exit.
+  not return a value object the function will exit. Only Contractors can call
+  this function if an employee tries to use this function an
+  unauthorize error will occur
   @param {String} jobId is the Id of the jobPost
-  @param {Object} JobPost must match to the ReviewSchema
-  @throw {Meteor.Error} if the object passed does not match the Schema you will
+  @param {Object} JobPost must match to the JobSchema
+  @throws {Meteor.Error} if the object passed does not match the Schema you will
   get a match error OR if the user calling the method is not signin a Meteor.Error
   will be called OR if the jobID is not a string.
   */
@@ -242,6 +245,13 @@ Meteor.methods({
 
     Job.update(selector,{$set: prevJob});
   },
+  /**
+  Updates the employeeIds of a job, with a jobId.
+  @param {String} jobId is the Id of the jobPost
+  @param {Object} object of employee ids in different fields
+  @throws {Meteor.Error} if the jobId is not a string a match error will be
+  thrown Or if the user calling the function is not sign an 401 error will be thrown
+  */
   updateEmployeeIds(jobId,empolyeeIds){
 
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
@@ -269,11 +279,11 @@ Meteor.methods({
     Job.update(selector,{$set: prevJob});
 
   },
-  /*
-  *
-  Deletes a jobPost from the database using its ID.
+  /**
+  Deletes a jobPost from the database using its ID. Only a contractor can
+  call this function
   @param {String} jobId is the Id of the jobPost
-  @throw {Meteor.Error} if the jobId is not a string a match error will be
+  @throws {Meteor.Error} if the jobId is not a string a match error will be
   thrown Or if the user calling the function is not sign an 401 error will be thrown
   */
   removeJob(jobId){
