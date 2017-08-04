@@ -21,14 +21,16 @@ class App extends Component {
                         transitionEnterTimeout={300}
                         transitionLeaveTimeout={300}>
                         <Switch location={location} key={location.pathname}>
-                            <Route exact path="/" component={DefaultPage}/> 
+                            <Route exact path="/" component={DefaultPage}/>
                             <Route exact path="/login" component={SignIn}/>
+
                             <Route path="/register" >
                                 <Switch>
                                     <Route path="/:value" component={SignUp}/>
                                     <Route path="/" component={SignUp}/>
                                 </Switch>
                             </Route>
+
                         </Switch>
                     </CSSTransitionGroup>
                 )}/>
