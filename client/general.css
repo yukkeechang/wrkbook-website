@@ -60,6 +60,11 @@ body{
 .heading{
     font: normal normal normal 16px/1.4em spinnaker,sans-serif;
 }
+
+label[data-error]:after{
+  white-space: nowrap;
+}
+
 /* 3.3 - End Heading styles
 -------------------------------------------------*/
 /* 3.0 - End Common Text styles

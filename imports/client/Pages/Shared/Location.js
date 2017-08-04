@@ -153,6 +153,7 @@ export default class Location extends Component{
         addressZipErrReason: zipR,
         addressCounErr: counErr,
         addressCounErrReason: counR,
+        showNext: 'disabled'
       });
 
       return;
@@ -192,6 +193,19 @@ export default class Location extends Component{
         Materialize.updateTextFields();
         });
         this.setState({
+          addressNumErr: '',
+          addressNumErrReason: '',
+          addressNameErr: '',
+          addressNameErrReason: '',
+          addressCityErr: '',
+          addressCityErrReason: '',
+          addressStateErr: '',
+          addressStateErrReason: '',
+          addressZipErr: '',
+          addressZipErrReason: '',
+          addressCounErr: '',
+          addressCounErrReason: '',
+          finalAddress: '',
           finalAddress: inputtedAddress,
           lat:   place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
@@ -206,8 +220,15 @@ export default class Location extends Component{
       }
     }.bind(this));
   }
+  stillGood(e){
+    this.setState({
+      showNext: 'disabled'
+    });
+
+  }
 //The action tied to the nex button
   onNextClick(e){
+    // this.stillGood(e);
     console.log(this.state.finalAddress);
     console.log(this.state.lat);
     console.log(this.state.lng);
@@ -219,41 +240,44 @@ export default class Location extends Component{
 
 
         <div id="form-stuff" >
-        <div id="locationField">
-          <input id="autocomplete" placeholder="Enter your address" onFocus={this.geolocate.bind(this)} type="text"></input>
+        <div id="locationField" className='row'>
+          <div className="input-field col s12">
+          <i className='material-icons prefix'>location_on</i>
+          <input id="autocomplete" placeholder="Search for you Addresss" onFocus={this.geolocate.bind(this)} type="text"></input>
+          </div>
         </div>
 
         <div className="row" id="address">
           <form className="col s12">
             <div className="row">
               <div className='input-field col s12 m6'>
-                  <input id="street_number" type="text" className={ this.state.addressNumErr} />
+                  <input id="street_number" type="text" onChange= {this.stillGood.bind(this)} className={ this.state.addressNumErr} autoComplete="address-line1"/>
                   <label  className="active" htmlFor="street_number" data-error={this.state.addressNumErrReason}>Street Number</label>
               </div>
               <div className='input-field col s12 m6'>
-                  <input id='route' type='text' className={ this.state.addressNameErr}/>
+                  <input id='route' type='text' onChange= {this.stillGood.bind(this)} className={this.state.addressNameErr} autoComplete="address-line2"/>
                   <label className="active" htmlFor='route' data-error={this.state.addressNameErrReason}> Street Name</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12'>
-                  <input id='locality' type='text' className={this.state.addressCityErr}/>
+                  <input id='locality' type='text'  onChange= {this.stillGood.bind(this)} className={this.state.addressCityErr} autoComplete="address-level2"/>
                   <label className="active" htmlFor='locality' data-error={this.state.addressCityErrReason}>City</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12 m6'>
-                  <input id='administrative_area_level_1' type='text' className={ this.state.addressStateErr}/>
+                  <input id='administrative_area_level_1' type='text'  onChange= {this.stillGood.bind(this)}className={ this.state.addressStateErr} autoComplete="address-level1"/>
                   <label  className="active" htmlFor='administrative_area_level_1' data-error={this.state.addressStateErrReason}>State</label>
               </div>
               <div className='input-field col s12 m6'>
-                  <input id='postal_code' type='text' className={this.state.addressZipErr}/>
+                  <input id='postal_code' type='text' onChange= {this.stillGood.bind(this)} className={this.state.addressZipErr} autoComplete="postal-code"/>
                   <label className="active"  htmlFor='postal_code' data-error={this.state.addressZipErrReason}>Zip Code</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='country' type='text' className={this.state.addressCityErr}/>
+                <input id='country' type='text'  onChange= {this.stillGood.bind(this)} className={this.state.addressCityErr} autoComplete="country"/>
                 <label   className="active" htmlFor='country' data-error={this.state.addressCounErrReason}>Country</label>
               </div>
             </div>
