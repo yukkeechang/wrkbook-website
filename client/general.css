@@ -16,6 +16,9 @@ Table of Contents End
 body{
     min-width: 275px;
 }
+::-webkit-scrollbar { 
+    display: none; 
+}
 /* 1.0 - End Body Styles
 ------------------------------------------------------------------------*/
 
@@ -61,3 +64,35 @@ body{
 -------------------------------------------------*/
 /* 3.0 - End Common Text styles
 ------------------------------------------------------------------------*/
+input[type="text"]+label[data-error]:after
+ {
+    display:inline-block !important;
+    white-space: nowrap;
+    font-size: 13px;
+    top: 1.7rem !important;
+    transition: none !important;
+}
+input[type="text"].invalid+label[data-error].active:after,
+input[type="text"]:focus+label[data-error]:after{
+    display:inline-block !important;
+    white-space: nowrap;
+    font-size: 16.2px;
+    top: 4.4rem !important;
+    transition: none !important;
+}
+input[type="password"]+label[data-error]:after
+ {
+    display:inline-block !important;
+    white-space: nowrap;
+    font-size: 13px;
+    top: 1.7rem !important;
+    transition: none !important;
+}
+input[type="password"].invalid+label[data-error].active:after,
+input[type="password"]:focus+label[data-error]:after{
+    display:inline-block !important;
+    white-space: nowrap;
+    font-size: 16.2px;
+    top: 4.4rem !important;
+    transition: none !important;
+}

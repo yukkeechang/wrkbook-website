@@ -41,9 +41,12 @@ Meteor.methods({
       let nEqual = User.password !== User.password2 ? true : false;
       let gPass   = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}/.test(User.password);
       let pEmpty = User.password.length > 0 ? false : true;
-      let prevUser =Accounts.findUserbyEmail(User.email);
-      let accountExists =  !!prevUser;
-
+      let accountExists;
+      if(!eEmpty){
+        let prevUser = Accounts.findUserByEmail(User.email);
+        accountExists = !!prevUser;
+      }
+      
       let Errors = {
           fEmpty : fEmpty,
           lEmpty : lEmpty,
@@ -58,10 +61,6 @@ Meteor.methods({
       };
       if(!isEmail || !gPass || fEmpty || lEmpty || eEmpty
          || pEmpty || phoneE || nEqual || accountExists) throw new Meteor.Error('403',Errors);
-
-
-
-
     },
     /**
     Validates the User Employee Information such as Location, osha, etc .

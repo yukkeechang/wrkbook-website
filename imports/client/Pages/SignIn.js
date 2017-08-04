@@ -16,7 +16,7 @@ export default class SignIn extends Component{
         <Header/>
           <div style={{height:'64px'}}></div>
           <div style={{zIndex:'-1'}} className="container">
-            <div className="card z-depth-0">
+            <div className="card">
               <div className="row card-content">
                 <form className="col s12">
                   <div className="row">

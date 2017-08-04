@@ -83,9 +83,8 @@ Table of Contents End
 ------------------------------------------------------------------------*/
 #our-story{
     background-image: url('/images/worker.jpg');
-    background-size: auto 50vh;
     background-position: center center;
-    background-attachment: fixed;
+    background-size: cover;
     padding: 40px 0 40px 0;
 }
 /* 3.0 - End Our Story
