@@ -39,10 +39,11 @@ Images.allow({
  return true;
  }
 });
-
+//publish all images from the database the limit is 20
 Meteor.publish('images', function(){
   return Images.find();
  });
+ //publish a image with the specific id  
 Meteor.publish('images-id',function(imageId){
   return Images.find({_id: imageId});
 })

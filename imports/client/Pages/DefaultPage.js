@@ -10,7 +10,10 @@ class DefPage extends Component{
 
     render(){
         return (
+          <div>
             <Home/>
+            <Location/>
+          </div>
         )
     }
 
