@@ -31,7 +31,7 @@ Meteor.methods({
 
     */
     validateBasicUserData(User){
-
+      
       let phoneE = User.profile.phone.length > 0 ? false : true;
       let gPhone = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/.test(User.profile.phone);
       let fEmpty = User.profile.firstName.length > 0 ? false : true;

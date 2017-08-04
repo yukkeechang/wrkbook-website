@@ -21,7 +21,7 @@ body{
 #header{
     transform-origin: center top;
     will-change: top;
-    height: 64px; 
+    height: 64px;
     width: 100%;
     background-color: rgba(0,0,0,0.4);
     position: fixed;
@@ -49,4 +49,7 @@ body{
 */
 .heading{
     font: normal normal normal 16px/1.4em spinnaker,sans-serif;
+}
+label[data-error]:after{
+  white-space: nowrap;
 }
