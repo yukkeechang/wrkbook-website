@@ -1,52 +1,90 @@
 import React, {Component} from 'react';
-
+import MTextField from '../Shared/MTextField';
 export default class StepOne extends Component{
+    constructor(props){
+        
+        super(props);
+        this.state = {
+          fEmpty : false,
+          lEmpty : false,
+          eEmpty : false,
+          isEmail: true,
+          phoneE : false,
+          gPhone : true,
+          pValid : true,
+          nEqual : false,
+          p1Empty: false,
+          accountExists: false
+      };
+    }
+    handleNext(){
+        let fn = this.refs.fn.value();
+        let ln = this.refs.ln.value();
+        let em = this.refs.em.value();
+        let ph = this.refs.ph.value();
+        let p1 = this.refs.p1.value();
+        let p2 = this.refs.p2.value();
+        let User = {
+            email: em,
+            password: p1,
+            password2:p2,
+            profile: {
+                firstName: fn,
+                lastName : ln,
+                phone    : ph,
+                isPro    : this.refs.pro.checked
+            }
+        }
+        Meteor.call('validateBasicUserData', User, (err)=>{
+            if(err){
+                console.log(err);
+                this.setState(err.reason);
+            }
+
+        });
+    }
+    con(){
+        localStorage.isPro = false;
+    }
+    pro(){
+        localStorage.isPro = true;
+    }
     render(){
+        let empty = 'This cannot be empty';
+        let uExists = 'User with this email already exists';
+        let notEmail = 'This is not a valid email';
+        let pass = 'Not a valid password';
+        let pequ = 'Passwords do not match';
+        let phErr = 'Not a valid phone number';
+
         return(
             <div className="container">
-                <div className="card z-depth-0">
+                <div className="card">
                 <div className="row card-content">
                     <form className="col s12">
                     <div className="row">
                         <div className="col s12 m6">
-                            <div className="input-field">
-                                <input id="firstName" type="text" className="validate"/>
-                                <label htmlFor="firstName">First Name</label>
-                            </div>
-                            <div className="input-field">
-                                <input id="lastName" type="text" className="validate"/>
-                                <label htmlFor="lastName">Last Name</label>
-                            </div>
-                            <div className="input-field">
-                                <input id="email" type="text" className="validate"/>
-                                <label htmlFor="email">Email Address</label>
-                            </div>
-                            <div className="input-field">
-                                <input id="phone" type="tel" className="validate"/>
-                                <label htmlFor="phone">Phone Number</label>
-                            </div>
+                            <MTextField ref="fn" id="firstName" error={this.state.fEmpty ? empty : ''} label="First Name *"/>
+                            <MTextField ref="ln" id="lastName"  error={this.state.lEmpty ? empty : ''} label="Last Name *"/>
+                            <MTextField ref="em" id="email"     error={this.state.eEmpty ? empty : (!this.state.isEmail ? notEmail : (this.state.accountExists ? uExists : ''))} label="Email Address *"/>    
+                            <MTextField ref="ph" id="phone"     error={this.state.phoneE ? empty : (!this.state.gPhone? phErr:'')} label="Phone Number *"/>
                         </div>
                         <div className="col s12 m6">
-                            <div className="input-field">
-                                <input id="password" type="password" className="validate"/>
-                                <label htmlFor="password">Password</label>
-                            </div>
-                            <div className="input-field">
-                                <input id="confirmPass" type="password" className="validate"/>
-                                <label htmlFor="confirmPass">Confirm Password</label>
-                            </div>
+                            <MTextField ref="p1" id="pass1"     error={this.state.p1Empty? empty : (!this.state.pValid ? pass : '')} type="password" label="Password *"/>
+                            <MTextField ref="p2" id="pass2"     error={this.state.nEqual ? pequ: ''} type="password" label="Confirm Password *"/>
+
                             <p>
-                            <input name="group1" type="radio" id="test1" />
+                            <input ref="con"name="group1" type="radio" id="test1" onClick={this.con} defaultChecked={(this.props.isPro == 'true' )? '' :"checked"}/>
                             <label htmlFor="test1">Contractor</label>
                             </p>
                             <p>
-                            <input name="group1" type="radio" id="test2" />
+                            <input ref="pro"name="group1" type="radio" id="test2" onClick={this.pro} defaultChecked={(this.props.isPro == 'true' )? "checked" :''}/>
                             <label htmlFor="test2">Professional</label>
                             </p>
                         </div>
                     </div>
                     
-                    <a className="btn-flat teal lighten-5" style={{color: 'black'}}type="submit">Next</a>
+                    <a onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5" style={{color: 'black'}}type="submit">Next</a>
                     </form>
                 </div>  
 

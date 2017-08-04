@@ -8,21 +8,12 @@ import Footer from './Shared/Footer';
 export default class SignUp extends Component{
     constructor(props){
         super(props);
-        let pro = props.match.params.value === "contractor" ? false : true;
+        let pro = localStorage.isPro;
         this.state={
             pro : pro,
-            step: true
+            step: true,
+            User: {}
         }
-    }
-    proState(pro){
-        this.setState({
-            pro:pro
-        });
-    }
-    nextStep(){
-        this.setState({
-            step: false
-        });
     }
     render(){
         // let step = this.state.step ? <StepOne isPro={this.state.pro} handler={this.proState.bind(this)} submit={this.nextStep.bind(this)}/> :  <StepTwo isPro={this.state.pro}/>;
@@ -30,7 +21,7 @@ export default class SignUp extends Component{
             <div>
                 <Header/>
                     <div style={{height:'64px'}}></div>
-                    <StepOne/>
+                    <StepOne isPro={this.state.pro}/>
                 <Footer/>   
             </div>
         )

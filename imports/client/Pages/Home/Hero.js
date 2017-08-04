@@ -1,11 +1,17 @@
-import React  from 'react';
+import React, {Component}  from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../Shared/Button';
-import { CSSTransitionGroup } from 'react-transition-group' // ES6
+import { CSSTransitionGroup } from 'react-transition-group';
 
-export default Hero = () => {
-    return (
-
+export default class Hero extends Component {
+    pro(){
+        window.localStorage.isPro = true;
+    }
+    con(){
+        window.localStorage.isPro = false;
+    }
+    render(){
+        return (
             <div id="hero" className="valign-wrapper">
                 <div className="container">
                     <div className="row">
@@ -21,15 +27,15 @@ export default Hero = () => {
                         transitionLeaveTimeout={0}>
                         <div className="row" style={{position: 'relative'}}>
                             <div className="col s12 m6 l4">
-                                <Button to="/register/contractor">Click here to post a job</Button>
+                                <Button onClick={this.con} to="/register">Click here to post a job</Button>
                             </div>
                             <div className="col s12 m6 l4">
-                                <Button to="/register/professional">Click here to apply for work</Button>                    </div>
+                                <Button onClick={this.pro} to="/register">Click here to apply for work</Button>                    </div>
                         </div>
                     </CSSTransitionGroup>
 
                 </div>
             </div>
-
-    )
+        )
+    }
 }

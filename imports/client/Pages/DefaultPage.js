@@ -13,9 +13,8 @@ class DefPage extends Component{
     render(){
         return (
           <div>
-            <ProfessionalProfile/>
-            <ContractorProfile/>
-  
+            <Home/>
+
           </div>
         )
     }
