@@ -14,7 +14,6 @@ class DefPage extends Component{
         return (
           <div>
             <Home/>
-
           </div>
         )
     }

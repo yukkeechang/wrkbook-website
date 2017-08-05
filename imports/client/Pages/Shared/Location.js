@@ -242,7 +242,7 @@ export default class Location extends Component{
         <div id="form-stuff" >
         <div id="locationField" className='row'>
           <div className="input-field col s12">
-          <i className='material-icons prefix'>location_on</i>
+          <i className='material-icons prefix'>location_searching</i>
           <input id="autocomplete" placeholder="Search for you Addresss" onFocus={this.geolocate.bind(this)} type="text"></input>
           </div>
         </div>
@@ -277,7 +277,7 @@ export default class Location extends Component{
             </div>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='country' type='text'  onChange= {this.stillGood.bind(this)} className={this.state.addressCityErr} autoComplete="country"/>
+                <input id='country' type='text'  onChange= {this.stillGood.bind(this)} className={this.state.addressCounErr} autoComplete="country"/>
                 <label   className="active" htmlFor='country' data-error={this.state.addressCounErrReason}>Country</label>
               </div>
             </div>

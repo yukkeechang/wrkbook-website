@@ -31,7 +31,7 @@ Meteor.methods({
 
     */
     validateBasicUserData(User){
-      
+
       let phoneE = User.profile.phone.length > 0 ? false : true;
       let gPhone = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/.test(User.profile.phone);
       let fEmpty = User.profile.firstName.length > 0 ? false : true;
@@ -46,7 +46,7 @@ Meteor.methods({
         let prevUser = Accounts.findUserByEmail(User.email);
         accountExists = !!prevUser;
       }
-      
+
       let Errors = {
           fEmpty : fEmpty,
           lEmpty : lEmpty,
@@ -73,7 +73,6 @@ Meteor.methods({
       const employ = employee;
       let jobs = validationz.validateOne(employ,'jobTitle');
       let edu = Match.test(employee.education, EducationSchema);
-      let certification = Match.test(employee.certifications, TextList);
       let languages = validationz.validateOne(employ,'languages');
       let osha =  Match.test(employee.osha, OshaSchema);
       let about = Match.test(employee.about,BasicText);
@@ -83,12 +82,10 @@ Meteor.methods({
       let driver = validationz.validateOne(employ,'driverLicense');
       let tools = validationz.validateOne(employ,'bringTools');
       let distance = validationz.validateOne(employ,'maxDistance');
-      let image = validationz.validateOne(employ,'image');
 
       let Errors ={
         validJobTitles: jobs,
         validEdu: edu,
-        validCert : certification,
         validLang: languages,
         validOsha: osha,
         validAbout: about,
@@ -98,10 +95,9 @@ Meteor.methods({
         validDriver: driver,
         validTools: tools,
         validDistance: distance,
-        validImage: image
       };
-      if(!jobs|| !edu || !certification|| !languages || !osha || !about || !skills
-      || !location || !car || !driver || !tools || !distance|| !image){
+      if(!jobs|| !edu || !languages || !osha || !about || !skills
+      || !location || !car || !driver || !tools || !distance){
         throw new Meteor.Error('403',Errors);
       }
 
