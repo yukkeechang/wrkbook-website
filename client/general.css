@@ -16,7 +16,7 @@ Table of Contents End
 body{
     min-width: 275px;
 }
-::-webkit-scrollbar { 
+html::-webkit-scrollbar { 
     display: none; 
 }
 /* 1.0 - End Body Styles

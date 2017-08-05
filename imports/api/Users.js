@@ -95,6 +95,7 @@ Meteor.methods({
         validDriver: driver,
         validTools: tools,
         validDistance: distance,
+
       };
       if(!jobs|| !edu || !languages || !osha || !about || !skills
       || !location || !car || !driver || !tools || !distance){
@@ -114,7 +115,6 @@ Meteor.methods({
       let company =Match.test(employer.companyName, BasicText);
       let about = Match.test(employer.about, BasicText);
       let location = Match.test(employer.location,LocationSchema);
-      let image =  validation.validateOne(employer,'image');
       let web = true;
       let licenseNumber = true;
       if(!('undefined' === typeof(employer.webPage))){
@@ -127,11 +127,10 @@ Meteor.methods({
         validCompany: company,
         validAbout : about,
         validLocation : location,
-        validImage : image,
         validWeb: web,
         validLicense: licenseNumber
       }
-      if(!company || !about || !location || !image || !web ||!licenseNumber){
+      if(!company || !about || !location || !web ||!licenseNumber){
         throw new Meteor.Error('403',Errors);
       }
     },
