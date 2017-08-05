@@ -14,40 +14,46 @@ export default class StepOne extends Component{
           pValid : true,
           nEqual : false,
           p1Empty: false,
-          accountExists: false
+          accountExists: false,
+          pro: props.isPro
       };
     }
     handleNext(){
-        let fn = this.refs.fn.value();
-        let ln = this.refs.ln.value();
-        let em = this.refs.em.value();
-        let ph = this.refs.ph.value();
-        let p1 = this.refs.p1.value();
-        let p2 = this.refs.p2.value();
-        let User = {
-            email: em,
-            password: p1,
-            password2:p2,
-            profile: {
-                firstName: fn,
-                lastName : ln,
-                phone    : ph,
-                isPro    : this.refs.pro.checked
-            }
-        }
-        Meteor.call('validateBasicUserData', User, (err)=>{
-            if(err){
-                console.log(err);
-                this.setState(err.reason);
-            }
+        // let fn = this.refs.fn.value();
+        // let ln = this.refs.ln.value();
+        // let em = this.refs.em.value();
+        // let ph = this.refs.ph.value();
+        // let p1 = this.refs.p1.value();
+        // let p2 = this.refs.p2.value();
+        // let User = {
+        //     email: em,
+        //     password: p1,
+        //     password2:p2,
+        //     profile: {
+        //         firstName: fn,
+        //         lastName : ln,
+        //         phone    : ph,
+        //         isPro    : this.refs.pro.checked
+        //     }
+        // }
+        // Meteor.call('validateBasicUserData', User, (err)=>{
+        //     if(err){
+        //         console.log(err);
+        //         this.setState(err.reason);
+        //     }else{
+        //         this.props.next(2, User, this.state.pro);
+        //     }
 
-        });
+        // });
+        this.props.next(2, {}, this.state.pro);
+
+
     }
     con(){
-        localStorage.isPro = false;
+        this.setState({pro : false});
     }
     pro(){
-        localStorage.isPro = true;
+        this.setState({pro : true});
     }
     render(){
         let empty = 'This cannot be empty';
@@ -61,6 +67,8 @@ export default class StepOne extends Component{
             <div className="container">
                 <div className="card">
                 <div className="row card-content">
+                    <span className="col s12 card-title">Step 1 of 3</span>
+
                     <form className="col s12">
                     <div className="row">
                         <div className="col s12 m6">
@@ -74,11 +82,11 @@ export default class StepOne extends Component{
                             <MTextField ref="p2" id="pass2"     error={this.state.nEqual ? pequ: ''} type="password" label="Confirm Password *"/>
 
                             <p>
-                            <input ref="con"name="group1" type="radio" id="test1" onClick={this.con} defaultChecked={(this.props.isPro == 'true' )? '' :"checked"}/>
+                            <input ref="con"name="group1" type="radio" id="test1" onClick={this.con.bind(this)} defaultChecked={(this.props.isPro)? '' :"checked"}/>
                             <label htmlFor="test1">Contractor</label>
                             </p>
                             <p>
-                            <input ref="pro"name="group1" type="radio" id="test2" onClick={this.pro} defaultChecked={(this.props.isPro == 'true' )? "checked" :''}/>
+                            <input ref="pro"name="group1" type="radio" id="test2" onClick={this.pro.bind(this)} defaultChecked={(this.props.isPro)? "checked" :''}/>
                             <label htmlFor="test2">Professional</label>
                             </p>
                         </div>

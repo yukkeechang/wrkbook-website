@@ -177,9 +177,7 @@ export default class Location extends Component{
 
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({ 'address': inputtedAddress }, function (results, status) {
-      console.log(status);
       if(status === 'OK'){
-        console.log(results);
         let place = results[0];
 
         for (var i = 0; i < place.address_components.length; i++) {
@@ -212,6 +210,7 @@ export default class Location extends Component{
           showNext: ''
         });
 
+
       }
       else if (status === 'ZERO_RESULTS') {
 
@@ -220,22 +219,28 @@ export default class Location extends Component{
       }
     }.bind(this));
   }
+  getAddress(){
+    return ({
+      location:{
+        locationName: this.state.finalAddress,
+        latitude: this.state.lat,
+        longitude: this.state.lng,
+
+      },
+      valid: (this.state.showNext == '')
+    })
+  }
   stillGood(e){
     this.setState({
       showNext: 'disabled'
     });
 
   }
+  
 //The action tied to the nex button
-  onNextClick(e){
-    // this.stillGood(e);
-    console.log(this.state.finalAddress);
-    console.log(this.state.lat);
-    console.log(this.state.lng);
-  }
   render(){
     return(
-      <div className="container">
+      <div className="col s12">
 
 
 
@@ -248,7 +253,6 @@ export default class Location extends Component{
         </div>
 
         <div className="row" id="address">
-          <form className="col s12">
             <div className="row">
               <div className='input-field col s12 m6'>
                   <input id="street_number" type="text" onChange= {this.stillGood.bind(this)} className={ this.state.addressNumErr} autoComplete="address-line1"/>
@@ -277,15 +281,13 @@ export default class Location extends Component{
             </div>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='country' type='text'  onChange= {this.stillGood.bind(this)} className={this.state.addressCityErr} autoComplete="country"/>
+                <input id='country' type='text'  onChange= {this.stillGood.bind(this)} className={this.state.addressCounErr} autoComplete="country"/>
                 <label   className="active" htmlFor='country' data-error={this.state.addressCounErrReason}>Country</label>
               </div>
             </div>
-          </form>
         </div>
         <div className='row'>
-            <a className="waves-effect waves-light btn teal lighten-2 col s12 m6" onClick={this.checkAddress.bind(this)}>Verify Address</a>
-            <a className={"waves-effect waves-light btn red col s12 m6 " + this.state.showNext} onClick={this.onNextClick.bind(this)}>Next</a>
+            <a className="waves-effect waves-light btn red lighten-2 col s12 m6" onClick={this.checkAddress.bind(this)}>Verify Address Before Proceeding</a>
         </div>
 
         </div>

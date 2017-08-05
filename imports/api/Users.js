@@ -73,7 +73,6 @@ Meteor.methods({
       const employ = employee;
       let jobs = validationz.validateOne(employ,'jobTitle');
       let edu = Match.test(employee.education, EducationSchema);
-      let certification = Match.test(employee.certifications, TextList);
       let languages = validationz.validateOne(employ,'languages');
       let osha =  Match.test(employee.osha, OshaSchema);
       let about = Match.test(employee.about,BasicText);
@@ -83,12 +82,10 @@ Meteor.methods({
       let driver = validationz.validateOne(employ,'driverLicense');
       let tools = validationz.validateOne(employ,'bringTools');
       let distance = validationz.validateOne(employ,'maxDistance');
-      let image = validationz.validateOne(employ,'image');
 
       let Errors ={
         validJobTitles: jobs,
         validEdu: edu,
-        validCert : certification,
         validLang: languages,
         validOsha: osha,
         validAbout: about,
@@ -97,11 +94,10 @@ Meteor.methods({
         validCar: car,
         validDriver: driver,
         validTools: tools,
-        validDistance: distance,
-        validImage: image
+        validDistance: distance
       };
-      if(!jobs|| !edu || !certification|| !languages || !osha || !about || !skills
-      || !location || !car || !driver || !tools || !distance|| !image){
+      if(!jobs|| !edu || !languages || !osha || !about || !skills
+      || !location || !car || !driver || !tools || !distance){
         throw new Meteor.Error('403',Errors);
       }
 
@@ -118,7 +114,6 @@ Meteor.methods({
       let company =Match.test(employer.companyName, BasicText);
       let about = Match.test(employer.about, BasicText);
       let location = Match.test(employer.location,LocationSchema);
-      let image =  validation.validateOne(employer,'image');
       let web = true;
       let licenseNumber = true;
       if(!('undefined' === typeof(employer.webPage))){
@@ -131,11 +126,10 @@ Meteor.methods({
         validCompany: company,
         validAbout : about,
         validLocation : location,
-        validImage : image,
         validWeb: web,
         validLicense: licenseNumber
       }
-      if(!company || !about || !location || !image || !web ||!licenseNumber){
+      if(!company || !about || !location || !web ||!licenseNumber){
         throw new Meteor.Error('403',Errors);
       }
     },
