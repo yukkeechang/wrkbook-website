@@ -4,7 +4,6 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
 class Head extends Component {
-
     render(){
         let account = (
             <Link to="/login" className="col s1 pull-s1 m4 offset-m4">
@@ -22,7 +21,6 @@ class Head extends Component {
                 </div>
 
             </div>
-                        
         )
     }
     

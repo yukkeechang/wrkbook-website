@@ -5,7 +5,7 @@ import Footer from './Shared/Footer';
 import StepTwoC from './SignUp/StepTwoC';
 import { CSSTransitionGroup } from 'react-transition-group';
 import StepTwoE from './SignUp/StepTwoE';
-
+import Congrats from './SignUp/Congrats';
 import StepThree from './SignUp/StepThree';
 
 export default class SignUp extends Component{
@@ -32,7 +32,10 @@ export default class SignUp extends Component{
                 step = (this.state.pro) ?<StepTwoE user={this.state.User}next={this.next.bind(this)}/> :<StepTwoC user={this.state.User}next={this.next.bind(this)}/>;
                 break;
             case 3:
-                step = <StepThree/>
+                step = <StepThree history={this.props.history} user={this.state.User} next={this.next.bind(this)}/>
+                break;
+            case 4:
+                step = <Congrats/>
             default:
                 break;
         }
@@ -42,7 +45,7 @@ export default class SignUp extends Component{
                     <div style={{height:'64px'}}></div>
                     <div className="container">
                         <div className="progress">
-                            <div className="determinate red accent-2" style={{width: this.state.step*(100/3)+'%'}}></div>
+                            <div className="determinate red accent-2" style={{width: this.state.step*25+'%'}}></div>
                         </div>
                     </div>
                     <div key={this.state.step}>

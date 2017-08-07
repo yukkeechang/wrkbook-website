@@ -13,10 +13,6 @@ export default class Avatar extends Component{
           width: width,
           textSize: textsize
         }
-        console.log(width);
-        console.log(textsize);
-
-
     }
     render(){
 

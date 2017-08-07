@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default Footer = ()=>{
+export default Footer = (props)=>{
     return(
-        <footer>
+        <footer style={props.style}>
             <div className="container">
                 <div style={{marginTop:'20px'}} className="row">
                     <div className="col s12 m4">

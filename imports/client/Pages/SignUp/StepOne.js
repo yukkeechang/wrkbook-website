@@ -19,33 +19,33 @@ export default class StepOne extends Component{
       };
     }
     handleNext(){
-        // let fn = this.refs.fn.value();
-        // let ln = this.refs.ln.value();
-        // let em = this.refs.em.value();
-        // let ph = this.refs.ph.value();
-        // let p1 = this.refs.p1.value();
-        // let p2 = this.refs.p2.value();
-        // let User = {
-        //     email: em,
-        //     password: p1,
-        //     password2:p2,
-        //     profile: {
-        //         firstName: fn,
-        //         lastName : ln,
-        //         phone    : ph,
-        //         isPro    : this.refs.pro.checked
-        //     }
-        // }
-        // Meteor.call('validateBasicUserData', User, (err)=>{
-        //     if(err){
-        //         console.log(err);
-        //         this.setState(err.reason);
-        //     }else{
-        //         this.props.next(2, User, this.state.pro);
-        //     }
+        let fn = this.refs.fn.value();
+        let ln = this.refs.ln.value();
+        let em = this.refs.em.value();
+        let ph = this.refs.ph.value();
+        let p1 = this.refs.p1.value();
+        let p2 = this.refs.p2.value();
+        let User = {
+            email: em,
+            password: p1,
+            password2:p2,
+            profile: {
+                firstName: fn,
+                lastName : ln,
+                phone    : ph,
+                isPro    : this.refs.pro.checked
+            }
+        }
+        Meteor.call('validateBasicUserData', User, (err)=>{
+            if(err){
+                console.log(err);
+                this.setState(err.reason);
+            }else{
+                this.props.next(2, User, this.state.pro);
+            }
 
-        // });
-        this.props.next(2, {}, this.state.pro);
+        });
+        // this.props.next(2, {}, this.state.pro);
 
 
     }
