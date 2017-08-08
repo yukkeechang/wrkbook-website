@@ -39,7 +39,7 @@ Meteor.methods({
       let isEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(User.email);
       let eEmpty = User.email.length > 0 ? false : true;
       let nEqual = User.password !== User.password2 ? true : false;
-      let gPass   = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d].{8,}/.test(User.password);
+      let gPass   = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}/.test(User.password);
       let pEmpty = User.password.length > 0 ? false : true;
       let accountExists;
       if(!eEmpty){
@@ -75,8 +75,6 @@ Meteor.methods({
       let edu = Match.test(employee.education, EducationSchema);
       let languages = validationz.validateOne(employ,'languages');
       let osha =  Match.test(employee.osha, OshaSchema);
-      let about = Match.test(employee.about,BasicText);
-      let skills = Match.test(employee.skills,BasicText);
       let location = Match.test(employee.location, LocationSchema);
       let car = validationz.validateOne(employ,'hasCar');
       let driver = validationz.validateOne(employ,'driverLicense');
@@ -88,8 +86,6 @@ Meteor.methods({
         validEdu: edu,
         validLang: languages,
         validOsha: osha,
-        validAbout: about,
-        validSkills : skills,
         validLocation: location,
         validCar: car,
         validDriver: driver,
@@ -97,7 +93,7 @@ Meteor.methods({
         validDistance: distance,
 
       };
-      if(!jobs|| !edu || !languages || !osha || !about || !skills
+      if(!jobs|| !edu || !languages || !osha
       || !location || !car || !driver || !tools || !distance){
         throw new Meteor.Error('403',Errors);
       }
@@ -125,12 +121,9 @@ Meteor.methods({
       }
       let Errors = {
         validCompany: company,
-        validAbout : about,
         validLocation : location,
-        validWeb: web,
-        validLicense: licenseNumber
       }
-      if(!company || !about || !location || !web ||!licenseNumber){
+      if(!company ||  !location){
         throw new Meteor.Error('403',Errors);
       }
     },

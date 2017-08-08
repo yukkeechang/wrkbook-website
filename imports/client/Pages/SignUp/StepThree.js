@@ -1,5 +1,4 @@
 import React , { Component } from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
 import Avatar from '../Shared/Avatar';
 
 const imageStore = new FS.Store.GridFS('images');
@@ -9,17 +8,17 @@ const Images = new FS.Collection('images',{
 });
 
 
-class stepThree extends Component{
+export default class stepThree extends Component{
   constructor(props){
       super(props);
-      console.log(this.props);
+
+      console.log(props.user);
+
       this.state={
         shownlink:'',
         submit:'Submit',
         validImage: '',
-        confirmed : false,
-        width:350,
-        button: 'disabled'
+        width:350
       }
     }
     updateDimensions(){
@@ -68,20 +67,43 @@ class stepThree extends Component{
     submit(e){
       let inputField = document.getElementById('fileInput');
       let files = inputField.files;
+      if(files[0]){
+        Images.insert(files[0], (err,fileObj)=>{
+          if (err) {
+            console.log(err);
+          }else{
+            let user = this.props.user;
 
-      Images.insert(files[0], function(err,fileObj){
-         if (err) {
-           console.log(err);
-         }else{
-           console.log(fileObj);
-           this.setState({submit:'Submitted',
-                          button: 'disabled',
-                          confirmed:true});
-         }
-       }.bind(this));
-
-
-
+            if(user.profile.isPro){
+              user.profile.employeeData.image = fileObj._id;
+              Meteor.call('register',user,(err)=>{
+                if(err) {
+                  console.log(err);
+                }else{
+                  this.props.next(4, user, false);
+                }
+              });
+            }else{
+              user.profile.employerData.image = fileObj._id;
+              Meteor.call('register',user,(err)=>{
+                if(err) {
+                  console.log(err);
+                }else{
+                  this.props.next(4, user, false);
+                }
+              });
+            }
+          }
+        });
+      }else {
+        Meteor.call('register',this.props.user,(err)=>{
+          if(err) {
+            console.log(err);
+          }else{
+            this.props.next(4, this.props.user, false);
+          }
+        });
+      }
     }
 
 
@@ -115,7 +137,7 @@ class stepThree extends Component{
                     }
 
                     <div style ={{display:'flex',justifyContent:'center',alignItems:'center'}} className="col s12">
-                      <a className={'btn '+this.state.button} onClick={this.submit.bind(this)}>{this.state.submit}</a>
+                      <a className='btn' onClick={this.submit.bind(this)}>{this.state.submit}</a>
                     </div>
                 </div>
 
@@ -126,10 +148,3 @@ class stepThree extends Component{
 
 
 }
-
-export default PictureStep = createContainer(({ params }) => {
-    return {
-        loggingIn: Meteor.loggingIn(),
-        user: Meteor.user(),
-    };
-}, stepThree);

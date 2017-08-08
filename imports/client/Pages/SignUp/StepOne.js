@@ -41,7 +41,11 @@ export default class StepOne extends Component{
                 console.log(err);
                 this.setState(err.reason);
             }else{
+<<<<<<< HEAD
                 // this.props.next(2, User, this.state.pro);
+=======
+                this.props.next(2, User, this.state.pro);
+>>>>>>> 54caaad1b079c9b92bb81388a9c8c43505ada6eb
             }
 
         });
