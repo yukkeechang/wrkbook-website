@@ -1,15 +1,23 @@
 export default NotificationSchema = new SimpleSchema({
-  employerId: {
+  employee: {
+    ID: {
     type: String
+    },
+    seen:{
+      type: Boolean
+    }
+
   },
-  employeeId: {
+  employer: {
+    ID: {
     type: String
+    },
+    seen:{
+      type: Boolean
+    },
   },
   jobId: {
     type: String
-  },
-  seen :{
-    type: Boolean
   },
   createdAt:{
     type: Date,

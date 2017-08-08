@@ -39,7 +39,7 @@ Meteor.methods({
       let isEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(User.email);
       let eEmpty = User.email.length > 0 ? false : true;
       let nEqual = User.password !== User.password2 ? true : false;
-      let gPass   = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}/.test(User.password);
+      let gPass   = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d].{8,}$/.test(User.password);
       let pEmpty = User.password.length > 0 ? false : true;
       let accountExists;
       if(!eEmpty){

@@ -116,7 +116,7 @@ export default class stepThree extends Component{
                         <Avatar
                         size={this.state.width}
                         srcLink={this.state.shownlink}
-                        letter='T'
+                        letter={this.props.user.profile.firstName[0]}
                         onClick={this.toggleFileBrowser.bind(this)}
                         />
                     </div>

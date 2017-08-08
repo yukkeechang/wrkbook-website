@@ -18,11 +18,9 @@ export default class StepTwoE extends Component{
             validDriver: true,
             validTools: true,
             validDistance: true,
-
             locErr: false,
             err: false,
             dist: 20
-
         };
     }
     handleNext(){
@@ -70,15 +68,9 @@ export default class StepTwoE extends Component{
                     user.profile.employeeData = employeeData;
                     this.props.next(3, user, false);
                 }
-<<<<<<< HEAD
-            })
-        }else {
-           Materialize.toast('Please Verify Your Address', 4000);
-=======
             });
         }else{
             this.setState({locErr:true});
->>>>>>> 54caaad1b079c9b92bb81388a9c8c43505ada6eb
         }
     }
     componentDidMount(){
@@ -88,19 +80,6 @@ export default class StepTwoE extends Component{
         $(langs).material_select();
         let dist = ReactDOM.findDOMNode(this.refs.dist);
         noUiSlider.create(dist, {
-<<<<<<< HEAD
-        start: [25],
-        connect: true,
-        step: 1,
-        orientation: 'horizontal', // 'horizontal' or 'vertical'
-        range: {
-            'min': 0,
-            'max': 100
-        },
-        format: wNumb({
-            decimals: 0
-        })
-=======
             start: [20],
             connect: true,
             step: 1,
@@ -112,7 +91,6 @@ export default class StepTwoE extends Component{
             format: wNumb({
                 decimals: 0
             })
->>>>>>> 54caaad1b079c9b92bb81388a9c8c43505ada6eb
         });
         dist.noUiSlider.on('change',(value, handle)=>{
             this.setState({dist: parseInt(value[0])});
@@ -133,15 +111,6 @@ export default class StepTwoE extends Component{
                             <div className="input-field col s12">
                                 <select className={this.state.validJobTitles? '':"invalid"} multiple ref="titles" defaultValue={["0"]}>
                                 <option value="0" disabled>Choose one or more</option>
-<<<<<<< HEAD
-                                <option value="1">Painter</option>
-                                <option value="2">Demolititoner</option>
-                                <option value="3">Masonry/Stone Worker</option>
-                                <option value="4">Concrete Finisher</option>
-                                <option value="5">Plumber</option>
-                                <option value="6">Electrician</option>
-                                <option value="7">Heat/Air conditioning Worker</option>
-=======
                                 <option value="Painter">Painter</option>
                                 <option value="Demolititoner">Demolititoner</option>
                                 <option value="Masonry/Stone Worker">Masonry/Stone Worker</option>
@@ -149,28 +118,12 @@ export default class StepTwoE extends Component{
                                 <option value="Plumber">Plumber</option>
                                 <option value="Electrician">Electrician</option>
                                 <option value="Heat/Air conditioning Worker">Heat/Air conditioning Worker</option>
->>>>>>> 54caaad1b079c9b92bb81388a9c8c43505ada6eb
                                 </select>
                                 <label>Job Titles *</label>
                             </div>
                             <div className="input-field col s12">
                                 <select className={this.state.validLang ? '':"invalid"} multiple ref="langs" defaultValue={["0"]}>
                                 <option value="0" disabled>Choose one or more</option>
-<<<<<<< HEAD
-                                <option value="1">English</option>
-                                <option value="2">Spanish</option>
-                                <option value="4">Chinese</option>
-                                <option value="5">French</option>
-                                <option value="6">Tagalog</option>
-                                <option value="7">Vietnamese</option>
-                                <option value="8">Arabic</option>
-                                <option value="9">Korean</option>
-                                <option value="10">German</option>
-                                <option value="11">Russian</option>
-                                <option value='12'>Portuguese</option>
-                                <option value="13">Italian</option>
-                                <option value="14">Polish</option>
-=======
                                 <option value="English">English</option>
                                 <option value="Spanish">Spanish</option>
                                 <option value="Chinese">Chinese</option>
@@ -184,7 +137,6 @@ export default class StepTwoE extends Component{
                                 <option value="Portuguese">Portuguese</option>
                                 <option value="Italian">Italian</option>
                                 <option value="Polish">Polish</option>
->>>>>>> 54caaad1b079c9b92bb81388a9c8c43505ada6eb
                                 </select>
                                 <label>Languages I Speak *</label>
                             </div>
@@ -269,11 +221,6 @@ export default class StepTwoE extends Component{
                             </div>
                         </div>
                         <Location ref="loc"/>
-<<<<<<< HEAD
-                        <a onClick={this.handleNext.bind(this)}type="submit"className="waves-effect waves-light btn">Next</a>
-                    </form>
-
-=======
                         <div className="row">
                             <a onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5 col s12 m6" style={{color: 'black',textAlign:'center',marginTop: '8px'}}type="submit">Next</a>
                             {this.state.err ? (
@@ -299,7 +246,6 @@ export default class StepTwoE extends Component{
                         </div>
                         </form>
 
->>>>>>> 54caaad1b079c9b92bb81388a9c8c43505ada6eb
                 </div>
                 </div>
             </div>

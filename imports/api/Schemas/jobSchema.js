@@ -33,10 +33,10 @@ export default JobSchema = new SimpleSchema({
     type:BasicText
   },
   startAt:{
-    type: Date,
+    type: [Date],
   },
   endAt:{
-    type: Date,
+    type: [Date],
   },
   pay:{
     type: [Number],
