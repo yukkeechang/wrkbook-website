@@ -50,13 +50,18 @@ export default class Location extends Component{
     // When the user selects an address from the dropdown, populate the address
     // fields in the form.
 
-    autocomplete.addListener('place_changed', this.fillInAddress);
+    autocomplete.addListener('place_changed', this.fillInAddress.bind(this));
   }
 
  fillInAddress() {
     // Get the place details from the autocomplete object.
+    console.log('change');
     var place = autocomplete.getPlace();
-
+    $(document).ready(function(){
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+    $('#modal1').modal('open');
+    });
     for (var component in componentForm) {
       document.getElementById(component).value = '';
       document.getElementById(component).disabled = false;
@@ -70,6 +75,21 @@ export default class Location extends Component{
     }
     $(document).ready(function() {
     Materialize.updateTextFields();
+    });
+    this.setState({
+      addressNumErr: '',
+      addressNumErrReason: '',
+      addressNameErr: '',
+      addressNameErrReason: '',
+      addressCityErr: '',
+      addressCityErrReason: '',
+      addressStateErr: '',
+      addressStateErrReason: '',
+      addressZipErr: '',
+      addressZipErrReason: '',
+      addressCounErr: '',
+      addressCounErrReason: '',
+      finalAddress: '',
     });
   }
 
@@ -93,7 +113,7 @@ export default class Location extends Component{
   }
   //Check if there are any special characters
   isValid(str){
-     return !/[~`!@#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+     return !/[~`!@#$%\^&*+=\[\]\\';,/{}|\\":<>\?]/g.test(str);
   }
   //Checks the form if any field is empty or if any fields contains
   // illegal characters. If any field is empty or contains special characters
@@ -111,18 +131,22 @@ export default class Location extends Component{
         if(!document.getElementById(component).value){
           let index = Object.keys(componentForm).indexOf(component)
           isEmpty[index] = true;
+
         }
         if(!this.isValid(document.getElementById(component).value)){
+
           let index = Object.keys(componentForm).indexOf(component)
           isNotValid[index] = true;
         }
+
     }
     let numErr = isEmpty[0] || isNotValid[0] ? 'invalid' : '';
     let namErr = isEmpty[1] || isNotValid[1] ? 'invalid' : '';
     let cityErr = isEmpty[2] || isNotValid[2] ? 'invalid' : '';
     let stateErr = isEmpty[3] || isNotValid[3] ? 'invalid' : '';
-    let zipErr = isEmpty[4] || isNotValid[4] ? 'invalid' : '';
-    let counErr = isEmpty[5] || isNotValid[5] ? 'invalid' : '';
+    let counErr = isEmpty[4] || isNotValid[4] ? 'invalid' : '';
+    let zipErr = isEmpty[5] || isNotValid[5] ? 'invalid' : '';
+
     let numR,namR,cityR,stateR,zipR,counR;
     if (isEmpty[0]) numR = 'Field is Empty';
     if (isNotValid[0]) numR = 'Field is contains illegal characters';
@@ -132,10 +156,10 @@ export default class Location extends Component{
     if (isNotValid[2]) cityR = 'Field is contains illegal characters';
     if (isEmpty[3]) stateR = 'Field is Empty';
     if (isNotValid[3]) stateR = 'Field is contains illegal characters';
-    if (isEmpty[4]) zipR = 'Field is Empty';
-    if (isNotValid[4]) zipR = 'Field is contains illegal characters';
-    if (isEmpty[5]) counR = 'Field is Empty';
-    if (isNotValid[5]) counR = 'Field is contains illegal characters';
+    if (isEmpty[4]) counR = 'Field is Empty';
+    if (isNotValid[4]) counR = 'Field is contains illegal characters';
+    if (isEmpty[5]) zipR = 'Field is Empty';
+    if (isNotValid[5]) zipR = 'Field is contains illegal characters';
 
     if(isEmpty[0] || isNotValid[0] ||isEmpty[1] || isNotValid[1] ||
       isEmpty[2] || isNotValid[2] || isEmpty[3] || isNotValid[3] ||
@@ -209,6 +233,7 @@ export default class Location extends Component{
           lng: place.geometry.location.lng(),
           showNext: ''
         });
+        $('#modal1').modal('close');
 
 
       }
@@ -234,9 +259,27 @@ export default class Location extends Component{
     this.setState({
       showNext: 'disabled'
     });
+    let inputtedAddress ='';
+    for (var component in componentForm) {
+      if(component === 'street_number' ){
+        if(!!document.getElementById(component).value){
+          inputtedAddress += document.getElementById(component).value;
+          inputtedAddress += ' ';
+        }
+      }else{
+        if(!!document.getElementById(component).value){
+          inputtedAddress += document.getElementById(component).value;
+          inputtedAddress += ', ';
+        }
+      }
+    }
+    inputtedAddress = inputtedAddress.trim();
+    inputtedAddress =  inputtedAddress.substring(0, inputtedAddress.length-1);
+
+    document.getElementById('autocomplete').value = inputtedAddress;
 
   }
-  
+
 //The action tied to the nex button
   render(){
     return(
@@ -248,47 +291,55 @@ export default class Location extends Component{
         <div id="locationField" className='row'>
           <div className="input-field col s12">
           <i className='material-icons prefix'>location_searching</i>
-          <input id="autocomplete" placeholder="Search for you Addresss" onFocus={this.geolocate.bind(this)} type="text"></input>
+          <input id="autocomplete" placeholder="Search for Your Addresss" onFocus={this.geolocate.bind(this)} type="text"></input>
           </div>
         </div>
 
-        <div className="row" id="address">
-            <div className="row">
-              <div className='input-field col s12 m6'>
-                  <input id="street_number" type="text" onChange= {this.stillGood.bind(this)} className={ this.state.addressNumErr} autoComplete="address-line1"/>
-                  <label  className="active" htmlFor="street_number" data-error={this.state.addressNumErrReason}>Street Number</label>
-              </div>
-              <div className='input-field col s12 m6'>
-                  <input id='route' type='text' onChange= {this.stillGood.bind(this)} className={this.state.addressNameErr} autoComplete="address-line2"/>
-                  <label className="active" htmlFor='route' data-error={this.state.addressNameErrReason}> Street Name</label>
-              </div>
-            </div>
-            <div className='row'>
-              <div className='input-field col s12'>
-                  <input id='locality' type='text'  onChange= {this.stillGood.bind(this)} className={this.state.addressCityErr} autoComplete="address-level2"/>
-                  <label className="active" htmlFor='locality' data-error={this.state.addressCityErrReason}>City</label>
-              </div>
-            </div>
-            <div className='row'>
-              <div className='input-field col s12 m6'>
-                  <input id='administrative_area_level_1' type='text'  onChange= {this.stillGood.bind(this)}className={ this.state.addressStateErr} autoComplete="address-level1"/>
-                  <label  className="active" htmlFor='administrative_area_level_1' data-error={this.state.addressStateErrReason}>State</label>
-              </div>
-              <div className='input-field col s12 m6'>
-                  <input id='postal_code' type='text' onChange= {this.stillGood.bind(this)} className={this.state.addressZipErr} autoComplete="postal-code"/>
-                  <label className="active"  htmlFor='postal_code' data-error={this.state.addressZipErrReason}>Zip Code</label>
-              </div>
-            </div>
-            <div className='row'>
-              <div className='input-field col s12'>
-                <input id='country' type='text'  onChange= {this.stillGood.bind(this)} className={this.state.addressCounErr} autoComplete="country"/>
-                <label   className="active" htmlFor='country' data-error={this.state.addressCounErrReason}>Country</label>
-              </div>
-            </div>
-        </div>
-        <div className='row'>
-            <a className="waves-effect waves-light btn red lighten-2 col s12 m6" onClick={this.checkAddress.bind(this)}>Verify Address Before Proceeding</a>
-        </div>
+        <div id="modal1" className="modal">
+           <div className="modal-content">
+
+                 <div className="row">
+                   <div className='input-field col s12 m6'>
+                       <input id="street_number" type="text" onChange= {this.stillGood.bind(this)} className={ this.state.addressNumErr} autoComplete="address-line1"/>
+                       <label  className="active" htmlFor="street_number" data-error={this.state.addressNumErrReason}>Street Number *</label>
+                   </div>
+                   <div className='input-field col s12 m6'>
+                       <input id='route' type='text' onChange= {this.stillGood.bind(this)} className={this.state.addressNameErr} autoComplete="address-line2"/>
+                       <label className="active" htmlFor='route' data-error={this.state.addressNameErrReason}> Street Name *</label>
+                   </div>
+                 </div>
+                 <div className='row'>
+                   <div className='input-field col s12'>
+                       <input id='locality' type='text'  onChange= {this.stillGood.bind(this)} className={this.state.addressCityErr} autoComplete="address-level2"/>
+                       <label className="active" htmlFor='locality' data-error={this.state.addressCityErrReason}>City *</label>
+                   </div>
+                 </div>
+                 <div className='row'>
+                   <div className='input-field col s12 m6'>
+                       <input id='administrative_area_level_1' type='text'  onChange= {this.stillGood.bind(this)}className={ this.state.addressStateErr} autoComplete="address-level1"/>
+                       <label  className="active" htmlFor='administrative_area_level_1' data-error={this.state.addressStateErrReason}>State *</label>
+                   </div>
+                   <div className='input-field col s12 m6'>
+                       <input id='postal_code' type='text' onChange= {this.stillGood.bind(this)} className={this.state.addressZipErr} autoComplete="postal-code"/>
+                       <label className="active"  htmlFor='postal_code' data-error={this.state.addressZipErrReason}>Zip Code *</label>
+                   </div>
+                 </div>
+                 <div className='row'>
+                   <div className='input-field col s12'>
+                     <input id='country' type='text'  onChange= {this.stillGood.bind(this)} className={this.state.addressCounErr} autoComplete="country"/>
+                     <label   className="active" htmlFor='country' data-error={this.state.addressCounErrReason}>Country *</label>
+                   </div>
+                 </div>
+
+           </div>
+           <div className="modal-footer">
+               <a className="waves-effect waves-light btn red lighten-2 col s12" onClick={this.checkAddress.bind(this)}>Verify Address</a>
+
+           </div>
+         </div>
+
+
+
 
         </div>
       </div>

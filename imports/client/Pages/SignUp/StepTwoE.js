@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Location from '../Shared/Location';
 export default class StepTwoE extends Component{
     constructor(props){
-        
+
         super(props);
         console.log(props.user);
         this.state = {
@@ -19,7 +19,7 @@ export default class StepTwoE extends Component{
             validDriver: true,
             validTools: true,
             validDistance: true,
-            dist: '20'
+            dist: '25'
         };
     }
     handleNext(){
@@ -48,6 +48,8 @@ export default class StepTwoE extends Component{
                     this.props.next(3, user, false);
                 }
             })
+        }else {
+           Materialize.toast('Please Verify Your Address', 4000);
         }
     }
     componentDidMount(){
@@ -57,7 +59,7 @@ export default class StepTwoE extends Component{
         $(langs).material_select();
         let dist = ReactDOM.findDOMNode(this.refs.dist);
         noUiSlider.create(dist, {
-        start: [20],
+        start: [25],
         connect: true,
         step: 1,
         orientation: 'horizontal', // 'horizontal' or 'vertical'
@@ -91,10 +93,10 @@ export default class StepTwoE extends Component{
                                 <option value="1">Painter</option>
                                 <option value="2">Demolititoner</option>
                                 <option value="3">Masonry/Stone Worker</option>
-                                <option value="3">Concrete Finisher</option>
-                                <option value="3">Plumber</option>
-                                <option value="3">Electrician</option>
-                                <option value="3">Heat/Air conditioning Worker</option>
+                                <option value="4">Concrete Finisher</option>
+                                <option value="5">Plumber</option>
+                                <option value="6">Electrician</option>
+                                <option value="7">Heat/Air conditioning Worker</option>
                                 </select>
                                 <label>Job Titles *</label>
                             </div>
@@ -103,17 +105,17 @@ export default class StepTwoE extends Component{
                                 <option value="0" disabled>Choose one or more</option>
                                 <option value="1">English</option>
                                 <option value="2">Spanish</option>
-                                <option value="3">Chinese</option>
-                                <option value="3">French</option>
-                                <option value="3">Tagalog</option>
-                                <option value="3">Vietnamese</option>
-                                <option value="3">Arabic</option>
-                                <option value="3">Korean</option>
-                                <option value="3">German</option>
-                                <option value="3">Russian</option>
-                                <option value="3">Portuguese</option>
-                                <option value="3">Italian</option>
-                                <option value="3">Polish</option>
+                                <option value="4">Chinese</option>
+                                <option value="5">French</option>
+                                <option value="6">Tagalog</option>
+                                <option value="7">Vietnamese</option>
+                                <option value="8">Arabic</option>
+                                <option value="9">Korean</option>
+                                <option value="10">German</option>
+                                <option value="11">Russian</option>
+                                <option value='12'>Portuguese</option>
+                                <option value="13">Italian</option>
+                                <option value="14">Polish</option>
                                 </select>
                                 <label>Languages I Speak *</label>
                             </div>
@@ -129,8 +131,8 @@ export default class StepTwoE extends Component{
                             <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Distance You're willing to travel <span style={{fontWeight:'bold'}}>{this.state.dist} miles</span></p>
                             <div ref="dist"></div>
                             </div>
-                            
-                            
+
+
                         </div>
                         <div className="row">
                             <div className="col s6">
@@ -200,7 +202,7 @@ export default class StepTwoE extends Component{
                         <Location ref="loc"/>
                         <a onClick={this.handleNext.bind(this)}type="submit"className="waves-effect waves-light btn">Next</a>
                     </form>
-                    
+
                 </div>
                 </div>
             </div>

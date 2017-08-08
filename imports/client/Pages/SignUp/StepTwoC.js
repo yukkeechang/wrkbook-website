@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Location from '../Shared/Location';
 export default class StepTwoC extends Component{
     constructor(props){
-        
+
         super(props);
         console.log(props.user);
         this.state = {
@@ -41,6 +41,8 @@ export default class StepTwoC extends Component{
                     this.props.next(3, user, false);
                 }
             })
+        }else {
+           Materialize.toast('Please Verify Your Address', 4000);
         }
     }
     componentDidMount(){
@@ -71,7 +73,7 @@ export default class StepTwoC extends Component{
                     <Location ref="loc"/>
                         <a onClick={this.handleNext.bind(this)}type="submit"className="waves-effect waves-light btn">Next</a>
                     </form>
-                    
+
                 </div>
                 </div>
             </div>

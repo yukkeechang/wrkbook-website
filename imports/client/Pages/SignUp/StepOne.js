@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import MTextField from '../Shared/MTextField';
 export default class StepOne extends Component{
     constructor(props){
-        
+
         super(props);
         this.state = {
           fEmpty : false,
@@ -19,33 +19,33 @@ export default class StepOne extends Component{
       };
     }
     handleNext(){
-        // let fn = this.refs.fn.value();
-        // let ln = this.refs.ln.value();
-        // let em = this.refs.em.value();
-        // let ph = this.refs.ph.value();
-        // let p1 = this.refs.p1.value();
-        // let p2 = this.refs.p2.value();
-        // let User = {
-        //     email: em,
-        //     password: p1,
-        //     password2:p2,
-        //     profile: {
-        //         firstName: fn,
-        //         lastName : ln,
-        //         phone    : ph,
-        //         isPro    : this.refs.pro.checked
-        //     }
-        // }
-        // Meteor.call('validateBasicUserData', User, (err)=>{
-        //     if(err){
-        //         console.log(err);
-        //         this.setState(err.reason);
-        //     }else{
-        //         this.props.next(2, User, this.state.pro);
-        //     }
+        let fn = this.refs.fn.value();
+        let ln = this.refs.ln.value();
+        let em = this.refs.em.value();
+        let ph = this.refs.ph.value();
+        let p1 = this.refs.p1.value();
+        let p2 = this.refs.p2.value();
+        let User = {
+            email: em,
+            password: p1,
+            password2:p2,
+            profile: {
+                firstName: fn,
+                lastName : ln,
+                phone    : ph,
+                isPro    : this.refs.pro.checked
+            }
+        }
+        Meteor.call('validateBasicUserData', User, (err)=>{
+            if(err){
+                console.log(err);
+                this.setState(err.reason);
+            }else{
+                // this.props.next(2, User, this.state.pro);
+            }
 
-        // });
-        this.props.next(2, {}, this.state.pro);
+        });
+        // this.props.next(2, {}, this.state.pro);
 
 
     }
@@ -74,7 +74,7 @@ export default class StepOne extends Component{
                         <div className="col s12 m6">
                             <MTextField ref="fn" id="firstName" error={this.state.fEmpty ? empty : ''} label="First Name *"/>
                             <MTextField ref="ln" id="lastName"  error={this.state.lEmpty ? empty : ''} label="Last Name *"/>
-                            <MTextField ref="em" id="email"     error={this.state.eEmpty ? empty : (!this.state.isEmail ? notEmail : (this.state.accountExists ? uExists : ''))} label="Email Address *"/>    
+                            <MTextField ref="em" id="email"     error={this.state.eEmpty ? empty : (!this.state.isEmail ? notEmail : (this.state.accountExists ? uExists : ''))} label="Email Address *"/>
                             <MTextField ref="ph" id="phone"     error={this.state.phoneE ? empty : (!this.state.gPhone? phErr:'')} label="Phone Number *"/>
                         </div>
                         <div className="col s12 m6">
@@ -91,10 +91,10 @@ export default class StepOne extends Component{
                             </p>
                         </div>
                     </div>
-                    
+
                     <a onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5" style={{color: 'black'}}type="submit">Next</a>
                     </form>
-                </div>  
+                </div>
 
                 </div>
             </div>

@@ -12,7 +12,7 @@ const Images = new FS.Collection('images',{
 class stepThree extends Component{
   constructor(props){
       super(props);
-
+      console.log(this.props);
       this.state={
         shownlink:'',
         submit:'Submit',
@@ -94,7 +94,7 @@ class stepThree extends Component{
                         <Avatar
                         size={this.state.width}
                         srcLink={this.state.shownlink}
-                        letter='Y'
+                        letter='T'
                         onClick={this.toggleFileBrowser.bind(this)}
                         />
                     </div>
