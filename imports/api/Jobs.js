@@ -6,6 +6,7 @@ import {DEFAULT} from './Schemas/basicTextSchema';
 import EmployerSchema  from './Schemas/employerSchema'
 import EmployeeSchema  from './Schemas/employeeSchema';
 import EventSchema from './Schemas/eventSchema';
+import NotificationSchema from './Schemas/notificationSchema';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
@@ -13,7 +14,7 @@ import { Roles } from 'meteor/alanning:roles';
 
 var newJobEventCheck ={
   job: Object,
-  eventInfo: Object
+  eventInfo: [Object]
 };
 //Defines a collection named jobs
 Job = new Mongo.Collection('jobs');
@@ -135,23 +136,24 @@ Meteor.methods({
       job.employerId = this.userId;
       job.createdAt = new Date();
       job.updateAt = new Date();
-      eventz.owner = this.userId;
-      eventz.createdAt = new Date();
-
       check(job,JobSchema);
-      check(eventz,EventSchema);
-
       let id1 = Job.insert(job);
-      let id2 =  Event.insert(eventz);
+      let ids2 =[];
+      for (let i = 0; i < eventz.length; i++) {
+        eventz[i].owner = this.userId;
+        eventz[i].createdAt = new Date();
+        check(eventz[i],EventSchema);
+        ids2[i] =  Event.insert(eventz[i]);
+        eventz[i].jobId = id1;
+        let selector2 = {_id: ids2[i], owner: this.userId};
+        Event.update(selector2,{$set:eventz[i]});
+      }
 
-      eventz.jobId = id1;
-      job.eventInfo[0] = id2;
+      job.eventInfo= ids2;
 
       let selector1 = {_id: id1, employerId: this.userId};
-      let selector2 = {_id: id2, owner: this.userId};
       Job.update(selector1,{$set: job});
 
-      Event.update(selector2,{$set:eventz});
 
     }else{
       throw new Meteor.Error('401',NOTAUTH);
@@ -316,6 +318,19 @@ Meteor.methods({
     check(jobId,String);
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(!Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+    let notify = NotificationSchema.clean({});
+
+    let jobRemove = Job.findOne({_id:jobId,employerId:this.userId});
+    notify.description = 'The Job located at '+  jobRemove.location.locationName+
+    ' has been deleted';
+    let peopleApplied = jobRemove.applyemployeeIds;
+    let peopleMatch = jobRemove.admitemployeeIds;
+    let totalPeople = peopleApplied.concat(peopleMatch);
+    for (let i = 0; i < totalPeople.length; i++){
+      notify.toWhomst = totalPeople[i];
+      Meteor.call('createNotification',notify);
+    }
+
     Job.remove({_id: jobId, employerId: this.userId});
     Event.remove({jobId: jobId,owner:this.userId});
   }

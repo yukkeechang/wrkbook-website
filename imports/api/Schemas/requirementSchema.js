@@ -1,5 +1,6 @@
 import OshaSchema from './oshaSchema';
 import SocialSchema from './socialSchema';
+import EducationSchema from './educationSchema';
 export default RequirementSchema = new SimpleSchema({
   osha:{
     type: OshaSchema
@@ -15,9 +16,8 @@ export default RequirementSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: false
   },
-  highGed:{
-    type: Boolean,
-    defaultValue: false
+  education:{
+    type: EducationSchema
   },
   languages:{
     type: [String],

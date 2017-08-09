@@ -27,3 +27,4 @@ cfs:gridfs
 cfs:standard-packages
 alanning:roles
 static-html
+cfs:graphicsmagick

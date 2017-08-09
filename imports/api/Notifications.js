@@ -12,7 +12,7 @@ Notification.attachSchema(NotificationSchema);
 
 Meteor.publish('employer-notify',function(){
   if(Roles.userIsInRole(this.userId,CONTRACTOR)){
-    return Notification.find({'employer.ID': this.userId});
+    return Notification.find({toWhomst: this.userId});
   }else{
     this.stop();
     return;
@@ -20,7 +20,7 @@ Meteor.publish('employer-notify',function(){
 });
 Meteor.publish('employee-notify',function(){
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
-    return Notification.find({'employee.ID': this.userId});
+    return Notification.find({toWhomst: this.userId});
   }else{
     this.stop();
     return;
@@ -37,18 +37,11 @@ Meteor.methods({
   updateNotification(notifyId, seen){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(notifyId,String);
-    let notification = Notification.findOne({_id: notifyId});
+    let notification = Notification.findOne({_id: notifyId,toWhomst:this.userId});
     if(!(notification)) return;
-    if(notification.employee.ID == this.userId){
-      if(seen){
-        notification.employee.seen = seen;
-      }
+    if(seen){
+      notification.seen = seen;
     }
-    if(notification.employer.ID == this.userId){
-      if(seen){
-        notification.employer.seen = seen;
-      }
-    }
-    Notification.update({_id:notifyId});
+    Notification.update({_id:notifyId},{$set: notification});
   }
 });
