@@ -5,12 +5,16 @@ import JobSchema  from './Schemas/jobSchema';
 import {DEFAULT} from './Schemas/basicTextSchema';
 import EmployerSchema  from './Schemas/employerSchema'
 import EmployeeSchema  from './Schemas/employeeSchema';
+import EventSchema from './Schemas/eventSchema';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
 import { Roles } from 'meteor/alanning:roles';
 
-
+var newJobEventCheck ={
+  job: Object,
+  eventInfo: Object
+};
 //Defines a collection named jobs
 Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
@@ -112,28 +116,43 @@ Meteor.publish('all-jobs',function(){
 });
 Meteor.methods({
   /**
-  Inserts a Job into the database. That Job must follow the format of
-  JobSchema. Only a contractor can use this function
-  @param {Object} newJob must match to the JobSchema
+  Inserts a Job and an Event into the database. That Job must follow the format of
+  JobSchema and the Event must follow the format of EventSchema.
+  Only a contractor can use this function
+  @param {Object} newJobEvent that contains the job object and th event object
   @throws {Meteor.Error} if the object passed does not match the Schema you will
   get a match error or if the user calling the method is not signin a Meteor.Error
   will be called.
   */
 
-  createJob(newJob){
+  createJob(newJobEvent){
 
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-
-
     if(Roles.userIsInRole(this.userId,CONTRACTOR) ){
-      newJob.employerId = this.userId;
-      newJob.createdAt = new Date();
-      newJob.updateAt = new Date();
+      check(newJobEvent,newJobEventCheck);
+      let job = newJobEvent.job;
+      let eventz = newJobEvent.eventInfo;
+      job.employerId = this.userId;
+      job.createdAt = new Date();
+      job.updateAt = new Date();
+      eventz.owner = this.userId;
+      eventz.createdAt = new Date();
 
+      check(job,JobSchema);
+      check(eventz,EventSchema);
 
-      check(newJob, JobSchema);
+      let id1 = Job.insert(job);
+      let id2 =  Event.insert(eventz);
 
-      Job.insert(newJob);
+      eventz.jobId = id1;
+      job.eventInfo[0] = id2;
+
+      let selector1 = {_id: id1, employerId: this.userId};
+      let selector2 = {_id: id2, owner: this.userId};
+      Job.update(selector1,{$set: job});
+
+      Event.update(selector2,{$set:eventz});
+
     }else{
       throw new Meteor.Error('401',NOTAUTH);
     }
@@ -144,6 +163,13 @@ Meteor.methods({
 
   },
   /**
+  ------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
+
+  THIS FUNCTION WILL HAVE TO BE CHANGE TO MAKE THE SCHEMA CHANGES
+
+  -----------------------------------------------------------------------------
+  -----------------------------------------------------------------------------
   Updates a JobPost that was already inserted into the database. If the JobPost
   object contains default values no reassignments will occur. If the jobId does
   not return a value object the function will exit. Only Contractors can call
@@ -280,7 +306,7 @@ Meteor.methods({
 
   },
   /**
-  Deletes a jobPost from the database using its ID. Only a contractor can
+  Deletes a jobPost and the events associated with it from the database using its ID. Only a contractor can
   call this function
   @param {String} jobId is the Id of the jobPost
   @throws {Meteor.Error} if the jobId is not a string a match error will be
@@ -291,5 +317,6 @@ Meteor.methods({
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(!Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
     Job.remove({_id: jobId, employerId: this.userId});
+    Event.remove({jobId: jobId,owner:this.userId});
   }
 });

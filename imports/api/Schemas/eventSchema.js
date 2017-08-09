@@ -5,11 +5,11 @@ import ImportantSchema from './importanceSchema'
 export default  EventSchema = new SimpleSchema({
   owner:{
     type:String
-  }
+  },
   title:{
     type: BasicText
   },
-    description:{
+  description:{
     type:BasicText
   },
   startAt:{
@@ -23,6 +23,22 @@ export default  EventSchema = new SimpleSchema({
   },
   createdAt:{
     type: Date
+  },
+  recurringType:{
+    type: Number,
+    defaultValue: 0
+  },
+  recurringInterval:{
+    type:Number,
+    defaultValue:0
+  },
+  recurringData:{
+    type: Number,
+    defaultValue:0
+  },
+  jobId:{
+    type: String,
+    defaultValue: ''
   }
 
 });

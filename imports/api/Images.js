@@ -43,7 +43,7 @@ Images.allow({
 Meteor.publish('images', function(){
   return Images.find();
  });
- //publish a image with the specific id  
+ //publish a image with the specific id
 Meteor.publish('images-id',function(imageId){
   return Images.find({_id: imageId});
-})
+});

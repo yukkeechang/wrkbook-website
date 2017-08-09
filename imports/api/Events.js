@@ -20,10 +20,10 @@ Meteor.publish('your-events-this-month',function(){
     let nextMonth = futureDate.getMonth() + 1 >11 ? 0 : futureDate.getMonth() + 1;
     futureDate.setMonth(nextMonth);
     pastDate.setMonth(lastMonth);
-    return Event.find($and:[
+    return Event.find({$and:[
       {$or : [{startAt:{$gt: pastDate}},{endAt:{$lt:futureDate}}]},
       {owner:this.userId}
-    ])
+    ]})
   }else{
     this.stop();
     return;

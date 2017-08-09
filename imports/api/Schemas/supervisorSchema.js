@@ -1,4 +1,4 @@
-SupervisorSchema = new SimpleSchema({
+export default SupervisorSchema = new SimpleSchema({
     name:{
       type: String,
       defaultValue: ''

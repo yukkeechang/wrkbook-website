@@ -18,9 +18,6 @@ export default EmployeeSchema = new SimpleSchema({
   education:{
     type: EducationSchema,
   },
-  certifications:{
-    type: TextList,
-  },
   languages:{
     type: [String],
     minCount: 1,

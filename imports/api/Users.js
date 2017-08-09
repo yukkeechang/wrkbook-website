@@ -14,7 +14,9 @@ import EducationSchema from './Schemas/educationSchema';
 import OshaSchema from './Schemas/oshaSchema';
 import TextList from './Schemas/textListSchema';
 
-export const NOTAUTH = true;
+export const NOTAUTH = {
+    notAuthorized: true
+};
 //Global publication do not need to call subscribe on the client side
 // returns user object with the fields email and profile
 Meteor.publish(null, function() {

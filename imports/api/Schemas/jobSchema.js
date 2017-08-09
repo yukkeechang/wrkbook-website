@@ -23,26 +23,20 @@ export default JobSchema = new SimpleSchema({
     type: [String],
     defaultValue: [],
   },
-  title:{
-    type: BasicText
-  },
-    description:{
-    type:BasicText
-  },
   additionText:{
     type:BasicText
   },
-  startAt:{
-    type: [Date],
-  },
-  endAt:{
-    type: [Date],
+  eventInfo:{
+    type: [String],
+    defaultValue: []
   },
   pay:{
     type: [Number],
+    defaultValue: []
   },
-  numWorker:{
-    type: Number,
+  numWorkers:{
+    type: [Number],
+    defaultValue: []
   },
   location:{
     type: LocationSchema
