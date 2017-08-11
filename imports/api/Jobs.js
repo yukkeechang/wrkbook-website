@@ -333,5 +333,13 @@ Meteor.methods({
 
     Job.remove({_id: jobId, employerId: this.userId});
     Event.remove({jobId: jobId,owner:this.userId});
+  },
+  getJobInfo(jobId){
+    check(jobId,String);
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+    // if(!Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+
+    Job.findOne({_id:jobId,employerId:this.userId})
+
   }
 });

@@ -16,8 +16,8 @@ Table of Contents End
 body{
     min-width: 275px;
 }
-html::-webkit-scrollbar { 
-    display: none; 
+html::-webkit-scrollbar {
+    display: none;
 }
 /* 1.0 - End Body Styles
 ------------------------------------------------------------------------*/
@@ -100,4 +100,16 @@ input[type="password"]:focus+label[data-error]:after{
     font-size: 16.2px;
     top: 4.4rem !important;
     transition: none !important;
+}
+
+
+#page {
+  background: #FFF;
+  padding: 20px;
+  margin: 20px;
+}
+
+#demo-basic {
+  width: 400px;
+  height: 400px;
 }
