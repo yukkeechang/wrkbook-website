@@ -18,7 +18,7 @@ export default class StepTwoC extends Component{
     }
     handleNext(){
         let loc = this.refs.loc.getAddress();
-  
+          // this.props.next(3, {}, false);
         if(loc.valid){
             this.setState({locErr: false});
             let employerData = {

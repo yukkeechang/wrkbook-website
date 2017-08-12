@@ -2,9 +2,10 @@ import React , { Component } from 'react';
 import Avatar from '../Shared/Avatar';
 
 const imageStore = new FS.Store.GridFS('images');
+const thumbNail = new FS.Store.GridFS('thumbnail');
 //COPY THIS
-const Images = new FS.Collection('images',{
-  stores: [imageStore]
+ Images = new FS.Collection('images',{
+  stores: [imageStore,thumbNail]
 });
 
 export default class stepThree extends Component{
@@ -31,41 +32,34 @@ export default class stepThree extends Component{
       return true;
     }
 
-    updateDimensions(){
-      let width = document.getElementById('imageContain').offsetHeight * 0.70;
-      this.setState({
-        width: width,
-      });
 
-    }
     componentDidMount() {
-      this.updateDimensions();
 
 
+      $('#fileInput').on('click',function(e){
+        if(e.type === 'click'){
+          this.setState({pesonalPic:true});
+        }
+      }.bind(this));
 
-//on
-      window.addEventListener("resize", this.updateDimensions.bind(this));
-    }
-    componentWillUnmount() {
-      window.removeEventListener("resize", this.updateDimensions.bind(this));
+
     }
 
     toggleFileBrowser(e){
-      let inputField =   document.getElementById('fileInput');
+      let inputField =document.getElementById('fileInput');
       inputField.click();
       this.setState({pesonalPic:true});
 
-
-        // this.setState({basic:basicz});
 
     }
 
 
 
     onFileInputChange(e){
-
+      console.log(e.target.files);
+      console.log(this.state.pesonalPic);
       if(e.target.files.length){
-        if(!this.state.onc3){
+        if(!this.state.onc3 || this.isEmpty(this.state.basic) ){
           let basicz = $('#demo-basic').croppie({
             viewport: {
               width: 350,
@@ -99,12 +93,11 @@ export default class stepThree extends Component{
         }.bind(this);
         fr.readAsDataURL(files[0]);
 
-        // let basicz = this.state.basic;
-        // console.log(basicz);
-
-
       }else{
+        console.log('On cancel ');
+
         this.setState({button:'disabled',shownlink:'',pesonalPic:false});
+        console.log(this.state.pesonalPic);
       }
 
 
@@ -163,7 +156,7 @@ export default class stepThree extends Component{
 
                 <div className="row">
                     <div id="imageContain" style={{display:'flex', justifyContent:'center',alignItems:'center'}}className="col s12">
-                    {this.state.pesonalPic || this.state.shownlink.length >0?
+                    {this.state.pesonalPic ?
                       <div className="circle" id="page">
                         <div id="demo-basic" onClick={this.toggleFileBrowser.bind(this)}>
 
@@ -172,7 +165,7 @@ export default class stepThree extends Component{
                       :
                       <Avatar
                         size={this.state.width}
-                        letter='Y'
+                        letter={this.props.user.profile.firstName[0]}
                         onClick={this.toggleFileBrowser.bind(this)}
                         />
                     }
@@ -193,7 +186,7 @@ export default class stepThree extends Component{
                               <input  id="fileInput"   onChange={this.onFileInputChange.bind(this)} type="file" accept="image/*"/>
                             </div>
                             <div className="file-path-wrapper">
-                              <input id='fileName'className={"file-path  "+ this.state.validImage} type="text"/>
+                              <input id='fileName 'className={"file-path  "+ this.state.validImage} type="text"/>
                             </div>
                           </div>
                         </div>

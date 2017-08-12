@@ -19,6 +19,7 @@ export default class StepOne extends Component{
       };
     }
     handleNext(){
+        // this.props.next(2, {}, this.state.pro);
         let fn = this.refs.fn.value();
         let ln = this.refs.ln.value();
         let em = this.refs.em.value();
