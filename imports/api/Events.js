@@ -69,7 +69,7 @@ Meteor.methods({
     if(eventData.important != editEvent.important){
       eventData.important = editEvent.important;
     }
-    Event.update({_id: eventId,owner:this.userId});
+    Event.update({_id: eventId,owner:this.userId},{$set:eventData});
   },
   removeEvent(eventId){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);

@@ -6,7 +6,10 @@ import  RequirementSchema  from './requirementSchema';
 import SupervisorSchema from './supervisorSchema';
 
 //Make Jobtitle and are of objects where title corresponds to pay
+SimpleSchema.messages({
+  "unmatched": "there is a issue with the amount of worker and the days and pay rate",
 
+});
 export default JobSchema = new SimpleSchema({
   employerId:{
     type:String
@@ -28,15 +31,32 @@ export default JobSchema = new SimpleSchema({
   },
   eventInfo:{
     type: [String],
-    defaultValue: []
+    defaultValue: [],
+    custom: function(){
+      let pay = this.field('pay');
+      let numWorkers =  this.field('numWorkers');
+      if(this.isSet && pay.isSet && numWorkers.isSet){
+        if(this.value.length != pay.value.length ||
+           this.value.length != numWorkers.value.length ||
+         pay.value.length != numWorkers.value.length){
+           return "unmatched";
+         }
+      }
+    }
   },
   pay:{
     type: [Number],
-    defaultValue: []
+    defaultValue: [],
+    custom: function(){
+
+    }
   },
   numWorkers:{
     type: [Number],
-    defaultValue: []
+    defaultValue: [],
+    custom: function(){
+
+    }
   },
   location:{
     type: LocationSchema

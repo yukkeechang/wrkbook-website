@@ -1,68 +1,149 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check'
-
+import { Roles } from 'meteor/alanning:roles';
+import {PROFESSIONAL} from './Schemas/employeeSchema';
+import {CONTRACTOR} from './Schemas/employerSchema';
+import {NOTAUTH} from './Users';
 import ReviewSchema from  './Schemas/reviewSchema';
 import {DEFAULT} from './Schemas/basicTextSchema';
 
-
+const WRONGMET ={
+  incorrectMethod = true;
+}
+const REVIEWERR ={
+  reviewNotMade = true;
+};
 //Defines a collection with the name "reviews"
 Review  = new Mongo.Collection('reviews');
 Review.attachSchema(ReviewSchema);
-/*
+/**
 *
 * Publishes all Reviews written for a user with an String ID
-* @param {String} The Id of the Reviewee
+* @param {String} The Id of the user
 * @returns {Array} that contains all the review of that reviewee
 *
 */
-Meteor.publish('reviews-by-revieweeID',function (revieweeId) {
+Meteor.publish('reviews-for-user',function (revieweeId) {
   check(revieweeId,String)
+  if(!this.userId || !Roles.userIsInRole(revieweeId,PROFESSIONAL)){
+    this.stop();
+    throw new Meteor.Error('401',NOTAUTH);
+  }
+  if(this.userId === revieweeId){
+    this.stop();
+    throw new Meteor.Error('403',WRONGMET)
+  }
   this.ready();
   return Review.find({ revieweeId: revieweeId});
 });
 
-/*
+/**
 *
 * Publishes all Reviews written by a user with ID
-* @param {String} The Id of the Reviewer
+* @param {String} The Id of user
 * @returns {Array} that contains all the review of that reviewer
 *
 */
-Meteor.publish('reviews-by-reviewerID',function (reviewerId) {
+Meteor.publish('reviews-by-user',function (reviewerId) {
   check(reviewerId,String);
+  if(!this.userId){
+    this.stop();
+    throw new Meteor.Error('401',NOTAUTH);
+  }
+  if(this.userId === reviewerId){
+    this.stop();
+    throw new Meteor.Error('403',WRONGMET)
+  }
   this.ready();
   return Review.find({ reviewerId: reviewerId});
 });
+/**
+*
+* Publishes all Reviews written for the current user
+* @returns {Array} that contains all the review of that reviewee
+*
+*/
+Meteor.publish('reviews-for-you',function(){
+  if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)){
+    this.stop();
+    throw new Meteor.Error('401',NOTAUTH);
+  }
+  return Review.find({revieweeId:this.userId})
 
+});
+/**
+*
+* Publishes all Reviews written by the current user
+* @returns {Array} that contains all the review of that reviewer
+*
+*/
+Meteor.publish('reviews-by-you',function(){
+  if(!this.userId){
+    this.stop();
+    throw new Meteor.Error('401',NOTAUTH);
+  }
+  return Review.find({reviewerId:this.userId})
+})
 
 Meteor.methods({
-  /*
+  /**
   Inserts a review into the database. That review must follow the format of
-  ReviewSchema.
+  ReviewSchema. If a employer is reviewing a employee, the employee must have
+  worked ona job posted by the employer, if not the review wont be made.
+  If a employee wants to review another employee they must have worked on the same
+  job, if not the review wont be made.
+  You can not review employers.
   @param {Object} newReview must match to the ReviewSchema
-  @throw {Meteor.Error} if the object passed does not match the Schema you will
+  @throws {Meteor.Error} if the object passed does not match the Schema you will
   get a match error or if the user calling the method is not signin a Meteor.Error
   will be called.
   */
   createReview(newReview){
-    if(!this.userId) throw new Meteor.Error('401',"Login required");
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+
+    newReview.reviewerId = this.userId;
     check(newReview,ReviewSchema);
+    let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
+    let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
+    if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
+    if(Roles.userIsInRole(newReview.revieweeId,CONTRACTOR)) throw new Meteor.Error('403',REVIEWERR);
+    if(isCON && Roles.userIsInRole(newReview.revieweeId,PROFESSIONAL)){
+      let hackIdThing = [];
+      hackIdThing[0] = newReview.revieweeId;
+      let cursor = Job.find({
+        $and :[{employerId: this.userId},{admitemployeeIds: {$in: hackIdThing}}]
+      });
+      let workedOnJobs = cursor.count() > 0 ? true : false;
+      if(!workedOnJobs) throw new Meteor.Error('403',REVIEWERR);
+    }
+    if(isPRO &&  Roles.userIsInRole(newReview.revieweeId,PROFESSIONAL) ){
+      let currentUser = Meteor.users.findOne({_id : this.userId},{fields: {  'profile.employeeData.prevJobs': 1} });
+      let toBeReviewed = Meteor.users.findOne({_id : newReview.revieweeId},{fields: {  'profile.employeeData.prevJobs': 1} });
+      if(currentUser.profile.employeeData.prevJobs.length  === 0) throw new Meteor.Error('403',REVIEWERR);
+      let workedOnJobs = function (currentUser.profile.employeeData.prevJobs, toBeReviewed.profile.employeeData.prevJobs) {
+          return toBeReviewed.profile.employeeData.prevJobs.some(function (v) {
+              return currentUser.profile.employeeData.prevJobs.indexOf(v) >= 0;
+          });
+      };
+      if(!workedOnJobs) throw new Meteor.Error('403',REVIEWERR);
+
+    }
     Review.insert(newReview);
   },
 
-  /*
+  /**
   Updates a review that was already inserted into the database. If the updateReview
   object contains default values no reassignments will occur.
   @param {String} reviewId is the Id of the review
   @param {Object} updateReview must match to the ReviewSchema
-  @throw {Meteor.Error} if the object passed does not match the Schema you will
+  @throws {Meteor.Error} if the object passed does not match the Schema you will
   get a match error OR if the user calling the method is not signin a Meteor.Error
   will be called OR if the reviewId is not a string.
   */
   updateReview(reviewId,updateReview){
     check(reviewId,String);
-    if(!this.userId) throw new Meteor.Error('401',"Login required");
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
     check(updateReview,ReviewSchema);
     let prevReview = Review.findOne({_id: reviewId});
@@ -73,19 +154,19 @@ Meteor.methods({
     if(newReview.rating > 0){
       prevReview.rating = newReview.rating;
     }
-    Review.update({_id: reviewId},{$set: prevReview});
+    Review.update({_id: reviewId,reviewerId:this.userId},{$set: prevReview});
 
   },
-  /*
+  /**
   *
   Deletes a review from the database using its ID.
   @param {String} reviewId is the Id of the Review
-  @throw {Meteor.Error} if the reviewID is not a string a match error will be
+  @throws {Meteor.Error} if the reviewID is not a string a match error will be
   thrown Or if the user calling the function is not sign an 401 error will be thrown
   */
   removeReview(reviewId){
     check(reviewId,String);
-    if(!this.userId) throw new Meteor.Error('401',"Login required");
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
     Review.remove({_id: reviewId, revieweeId: this.userId});
   }

@@ -4,7 +4,8 @@ import ImportantSchema from './importanceSchema'
 //https://wiki.mozilla.org/Calendar:Sql_Calendar_Schema
 SimpleSchema.messages({
   "beginDate": "BEGIN DATE IS SET AFTER END DATE",
-  "endDATE" :"END DATE IS SET BEFORE BEGIN DATE"
+  "endDATE" :"END DATE IS SET BEFORE BEGIN DATE",
+  "interval": "The interval is not valid given the recurring type"
 });
 
 export default  EventSchema = new SimpleSchema({
@@ -56,18 +57,101 @@ export default  EventSchema = new SimpleSchema({
       }
     }
   },
-
+/**
+case 0 -> means it's  a one time event
+case 1 -> means it's a daily recuring event
+case 2 -> means it's a weekly recurring event
+case 3 -> means it's a monthly recurring event
+**/
   recurringType:{
     type: Number,
-    defaultValue: 0
+    defaultValue: 0,
+    custom: function(){
+      let interval = this.field('recurringInterval');
+      if(this.isSet && interval.isSet){
+        let recurring = this.value;
+        switch (recurring) {
+          case 0:
+            if(interval.value != 0) return "interval";
+            break;
+          case 1:
+            if(interval.value >= 7 || interval.value < 0)return "interval";
+            break;
+          case 2:
+            if(interval.value >= 4 || interval.value <0) return "interval";
+            break;
+          case 3:
+              if(interval.value >= 12 || interval.value < 0 ) return 'interval';
+            break;
+          default:
+            return 'interval';
+        }
+      }
+    }
   },
+/**
+if recurringTYpe then the interval should be 0 : since its a one time event
+**/
   recurringInterval:{
     type:Number,
-    defaultValue:0
+    defaultValue:0,
+    custom: function(){
+      let recurringTYpe = this.field('recurringType');
+      if(this.isSet && recurringType.isSet){
+        let interval = this.value;
+        switch (recurringTYpe) {
+          case 0:
+            if(interval.value != 0) return "interval";
+            break;
+          case 1:
+            if(interval.value >= 7 || interval.value < 0)return "interval";
+            break;
+          case 2:
+            if(interval.value >= 4 || interval.value <0) return "interval";
+            break;
+          case 3:
+              if(interval.value >= 12 || interval.value < 0 ) return 'interval';
+            break;
+          default:
+            return 'interval';
+        }
+      }
+    }
   },
+  /**
+  Mask for reccurring events-> meaning its going to exclude that given values.
+  for example a value of [3] for a daily recurring is going to repeat every day except for
+  the third day of the weeek ,and a value of [2,3] for a daily recurring is going to repeat every day except for
+  the second and third day of the weeek
+  **/
   recurringData:{
-    type: Number,
-    defaultValue:0
+    type: [Number],
+    defaultValue:[],
+    custom : function(){
+      let recurringTYpe = this.field('recurringType');
+      if(this.isSet && recurringType.isSet){
+        let mask = this.value;
+        let largest = mask.sort().reverse()[0];
+        let smallest = mask.sort()[0];
+        switch (recurringTYpe) {
+          case 0:
+            if(largest.value != 0) return "interval";
+            if(smallest.value != 0) return "interval";
+            break;
+          case 1:
+            if(largest.value >= 7 || smallest.value < 0)return "interval";
+            break;
+          case 2:
+            if(largest.value >= 4 || smallest.value <0) return "interval";
+            break;
+          case 3:
+              if(largest.value >= 12 || smallest.value < 0 ) return 'interval';
+            break;
+          default:
+            return 'interval';
+        }
+      }
+    }
   },
   jobId:{
     type: String,

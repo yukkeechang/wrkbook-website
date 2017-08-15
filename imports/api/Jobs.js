@@ -94,6 +94,7 @@ Meteor.publish('job-post-employer',function(){
   }
 
 });
+
 /**
 *
 * Publishes all Jobs that a employee was matched with
@@ -112,6 +113,16 @@ Meteor.publish('job-post-admitted',function(){
   }
 
 });
+Meteor.publish('active-jobs-admin',function(){
+  if(Roles.userIsInRole(this.userId,'admin')){
+    return Job.find({isOpen: true});
+  }else{
+    this.stop();
+    return ;
+  }
+
+});
+
 Meteor.publish('all-jobs',function(){
   return Job.find({});
 });
@@ -196,35 +207,27 @@ Meteor.methods({
     if(!(prevJob)) return;
     let requirements = updateJob.requirements;
 
-    if(updateJob.title.text != DEFAULT ){
-      prevJob.title.text = updateJob.title.text
-    }
-    if(updateJob.description.text != DEFAULT ){
-      prevJob.description.text = updateJob.description.text
-    }
+
     if(updateJob.additionText.text != DEFAULT ){
       prevJob.additionText.text = updateJob.additionText.text
     }
-    if(updateJob.startAt != prevJob.startAt){
-      prevJob.startAt = updateJob.startAt;
+    if(updateJob.eventInfo.length != prevJob.eventInfo.length){
+      prevJob.eventInfo = updateJob.eventInfo;
     }
-    if(updateJob.startAt != prevJob.endAt){
-      prevJob.endAt = updateJob.endAt;
-    }
-    if(updateJob.pay.length >0){
+    if(updateJob.pay.length > 0){
       prevJob.pay = updateJob.pay;
     }
-    if(updateJob.numWorker != prevJob.numWorker){
+    if(updateJob.numWorker.length >0 ){
       prevJob.numWorker = updateJob.numWorker;
     }
-    if(updateJob.jobTypes.length >0){
+    if(updateJob.jobTypes.length > 0){
       prevJob.jobTypes = updateJob.jobTypes;
     }
     if(prevJob.isOpen != updateJob.isOpen){
         prevJob.isOpen = updateJob.isOpen;
     }
 
-    if(requirements.languages.length > 0){
+    if(requirements.languages.length >0){
       prevJob.requirements.languages = requirements.languages;
 
     }
@@ -287,7 +290,8 @@ Meteor.methods({
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     // check(updateJob.,JobSchema);
-    if(!isPRO|| !isCON ) throw new Meteor.Error('401',NOTAUTH);
+    if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
+
     let prevJob = Job.findOne({_id: jobId});
     if(!(prevJob)) throw new Meteor.Error('403','Job was not found');
     if(!('undefined' === typeof(empolyeeIds.apply))){
@@ -338,7 +342,10 @@ Meteor.methods({
     check(jobId,String);
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     // if(!Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+    let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
+    let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
 
+    if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
     Job.findOne({_id:jobId,employerId:this.userId})
 
   }
