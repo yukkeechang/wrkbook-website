@@ -8,6 +8,7 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import DefaultPage from './Pages/DefaultPage';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
+import Payment from './Pages/Payment';
 class App extends Component {
 
     render(){
@@ -24,6 +25,7 @@ class App extends Component {
                             <Route exact path="/" component={DefaultPage}/>
                             <Route exact path="/login" component={SignIn}/>
                             <Route exact path="/register" component={SignUp}/>
+                            <Route exact path="/payment" component={Payment}/>
                         </Switch>
                     </CSSTransitionGroup>
                 )}/>

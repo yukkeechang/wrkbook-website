@@ -28,3 +28,5 @@ cfs:standard-packages
 alanning:roles
 static-html
 cfs:graphicsmagick
+email
+meteorhacks:ssr

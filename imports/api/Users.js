@@ -23,6 +23,31 @@ Meteor.publish(null, function() {
     return Meteor.users.find({_id: this.userId}, {fields: { emails: 1, profile: 1,roles: 1 } });
 });
 
+
+Accounts.emailTemplates.siteName = 'WRKBOOK';
+Accounts.emailTemplates.from = 'WRKBOOK Admin <tabahani@wrkbook.com>';
+Accounts.emailTemplates.enrollAccount.subject = (user) => {
+  return `Welcome to Awesome Town, ${user.profile.name}`;
+};
+Accounts.emailTemplates.enrollAccount.text = (user, url) => {
+  return 'You have been selected to participate in building a better future!'
+    + ' To activate your account, simply click the link below:\n\n'
+    + url;
+};
+Accounts.emailTemplates.resetPassword.from = () => {
+  // Overrides the value set in `Accounts.emailTemplates.from` when resetting
+  // passwords.
+  return 'AwesomeSite Password Reset <no-reply@wrkbook.com>';
+};
+Accounts.emailTemplates.verifyEmail = {
+   subject() {
+      return "Activate your account now!";
+   },
+   text(user, url) {
+      return `Hey ${user.profile.firstName}! Verify your e-mail by following this link: ${url}`;
+   }
+};
+
 Meteor.methods({
     /**
     Validates the User Basic Information such as phone, email, etc. Also checks
@@ -159,6 +184,7 @@ Meteor.methods({
         Roles.addUsersToRoles(id,CONTRACTOR);
       }
       Meteor.users.update({_id: id},{$unset : {'profile.isPro': 1}});
+      Accounts.sendVerificationEmail(id);
     },
     /**
       Returns the user stored in the database by given Id

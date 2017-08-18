@@ -1,0 +1,8 @@
+{
+  "public": {
+    "stripe": "pk_test_APIKEY"
+  },
+  "private": {
+    "stripe": "sk_test_APIKEY"
+  }
+}

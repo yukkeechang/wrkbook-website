@@ -121,12 +121,15 @@ Meteor.methods({
       let currentUser = Meteor.users.findOne({_id : this.userId},{fields: {  'profile.employeeData.prevJobs': 1} });
       let toBeReviewed = Meteor.users.findOne({_id : newReview.revieweeId},{fields: {  'profile.employeeData.prevJobs': 1} });
       if(currentUser.profile.employeeData.prevJobs.length  === 0) throw new Meteor.Error('403',REVIEWERR);
-      let workedOnJobs = function (currentUser.profile.employeeData.prevJobs, toBeReviewed.profile.employeeData.prevJobs) {
-          return toBeReviewed.profile.employeeData.prevJobs.some(function (v) {
-              return currentUser.profile.employeeData.prevJobs.indexOf(v) >= 0;
+
+      let workedOnJobs = function (arry1,arry2) {
+          return arry1.some(function (v) {
+              return arry2.indexOf(v) >= 0;
           });
       };
-      if(!workedOnJobs) throw new Meteor.Error('403',REVIEWERR);
+
+      let prevWorked = workedOnJobs(currentUser.profile.employeeData.prevJobs,toBeReviewed.profile.employeeData.prevJobs);
+      if(!prevWorked) throw new Meteor.Error('403',REVIEWERR);
 
     }
     Review.insert(newReview);

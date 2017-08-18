@@ -1,10 +1,17 @@
 # WrkBook Website
+## How to Run :money_with_wings: :money_with_wings: Strip :money_with_wings: :money_with_wings: With Meteor
+1. In settings-development.json replace `APIKEY` with the actual public and
+private key associated with strip.
+2. Run `meteor --settings settings-development.json`
+3. :fearful:
+4. :sob:
+### Ignore things below (Not updated)
 <ul>
   <li>client</li>
-  Where meteor builds and serves the product from. No code written by us. 
+  Where meteor builds and serves the product from. No code written by us.
   <ul>
     <li>main.html</li>
-    Starting point for the app. What meteor looks at when building it. 
+    Starting point for the app. What meteor looks at when building it.
     <li>main.js</li>
     Not applicable to us. For any javascript you want on the client side that isn't in the React. Importing the app is      the starting point of the app
     <li>styles.css</li>
@@ -16,7 +23,7 @@
     Contains all the back end of the app
     <ul>
       <li>Images.js</li>
-      API for images. Insert images. 
+      API for images. Insert images.
       <li>Jobs.js</li>
       API for jobs. Creating, editing, removing, and publishing jobs (client can subscribe and get notifications) to client
       <li>Reviews.js</li>
@@ -25,19 +32,19 @@
       Contains the schemas for the back end (validating json objects to check if they match the requirements)
       <ul>
         <li>availableSchema.js</li>
-        Dates workers are available. 
+        Dates workers are available.
         <li>basicTextSchema.js</li>
-        Text field (250 char). 
+        Text field (250 char).
         <li>employeeSchema.js</li>
-        Employee structure. 
+        Employee structure.
         <li>employerSchema.js</li>
         Employer structure
         <li>jobSchema.js</li>
-        Job post schema. 
+        Job post schema.
         <li>locationSchema.js</li>
         Location schema
         <li>requirementSchema.js</li>
-        Job requirement schema. 
+        Job requirement schema.
         <li>reviewSchema.js</li>
         Review schema
         <li>textListSchema.js</li>
@@ -118,6 +125,3 @@
     <li><del>service-config.js</del></li>
   </ul>
 </ul>
-
-
-

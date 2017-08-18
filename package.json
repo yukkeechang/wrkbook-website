@@ -13,6 +13,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.1",
-    "react-transition-group": "^1.2.0"
+    "react-transition-group": "^1.2.0",
+    "stripe": "^4.24.0"
   }
 }
