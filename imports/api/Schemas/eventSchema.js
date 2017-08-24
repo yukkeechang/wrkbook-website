@@ -15,7 +15,7 @@ export default  EventSchema = new SimpleSchema({
   title:{
     type: BasicText
   },
-  description:{
+  responsibilities:{
     type:BasicText
   },
   startAt:{
@@ -84,7 +84,7 @@ case 3 -> means it's a monthly recurring event
               if(interval.value >= 12 || interval.value < 0 ) return 'interval';
             break;
           default:
-            return 'interval';
+            return ;
         }
       }
     }
@@ -96,10 +96,10 @@ if recurringTYpe then the interval should be 0 : since its a one time event
     type:Number,
     defaultValue:0,
     custom: function(){
-      let recurringTYpe = this.field('recurringType');
+      let recurringType = this.field('recurringType');
       if(this.isSet && recurringType.isSet){
         let interval = this.value;
-        switch (recurringTYpe) {
+        switch (recurringType) {
           case 0:
             if(interval.value != 0) return "interval";
             break;
@@ -113,7 +113,7 @@ if recurringTYpe then the interval should be 0 : since its a one time event
               if(interval.value >= 12 || interval.value < 0 ) return 'interval';
             break;
           default:
-            return 'interval';
+            return ;
         }
       }
     }
@@ -128,12 +128,12 @@ if recurringTYpe then the interval should be 0 : since its a one time event
     type: [Number],
     defaultValue:[],
     custom : function(){
-      let recurringTYpe = this.field('recurringType');
+      let recurringType = this.field('recurringType');
       if(this.isSet && recurringType.isSet){
         let mask = this.value;
         let largest = mask.sort().reverse()[0];
         let smallest = mask.sort()[0];
-        switch (recurringTYpe) {
+        switch (recurringType) {
           case 0:
             if(largest.value != 0) return "interval";
             if(smallest.value != 0) return "interval";
@@ -148,7 +148,7 @@ if recurringTYpe then the interval should be 0 : since its a one time event
               if(largest.value >= 12 || smallest.value < 0 ) return 'interval';
             break;
           default:
-            return 'interval';
+            return ;
         }
       }
     }

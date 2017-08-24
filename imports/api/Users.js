@@ -24,31 +24,22 @@ Meteor.publish(null, function() {
 });
 
 
-Accounts.emailTemplates.siteName = 'WRKBOOK';
-Accounts.emailTemplates.from = 'WRKBOOK Admin <tabahani@wrkbook.com>';
-Accounts.emailTemplates.enrollAccount.subject = (user) => {
-  return `Welcome to Awesome Town, ${user.profile.name}`;
-};
-Accounts.emailTemplates.enrollAccount.text = (user, url) => {
-  return 'You have been selected to participate in building a better future!'
-    + ' To activate your account, simply click the link below:\n\n'
-    + url;
-};
-Accounts.emailTemplates.resetPassword.from = () => {
-  // Overrides the value set in `Accounts.emailTemplates.from` when resetting
-  // passwords.
-  return 'AwesomeSite Password Reset <no-reply@wrkbook.com>';
-};
-Accounts.emailTemplates.verifyEmail = {
-   subject() {
-      return "Activate your account now!";
-   },
-   text(user, url) {
-      return `Hey ${user.profile.firstName}! Verify your e-mail by following this link: ${url}`;
-   }
-};
 
 Meteor.methods({
+    checkPasswords(passwords){
+      let nEqual = passwords.password1 !== passwords.password2 ? true : false;
+      let gPass   = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d].{8,}$/.test(passwords.password1);
+      let pEmpty = passwords.password1.length > 0 ? false : true;
+
+      let Errors ={
+        nEqual : nEqual,
+        pValid : gPass,
+        p1Empty : pEmpty
+      };
+
+      if(nEqual|| !gPass||pEmpty) throw new Meteor.Error('403',Errors);
+
+    },
     /**
     Validates the User Basic Information such as phone, email, etc. Also checks
     if there is an account already made with the same email address.
@@ -154,6 +145,9 @@ Meteor.methods({
         throw new Meteor.Error('403',Errors);
       }
     },
+    sendVerificationEmail(id){
+      Accounts.sendVerificationEmail(id);
+    },
     /**
       Inserts the User into the database, but first validates the user using
       the validateBasicUserData and either the validateEmployer or the
@@ -184,8 +178,11 @@ Meteor.methods({
         Roles.addUsersToRoles(id,CONTRACTOR);
       }
       Meteor.users.update({_id: id},{$unset : {'profile.isPro': 1}});
-      Accounts.sendVerificationEmail(id);
+      Meteor.call('sendVerificationEmail',id,(err)=>{
+        if(err)console.log(err);
+      });
     },
+
     /**
       Returns the user stored in the database by given Id
       @param{String} userId is the Id of the user
@@ -362,7 +359,7 @@ Meteor.methods({
       if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
       let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
       let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
-      if(!isPRO || !isCON ) throw new Meteor.Error('401',NOTAUTH);
+      if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
       let user = Meteor.user.findOne({_id:this.userId});
       check(imageId,String);
       user.image = imageId;
@@ -379,7 +376,7 @@ Meteor.methods({
       let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
       let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
 
-      if(!isPRO || !isCON ) throw new Meteor.Error('401',NOTAUTH);
+      if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
       if(Roles.userIsInRole(this.userId,CONTRACTOR)){
         let jobstoRemove = Job.find({employerId: this.userId});
       }

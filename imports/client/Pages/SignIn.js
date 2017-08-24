@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom'; 
+import ReactDOM from 'react-dom';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
 import { Link } from 'react-router-dom';
@@ -23,7 +23,7 @@ export default class SignIn extends Component{
       }else{
         this.props.history.push('/');
       }
-    })
+    });
   }
   render(){
     return(
@@ -35,14 +35,14 @@ export default class SignIn extends Component{
               <div className="row card-content">
                 <form className="col s12">
                   <div className="row">
-                    <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>    
+                    <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
                     <MTextField ref="p1" id="pass1"     error={this.state.pValid} type="password" label="Password *"/>
                   </div>
                   <a className="btn-flat teal lighten-4" onClick={this.login.bind(this)} style={{color: '#555',textTransform: 'none'}} type="submit">Log In</a>
                   <br/><br/><Link to="/register">Don't have an account? Click here to register</Link>
-
+                  <br/><br/><Link to="/forgot">Forgot Password?</Link>
                 </form>
-              </div>  
+              </div>
 
             </div>
           </div>

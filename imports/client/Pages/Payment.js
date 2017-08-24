@@ -55,15 +55,12 @@ export default class Payment extends Component {
         // Replace this with whatever meteor wants to do with the form submission
         // $('#payment-form').submit();
         // console.log(token.id);
-        Meteor.call('createCard',token.id,(err)=>{
+        Meteor.call('getStoredPayments',(err,result)=>{
           if (err) {
             console.log(err);
           }
-          else{
-            Meteor.call('createSubscription','beta-employer',(err)=>{
-              if (err) console.log(err);
-            });
-          }
+          console.log(result);
+
         });
     }
 

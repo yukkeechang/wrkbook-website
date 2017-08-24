@@ -14,7 +14,7 @@ import { Roles } from 'meteor/alanning:roles';
 
 var newJobEventCheck ={
   job: Object,
-  eventInfo: [Object]
+  eventz: [Object]
 };
 //Defines a collection named jobs
 Job = new Mongo.Collection('jobs');
@@ -143,7 +143,7 @@ Meteor.methods({
     if(Roles.userIsInRole(this.userId,CONTRACTOR) ){
       check(newJobEvent,newJobEventCheck);
       let job = newJobEvent.job;
-      let eventz = newJobEvent.eventInfo;
+      let eventz = newJobEvent.eventz;
       job.employerId = this.userId;
       job.createdAt = new Date();
       job.updateAt = new Date();

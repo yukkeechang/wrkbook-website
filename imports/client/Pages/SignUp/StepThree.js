@@ -1,12 +1,7 @@
 import React , { Component } from 'react';
 import Avatar from '../Shared/Avatar';
 
-const imageStore = new FS.Store.GridFS('images');
-const thumbNail = new FS.Store.GridFS('thumbnail');
-//COPY THIS
- Images = new FS.Collection('images',{
-  stores: [imageStore,thumbNail]
-});
+
 
 export default class stepThree extends Component{
   constructor(props){
