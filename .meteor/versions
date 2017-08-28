@@ -68,6 +68,7 @@ launch-screen@1.1.1
 livedata@1.0.18
 localstorage@1.1.1
 logging@1.1.17
+matteodem:server-session@0.4.2
 mdg:validation-error@0.2.0
 meteor@1.7.0
 meteor-base@1.1.0

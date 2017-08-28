@@ -30,11 +30,8 @@ class ContractorJobPosts extends React.Component{
                 key={index}
                 jobinfo ={job}
                 title={job.jobTypes.texts}
-                startAt={job.startAt}
-                endAt={job.endAt}
-                description={job.additionText.text}
+                description={job.description.text}
                 location={job.location}
-                pay={job.pay}
               />
             )
           })}

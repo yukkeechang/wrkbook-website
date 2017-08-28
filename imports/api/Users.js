@@ -4,15 +4,16 @@ import { check } from 'meteor/check';
 import EmployerSchema  from './Schemas/employerSchema'
 import EmployeeSchema  from './Schemas/employeeSchema';
 import {DEFAULT} from './Schemas/basicTextSchema';
+import {PICLINK} from './Schemas/basicTextSchema';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import { Roles } from 'meteor/alanning:roles';
-import {PICLINK} from './Schemas/basicTextSchema';
 import BasicText from './Schemas/basicTextSchema';
 import LocationSchema from './Schemas/locationSchema';
 import EducationSchema from './Schemas/educationSchema';
 import OshaSchema from './Schemas/oshaSchema';
 import TextList from './Schemas/textListSchema';
+import {ServerSession } from 'meteor/matteodem:server-session';
 
 export const NOTAUTH = {
     notAuthorized: true
@@ -22,7 +23,6 @@ export const NOTAUTH = {
 Meteor.publish(null, function() {
     return Meteor.users.find({_id: this.userId}, {fields: { emails: 1, profile: 1,roles: 1 } });
 });
-
 
 
 Meteor.methods({
@@ -145,8 +145,13 @@ Meteor.methods({
         throw new Meteor.Error('403',Errors);
       }
     },
-    sendVerificationEmail(id){
-      Accounts.sendVerificationEmail(id);
+    sendVerificationEmailServer(Id){
+      if(!!this.userId) throw new Meteor.Error('403',NOTAUTH);
+       Accounts.sendVerificationEmail(Id);
+     },
+    sendVerificationEmail(){
+      if(!this.userId) throw new Meteor.Error('403',NOTAUTH);
+      Accounts.sendVerificationEmail(this.userId);
     },
     /**
       Inserts the User into the database, but first validates the user using
@@ -166,9 +171,17 @@ Meteor.methods({
       if(User.profile.isPro){
         if(('undefined' === typeof(User.profile.employeeData)))throw new Meteor.Error('403','NAH');
         Meteor.call('validateEmployee',User.profile.employeeData);
+        if('undefined' === typeof(User.profile.employeeData.image)){
+          User.profile.employeeData.image = ServerSession.get('DEFAULTPIC');
+          console.log(ServerSession.get('DEFAULTPIC'));
+        }
       }else{
-          if(('undefined' === typeof(User.profile.employerData)))throw new Meteor.Error('403','NAH');
+        if(('undefined' === typeof(User.profile.employerData)))throw new Meteor.Error('403','NAH');
         Meteor.call('validateEmployer',User.profile.employerData);
+        if('undefined' === typeof(User.profile.employerData.image)){
+            console.log(ServerSession.get('DEFAULTPIC'));
+          User.profile.employerData.image = ServerSession.get('DEFAULTPIC');
+        }
       }
 
       let id = Accounts.createUser(User);
@@ -176,11 +189,12 @@ Meteor.methods({
         Roles.addUsersToRoles(id, PROFESSIONAL );
       }else{
         Roles.addUsersToRoles(id,CONTRACTOR);
+        Roles.addUsersToRoles(id,'free-job');
       }
       Meteor.users.update({_id: id},{$unset : {'profile.isPro': 1}});
-      Meteor.call('sendVerificationEmail',id,(err)=>{
+      Meteor.call('sendVerificationEmailServer',id,(err)=>{
         if(err)console.log(err);
-      });
+      })
     },
 
     /**

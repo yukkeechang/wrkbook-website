@@ -62,17 +62,6 @@ export default class CreateJobs extends Component {
         return this.refs[title].value();
       });
       let job = JobSchema.clean({});
-      let events =[];
-      for( let i =0; i< professionals.length;++i){
-        let event = EventSchema.clean({});
-        console.log(event);
-        event.title.text = professionals[i].title;
-        event.responsibilities.text = professionals[i].responsibilities;
-        event.startAt = professionals[i].startAt;
-        event.endAt = professionals[i].endAt;
-        events.push(event);
-
-      }
       let location = LocationSchema.clean({});
       let jobtypes = $('#jobTitles').val();
       const description = this.refs.jobDescription.value.trim();
@@ -80,28 +69,27 @@ export default class CreateJobs extends Component {
       location = loc.location;
       job.supervisor.name = this.refs.supervisorName.value.trim();
       job.supervisor.phone = this.refs.supervisorNumber.value.trim();
-      job.additionText.text = additionText;
+
+      job.additionText = additionText;
+      job.description.text = description;
+
+
       job.jobTypes.texts = jobtypes;
       job.professionals = professionals;
-    console.log(job);
       job.location = location;
       job.jobTitle.text = this.refs.jobTitle.value.trim();
       job.requirements.socialPref.social = $("#sscYes").prop('checked');
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
-      job.requirements.education.highGED = this.refs.hs.checked;
-      job.requirements.education.tradeSchool = this.refs.ts.checked;
-      job.requirements.education.higherEdu = this.refs.he.checked;
-      let newJob = {
-        job: job,
-        eventz: events
-      };
+
       // console.log(newJob);
       console.log(job);
-      Meteor.call('createJob',newJob,(err)=>{
+      Meteor.call('createJob',job,(res,err)=>{
           if(err){
             console.log(err);
+          }else{
+            console.log(res);
           }
       });
     }
@@ -198,23 +186,7 @@ export default class CreateJobs extends Component {
             </div>
           </div>
         </form>
-        <form>
-        <div className="col s12">
-            <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Education preference</p>
-            <p>
-            <input ref="hs" type="checkbox" id="hs" defaultChecked="checked"/>
-            <label htmlFor="hs">HighSchool/GED</label>
-            </p>
-            <p>
-            <input ref="ts" type="checkbox" id="ts"/>
-            <label htmlFor="ts">Trade Shool</label>
-            </p>
-            <p>
-            <input ref="he" type="checkbox" id="he"/>
-            <label htmlFor="he">Higher Education</label>
-            </p>
-        </div>
-        </form>
+
         <form>
           <div className="input-field col m6 s12">
             <select id="osha" ref="osha" onSelect={this.handleSelect.bind(this)}>

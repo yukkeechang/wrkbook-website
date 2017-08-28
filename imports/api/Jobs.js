@@ -6,16 +6,16 @@ import {DEFAULT} from './Schemas/basicTextSchema';
 import EmployerSchema  from './Schemas/employerSchema'
 import EmployeeSchema  from './Schemas/employeeSchema';
 import EventSchema from './Schemas/eventSchema';
+import OshaSchema from './Schemas/oshaSchema';
+import SocialSchema from './Schemas/socialSchema';
+import ProfessionalSchema from './Schemas/professionalSchema'
 import NotificationSchema from './Schemas/notificationSchema';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
 import { Roles } from 'meteor/alanning:roles';
 
-var newJobEventCheck ={
-  job: Object,
-  eventz: [Object]
-};
+
 //Defines a collection named jobs
 Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
@@ -126,7 +126,124 @@ Meteor.publish('active-jobs-admin',function(){
 Meteor.publish('all-jobs',function(){
   return Job.find({});
 });
+
 Meteor.methods({
+
+  validateJob(jobObject){
+    let  validations = JobSchema.newContext('JOB');
+    let proValidation = ProfessionalSchema.newContext('PRO');
+    let eventValidation = EventSchema.newContext('EVE');
+
+    let visorNumb = !validations.validateOne(jobObject,'supervisor.phone');
+    let visorName = !validations.validateOne(jobObject,'supervisor.name');
+    let jobTypes = !validations.validateOne(jobObject,'jobTypes.texts');
+    let jobTitle = !validations.validateOne(jobObject,'jobTitle.text');
+    let locationName = !validations.validateOne(jobObject,'location.locationName');
+    let locLat = !validations.validateOne(jobObject,'location.latitude');
+    let locLng = !validations.validateOne(jobObject,'location.longitude');
+    let reqLicense = !validations.validateOne(jobObject,'requirements.driverLicense');
+    let reqBackground = !validations.validateOne(jobObject,'requirements.backgroundCheck');
+    let reqLanguages = !validations.validateOne(jobObject,'requirements.languages');
+    let oshaCheck = !Match.test(jobObject.requirements.osha, OshaSchema);
+    let socialCheck = !Match.test(jobObject.requirements.socialPref, SocialSchema);
+    let lengthToCheck = jobObject.professionals.length;
+    let events = [];
+
+    for(let i =0;i<lengthToCheck;++i){
+        let eventtoMake= EventSchema.clean({});
+        eventtoMake.title.text = jobObject.professionals[i].title;
+        eventtoMake.responsibilities.text = jobObject.professionals[i].responsibilities;
+        eventtoMake.startAt = jobObject.professionals[i].startAt;
+        eventtoMake.endAt = jobObject.professionals[i].endAt;
+
+        delete jobObject.professionals[i].startAt;
+        delete jobObject.professionals[i].endAt;
+        delete jobObject.professionals[i].title;
+
+        events[i] = eventtoMake;
+    }
+
+
+
+    let proissue = false;
+    let eventissue = false;
+    let prodetails = [];
+    let eventdetails = [];
+    if(lengthToCheck < 1){
+      proissue = true;
+      eventissue=true;
+  }
+    for(let i =0;i<lengthToCheck;++i){
+      let protitle = !proValidation.validateOne(jobObject.professionals[i],'responsibilities');
+      let propay = !proValidation.validateOne(jobObject.professionals[i],'pay');
+      let proworker = !proValidation.validateOne(jobObject.professionals[i],'numWorkers');
+
+      let eventTitle = !eventValidation.validateOne(events[i],'title.text');
+      let eventRes = !eventValidation.validateOne(events[i],'responsibilities.text');
+      let eventStart = !eventValidation.validateOne(events[i],'startAt');
+      let eventEnd =  !eventValidation.validateOne(events[i],'endAt');
+
+
+      let ProError = {
+        protitle: protitle,
+        propay: propay,
+        proworker:proworker
+      };
+
+      let EventError ={
+        eventTitle: eventTitle,
+        eventRes : eventRes,
+        eventStart : eventStart,
+        eventEnd : eventEnd
+      }
+      if(protitle || propay || proworker) proissue = true;
+      if(eventTitle || eventRes || eventStart || eventEnd) eventissue = true;
+      prodetails[i] = ProError;
+      eventdetails[i] = EventError;
+
+    }
+
+    let Errors ={
+      visorNumb : visorNumb,
+      visorName : visorName,
+      jobTypes : jobTypes,
+      jobTitle : jobTitle,
+      locationName :  locationName,
+      locLat : locLat,
+      locLng :  locLng,
+      reqLicense : reqLicense,
+      reqBackground : reqBackground,
+      reqLanguages : reqLanguages,
+      oshaCheck : oshaCheck,
+      socialCheck : socialCheck,
+      professionalIssue :{
+        isIssue : proissue,
+        details : prodetails
+      },
+      eventIssue : {
+        isIssue : eventissue,
+        details : eventdetails,
+      }
+    };
+
+    console.log(jobObject);
+
+    if( visorNumb ||visorName || jobTypes || jobTitle || locationName ||
+      locLat || locLng || reqLicense || reqBackground || reqLanguages ||
+      oshaCheck  || socialCheck || proissue || eventissue
+    ) throw new Meteor.Error('403',Errors);
+
+    return{
+      job : jobObject,
+      events :  events
+    };
+
+
+
+
+
+
+  },
   /**
   Inserts a Job and an Event into the database. That Job must follow the format of
   JobSchema and the Event must follow the format of EventSchema.
@@ -141,19 +258,19 @@ Meteor.methods({
 
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(Roles.userIsInRole(this.userId,CONTRACTOR) ){
-      check(newJobEvent,newJobEventCheck);
-      let job = newJobEvent.job;
-      let eventz = newJobEvent.eventz;
+      let things = Meteor.call('validateJob',newJobEvent);
+      let job = things.job;
+      let eventz = things.events;
       job.employerId = this.userId;
       job.createdAt = new Date();
       job.updateAt = new Date();
-      check(job,JobSchema);
+      console.log(job);
+      console.log(eventz);
       let id1 = Job.insert(job);
       let ids2 =[];
       for (let i = 0; i < eventz.length; i++) {
         eventz[i].owner = this.userId;
         eventz[i].createdAt = new Date();
-        check(eventz[i],EventSchema);
         ids2[i] =  Event.insert(eventz[i]);
         eventz[i].jobId = id1;
         let selector2 = {_id: ids2[i], owner: this.userId};

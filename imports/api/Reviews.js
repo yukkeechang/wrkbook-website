@@ -9,10 +9,10 @@ import ReviewSchema from  './Schemas/reviewSchema';
 import {DEFAULT} from './Schemas/basicTextSchema';
 
 const WRONGMET ={
-  incorrectMethod = true;
-}
+  incorrectMethod : true
+};
 const REVIEWERR ={
-  reviewNotMade = true;
+  reviewNotMade : true
 };
 //Defines a collection with the name "reviews"
 Review  = new Mongo.Collection('reviews');
@@ -90,7 +90,7 @@ Meteor.methods({
   /**
   Inserts a review into the database. That review must follow the format of
   ReviewSchema. If a employer is reviewing a employee, the employee must have
-  worked ona job posted by the employer, if not the review wont be made.
+  worked on a job posted by the employer, if not the review wont be made.
   If a employee wants to review another employee they must have worked on the same
   job, if not the review wont be made.
   You can not review employers.

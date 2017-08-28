@@ -5,12 +5,12 @@ import { check } from 'meteor/check'
 
 
 let createThumb = function(fileObj, readStream, writeStream) {
-  // Transform the image into a 10x10px thumbnail
+  // Transform the image into a 50x50px thumbnail
   gm(readStream, fileObj.name()).resize('50', '50').stream().pipe(writeStream);
 };
 let createProfilePic = function(fileObj, readStream, writeStream) {
-  // Transform the image into a 10x10px thumbnail
-  gm(readStream, fileObj.name()).resize('50', '50').stream().pipe(writeStream);
+  // Transform the image into a 350x350px thumbnail
+  gm(readStream, fileObj.name()).resize('350', '350').stream().pipe(writeStream);
 };
 const imageStore = new FS.Store.GridFS('images',{
   transformWrite: createProfilePic

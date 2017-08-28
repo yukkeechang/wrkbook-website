@@ -1,26 +1,16 @@
 export default ProfessionalSchema = new SimpleSchema({
-  title :{
+  responsibilities :{
     type: String,
     defaultValue:''
   },
   pay:{
     type: Number,
-    defaultValue:0
+    defaultValue:0,
+    min: 1
   },
   numWorkers:{
     type: Number,
-    defaultValue:0
+    defaultValue:0,
+    min:1
   },
-  startAt:{
-    type:Date,
-    optional:true
-  },
-  responsibilities:{
-    type:String,
-    defaultValue:''
-  },
-  endAt:{
-    type: Date,
-    optional:true
-  }
 });

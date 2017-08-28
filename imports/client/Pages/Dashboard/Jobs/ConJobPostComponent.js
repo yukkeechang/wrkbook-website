@@ -13,12 +13,17 @@ export default class ConJobPostComponent extends React.Component{
       this.handleProChange(e);
     })
   }
+  componentWillMount(){
+    console.log(this.props.jobinfo);
+    console.log('NU');
+  }
   constructor(props){
   super(props);
   let job = this.props.jobinfo;
   this.state={
     applied: [],
     admit: [],
+    events: [],
     job: job,
     nothing1:true,
     nothing2:true,
@@ -89,13 +94,14 @@ export default class ConJobPostComponent extends React.Component{
           <div className="row">
             <div className="col m8 s12">
               <span className="card-title">{this.props.jobinfo.jobTitle.text}</span>
-              <p>{this.props.jobinfo.additionText.text}</p>
+              <br/>
+              <p>{this.props.description}</p>
             </div>
             <div className="col m2 s12 offset-l2 offset-m2">
-            <button className="waves-effect waves-teal teal lighten-3 btn-flat" onClick={this.handleEdit.bind(this)}>
+            <button className="waves-effect waves-teal btn-flat" onClick={this.handleEdit.bind(this)}>
               <i className="material-icons">people</i>
             </button>
-            <button className="waves-effect waves-teal teal lighten-3 btn-flat" onClick={this.handleMember.bind(this)}>
+            <button className="waves-effect waves-teal btn-flat" onClick={this.handleMember.bind(this)}>
               <i className="material-icons">edit</i>
             </button>
             </div>

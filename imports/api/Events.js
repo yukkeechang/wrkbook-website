@@ -21,7 +21,7 @@ Meteor.publish('today-events',function() {
     currentDate.setHours(0,0,0,0);
     return Event.find(
       {$and:[
-        {$and : [{startAt:{$gte: currentDate}},{endAt:{$lte:currentDate}}]},
+        {$or : [{startAt:{$gte: currentDate}},{endAt:{$lte:currentDate}}]},
         {owner:this.userId}
     ]});
 
@@ -41,7 +41,7 @@ Meteor.publish('your-events-this-month',function(){
     futureDate.setMonth(nextMonth);
     pastDate.setMonth(lastMonth);
     return Event.find({$and:[
-      {$and : [{startAt:{$gt: pastDate}},{endAt:{$lt:futureDate}}]},
+      {$or : [{startAt:{$gt: pastDate}},{endAt:{$lt:futureDate}}]},
       {owner:this.userId}
     ]});
   }else{
@@ -51,6 +51,11 @@ Meteor.publish('your-events-this-month',function(){
 });
 
 Meteor.methods({
+  validateEvent(eventToValidate){
+    let validations = EventSchema.newContext('EVE');
+
+
+  },
   createEvent(newEvent){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     newEvent.owner = this.userId;
@@ -81,6 +86,11 @@ Meteor.methods({
         Event.remove({_id:eventId,owner:this.userId});
     }
 
+  },
+  getEventInfo(eventId){
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+    check(eventId,String);
+    return Event.findOne({_id:eventId });
   }
 
 })

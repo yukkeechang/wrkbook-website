@@ -11,6 +11,7 @@ import Home from './Dashboard/Home/Home';
 
 // For testing
 import ConJobPostComponent from './Dashboard/Jobs/ConJobPostComponent';
+import DummyEvents from './Dashboard/DummyEvents';
 import ConJobPosts from './Dashboard/Jobs/ConJobPosts'
 import CreateJobs from './Dashboard/Jobs/CreateJobs';
 import JobPostAdmit from './Dashboard/Jobs/EmpJobPostAdmit';
@@ -35,7 +36,7 @@ class Dash extends Component{
                 <Route exact path="/profile" component={Profile}/>
 
                 <Route exact path="/createjob" component={CreateJobs}/>
-
+                <Route exact path="/events" component={DummyEvents}/>
                 <Route exact path="/conjobpostcomponent" component={ConJobPostComponent}/>
                 <Route exact path="/conjobposts" component={ConJobPosts}/>
                 <Route exact path="/employeejobposts" component={EmployeeJobPosts}/>

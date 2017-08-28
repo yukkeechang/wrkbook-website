@@ -1,11 +1,14 @@
+import TradeSchoolSchema from './tradeSchoolSchema';
 export default EducationSchema = new SimpleSchema({
   highGED :{
-    type: Boolean
+    type: Boolean,
+    defaultValue: true
   },
   tradeSchool:{
-    type: Boolean
+    type: TradeSchoolSchema
   },
   higherEdu:{
-    type: Boolean
+    type: Boolean,
+    defaultValue: false
   }
 });

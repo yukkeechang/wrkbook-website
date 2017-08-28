@@ -109,12 +109,12 @@ export default class stepThree extends Component{
           });
       }else{
         basic.croppie('result').then(function (resp) {
-            Images.insert(resp, (err,fileObj)=>{
+           Images.insert(resp, (err,fileObj)=>{
               if (err) {
                 console.log(err);
               }else{
                 let user = this.props.user;
-
+                console.log(fileObj);
                 if(user.profile.isPro){
                   user.profile.employeeData.image = fileObj._id;
                   Meteor.call('register',user,(err)=>{

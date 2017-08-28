@@ -35,8 +35,8 @@ export default class NonJobEventCreate extends Component {
         event.preventDefault();
 
         // Convert time input strings from 12 hour to 24 hour for Date() processing
-        const startTime = this.twelveTo24(this.refs.startTime.value);
-        const endTime = this.twelveTo24(this.refs.endTime.value);
+        const startTime = this.convertTo24Hour(this.refs.startTime.value.toLowerCase());
+        const endTime = this.convertTo24Hour(this.refs.endTime.value.toLowerCase());
 
         // Create Date objects for start date and end date of event
         const startAt = new Date(`${this.refs.startDate.value} ${startTime}`);
@@ -51,18 +51,18 @@ export default class NonJobEventCreate extends Component {
 
         console.log(eventObject);
 
-        /*const toEventSchema = EventSchema.clean({});
+        let  toEventSchema = EventSchema.clean({});
         toEventSchema.title.text = eventObject.title;
-        toEventSchema.description.text = eventObject.description;
+        toEventSchema.responsibilities.text = eventObject.description;
         toEventSchema.startAt = eventObject.startAt;
         toEventSchema.endAt = eventObject.endAt;
         Meteor.call('createEvent',toEventSchema,(err)=>{
            console.log(err);
-        });*/
+        });
     }
 
     // Convert a string from 12 hour time to 24 hour time
-    twelveTo24(time) {
+    convertTo24Hour(time) {
       var hours = parseInt(time.substr(0, 2));
       if(time.indexOf('am') != -1 && hours == 12) {
           time = time.replace('12', '0');

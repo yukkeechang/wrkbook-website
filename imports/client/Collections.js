@@ -6,3 +6,4 @@ const thumbNail = new FS.Store.GridFS('thumbnail');
 });
 
 Job = new Mongo.Collection('jobs');
+Event = new Mongo.Collection('events');

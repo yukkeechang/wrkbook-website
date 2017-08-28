@@ -27,8 +27,14 @@ export default JobSchema = new SimpleSchema({
     type: [String],
     defaultValue: [],
   },
+  description:{
+    type : BasicText
+  },
   additionText:{
-    type:BasicText
+    type:String,
+    min:1,
+    max:250,
+    optional: true
   },
   eventInfo:{
     type: [String],
@@ -62,6 +68,9 @@ export default JobSchema = new SimpleSchema({
   },
   jobTypes:{
     type: TextList
+  },
+  jobTitle:{
+   type: BasicText
   },
   isOpen:{
     type: Boolean,
