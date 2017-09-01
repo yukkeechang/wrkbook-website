@@ -37,13 +37,14 @@ export default class Location extends Component{
   //Once the page is mounted we create the Google Autocomplete Component.
   componentDidMount(){
     this.initAutocomplete()
+    Materialize.updateTextFields();
   }
 
   initAutocomplete() {
     // Create the autocomplete object, restricting the search to geographical
     // location types.
     autocomplete = new google.maps.places.Autocomplete(
-      (document.getElementById('autocomplete')), {
+      (document.getElementById('autocomplete-input')), {
         types: ['geocode']
       });
 
@@ -291,7 +292,8 @@ export default class Location extends Component{
         <div id="locationField" className='row'>
           <div className="input-field col s12">
           <i className='material-icons prefix'>location_searching</i>
-          <input id="autocomplete" placeholder="Search for Your Addresss" onFocus={this.geolocate.bind(this)} type="text"></input>
+          <input id="autocomplete-input" className="autocomplete" placeholder={this.props.prevAddress ? this.props.prevAddress : 'Enter Your Address' } onFocus={this.geolocate.bind(this)} type="text"></input>
+          <label htmlFor="autocomplete-input">Address</label>
           </div>
         </div>
 
