@@ -12,15 +12,16 @@ import {ServerSession } from 'meteor/matteodem:server-session';
 Meteor.startup(()=>{
 
   process.env.MAIL_URL = 'smtp://no-reply%40wrkbook.com:dg56fdghb354@smtp-relay.gmail.com:587/';
-  // let isImage = Images.findOne({'original.name': 'ic_account_circle_black_48dp_2x.png' });
-  //
-  // if(!isImage){
-  //   let thingd = Images.insert('./programs/web.browser/app/images/ic_account_circle_black_48dp_2x.png');
-  //
-  //   ServerSession.set('DEFAULTPIC',thingd._id);
-  // }else {
-  //   ServerSession.set('DEFAULTPIC',isImage._id);
-  // }
+  let isImage = Images.findOne({'original.name': 'ic_account_circle_black_48dp_2x.png' });
+  
+  if(!isImage){
+    let thingd = Images.insert('../web.browser/app/images/ic_account_circle_black_48dp_2x.png');
+
+
+    ServerSession.set('DEFAULTPIC',thingd._id);
+  }else {
+    ServerSession.set('DEFAULTPIC',isImage._id);
+  }
 
 
 });

@@ -15,7 +15,9 @@ import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
 import { Roles } from 'meteor/alanning:roles';
 
-
+export const  NOTMADE ={
+  jobNotMade : true
+};
 //Defines a collection named jobs
 Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
@@ -258,14 +260,16 @@ Meteor.methods({
 
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(Roles.userIsInRole(this.userId,CONTRACTOR) ){
+      if(!Roles.userIsInRole(this.userId,'free-job'))throw new Meteor.Error('403',NOTMADE);
+      let person = Meteor.users.findOne({_id : this.userId},{fields: { profile: 1 } });
+      if(('undefined' === typeof(person.profile.customer))) throw new Meteor.Error('403',NOTMADE);
+
       let things = Meteor.call('validateJob',newJobEvent);
       let job = things.job;
       let eventz = things.events;
       job.employerId = this.userId;
       job.createdAt = new Date();
       job.updateAt = new Date();
-      console.log(job);
-      console.log(eventz);
       let id1 = Job.insert(job);
       let ids2 =[];
       for (let i = 0; i < eventz.length; i++) {
@@ -281,6 +285,10 @@ Meteor.methods({
 
       let selector1 = {_id: id1, employerId: this.userId};
       Job.update(selector1,{$set: job});
+      
+      if(Roles.userIsInRole(this.userId,'free-job')){
+        Roles.removeUsersFromRoles(this.userId,'free-job');
+      }
 
 
     }else{

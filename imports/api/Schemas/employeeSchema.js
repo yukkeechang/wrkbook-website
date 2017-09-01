@@ -6,6 +6,7 @@ import {DEFAULT} from './basicTextSchema';
 import OshaSchema from './oshaSchema';
 import {PICLINK} from './basicTextSchema';
 import EducationSchema from './educationSchema';
+import SocialSchema from './socialSchema';
 
 export const PROFESSIONAL = 'PRO';
 
