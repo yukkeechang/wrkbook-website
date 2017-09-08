@@ -40,7 +40,7 @@ Meteor.publish('job-post', function(employee){
     let bearing = 45;
     const meterDegrees = 111111;
     const mileToMeters= 1609.34;
-    let jobTitle = employee.jobTitle.texts;
+    let jobTitle = employee.jobTitle;
     let lat = employee.location.latitude;
     let lng = employee.location.longitude;
     let distance = employee.maxDistance * mileToMeters/2;
@@ -260,9 +260,9 @@ Meteor.methods({
 
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(Roles.userIsInRole(this.userId,CONTRACTOR) ){
-      if(!Roles.userIsInRole(this.userId,'free-job'))throw new Meteor.Error('403',NOTMADE);
       let person = Meteor.users.findOne({_id : this.userId},{fields: { profile: 1 } });
-      if(('undefined' === typeof(person.profile.customer))) throw new Meteor.Error('403',NOTMADE);
+      if(!Roles.userIsInRole(this.userId,'free-job') && ('undefined' === typeof(person.profile.customer)))throw new Meteor.Error('403',NOTMADE);
+
 
       let things = Meteor.call('validateJob',newJobEvent);
       let job = things.job;
@@ -285,7 +285,7 @@ Meteor.methods({
 
       let selector1 = {_id: id1, employerId: this.userId};
       Job.update(selector1,{$set: job});
-      
+
       if(Roles.userIsInRole(this.userId,'free-job')){
         Roles.removeUsersFromRoles(this.userId,'free-job');
       }

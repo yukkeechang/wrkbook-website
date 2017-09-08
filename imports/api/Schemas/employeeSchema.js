@@ -55,6 +55,9 @@ export default EmployeeSchema = new SimpleSchema({
     type: [String],
     defaultValue:[]
   },
+  socialPref :{
+    type: SocialSchema
+  },
   image:{
     type: String,
     defaultValue: PICLINK

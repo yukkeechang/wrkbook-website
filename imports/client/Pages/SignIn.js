@@ -9,11 +9,16 @@ export default class SignIn extends Component{
   constructor(props){
     super(props);
     this.state = {
-      pValid: '',
       noUser: '',
-    }
+      pValid: ''
+    };
+
   }
-  login(){
+
+  login(e){
+    e.preventDefault();
+
+    console.log(e);
     let email = this.refs.em.value();
     let passw = this.refs.p1.value();
     Meteor.loginWithPassword(email,passw,(err)=>{
@@ -24,6 +29,7 @@ export default class SignIn extends Component{
         this.props.history.push('/');
       }
     });
+     return false;
   }
   render(){
     return(
@@ -33,15 +39,15 @@ export default class SignIn extends Component{
           <div style={{zIndex:'-1'}} className="container">
             <div className="card">
               <div className="row card-content">
-                <form className="col s12">
+                <div className="col s12">
                   <div className="row">
                     <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
                     <MTextField ref="p1" id="pass1"     error={this.state.pValid} type="password" label="Password *"/>
                   </div>
-                  <a className="btn-flat teal lighten-4" onClick={this.login.bind(this)} style={{color: '#555',textTransform: 'none'}} type="submit">Log In</a>
-                  <br/><br/><Link to="/register">Don't have an account? Click here to register</Link>
-                  <br/><br/><Link to="/forgot">Forgot Password?</Link>
-                </form>
+                  <a className="btn-flat teal lighten-4" ref="button" onClick={(e) => {this.login(e); }} style={{color: '#555',textTransform: 'none'}} type="submit">Log In</a>
+                  <br/><br/><Link to="/register" >Don't have an account? Click here to register</Link>
+                  <br/><br/><Link to="/forgot"   >Forgot Password?</Link>
+                </div>
               </div>
 
             </div>

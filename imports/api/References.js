@@ -17,7 +17,7 @@ Reference.attachSchema(ReferenceSchema);
 */
 Meteor.publish('your-references',function(){
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
-    return Reference.find({owner: this.userId});
+     return Reference.find({owner: this.userId}, {sort: {updateAt: -1}});
   }else{
     this.stop();
     return ;

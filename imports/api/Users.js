@@ -13,6 +13,7 @@ import LocationSchema from './Schemas/locationSchema';
 import EducationSchema from './Schemas/educationSchema';
 import OshaSchema from './Schemas/oshaSchema';
 import TextList from './Schemas/textListSchema';
+import SocialSchema from './Schemas/socialSchema';
 import {ServerSession } from 'meteor/matteodem:server-session';
 
 export const NOTAUTH = {
@@ -98,7 +99,7 @@ Meteor.methods({
       let driver = validationz.validateOne(employ,'driverLicense');
       let tools = validationz.validateOne(employ,'bringTools');
       let distance = validationz.validateOne(employ,'maxDistance');
-
+      let socialThings = Match.test(employee.socialPref, SocialSchema);
       let Errors ={
         validJobTitles: jobs,
         validEdu: edu,
@@ -109,9 +110,9 @@ Meteor.methods({
         validDriver: driver,
         validTools: tools,
         validDistance: distance,
-
+        vaildSocial : socialThings
       };
-      if(!jobs|| !edu || !languages || !osha
+      if(!jobs|| !edu || !languages || !osha || !socialThings
       || !location || !car || !driver || !tools || !distance){
         throw new Meteor.Error('403',Errors);
       }

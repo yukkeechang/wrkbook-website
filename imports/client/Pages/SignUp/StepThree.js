@@ -1,6 +1,6 @@
 import React , { Component } from 'react';
 import Avatar from '../Shared/Avatar';
-
+import ReCAPTCHA from "react-google-recaptcha"
 
 
 export default class stepThree extends Component{
@@ -16,7 +16,9 @@ export default class stepThree extends Component{
         pesonalPic: false,
         onc3:false,
         width:350,
-        basic: {}
+        basic: {},
+        captchaSolved: false,
+      captchaWarningOn: false,
       }
     }
 
@@ -99,6 +101,12 @@ export default class stepThree extends Component{
     }
     submit(e){
       let basic = this.state.basic;
+      if(!this.state.captchaSolved){
+        this.setState({
+          captchaWarningOn:true
+        });
+        return;
+      }
       if(this.isEmpty(this.state.basic)){
           Meteor.call('register',this.props.user,(err)=>{
             if(err) {
@@ -140,6 +148,15 @@ export default class stepThree extends Component{
       }.bind(this));
       }
     }
+
+  onCaptchaChange = (value) => {
+    console.log("Captcha value:", value);
+    // Get rid of red border around captcha box and get rid of error message
+    this.setState({
+      captchaSolved: true,
+      captchaWarningOn: false,
+    });
+  }
 
 
 
@@ -187,6 +204,25 @@ export default class stepThree extends Component{
                         </div>
                       </div>
                     }
+
+                    <div
+                     className="col s12 offset-s4"
+                     style={ this.state.captchaWarningOn ?
+                       { border: "1px solid red", display: "inline-block", padding: 5 } :
+                       { display: "inline-block", padding: 5 }
+                     }
+                   >
+                     <ReCAPTCHA
+                       ref="recaptcha"
+                       sitekey="6LfulisUAAAAAIj482eHy1V-_SveBCkc-kNY_JWL"
+                       onChange={this.onCaptchaChange}
+                     />
+                     { this.state.captchaWarningOn ?
+                       <p style={{color: "red"}}>Please verify that you are not a robot.</p>
+                       :
+                       null
+                     }
+                   </div>
 
                     <div style ={{display:'flex',justifyContent:'center',alignItems:'center'}} className="col s12">
                       <a className='btn' onClick={this.submit.bind(this)}>{this.state.submit}</a>

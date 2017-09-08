@@ -1,4 +1,7 @@
+
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
 import 'rc-calendar/assets/index.css';
 import FullCalendar from 'rc-calendar/lib/FullCalendar';
 import 'rc-select/assets/index.css';
@@ -6,155 +9,42 @@ import Select from 'rc-select';
 import moment from 'moment';
 const now = moment();
 
-import NonJobEventModal from './Components/EventModal/NonJobEventModal';
-import NonJobEventView from './Components/EventModal/NonJobEventView';
-import NonJobEventCreate from './Components/EventModal/NonJobEventCreate';
-
 import ConfirmationsCard from './Components/ConfirmationsCard';
 import JobDetailModal from './Components/JobDetailModal';
 import HourRow from './Components/HourRow';
 
-export default class Home extends React.Component {
+class HomePage extends React.Component {
   constructor(props) {
     super(props);
-
-    //for jon's modal
-    this.event = {
-        title: 'This is the title',
-        description: 'This is the description',
-        startAt: new Date(),
-        endAt: new Date(),
-    }
-
-    // Sample dates
-    // Today's date
-    let today1 = new Date();
-    let today2 = new Date();
-    let today3 = new Date();
-
-    // Manually set hours, minutes, and seconds for sample dates/time
-    today1.setHours(12);
-    today1.setMinutes(0);
-    today1.setSeconds(0);
-    today2.setHours(8);
-    today2.setMinutes(0);
-    today2.setSeconds(0);
-    today3.setHours(20);
-    today3.setMinutes(0);
-    today3.setSeconds(0);
-
-    // Tomorrow's date
-    let tomorrow1 = new Date(today1.getTime() + 24 * 60 * 60 * 1000);
-    let tomorrow2 = new Date(today2.getTime() + 24 * 60 * 60 * 1000);
-    let tomorrow3 = new Date(today3.getTime() + 24 * 60 * 60 * 1000);
-
-    // Manually set hours, minutes, and seconds for sample dates/time
-    tomorrow1.setHours(18);
-    tomorrow1.setMinutes(0);
-    tomorrow1.setSeconds(0);
-    tomorrow2.setHours(16);
-    tomorrow2.setMinutes(0);
-    tomorrow2.setSeconds(0);
-    tomorrow3.setHours(21);
-    tomorrow3.setMinutes(0);
-    tomorrow3.setSeconds(0);
-
-    // Random test start date
-    let random1_1_start = new Date(2017, 7, 10);
-    let random1_3_start = new Date(2017, 7, 10);
-
-    // Manually set hours, minutes, and seconds for sample dates/time
-    random1_1_start.setHours(5);
-    random1_1_start.setMinutes(0);
-    random1_1_start.setSeconds(0);
-    random1_3_start.setHours(13);
-    random1_3_start.setMinutes(0);
-    random1_3_start.setSeconds(0);
-
-    // Random test end date
-    let random1_1_end = new Date(2017, 7, 15);
-    let random1_3_end = new Date(2017, 7, 15);
-
-    // Manually set hours, minutes, and seconds for sample dates/time
-    random1_1_end.setHours(12);
-    random1_1_end.setMinutes(0);
-    random1_1_end.setSeconds(0);
-    random1_3_end.setHours(18);
-    random1_3_end.setMinutes(0);
-    random1_3_end.setSeconds(0);
-
+    let endAt = new Date(2017,9,1,13, 30, 25 );
+    // Meteor.call('createEvent', {
+    //   title: { text: 'Madfss'},
+    //   description: { text: 'Imma nut'},
+    //   startAt: new Date(),
+    //   endAt: endAt,
+    //   important: {
+    //     High: false,
+    //     Medium: true,
+    //     Low: false
+    //   }
+    // })
     this.state = {
-      currentDate: today1,
+      currentDate: new Date(),
       currentDateParsed: "",
       jobsCurrentDate: [],
       todayAgendaRowIndexes: [],
       startingTimes: [],
       titles: [],
       descriptions: [],
+      jobPostCheck: [],
       flipCards: false,
       data: [
-        {
-          title: {
-            text: "Plumber needed to install pipes",
-          },
-          description: {
-            text: "Sunnyside Plumbing Co.",
-          },
-          address: "123 Macy's Avenue Flushing, NY 10324",
-          startAt: today1,
-          endAt: tomorrow1,
-        },
-        {
-          title: {
-            text: "Plumber for pipe system fixes",
-          },
-          description: {
-            text: "Sunnyside Plumbing Co.",
-          },
-          address: "123 Maple Avenue Flushing, NY 10324",
-          startAt: today2,
-          endAt: tomorrow2,
-        },
-        {
-          title: {
-            text: "Check pick up at Tom's office",
-          },
-          description: {
-            text: "Pick up 3 checks for 3 paints jobs done from 2 months ago",
-          },
-          address: "160 Convent Ave New York, NY 10324",
-          startAt: today3,
-          endAt: tomorrow3,
-        },
-        {
-          title: {
-            text: "Fix all bathrooms in building",
-          },
-          description: {
-            text: "Astoria Plumbing Co.",
-          },
-          address: "Times Square New York, NY 10001",
-          startAt: random1_1_start,
-          endAt: random1_1_end,
-        },
-        {
-          title: {
-            text: "Fix shower and toilet",
-          },
-          description: {
-            text: "Woodside Plumbing Co.",
-          },
-          address: "123 Springfield New York, NY 10201",
-          startAt: random1_3_start,
-          endAt: random1_3_end,
-        },
+
       ],
     };
   }
 
   componentDidMount() {
-
-    $('.modal').modal();
     // Update card position on page load
     this.updateCardPositions();
     // Add listener to update card positions when screen size changes
@@ -163,35 +53,7 @@ export default class Home extends React.Component {
     // Set today's date to current date
     let dateToday = new Date();
     dateTodayParsed = this.parseDate(dateToday);
-
-    this.setState({
-      currentDate: dateToday,
-      currentDateParsed: dateTodayParsed,
-    }, () => {
-      // Call this function inside a callback so it executes after the state change occurs
-      jobsCurrentDate = this.searchForCurrentDayJobs();
-      console.log(jobsCurrentDate);
-      let startingTimes = [];
-      let titles = [];
-      let descriptions = [];
-      for (let i=0; i<jobsCurrentDate.length; i++) {
-        startingTimes.push(jobsCurrentDate[i].startAt.getHours());
-        titles.push(jobsCurrentDate[i].title.text);
-        descriptions.push(jobsCurrentDate[i].description.text);
-      }
-
-      this.setState({
-        jobsCurrentDate: jobsCurrentDate,
-        startingTimes: startingTimes,
-        titles: titles,
-        descriptions: descriptions,
-      }, () => {
-        todayAgendaRowIndexes = this.createArrWithIndexOfFilledRows();
-        this.setState({
-          todayAgendaRowIndexes: todayAgendaRowIndexes,
-        });
-      });
-    });
+    this.renderDailyAgenda(dateToday, dateTodayParsed);
   }
 
   // Change card positions depending on screen width
@@ -228,7 +90,7 @@ export default class Home extends React.Component {
         let job = jobsCurrentDate[i];
         let startHourMilitary = job.startAt.getHours();
         let endHourMilitary = job.endAt.getHours();
-        if (startHourMilitary <= currentHourMilitary && currentHourMilitary <= endHourMilitary) {
+        if (startHourMilitary <= currentHourMilitary && currentHourMilitary < endHourMilitary) {
           filledInBoxes[i] = 1;
         }
       }
@@ -240,7 +102,7 @@ export default class Home extends React.Component {
 
   // Search all jobs for jobs that are occurring in current date
   searchForCurrentDayJobs = () => {
-    let data = this.state.data;
+    let data = this.props.myEvents;
     let jobsCurrentDate = [];
     // Parse date to ignore time
     let currentDate = this.parseDate(this.state.currentDate);
@@ -321,21 +183,30 @@ export default class Home extends React.Component {
     return militaryTime;
   }
 
-  // Calendar day select handler
-  onSelect = (value) => {
-    // Convert moment object to date object
-    let dateToday = value.toDate();
-    console.log(dateToday);
-    let dateTodayParsed = this.parseDate(dateToday);
-
+  // Render daily agenda
+  renderDailyAgenda = (dateToday, dateTodayParsed) => {
     this.setState({
       currentDate: dateToday,
       currentDateParsed: dateTodayParsed,
     }, () => {
       // Call this function inside a callback so it executes after the state change occurs
       jobsCurrentDate = this.searchForCurrentDayJobs();
+      let startingTimes = [];
+      let titles = [];
+      let descriptions = [];
+      let jobPostCheck = [];
+      for (let i=0; i<jobsCurrentDate.length; i++) {
+        startingTimes.push(jobsCurrentDate[i].startAt.getHours());
+        titles.push(jobsCurrentDate[i].title.text);
+        descriptions.push(jobsCurrentDate[i].description.text);
+        jobPostCheck.push(jobsCurrentDate[i].jobPost);
+      }
       this.setState({
         jobsCurrentDate: jobsCurrentDate,
+        startingTimes: startingTimes,
+        titles: titles,
+        descriptions: descriptions,
+        jobPostCheck: jobPostCheck,
       }, () => {
         todayAgendaRowIndexes = this.createArrWithIndexOfFilledRows();
         this.setState({
@@ -345,7 +216,36 @@ export default class Home extends React.Component {
     });
   }
 
+  // Calendar day select handler
+  onSelect = (value) => {
+    // Convert moment object to date object
+    let dateToday = value.toDate();
+    let dateTodayParsed = this.parseDate(dateToday);
+    this.props.changeDate(dateToday);
+    this.renderDailyAgenda(dateToday, dateTodayParsed);
+  }
+
   style = {
+    dailyAgenda: {
+      border: "1px solid #10A96D",
+      overflow: "auto",
+      height: 2010,
+    },
+    calendarContainer: {
+      border: "1px solid #10A96D",
+      marginBottom: 0,
+    },
+    newJobConfirmContainer: {
+      border: "1px solid #10A96D",
+      overflow: "auto",
+    },
+    dailyAgendaDayText: {
+      marginTop: 0,
+      marginRight: 0,
+      marginBottom: 15,
+      marginLeft: 0,
+      padding: 0,
+    },
     combinedRow: {
       height: 80,
     },
@@ -373,17 +273,23 @@ export default class Home extends React.Component {
       backgroundColor: "#f6f6f6",
       height: "100%",
     },
-    filledInRowBorderTop: {
+    filledInRowBorderTopGreen: {
       borderTop: "4px solid #10A96D",
       backgroundColor: "#f6f6f6",
       height: "100%",
       fontSize: 12,
-      // overflowY: "auto",
-      // overflowWrap: "break-word",
+    },
+    filledInRowBorderTopBlue: {
+      borderTop: "4px solid #8DB0FB",
+      backgroundColor: "#f6f6f6",
+      height: "100%",
+      fontSize: 12,
     },
   }
 
   render() {
+    console.log(this.props.myEvents);
+    if(!this.props.ready ) return null;
     // Create hour labels for today's agenda window
     let hours = [
       "12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
@@ -394,6 +300,7 @@ export default class Home extends React.Component {
     let startingTimes = this.state.startingTimes;
     let titles = this.state.titles;
     let descriptions = this.state.descriptions;
+    let jobPostCheck = this.state.jobPostCheck;
     // Create array with rows using map
     let todayAgendaRows = todayAgendaRowIndexes.map((filledIndexes, index) => {
       return (
@@ -403,6 +310,7 @@ export default class Home extends React.Component {
           militaryTime={this.convertToMilitaryTime(hours[index])}
           titles={titles}
           descriptions={descriptions}
+          jobPostCheck={jobPostCheck}
           filledInBoxes={filledIndexes}
           startingTimes={startingTimes}
           halfHour={false}
@@ -415,7 +323,7 @@ export default class Home extends React.Component {
     // Calendar card
     let calendarDiv = (
       <div className="row">
-        <div className="card-panel valign-wrapper" style={{ border: "1px solid #10A96D", marginBottom: 0 }}>
+        <div className="card-panel valign-wrapper" style={this.style.calendarContainer}>
           <FullCalendar
             style={{ margin: "auto" }}
             Select={Select}
@@ -430,7 +338,7 @@ export default class Home extends React.Component {
     // New job confirmation card
     let newJobConfirmDiv = (
       <div className="row">
-        <div className="card-panel" style={{ border: "1px solid #10A96D", overflow: "auto", height: 1700 }}>
+        <div className="card-panel" style={this.style.newJobConfirmContainer}>
           <p
             className="center-align"
             style={{ margin: 0, padding: 0 }}
@@ -461,25 +369,6 @@ export default class Home extends React.Component {
       </div>
     );
 
-    let createEvent = (
-      <div>
-          <a className="waves-effect waves-light btn modal-trigger" href="#modal1">Create Event</a>
-          <div id="modal1" className="modal">
-              <NonJobEventCreate />
-          </div>
-      </div>
-    );
-
-    let viewEvent = (
-      <div>
-          <a className="waves-effect waves-light btn modal-trigger" href="#modal2">View Event</a>
-          <div id="modal2" className="modal">
-              <NonJobEventView
-                   event={this.event}/>
-          </div>
-      </div>
-    )
-
     return (
       <div className="container">
         <div className="row">
@@ -501,17 +390,14 @@ export default class Home extends React.Component {
                 </div>
             }
           </div>
-          <div>
-            {createEvent}
-          </div>
           <div
             className="col s12 m12 l7"
             style={{ paddingRight: 0 }}
           >
-            <div className="card-panel" style={{ border: "1px solid #10A96D", overflow: "auto", height: 2010 }}>
+            <div className="card-panel" style={this.style.dailyAgenda}>
               <p
                 className="center-align"
-                style={{ marginTop: 0, marginRight: 0, marginBottom: 15, marginLeft: 0, padding: 0 }}
+                style={this.style.dailyAgendaDayText}
               >
                 {this.state.currentDateParsed}
               </p>
@@ -523,3 +409,11 @@ export default class Home extends React.Component {
     )
   }
 }
+export default Home = createContainer((props) => {
+  let handle = Meteor.subscribe('today-events', props.date);
+  let ready = handle.ready();
+  return {
+    ready: ready,
+    myEvents: Event.find({}).fetch()
+  };
+}, HomePage);

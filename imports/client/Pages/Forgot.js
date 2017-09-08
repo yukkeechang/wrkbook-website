@@ -14,7 +14,8 @@ export default class Forgot extends Component{
       showEmail: false
     }
   }
-  resetPasswordEmail(){
+  resetPasswordEmail(e){
+    console.log(e);
     let email = this.refs.em.value();
     const options ={
       email : email

@@ -20,13 +20,29 @@ export default class StepTwoE extends Component{
             validDistance: true,
             locErr: false,
             err: false,
-            dist: 20
+            dist: 20,
+            showTrade: false
         };
+    }
+    handlesscYesClick(){
+      $("#taxDisplay").css("display","none"); //keeps tax display hidden on yes click for ssc
+      $("#taxYes").prop('checked',true);  //checks appropriate tax field for ssc yes click
+    }
+    handlesscNoClick(){
+      $("#taxDisplay").css("display","block");  //shows tax display on no click for ssc
     }
     handleNext(){
         let loc = this.refs.loc.getAddress();
         if(loc.valid){
             this.setState({locErr: false});
+            let tradeS = {}
+            if(this.refs.ts.checked){
+              tradeS.wentToSchool = true;
+              tradeS.schoolName = this.refs.tradeS.value();
+            }else{
+              tradeS.wentToSchool = false;
+              tradeS.schoolName='';
+            }
             let employeeData = {
                 jobTitle: $(this.refs.titles).val(),
                 languages: $(this.refs.langs).val(),
@@ -42,8 +58,12 @@ export default class StepTwoE extends Component{
                 },
                 education: {
                     highGED : this.refs.hs.checked,
-                    tradeSchool:this.refs.ts.checked,
+                    tradeSchool:tradeS,
                     higherEdu: this.refs.he.checked
+                },
+                socialPref:{
+                  taxID:  $("#taxYes").prop('checked'),
+                  social:$("#sscYes").prop('checked')
                 },
                 location: loc.location,
                 hasCar: this.refs.cy.checked,
@@ -211,14 +231,41 @@ export default class StepTwoE extends Component{
                                 <label htmlFor="hs">HighSchool/GED</label>
                                 </p>
                                 <p>
-                                <input ref="ts" type="checkbox" id="ts"/>
+                                <input onChange={()=>{this.setState({showTrade:!this.state.showTrade})}} ref="ts" type="checkbox" id="ts"/>
                                 <label htmlFor="ts">Trade Shool</label>
+                                {this.state.showTrade ? <MTextField ref="tradeS" label="Trade School" /> : null}
+
                                 </p>
                                 <p>
                                 <input ref="he" type="checkbox" id="he"/>
                                 <label htmlFor="he">Higher Education</label>
                                 </p>
                             </div>
+
+
+                            <div className="col m4 s6">
+                              <label>Do you have a SSN?</label>
+                              <div>
+                                <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick.bind(this)}/>
+                                <label htmlFor="sscYes">Yes</label>
+                              </div>
+                              <div>
+                                <input name="group1" type="radio" id="sscNo" onClick={this.handlesscNoClick.bind(this)}/>
+                                <label htmlFor="sscNo">No</label>
+                              </div>
+                            </div>
+                            <div id="taxDisplay" style={{display:'none'}} className="col m4 s6">
+                              <label>Do you have a Tax Id Number ?</label>
+                              <div>
+                                <input name="group2" type="radio" id="taxYes"/>
+                                <label htmlFor="taxYes">Yes</label>
+                              </div>
+                              <div>
+                                <input name="group2" type="radio" id="taxNo"/>
+                                <label htmlFor="taxNo">No</label>
+                              </div>
+                            </div>
+
                         </div>
                         <Location ref="loc"/>
                         <div className="row">
