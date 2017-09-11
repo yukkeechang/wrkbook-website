@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
 import EmployeeComponent from './EmployeeComponent';
+
+//detailed job view with professionals that applied and admitted professionals
 
 export default class ConJobPostComponent extends React.Component{
   componentDidMount(){
@@ -25,8 +28,10 @@ export default class ConJobPostComponent extends React.Component{
     admit: [],
     events: [],
     job: job,
-    nothing1:true,
-    nothing2:true,
+    osha10: this.props.jobinfo.requirements.osha.osha10,
+    osha30: this.props.jobinfo.requirements.osha.osha30,
+    nothing1: true,
+    nothing2: true,
     value: "0"
   };
   console.log(this.props.jobinfo);
@@ -38,7 +43,7 @@ export default class ConJobPostComponent extends React.Component{
     });
   }
   handleEdit(e){
-
+    <Link to="/editjob"></Link>
   }
   handleMember(e){
     let job = this.props.jobinfo;
@@ -87,22 +92,23 @@ export default class ConJobPostComponent extends React.Component{
     console.log(this.state.applied);
     console.log(Admitted);
   }
+
   render(){
     return(
       <div className="card">
         <div className="card-content">
           <div className="row">
-            <div className="col m8 s12">
+            <div className="col s8">
               <span className="card-title">{this.props.jobinfo.jobTitle.text}</span>
               <br/>
               <p>{this.props.description}</p>
             </div>
-            <div className="col m2 s12 offset-l2 offset-m2">
-            <button className="waves-effect waves-teal btn-flat" onClick={this.handleEdit.bind(this)}>
-              <i className="material-icons">people</i>
+            <div className="col s2 offset-l2 offset-m2 offset-s2">
+            <button className="waves-effect waves-teal  lighten-3 btn-flat" onClick={this.handleMember.bind(this)}>
+              <i className="small material-icons">people</i>
             </button>
-            <button className="waves-effect waves-teal btn-flat" onClick={this.handleMember.bind(this)}>
-              <i className="material-icons">edit</i>
+            <button className="waves-effect waves-teal lighten-3 btn-flat" onClick={this.handleEdit.bind(this)}>
+              <i className="small material-icons">edit</i>
             </button>
             </div>
           </div>
@@ -132,10 +138,11 @@ export default class ConJobPostComponent extends React.Component{
                   <p><b>Location: </b>{this.props.jobinfo.location.locationName}</p>
                 </div>
                 <div className="col l6 m6 s12">
-                  <p><b>OSHA: </b>osha</p>
+                  {!this.state.osha10 && !this.state.osha30 && <p><b>OSHA: </b>No preference</p>}
+                  {this.state.osha10 && <p><b>OSHA: </b>OSHA 10</p>}
+                  {this.state.osha30 && <p><b>OSHA: </b>OSHA 30</p>}
                   <p><b>Driver license: </b>driverLicense</p>
                   <p><b>Vehicle: </b>car</p>
-                  <p><b>Education: </b>highGed</p>
                 </div>
               </div>
             </div>
@@ -153,7 +160,7 @@ export default class ConJobPostComponent extends React.Component{
                 }
                 {
                   !this.state.nothing1 &&
-                  <h3 Professionals that applied/>
+                  <h3>Professionals that applied</h3>
                 }
               </div>
               <ul className="collection">

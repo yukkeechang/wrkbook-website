@@ -18,8 +18,40 @@ export default class About extends React.Component {
       }
   }
 
-  render() {
+  renderEdu() {
     const {highGED, tradeSchool, higherEdu} = this.props.user.profile.employeeData.education
+    return (
+      <div>
+      <p>Education Level:</p>
+      <p>{highGED ? " High School/GED" : null }</p>
+      <p>{tradeSchool ? " Trade School" : null }</p>
+      <p>{higherEdu ? " Higher Education" : null }</p>
+      </div>
+    )
+  }
+
+  renderLanguages() {
+    return (
+      <div>
+      <p>Languages Spoken:</p>
+      <p>{this.state.languages
+        .map(i => <span>{i}</span>)
+        .reduce((prev, curr) => [prev, ', ', curr])
+      }</p>
+      </div>
+    )
+  }
+
+  renderSkills() {
+    return (
+      <div>
+      Skills: {this.state.skills}
+      </div>
+    )
+  }
+
+  render() {
+
     return (
       <div className="row">
         <div className="col s12">
@@ -30,20 +62,21 @@ export default class About extends React.Component {
                {this.state.about}
               </div>
               <div className="col s12" style={{ marginBottom: 10 }}>
-                Skills: {this.state.skills}
-              </div>
-              <div className="col s12">
-              Languages Spoken:
-              {this.state.languages
-                .map(i => <span>{i}</span>)
-                .reduce((prev, curr) => [prev, ', ', curr])
+              {
+                this.props.isPro ? this.renderSkills() : null
               }
               </div>
               <div className="col s12">
-              Education Level:
-              {highGED ? " High School/GED" : null }
-              {tradeSchool ? " Trade School" : null }
-              {higherEdu ? " Higher Education" : null }
+              {
+                this.props.isPro ? this.renderLanguages() : null
+              }
+
+              </div>
+              <div className="col s12">
+              {
+                this.props.isPro ? this.renderEdu() : null
+              }
+
               </div>
             </div>
           </div>

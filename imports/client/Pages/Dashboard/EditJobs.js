@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import JobCreateComponent from './Jobs/JobCreateComponent';
+import JobCreateComponent from './Jobs/CreateJobs';
 import JobSchema from '../../../api/Schemas/jobSchema';
 import { DEFAULT } from '../../../api/Schemas/basicTextSchema';
 import LocationSchema from '../../../api/Schemas/locationSchema';
 
-export default class EditJobs extends Component {
+export default class EditJobs extends React.Component {
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
@@ -32,6 +32,9 @@ export default class EditJobs extends Component {
       ampmclickable: true, // make AM PM clickable
       aftershow: function(){} //Function for after opening timepicker
     });
+    $(this.refs.osha).on('change',(e)=>{
+      this.handleSelect(e);
+    })
   }
   constructor(props){
     super(props);
@@ -111,12 +114,21 @@ export default class EditJobs extends Component {
         }
     });
   }
+  handleTitles(){
+    this.setState({
+      titles: $(this.refs.titles).val()
+    })
+  }
   handleSelect(){
     if($('#osha').val()==2){
-      this.setState.osha10 = true;
+      this.setState({
+        osha10: true
+      })
     }
     else if($('#osha').val()==3){
-      this.setState.osha30 = true;
+      this.setState({
+        osha30: true
+      })
     }
   }
   handletoolYesClick(){
@@ -155,25 +167,25 @@ export default class EditJobs extends Component {
         <form>
           <div className="row">
             <div className="input-field col l6 m6 s12">
-              <input id="supervisor-name" ref="supervisorName" value="{this.props.jobs.supervisor.name}" type="text"/>
-              <label htmlFor="supervisor-name">Supervisors name</label>
+              <input id="supervisor-name" ref="supervisorName" value="{this.props.jobinfo.supervisor.name}" type="text"/>
+              <label className="active" htmlFor="supervisor-name">Supervisors name</label>
             </div>
             <div className="input-field col l6 m6 s12">
               <input id="supervisor-number" ref="supervisorNumber" value="{this.props.jobs.supervisor.phone}" type="text"/>
-              <label htmlFor="supervisor-number">Supervisors number</label>
+              <label className="active" htmlFor="supervisor-number">Supervisors number</label>
             </div>
           </div>
           <div className="input-field col l12 m12 s12">
-            <input id="jobLocation" ref="GoogleAuto" value="{this.props.jobs.location.locationName}" type="text"/>
-            <label htmlFor="jobLocation">Job location</label>
+            <input id="jobLocation" ref="GoogleAuto" value="{this.props.jobinfo.location.locationName}" type="text"/>
+            <label className="active" htmlFor="jobLocation">Job location</label>
           </div>
           <div className="input-field col l12 m12 s12">
             <input id="job-description" ref="jobDescription" value="{this.props.jobs.description.text}" type="text"/>
-            <label htmlFor="job-description">Job description</label>
+            <label className="active" htmlFor="job-description">Job description</label>
           </div>
           <div className="input-field col l12 m12 s12">
             <input id="responsibility" ref="responsibilites" type="text"/>
-            <label htmlFor="responsibility">Responsibilites include:</label>
+            <label className="active" htmlFor="responsibility">Responsibilites include:</label>
           </div>
         </form>
         <form>
@@ -231,12 +243,29 @@ export default class EditJobs extends Component {
             </div>
           </div>
         </form>
-        <JobCreateComponent />
-        <br/>
+        <div className="input-field col s12">
+          <select ref="titles" multiple id="jobTitles">
+            <option value="" disabled selected>Type of employee(s)</option>
+            <option value="Painter">Painter</option>
+            <option value="Demolitioner">Demolitioner</option>
+            <option value="Glazer">Glazer</option>
+            <option value="Masonry/Stone worker">Masonry/Stone worker</option>
+            <option value="Concrete finisher">Concrete finisher</option>
+            <option value="Plumber">Plumber</option>
+            <option value="Electrician">Electrician</option>
+            <option value="Heat/Air conditioning worker">Heat/Air conditioning worker</option>
+          </select>
+        </div>
+        {this.state.titles.map((title, index)=>{
+          return(
+            <JobCreateComponent ref={title} title={title}key={title}/>
+
+          )
+        })}
         <form>
           <div className="input-field col l12 s12">
-            <input id="additional-text" ref="additionalText" value="{this.props.jobs.additionText.text}" type="text"/>
-            <label htmlFor="additional-text">Additional information:</label>
+            <input id="additional-text" ref="additionalText" value=" " type="text"/>
+            <label className="active" htmlFor="additional-text">Additional information:</label>
           </div>
           <div style={{display:'flex', justifyContent:'center'}}>
             <button data-target="modal1" className="btn modal-trigger">Create job</button>

@@ -12,6 +12,8 @@ export default class HourRow extends React.Component {
     let filledInBoxes = this.props.filledInBoxes;
     let startingTimes = this.props.startingTimes;
     let titles = this.props.titles;
+    let descriptions = this.props.descriptions;
+    let jobPostCheck = this.props.jobPostCheck;
 
     return (
       <div className="row" style={this.props.style.zeroMarginPadding} key={this.props.time}>
@@ -27,7 +29,11 @@ export default class HourRow extends React.Component {
                 ?
                   startingTimes[0] == this.props.militaryTime
                   ?
-                    this.props.style.filledInRowBorderTop
+                    jobPostCheck[0] == true
+                    ?
+                      this.props.style.filledInRowBorderTopGreen
+                      :
+                      this.props.style.filledInRowBorderTopBlue
                     :
                     this.props.style.filledInRow
                 :
@@ -39,7 +45,7 @@ export default class HourRow extends React.Component {
               ?
                 titles[0]
               :
-                null
+                " "
             }
             </div>
             <div
@@ -49,7 +55,11 @@ export default class HourRow extends React.Component {
                 ?
                   startingTimes[1] == this.props.militaryTime
                   ?
-                    this.props.style.filledInRowBorderTop
+                    jobPostCheck[1] == true
+                    ?
+                      this.props.style.filledInRowBorderTopGreen
+                      :
+                      this.props.style.filledInRowBorderTopBlue
                     :
                     this.props.style.filledInRow
                 :
@@ -61,7 +71,7 @@ export default class HourRow extends React.Component {
               ?
                 titles[1]
               :
-                null
+                " "
             }
             </div>
             <div
@@ -71,7 +81,11 @@ export default class HourRow extends React.Component {
                 ?
                   startingTimes[2] == this.props.militaryTime
                   ?
-                    this.props.style.filledInRowBorderTop
+                    jobPostCheck[2] == true
+                    ?
+                      this.props.style.filledInRowBorderTopGreen
+                      :
+                      this.props.style.filledInRowBorderTopBlue
                     :
                     this.props.style.filledInRow
                 :
@@ -83,7 +97,7 @@ export default class HourRow extends React.Component {
               ?
                 titles[2]
               :
-                null
+                " "
             }
             </div>
           </div>

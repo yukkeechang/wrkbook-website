@@ -3,7 +3,7 @@ Table of Contents
 ------------------------------------------------------------------------ /
 * 1.0 - Hero Section
 * 	1.1 - Hero
-* 	1.1 - Buttons
+* 	1.2 - Buttons
 * 2.0 - How It Works
 * 	2.1 - Step
 * 	2.2 - Step Img
@@ -19,7 +19,7 @@ Table of Contents End
 -------------------------------------------------*/
 #hero{
     background-image: url('/images/heroBG.jpg');
-    background-size: auto 100vmax;
+    background-size: cover;
     background-position: center center;
     height: 100vmin;
     min-height: 528px;

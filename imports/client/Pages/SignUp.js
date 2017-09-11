@@ -42,19 +42,17 @@ export default class SignUp extends Component{
         return(
             <div>
                 <Header/>
-                    <div style={{height:'64px'}}></div>
-                    <div className="container">
-                        <div className="progress">
-                            <div className="determinate red accent-2" style={{width: this.state.step*25+'%'}}></div>
-                        </div>
+                <div style={{height:'64px'}}></div>
+                <div className="container"style={{paddingTop:'50px'}}>
+                    <div className="progress">
+                        <div className="determinate red accent-2" style={{width: this.state.step*25+'%'}}></div>
                     </div>
-                    <div key={this.state.step}>
-                        {step}
+                </div>
+                {step}
 
-                        <Footer/>   
-                    </div>
+                <Footer/>
 
-                    
+
             </div>
         )
     }

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import MTextField from '../Shared/MTextField';
 export default class StepOne extends Component{
     constructor(props){
@@ -17,6 +18,10 @@ export default class StepOne extends Component{
           accountExists: false,
           pro: props.isPro
       };
+    }
+    componentDidMount(){
+        let tooltip = ReactDOM.findDOMNode(this.refs.tool);
+        $(tooltip).tooltip({delay: 50});
     }
     handleNext(){
         // this.props.next(2, {}, this.state.pro);
@@ -81,7 +86,7 @@ export default class StepOne extends Component{
                             <MTextField ref="ph" id="phone"     error={this.state.phoneE ? empty : (!this.state.gPhone? phErr:'')} label="Phone Number *"/>
                         </div>
                         <div className="col s12 m6">
-                            <MTextField ref="p1" id="pass1"     error={this.state.p1Empty? empty : (!this.state.pValid ? pass : '')} type="password" label="Password *"/>
+                            <MTextField style={{display:'inline-block',width:'90%'}}ref="p1" id="pass1"     error={this.state.p1Empty? empty : (!this.state.pValid ? pass : '')} type="password" label="Password *"/><i ref="tool" style={{whiteSpace:'pre',color:'#888'}}className="material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Password must contain at least 8 characters,</br> a capital letter and a number.">info</i>
                             <MTextField ref="p2" id="pass2"     error={this.state.nEqual ? pequ: ''} type="password" label="Confirm Password *"/>
 
                             <p>

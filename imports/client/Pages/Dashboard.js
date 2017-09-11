@@ -6,45 +6,64 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Profile from './Dashboard/Profile/Profile';
-import Jobs from './Dashboard/Jobs';
+import Jobs from './Dashboard/Jobs/Jobs';
 import Home from './Dashboard/Home/Home';
+
+import Edit from './Dashboard/Profile/Edit/Edit';
+import SendReviews from './Dashboard/SendReviews';
 
 // For testing
 import ConJobPostComponent from './Dashboard/Jobs/ConJobPostComponent';
 import DummyEvents from './Dashboard/DummyEvents';
 import ConJobPosts from './Dashboard/Jobs/ConJobPosts'
 import CreateJobs from './Dashboard/Jobs/CreateJobs';
+import EditJobs from './Dashboard/EditJobs';
 import JobPostAdmit from './Dashboard/Jobs/EmpJobPostAdmit';
 import EmpJobPostComponent from './Dashboard/Jobs/EmpJobPostComponent';
-import EmployeeJobPosts from './Dashboard/Jobs/EmpJobPosts';
+import EmpJobPosts from './Dashboard/Jobs/EmpJobPosts';
 import employeeComponent from './Dashboard/Jobs/EmployeeComponent';
-import ContractorEdit from './Dashboard/Profile/Edit/ContractorEdit';
-import ProfessionalEdit from './Dashboard/Profile/Edit/ProfessionalEdit';
+import ContractorEdit from './Dashboard/Settings/Edit/ContractorEdit';
+import ProfessionalEdit from './Dashboard/Settings/Edit/ProfessionalEdit';
+import Forgot from './Forgot';
 //import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
-import Edit from './Dashboard/Profile/Edit/Edit';
+
+
 class Dash extends Component{
     constructor(props){
         super(props);
+        this.state= {
+            thisDatu: new Date()
+        }
+    }
+    setDate(nice){
+        console.log(nice);
+        this.setState({
+            thisDatu: nice
+        })
     }
     render(){
         return(
             <div>
                 <Header full={false}/>
                 <div style={{height:'64px'}}></div>
-                <Route exact path="/" component={Home}/>
-                <Route exact path="/jobs" component={CreateJobs}/>
+                <Route exact path="/" render={()=><Home date={this.state.thisDatu} changeDate={this.setDate.bind(this)}/>}/>
+                <Route exact path="/jobs" component={Jobs}/>
                 <Route exact path="/profile" component={Profile}/>
 
+
                 <Route exact path="/createjob" component={CreateJobs}/>
+                <Route exact path="/editjob" component={EditJobs}/>
+                <Route exact path="/sendreviews" component={SendReviews}/>
                 <Route exact path="/events" component={DummyEvents}/>
                 <Route exact path="/conjobpostcomponent" component={ConJobPostComponent}/>
                 <Route exact path="/conjobposts" component={ConJobPosts}/>
-                <Route exact path="/employeejobposts" component={EmployeeJobPosts}/>
+                <Route exact path="/empjobposts" component={EmpJobPosts}/>
                 <Route exact path="/employeejobpostsadmit" component={JobPostAdmit}/>
                 <Route exact path="/employeecomponent" component={employeeComponent}/>
                 <Route exact path="/editprofessional" component={ProfessionalEdit}/>
                 <Route exact path="/editcontractor" component={ContractorEdit}/>
                 <Route exact path="/edit" component={Edit}/>
+                
                     {/*
                         Add in whatever pages' route
                         you need as above and it should

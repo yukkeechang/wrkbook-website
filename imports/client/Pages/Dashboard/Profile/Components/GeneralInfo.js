@@ -7,7 +7,6 @@ export default class GeneralInfo extends React.Component {
     super(props);
 
     const {isPro, user} = this.props
-    console.log("general info" + user)
     if(isPro) {
       this.state = {
         jobTitle: user.profile.employeeData.jobTitle
@@ -41,9 +40,10 @@ export default class GeneralInfo extends React.Component {
             </div>
 
             <div>
-            {this.state.jobTitle
+
+            {this.props.isPro ? this.state.jobTitle
               .map(i => <span>{i}</span>)
-              .reduce((prev, curr) => [prev, ',  ', curr])
+              .reduce((prev, curr) => [prev, ',  ', curr]) : null
             }
             </div>
             <p>{this.state.companyName}</p>

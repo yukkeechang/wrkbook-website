@@ -8,8 +8,6 @@ import Contact from './Components/Contact';
 import Cert from './Components/Certifications';
 import Payment from './Components/Payment';
 import Reviews from './Components/Reviews';
-import ContractorEdit from './Edit/ContractorEdit';
-import ProfessionalEdit from './Edit/ProfessionalEdit';
 import { createContainer } from 'meteor/react-meteor-data';
 import {Link} from 'react-router-dom';
 
@@ -187,13 +185,12 @@ export class ProfilePage extends React.Component {
 
   render() {
     let image;
-    let route = this.state.isPro ? "/proEdit" : "/conEdit"
     return (
       <div className="container">
         <div
           className="row gray-div"
         >
-        <Link to={route} className="btn red">
+        <Link to={"/edit"} className="btn red">
           <div className="col s12 m12 l12">
               <i className="material-icons left edit-profile-button">
                   settings

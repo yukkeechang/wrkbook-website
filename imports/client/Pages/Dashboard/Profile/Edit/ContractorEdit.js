@@ -1,7 +1,10 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
 
+import Location from '../../../Shared/Location';
 import { DEFAULT } from '../../../../../api/Schemas/basicTextSchema';
+
+import LocationSchema from '../../../../../api/Schemas/locationSchema';
 
 export default class ContractorEdit extends Component{
   componentDidMount(){
@@ -16,36 +19,37 @@ export default class ContractorEdit extends Component{
     this.state={
       validImage: '',
       address: DEFAULT,
+      locErr: false,
       lat: -100,
       lng: -100
     };
   }
   updateUser(e){
-    let user = this.props.user;
-    user.profile.employerData.companyName.text = this.refs.companyName.getValue().trim();
-    user.profile.phone = this.refs.phone.getValue().trim();
-    user.profile.email = this.refs.email.getValue().trim();
-    user.profile.employerData.webPage = this.refs.websiteLink.getValue().trim();
-    user.profile.employerData.about.text = this.refs.about.getValue().trim();
-    user.profile.employerData.location.locationName = this.state.address;
-    user.profile.employerData.location.latitude = this.state.lat;
-    user.profile.employerData.location.longitude = this.state.lng;
+    let loc = this.refs.loc.getAddress();
+    if(loc.valid){
+      let location = LocationSchema.clean({});
+      let user = this.props.user;
+      location = loc.location;
+      job.location = location;
+      user.profile.employerData.companyName.text = this.refs.companyName.value.trim();
+      user.profile.phone = this.refs.phone.value.trim();
+      user.profile.email = this.refs.email.value.trim();
+      user.profile.employerData.webPage = this.refs.websiteLink.value.trim();
+      user.profile.employerData.about.text = this.refs.about.value.trim();
+      user.profile.employerData.location = location;
 
-    console.log();
-    Meteor.call('updateUserData',user,function(err,res){
-      if(err){
-        console.log(err);
-      }else{
+      console.log();
+      Meteor.call('updateUserData',user,function(err,res){
+        if(err){
+          console.log(err);
+        }else{
 
-      }
-    });
-  }
-  getCoords(lat, lng){
-    this.setState({
-      address: this.refs.GoogleAuto.state.searchText,
-      lat:lat,
-      lng:lng
-    });
+        }
+      });
+    }
+    else{
+      this.setState({locErr:true});
+    }
   }
   onFileInputChange(e){
     if(e.target.files.length){
@@ -90,21 +94,20 @@ export default class ContractorEdit extends Component{
         </div>
         <form>
           <div className="input-field col l6 m6 s12">
-            <input id="company-name" ref="companyName" value="{this.props.user.profile.employerData.companyName.tex}" type="text"/>
-            <label htmlFor="company-name">Company name</label>
+            <input id="company-name" ref="companyName" defaultValue={this.props.user.profile.employerData.companyName.text} type="text"/>
+            <label className="active" htmlFor="company-name">Company name</label>
           </div>
-          <div className="input-field col l6 m6 s12">
-            <input id="company-address" ref="companyLocation" value="{this.props.user.profile.employerData.location.locationName}" type="text"/>
-            <label htmlFor="company-address">Company location</label>
+          <div className="input-field col s12">
+            <Location ref="loc"/>
           </div>
           <div className="row">
             <div className="input-field col l4 m4 s12">
-              <input id="phone-number" ref="phoneNumber" value="{this.props.user.profile.phone}" type="text"/>
-              <label htmlFor="phone-number">Phone number</label>
+              <input id="phone-number" ref="phoneNumber" defaultValue={this.props.user.profile.phone} type="text"/>
+              <label className="active" htmlFor="phone-number">Phone number</label>
             </div>
             <div className="input-field col l8 m8 s12">
-              <input id="c-email" ref="email" value="{this.props.user.profile.email}" type="text"/>
-              <label htmlFor="c-email">Email</label>
+              <input id="c-email" ref="email" value={this.props.user.profile.email} type="text"/>
+              <label className="active" htmlFor="c-email">Email</label>
             </div>
           </div>
           <div className="input-field col l6 m6 s12">
@@ -127,20 +130,20 @@ export default class ContractorEdit extends Component{
             </select>
           </div>
           <div className="input-field col l6 m6 s12">
-            <input id="website-link" ref="websiteLink" value="{this.props.user.profile.employerData.webPage}" type="text"/>
-            <label htmlFor="website-link">Website link</label>
+            <input id="website-link" ref="websiteLink" defaultValue={this.props.user.profile.employerData.webPage} type="text"/>
+            <label className="active" htmlFor="website-link">Website link</label>
           </div>
           <div className="input-field col l6 m6 s12">
-            <input id="website-link" ref="websiteLink" value="{this.props.user.profile.employerData.webPage}" type="text"/>
-            <label htmlFor="website-link">Facebook link</label>
+            <input id="website-link" ref="websiteLink" defaultValue={this.props.user.profile.employerData.webPage} type="text"/>
+            <label className="active" htmlFor="website-link">Facebook link</label>
           </div>
           <div className="input-field col l6 m6 s12">
-            <input id="website-link" ref="websiteLink" value="{this.props.user.profile.employerData.webPage}" type="text"/>
-            <label htmlFor="website-link">Instagram link</label>
+            <input id="website-link" ref="websiteLink" defaultValue={this.props.user.profile.employerData.webPage} type="text"/>
+            <label className="active" htmlFor="website-link">Instagram link</label>
           </div>
           <div className="input-field col l6 m6 s12">
-            <textarea id="c-about" ref="about" value="{this.props.user.profile.employerData.about.text}" className="materialize-textarea"></textarea>
-            <label htmlFor="c-about">About description</label>
+            <textarea id="c-about" ref="about" defaultValue={this.props.user.profile.employerData.about.text} className="materialize-textarea"></textarea>
+            <label className="active" htmlFor="c-about">About description</label>
           </div>
           <div style={{display:'flex', justifyContent:'center'}}>
             <button data-target="modal1" className="btn modal-trigger">Update profile</button>

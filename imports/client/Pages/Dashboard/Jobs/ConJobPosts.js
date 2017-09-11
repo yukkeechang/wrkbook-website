@@ -1,15 +1,14 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import EmployerNoUpcomingJobs from '../../EmployerNoUpcomingJobs';
 
 import MSpinner from '../../Shared/MSpinner';
 import ConJobPostComponent from './ConJobPostComponent';
-import EmployerNoUpcomingJobs from '../../EmployerNoUpcomingJobs';
 
 function isEmpty(obj) {
   for (var x in obj) { return false; }
   return true;
 }
-
 
 class ContractorJobPosts extends React.Component{
   constructor(props){
@@ -30,8 +29,11 @@ class ContractorJobPosts extends React.Component{
                 key={index}
                 jobinfo ={job}
                 title={job.jobTypes.texts}
+                startAt={job.startAt}
+                endAt={job.endAt}
                 description={job.description.text}
                 location={job.location}
+                pay={job.pay}
               />
             )
           })}
@@ -47,7 +49,10 @@ class ContractorJobPosts extends React.Component{
     }
     else{
       return(
+        <div>
         <EmployerNoUpcomingJobs/>
+        <h1>You have no current jobs</h1>
+        </div>
       );
     }
   }

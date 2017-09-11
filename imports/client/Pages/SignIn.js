@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
-import { Link } from 'react-router-dom';
+import { BrowserRouter, Route, Link} from 'react-router-dom';
 import MTextField from './Shared/MTextField';
 
 export default class SignIn extends Component{
@@ -14,23 +14,43 @@ export default class SignIn extends Component{
     };
 
   }
+  componentDidMount(){
+    console.log("mounted");
+    ReactDOM.findDOMNode(this.refs.butt).addEventListener('click', (event) => {
+       event.stopPropagation();
+       event.preventDefault();
+       event.stopImmediatePropagation();
+       this.login(event);
+     }, false);
+  }
+
+  componentWillUnmount(){
+    console.log('unmounting');
+  }
 
   login(e){
-    e.preventDefault();
-
     console.log(e);
+    // e.preventDefault();
+    e.stopPropagation();
+
+    e.preventDefault();
+    // e.nativeEvent.stopImmediatePropagation();
     let email = this.refs.em.value();
     let passw = this.refs.p1.value();
+
     Meteor.loginWithPassword(email,passw,(err)=>{
       if(err){
+        console.log(err);
         if(err.reason == "Incorrect password") this.setState({pValid:err.reason, noUser: ''});
         if(err.reason == "User not found") this.setState({noUser: err.reason,pValid:''});
       }else{
         this.props.history.push('/');
       }
     });
-     return false;
+    e.preventDefault();
+    // e.nativeEvent.stopImmediatePropagation();
   }
+
   render(){
     return(
       <div>
@@ -39,15 +59,19 @@ export default class SignIn extends Component{
           <div style={{zIndex:'-1'}} className="container">
             <div className="card">
               <div className="row card-content">
-                <div className="col s12">
-                  <div className="row">
-                    <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
-                    <MTextField ref="p1" id="pass1"     error={this.state.pValid} type="password" label="Password *"/>
-                  </div>
-                  <a className="btn-flat teal lighten-4" ref="button" onClick={(e) => {this.login(e); }} style={{color: '#555',textTransform: 'none'}} type="submit">Log In</a>
-                  <br/><br/><Link to="/register" >Don't have an account? Click here to register</Link>
-                  <br/><br/><Link to="/forgot"   >Forgot Password?</Link>
+              <form className="col s12">
+                <div className="row">
+                  <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
+                  <MTextField ref="p1" id="pass1"     error={this.state.pValid} type="password" label="Password *"/>
                 </div>
+                <button id="but" ref="butt" className="btn-flat teal lighten-4" onClick={this.login.bind(this)} style={{color: '#555',textTransform: 'none'}}>Log In</button>
+                <br/>
+                <br/>
+                <Link to="/register">Don't have an account? Click here to register</Link>
+                <br/>
+                <br/>
+                <Link to="/forgot">Forget your password?</Link>
+              </form>
               </div>
 
             </div>

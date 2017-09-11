@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default MSpinner = ()=>{
+export default MSpinner = (props)=>{
     return (
-        <div className="preloader-wrapper active">
+        <div style={{width: props.size,height: props.size}}className="preloader-wrapper active">
             <div className="spinner-layer spinner-red-only">
             <div className="circle-clipper left">
                 <div className="circle"></div>

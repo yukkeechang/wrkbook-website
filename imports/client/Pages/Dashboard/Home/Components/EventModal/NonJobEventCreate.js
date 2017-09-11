@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import  EventSchema from '../../api/Schemas/eventSchema';
+import  EventSchema from '../../../../../../api/Schemas/eventSchema';
 
 export default class NonJobEventCreate extends Component {
     constructor(props) {
@@ -49,13 +49,14 @@ export default class NonJobEventCreate extends Component {
             endAt,
         };
 
-        console.log(eventObject);
+        // console.log(eventObject);
 
-        let  toEventSchema = EventSchema.clean({});
+        let toEventSchema = EventSchema.clean({});
         toEventSchema.title.text = eventObject.title;
         toEventSchema.responsibilities.text = eventObject.description;
         toEventSchema.startAt = eventObject.startAt;
         toEventSchema.endAt = eventObject.endAt;
+        console.log(toEventSchema);
         Meteor.call('createEvent',toEventSchema,(err)=>{
            console.log(err);
         });
@@ -75,9 +76,10 @@ export default class NonJobEventCreate extends Component {
 
     render() {
         return (
-            <div className="container center-align" >
+            <div className="card center-align" style={{margin:'0'}}>
+                <div className="card-content">
                 <div className="row">
-                    <h3 style={{paddingTop: 15, marginBottom: -10, fontSize: 10}}>Create a New Event</h3>
+                    <span className="card-title">Create a New Event</span>
                     <form className="col s12" onSubmit={this.onFormSubmit}>
                         <div className="row">
                             <div className="input-field col s12">
@@ -102,6 +104,8 @@ export default class NonJobEventCreate extends Component {
                         </div>
                     </form>
                 </div>
+                </div>
+
             </div>
         );
     }

@@ -23,7 +23,7 @@ class Head extends Component {
         if(this.props.user){
             image = Roles.userIsInRole(this.props.user._id,'PRO') ? this.props.user.profile.employeeData.image : this.props.user.profile.employerData.image;
         }
-        let header = this.props.loggingIn ? <MSpinner/> : (this.props.user ? <Navbar firstName={this.props.user.profile.firstName} image={image}/> : <Base/>);
+        let header = this.props.loggingIn ? <div className="row"><div className="col s2 push-s5"><MSpinner /></div></div> : (this.props.user ? <Navbar firstName={this.props.user.profile.firstName} image={image}/> : <Base/>);
         return(
             <div id="header">
                 <div className="container">

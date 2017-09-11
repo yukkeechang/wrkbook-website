@@ -22,7 +22,6 @@ export default class Contact extends React.Component {
   render() {
     let user = this.props.user;
     let phone = user.profile.phone;
-    //if someone has multiple emails, go through the array
     let email = user.emails[0].address;
 
     return (
@@ -41,7 +40,7 @@ export default class Contact extends React.Component {
                 !this.props.isPro
                 ?
                 <div className="col s12">
-                  Website: msanchez.com
+                  Website: {this.state.webPage}
                 </div>
                 :
                 null

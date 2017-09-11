@@ -9,6 +9,7 @@ Table of Contents
 * 	3.3 - Heading styles
 * 4.0 - Other Components
 *   4.1 - Modal size styles
+*   4.2 - Settings page styles
 ------------------------------------------------------------------------ /
 Table of Contents End
 ------------------------------------------------------------------------*/
@@ -114,6 +115,14 @@ input[type="password"]:focus+label[data-error]:after{
     src: url("/fonts/Avenir/AvenirNextLTPro-Regular.woff2") format("woff2");
 }
 
+[data-tooltip]{
+    white-space: pre;
+}
+@font-face {
+    font-family: 'Avenir';
+    src: url("/fonts/Avenir/AvenirNextLTPro-Regular.woff2") format("woff2");
+}
+
 @media only screen and (max-width:600px) {
   .ec{
     flex-direction: column !important;
@@ -136,3 +145,33 @@ input[type="password"]:focus+label[data-error]:after{
 /* 4.1 - Modal size styles
 -------------------------------------------------*/
 .modal { width: 75% !important ; max-height: 100% !important ; overflow-y: hidden !important ;}
+
+/* 4.1 - Modal size styles
+-------------------------------------------------*/
+/* 4.2 - Settings page styles
+-------------------------------------------------*/
+#subscription {
+    height: 60vh;
+    padding: 10px 5%;
+    margin: 0 auto;
+}
+
+.lowercase {
+    text-transform: none;
+}
+
+#payment .btn {
+    width: 100%
+}
+
+#payment {
+    padding: 10px 60px;
+}
+
+#agreement {
+    margin-Top: 20px;
+    font-style: italic;
+    color: #888888;
+}
+/* 4.2 - End of Settings page styles
+-------------------------------------------------*/

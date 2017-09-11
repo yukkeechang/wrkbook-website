@@ -25,7 +25,7 @@ class EmployeeJobPosts extends React.Component{
               <EmpJobPostComponent
                 key={index}
                 jobinfo ={job}
-                title={job.title.text}
+                title={job.jobTitle.text}
                 startAt={job.startAt}
                 endAt={job.endAt}
                 description={job.description.text}

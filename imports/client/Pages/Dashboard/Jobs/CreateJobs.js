@@ -1,6 +1,7 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
 import Location from '../../Shared/Location';
+import MTextField from '../../Shared/MTextField';
 import JobCreateComponent from './MultiProComponent';
 import JobSchema from '../../../../api/Schemas/jobSchema';
 import EventSchema from '../../../../api/Schemas/eventSchema';
@@ -15,7 +16,7 @@ export default class CreateJobs extends Component {
       $('.modal').modal();
     });
     $(this.refs.titles).change(()=>{
-      console.log("yuh");
+
       this.setState({titles:$(this.refs.titles).val()})
     })
     $('.datepicker').pickadate({
@@ -37,6 +38,9 @@ export default class CreateJobs extends Component {
       ampmclickable: true, // make AM PM clickable
       aftershow: function(){} //Function for after opening timepicker
     });
+    $(this.refs.osha).on('change',(e)=>{
+      this.handleSelect(e);
+    })
   }
   constructor(props){
     super(props);
@@ -69,27 +73,28 @@ export default class CreateJobs extends Component {
       location = loc.location;
       job.supervisor.name = this.refs.supervisorName.value.trim();
       job.supervisor.phone = this.refs.supervisorNumber.value.trim();
-
       job.additionText = additionText;
       job.description.text = description;
-
-
       job.jobTypes.texts = jobtypes;
       job.professionals = professionals;
       job.location = location;
-      job.jobTitle.text = this.refs.jobTitle.value.trim();
+      job.jobTitle.text = this.refs.jobTitle.value;
       job.requirements.socialPref.social = $("#sscYes").prop('checked');
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
-
-      // console.log(newJob);
+      let newJob = {
+        job: job
+      };
+      console.log(newJob);
       console.log(job);
       Meteor.call('createJob',job,(res,err)=>{
           if(err){
+            console.log(err.reason);
             console.log(err);
           }else{
             console.log(res);
+
           }
       });
     }
@@ -104,10 +109,14 @@ export default class CreateJobs extends Component {
   }
   handleSelect(){
     if($('#osha').val()==2){
-      this.setState.osha10 = true;
+      this.setState({
+        osha10: true
+      })
     }
     else if($('#osha').val()==3){
-      this.setState.osha30 = true;
+      this.setState({
+        osha30: true
+      })
     }
   }
   handletoolYesClick(){
@@ -140,14 +149,14 @@ export default class CreateJobs extends Component {
     this.setState({endT: time});
   }
   render(){
-    //const {titles} = this.state;
-    let employeeComponent;
+    let empty = 'This cannot be empty';
+    let phErr = 'Not a valid phone number';
     return(
       <div className="container">
         <form>
           <div className="input-field col s12">
-            <input id="jobTitle" ref="jobTitle" type="text"/>
-            <label htmlFor="jobTitle">Job title</label>
+            <input className="validate" id="jobTitle" ref="jobTitle" type="text"/>
+            <label data-error="wrong" className="validate" htmlFor="jobTitle">Job title</label>
           </div>
           <div className="row">
             <div className="input-field col m6 s12">
@@ -155,8 +164,8 @@ export default class CreateJobs extends Component {
               <label htmlFor="supervisor-name">Supervisors name</label>
             </div>
             <div className="input-field col m6 s12">
-              <input id="supervisor-number" ref="supervisorNumber" type="text"/>
               <label htmlFor="supervisor-number">Supervisors number</label>
+              <input id="supervisor-number" ref="supervisorNumber" type="text"/>
             </div>
           </div>
           <div className="input-field col s12">
@@ -189,7 +198,7 @@ export default class CreateJobs extends Component {
 
         <form>
           <div className="input-field col m6 s12">
-            <select id="osha" ref="osha" onSelect={this.handleSelect.bind(this)}>
+            <select id="osha" ref="osha" onChange={()=>{}}>
               <option value="" disabled selected>OSHA preference</option>
               <option value="1">No preference</option>
               <option value="2">OSHA 10</option>
