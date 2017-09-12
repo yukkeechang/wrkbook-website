@@ -105,12 +105,6 @@ private key associated with strip.
     </ul>
     <li>client</li>
     <ul>
-      <li>App.js</li>
-      Base component with react-router configurations. Entry point for Meteor
-      <li>Collections.js</li>
-      Mongo collections for the database
-      <li>Verification.js</li>
-      Verification methods for user passwords
       <li>Pages</li>
       <ul>
         <li>Home</li>
@@ -325,6 +319,12 @@ private key associated with strip.
         <li>SignUp.js</li>
         Register for an account
       </ul>
+      <li>App.js</li>
+      Base component with react-router configurations. Entry point for Meteor
+      <li>Collections.js</li>
+      Mongo collections for the database
+      <li>Verification.js</li>
+      Verification methods for user passwords
     </ul>
   </ul>
   <li>package.json</li>
