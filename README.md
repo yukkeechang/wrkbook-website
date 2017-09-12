@@ -280,7 +280,6 @@ private key associated with strip.
           <li>WrkBookIcon.js</li>
           Wrkbook icon
         </ul>
-
         <li>SignUp</li>
         <ul>
           <li>Congrats.js</li>
