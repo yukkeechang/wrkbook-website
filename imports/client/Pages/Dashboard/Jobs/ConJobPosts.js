@@ -51,7 +51,6 @@ class ContractorJobPosts extends React.Component{
       return(
         <div>
         <EmployerNoUpcomingJobs/>
-        <h1>You have no current jobs</h1>
         </div>
       );
     }

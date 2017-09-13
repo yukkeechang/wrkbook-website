@@ -31,13 +31,18 @@ export default class Location extends Component{
       lng: -360,
       showNext: 'disabled'
     }
+    console.log(this.props.prevAddress);
+    console.log(this.props);
 
 
   }
   //Once the page is mounted we create the Google Autocomplete Component.
   componentDidMount(){
     this.initAutocomplete()
+    $(document).ready(function() {
     Materialize.updateTextFields();
+    });
+
   }
 
   initAutocomplete() {
@@ -57,11 +62,13 @@ export default class Location extends Component{
  fillInAddress() {
     // Get the place details from the autocomplete object.
     console.log('change');
+
     var place = autocomplete.getPlace();
     $(document).ready(function(){
     // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
     $('#modal1').modal('open');
+    Materialize.updateTextFields();
     });
     for (var component in componentForm) {
       document.getElementById(component).value = '';
@@ -74,9 +81,7 @@ export default class Location extends Component{
         document.getElementById(addressType).value = val;
       }
     }
-    $(document).ready(function() {
-    Materialize.updateTextFields();
-    });
+
     this.setState({
       addressNumErr: '',
       addressNumErrReason: '',

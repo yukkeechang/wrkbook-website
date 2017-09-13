@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { DEFAULT } from '../../../../../api/Schemas/basicTextSchema';
+import Location from '../../../Shared/Location'
 
 export class ConEdit extends Component{
   componentDidMount(){
@@ -76,7 +77,7 @@ export class ConEdit extends Component{
     console.log("EDIT PAGE")
     return(
       <div className="container">
-        <div className="col l6 m6 s12">
+        <div className="col l6 m6 s12" style={{display:'flex', justifyContent:'center'}}>
           <img src="/images/facebook.png" height='350px' width='350px' style={{borderRadius:'350px'}}/>
         </div>
         <div className="row">
@@ -92,29 +93,31 @@ export class ConEdit extends Component{
         </div>
         <form>
           <div className="input-field col l6 m6 s12">
-            <input id="company-name" ref="companyName" value={this.props.user.profile.employerData.companyName.text} type="text"/>
+            <input id="company-name" ref="companyName" defaultValue={this.props.user.profile.employerData.companyName.text} type="text"/>
             <label htmlFor="company-name">Company name</label>
           </div>
-          <div className="input-field col l6 m6 s12">
-            <input id="company-address" ref="companyLocation" value={this.props.user.profile.employerData.location.locationName} type="text"/>
-            <label htmlFor="company-address">Company location</label>
+          <div className=" col l6 m6 s12">
+
+            <Location
+              prevAddress={this.props.user.profile.employerData.location.locationName}
+            />
           </div>
           <div className="row">
             <div className="input-field col l4 m4 s12">
-              <input id="phone-number" ref="phoneNumber" value={this.props.user.profile.phone} type="text"/>
+              <input id="phone-number" ref="phoneNumber" defaultValue={this.props.user.profile.phone} type="text"/>
               <label htmlFor="phone-number">Phone number</label>
             </div>
             <div className="input-field col l8 m8 s12">
-              <input id="c-email" ref="email" value={this.props.user.emails[0].address} type="text"/>
+              <input id="c-email" ref="email" defaultValue={this.props.user.emails[0].address} type="text"/>
               <label htmlFor="c-email">Email</label>
             </div>
           </div>
           <div className="input-field col l6 m6 s12">
-            <input id="website-link" ref="websiteLink" value={this.props.user.profile.employerData.webPage} type="text"/>
+            <input id="website-link" ref="websiteLink" defaultValue={this.props.user.profile.employerData.webPage} type="text"/>
             <label htmlFor="website-link">Website link</label>
           </div>
           <div className="input-field col l6 m6 s12">
-            <textarea id="c-about" ref="about" value={this.props.user.profile.employerData.about.text} className="materialize-textarea"></textarea>
+            <textarea id="c-about" ref="about" defaultValue={this.props.user.profile.employerData.about.text} className="materialize-textarea"></textarea>
             <label htmlFor="c-about">About description</label>
           </div>
           <div style={{display:'flex', justifyContent:'center'}}>

@@ -62,8 +62,8 @@ class Dash extends Component{
                 <Route exact path="/employeecomponent" component={employeeComponent}/>
                 <Route exact path="/editprofessional" component={ProfessionalEdit}/>
                 <Route exact path="/editcontractor" component={ContractorEdit}/>
-                <Route exact path="/edit" component={Edit}/>
-                
+                <Route exact path="/settings" component={Edit}/>
+
                     {/*
                         Add in whatever pages' route
                         you need as above and it should

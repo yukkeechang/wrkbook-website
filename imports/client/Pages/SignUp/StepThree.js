@@ -170,7 +170,7 @@ export default class stepThree extends Component{
                     <div id="imageContain" style={{display:'flex', justifyContent:'center',alignItems:'center'}}className="col s12">
                     {this.state.pesonalPic ?
                       <div className="circle" id="page">
-                        <div id="demo-basic" onClick={this.toggleFileBrowser.bind(this)}>
+                        <div id="demo-basic">
 
                         </div>
                       </div>

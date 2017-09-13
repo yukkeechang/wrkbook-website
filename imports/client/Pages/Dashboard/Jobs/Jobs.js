@@ -9,6 +9,7 @@ class JobPage extends React.Component{
   render(){
     if(this.props.user){
       if(this.props.user.roles[0] === "PRO"){
+        console.log(this.props.user);
         return(<EmpJobPosts user={this.props.user}/>);
       } else if (this.props.user.roles[0] === "CON"){
         return(<ConJobPosts user={this.props.user}/>);

@@ -111,7 +111,9 @@ export default class ProfessionalEdit extends Component{
             </select>
           </div>
           <div className="input-field col s12">
-            <Location ref="loc"/>
+            <Location ref="loc"
+            prevAddress={this.props.user.profile.employeeData.location.locationName}
+            />
           </div>
           <div className="row">
             <div className="input-field col l4 m4 s12">
