@@ -198,7 +198,7 @@ class HomePage extends React.Component {
       for (let i=0; i<jobsCurrentDate.length; i++) {
         startingTimes.push(jobsCurrentDate[i].startAt.getHours());
         titles.push(jobsCurrentDate[i].title.text);
-        descriptions.push(jobsCurrentDate[i].description.text);
+        descriptions.push(jobsCurrentDate[i].responsibilities.text);
         jobPostCheck.push(jobsCurrentDate[i].jobPost);
       }
       this.setState({
