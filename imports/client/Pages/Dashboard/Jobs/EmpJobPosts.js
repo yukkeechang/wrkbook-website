@@ -16,7 +16,7 @@ class EmployeeJobPosts extends React.Component{
     super(props);
   }
   render(){
-    console.log(this.props);
+
     if(!isEmpty(this.props.jobPost)){
 
       let jobz = this.props.jobPost;

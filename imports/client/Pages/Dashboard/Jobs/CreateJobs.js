@@ -75,7 +75,7 @@ export default class CreateJobs extends Component {
       job.supervisor.phone = this.refs.supervisorNumber.value.trim();
       job.additionText = additionText;
       job.description.text = description;
-      job.jobTypes.texts = jobtypes;
+      job.jobTypes.texts = Object.values(jobtypes);
       job.professionals = professionals;
       job.location = location;
       job.jobTitle.text = this.refs.jobTitle.value;

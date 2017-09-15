@@ -44,7 +44,7 @@ Meteor.publish('job-post', function(employee){
     let lat = employee.location.latitude;
     let lng = employee.location.longitude;
     let distance = employee.maxDistance * mileToMeters/2;
-    console.log(jobTitle);
+
     let cos_degg = Math.cos(bearing* Math.PI/180);
     let sin_degg = Math.sin(bearing* Math.PI/180);
 
@@ -63,13 +63,13 @@ Meteor.publish('job-post', function(employee){
     let lng_top = lng + eastDisplacement;
     let lng_bot = lng + westDisplacement;
 
-      let all_things = Job.find({}).fetch();
-      let things = Job.find({ 'jobTypes.texts' : {$in : jobTitle},
+
+      return  Job.find({ 'jobTypes.texts' : {$in : jobTitle},
                         'location.latitude': {$gte: lat_bot, $lt: lat_top},
                         'location.longitude': {$gte: lng_bot , $lt: lng_top}
                       });
-      console.log(all_things[0].jobTypes);
-      return things;
+
+
   }else{
     this.stop();
     return ;
@@ -291,6 +291,7 @@ Meteor.methods({
       if(Roles.userIsInRole(this.userId,'free-job')){
         Roles.removeUsersFromRoles(this.userId,'free-job');
       }
+      return things;
 
 
     }else{
