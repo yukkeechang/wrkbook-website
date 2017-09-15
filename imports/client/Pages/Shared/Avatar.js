@@ -19,7 +19,7 @@ export default class Avatar extends Component{
 
       let page = (
       <div onClick={this.props.onClick}style={{backgroundColor: '#eeeeee',height:this.state.width,width:this.state.width,cursor:'pointer',display:'flex', justifyContent:'center',alignItems:'center'}} className="circle">
-        <h1 style={{fontSize:this.state.textSize,fontFamily: 'avenir-lt-w01_35-light1475496,sans-serif',color:'#595959'}}> {this.props.letter}</h1>
+        <h1 style={{fontSize:this.state.textSize,fontFamily: 'avenir-lt-w01_35-light1475496,sans-serif',color:'#595959'}}> {!!this.props.letter ? this.props.letter: "N"}</h1>
       </div>);
 
         return(
