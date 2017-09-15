@@ -17,17 +17,7 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
     let endAt = new Date(2017,9,1,13, 30, 25 );
-    // Meteor.call('createEvent', {
-    //   title: { text: 'Madfss'},
-    //   description: { text: 'Imma nut'},
-    //   startAt: new Date(),
-    //   endAt: endAt,
-    //   important: {
-    //     High: false,
-    //     Medium: true,
-    //     Low: false
-    //   }
-    // })
+
     this.state = {
       currentDate: new Date(),
       currentDateParsed: "",
@@ -199,7 +189,7 @@ class HomePage extends React.Component {
         startingTimes.push(jobsCurrentDate[i].startAt.getHours());
         titles.push(jobsCurrentDate[i].title.text);
         descriptions.push(jobsCurrentDate[i].responsibilities.text);
-        jobPostCheck.push(jobsCurrentDate[i].jobPost);
+        jobPostCheck.push(jobsCurrentDate[i]);
       }
       this.setState({
         jobsCurrentDate: jobsCurrentDate,
@@ -288,7 +278,7 @@ class HomePage extends React.Component {
   }
 
   render() {
-    console.log(this.props.myEvents);
+
     if(!this.props.ready ) return null;
     // Create hour labels for today's agenda window
     let hours = [

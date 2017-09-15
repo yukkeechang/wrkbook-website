@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default class employeeComponent extends React.Component{
+export default class EmployeeComponent extends React.Component{
   handleDecline(){
-    let job = this.props.jobinfo;
+    let job = this.props.jobInfo;
     let declineemployeeIds = [];
     let employeeId = this.props.employeeId;
     let jobId = job._id;
@@ -18,9 +18,12 @@ export default class employeeComponent extends React.Component{
     declineemployeeIds[declineemployeeIds.length] = this.props.employeeId;
     let set = new Set(declineemployeeIds);
     declineemployeeIds = Array.from(set);
-
-    Meteor.call('updateEmployeeIds',jobId,job.applyemployeeIds,job.declineemployeeIds,
-    job.admitemployeeIds,(err)=>{
+    let empolyeeIds ={
+      apply: job.applyemployeeIds,
+      decline: job.declineemployeeIds,
+      admit: job.admitemployeeIds
+    };
+    Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
     if(err){
       console.log(err);
     }
@@ -30,7 +33,7 @@ export default class employeeComponent extends React.Component{
     });
   }
   handleAdmit(){
-    let job = this.props.jobinfo;
+    let job = this.props.jobInfo;
     let employeeId =  this.props.employeeId;
     let applyemployeeIds = [];
     let jobId = job._id;
@@ -44,8 +47,13 @@ export default class employeeComponent extends React.Component{
     let set = new Set(admitemployeeIds);
     admitemployeeIds = Array.from(set);
 
-    Meteor.call('updateEmployeeIds',jobId,job.applyemployeeIds,job.declineemployeeIds,
-    job.admitemployeeIds,(err)=>{
+    let empolyeeIds ={
+      apply: job.applyemployeeIds,
+      decline: job.declineemployeeIds,
+      admit: job.admitemployeeIds
+    };
+
+    Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
     if(err){
       console.log(err);
     }

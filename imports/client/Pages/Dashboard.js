@@ -10,7 +10,7 @@ import Jobs from './Dashboard/Jobs/Jobs';
 import Home from './Dashboard/Home/Home';
 
 import Edit from './Dashboard/Profile/Edit/Edit';
-import SendReviews from './Dashboard/SendReviews';
+
 
 // For testing
 import ConJobPostComponent from './Dashboard/Jobs/ConJobPostComponent';
@@ -55,7 +55,7 @@ class Dash extends Component{
                 <Route exact path="/references" component={References}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob" component={EditJobs}/>
-                <Route exact path="/sendreviews" component={SendReviews}/>
+
                 <Route exact path="/events" component={DummyEvents}/>
                 <Route exact path="/conjobpostcomponent" component={ConJobPostComponent}/>
                 <Route exact path="/conjobposts" component={ConJobPosts}/>

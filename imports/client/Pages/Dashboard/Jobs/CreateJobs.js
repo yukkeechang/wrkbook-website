@@ -68,6 +68,7 @@ export default class CreateJobs extends Component {
       let job = JobSchema.clean({});
       let location = LocationSchema.clean({});
       let jobtypes = $('#jobTitles').val();
+      console.log(jobtypes);
       const description = this.refs.jobDescription.value.trim();
       const additionText = this.refs.additionalText.value.trim();
       location = loc.location;
