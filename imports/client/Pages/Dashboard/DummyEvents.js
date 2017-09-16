@@ -1,7 +1,7 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-
+//Just Pull EVENTS
 
 
 
@@ -29,7 +29,7 @@ export default DummyEvents = createContainer(({ params }) => {
   let loading = false;
 
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('today-events');
+    let handle = Meteor.subscribe('today-events',new Date());
     loading = handle.ready();
     events = Event.find({}).fetch();
 

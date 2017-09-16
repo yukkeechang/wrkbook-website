@@ -93,8 +93,10 @@ export default class stepThree extends Component{
       }else{
         console.log('On cancel ');
 
-        this.setState({button:'disabled',shownlink:'',pesonalPic:false});
-        console.log(this.state.pesonalPic);
+        this.setState({button:'disabled',
+        shownlink:'',
+        pesonalPic:false,
+        basic:{}});
       }
 
 
@@ -177,7 +179,7 @@ export default class stepThree extends Component{
                       :
                       <Avatar
                         size={this.state.width}
-                        letter={this.props.user.profile.firstName[0]}
+                        letter= {this.props.user.profile.firstName[0]}
                         onClick={this.toggleFileBrowser.bind(this)}
                         />
                     }
@@ -204,31 +206,38 @@ export default class stepThree extends Component{
                         </div>
                       </div>
                     }
-
+                <div className="row">
                     <div
-                     className="col s12 offset-s4"
+                    style={{display:'flex', justifyContent:'center',alignItems:'center'}}
+                     className="col s6 offset-s3"
                      style={ this.state.captchaWarningOn ?
                        { border: "1px solid red", display: "inline-block", padding: 5 } :
                        { display: "inline-block", padding: 5 }
                      }
                    >
+                   <div
+                   style={{display:'flex', justifyContent:'center',alignItems:'center'}}>
                      <ReCAPTCHA
                        ref="recaptcha"
                        sitekey="6LfulisUAAAAAIj482eHy1V-_SveBCkc-kNY_JWL"
                        onChange={this.onCaptchaChange}
                      />
-                     { this.state.captchaWarningOn ?
-                       <p style={{color: "red"}}>Please verify that you are not a robot.</p>
-                       :
-                       null
-                     }
+
+                    </div>
+                    <div style={{display:'flex', justifyContent:'center',alignItems:'center'}}>
+                    { this.state.captchaWarningOn ?
+                      <p style={{color: "red"}}>Please verify that you are not a robot.</p>
+                      :
+                      null
+                    }
+                    </div>
                    </div>
 
                     <div style ={{display:'flex',justifyContent:'center',alignItems:'center'}} className="col s12">
                       <a className='btn' onClick={this.submit.bind(this)}>{this.state.submit}</a>
                     </div>
                 </div>
-
+              </div>
 
           </div>
         );

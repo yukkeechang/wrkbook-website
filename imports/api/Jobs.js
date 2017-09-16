@@ -34,7 +34,7 @@ Job.attachSchema(JobSchema);
 */
 
 Meteor.publish('job-post', function(employee){
-  check(employee,EmployeeSchema);
+
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
 
     let bearing = 45;
@@ -64,10 +64,12 @@ Meteor.publish('job-post', function(employee){
     let lng_bot = lng + westDisplacement;
 
 
-      return Job.find({ 'jobTypes.texts' : {$in : jobTitle},
+      return  Job.find({ 'jobTypes.texts' : {$in : jobTitle},
                         'location.latitude': {$gte: lat_bot, $lt: lat_top},
                         'location.longitude': {$gte: lng_bot , $lt: lng_top}
                       });
+
+
   }else{
     this.stop();
     return ;
@@ -289,6 +291,7 @@ Meteor.methods({
       if(Roles.userIsInRole(this.userId,'free-job')){
         Roles.removeUsersFromRoles(this.userId,'free-job');
       }
+      return things;
 
 
     }else{
