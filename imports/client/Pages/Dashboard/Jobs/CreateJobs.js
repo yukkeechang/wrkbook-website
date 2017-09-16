@@ -68,6 +68,7 @@ export default class CreateJobs extends Component {
       let job = JobSchema.clean({});
       let location = LocationSchema.clean({});
       let jobtypes = $('#jobTitles').val();
+      console.log(jobtypes);
       const description = this.refs.jobDescription.value.trim();
       const additionText = this.refs.additionalText.value.trim();
       location = loc.location;
@@ -75,7 +76,7 @@ export default class CreateJobs extends Component {
       job.supervisor.phone = this.refs.supervisorNumber.value.trim();
       job.additionText = additionText;
       job.description.text = description;
-      job.jobTypes.texts = jobtypes;
+      job.jobTypes.texts = Object.values(jobtypes);
       job.professionals = professionals;
       job.location = location;
       job.jobTitle.text = this.refs.jobTitle.value;

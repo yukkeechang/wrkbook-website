@@ -27,7 +27,7 @@ Accounts.emailTemplates.resetPassword.from = () => {
   return 'WRKBOOK Password Reset <no-reply@wrkbook.com>';
 };
 Accounts.emailTemplates.resetPassword.text = (user,url) =>{
-  return `Hey MY GUY ${user.profile.firstName},\n Click the link the reset ur things `
+  return `Hey ${user.profile.firstName},\n Click the link the reset your password `
   + url;
 };
 Accounts.emailTemplates.verifyEmail = {

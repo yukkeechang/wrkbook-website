@@ -13,15 +13,15 @@ Event.attachSchema(EventSchema);
 const WTFUDOING ={
   didnotRemove : true,
 };
-Meteor.publish('today-events',function() {
+Meteor.publish('today-events',function(currentDate) {
   if (Roles.userIsInRole(this.userId,CONTRACTOR)
     ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
 
-    let currentDate = new Date();
-    currentDate.setHours(0,0,0,0);
+    // currentDate.setHours(0,0,0,0);
+    console.log(currentDate);
     return Event.find(
       {$and:[
-        {$or : [{startAt:{$gte: currentDate}},{endAt:{$lte:currentDate}}]},
+        {$or : [{startAt:{$lte: currentDate}},{endAt:{$gte:currentDate}}]},
         {owner:this.userId}
     ]});
 
@@ -30,18 +30,16 @@ Meteor.publish('today-events',function() {
     return;
   }
 });
-Meteor.publish('your-events-this-month',function(){
+Meteor.publish('your-events-this-month',function(currentDate){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)
   ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
-    let futureDate = new Date();
-
-    let pastDate = new Date();
+    let futureDate = currentDate;
     let lastMonth= futureDate.getMonth() - 1 < 0 ? 11 : futureDate.getMonth() - 1;
     let nextMonth = futureDate.getMonth() + 1 >11 ? 0 : futureDate.getMonth() + 1;
     futureDate.setMonth(nextMonth);
     pastDate.setMonth(lastMonth);
     return Event.find({$and:[
-      {$or : [{startAt:{$gt: pastDate}},{endAt:{$lt:futureDate}}]},
+      {$or : [{startAt:{$lte: nextMonth}},{endAt:{$gte:lastMonth}}]},
       {owner:this.userId}
     ]});
   }else{
