@@ -46,7 +46,7 @@ export default class Forgot extends Component{
                         <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
                       </div>
                       :
-                      <h1> Check Your Email BOIIIIIIIIII </h1>
+                      <h1> Check Your Email</h1>
                     }
 
                     {

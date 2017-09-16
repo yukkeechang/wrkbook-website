@@ -38,9 +38,14 @@ export default class EmpJobPostComponent extends React.Component{
   applyemployeeIds[applyemployeeIds.length] = Meteor.userId();
   let set = new Set(applyemployeeIds);
   applyemployeeIds = Array.from(set);
-  job.applyemployeeIds = applyemployeeIds;
-  Meteor.call('updateEmployeeIds',jobId,job.applyemployeeIds,job.declineemployeeIds,
-  job.admitemployeeIds,(err)=>{
+
+  let empolyeeIds ={
+    apply: applyemployeeIds,
+    decline: job.declineemployeeIds,
+    admit: job.admitemployeeIds
+  };
+  
+  Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
     if(err){
       console.log(err);
     }
@@ -67,7 +72,7 @@ export default class EmpJobPostComponent extends React.Component{
                 <p><b>Start time: </b>startAt</p>                   //none of these probably work just saying
                 <p><b>End time: </b>endAt</p>
                 <p><b>Pay: </b>pay per hr</p>
-                <p><b>Location: </b>locationName</p>
+                <p><b>Location: </b>{this.props.location.locationName}</p>
               </div>
               <div className="col l6 m6 s12">
                 <p><b>OSHA: </b>osha</p>
@@ -87,9 +92,9 @@ export default class EmpJobPostComponent extends React.Component{
           </div>
         </div>
         <div className="col s12">
-          <button id="disabledButton" className="waves-effect waves-teal btn-flat disabled" onClick={this.handleApply.bind(this)}>
+          <a id="disabledButton" className="waves-effect waves-teal btn-flat " onClick={this.handleApply.bind(this)}>
             {this.state.label}
-          </button>
+          </a>
         </div>
       </div>
     )

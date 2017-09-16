@@ -107,9 +107,11 @@ export default class ConJobPostComponent extends React.Component{
             <button className="waves-effect waves-teal  lighten-3 btn-flat" onClick={this.handleMember.bind(this)}>
               <i className="small material-icons">people</i>
             </button>
-            <button className="waves-effect waves-teal lighten-3 btn-flat" onClick={this.handleEdit.bind(this)}>
-              <i className="small material-icons">edit</i>
-            </button>
+            <Link to="/editjob">
+              <a className="waves-effect waves-teal lighten-3 btn-flat">
+                <i className="small material-icons">edit</i>
+              </a>
+            </Link>
             </div>
           </div>
           <div className="row">

@@ -40,7 +40,7 @@ class EmployeeJobPosts extends React.Component{
         </div>
       );
     }
-    else if(this.props.loading){
+    else if(!this.props.loading){
       return (
         <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
           <MSpinner />
