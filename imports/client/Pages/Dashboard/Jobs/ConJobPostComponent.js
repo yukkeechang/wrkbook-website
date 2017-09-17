@@ -18,7 +18,7 @@ export default class ConJobPostComponent extends React.Component{
   }
   componentWillMount(){
     console.log(this.props.jobinfo);
-    console.log('NU');
+
   }
   constructor(props){
   super(props);
@@ -42,9 +42,7 @@ export default class ConJobPostComponent extends React.Component{
       value: e.target.value,
     });
   }
-  handleEdit(e){
-    <Link to="/editjob"></Link>
-  }
+
   handleMember(e){
     let job = this.props.jobinfo;
     let Admitted = [];
@@ -107,7 +105,7 @@ export default class ConJobPostComponent extends React.Component{
             <button className="waves-effect waves-teal  lighten-3 btn-flat" onClick={this.handleMember.bind(this)}>
               <i className="small material-icons">people</i>
             </button>
-            <Link to="/editjob">
+            <Link to={"/editjob/"+ this.state.job._id}>
               <a className="waves-effect waves-teal lighten-3 btn-flat">
                 <i className="small material-icons">edit</i>
               </a>

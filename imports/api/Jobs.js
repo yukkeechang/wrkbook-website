@@ -98,7 +98,14 @@ Meteor.publish('job-post-employer',function(){
   }
 
 });
-
+Meteor.publish('job-post-employer-edit',function(jobId){
+  if(Roles.userIsInRole(this.userId,CONTRACTOR)){
+    return Job.find({_id: jobId,employerId:this.userId});
+  }else{
+    this.stop();
+    return;
+  }
+});
 /**
 *
 * Publishes all Jobs that a employee was matched with

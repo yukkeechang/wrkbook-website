@@ -1,18 +1,26 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
-import JobCreateComponent from './Jobs/CreateJobs';
+import JobCreateComponent from './Jobs/MultiProComponent';
 import JobSchema from '../../../api/Schemas/jobSchema';
 import { DEFAULT } from '../../../api/Schemas/basicTextSchema';
 import LocationSchema from '../../../api/Schemas/locationSchema';
+import Location from '../Shared/Location';
+import MTextField from '../Shared/MTextField';
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
 
-export default class EditJobs extends React.Component {
+class EditJob extends Component {
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
       $('select').material_select();
       $('.modal').modal();
     });
+    $(this.refs.titles).change(()=>{
+
+      this.setState({titles:$(this.refs.titles).val()})
+    })
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -50,6 +58,9 @@ export default class EditJobs extends React.Component {
       lat: -100,
       lng: -100
     };
+  }
+  componentWillMount(){
+    console.log(this.props.match.params.value);
   }
   getCoords(lat, lng){
     console.log(lat);
@@ -161,36 +172,38 @@ export default class EditJobs extends React.Component {
     this.setState({endT: time});
   }
   render(){
-    let employeeComponent;
+    if(!this.props.jobPost)return(<h1>h</h1>);
+    else {
     return(
       <div className="container">
         <form>
+          <div className="input-field col s12">
+            <input className="validate" id="jobTitle" ref="jobTitle" defaultValue={this.props.jobPost.jobTitle.text} type="text"/>
+            <label data-error="wrong" className="validate" htmlFor="jobTitle">Job title</label>
+          </div>
           <div className="row">
-            <div className="input-field col l6 m6 s12">
-              <input id="supervisor-name" ref="supervisorName" value="{this.props.jobinfo.supervisor.name}" type="text"/>
-              <label className="active" htmlFor="supervisor-name">Supervisors name</label>
+            <div className="input-field col m6 s12">
+              <input id="supervisor-name" ref="supervisorName" defaultValue={this.props.jobPost.supervisor.name}type="text"/>
+              <label htmlFor="supervisor-name">Supervisors name</label>
             </div>
-            <div className="input-field col l6 m6 s12">
-              <input id="supervisor-number" ref="supervisorNumber" value="{this.props.jobs.supervisor.phone}" type="text"/>
-              <label className="active" htmlFor="supervisor-number">Supervisors number</label>
+            <div className="input-field col m6 s12">
+              <label htmlFor="supervisor-number">Supervisors number</label>
+              <input id="supervisor-number" ref="supervisorNumber" defaultValue={this.props.jobPost.supervisor.phone}type="text"/>
             </div>
           </div>
-          <div className="input-field col l12 m12 s12">
-            <input id="jobLocation" ref="GoogleAuto" value="{this.props.jobinfo.location.locationName}" type="text"/>
-            <label className="active" htmlFor="jobLocation">Job location</label>
+          <div className="input-field col s12">
+            <Location ref="loc"
+              prevAddress={this.props.jobPost.location.locationName}
+            />
           </div>
-          <div className="input-field col l12 m12 s12">
-            <input id="job-description" ref="jobDescription" value="{this.props.jobs.description.text}" type="text"/>
-            <label className="active" htmlFor="job-description">Job description</label>
-          </div>
-          <div className="input-field col l12 m12 s12">
-            <input id="responsibility" ref="responsibilites" type="text"/>
-            <label className="active" htmlFor="responsibility">Responsibilites include:</label>
+          <div className="input-field col s12">
+            <input id="job-description" ref="jobDescription" type="text"/>
+            <label htmlFor="job-description">Job description</label>
           </div>
         </form>
         <form>
           <div className="row">
-            <div className="col l2 m2 s4">
+            <div className="col m2 s4">
               <label>Are tools required?</label>
               <div>
                 <input name="group1" type="radio" id="toolYes" onClick={this.handletoolYesClick.bind(this)} />
@@ -201,15 +214,16 @@ export default class EditJobs extends React.Component {
                 <label htmlFor="toolNo">No</label>
               </div>
             </div>
-            <div id="toolDisplay" style={{display:'none'}} className="input-field col l10 m10 s8">
+            <div id="toolDisplay" style={{display:'none'}} className="input-field col m10 s8">
               <input id="tools" ref="tools" type="text"/>
               <label htmlFor="tools">Required tools:</label>
             </div>
           </div>
         </form>
+
         <form>
-          <div className="input-field col l6 m6 s12">
-            <select id="osha" ref="osha" onSelect={this.handleSelect.bind(this)}>
+          <div className="input-field col m6 s12">
+            <select id="osha" ref="osha" onChange={()=>{}}>
               <option value="" disabled selected>OSHA preference</option>
               <option value="1">No preference</option>
               <option value="2">OSHA 10</option>
@@ -219,7 +233,7 @@ export default class EditJobs extends React.Component {
         </form>
         <form>
           <div className="row">
-            <div className="col l4 m4 s6">
+            <div className="col m4 s6">
               <label>Is Social Security required?</label>
               <div>
                 <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick.bind(this)}/>
@@ -230,7 +244,7 @@ export default class EditJobs extends React.Component {
                 <label htmlFor="sscNo">No</label>
               </div>
             </div>
-            <div id="taxDisplay" style={{display:'none'}} className="col l4 m4 s6">
+            <div id="taxDisplay" style={{display:'none'}} className="col m4 s6">
               <label>Is Tax Id required?</label>
               <div>
                 <input name="group2" type="radio" id="taxYes"/>
@@ -263,12 +277,13 @@ export default class EditJobs extends React.Component {
           )
         })}
         <form>
-          <div className="input-field col l12 s12">
-            <input id="additional-text" ref="additionalText" value=" " type="text"/>
-            <label className="active" htmlFor="additional-text">Additional information:</label>
+          <div className="input-field col s12">
+            <input id="additional-text" ref="additionalText" type="text"/>
+            <label htmlFor="additional-text">Additional information:</label>
           </div>
+
           <div style={{display:'flex', justifyContent:'center'}}>
-            <button data-target="modal1" className="btn modal-trigger">Create job</button>
+            <a className="waves-effect waves-teal btn-flat" onClick={this.handleCreate.bind(this)}>Create job</a>
           </div>
           <div id="modal1" className="modal">
             <div className="modal-content">
@@ -283,4 +298,13 @@ export default class EditJobs extends React.Component {
       </div>
     )
   }
+  }
 }
+
+export default EditJobs = createContainer((params) =>{
+  let handle = Meteor.subscribe('job-post-employer-edit',params.match.params.value);
+  let ready = handle.ready();
+  return {
+    jobPost: Job.find({}).fetch()[0]
+  };
+},EditJob);
