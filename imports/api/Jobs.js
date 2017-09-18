@@ -98,7 +98,14 @@ Meteor.publish('job-post-employer',function(){
   }
 
 });
-
+Meteor.publish('job-post-employer-edit',function(jobId){
+  if(Roles.userIsInRole(this.userId,CONTRACTOR)){
+    return Job.find({_id: jobId,employerId:this.userId});
+  }else{
+    this.stop();
+    return;
+  }
+});
 /**
 *
 * Publishes all Jobs that a employee was matched with
@@ -130,6 +137,39 @@ Meteor.publish('active-jobs-admin',function(){
 Meteor.publish('all-jobs',function(){
   return Job.find({});
 });
+
+Meteor.publish('apply-employee-job',function(jobId){
+  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+    console.log('helo');
+    console.log(jobId);
+    let jobInfo = Job.find({_id: jobId, employerId: this.userId}).fetch();
+    if(!!jobInfo.applyemployeeIds){
+      return Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+    }else{
+      return ;
+    }
+  }else{
+    this.stop();
+    throw new Meteor.Error('403',NOTAUTH);
+  }
+});
+Meteor.publish('admit-employee-job',function(jobId){
+  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+    console.log('helo');
+    console.log(jobId);
+    let jobInfo = Job.find({_id: jobId, employerId: this.userId}).fetch();
+    if(!!jobInfo.admitemployeeIds){
+      return Meteor.users.find({_id: {$in: jobInfo.admitemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+    }else{
+      return ;
+    }
+
+  }else{
+    this.stop();
+    throw new Meteor.Error('403',NOTAUTH);
+  }
+});
+
 
 Meteor.methods({
 

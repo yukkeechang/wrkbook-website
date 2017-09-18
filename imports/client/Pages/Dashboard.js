@@ -54,7 +54,7 @@ class Dash extends Component{
 
                 <Route exact path="/references" component={References}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
-                <Route exact path="/editjob" component={EditJobs}/>
+                <Route exact path="/editjob/:value" component={EditJobs}/>
 
                 <Route exact path="/events" component={DummyEvents}/>
                 <Route exact path="/conjobpostcomponent" component={ConJobPostComponent}/>
