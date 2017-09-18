@@ -197,7 +197,7 @@ class EditJob extends Component {
             />
           </div>
           <div className="input-field col s12">
-            <input id="job-description" ref="jobDescription" type="text"/>
+            <input id="job-description" ref="jobDescription" defaultValue={this.props.description.text} type="text"/>
             <label htmlFor="job-description">Job description</label>
           </div>
         </form>

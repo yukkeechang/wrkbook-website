@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 
 import EmployeeComponent from './EmployeeComponent';
 
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
 //detailed job view with professionals that applied and admitted professionals
 
-export default class ConJobPostComponent extends React.Component{
+class ConJobPost extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
@@ -17,7 +19,7 @@ export default class ConJobPostComponent extends React.Component{
     })
   }
   componentWillMount(){
-    console.log(this.props.jobinfo);
+
 
   }
   constructor(props){
@@ -34,7 +36,7 @@ export default class ConJobPostComponent extends React.Component{
     nothing2: true,
     value: "0"
   };
-  console.log(this.props.jobinfo);
+
   }
   handleProChange(e){
     console.log(e.target.value);
@@ -81,14 +83,12 @@ export default class ConJobPostComponent extends React.Component{
       });
     }
     let nothing2 = Admitted.length > 0 ? false: true;
-    console.log(nothing2);
+
     this.setState({
       nothing2:nothing2,
       job:job
     });
-    console.log(this.state.job);
-    console.log(this.state.applied);
-    console.log(Admitted);
+
   }
 
   render(){
@@ -216,3 +216,19 @@ export default class ConJobPostComponent extends React.Component{
     )
   }
 }
+export default ConJobPostComponent = createContainer((props)=>{
+
+  let handleApply = Meteor.subscribe('apply-employee-job',props.jobinfo._id);
+  let handleAdmit = Meteor.subscribe('admit-employee-job',props.jobinfo._id);
+
+  let readyApply = handleApply.ready();
+  let readyAdmit = handleAdmit.ready();
+
+  return {
+    applyPeople : Meteor.users.find({_id: {$in: props.jobinfo.applyemployeeIds}}).fetch(),
+    admitPeople : Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch(),
+    ready : readyApply && readyAdmit,
+  };
+
+
+},ConJobPost);
