@@ -1,6 +1,6 @@
 import React , { Component } from 'react';
 import Avatar from '../Shared/Avatar';
-import ReCAPTCHA from "react-google-recaptcha"
+import ReCAPTCHA from "react-google-recaptcha";
 
 
 export default class stepThree extends Component{
@@ -231,6 +231,9 @@ export default class stepThree extends Component{
                       null
                     }
                     </div>
+                    <div style={{marginTop: "10px", marginBottom: "10px"}}>
+                        By signing up, I agree to the WrkBook <a target="_blank" href="TermsAndConditions.pdf">User Access Terms and Conditions</a>
+                    </div>
                    </div>
 
                     <div style ={{display:'flex',justifyContent:'center',alignItems:'center'}} className="col s12">
@@ -242,6 +245,4 @@ export default class stepThree extends Component{
           </div>
         );
     }
-
-
 }
