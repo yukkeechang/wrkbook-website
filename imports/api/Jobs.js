@@ -141,10 +141,13 @@ Meteor.publish('all-jobs',function(){
 Meteor.publish('apply-employee-job',function(jobId){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
     console.log('helo');
-    console.log(jobId);
-    let jobInfo = Job.find({_id: jobId, employerId: this.userId}).fetch();
+
+    let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
+
     if(!!jobInfo.applyemployeeIds){
-      return Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+
+      return  Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+
     }else{
       return ;
     }
@@ -155,9 +158,8 @@ Meteor.publish('apply-employee-job',function(jobId){
 });
 Meteor.publish('admit-employee-job',function(jobId){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    console.log('helo');
-    console.log(jobId);
-    let jobInfo = Job.find({_id: jobId, employerId: this.userId}).fetch();
+
+    let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
     if(!!jobInfo.admitemployeeIds){
       return Meteor.users.find({_id: {$in: jobInfo.admitemployeeIds}}, {fields: { emails: 1, profile: 1 } });
     }else{
