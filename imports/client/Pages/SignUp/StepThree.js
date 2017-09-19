@@ -231,8 +231,8 @@ export default class stepThree extends Component{
                       null
                     }
                     </div>
-                    <div style={{marginTop: "10px", marginBottom: "10px"}}>
-                        By signing up, I agree to the WrkBook <a target="_blank" href="TermsAndConditions.pdf">User Access Terms and Conditions</a>
+                    <div style={{margin: "10px auto", textAlign: "center"}}>
+                        By signing up, I agree to the WrkBook<br/><a target="_blank" href="TermsAndConditions.pdf">User Access Terms and Conditions</a>
                     </div>
                    </div>
 
