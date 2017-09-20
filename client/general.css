@@ -16,9 +16,16 @@ Table of Contents End
 
 /* 1.0 - Body Styles
 ------------------------------------------------------------------------*/
+/*@font-face {
+    font-family: "Avenir";
+    src: url('../public/fonts/Avenir/AvenirNextLTPro-Regular.woff2')
+}*/
+
 body{
+    font-family: "Avenir";
     min-width: 275px;
 }
+
 html::-webkit-scrollbar {
     display: none;
 }
