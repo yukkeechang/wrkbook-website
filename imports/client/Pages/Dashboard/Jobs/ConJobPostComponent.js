@@ -45,7 +45,7 @@ class ConJobPost extends React.Component{
     });
   }
   handleMember(){
-    
+
   }
 
 
@@ -64,11 +64,13 @@ class ConJobPost extends React.Component{
             </div>
             <div className="col s2 offset-l2 offset-m2 offset-s2">
             <button className="waves-effect waves-teal  lighten-3 btn-flat" onClick={this.handleMember.bind(this)}>
-              <i className="small material-icons">people</i>
+              //<i className="small material-icons">people</i>
+              <i style={{whiteSpace:'pre',color:'#888'}} className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Manage your workers">people</i>
             </button>
             <Link to={"/editjob/"+ this.state.job._id}>
               <a className="waves-effect waves-teal lighten-3 btn-flat">
-                <i className="small material-icons">edit</i>
+                //<i className="small material-icons">edit</i>
+                <i style={{whiteSpace:'pre',color:'#888'}} className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Edit your job">edit</i>
               </a>
             </Link>
             </div>
