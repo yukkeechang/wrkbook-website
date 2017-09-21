@@ -61,7 +61,7 @@ class EditJob extends Component {
   }
   componentWillMount(){
     console.log(this.props.match.params.value);
-  
+
   }
   getCoords(lat, lng){
     console.log(lat);
@@ -109,7 +109,7 @@ class EditJob extends Component {
     job.additionalText.text = additionText;
     job.startAt = new Date(startAT);
     job.endAt = new Date(endAT);
-    job.jobTypes.texts = jobtypes;
+    job.jobTypes.texts = Object.values(jobtypes);;
     job.pay = pay;
     job.numWorker = $('#numberEmployees').val();
 
@@ -279,7 +279,7 @@ class EditJob extends Component {
         })}
         <form>
           <div className="input-field col s12">
-            <input id="additional-text" ref="additionalText" type="text"/>
+            <input id="additional-text" ref="additionalText" defaultValue={this.props.jobPost.additionText} type="text"/>
             <label htmlFor="additional-text">Additional information:</label>
           </div>
 

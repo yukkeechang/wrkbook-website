@@ -1,6 +1,13 @@
 import React from 'react';
 
 export default class EmployeeComponent extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+      osha10: this.props.employeeData.osha.osha10,
+      osha30: this.props.employeeData.osha.osha30,
+    }
+  }
   handleDecline(){
     let job = this.props.jobInfo;
     let declineemployeeIds = [];
@@ -79,8 +86,12 @@ export default class EmployeeComponent extends React.Component{
                 </div>
               </div>
               <div className="row">
-                <p>Certifications</p>
-                <p>About</p>
+                <p>
+                  {!this.state.osha10 && !this.state.osha30 && <p><b>Certifications: </b>None</p>}
+                  {this.state.osha10 && <p><b>Certifications: </b>OSHA 10</p>}
+                  {this.state.osha30 && <p><b>Certifications: </b>OSHA 30</p>}
+                </p>
+                <p>{this.props.employeeData.about.text}</p>
                 <p>Payments accepted</p>
               </div>
             </div>
