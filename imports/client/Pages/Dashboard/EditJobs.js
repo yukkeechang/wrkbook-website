@@ -109,7 +109,7 @@ class EditJob extends Component {
     job.additionalText.text = additionText;
     job.startAt = new Date(startAT);
     job.endAt = new Date(endAT);
-    job.jobTypes.texts = Object.values(jobtypes);;
+    job.jobTypes.texts = Object.values(jobtypes);
     job.pay = pay;
     job.numWorker = $('#numberEmployees').val();
 
