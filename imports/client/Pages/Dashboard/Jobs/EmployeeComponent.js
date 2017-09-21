@@ -74,8 +74,8 @@ export default class EmployeeComponent extends React.Component{
             <div className="col m8 s12">
               <div className="row">
                 <div className="col s12">
-                  <h4>Name</h4>
-                  <p>Adress</p>
+                  <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
+                  <p>{this.props.profile.employeeData.location.locationName}</p>
                 </div>
               </div>
               <div className="row">
