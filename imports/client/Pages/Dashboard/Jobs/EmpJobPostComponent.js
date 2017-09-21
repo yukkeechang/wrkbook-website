@@ -32,20 +32,8 @@ export default class EmpJobPostComponent extends React.Component{
   }
   handleApply(){
   let job = this.props.jobinfo;
-  let applyemployeeIds = [];
   let jobId = job._id;
-  applyemployeeIds = job.applyemployeeIds;
-  applyemployeeIds[applyemployeeIds.length] = Meteor.userId();
-  let set = new Set(applyemployeeIds);
-  applyemployeeIds = Array.from(set);
-
-  let empolyeeIds ={
-    apply: applyemployeeIds,
-    decline: job.declineemployeeIds,
-    admit: job.admitemployeeIds
-  };
-  
-  Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
+  Meteor.call('applyForJob',jobId,(err)=>{
     if(err){
       console.log(err);
     }

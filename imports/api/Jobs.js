@@ -69,6 +69,12 @@ Meteor.publish('job-post', function(employee){
       query.employee.
       }
       if()
+
+      'requirements.driverLicense':employee.driverLicense,
+      'requirements.osha.osha10': employee.osha.osha10,
+      'requirements.osha.osha30': employee.osha.osha30,
+      'requirements.socialPref.taxID': employee.socialPref.taxID,
+      'requirements.socialPref.social': employee.socialPref.social,
     */
 
       let results =  Job.find({
@@ -77,16 +83,8 @@ Meteor.publish('job-post', function(employee){
           'declineemployeeIds' :{$nin : hackIdThing},
           'location.latitude': {$gte: lat_bot, $lt: lat_top},
           'location.longitude': {$gte: lng_bot , $lt: lng_top},
-          'requirements.driverLicense':employee.driverLicense,
-          'requirements.osha.osha10': employee.osha.osha10,
-          'requirements.osha.osha30': employee.osha.osha30,
-          'requirements.socialPref.taxID': employee.socialPref.taxID,
-          'requirements.socialPref.social': employee.socialPref.social,
-
-
-
       });
-      
+
       return results;
 
 
@@ -465,39 +463,90 @@ Meteor.methods({
 
     Job.update(selector,{$set: prevJob});
   },
-  /**
-  Updates the employeeIds of a job, with a jobId.
-  @param {String} jobId is the Id of the jobPost
-  @param {Object} object of employee ids in different fields
-  @throws {Meteor.Error} if the jobId is not a string a match error will be
-  thrown Or if the user calling the function is not sign an 401 error will be thrown
-  */
-  updateEmployeeIds(jobId,empolyeeIds){
 
-    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
-    let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
-    let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
-    // check(updateJob.,JobSchema);
-    if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
+  applyForJob(jobId){
+    if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
 
-    let prevJob = Job.findOne({_id: jobId});
-    if(!(prevJob)) throw new Meteor.Error('403','Job was not found');
-    if(!('undefined' === typeof(empolyeeIds.apply))){
-          prevJob.applyemployeeIds = empolyeeIds.apply;
+    let job = Job.findOne({_id: jobId});
+    if(!job)throw new Meteor.Error('403','Job was not found');
+
+    if (job.declineemployeeIds.includes(this.userId)) return;
+    if(job.admitemployeeIds.includes(this.userId)) return;
+    if (job.applyemployeeIds.includes(this.userId)) {
+      return;
+    }else{
+      job.applyemployeeIds.push(this.userId);
+      let noCopies = new Set(job.applyemployeeIds);
+      job.applyemployeeIds = Array.from(noCopies);
     }
-    if(!('undefined' === typeof(empolyeeIds.decline))){
-      prevJob.declineemployeeIds = empolyeeIds.decline;
-    }
-    if(!('undefined' === typeof(empolyeeIds.admit))){
-      prevJob.admitemployeeIds = empolyeeIds.admit;
-    }
-
-
 
     let selector = {_id: jobId};
 
-    Job.update(selector,{$set: prevJob});
+    Job.update(selector,{$set: job});
+
+
+  },
+  declineEmployee(jobId,employeeId){
+      if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+
+      let job = Job.findOne({_id: jobId});
+      if(!job)throw new Meteor.Error('403','Job was not found');
+
+      if(job.applyemployeeIds.includes(employeeId)){
+        let idx = job.applyemployeeIds.indexOf(employeeId);
+        if (idx != -1) { //Should always be true
+            job.applyemployeeIds.splice(idx,1);
+        }
+      }
+      if (job.admitemployeeIds.includes(employeeId)) {
+        let idx = job.admitemployeeIds.indexOf(employeeId);
+        if (idx != -1) { //Should always be true
+            job.admitemployeeIds.splice(idx,1);
+        }
+      }
+      if (job.declineemployeeIds.includes(employeeId)) {
+        return;
+      }else{
+        job.declineemployeeIds.push(employeeId);
+        let noCopies = new Set(job.declineemployeeIds);
+        job.declineemployeeIds = Array.from(noCopies);
+      }
+
+      let selector = {_id: jobId};
+
+      Job.update(selector,{$set: job});
+  },
+  admiteEmployee(jobId,employeeId){
+    if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+
+    let job = Job.findOne({_id: jobId});
+    if(!job)throw new Meteor.Error('403','Job was not found');
+
+    if(job.applyemployeeIds.includes(employeeId)){
+      let idx = job.applyemployeeIds.indexOf(employeeId);
+      if (idx != -1) { //Should always be true
+          job.applyemployeeIds.splice(idx,1);
+      }
+    }
+    if(job.declineemployeeIds.includes(employeeId)){ //Shouldn't happen but incase
+      let idx = job.declineemployeeIds.indexOf(employeeId);
+      if (idx != -1) { //Should always be true
+          job.declineemployeeIds.splice(idx,1);
+      }
+    }
+    if (job.admitemployeeIds.includes(employeeId)) {
+      return;
+    }else{
+      job.admitemployeeIds.push(employeeId);
+      let noCopies = new Set(job.admitemployeeIds);
+      job.admitemployeeIds = Array.from(noCopies);
+    }
+
+    let selector = {_id: jobId};
+
+    Job.update(selector,{$set: job});
+
 
   },
   /**
