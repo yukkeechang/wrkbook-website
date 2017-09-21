@@ -61,6 +61,7 @@ class EditJob extends Component {
   }
   componentWillMount(){
     console.log(this.props.match.params.value);
+  
   }
   getCoords(lat, lng){
     console.log(lat);
@@ -197,7 +198,7 @@ class EditJob extends Component {
             />
           </div>
           <div className="input-field col s12">
-            <input id="job-description" ref="jobDescription" defaultValue={this.props.description.text} type="text"/>
+            <input id="job-description" ref="jobDescription" defaultValue={this.props.jobPost.description.text} type="text"/>
             <label htmlFor="job-description">Job description</label>
           </div>
         </form>
@@ -223,7 +224,7 @@ class EditJob extends Component {
 
         <form>
           <div className="input-field col m6 s12">
-            <select id="osha" ref="osha" onChange={()=>{}}>
+            <select id="osha" ref="osha" onChange={this.handleSelect.bind(this)}>
               <option value="" disabled selected>OSHA preference</option>
               <option value="1">No preference</option>
               <option value="2">OSHA 10</option>

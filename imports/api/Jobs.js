@@ -62,12 +62,32 @@ Meteor.publish('job-post', function(employee){
     let lat_bot = lat + southDisplacement;
     let lng_top = lng + eastDisplacement;
     let lng_bot = lng + westDisplacement;
+    let hackIdThing =[];
+    hackIdThing[0] = this.userId;
+    /*
+      if(Job.requirements.driverLicense){
+      query.employee.
+      }
+      if()
+    */
+
+      let results =  Job.find({
+
+          'jobTypes.texts' : {$in : jobTitle},
+          'declineemployeeIds' :{$nin : hackIdThing},
+          'location.latitude': {$gte: lat_bot, $lt: lat_top},
+          'location.longitude': {$gte: lng_bot , $lt: lng_top},
+          'requirements.driverLicense':employee.driverLicense,
+          'requirements.osha.osha10': employee.osha.osha10,
+          'requirements.osha.osha30': employee.osha.osha30,
+          'requirements.socialPref.taxID': employee.socialPref.taxID,
+          'requirements.socialPref.social': employee.socialPref.social,
 
 
-      return  Job.find({ 'jobTypes.texts' : {$in : jobTitle},
-                        'location.latitude': {$gte: lat_bot, $lt: lat_top},
-                        'location.longitude': {$gte: lng_bot , $lt: lng_top}
-                      });
+
+      });
+      
+      return results;
 
 
   }else{
@@ -140,11 +160,13 @@ Meteor.publish('all-jobs',function(){
 
 Meteor.publish('apply-employee-job',function(jobId){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    console.log('helo');
-    console.log(jobId);
-    let jobInfo = Job.find({_id: jobId, employerId: this.userId}).fetch();
+
+    let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
+
     if(!!jobInfo.applyemployeeIds){
-      return Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+
+      return  Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+
     }else{
       return ;
     }
@@ -155,9 +177,8 @@ Meteor.publish('apply-employee-job',function(jobId){
 });
 Meteor.publish('admit-employee-job',function(jobId){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    console.log('helo');
-    console.log(jobId);
-    let jobInfo = Job.find({_id: jobId, employerId: this.userId}).fetch();
+
+    let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
     if(!!jobInfo.admitemployeeIds){
       return Meteor.users.find({_id: {$in: jobInfo.admitemployeeIds}}, {fields: { emails: 1, profile: 1 } });
     }else{
@@ -270,7 +291,7 @@ Meteor.methods({
       }
     };
 
-    console.log(jobObject);
+
 
     if( visorNumb ||visorName || jobTypes || jobTitle || locationName ||
       locLat || locLng || reqLicense || reqBackground || reqLanguages ||

@@ -13,13 +13,13 @@ class ConJobPost extends React.Component{
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
       $('select').material_select();
+
     });
     $(this.refs.titles).on('change',(e)=>{
       this.handleProChange(e);
     })
   }
   componentWillMount(){
-
 
   }
   constructor(props){
@@ -44,54 +44,15 @@ class ConJobPost extends React.Component{
       value: e.target.value,
     });
   }
-
-  handleMember(e){
-    let job = this.props.jobinfo;
-    let Admitted = [];
-    let Applied =[];
-    let crap =job.admitemployeeIds;
-    console.log(job);
-    if(job.admitemployeeIds.length > 0){
-      job.admitemployeeIds.map((_id,i)=>{
-        Meteor.call('findUserbyId',_id,(err,res)=>{
-          if(err)console.log(err);
-          else{
-            Admitted.push(res);
-            this.setState({
-              admit: Admitted,
-              nothing2: false
-            })
-          }
-        });
-      });
-    }
-    if(job.applyemployeeIds.length > 0){
-      job.applyemployeeIds.map((_id,i)=>{
-        Meteor.call('findUserbyId',_id,(err,res)=>{
-          console.log('halp');
-          if(err){
-            console.log(err);
-          }
-          else{
-            Applied.push(res);
-            this.setState({
-              applied: Applied,
-              nothing1: false
-            })
-          }
-        });
-      });
-    }
-    let nothing2 = Admitted.length > 0 ? false: true;
-
-    this.setState({
-      nothing2:nothing2,
-      job:job
-    });
-
+  handleMember(){
+    
   }
 
+
   render(){
+
+    if(!this.props.ready)return(<h1> H </h1>);
+    else{
     return(
       <div className="card">
         <div className="card-content">
@@ -153,80 +114,92 @@ class ConJobPost extends React.Component{
           </div>
           <div className="row">
             <div className="col m6 s12">
-              <div>
-                {
-                  this.state.nothing1 &&
-                  <h3>No Professionals have applied</h3>
-                }
-                {
-                  !this.state.nothing1 &&
-                  <h3>Professionals that applied</h3>
-                }
+                  <div>
+                    {
+                      this.props.applyPeople.length < 1 ?
+                      <h3>No Professionals have applied</h3>
+                        :
+                      <h3>Professionals that applied</h3>
+                    }
+                  </div>
+                  <ul className="collection">
+                    {
+                      !!this.props.applyPeople ?
+                      this.props.applyPeople.map(function(user,index){
+                        return(
+                          <li className="collection-item">
+                            <EmployeeComponent
+                              key = {user._id}
+                              jobInfo = {this.state.job}
+                              employeeId = {user._id}
+                              profile = {user.profile}
+                              isAdmitted = {false}
+                            />
+                          </li>
+                        )
+                      }.bind(this))
+                      :
+                      null
+                    }
+                    </ul>
               </div>
-              <ul className="collection">
-                {
-                  this.state.applied.map(function(user,index){
-                    return(
-                      <li className="collection-item">
-                        <EmployeeComponent
-                          key = {index}
-                          jobInfo = {this.state.job}
-                          employeeId = {user._id}
-                          profile = {user.profile}
-                          isAdmitted = {false}
-                        />
-                      </li>
-                    )
-                  }.bind(this))
-                }
-                </ul>
-            </div>
-            <div className="col m6 s12">
-              <div>
-                {
-                  this.state.nothing2 &&
-                  <h3>No admitted Professionals</h3>
-                }
-                {
-                  !this.state.nothing2 &&
-                  <h3>Admitted Professionals</h3>
-                }
-              </div>
-              <ul className="collection">
-                {
-                  this.state.applied.map(function(user,index){
-                    return(
-                      <li className="collection-item">
-                        <EmployeeComponent
-                          key = {index}
-                          jobInfo = {this.state.job}
-                          employeeId = {user._id}
-                          profile = {user.profile}
-                          isAdmitted = {true}
-                        />
-                      </li>
-                    )
-                  }.bind(this))
-                }
-                </ul>
+              <div className="col m6 s12">
+                <div>
+                  {
+                    this.props.admitPeople.length < 1 ?
+                    <h3>No admitted Professionals</h3>
+                    :
+                      <h3>Admitted Professionals</h3>
+                  }
+
+                </div>
+                <ul className="collection">
+                  {
+                    !!this.props.admitPeople ?
+                    this.props.admitPeople.map(function(user,index){
+                      return(
+                        <li className="collection-item">
+                          <EmployeeComponent
+                            key = {user._id}
+                            jobInfo = {this.state.job}
+                            employeeId = {user._id}
+                            profile = {user.profile}
+                            isAdmitted = {true}
+                          />
+                        </li>
+                      )
+                    }.bind(this))
+
+                    :
+                    null
+                  }
+                  </ul>
             </div>
           </div>
+
         </div>
       </div>
-    )
+    );
   }
+}
 }
 export default ConJobPostComponent = createContainer((props)=>{
 
   let handleApply = Meteor.subscribe('apply-employee-job',props.jobinfo._id);
   let handleAdmit = Meteor.subscribe('admit-employee-job',props.jobinfo._id);
-
+  let applyPeople = [];
+  let admitPeople = [];
   let readyApply = handleApply.ready();
   let readyAdmit = handleAdmit.ready();
-
+  if(!!Meteor.users.find({_id: {$in: props.jobinfo.applyemployeeIds}}).fetch()){
+    applyPeople =  Meteor.users.find({_id: {$in: props.jobinfo.applyemployeeIds}}).fetch();
+  }
+  if (!!Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch()) {
+    admitPeople =  Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch();
+  }
   return {
-    applyPeople : Meteor.users.find({_id: {$in: props.jobinfo.applyemployeeIds}}).fetch(),
-    admitPeople : Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch(),
+    applyPeople : applyPeople,
+    admitPeople : admitPeople,
     ready : readyApply && readyAdmit,
   };
 
