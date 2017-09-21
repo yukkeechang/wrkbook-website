@@ -4,8 +4,6 @@ export default class EmployeeComponent extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      osha10: this.props.employeeData.osha.osha10,
-      osha30: this.props.employeeData.osha.osha30,
     }
   }
   handleDecline(){
@@ -84,15 +82,6 @@ export default class EmployeeComponent extends React.Component{
                   <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
                   <p>{this.props.profile.employeeData.location.locationName}</p>
                 </div>
-              </div>
-              <div className="row">
-                <p>
-                  {!this.state.osha10 && !this.state.osha30 && <p><b>Certifications: </b>None</p>}
-                  {this.state.osha10 && <p><b>Certifications: </b>OSHA 10</p>}
-                  {this.state.osha30 && <p><b>Certifications: </b>OSHA 30</p>}
-                </p>
-                <p>{this.props.employeeData.about.text}</p>
-                <p>Payments accepted</p>
               </div>
             </div>
           </div>

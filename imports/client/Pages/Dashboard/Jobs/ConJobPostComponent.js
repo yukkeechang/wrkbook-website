@@ -13,14 +13,12 @@ class ConJobPost extends React.Component{
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
       $('select').material_select();
-
     });
     $(this.refs.titles).on('change',(e)=>{
       this.handleProChange(e);
     })
-  }
-  componentWillMount(){
-
+    let tooltip = ReactDOM.findDOMNode(this.refs.tool);
+    $(tooltip).tooltip({delay: 50});
   }
   constructor(props){
   super(props);
@@ -32,6 +30,7 @@ class ConJobPost extends React.Component{
     job: job,
     osha10: this.props.jobinfo.requirements.osha.osha10,
     osha30: this.props.jobinfo.requirements.osha.osha30,
+    license: this.props.jobinfo.requirements.driverLicense,
     nothing1: true,
     nothing2: true,
     value: "0"
@@ -63,14 +62,12 @@ class ConJobPost extends React.Component{
               <p>{this.props.description}</p>
             </div>
             <div className="col s2 offset-l2 offset-m2 offset-s2">
-            <button className="waves-effect waves-teal  lighten-3 btn-flat" onClick={this.handleMember.bind(this)}>
-              //<i className="small material-icons">people</i>
-              <i style={{whiteSpace:'pre',color:'#888'}} className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Manage your workers">people</i>
+            <button className="waves-effect waves-teal lighten-3 btn-flat"onClick={this.handleMember.bind(this)}>
+              <i ref="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Manage workers">people</i>
             </button>
             <Link to={"/editjob/"+ this.state.job._id}>
               <a className="waves-effect waves-teal lighten-3 btn-flat">
-                //<i className="small material-icons">edit</i>
-                <i style={{whiteSpace:'pre',color:'#888'}} className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Edit your job">edit</i>
+                <i ref="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Edit job">edit</i>
               </a>
             </Link>
             </div>
@@ -104,8 +101,8 @@ class ConJobPost extends React.Component{
                   {!this.state.osha10 && !this.state.osha30 && <p><b>OSHA: </b>No preference</p>}
                   {this.state.osha10 && <p><b>OSHA: </b>OSHA 10</p>}
                   {this.state.osha30 && <p><b>OSHA: </b>OSHA 30</p>}
-                  <p><b>Driver license: </b>driverLicense</p>
-                  <p><b>Vehicle: </b>car</p>
+                  {this.state.license && <p><b>Driver license: </b>Yes</p>}
+                  {!this.state.license && <p><b>Driver license: </b>None</p>}
                 </div>
               </div>
             </div>

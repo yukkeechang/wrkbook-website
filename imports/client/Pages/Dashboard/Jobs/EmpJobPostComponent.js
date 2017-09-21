@@ -33,6 +33,40 @@ export default class EmpJobPostComponent extends React.Component{
       }
     }.bind(this));
   }
+  handleDecline(){
+    let job = this.props.jobinfo;
+    let declineemployeeIds = [];
+    let employeeId = this.props.employeeId;
+    let jobId = job._id;
+    if(job.admitemployeeIds.includes(employeeId)){
+      let idx = job.admitemployeeIds.indexOf(employeeId);
+      job.admitemployeeIds.splice(idx, 1);
+      console.log('something')
+    }
+    if(job.applyemployeeIds.includes(employeeId)){
+      let idx = job.applyemployeeIds.indexOf(employeeId);
+      job.applyemployeeIds.splice(idx, 1);
+      console.log('something')
+    }
+    console.log('something')
+    declineemployeeIds = job.declineemployeeIds;
+    declineemployeeIds[declineemployeeIds.length] = this.props.employeeId;
+    let set = new Set(declineemployeeIds);
+    declineemployeeIds = Array.from(set);
+    let empolyeeIds ={
+      apply: job.applyemployeeIds,
+      decline: job.declineemployeeIds,
+      admit: job.admitemployeeIds
+    };
+    Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+console.log('somethingelse')
+    }
+    });
+  }
   handleApply(){
   let job = this.props.jobinfo;
   let applyemployeeIds = [];
@@ -65,7 +99,7 @@ export default class EmpJobPostComponent extends React.Component{
       <div className="col l12 m12 s12">
         <div className="row">
           <div className="col l8 m8 s8">
-            <h1>this.props.jobinfo.jobTitle.text</h1>
+            <h1>{this.props.jobinfo.jobTitle.text}</h1>
           </div>
         </div>
         <div className="row">
@@ -85,11 +119,12 @@ export default class EmpJobPostComponent extends React.Component{
                 </p>
                 <p>
                   {this.state.license && <p><b>Driver license: </b>Yes</p>}
+                  {!this.state.license && <p><b>Driver license: </b>None</p>}
                 </p>
               </div>
             </div>
             <div>
-              <p><b>Professionals needed: </b>{this.props.jobinfo.professionals[0].numWorker}</p>
+              <p><b>Professionals needed: </b>{this.props.jobinfo.professionals[0].numWorkers}</p>
               <p><b>Additional information: </b>{this.props.jobinfo.additionText}</p>
             </div>
           </div>
@@ -98,9 +133,14 @@ export default class EmpJobPostComponent extends React.Component{
             <p><b>Responsibilities: </b>{this.props.jobinfo.professionals[0].responsibilities}</p>
           </div>
         </div>
-        <div className="col s12">
-          <a id="disabledButton" className="waves-effect waves-teal btn-flat " onClick={this.handleApply.bind(this)}>
+        <div className="col m6 s12">
+          <a id="disabledButton" className="waves-effect waves-teal btn-flat" onClick={this.handleApply.bind(this)}>
             {this.state.label}
+          </a>
+        </div>
+        <div className="col m6 s12">
+          <a id="disabledButton" className="waves-effect waves-teal btn-flat" onClick={this.handleDecline.bind(this)}>
+            Decline
           </a>
         </div>
       </div>
