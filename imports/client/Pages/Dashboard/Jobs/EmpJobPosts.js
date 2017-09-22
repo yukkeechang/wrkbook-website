@@ -25,24 +25,18 @@ class EmployeeJobPosts extends React.Component{
           <br/>
           {jobz.map(function(job, index){
             return(
-              <div className="container">
-                <div className="card">
-                  <div className="card-content">
-                    <EmpJobPostComponent
-                      key={index}
-                      jobinfo = {job}
-                      index = {index}
-                      events = {job.eventInfo}
-                      title={job.jobTitle.text}
-                      startAt={job.startAt}
-                      endAt={job.endAt}
-                      description={job.description.text}
-                      location={job.location}
-                      pay={job.pay}
-                    />
-                  </div>
-                </div>
-              </div>
+              <EmpJobPostComponent
+                key={index}
+                jobinfo = {job}
+                index = {index}
+                events = {job.eventInfo}
+                title={job.jobTitle.text}
+                startAt={job.startAt}
+                endAt={job.endAt}
+                description={job.description.text}
+                location={job.location}
+                pay={job.pay}
+              />
             )
           })}
         </div>

@@ -26,8 +26,10 @@ class ContractorJobPosts extends React.Component{
           {jobz.map(function(job, index){
             return(
               <ConJobPostComponent
-                key={index}
-                jobinfo ={job}
+                key= {index}
+                jobinfo = {job}
+                index = {index}
+                events = {job.eventInfo}
                 title={job.jobTypes.texts}
                 startAt={job.startAt}
                 endAt={job.endAt}
@@ -65,7 +67,6 @@ export default ConJobPosts = createContainer(({ params }) => {
     let handle = Meteor.subscribe('job-post-employer',user._id);
     loading = handle.ready();
     jobPost = Job.find({}).fetch();
-    console.log(jobPost);
   }
   return {
     user: user,

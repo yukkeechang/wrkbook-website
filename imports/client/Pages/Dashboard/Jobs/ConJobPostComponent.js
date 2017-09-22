@@ -19,6 +19,19 @@ class ConJobPost extends React.Component{
     })
     let tooltip = ReactDOM.findDOMNode(this.refs.tool);
     $(tooltip).tooltip({delay: 50});
+    Meteor.call('getEventInfo',this.props.events[this.props.index],(err,res)=>{
+      if(err){
+        console.log(err);
+      }else{
+        console.log(res);
+        let startAt = res.startAt.toString();
+        let endAt = res.endAt.toString();
+        this.setState({
+          endAt: endAt,
+          startAt: startAt
+        });
+      }
+    });
   }
   constructor(props){
   super(props);
@@ -28,6 +41,8 @@ class ConJobPost extends React.Component{
     admit: [],
     events: [],
     job: job,
+    startAt: '',
+    endAt: '',
     osha10: this.props.jobinfo.requirements.osha.osha10,
     osha30: this.props.jobinfo.requirements.osha.osha30,
     license: this.props.jobinfo.requirements.driverLicense,
@@ -92,8 +107,8 @@ class ConJobPost extends React.Component{
             <div className="col l6 m6 s12">
               <div className="row">
                 <div className="col l6 m6 s12">
-                  <p><b>Start time: </b>startAt</p>
-                  <p><b>End time: </b>endAt</p>
+                  <p><b>Start time: </b>{this.state.startAt}</p>
+                  <p><b>End time: </b>{this.state.endAt}</p>
                   <p><b>Pay: </b>{this.props.jobinfo.professionals[this.state.value].pay}</p>
                   <p><b>Location: </b>{this.props.jobinfo.location.locationName}</p>
                 </div>
@@ -116,9 +131,9 @@ class ConJobPost extends React.Component{
                   <div>
                     {
                       this.props.applyPeople.length < 1 ?
-                      <h3>No Professionals have applied</h3>
+                      <h5>No Professionals have applied</h5>
                         :
-                      <h3>Professionals that applied</h3>
+                      <h5>Professionals that applied</h5>
                     }
                   </div>
                   <ul className="collection">
@@ -146,9 +161,9 @@ class ConJobPost extends React.Component{
                 <div>
                   {
                     this.props.admitPeople.length < 1 ?
-                    <h3>No admitted Professionals</h3>
+                    <h5>No admitted Professionals</h5>
                     :
-                      <h3>Admitted Professionals</h3>
+                    <h5>Admitted Professionals</h5>
                   }
 
                 </div>
