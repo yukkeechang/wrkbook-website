@@ -64,25 +64,32 @@ Meteor.publish('job-post', function(employee){
     let lng_bot = lng + westDisplacement;
     let hackIdThing =[];
     hackIdThing[0] = this.userId;
-    /*
-      if(Job.requirements.driverLicense){
-      query.employee.
-      }
-      if()
 
-      'requirements.driverLicense':employee.driverLicense,
-      'requirements.osha.osha10': employee.osha.osha10,
-      'requirements.osha.osha30': employee.osha.osha30,
-      'requirements.socialPref.taxID': employee.socialPref.taxID,
-      'requirements.socialPref.social': employee.socialPref.social,
-    */
 
       let results =  Job.find({
+          $and: [
+            {
+            'jobTypes.texts' : {$in : jobTitle},
+            'declineemployeeIds' :{$nin : hackIdThing},
+            'location.latitude': {$gte: lat_bot, $lt: lat_top},
+            'location.longitude': {$gte: lng_bot , $lt: lng_top}}
+            ,
+              {$or:[ {'requirements.driverLicense':{$ne : true}},
+              {'requirements.driverLicense':true,'requirements.driverLicense':employee.driverLicense}]}
+            ,
+              {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
+              {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employee.osha.osha30},
+              {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employee.osha.osha10},{'requirements.osha.osha10':employee.osha.osha30}] },
+              ]}
+            ,
+              {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
+              {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employee.socialPref.social},
+              {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employee.socialPref.taxID},{'requirements.socialPref.social':employee.socialPref.social}] },
+              ]}
 
-          'jobTypes.texts' : {$in : jobTitle},
-          'declineemployeeIds' :{$nin : hackIdThing},
-          'location.latitude': {$gte: lat_bot, $lt: lat_top},
-          'location.longitude': {$gte: lng_bot , $lt: lng_top},
+          ]
+
+
       });
 
       return results;
@@ -490,7 +497,7 @@ Meteor.methods({
     notify.description = "Someone applied for the job you posted at "+ job.location.locationName;
     notify.jobId = jobId;
     notify.href = "job/"+jobId;
-    
+
     Meteor.call('createNotification',notify);
 
 
