@@ -8,27 +8,10 @@ export default class EmployeeComponent extends React.Component{
   }
   handleDecline(){
     let job = this.props.jobInfo;
-    let declineemployeeIds = [];
     let employeeId = this.props.employeeId;
     let jobId = job._id;
-    if(job.admitemployeeIds.includes(employeeId)){
-      let idx = job.admitemployeeIds.indexOf(employeeId);
-      job.admitemployeeIds.splice(idx, 1);
-    }
-    if(job.applyemployeeIds.includes(employeeId)){
-      let idx = job.applyemployeeIds.indexOf(employeeId);
-      job.applyemployeeIds.splice(idx, 1);
-    }
-    declineemployeeIds = job.declineemployeeIds;
-    declineemployeeIds[declineemployeeIds.length] = this.props.employeeId;
-    let set = new Set(declineemployeeIds);
-    declineemployeeIds = Array.from(set);
-    let empolyeeIds ={
-      apply: job.applyemployeeIds,
-      decline: job.declineemployeeIds,
-      admit: job.admitemployeeIds
-    };
-    Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
+
+    Meteor.call('declineEmployee',jobId,empolyeeId,(err)=>{
     if(err){
       console.log(err);
     }
@@ -40,25 +23,9 @@ export default class EmployeeComponent extends React.Component{
   handleAdmit(){
     let job = this.props.jobInfo;
     let employeeId =  this.props.employeeId;
-    let applyemployeeIds = [];
     let jobId = job._id;
-    if(job.applyemployeeIds.includes(employeeId)){
-      let idx = job.applyemployeeIds.indexOf(employeeId);
-      job.applyemployeeIds.splice(idx, 1);
-      console.log(job.applyemployeeIds);
-    }
-    admitemployeeIds = job.admitemployeeIds;
-    admitemployeeIds[admitemployeeIds.length] = employeeId;
-    let set = new Set(admitemployeeIds);
-    admitemployeeIds = Array.from(set);
 
-    let empolyeeIds ={
-      apply: job.applyemployeeIds,
-      decline: job.declineemployeeIds,
-      admit: job.admitemployeeIds
-    };
-
-    Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
+    Meteor.call('admiteEmployee',jobId,empolyeeId,(err)=>{
     if(err){
       console.log(err);
     }

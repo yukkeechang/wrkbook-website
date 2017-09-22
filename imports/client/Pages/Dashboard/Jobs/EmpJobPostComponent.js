@@ -1,6 +1,21 @@
 import React from 'react';
 
 export default class EmpJobPostComponent extends React.Component{
+  componentDidMount(){
+    Meteor.call('getEventInfo',this.props.events[this.props.index],(err,res)=>{
+      if(err){
+        console.log(err);
+      }else{
+        console.log(res);
+        let startAt = res.startAt.toString();
+        let endAt = res.endAt.toString();
+        this.setState({
+          endAt: endAt,
+          startAt: startAt
+        });
+      }
+    });
+  }
   constructor(props){
     super(props);
     let apply = false;
@@ -9,6 +24,8 @@ export default class EmpJobPostComponent extends React.Component{
     let label = apply ? 'Applied': 'Apply';
     this.state={
       name: '',
+      endAt: '',
+      startAt: '',
       load: true,
       label: label,
       showapply: apply,
@@ -23,6 +40,7 @@ export default class EmpJobPostComponent extends React.Component{
       }
       else{
         if(res){
+          console.log(res);
           let crap = res.profile.employerData.companyName.text;
           console.log(crap);
           this.setState({
@@ -34,55 +52,24 @@ export default class EmpJobPostComponent extends React.Component{
     }.bind(this));
   }
   handleDecline(){
-    let job = this.props.jobinfo;
-    let declineemployeeIds = [];
+    let job = this.props.jobInfo;
     let employeeId = this.props.employeeId;
     let jobId = job._id;
-    if(job.admitemployeeIds.includes(employeeId)){
-      let idx = job.admitemployeeIds.indexOf(employeeId);
-      job.admitemployeeIds.splice(idx, 1);
-      console.log('something')
-    }
-    if(job.applyemployeeIds.includes(employeeId)){
-      let idx = job.applyemployeeIds.indexOf(employeeId);
-      job.applyemployeeIds.splice(idx, 1);
-      console.log('something')
-    }
-    console.log('something')
-    declineemployeeIds = job.declineemployeeIds;
-    declineemployeeIds[declineemployeeIds.length] = this.props.employeeId;
-    let set = new Set(declineemployeeIds);
-    declineemployeeIds = Array.from(set);
-    let empolyeeIds ={
-      apply: job.applyemployeeIds,
-      decline: job.declineemployeeIds,
-      admit: job.admitemployeeIds
-    };
-    Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
+
+    Meteor.call('declineEmployee',jobId,empolyeeId,(err)=>{
     if(err){
       console.log(err);
     }
     else{
-console.log('somethingelse')
+
     }
     });
   }
   handleApply(){
   let job = this.props.jobinfo;
-  let applyemployeeIds = [];
   let jobId = job._id;
-  applyemployeeIds = job.applyemployeeIds;
-  applyemployeeIds[applyemployeeIds.length] = Meteor.userId();
-  let set = new Set(applyemployeeIds);
-  applyemployeeIds = Array.from(set);
 
-  let empolyeeIds ={
-    apply: applyemployeeIds,
-    decline: job.declineemployeeIds,
-    admit: job.admitemployeeIds
-  };
-
-  Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
+  Meteor.call('applyForJob',jobId,(err)=>{
     if(err){
       console.log(err);
     }
@@ -106,9 +93,9 @@ console.log('somethingelse')
           <div className="col l6 m6 s12">
             <div className="row">
               <div className="col l6 m6 s12">
-                <p><b>Start time: </b>startAt</p>
-                <p><b>End time: </b>endAt</p>
-                <p><b>Pay: </b>{this.props.jobinfo.professionals[0].pay}</p>
+                <p><b>Start time: </b>{this.state.startAt}</p>
+                <p><b>End time: </b>{this.state.endAt}</p>
+                <p><b>Pay: </b>{this.props.jobinfo.professionals[this.props.index].pay}</p>
                 <p><b>Location: </b>{this.props.location.locationName}</p>
               </div>
               <div className="col l6 m6 s12">
@@ -124,24 +111,24 @@ console.log('somethingelse')
               </div>
             </div>
             <div>
-              <p><b>Professionals needed: </b>{this.props.jobinfo.professionals[0].numWorkers}</p>
+              <p><b>Professionals needed: </b>{this.props.jobinfo.professionals[this.props.index].numWorkers}</p>
               <p><b>Additional information: </b>{this.props.jobinfo.additionText}</p>
             </div>
           </div>
           <div className="col l5 m5 s12 offset-l1 offset-m1">
             <p><b>Description: </b>{this.props.jobinfo.description.text}</p>
-            <p><b>Responsibilities: </b>{this.props.jobinfo.professionals[0].responsibilities}</p>
+            <p><b>Responsibilities: </b>{this.props.jobinfo.professionals[this.props.index].responsibilities}</p>
           </div>
         </div>
-        <div className="col m6 s12">
-          <a id="disabledButton" className="waves-effect waves-teal btn-flat" onClick={this.handleApply.bind(this)}>
-            {this.state.label}
-          </a>
-        </div>
-        <div className="col m6 s12">
-          <a id="disabledButton" className="waves-effect waves-teal btn-flat" onClick={this.handleDecline.bind(this)}>
-            Decline
-          </a>
+        <div className="col s12">
+          <div className="row">
+            <a id="disabledButton" className="waves-effect waves-teal btn-flat" onClick={this.handleApply.bind(this)}>
+              {this.state.label}
+            </a>
+            <a id="disabledButton" className="waves-effect waves-teal btn-flat" onClick={this.handleDecline.bind(this)}>
+              Decline
+            </a>
+          </div>
         </div>
       </div>
     )
