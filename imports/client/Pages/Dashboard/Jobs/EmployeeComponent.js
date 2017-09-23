@@ -11,7 +11,7 @@ export default class EmployeeComponent extends React.Component{
     let employeeId = this.props.employeeId;
     let jobId = job._id;
 
-    Meteor.call('declineEmployee',jobId,empolyeeId,(err)=>{
+    Meteor.call('declineEmployee',jobId,employeeId,(err)=>{
     if(err){
       console.log(err);
     }
@@ -25,7 +25,7 @@ export default class EmployeeComponent extends React.Component{
     let employeeId =  this.props.employeeId;
     let jobId = job._id;
 
-    Meteor.call('admiteEmployee',jobId,empolyeeId,(err)=>{
+    Meteor.call('admiteEmployee',jobId,employeeId,(err)=>{
     if(err){
       console.log(err);
     }

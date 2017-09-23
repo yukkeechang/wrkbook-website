@@ -52,11 +52,11 @@ export default class EmpJobPostComponent extends React.Component{
     }.bind(this));
   }
   handleDecline(){
-    let job = this.props.jobInfo;
+    let job = this.props.jobinfo;
     let employeeId = this.props.employeeId;
     let jobId = job._id;
 
-    Meteor.call('declineEmployee',jobId,empolyeeId,(err)=>{
+    Meteor.call('declineEmployee',jobId,employeeId,(err)=>{
     if(err){
       console.log(err);
     }
@@ -90,6 +90,8 @@ export default class EmpJobPostComponent extends React.Component{
               <div className="row">
                 <div className="col l8 m8 s8">
                   <h1>{this.props.jobinfo.jobTitle.text}</h1>
+                  <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
+                  <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
                 </div>
               </div>
               <div className="row">

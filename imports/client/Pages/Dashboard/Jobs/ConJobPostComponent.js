@@ -73,8 +73,9 @@ class ConJobPost extends React.Component{
           <div className="row">
             <div className="col s8">
               <span className="card-title">{this.props.jobinfo.jobTitle.text}</span>
-              <br/>
               <p>{this.props.description}</p>
+              <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
+              <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
             <div className="col s2 offset-l2 offset-m2 offset-s2">
             <button className="waves-effect waves-teal lighten-3 btn-flat"onClick={this.handleMember.bind(this)}>
