@@ -10,7 +10,7 @@ import Payment from './Components/Payment';
 import Reviews from './Components/Reviews';
 import { createContainer } from 'meteor/react-meteor-data';
 import {Link} from 'react-router-dom';
-import UserIcon from './UserIcon';
+
 //import Header from '../Shared/Header';
 
 export class ProfilePage extends React.Component {
@@ -190,19 +190,22 @@ export class ProfilePage extends React.Component {
         <div
           className="row gray-div"
         >
-        <Link to={"/edit"} className="" style={{float:'right'}}>
-          <div className="col s12 m12 l12 ">
+        <Link to={"/edit"} className="btn red">
+          <div className="col s12 m12 l12">
               <i className="material-icons left edit-profile-button">
                   settings
                 </i>
                 Edit Profile
           </div>
           </Link>
-           <div
-            className={ "col s12 m12 l12 profilepicmain  " + (this.state.mainProfileCentered ? "center-align" : "") }
-            >
-           
-            <UserIcon imageId={this.props.user.profile.employerData.image}/>
+          <div
+            className={ "col s12 m12 l12 " + (this.state.mainProfileCentered ? "center-align" : "") }
+            style={{ marginBottom: 40, paddingRight: 40 }}>
+            <img
+              className="profile-img"
+              style={{ width: this.state.mainProfileSize, height: "auto" }}
+              src={image}
+            />
           </div>
         </div>
         <div className="row nav-bar-div">

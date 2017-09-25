@@ -9,9 +9,6 @@ import Select from 'rc-select';
 import moment from 'moment';
 const now = moment();
 
-var moment1 = moment('2017-09-23');
-var moment2 = moment('2017-09-29');
-
 import ConfirmationsCard from './Components/ConfirmationsCard';
 import JobDetailModal from './Components/JobDetailModal';
 import HourRow from './Components/HourRow';
@@ -329,9 +326,6 @@ class HomePage extends React.Component {
     );
 
     // New job confirmation card
-
-
-
     let newJobConfirmDiv = (
       <div className="row">
         <div className="card-panel" style={this.style.newJobConfirmContainer}>
@@ -341,20 +335,29 @@ class HomePage extends React.Component {
           >
             New Job Confirmations/Job Matches
           </p>
-         
-
           <ConfirmationsCard
             jobTitle={"Plumber needed to fix apartment water system"}
             matchType={"New Match!"}
           />
-         
+          <ConfirmationsCard
+            jobTitle={"Plumber needed to fix house bathroom"}
+            matchType={"New Confirmation!"}
+          />
+          <ConfirmationsCard
+            jobTitle={"Need plumber to fix sink"}
+            matchType={"New Match!"}
+          />
+          <ConfirmationsCard
+            jobTitle={"Need plumber to fix sink"}
+            matchType={"New Match!"}
+          />
+          <ConfirmationsCard
+            jobTitle={"Need plumber to fix sink"}
+            matchType={"New Match!"}
+          />
         </div>
       </div>
     );
-
-     let jobz = this.props.jobPost;
-
-    console.log(jobz);
 
     return (
       <div className="container">
@@ -373,29 +376,7 @@ class HomePage extends React.Component {
               :
                 <div style={this.style.zeroMarginPadding}>
                   {calendarDiv}
-                  
-                            <div className="row">
-                            <div className="card-panel" style={this.style.newJobConfirmContainer}>
-                            <p
-                            className="center-align"
-                            style={{ margin: 0, padding: 0 }}
-                            >
-                            New Job Confirmations/Job Matches
-                            </p>    
-
-                            {jobz.map(function(job, index){
-                            return(
-                                  <ConfirmationsCard
-                                  jobTitle={job.jobTitle.text}
-                                  matchType={job.professionals[0].numWorkers}
-                                  pay={job.professionals[0].pay}
-                                  employerId={job.employerId}
-                            />
-                            )
-                            })}
-
-                      </div>
-                      </div>
+                  {newJobConfirmDiv}
                 </div>
             }
           </div>
@@ -419,23 +400,10 @@ class HomePage extends React.Component {
   }
 }
 export default Home = createContainer((props) => {
-
-  let user = Meteor.user();
-  let jobPost =[];
-  let loading = false;
-
-  if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employer',user._id);
-    loading = handle.ready();
-    jobPost = Job.find({}).fetch();
-    console.log(jobPost);
-  }
-
   let handle = Meteor.subscribe('today-events', props.date);
   let ready = handle.ready();
   return {
     ready: ready,
-    myEvents: Event.find({}).fetch(),
-    jobPost:jobPost
+    myEvents: Event.find({}).fetch()
   };
 }, HomePage);

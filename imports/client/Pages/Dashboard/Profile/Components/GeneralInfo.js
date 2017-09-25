@@ -23,7 +23,7 @@ export default class GeneralInfo extends React.Component {
     return (
       <div className="row">
         <div className="col s12">
-          <div className="card-panel card-panel-custom" style={{ paddingRight: 0,marginTop: '70px' }}>
+          <div className="card-panel" style={{ paddingRight: 0 }}>
             <h4 className="user-name-text">{user.profile.firstName} {user.profile.lastName}</h4>
             <div className="row" style={{ marginLeft: 0 }}>
               <Rating
