@@ -84,7 +84,12 @@ export default class Navbar extends Component{
                 </div>
             </div>
             <ul id='account' className='dropdown-content'>
-                <li><Link to="/settings">Account Settings</Link></li>
+            <li><Link to='/settings/notifications'>Account Settings</Link></li>
+            <ul className="sub-menu">
+                <li><Link to='/settings/notifications'>Notifications</Link></li>
+                <li><Link to='/settings/password'>Change Password</Link></li>
+                <li><Link to='/settings/subscription'>Subscription</Link></li>
+            </ul>
                 <li><a onClick={this.logout}>Logout</a></li>
             </ul>
             <ul id="sideNav" className="side-nav">
