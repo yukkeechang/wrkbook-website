@@ -62,12 +62,37 @@ Meteor.publish('job-post', function(employee){
     let lat_bot = lat + southDisplacement;
     let lng_top = lng + eastDisplacement;
     let lng_bot = lng + westDisplacement;
+    let hackIdThing =[];
+    hackIdThing[0] = this.userId;
 
 
-      return  Job.find({ 'jobTypes.texts' : {$in : jobTitle},
-                        'location.latitude': {$gte: lat_bot, $lt: lat_top},
-                        'location.longitude': {$gte: lng_bot , $lt: lng_top}
-                      });
+      let results =  Job.find({
+          $and: [
+            {
+            'jobTypes.texts' : {$in : jobTitle},
+            'declineemployeeIds' :{$nin : hackIdThing},
+            'location.latitude': {$gte: lat_bot, $lt: lat_top},
+            'location.longitude': {$gte: lng_bot , $lt: lng_top}}
+            ,
+              {$or:[ {'requirements.driverLicense':{$ne : true}},
+              {'requirements.driverLicense':true,'requirements.driverLicense':employee.driverLicense}]}
+            ,
+              {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
+              {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employee.osha.osha30},
+              {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employee.osha.osha10},{'requirements.osha.osha10':employee.osha.osha30}] },
+              ]}
+            ,
+              {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
+              {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employee.socialPref.social},
+              {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employee.socialPref.taxID},{'requirements.socialPref.social':employee.socialPref.social}] },
+              ]}
+
+          ]
+
+
+      });
+
+      return results;
 
 
   }else{
@@ -140,11 +165,13 @@ Meteor.publish('all-jobs',function(){
 
 Meteor.publish('apply-employee-job',function(jobId){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    console.log('helo');
-    console.log(jobId);
-    let jobInfo = Job.find({_id: jobId, employerId: this.userId}).fetch();
+
+    let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
+
     if(!!jobInfo.applyemployeeIds){
-      return Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+
+      return  Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+
     }else{
       return ;
     }
@@ -155,9 +182,8 @@ Meteor.publish('apply-employee-job',function(jobId){
 });
 Meteor.publish('admit-employee-job',function(jobId){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    console.log('helo');
-    console.log(jobId);
-    let jobInfo = Job.find({_id: jobId, employerId: this.userId}).fetch();
+
+    let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
     if(!!jobInfo.admitemployeeIds){
       return Meteor.users.find({_id: {$in: jobInfo.admitemployeeIds}}, {fields: { emails: 1, profile: 1 } });
     }else{
@@ -270,7 +296,7 @@ Meteor.methods({
       }
     };
 
-    console.log(jobObject);
+
 
     if( visorNumb ||visorName || jobTypes || jobTitle || locationName ||
       locLat || locLng || reqLicense || reqBackground || reqLanguages ||
@@ -444,39 +470,107 @@ Meteor.methods({
 
     Job.update(selector,{$set: prevJob});
   },
-  /**
-  Updates the employeeIds of a job, with a jobId.
-  @param {String} jobId is the Id of the jobPost
-  @param {Object} object of employee ids in different fields
-  @throws {Meteor.Error} if the jobId is not a string a match error will be
-  thrown Or if the user calling the function is not sign an 401 error will be thrown
-  */
-  updateEmployeeIds(jobId,empolyeeIds){
 
-    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
-    let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
-    let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
-    // check(updateJob.,JobSchema);
-    if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
+  applyForJob(jobId){
+    if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
 
-    let prevJob = Job.findOne({_id: jobId});
-    if(!(prevJob)) throw new Meteor.Error('403','Job was not found');
-    if(!('undefined' === typeof(empolyeeIds.apply))){
-          prevJob.applyemployeeIds = empolyeeIds.apply;
+    let job = Job.findOne({_id: jobId});
+    if(!job)throw new Meteor.Error('403','Job was not found');
+
+    if (job.declineemployeeIds.includes(this.userId)) return;
+    if(job.admitemployeeIds.includes(this.userId)) return;
+    if (job.applyemployeeIds.includes(this.userId)) {
+      return;
+    }else{
+      job.applyemployeeIds.push(this.userId);
+      let noCopies = new Set(job.applyemployeeIds);
+      job.applyemployeeIds = Array.from(noCopies);
     }
-    if(!('undefined' === typeof(empolyeeIds.decline))){
-      prevJob.declineemployeeIds = empolyeeIds.decline;
-    }
-    if(!('undefined' === typeof(empolyeeIds.admit))){
-      prevJob.admitemployeeIds = empolyeeIds.admit;
-    }
-
-
 
     let selector = {_id: jobId};
 
-    Job.update(selector,{$set: prevJob});
+    Job.update(selector,{$set: job});
+
+    let notify = NotificationSchema.clean({});
+    notify.toWhomst = job.employerId;
+    notify.description = "Someone applied for the job you posted at "+ job.location.locationName;
+    notify.jobId = jobId;
+    notify.href = "job/"+jobId;
+
+    Meteor.call('createNotification',notify);
+
+
+
+  },
+  declineEmployee(jobId,employeeId){
+      if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+
+      let job = Job.findOne({_id: jobId});
+      if(!job)throw new Meteor.Error('403','Job was not found');
+
+      if(job.applyemployeeIds.includes(employeeId)){
+        let idx = job.applyemployeeIds.indexOf(employeeId);
+        if (idx != -1) { //Should always be true
+            job.applyemployeeIds.splice(idx,1);
+        }
+      }
+      if (job.admitemployeeIds.includes(employeeId)) {
+        let idx = job.admitemployeeIds.indexOf(employeeId);
+        if (idx != -1) { //Should always be true
+            job.admitemployeeIds.splice(idx,1);
+        }
+      }
+      if (job.declineemployeeIds.includes(employeeId)) {
+        return;
+      }else{
+        job.declineemployeeIds.push(employeeId);
+        let noCopies = new Set(job.declineemployeeIds);
+        job.declineemployeeIds = Array.from(noCopies);
+      }
+
+      let selector = {_id: jobId};
+
+      Job.update(selector,{$set: job});
+  },
+  admiteEmployee(jobId,employeeId){
+    if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+
+    let job = Job.findOne({_id: jobId});
+    if(!job)throw new Meteor.Error('403','Job was not found');
+
+    if(job.applyemployeeIds.includes(employeeId)){
+      let idx = job.applyemployeeIds.indexOf(employeeId);
+      if (idx != -1) { //Should always be true
+          job.applyemployeeIds.splice(idx,1);
+      }
+    }
+    if(job.declineemployeeIds.includes(employeeId)){ //Shouldn't happen but incase
+      let idx = job.declineemployeeIds.indexOf(employeeId);
+      if (idx != -1) { //Should always be true
+          job.declineemployeeIds.splice(idx,1);
+      }
+    }
+    if (job.admitemployeeIds.includes(employeeId)) {
+      return;
+    }else{
+      job.admitemployeeIds.push(employeeId);
+      let noCopies = new Set(job.admitemployeeIds);
+      job.admitemployeeIds = Array.from(noCopies);
+    }
+
+    let selector = {_id: jobId};
+
+    Job.update(selector,{$set: job});
+
+    let notify = NotificationSchema.clean({});
+    notify.toWhomst = employeeId;
+    notify.description = "You have been admitted to the job at "+ job.location.locationName;
+    notify.jobId =jobId;
+    notify.href = "job/"+jobId;
+
+    Meteor.call('createNotification',notify);
+
 
   },
   /**

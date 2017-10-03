@@ -393,7 +393,7 @@ Meteor.methods({
 
       if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
       if(Roles.userIsInRole(this.userId,CONTRACTOR)){
-        let jobstoRemove = Job.find({employerId: this.userId});
+        Job.remove({employerId: this.userId});
       }
       Meteor.users.remove({_id:this.userId});
     }
