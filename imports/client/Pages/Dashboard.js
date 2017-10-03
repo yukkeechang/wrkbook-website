@@ -9,6 +9,7 @@ import Profile from './Dashboard/Profile/Profile';
 import Jobs from './Dashboard/Jobs/Jobs';
 import Home from './Dashboard/Home/Home';
 import Edit from './Dashboard/Profile/Edit/Edit';
+import Settings from './Dashboard/Settings/Settings';
 
 
 // For testing
@@ -55,6 +56,7 @@ class Dash extends Component{
                 <Route exact path="/employeejobpostsadmit" component={JobPostAdmit}/>
                 <Route exact path="/employeecomponent" component={employeeComponent}/>
                 <Route exact path="/edit" component={Edit}/>
+                <Route path="/settings" component={Settings}/>
 
                     {/*
                         Add in whatever pages' route

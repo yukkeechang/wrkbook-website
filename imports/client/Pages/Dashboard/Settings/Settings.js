@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import Notifications from './Settings/Notifications';
-import PasswordChange from './Settings/PasswordChange';
-import Subscription from './Settings/Subscription';
+import Notifications from './Notifications';
+import PasswordChange from './PasswordChange';
+import Subscription from './Subscription';
 
 export default class Settings extends Component {
     render() {
