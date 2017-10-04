@@ -24,8 +24,8 @@ class ConJobPost extends React.Component{
         console.log(err);
       }else{
         console.log(res);
-        let startAt = res.startAt.toString();
-        let endAt = res.endAt.toString();
+        let startAt = res.startAt.toLocaleString();
+        let endAt = res.endAt.toLocaleString();
         this.setState({
           endAt: endAt,
           startAt: startAt
