@@ -16,9 +16,12 @@ class EditJob extends Component {
     $(dropdowns).ready(()=>{
       $('select').material_select();
       $('.modal').modal();
+      $("#jobTitles").val("Painter").attr('selected', true);
+    });
+    this.setState({
+      titles: this.props.jobPost.jobTypes.texts
     });
     $(this.refs.titles).change(()=>{
-
       this.setState({titles:$(this.refs.titles).val()})
     })
     $('.datepicker').pickadate({
@@ -60,8 +63,7 @@ class EditJob extends Component {
     };
   }
   componentWillMount(){
-    console.log(this.props.match.params.value);
-
+    console.log(this.props.jobPost);
   }
   getCoords(lat, lng){
     console.log(lat);
@@ -72,10 +74,8 @@ class EditJob extends Component {
     });
   }
   handleCreate(e){
-    console.log('in function');
     let loc = this.refs.loc.getAddress();
-    if(loc.valid){
-      console.log('location valid');
+    if(loc.valid || !!this.props.jobPost.location.locationName){
       this.setState({locErr: false});
       let professionals = this.state.titles.map((title, index)=>{
         return this.refs[title].value();
@@ -104,15 +104,13 @@ class EditJob extends Component {
       };
       console.log(newJob);
       console.log(job);
-      Meteor.call('createJob',job,(res,err)=>{
+      Meteor.call('updateJob', this.props.match.params.value, job,(err)=>{
           if(err){
             console.log('error');
             console.log(err.reason);
             console.log(err);
           }else{
             console.log('no error');
-            console.log(res);
-
           }
       });
     }
@@ -167,7 +165,7 @@ class EditJob extends Component {
     this.setState({endT: time});
   }
   render(){
-    if(!this.props.jobPost)return(<h1>h</h1>);
+    if(!this.props.jobPost)return(<h1></h1>);
     else {
     return(
       <div className="container">

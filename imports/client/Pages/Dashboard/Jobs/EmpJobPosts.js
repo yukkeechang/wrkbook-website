@@ -19,7 +19,6 @@ class EmployeeJobPosts extends React.Component{
 
     if(!isEmpty(this.props.jobPost)){
       let jobz = this.props.jobPost;
-      let employeeId = this.props.user;
       return(
         <div>
           <br/>
@@ -29,7 +28,6 @@ class EmployeeJobPosts extends React.Component{
                 key={index}
                 jobinfo = {job}
                 index = {index}
-                employeeId = {employeeId}
                 events = {job.eventInfo}
                 title={job.jobTitle.text}
                 startAt={job.startAt}
