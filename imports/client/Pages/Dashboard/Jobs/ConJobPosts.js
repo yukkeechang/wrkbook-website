@@ -42,10 +42,10 @@ class ContractorJobPosts extends React.Component{
         </div>
       );
     }
-    else if(!this.props.loading){
+    else{
       return (
-        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
-          <MSpinner />
+        <div>
+          <EmployerNoUpcomingJobs/>
         </div>
       );
     }

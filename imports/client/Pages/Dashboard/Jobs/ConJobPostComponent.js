@@ -65,8 +65,6 @@ class ConJobPost extends React.Component{
 
   render(){
 
-    if(!this.props.ready)return(<h1> H </h1>);
-    else{
     return(
       <div className="card">
         <div className="card-content">
