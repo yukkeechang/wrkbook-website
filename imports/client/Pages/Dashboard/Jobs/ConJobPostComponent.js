@@ -11,27 +11,36 @@ import { createContainer } from 'meteor/react-meteor-data';
 class ConJobPost extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
+
     $(dropdowns).ready(()=>{
       $('select').material_select();
-
+      $('.tooltipped').tooltip({delay: 50});
     });
-    $(this.refs.titles).on('change',(e)=>{
-      this.handleProChange(e);
-    })
-  }
-  componentWillMount(){
 
+    Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
+      if(err){
+        console.log(err);
+      }else{
+        console.log(res);
+        let startAt = res.startAt.toLocaleString();
+        let endAt = res.endAt.toLocaleString();
+        this.setState({
+          endAt: endAt,
+          startAt: startAt
+        });
+      }
+    });
   }
   constructor(props){
   super(props);
   let job = this.props.jobinfo;
   this.state={
-    applied: [],
-    admit: [],
-    events: [],
     job: job,
+    startAt: '',
+    endAt: '',
     osha10: this.props.jobinfo.requirements.osha.osha10,
     osha30: this.props.jobinfo.requirements.osha.osha30,
+    license: this.props.jobinfo.requirements.driverLicense,
     nothing1: true,
     nothing2: true,
     value: "0"
@@ -45,14 +54,13 @@ class ConJobPost extends React.Component{
     });
   }
   handleMember(){
-    
+
   }
 
 
   render(){
 
-    if(!this.props.ready)return(<h1> H </h1>);
-    else{
+
     return(
       <div className="card">
         <div className="card-content">
@@ -63,12 +71,12 @@ class ConJobPost extends React.Component{
               <p>{this.props.description}</p>
             </div>
             <div className="col s2 offset-l2 offset-m2 offset-s2">
-            <button className="waves-effect waves-teal  lighten-3 btn-flat" onClick={this.handleMember.bind(this)}>
-              <i className="small material-icons">people</i>
+            <button className="waves-effect waves-teal lighten-3 btn-flat"onClick={this.handleMember.bind(this)}>
+              <i ref="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Manage workers">people</i>
             </button>
             <Link to={"/editjob/"+ this.state.job._id}>
               <a className="waves-effect waves-teal lighten-3 btn-flat">
-                <i className="small material-icons">edit</i>
+                <i ref="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Edit job">edit</i>
               </a>
             </Link>
             </div>
@@ -78,7 +86,7 @@ class ConJobPost extends React.Component{
               <div className="input-field col s12">
                 <div className="row">
                   <span></span>
-                  <select ref="titles" value={this.state.value} id="jobTitles" onChange={()=>{}}>
+                  <select  id="jobTitles" ref="titles" value={this.state.value} onChange={this.handleProChange.bind(this)}>
                     {this.props.jobinfo.jobTypes.texts.map((title,i)=>{
                       return(
                         <option value={i} key={i}>{title}</option>
@@ -93,8 +101,8 @@ class ConJobPost extends React.Component{
             <div className="col l6 m6 s12">
               <div className="row">
                 <div className="col l6 m6 s12">
-                  <p><b>Start time: </b>startAt</p>
-                  <p><b>End time: </b>endAt</p>
+                  <p><b>Start time: </b>{this.state.startAt}</p>
+                  <p><b>End time: </b>{this.state.endAt}</p>
                   <p><b>Pay: </b>{this.props.jobinfo.professionals[this.state.value].pay}</p>
                   <p><b>Location: </b>{this.props.jobinfo.location.locationName}</p>
                 </div>
@@ -102,8 +110,8 @@ class ConJobPost extends React.Component{
                   {!this.state.osha10 && !this.state.osha30 && <p><b>OSHA: </b>No preference</p>}
                   {this.state.osha10 && <p><b>OSHA: </b>OSHA 10</p>}
                   {this.state.osha30 && <p><b>OSHA: </b>OSHA 30</p>}
-                  <p><b>Driver license: </b>driverLicense</p>
-                  <p><b>Vehicle: </b>car</p>
+                  {this.state.license && <p><b>Driver license: </b>Yes</p>}
+                  {!this.state.license && <p><b>Driver license: </b>None</p>}
                 </div>
               </div>
             </div>
@@ -117,9 +125,9 @@ class ConJobPost extends React.Component{
                   <div>
                     {
                       this.props.applyPeople.length < 1 ?
-                      <h3>No Professionals have applied</h3>
+                      <h5>No Professionals have applied</h5>
                         :
-                      <h3>Professionals that applied</h3>
+                      <h5>Professionals that applied</h5>
                     }
                   </div>
                   <ul className="collection">
@@ -147,9 +155,9 @@ class ConJobPost extends React.Component{
                 <div>
                   {
                     this.props.admitPeople.length < 1 ?
-                    <h3>No admitted Professionals</h3>
+                    <h5>No admitted Professionals</h5>
                     :
-                      <h3>Admitted Professionals</h3>
+                    <h5>Admitted Professionals</h5>
                   }
 
                 </div>
@@ -180,8 +188,8 @@ class ConJobPost extends React.Component{
         </div>
       </div>
     );
+
   }
-}
 }
 export default ConJobPostComponent = createContainer((props)=>{
 

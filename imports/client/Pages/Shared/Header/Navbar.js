@@ -40,7 +40,8 @@ let styles = {
         flexDirection: 'column',
         justifyContent: 'flex-end',
 
-    }
+    },
+
 }
 export default class Navbar extends Component{
     constructor(props){
@@ -58,7 +59,9 @@ export default class Navbar extends Component{
         $(sn).sideNav();
     }
     logout(){
+        console.log(this.props);
         Meteor.logout();
+        console.log(this.props);
     }
     sideClick(){
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
@@ -85,7 +88,7 @@ export default class Navbar extends Component{
             </div>
             <ul id='account' className='dropdown-content'>
                 <li><Link to="/settings">Account Settings</Link></li>
-                <li><a onClick={this.logout}>Logout</a></li>
+                <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
             </ul>
             <ul id="sideNav" className="side-nav">
                 <li>

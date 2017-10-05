@@ -2,9 +2,11 @@ import  BasicText  from './basicTextSchema';
 export default ReviewSchema = new SimpleSchema({
   reviewerId:{
     type: String,
+    defaultValue: ''
   },
   revieweeId:{
-    type:String
+    type:String,
+    defaultValue: ''
   },
   rating:{
     type: Number,
@@ -15,5 +17,12 @@ export default ReviewSchema = new SimpleSchema({
   review:{
     type: BasicText,
     optional:true
+  },
+  createdAt:{
+    type: Date,
+  },
+  jobID:{
+    type: String,
+    
   }
 });

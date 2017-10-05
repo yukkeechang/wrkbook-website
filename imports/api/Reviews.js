@@ -12,7 +12,8 @@ const WRONGMET ={
   incorrectMethod : true
 };
 const REVIEWERR ={
-  reviewNotMade : true
+  notmade : true,
+
 };
 //Defines a collection with the name "reviews"
 Review  = new Mongo.Collection('reviews');
@@ -107,7 +108,7 @@ Meteor.methods({
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
-    if(Roles.userIsInRole(newReview.revieweeId,CONTRACTOR)) throw new Meteor.Error('403',REVIEWERR);
+    if (newReview.revieweeId === this.userId) throw new Meteor.Error('403',REVIEWERR)
     if(isCON && Roles.userIsInRole(newReview.revieweeId,PROFESSIONAL)){
       let hackIdThing = [];
       hackIdThing[0] = newReview.revieweeId;
@@ -132,6 +133,17 @@ Meteor.methods({
       if(!prevWorked) throw new Meteor.Error('403',REVIEWERR);
 
     }
+    if(isPRO &&  Roles.userIsInRole(newReview.revieweeId,CONTRACTOR)){
+      let hackIdThing = [];
+      hackIdThing[0] = this.userId;
+      let cursor = Job.find({
+        $and :[{employerId: newReview.revieweeId},{admitemployeeIds: {$in: hackIdThing}}]
+      });
+      let workedOnJobs = cursor.count() > 0 ? true : false;
+      if(!workedOnJobs) throw new Meteor.Error('403',REVIEWERR);
+    }
+
+
     Review.insert(newReview);
   },
 
