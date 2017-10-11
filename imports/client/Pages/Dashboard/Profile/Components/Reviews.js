@@ -1,9 +1,16 @@
 import React from 'react';
 import Rating from './Rating';
-
+import { createContainer } from 'meteor/react-meteor-data';
 import ReviewCard from './ReviewCard';
+import MSpinner from '../../../Shared/MSpinner';
 
-export default class Reviews extends React.Component {
+
+function isEmpty(obj) {
+  for (var x in obj) { return false; }
+  return true;
+}
+
+class DisplayReviews extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,43 +19,44 @@ export default class Reviews extends React.Component {
   }
 
   render() {
-    return (
-      <div className="row">
-        <div className="col s12">
-          <div className="card-panel">
-            <div className="row">
-              <div className="col s12 m12 l6">
-                <h5>Ratings and Reviews</h5>
-              </div>
-              <div className="col s12 m12 l6">
-                <Rating
-                  rating={4.5}
-                  starSize={25}
-                  textSize={19}
+    if(!isEmpty(this.props.reviews)){
+      let reviewz = this.props.reviews;
+      return(
+        <div className="container">
+          <br/>
+          {reviewz.map(function(review, index){
+            return(
+
+                <ReviewCard
+                  companyName={"Mike Construction Corporation"}
+                  date={"5/1/17"}
+                  rating={review.review}
+                  details={"Mike was very efficient with his job. He did a decent job with the plastering and was very neat with her work. Will definitely hire him again!"}
                 />
-              </div>
-            </div>
-            <ReviewCard
-              companyName={"Ziggys Painting Corporation"}
-              date={"6/3/17"}
-              rating={4.0}
-              details={"John was very efficient with his job. He did a decent job with the plastering and was very neat with her work. Will definitely hire him again!"}
-            />
-            <ReviewCard
-              companyName={"Mike Construction Corporation"}
-              date={"5/1/17"}
-              rating={5.0}
-              details={"Mike was very efficient with his job. He did a decent job with the plastering and was very neat with her work. Will definitely hire him again!"}
-            />
-            <ReviewCard
-              companyName={"Eukee Plumbing Company"}
-              date={"4/22/17"}
-              rating={3.5}
-              details={"Mike was very efficient with his job. He did a decent job with the plastering and was very neat with her work. Will definitely hire him again!"}
-            />
-          </div>
+
+            )
+          })}
         </div>
-      </div>
-    )
+      );
+    }
   }
 }
+
+export default Reviews = createContainer(({ params }) => {
+  let user = Meteor.user();
+  let reviews =[];
+  let loading = false;
+
+  if(!('undefined' === typeof(user))){
+    let handle = Meteor.subscribe('reviews-for-user',user._id);
+    loading = handle.ready();
+    reviews = Review.find({}).fetch();
+    console.log("################1");
+    console.log(reviews);
+  }
+  return {
+    user: user,
+    loading:loading,
+    reviews:reviews
+  };
+}, DisplayReviews);
