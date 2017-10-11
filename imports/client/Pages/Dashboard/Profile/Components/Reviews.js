@@ -39,6 +39,21 @@ class DisplayReviews extends React.Component {
         </div>
       );
     }
+    else if(!this.props.loading){
+      return (
+        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+          <MSpinner />
+        </div>
+      );
+    }
+    else{
+      return(
+        <div>
+        //<EmployerNoUpcomingJobs/>
+        No jobs
+        </div>
+      );
+    }
   }
 }
 
