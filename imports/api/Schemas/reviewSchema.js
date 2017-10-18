@@ -8,6 +8,9 @@ export default ReviewSchema = new SimpleSchema({
     type:String,
     defaultValue: ''
   },
+  companyName:{
+    type: BasicText
+  },
   rating:{
     type: Number,
     defaultValue: 0,
@@ -20,9 +23,14 @@ export default ReviewSchema = new SimpleSchema({
   },
   createdAt:{
     type: Date,
+    autoValue: function() {
+      if ( this.isInsert ) {
+        return new Date;
+      }
+    }
   },
   jobID:{
     type: String,
-    
+
   }
 });

@@ -27,15 +27,11 @@ Review.attachSchema(ReviewSchema);
 */
 Meteor.publish('reviews-for-user',function (revieweeId) {
   check(revieweeId,String)
-  if(!this.userId || !Roles.userIsInRole(revieweeId,PROFESSIONAL)){
-    this.stop();
-    throw new Meteor.Error('401',NOTAUTH);
-  }
   if(this.userId === revieweeId){
     this.stop();
     throw new Meteor.Error('403',WRONGMET)
   }
-  this.ready();
+
   return Review.find({ revieweeId: revieweeId});
 });
 
@@ -52,10 +48,6 @@ Meteor.publish('reviews-by-user',function (reviewerId) {
     this.stop();
     throw new Meteor.Error('401',NOTAUTH);
   }
-  if(this.userId === reviewerId){
-    this.stop();
-    throw new Meteor.Error('403',WRONGMET)
-  }
   this.ready();
   return Review.find({ reviewerId: reviewerId});
 });
@@ -66,12 +58,14 @@ Meteor.publish('reviews-by-user',function (reviewerId) {
 *
 */
 Meteor.publish('reviews-for-you',function(){
-  if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)){
+  console.log("say things");
+  if(!this.userId){
     this.stop();
     throw new Meteor.Error('401',NOTAUTH);
   }
-  return Review.find({revieweeId:this.userId})
 
+
+  return Review.find({revieweeId:this.userId});;
 });
 /**
 *
@@ -84,7 +78,7 @@ Meteor.publish('reviews-by-you',function(){
     this.stop();
     throw new Meteor.Error('401',NOTAUTH);
   }
-  return Review.find({reviewerId:this.userId})
+  return Review.find({reviewerId:this.userId});
 })
 
 Meteor.methods({

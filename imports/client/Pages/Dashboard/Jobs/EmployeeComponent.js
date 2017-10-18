@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 export default class EmployeeComponent extends React.Component{
   handleDecline(){
     let job = this.props.jobInfo;
@@ -54,9 +54,11 @@ export default class EmployeeComponent extends React.Component{
           </div>
           <div className="row">
             <div className="col l6 m6 s12" style={{display:'flex', justifyContent:'center', padding:'4px'}}>
-              <button className="waves-effect waves-teal teal lighten-3 btn-flat">
-                View profile
-              </button>
+              <Link to={"user/" + this.props.employeeId}>
+                  <button className="waves-effect waves-teal teal lighten-3 btn-flat">
+                    View profile
+                  </button>
+              </Link>
             </div>
             {
               !this.props.isAdmitted &&

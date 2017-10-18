@@ -13,7 +13,7 @@ import {Link} from 'react-router-dom';
 
 //import Header from '../Shared/Header';
 
-export class ProfilePage extends React.Component {
+export class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -264,7 +264,7 @@ export class ProfilePage extends React.Component {
               :
               null
             }
-            { this.state.reviewsDisplayed && <Reviews /> }
+            { this.state.reviewsDisplayed && <Reviews data={this.state.data} user={this.props.user}/> }
           </div>
         </div>
       </div>
@@ -272,11 +272,23 @@ export class ProfilePage extends React.Component {
   }
 }
 
-export default Profile = createContainer((props) => {
-  return {
-    user: Meteor.user()
-  };
-}, ProfilePage);
+export default OtherUser = createContainer((props) => {
+  console.log(props.match.params.value);
+  let user ={};
+  Meteor.call('findUserbyId',props.match.params.value,(err,res)=>{
+    if(err){
+        console.log(err);
+    }
+    else {
+      user = res;
+      console.log(user);
+    }
+
+  });
+
+
+
+}, Profile);
 
 
 

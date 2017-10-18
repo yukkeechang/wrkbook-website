@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
 import EmployeeComponent from './EmployeeComponent';
-
+import MSpinner from '../../Shared/MSpinner';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 //detailed job view with professionals that applied and admitted professionals
@@ -17,11 +17,13 @@ class ConJobPost extends React.Component{
       $('.tooltipped').tooltip({delay: 50});
     });
 
+    this.props.handleChildLoad(this.props.ready);
+
     Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
       if(err){
         console.log(err);
       }else{
-        console.log(res);
+
         let startAt = res.startAt.toLocaleString();
         let endAt = res.endAt.toLocaleString();
         this.setState({
@@ -34,6 +36,7 @@ class ConJobPost extends React.Component{
   constructor(props){
   super(props);
   let job = this.props.jobinfo;
+
   this.state={
     job: job,
     startAt: '',
@@ -45,10 +48,11 @@ class ConJobPost extends React.Component{
     nothing2: true,
     value: "0"
   };
+  // console.log(this.props.handleChildLoad)
 
   }
   handleProChange(e){
-    console.log(e.target.value);
+
     this.setState({
       value: e.target.value,
     });
@@ -132,7 +136,7 @@ class ConJobPost extends React.Component{
                   </div>
                   <ul className="collection">
                     {
-                      !!this.props.applyPeople ?
+                      this.props.ready ?
                       this.props.applyPeople.map(function(user,index){
                         return(
                           <li className="collection-item">
@@ -147,7 +151,9 @@ class ConJobPost extends React.Component{
                         )
                       }.bind(this))
                       :
-                      null
+                      <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+                        <MSpinner />
+                      </div>
                     }
                     </ul>
               </div>
@@ -163,7 +169,7 @@ class ConJobPost extends React.Component{
                 </div>
                 <ul className="collection">
                   {
-                    !!this.props.admitPeople ?
+                    this.props.ready ?
                     this.props.admitPeople.map(function(user,index){
                       return(
                         <li className="collection-item">
@@ -179,7 +185,9 @@ class ConJobPost extends React.Component{
                     }.bind(this))
 
                     :
-                    null
+                    <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+                      <MSpinner />
+                    </div>
                   }
                   </ul>
             </div>
@@ -205,6 +213,7 @@ export default ConJobPostComponent = createContainer((props)=>{
   if (!!Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch()) {
     admitPeople =  Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch();
   }
+
   return {
     applyPeople : applyPeople,
     admitPeople : admitPeople,
