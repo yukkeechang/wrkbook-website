@@ -9,8 +9,9 @@ import Profile from './Dashboard/Profile/Profile';
 import OtherUser from './Dashboard/Profile/OtherUser'
 import Jobs from './Dashboard/Jobs/Jobs';
 import Home from './Dashboard/Home/Home';
-
 import Edit from './Dashboard/Profile/Edit/Edit';
+import Settings from './Dashboard/Settings/Settings';
+import Calendar from './Dashboard/Calendar';
 
 
 // For testing
@@ -23,12 +24,8 @@ import JobPostAdmit from './Dashboard/Jobs/EmpJobPostAdmit';
 import EmpJobPostComponent from './Dashboard/Jobs/EmpJobPostComponent';
 import EmpJobPosts from './Dashboard/Jobs/EmpJobPosts';
 import employeeComponent from './Dashboard/Jobs/EmployeeComponent';
-import ContractorEdit from './Dashboard/Settings/Edit/ContractorEdit';
-import ProfessionalEdit from './Dashboard/Settings/Edit/ProfessionalEdit';
-
 import References from './Dashboard/References'
 //import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
-
 
 class Dash extends Component{
     constructor(props){
@@ -56,16 +53,15 @@ class Dash extends Component{
                 <Route exact path="/references" component={References}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob/:value" component={EditJobs}/>
-
                 <Route exact path="/events" component={DummyEvents}/>
                 <Route exact path="/conjobpostcomponent" component={ConJobPostComponent}/>
                 <Route exact path="/conjobposts" component={ConJobPosts}/>
                 <Route exact path="/empjobposts" component={EmpJobPosts}/>
                 <Route exact path="/employeejobpostsadmit" component={JobPostAdmit}/>
                 <Route exact path="/employeecomponent" component={employeeComponent}/>
-                <Route exact path="/editprofessional" component={ProfessionalEdit}/>
-                <Route exact path="/editcontractor" component={ContractorEdit}/>
-                <Route exact path="/settings" component={Edit}/>
+                <Route exact path="/edit" component={Edit}/>
+                <Route path="/settings" component={Settings}/>
+                <Route path="/calendar" component={Calendar}/>
 
                     {/*
                         Add in whatever pages' route

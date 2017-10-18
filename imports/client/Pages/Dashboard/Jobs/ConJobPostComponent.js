@@ -199,6 +199,7 @@ class ConJobPost extends React.Component{
 
   }
 }
+}
 export default ConJobPostComponent = createContainer((props)=>{
 
   let handleApply = Meteor.subscribe('apply-employee-job',props.jobinfo._id);

@@ -104,6 +104,7 @@ Meteor.methods({
     if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
     if (newReview.revieweeId === this.userId) throw new Meteor.Error('403',REVIEWERR)
     if(isCON && Roles.userIsInRole(newReview.revieweeId,PROFESSIONAL)){
+      //make an array of one user id to compare to another array
       let hackIdThing = [];
       hackIdThing[0] = newReview.revieweeId;
       let cursor = Job.find({

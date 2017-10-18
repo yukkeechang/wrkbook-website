@@ -594,7 +594,13 @@ Meteor.methods({
       job.admitemployeeIds = Array.from(noCopies);
     }
 
-    let selector = {_id: jobId};
+    let notify = NotificationSchema.clean({});
+    notify.toWhomst = employeeId;
+    notify.description = "You have been admitted to the job at "+ job.location.locationName;
+    notify.jobId =jobId;
+    notify.href = "job/"+jobId;
+
+    Meteor.call('createNotification',notify);
 
     Job.update(selector,{$set: job});
 

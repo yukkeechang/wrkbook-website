@@ -56,6 +56,7 @@ export class ProfilePage extends React.Component {
   }
 
   // Change nav bar font size depending on screen width
+  //nav bar refers to the boxes ontop of the profile for about, contact, reviews, etc.
   updateNavBarText = () => {
     // Screen width
     let width = document.body.scrollWidth;
@@ -234,7 +235,7 @@ export class ProfilePage extends React.Component {
             {
               this.state.isPro ?
               <a
-                className={ "btn-flat center-align col" + (this.state.isPro ? "s3" : "s4") + " l2" }
+                className={ "btn-flat center-align col " + (this.state.isPro ? "s3" : "s4") + " l2" }
                 style = { this.state.certButtonActive ? styles.certOne :  styles.certTwo}
                 onClick={this.onCertClick}
                 >
