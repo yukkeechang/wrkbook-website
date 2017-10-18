@@ -16,18 +16,6 @@ class ConJobPost extends React.Component{
       $('select').material_select();
       $('.tooltipped').tooltip({delay: 50});
     });
-<<<<<<< HEAD
-    $(this.refs.titles).on('change',(e)=>{
-      this.handleProChange(e);
-    })
-    let tooltip = ReactDOM.findDOMNode(this.refs.tool);
-    $(tooltip).tooltip({delay: 50});
-    Meteor.call('getEventInfo',this.props.events[this.props.index],(err,res)=>{
-      if(err){
-        console.log(err);
-      }else{
-        console.log(res);
-=======
 
     this.props.handleChildLoad(this.props.ready);
 
@@ -36,7 +24,6 @@ class ConJobPost extends React.Component{
         console.log(err);
       }else{
 
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
         let startAt = res.startAt.toLocaleString();
         let endAt = res.endAt.toLocaleString();
         this.setState({
@@ -77,10 +64,7 @@ class ConJobPost extends React.Component{
 
   render(){
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
     return(
       <div className="card">
         <div className="card-content">
@@ -153,11 +137,7 @@ class ConJobPost extends React.Component{
                   </div>
                   <ul className="collection">
                     {
-<<<<<<< HEAD
-                      !!this.props.applyPeople ?
-=======
                       this.props.ready ?
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
                       this.props.applyPeople.map(function(user,index){
                         return(
                           <li className="collection-item">
@@ -172,13 +152,9 @@ class ConJobPost extends React.Component{
                         )
                       }.bind(this))
                       :
-<<<<<<< HEAD
-                      null
-=======
                       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
                         <MSpinner />
                       </div>
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
                     }
                     </ul>
               </div>
@@ -194,11 +170,7 @@ class ConJobPost extends React.Component{
                 </div>
                 <ul className="collection">
                   {
-<<<<<<< HEAD
-                    !!this.props.admitPeople ?
-=======
                     this.props.ready ?
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
                     this.props.admitPeople.map(function(user,index){
                       return(
                         <li className="collection-item">
@@ -214,13 +186,9 @@ class ConJobPost extends React.Component{
                     }.bind(this))
 
                     :
-<<<<<<< HEAD
-                    null
-=======
                     <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
                       <MSpinner />
                     </div>
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
                   }
                   </ul>
             </div>
@@ -229,10 +197,7 @@ class ConJobPost extends React.Component{
         </div>
       </div>
     );
-<<<<<<< HEAD
-=======
 
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
   }
 }
 
@@ -250,10 +215,7 @@ export default ConJobPostComponent = createContainer((props)=>{
   if (!!Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch()) {
     admitPeople =  Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch();
   }
-<<<<<<< HEAD
-=======
 
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
   return {
     applyPeople : applyPeople,
     admitPeople : admitPeople,

@@ -41,15 +41,9 @@ class ContractorJobPosts extends React.Component{
 
             return(
               <ConJobPostComponent
-<<<<<<< HEAD
-                key= {index}
-                jobinfo = {job}
-                index = {index}
-=======
                 handleChildLoad={this.handleChildLoad.bind(this)}
                 key={job._id}
                 jobinfo = {job}
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
                 events = {job.eventInfo}
                 title={job.jobTypes.texts}
                 startAt={job.startAt}

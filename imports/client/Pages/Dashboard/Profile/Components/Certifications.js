@@ -141,7 +141,6 @@ export default class Certifications extends React.Component{
 
   render() {
     return (
-<<<<<<< HEAD
       <div className="card-panel">
         <div className="card teal">
           <div className="card-content">
@@ -175,84 +174,6 @@ export default class Certifications extends React.Component{
                   <span>Submit Certification</span>
                 </div>
               </div>
-=======
-      <div >
-        <div className="card">
-          <div className="row card-content">
-            <span className="col s12 card-title">Certifications</span>
-              <div className="row">
-                <div className="col s12 m6">
-                {
-                  this.state.driverLicense ?
-
-                  <p>
-                    <i className="material-icons left" style={{color: "green" }}>
-                        check
-                    </i>
-                    Drivers License
-                  </p> : null
-                }
-                </div>
-                <div className="col s12 m6" >
-                {
-                  this.state.osha10 ?
-                  <p>
-                    <i className="material-icons left" style={{color: "green" }}>
-                        check
-                    </i>
-                    Osha 10
-                  </p> : null
-                }
-                </div>
-                <div className="col s12 m6" >
-                {
-                  this.state.osha30 ?
-                  <p>
-                  <i className="material-icons left" style={{color: "green" }}>
-                      check
-                    </i>
-                    Osha 30
-                  </p> : null
-                }
-                </div>
-                <div className="col s12 m6" >
-                {
-                  this.state.bringTools ?
-
-                  <p>
-                    <i className="material-icons left" style={{color: "green" }}>
-                        check
-                    </i>
-                    Has tools
-                  </p> : null
-                }
-                </div>
-
-                <div id="imageContain" style={{display:'flex', justifyContent:'center',alignItems:'center'}} className="col s12">
-                {this.state.pesonalPic &&
-                  <div  id="page">
-                    <div id="demo-basic-pls">
-
-                    </div>
-                  </div>
-                }
-                </div>
-
-                <div  style={{display:'flex', justifyContent:'center',alignItems:'center'}}  className="col s12">
-                  <div >
-                    <div className="file-field input-field">
-                      <div className="btn">
-                        <span>Select Image</span>
-                        <input  id="fileInput"   onChange={this.onFileInputChange.bind(this)} type="file" accept="image/*"/>
-                      </div>
-                      <div className="file-path-wrapper">
-                        <input id='fileName 'className={"file-path  "+ this.state.validImage} type="text"/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
             </div>
           </div>
         </div>

@@ -62,12 +62,7 @@ class EditJob extends Component {
     };
   }
   componentWillMount(){
-<<<<<<< HEAD
     console.log(this.props.jobPost);
-=======
-    console.log(this.props.match.params.value);
-  
->>>>>>> 4170e989449958c53477b7255eafaee404db309f
   }
   getCoords(lat, lng){
     console.log(lat);
