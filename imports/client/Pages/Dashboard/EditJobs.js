@@ -16,7 +16,6 @@ class EditJob extends Component {
     $(dropdowns).ready(()=>{
       $('select').material_select();
       $('.modal').modal();
-      $("#jobTitles").val("Painter").attr('selected', true);
     });
     this.setState({
       titles: this.props.jobPost.jobTypes.texts

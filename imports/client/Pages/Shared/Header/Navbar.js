@@ -85,7 +85,7 @@ export default class Navbar extends Component{
             </div>
             <ul id='account' className='dropdown-content'>
                 <li><Link to="/settings">Account Settings</Link></li>
-                <li><a onClick={this.logout}>Logout</a></li>
+                <li><Link to ="/" onClick={this.logout}>Logout</Link></li>
             </ul>
             <ul id="sideNav" className="side-nav">
                 <li>
