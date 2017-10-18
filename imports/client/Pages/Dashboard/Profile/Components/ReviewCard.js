@@ -27,14 +27,18 @@ export default class ReviewCard extends React.Component {
               <div className="col s8">
 
                   <div className="col s12" style={{ margin: 0, padding: 0, fontSize: 16 }}>
-                    {this.props.companyName} {this.props.date}
+                    {this.props.companyName}
+                  </div>
+
+                  <div className="col s12" style={{ margin: 0, padding: 0, fontSize: 16 }}>
+                    {this.props.date}
                   </div>
 
 
                 <div className="row" style={{ margin: 0, padding: 0 }}>
                   <div className="col s12" style={{ margin: 0, padding: 0 }}>
                     <Rating
-                      rating={4.5}
+                      rating={this.props.rating}
                       starSize={20}
                       textSize={15} />
                   </div>

@@ -17,8 +17,10 @@ class EditJob extends Component {
       $('select').material_select();
       $('.modal').modal();
     });
+    this.setState({
+      titles: this.props.jobPost.jobTypes.texts
+    });
     $(this.refs.titles).change(()=>{
-
       this.setState({titles:$(this.refs.titles).val()})
     })
     $('.datepicker').pickadate({
@@ -60,8 +62,7 @@ class EditJob extends Component {
     };
   }
   componentWillMount(){
-    console.log(this.props.match.params.value);
-  
+    console.log(this.props.jobPost);
   }
   getCoords(lat, lng){
     console.log(lat);
@@ -72,59 +73,49 @@ class EditJob extends Component {
     });
   }
   handleCreate(e){
-    let job = JobSchema.clean({});
-    let location = LocationSchema.clean({});
-    let jobtypes = $('#jobTitles').val();
-    const description = this.refs.jobDescription.getValue().trim();
-    const additionText = this.refs.additionalText.getValue().trim();
-    const pay = parseInt(this.refs.pay.getValue().trim());
-    let startDate = this.state.startD;
-    let startTime = this.state.startT;
-    let endDate = this.state.endD;
-    let endTime = this.state.endT;
-    location.locationName = this.state.address;
-    location.latitude = this.state.lat;
-    location.longitude = this.state.lng;
-
-    const idx = startTime.indexOf('T');
-    const idx1 = startTime.indexOf('.');
-    const idx2 = startTime.indexOf('Z');
-    const toremove = startTime.substr(idx1,idx2);
-    startDate = startDate.substr(0,idx);
-    startDate = startDate.split('"').join('');
-    startTime = startTime.substr(idx,startTime.length);
-    startTime= startTime.replace(toremove,"Z");
-    const startAT = startDate+startTime;
-    const toremove2 = endTime.substr(idx1,idx2);
-    endDate = endDate.substr(0,idx);
-    endDate = endDate.split('"').join('');
-    endTime = endTime.substr(idx,endTime.length);
-    endTime= endTime.replace(toremove2,"Z");
-    const endAT = endDate+endTime;
-
-    job.supervisor.name = this.refs.supervisorName.getValue().trim();
-    job.supervisor.phone = this.refs.supervisorNumber.getValue().trim();
-    job.title.text = $('#jobTitles').val() + " needed";
-    job.description.text = description;
-    job.additionalText.text = additionText;
-    job.startAt = new Date(startAT);
-    job.endAt = new Date(endAT);
-    job.jobTypes.texts = jobtypes;
-    job.pay = pay;
-    job.numWorker = $('#numberEmployees').val();
-
-    job.location = location;
-    jobs.requirements.socialPref.social = $("#sscYes").prop('checked');
-    jobs.requirements.socialPref.taxID = $("#taxYes").prop('checked');
-    job.requirements.osha.osha10 = this.state.osha10;
-    job.requirements.osha.osha30 = this.state.osha30;
-    console.log("something");
-
-    Meteor.call('createJob',job,(err)=>{
-        if(err){
-          console.log(err);
-        }
-    });
+    let loc = this.refs.loc.getAddress();
+    if(loc.valid || !!this.props.jobPost.location.locationName){
+      this.setState({locErr: false});
+      let professionals = this.state.titles.map((title, index)=>{
+        return this.refs[title].value();
+      });
+      let job = JobSchema.clean({});
+      let location = LocationSchema.clean({});
+      let jobtypes = $('#jobTitles').val();
+      console.log(jobtypes);
+      const description = this.refs.jobDescription.value.trim();
+      const additionText = this.refs.additionalText.value.trim();
+      location = loc.location;
+      job.supervisor.name = this.refs.supervisorName.value.trim();
+      job.supervisor.phone = this.refs.supervisorNumber.value.trim();
+      job.additionText = additionText;
+      job.description.text = description;
+      job.jobTypes.texts = Object.values(jobtypes);
+      job.professionals = professionals;
+      job.location = location;
+      job.jobTitle.text = this.refs.jobTitle.value;
+      job.requirements.socialPref.social = $("#sscYes").prop('checked');
+      job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
+      job.requirements.osha.osha10 = this.state.osha10;
+      job.requirements.osha.osha30 = this.state.osha30;
+      let newJob = {
+        job: job
+      };
+      console.log(newJob);
+      console.log(job);
+      Meteor.call('updateJob', this.props.match.params.value, job,(err)=>{
+          if(err){
+            console.log('error');
+            console.log(err.reason);
+            console.log(err);
+          }else{
+            console.log('no error');
+          }
+      });
+    }
+    else{
+      this.setState({locErr:true});
+    }
   }
   handleTitles(){
     this.setState({
@@ -173,7 +164,7 @@ class EditJob extends Component {
     this.setState({endT: time});
   }
   render(){
-    if(!this.props.jobPost)return(<h1>h</h1>);
+    if(!this.props.jobPost)return(<h1></h1>);
     else {
     return(
       <div className="container">
@@ -274,17 +265,16 @@ class EditJob extends Component {
         {this.state.titles.map((title, index)=>{
           return(
             <JobCreateComponent ref={title} title={title}key={title}/>
-
           )
         })}
         <form>
           <div className="input-field col s12">
-            <input id="additional-text" ref="additionalText" type="text"/>
+            <input id="additional-text" ref="additionalText" defaultValue={this.props.jobPost.additionText} type="text"/>
             <label htmlFor="additional-text">Additional information:</label>
           </div>
 
           <div style={{display:'flex', justifyContent:'center'}}>
-            <a className="waves-effect waves-teal btn-flat" onClick={this.handleCreate.bind(this)}>Create job</a>
+            <a className="waves-effect waves-teal btn-flat" onClick={this.handleCreate.bind(this)}>Update job</a>
           </div>
           <div id="modal1" className="modal">
             <div className="modal-content">
