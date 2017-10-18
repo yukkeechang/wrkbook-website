@@ -18,7 +18,6 @@ class EmployeeJobPosts extends React.Component{
   render(){
 
     if(!isEmpty(this.props.jobPost)){
-
       let jobz = this.props.jobPost;
       return(
         <div>
@@ -26,8 +25,14 @@ class EmployeeJobPosts extends React.Component{
           {jobz.map(function(job, index){
             return(
               <EmpJobPostComponent
+<<<<<<< HEAD
+                key={index}
+                jobinfo = {job}
+                index = {index}
+=======
                 key={job._id}
                 jobinfo = {job}
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
                 events = {job.eventInfo}
                 title={job.jobTitle.text}
                 startAt={job.startAt}

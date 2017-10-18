@@ -150,6 +150,8 @@ export default class CreateJobs extends Component {
     let phErr = 'Not a valid phone number';
     return(
       <div className="container">
+      <div className="card">
+        <div className="card-content">
         <form>
           <div className="input-field col s12">
             <input className="validate" id="jobTitle" ref="jobTitle" type="text"/>
@@ -244,8 +246,7 @@ export default class CreateJobs extends Component {
         </div>
         {this.state.titles.map((title, index)=>{
           return(
-            <JobCreateComponent ref={title} title={title}key={title}/>
-
+            <JobCreateComponent ref={title} title={title} key={title}/>
           )
         })}
         <form>
@@ -267,6 +268,8 @@ export default class CreateJobs extends Component {
             </div>
           </div>
         </form>
+        </div>
+      </div>
       </div>
     )
   }

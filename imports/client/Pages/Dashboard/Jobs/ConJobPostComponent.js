@@ -16,6 +16,18 @@ class ConJobPost extends React.Component{
       $('select').material_select();
       $('.tooltipped').tooltip({delay: 50});
     });
+<<<<<<< HEAD
+    $(this.refs.titles).on('change',(e)=>{
+      this.handleProChange(e);
+    })
+    let tooltip = ReactDOM.findDOMNode(this.refs.tool);
+    $(tooltip).tooltip({delay: 50});
+    Meteor.call('getEventInfo',this.props.events[this.props.index],(err,res)=>{
+      if(err){
+        console.log(err);
+      }else{
+        console.log(res);
+=======
 
     this.props.handleChildLoad(this.props.ready);
 
@@ -24,6 +36,7 @@ class ConJobPost extends React.Component{
         console.log(err);
       }else{
 
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
         let startAt = res.startAt.toLocaleString();
         let endAt = res.endAt.toLocaleString();
         this.setState({
@@ -64,15 +77,19 @@ class ConJobPost extends React.Component{
 
   render(){
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
     return(
       <div className="card">
         <div className="card-content">
           <div className="row">
             <div className="col s8">
               <span className="card-title">{this.props.jobinfo.jobTitle.text}</span>
-              <br/>
               <p>{this.props.description}</p>
+              <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
+              <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
             <div className="col s2 offset-l2 offset-m2 offset-s2">
             <button className="waves-effect waves-teal lighten-3 btn-flat"onClick={this.handleMember.bind(this)}>
@@ -136,7 +153,11 @@ class ConJobPost extends React.Component{
                   </div>
                   <ul className="collection">
                     {
+<<<<<<< HEAD
+                      !!this.props.applyPeople ?
+=======
                       this.props.ready ?
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
                       this.props.applyPeople.map(function(user,index){
                         return(
                           <li className="collection-item">
@@ -151,9 +172,13 @@ class ConJobPost extends React.Component{
                         )
                       }.bind(this))
                       :
+<<<<<<< HEAD
+                      null
+=======
                       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
                         <MSpinner />
                       </div>
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
                     }
                     </ul>
               </div>
@@ -169,7 +194,11 @@ class ConJobPost extends React.Component{
                 </div>
                 <ul className="collection">
                   {
+<<<<<<< HEAD
+                    !!this.props.admitPeople ?
+=======
                     this.props.ready ?
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
                     this.props.admitPeople.map(function(user,index){
                       return(
                         <li className="collection-item">
@@ -185,9 +214,13 @@ class ConJobPost extends React.Component{
                     }.bind(this))
 
                     :
+<<<<<<< HEAD
+                    null
+=======
                     <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
                       <MSpinner />
                     </div>
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
                   }
                   </ul>
             </div>
@@ -196,7 +229,10 @@ class ConJobPost extends React.Component{
         </div>
       </div>
     );
+<<<<<<< HEAD
+=======
 
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
   }
 }
 
@@ -214,7 +250,10 @@ export default ConJobPostComponent = createContainer((props)=>{
   if (!!Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch()) {
     admitPeople =  Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch();
   }
+<<<<<<< HEAD
+=======
 
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
   return {
     applyPeople : applyPeople,
     admitPeople : admitPeople,

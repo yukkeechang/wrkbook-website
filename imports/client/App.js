@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { render } from 'react-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
-import NotFound from './Pages/NotFound';
+import LoggedOutNotFound from './Pages/LoggedOutNotFound';
 import LandingPage from './Pages/LandingPage';
 import Dashboard from './Pages/Dashboard';
 import SignIn from './Pages/SignIn';
@@ -45,7 +45,7 @@ class Application extends Component {
                         <Route exact path="/register" component={SignUp}/>
                         <Route exact path="/forgot" component={Forgot}/>
                         <Route exact path="/reset/:value" component={ResetPassword}/>
-                        <Route path="*" component={NotFound}/>
+                        <Route path="*" component={LoggedOutNotFound}/>
                     </Switch>
                 </CSSTransitionGroup>
             )}/>

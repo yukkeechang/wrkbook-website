@@ -1,10 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 export default class EmployeeComponent extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+    }
+  }
   handleDecline(){
     let job = this.props.jobInfo;
+<<<<<<< HEAD
+    let employeeId = this.props.employeeId;
+    let jobId = job._id;
+
+    Meteor.call('declineEmployee',jobId,employeeId,(err)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+=======
     let employeeId =  this.props.employeeId;
     let jobId = job._id;
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
 
     Meteor.call('declineEmployee',jobId,employeeId,(err)=>{
       if(err){
@@ -19,6 +35,16 @@ export default class EmployeeComponent extends React.Component{
     let job = this.props.jobInfo;
     let employeeId =  this.props.employeeId;
     let jobId = job._id;
+<<<<<<< HEAD
+
+    Meteor.call('admiteEmployee',jobId,employeeId,(err)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+
+    }
+=======
 
     Meteor.call('admiteEmployee',jobId,employeeId,(err)=>{
       if(err){
@@ -27,6 +53,7 @@ export default class EmployeeComponent extends React.Component{
       else{
 
       }
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
     });
   }
 
@@ -44,11 +71,6 @@ export default class EmployeeComponent extends React.Component{
                   <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
                   <p>{this.props.profile.employeeData.location.locationName}</p>
                 </div>
-              </div>
-              <div className="row">
-                <p>Certifications</p>
-                <p>About</p>
-                <p>Payments accepted</p>
               </div>
             </div>
           </div>

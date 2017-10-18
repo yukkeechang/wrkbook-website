@@ -1,10 +1,11 @@
 import React from 'react';
 import Header from './Shared/Header';
 
-export default class NotFound extends React.Component{
+export default class LoggedOutNotFound extends React.Component{
     render(){
     return(
         <div>
+            <Header/>
             <div style={{height:'64px'}}></div>
             <div style={{paddingTop:'50px'}} className="container">
                 <div className="row">

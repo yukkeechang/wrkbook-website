@@ -64,6 +64,26 @@ Meteor.publish('job-post', function(employee){
     let lng_bot = lng + westDisplacement;
     let hackIdThing =[];
     hackIdThing[0] = this.userId;
+<<<<<<< HEAD
+    /*
+      if(Job.requirements.driverLicense){
+      query.employee.
+      }
+      if()
+      'requirements.driverLicense':employee.driverLicense,
+      'requirements.osha.osha10': employee.osha.osha10,
+      'requirements.osha.osha30': employee.osha.osha30,
+      'requirements.socialPref.taxID': employee.socialPref.taxID,
+      'requirements.socialPref.social': employee.socialPref.social,
+    */
+
+      let results =  Job.find({
+
+          'jobTypes.texts' : {$in : jobTitle},
+          'declineemployeeIds' :{$nin : hackIdThing},
+          'location.latitude': {$gte: lat_bot, $lt: lat_top},
+          'location.longitude': {$gte: lng_bot , $lt: lng_top},
+=======
 
 
       let results =  Job.find({
@@ -90,6 +110,7 @@ Meteor.publish('job-post', function(employee){
           ]
 
 
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
       });
 
       return results;
@@ -377,9 +398,7 @@ Meteor.methods({
   /**
   ------------------------------------------------------------------------------
   ------------------------------------------------------------------------------
-
   THIS FUNCTION WILL HAVE TO BE CHANGE TO MAKE THE SCHEMA CHANGES
-
   -----------------------------------------------------------------------------
   -----------------------------------------------------------------------------
   Updates a JobPost that was already inserted into the database. If the JobPost
@@ -491,6 +510,8 @@ Meteor.methods({
       job.applyemployeeIds.push(this.userId);
       let noCopies = new Set(job.applyemployeeIds);
       job.applyemployeeIds = Array.from(noCopies);
+<<<<<<< HEAD
+=======
     }
 
     let selector = {_id: jobId};
@@ -532,11 +553,17 @@ Meteor.methods({
       job.declineemployeeIds.push(this.userId);
       let noCopies = new Set(job.declineemployeeIds);
       job.declineemployeeIds = Array.from(noCopies);
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
     }
 
     let selector = {_id: jobId};
 
     Job.update(selector,{$set: job});
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
   },
   declineEmployee(jobId,employeeId){
       if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
@@ -563,6 +590,8 @@ Meteor.methods({
         let noCopies = new Set(job.declineemployeeIds);
         job.declineemployeeIds = Array.from(noCopies);
       }
+<<<<<<< HEAD
+=======
 
       let selector = {_id: jobId};
 
@@ -603,9 +632,44 @@ Meteor.methods({
     Meteor.call('createNotification',notify);
 
     Job.update(selector,{$set: job});
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
+
+      let selector = {_id: jobId};
+
+      Job.update(selector,{$set: job});
+  },
+  admiteEmployee(jobId,employeeId){
+    if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+
+    let job = Job.findOne({_id: jobId});
+    if(!job)throw new Meteor.Error('403','Job was not found');
+
+    if(job.applyemployeeIds.includes(employeeId)){
+      let idx = job.applyemployeeIds.indexOf(employeeId);
+      if (idx != -1) { //Should always be true
+          job.applyemployeeIds.splice(idx,1);
+      }
+    }
+    if(job.declineemployeeIds.includes(employeeId)){ //Shouldn't happen but incase
+      let idx = job.declineemployeeIds.indexOf(employeeId);
+      if (idx != -1) { //Should always be true
+          job.declineemployeeIds.splice(idx,1);
+      }
+    }
+    if (job.admitemployeeIds.includes(employeeId)) {
+      return;
+    }else{
+      job.admitemployeeIds.push(employeeId);
+      let noCopies = new Set(job.admitemployeeIds);
+      job.admitemployeeIds = Array.from(noCopies);
+    }
 
 
+<<<<<<< HEAD
+    Job.update(selector,{$set: job});
 
+=======
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
 
   },
   /**
