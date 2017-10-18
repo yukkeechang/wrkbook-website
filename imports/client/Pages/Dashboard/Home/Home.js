@@ -8,7 +8,7 @@ import 'rc-select/assets/index.css';
 import Select from 'rc-select';
 import moment from 'moment';
 const now = moment();
-
+import ReviewSchema from  '../../../../api/Schemas/reviewSchema';
 import ConfirmationsCard from './Components/ConfirmationsCard';
 import JobDetailModal from './Components/JobDetailModal';
 import HourRow from './Components/HourRow';
@@ -44,6 +44,7 @@ class HomePage extends React.Component {
     let dateToday = new Date();
     dateTodayParsed = this.parseDate(dateToday);
     this.renderDailyAgenda(dateToday, dateTodayParsed);
+
   }
 
   // Change card positions depending on screen width
@@ -336,7 +337,7 @@ class HomePage extends React.Component {
             Notifications
           </p>
           <div>
-          {!! this.props.notifies && this.props.notifies.length >1 ?
+          { this.props.notifies.length >0 ?
             this.props.notifies.map(function(notify,index){
               return(
                 <ConfirmationsCard

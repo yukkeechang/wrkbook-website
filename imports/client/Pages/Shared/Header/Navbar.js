@@ -40,7 +40,8 @@ let styles = {
         flexDirection: 'column',
         justifyContent: 'flex-end',
 
-    }
+    },
+
 }
 export default class Navbar extends Component{
     constructor(props){
@@ -58,7 +59,9 @@ export default class Navbar extends Component{
         $(sn).sideNav();
     }
     logout(){
+        console.log(this.props);
         Meteor.logout();
+        console.log(this.props);
     }
     sideClick(){
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
@@ -76,7 +79,7 @@ export default class Navbar extends Component{
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/jobs">Jobs</Link></div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
-            <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/reviews">Reviews</Link></div>
+          
 
             <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1">
                 <div style={styles.firstName} className="hide-on-small-only">{this.props.firstName}</div>
@@ -85,13 +88,8 @@ export default class Navbar extends Component{
                 </div>
             </div>
             <ul id='account' className='dropdown-content'>
-            <li><Link to='/settings/notifications'>Account Settings</Link></li>
-            <ul className="sub-menu">
-                <li><Link to='/settings/notifications'>Notifications</Link></li>
-                <li><Link to='/settings/password'>Change Password</Link></li>
-                <li><Link to='/settings/subscription'>Subscription</Link></li>
-            </ul>
-                <li><a onClick={this.logout}>Logout</a></li>
+                <li><Link to="/settings">Account Settings</Link></li>
+                <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
             </ul>
             <ul id="sideNav" className="side-nav">
                 <li>

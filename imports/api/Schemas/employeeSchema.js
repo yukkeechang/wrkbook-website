@@ -58,6 +58,12 @@ export default EmployeeSchema = new SimpleSchema({
   socialPref :{
     type: SocialSchema
   },
+  certfi : {
+    type : [String],
+    defaultValue : [],
+    minCount: 0,
+    maxCount:5
+  },
   image:{
     type: String,
     defaultValue: PICLINK
