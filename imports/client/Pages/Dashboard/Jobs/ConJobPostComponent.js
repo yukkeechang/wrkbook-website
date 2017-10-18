@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
 import EmployeeComponent from './EmployeeComponent';
-
+import MSpinner from '../../Shared/MSpinner';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 //detailed job view with professionals that applied and admitted professionals
@@ -11,9 +11,12 @@ import { createContainer } from 'meteor/react-meteor-data';
 class ConJobPost extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
+
     $(dropdowns).ready(()=>{
       $('select').material_select();
+      $('.tooltipped').tooltip({delay: 50});
     });
+<<<<<<< HEAD
     $(this.refs.titles).on('change',(e)=>{
       this.handleProChange(e);
     })
@@ -24,6 +27,16 @@ class ConJobPost extends React.Component{
         console.log(err);
       }else{
         console.log(res);
+=======
+
+    this.props.handleChildLoad(this.props.ready);
+
+    Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
+      if(err){
+        console.log(err);
+      }else{
+
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
         let startAt = res.startAt.toLocaleString();
         let endAt = res.endAt.toLocaleString();
         this.setState({
@@ -36,10 +49,8 @@ class ConJobPost extends React.Component{
   constructor(props){
   super(props);
   let job = this.props.jobinfo;
+
   this.state={
-    applied: [],
-    admit: [],
-    events: [],
     job: job,
     startAt: '',
     endAt: '',
@@ -50,10 +61,11 @@ class ConJobPost extends React.Component{
     nothing2: true,
     value: "0"
   };
+  // console.log(this.props.handleChildLoad)
 
   }
   handleProChange(e){
-    console.log(e.target.value);
+
     this.setState({
       value: e.target.value,
     });
@@ -65,6 +77,10 @@ class ConJobPost extends React.Component{
 
   render(){
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
     return(
       <div className="card">
         <div className="card-content">
@@ -91,7 +107,7 @@ class ConJobPost extends React.Component{
               <div className="input-field col s12">
                 <div className="row">
                   <span></span>
-                  <select ref="titles" value={this.state.value} id="jobTitles" onChange={()=>{}}>
+                  <select  id="jobTitles" ref="titles" value={this.state.value} onChange={this.handleProChange.bind(this)}>
                     {this.props.jobinfo.jobTypes.texts.map((title,i)=>{
                       return(
                         <option value={i} key={i}>{title}</option>
@@ -137,7 +153,11 @@ class ConJobPost extends React.Component{
                   </div>
                   <ul className="collection">
                     {
+<<<<<<< HEAD
                       !!this.props.applyPeople ?
+=======
+                      this.props.ready ?
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
                       this.props.applyPeople.map(function(user,index){
                         return(
                           <li className="collection-item">
@@ -152,7 +172,13 @@ class ConJobPost extends React.Component{
                         )
                       }.bind(this))
                       :
+<<<<<<< HEAD
                       null
+=======
+                      <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+                        <MSpinner />
+                      </div>
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
                     }
                     </ul>
               </div>
@@ -168,7 +194,11 @@ class ConJobPost extends React.Component{
                 </div>
                 <ul className="collection">
                   {
+<<<<<<< HEAD
                     !!this.props.admitPeople ?
+=======
+                    this.props.ready ?
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
                     this.props.admitPeople.map(function(user,index){
                       return(
                         <li className="collection-item">
@@ -184,7 +214,13 @@ class ConJobPost extends React.Component{
                     }.bind(this))
 
                     :
+<<<<<<< HEAD
                     null
+=======
+                    <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+                      <MSpinner />
+                    </div>
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
                   }
                   </ul>
             </div>
@@ -193,8 +229,13 @@ class ConJobPost extends React.Component{
         </div>
       </div>
     );
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
   }
 }
+
 export default ConJobPostComponent = createContainer((props)=>{
 
   let handleApply = Meteor.subscribe('apply-employee-job',props.jobinfo._id);
@@ -209,6 +250,10 @@ export default ConJobPostComponent = createContainer((props)=>{
   if (!!Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch()) {
     admitPeople =  Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch();
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
   return {
     applyPeople : applyPeople,
     admitPeople : admitPeople,

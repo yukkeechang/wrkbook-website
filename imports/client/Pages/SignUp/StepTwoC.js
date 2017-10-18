@@ -25,7 +25,7 @@ export default class StepTwoC extends Component{
                 companyName: {
                     text: this.refs.cn.value()
                 },
-                licenseNumber: this.refs.ln.value(),
+                
                 webPage: this.refs.wp.value(),
                 location: loc.location,
                 about: {
@@ -67,7 +67,7 @@ export default class StepTwoC extends Component{
                             <div className="col s12">
                             <MTextField ref="cn" id="CompanyName" error={this.state.validCompany ? '': "This field is required"} label="Company Name *"/>
                             <MTextField ref="wp" id="WebPage" error='' label="Website"/>
-                            <MTextField ref="ln" id="LicenseNumber" error='' label="License Number"/>
+
 
                             <div className="input-field">
                                 <textarea ref="ca" id="about" className="materialize-textarea" data-length="250"></textarea>

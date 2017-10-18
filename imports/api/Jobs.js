@@ -64,6 +64,7 @@ Meteor.publish('job-post', function(employee){
     let lng_bot = lng + westDisplacement;
     let hackIdThing =[];
     hackIdThing[0] = this.userId;
+<<<<<<< HEAD
     /*
       if(Job.requirements.driverLicense){
       query.employee.
@@ -82,6 +83,34 @@ Meteor.publish('job-post', function(employee){
           'declineemployeeIds' :{$nin : hackIdThing},
           'location.latitude': {$gte: lat_bot, $lt: lat_top},
           'location.longitude': {$gte: lng_bot , $lt: lng_top},
+=======
+
+
+      let results =  Job.find({
+          $and: [
+            {
+            'jobTypes.texts' : {$in : jobTitle},
+            'declineemployeeIds' :{$nin : hackIdThing},
+            'location.latitude': {$gte: lat_bot, $lt: lat_top},
+            'location.longitude': {$gte: lng_bot , $lt: lng_top}}
+            ,
+              {$or:[ {'requirements.driverLicense':{$ne : true}},
+              {'requirements.driverLicense':true,'requirements.driverLicense':employee.driverLicense}]}
+            ,
+              {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
+              {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employee.osha.osha30},
+              {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employee.osha.osha10},{'requirements.osha.osha10':employee.osha.osha30}] },
+              ]}
+            ,
+              {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
+              {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employee.socialPref.social},
+              {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employee.socialPref.taxID},{'requirements.socialPref.social':employee.socialPref.social}] },
+              ]}
+
+          ]
+
+
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
       });
 
       return results;
@@ -306,6 +335,11 @@ Meteor.methods({
 
 
   },
+
+  sendNotificationsToPotential(jobObject){
+
+
+  },
   /**
   Inserts a Job and an Event into the database. That Job must follow the format of
   JobSchema and the Event must follow the format of EventSchema.
@@ -321,7 +355,7 @@ Meteor.methods({
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(Roles.userIsInRole(this.userId,CONTRACTOR) ){
       let person = Meteor.users.findOne({_id : this.userId},{fields: { profile: 1 } });
-      if(!Roles.userIsInRole(this.userId,'free-job') && ('undefined' === typeof(person.profile.customer)))throw new Meteor.Error('403',NOTMADE);
+      if(!Roles.userIsInRole(this.userId,'free-job') && !Roles.userIsInRole(this.userId,'subscribe'))throw new Meteor.Error('403',NOTMADE);
 
 
       let things = Meteor.call('validateJob',newJobEvent);
@@ -476,13 +510,60 @@ Meteor.methods({
       job.applyemployeeIds.push(this.userId);
       let noCopies = new Set(job.applyemployeeIds);
       job.applyemployeeIds = Array.from(noCopies);
+<<<<<<< HEAD
+=======
     }
 
     let selector = {_id: jobId};
 
     Job.update(selector,{$set: job});
 
+    let notify = NotificationSchema.clean({});
+    notify.toWhomst = job.employerId;
+    notify.description = "Someone applied for the job you posted at "+ job.location.locationName;
+    notify.jobId = jobId;
+    notify.href = "job/"+jobId;
 
+    Meteor.call('createNotification',notify);
+
+
+
+  },
+  declineJob(jobId){
+    if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
+
+    let job = Job.findOne({_id: jobId});
+    if(!job)throw new Meteor.Error('403','Job was not found');
+
+    if(job.applyemployeeIds.includes(this.userId)){
+      let idx = job.applyemployeeIds.indexOf(this.userId);
+      if (idx != -1) { //Should always be true
+          job.applyemployeeIds.splice(idx,1);
+      }
+    }
+    if (job.admitemployeeIds.includes(this.userId)) {
+      let idx = job.admitemployeeIds.indexOf(this.userId);
+      if (idx != -1) { //Should always be true
+          job.admitemployeeIds.splice(idx,1);
+      }
+    }
+    if (job.declineemployeeIds.includes(this.userId)) {
+      return;
+    }else{
+      job.declineemployeeIds.push(this.userId);
+      let noCopies = new Set(job.declineemployeeIds);
+      job.declineemployeeIds = Array.from(noCopies);
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
+    }
+
+    let selector = {_id: jobId};
+
+    Job.update(selector,{$set: job});
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
   },
   declineEmployee(jobId,employeeId){
       if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
@@ -509,6 +590,8 @@ Meteor.methods({
         let noCopies = new Set(job.declineemployeeIds);
         job.declineemployeeIds = Array.from(noCopies);
       }
+<<<<<<< HEAD
+=======
 
       let selector = {_id: jobId};
 
@@ -540,10 +623,53 @@ Meteor.methods({
       job.admitemployeeIds = Array.from(noCopies);
     }
 
-    let selector = {_id: jobId};
+    let notify = NotificationSchema.clean({});
+    notify.toWhomst = employeeId;
+    notify.description = "You have been admitted to the job at "+ job.location.locationName;
+    notify.jobId =jobId;
+    notify.href = "job/"+jobId;
+
+    Meteor.call('createNotification',notify);
 
     Job.update(selector,{$set: job});
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
 
+      let selector = {_id: jobId};
+
+      Job.update(selector,{$set: job});
+  },
+  admiteEmployee(jobId,employeeId){
+    if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+
+    let job = Job.findOne({_id: jobId});
+    if(!job)throw new Meteor.Error('403','Job was not found');
+
+    if(job.applyemployeeIds.includes(employeeId)){
+      let idx = job.applyemployeeIds.indexOf(employeeId);
+      if (idx != -1) { //Should always be true
+          job.applyemployeeIds.splice(idx,1);
+      }
+    }
+    if(job.declineemployeeIds.includes(employeeId)){ //Shouldn't happen but incase
+      let idx = job.declineemployeeIds.indexOf(employeeId);
+      if (idx != -1) { //Should always be true
+          job.declineemployeeIds.splice(idx,1);
+      }
+    }
+    if (job.admitemployeeIds.includes(employeeId)) {
+      return;
+    }else{
+      job.admitemployeeIds.push(employeeId);
+      let noCopies = new Set(job.admitemployeeIds);
+      job.admitemployeeIds = Array.from(noCopies);
+    }
+
+
+<<<<<<< HEAD
+    Job.update(selector,{$set: job});
+
+=======
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
 
   },
   /**

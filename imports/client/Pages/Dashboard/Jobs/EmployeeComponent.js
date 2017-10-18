@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 export default class EmployeeComponent extends React.Component{
   constructor(props){
     super(props);
@@ -8,6 +8,7 @@ export default class EmployeeComponent extends React.Component{
   }
   handleDecline(){
     let job = this.props.jobInfo;
+<<<<<<< HEAD
     let employeeId = this.props.employeeId;
     let jobId = job._id;
 
@@ -16,14 +17,25 @@ export default class EmployeeComponent extends React.Component{
       console.log(err);
     }
     else{
+=======
+    let employeeId =  this.props.employeeId;
+    let jobId = job._id;
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
 
-    }
+    Meteor.call('declineEmployee',jobId,employeeId,(err)=>{
+      if(err){
+        console.log(err);
+      }
+      else{
+
+      }
     });
   }
   handleAdmit(){
     let job = this.props.jobInfo;
     let employeeId =  this.props.employeeId;
     let jobId = job._id;
+<<<<<<< HEAD
 
     Meteor.call('admiteEmployee',jobId,employeeId,(err)=>{
     if(err){
@@ -32,6 +44,16 @@ export default class EmployeeComponent extends React.Component{
     else{
 
     }
+=======
+
+    Meteor.call('admiteEmployee',jobId,employeeId,(err)=>{
+      if(err){
+        console.log(err);
+      }
+      else{
+
+      }
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
     });
   }
 
@@ -54,9 +76,11 @@ export default class EmployeeComponent extends React.Component{
           </div>
           <div className="row">
             <div className="col l6 m6 s12" style={{display:'flex', justifyContent:'center', padding:'4px'}}>
-              <button className="waves-effect waves-teal teal lighten-3 btn-flat">
-                View profile
-              </button>
+              <Link to={"user/" + this.props.employeeId}>
+                  <button className="waves-effect waves-teal teal lighten-3 btn-flat">
+                    View profile
+                  </button>
+              </Link>
             </div>
             {
               !this.props.isAdmitted &&

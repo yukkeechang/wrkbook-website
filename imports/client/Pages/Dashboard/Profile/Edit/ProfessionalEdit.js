@@ -17,7 +17,6 @@ export default class ProfessionalEdit extends Component{
     super(props);
     this.state={
       validImage: '',
-      shownlink: '/images/facebook.png',
       address: DEFAULT,
       lat: -100,
       lng: -100
@@ -79,7 +78,7 @@ export default class ProfessionalEdit extends Component{
     return(
       <div className="container">
         <div className="col l6 m6 s12">
-          <img id="profileImage" src={this.state.shownlink} height='350px' width='350px' style={{borderRadius:'350px'}}/>
+          <img id="profileImage" src={this.props.user.profile.employeeData.image} height='350px' width='350px' style={{borderRadius:'350px'}}/>
         </div>
         <div className="row">
           <div className="file-field input-field col l8 m8 s12">
@@ -144,14 +143,6 @@ export default class ProfessionalEdit extends Component{
               <option value="Vietnamese">Vietnamese</option>
             </select>
           </div>
-          <div className="input-field col l6 m6 s12">
-            <label className="active" htmlFor="facebook-link">Facebook link</label>
-            <input id="facebook-link" ref="facebookLink" value={this.props.user.profile.employeeData.facebookLink} type="text"/>
-          </div>
-          <div className="input-field col l6 m6 s12">
-            <label className="active" htmlFor="insta-link">Instagram link</label>
-            <input id="insta-link" ref="instaLink" value={this.props.user.profile.employeeData.instaLink} type="text"/>
-          </div>
           <div className="row">
             <div className="input-field col l12 m12 s12">
               <label className="active" htmlFor="c-about">About description</label>
@@ -159,7 +150,7 @@ export default class ProfessionalEdit extends Component{
             </div>
           </div>
           <div style={{display:'flex', justifyContent:'center'}}>
-            <a className="waves-effect waves-teal btn-flat" onClick={this.updateUser.bind(this)}>Create job</a>
+            <a className="waves-effect waves-teal btn-flat" onClick={this.updateUser.bind(this)}>Update Profile</a>
           </div>
           <div id="modal1" className="modal">
             <div className="modal-content">

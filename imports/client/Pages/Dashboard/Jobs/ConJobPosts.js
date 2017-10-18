@@ -14,21 +14,42 @@ class ContractorJobPosts extends React.Component{
   constructor(props){
     super(props);
     this.state={
-
+      loading1: false
     }
+
+
   }
+  handleChildLoad(isDone){
+
+    this.setState({loading1:isDone && true});
+  }
+
   render(){
-    if(!isEmpty(this.props.jobPost)){
+    if(!this.props.loading){
+      return (
+        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+          <MSpinner />
+        </div>
+      );
+    }
+    else if(!isEmpty(this.props.jobPost)){
       let jobz = this.props.jobPost;
       return(
         <div className="container">
           <br/>
           {jobz.map(function(job, index){
+
             return(
               <ConJobPostComponent
+<<<<<<< HEAD
                 key= {index}
                 jobinfo = {job}
                 index = {index}
+=======
+                handleChildLoad={this.handleChildLoad.bind(this)}
+                key={job._id}
+                jobinfo = {job}
+>>>>>>> 4170e989449958c53477b7255eafaee404db309f
                 events = {job.eventInfo}
                 title={job.jobTypes.texts}
                 startAt={job.startAt}
@@ -37,15 +58,9 @@ class ContractorJobPosts extends React.Component{
                 location={job.location}
                 pay={job.pay}
               />
+
             )
-          })}
-        </div>
-      );
-    }
-    else if(!this.props.loading){
-      return (
-        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
-          <MSpinner />
+          }.bind(this))}
         </div>
       );
     }
@@ -58,7 +73,7 @@ class ContractorJobPosts extends React.Component{
     }
   }
 }
-export default ConJobPosts = createContainer(({ params }) => {
+export default ConJobPosts = createContainer(( {props} ) => {
   let user = Meteor.user();
   let jobPost =[];
   let loading = false;
@@ -66,6 +81,7 @@ export default ConJobPosts = createContainer(({ params }) => {
   if(!('undefined' === typeof(user))){
     let handle = Meteor.subscribe('job-post-employer',user._id);
     loading = handle.ready();
+    console.log(loading);
     jobPost = Job.find({}).fetch();
   }
   return {

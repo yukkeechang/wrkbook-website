@@ -13,7 +13,7 @@ import {Link} from 'react-router-dom';
 
 //import Header from '../Shared/Header';
 
-export class ProfilePage extends React.Component {
+export class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +56,6 @@ export class ProfilePage extends React.Component {
   }
 
   // Change nav bar font size depending on screen width
-  //nav bar refers to the boxes ontop of the profile for about, contact, reviews, etc.
   updateNavBarText = () => {
     // Screen width
     let width = document.body.scrollWidth;
@@ -235,7 +234,7 @@ export class ProfilePage extends React.Component {
             {
               this.state.isPro ?
               <a
-                className={ "btn-flat center-align col " + (this.state.isPro ? "s3" : "s4") + " l2" }
+                className={ "btn-flat center-align col" + (this.state.isPro ? "s3" : "s4") + " l2" }
                 style = { this.state.certButtonActive ? styles.certOne :  styles.certTwo}
                 onClick={this.onCertClick}
                 >
@@ -265,7 +264,7 @@ export class ProfilePage extends React.Component {
               :
               null
             }
-            { this.state.reviewsDisplayed && <Reviews /> }
+            { this.state.reviewsDisplayed && <Reviews data={this.state.data} user={this.props.user}/> }
           </div>
         </div>
       </div>
@@ -273,11 +272,23 @@ export class ProfilePage extends React.Component {
   }
 }
 
-export default Profile = createContainer((props) => {
-  return {
-    user: Meteor.user()
-  };
-}, ProfilePage);
+export default OtherUser = createContainer((props) => {
+  console.log(props.match.params.value);
+  let user ={};
+  Meteor.call('findUserbyId',props.match.params.value,(err,res)=>{
+    if(err){
+        console.log(err);
+    }
+    else {
+      user = res;
+      console.log(user);
+    }
+
+  });
+
+
+
+}, Profile);
 
 
 

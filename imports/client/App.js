@@ -29,7 +29,7 @@ class Application extends Component {
                 <MSpinner/>
             </div>
         );
-        let page = this.props.loggingIn && this.props.user ? spinner : this.props.user ?  (
+        let page = this.props.loggingIn && !this.props.userId ? spinner : this.props.user ?  (
             <Route path="/" component={Dashboard}/>
         ) : (
             <Route render={({location})=>(
@@ -60,6 +60,7 @@ class Application extends Component {
 const App = createContainer((props) => {
     return {
         loggingIn: Meteor.loggingIn(),
+        userId: Meteor.userId(),
         user: Meteor.user()
     }
 }, Application);
