@@ -12,7 +12,8 @@ const WRONGMET ={
   incorrectMethod : true
 };
 const REVIEWERR ={
-  reviewNotMade : true
+  notmade : true,
+
 };
 //Defines a collection with the name "reviews"
 Review  = new Mongo.Collection('reviews');
@@ -26,15 +27,11 @@ Review.attachSchema(ReviewSchema);
 */
 Meteor.publish('reviews-for-user',function (revieweeId) {
   check(revieweeId,String)
-  if(!this.userId || !Roles.userIsInRole(revieweeId,PROFESSIONAL)){
-    this.stop();
-    throw new Meteor.Error('401',NOTAUTH);
-  }
   if(this.userId === revieweeId){
     this.stop();
     throw new Meteor.Error('403',WRONGMET)
   }
-  this.ready();
+
   return Review.find({ revieweeId: revieweeId});
 });
 
@@ -51,10 +48,6 @@ Meteor.publish('reviews-by-user',function (reviewerId) {
     this.stop();
     throw new Meteor.Error('401',NOTAUTH);
   }
-  if(this.userId === reviewerId){
-    this.stop();
-    throw new Meteor.Error('403',WRONGMET)
-  }
   this.ready();
   return Review.find({ reviewerId: reviewerId});
 });
@@ -65,12 +58,14 @@ Meteor.publish('reviews-by-user',function (reviewerId) {
 *
 */
 Meteor.publish('reviews-for-you',function(){
-  if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)){
+  console.log("say things");
+  if(!this.userId){
     this.stop();
     throw new Meteor.Error('401',NOTAUTH);
   }
-  return Review.find({revieweeId:this.userId})
 
+
+  return Review.find({revieweeId:this.userId});;
 });
 /**
 *
@@ -83,7 +78,7 @@ Meteor.publish('reviews-by-you',function(){
     this.stop();
     throw new Meteor.Error('401',NOTAUTH);
   }
-  return Review.find({reviewerId:this.userId})
+  return Review.find({reviewerId:this.userId});
 })
 
 Meteor.methods({
@@ -107,7 +102,7 @@ Meteor.methods({
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
-    if(Roles.userIsInRole(newReview.revieweeId,CONTRACTOR)) throw new Meteor.Error('403',REVIEWERR);
+    if (newReview.revieweeId === this.userId) throw new Meteor.Error('403',REVIEWERR)
     if(isCON && Roles.userIsInRole(newReview.revieweeId,PROFESSIONAL)){
       //make an array of one user id to compare to another array
       let hackIdThing = [];
@@ -133,6 +128,17 @@ Meteor.methods({
       if(!prevWorked) throw new Meteor.Error('403',REVIEWERR);
 
     }
+    if(isPRO &&  Roles.userIsInRole(newReview.revieweeId,CONTRACTOR)){
+      let hackIdThing = [];
+      hackIdThing[0] = this.userId;
+      let cursor = Job.find({
+        $and :[{employerId: newReview.revieweeId},{admitemployeeIds: {$in: hackIdThing}}]
+      });
+      let workedOnJobs = cursor.count() > 0 ? true : false;
+      if(!workedOnJobs) throw new Meteor.Error('403',REVIEWERR);
+    }
+
+
     Review.insert(newReview);
   },
 

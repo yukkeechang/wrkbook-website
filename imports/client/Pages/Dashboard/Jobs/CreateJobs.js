@@ -68,7 +68,7 @@ export default class CreateJobs extends Component {
       let job = JobSchema.clean({});
       let location = LocationSchema.clean({});
       let jobtypes = $('#jobTitles').val();
-      console.log(jobtypes);
+
       const description = this.refs.jobDescription.value.trim();
       const additionText = this.refs.additionalText.value.trim();
       location = loc.location;
@@ -84,11 +84,7 @@ export default class CreateJobs extends Component {
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
-      let newJob = {
-        job: job
-      };
-      console.log(newJob);
-      console.log(job);
+
       Meteor.call('createJob',job,(res,err)=>{
           if(err){
             console.log(err.reason);

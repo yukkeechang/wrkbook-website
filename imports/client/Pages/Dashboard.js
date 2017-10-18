@@ -6,6 +6,7 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Profile from './Dashboard/Profile/Profile';
+import OtherUser from './Dashboard/Profile/OtherUser'
 import Jobs from './Dashboard/Jobs/Jobs';
 import Home from './Dashboard/Home/Home';
 import Edit from './Dashboard/Profile/Edit/Edit';
@@ -47,6 +48,8 @@ class Dash extends Component{
                 <Route exact path="/" render={()=><Home date={this.state.thisDatu} changeDate={this.setDate.bind(this)}/>}/>
                 <Route exact path="/jobs" component={Jobs}/>
                 <Route exact path="/profile" component={Profile}/>
+                <Route exact path="/user/:value" component={OtherUser}/>
+
                 <Route exact path="/references" component={References}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob/:value" component={EditJobs}/>

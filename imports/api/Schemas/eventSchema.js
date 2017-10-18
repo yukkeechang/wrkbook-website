@@ -3,6 +3,7 @@ import ImportantSchema from './importanceSchema'
 
 //https://wiki.mozilla.org/Calendar:Sql_Calendar_Schema
 SimpleSchema.messages({
+  "pastDate":"Can't make a start date before today",
   "beginDate": "BEGIN DATE IS SET AFTER END DATE",
   "endDATE" :"END DATE IS SET BEFORE BEGIN DATE",
   "interval": "The interval is not valid given the recurring type"
@@ -23,11 +24,14 @@ export default  EventSchema = new SimpleSchema({
     custom: function(){
 
       let endAtInfo = this.field('endAt');
-
+      let todaysDate = new Date();
       if(this.isSet && endAtInfo.isSet){
         if(this.value > endAtInfo.value){
 
           return "beginDate";
+        }
+        if(this.value < todaysDate){
+          return "pastDate";
         }
 
       }
