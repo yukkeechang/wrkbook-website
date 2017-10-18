@@ -1,44 +1,31 @@
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
-import {PROFESSIONAL} from '../../../../api/Schemas/employeeSchema';
-import {CONTRACTOR} from '../../../../api/Schemas/employerSchema';
+import {PROFESSIONAL} from '../../../../../api/Schemas/employeeSchema';
+import {CONTRACTOR} from '../../../../../api/Schemas/employerSchema';
 import GeneralInfo from './Components/GeneralInfo';
 import About from './Components/About';
 import Contact from './Components/Contact';
-import Cert from './Components/Certifications';
-import Payment from './Components/Payment';
 import Reviews from './Components/Reviews';
 import { createContainer } from 'meteor/react-meteor-data';
 import {Link} from 'react-router-dom';
 
 //import Header from '../Shared/Header';
 
-export class ProfilePage extends React.Component {
+export class ConProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       aboutDisplayed: true,
       contactDisplayed: false,
-      certDisplayed: false,
       paymentDisplayed: false,
       reviewsDisplayed: false,
       aboutButtonActive: true,
       contactButtonActive: false,
-      certButtonActive: false,
       paymentButtonActive: false,
       reviewsButtonActive: false,
       navBarTextSize: 12,
       mainProfileSize: "100%",
       mainProfileCentered: false,
-
-    }
-    const {user} = this.props
-    console.log(user)
-    this.state = {user: user}
-    if (user.roles[0] === "PRO") {
-      this.state = {isPro: true}
-    } else if (user.roles[0] === "CON"){
-      this.state = {isPro: false}
     }
   }
 
@@ -63,7 +50,7 @@ export class ProfilePage extends React.Component {
 
     if (width >= 600) {
       this.setState({
-        navBarTextSize: 12,
+        navBarTextSize: 14,
       });
     } else if (width >= 375){
       this.setState({
@@ -110,13 +97,9 @@ export class ProfilePage extends React.Component {
     this.setState({
       aboutDisplayed: true,
       contactDisplayed: false,
-      certDisplayed: false,
-      paymentDisplayed: false,
       reviewsDisplayed: false,
       aboutButtonActive: true,
       contactButtonActive: false,
-      certButtonActive: false,
-      paymentButtonActive: false,
       reviewsButtonActive: false,
     });
   }
@@ -125,43 +108,9 @@ export class ProfilePage extends React.Component {
     this.setState({
       aboutDisplayed: false,
       contactDisplayed: true,
-      certDisplayed: false,
-      paymentDisplayed: false,
       reviewsDisplayed: false,
       aboutButtonActive: false,
       contactButtonActive: true,
-      certButtonActive: false,
-      paymentButtonActive: false,
-      reviewsButtonActive: false,
-    });
-  }
-
-  onCertClick = () => {
-    this.setState({
-      aboutDisplayed: false,
-      contactDisplayed: false,
-      certDisplayed: true,
-      paymentDisplayed: false,
-      reviewsDisplayed: false,
-      aboutButtonActive: false,
-      contactButtonActive: false,
-      certButtonActive: true,
-      paymentButtonActive: false,
-      reviewsButtonActive: false,
-    });
-  }
-
-  onPaymentClick = () => {
-    this.setState({
-      aboutDisplayed: false,
-      contactDisplayed: false,
-      certDisplayed: false,
-      paymentDisplayed: true,
-      reviewsDisplayed: false,
-      aboutButtonActive: false,
-      contactButtonActive: false,
-      certButtonActive: false,
-      paymentButtonActive: true,
       reviewsButtonActive: false,
     });
   }
@@ -170,19 +119,14 @@ export class ProfilePage extends React.Component {
     this.setState({
       aboutDisplayed: false,
       contactDisplayed: false,
-      certDisplayed: false,
       paymentDisplayed: false,
       reviewsDisplayed: true,
       aboutButtonActive: false,
       contactButtonActive: false,
-      certButtonActive: false,
       paymentButtonActive: false,
       reviewsButtonActive: true,
     });
   }
-
-
-
 
   render() {
     let image;
@@ -191,7 +135,7 @@ export class ProfilePage extends React.Component {
         <div
           className="row gray-div"
         >
-        <Link to={"/edit"} className="btn red">
+        <Link to={"/edit"} className="btn">
           <div className="col s12 m12 l12">
               <i className="material-icons left edit-profile-button">
                   settings
@@ -224,7 +168,7 @@ export class ProfilePage extends React.Component {
               About
             </a>
             <a
-              className={ "btn-flat center-align col " + (this.state.isPro ? "s3" : "s4") + " l2" }
+              className={"btn-flat center-align col  s4 l2"}
               style = { this.state.contactButtonActive ?
                 { borderLeft: "solid #F0F0F0 5px", boxShadow: "none", padding: 0, fontSize: this.state.navBarTextSize, textTransform: "none", color: "#10A96D", backgroundColor: 'white' } :
                 { borderBottom: "solid #F0F0F0 5px", borderLeft: "solid #F0F0F0 5px", boxShadow: "none", padding: 0, fontSize: this.state.navBarTextSize, textTransform: "none", color: "black", backgroundColor: 'white' }
@@ -232,18 +176,8 @@ export class ProfilePage extends React.Component {
               onClick={this.onContactClick}>
               Contact
             </a>
-            {
-              this.state.isPro ?
-              <a
-                className={ "btn-flat center-align col " + (this.state.isPro ? "s3" : "s4") + " l2" }
-                style = { this.state.certButtonActive ? styles.certOne :  styles.certTwo}
-                onClick={this.onCertClick}
-                >
-                Certifications
-              </a> : null
-            }
             <a
-              className={" btn-flat center-align col " + (this.state.isPro ? "s3" : "s4") + " l2" }
+              className={"btn-flat center-align col  s4 l2"}
               style = { this.state.reviewsButtonActive ? styles.certOne : styles.certTwo }
               onClick={this.onReviewsClick}>
               Reviews
@@ -252,19 +186,12 @@ export class ProfilePage extends React.Component {
         </div>
         <div className="row">
           <div className="col s12 m12 l3">
-            <GeneralInfo onReviewsClick={this.onReviewsClick} user={this.props.user} isPro={this.state.isPro} />
+            <GeneralInfo onReviewsClick={this.onReviewsClick} user={this.props.user} />
           </div>
           <div className="col s12 m12 l9">
             {/* Show tab content only if corresponding state is set to true */}
-            { this.state.aboutDisplayed && <About user={this.props.user} isPro={ this.state.isPro }   /> }
-            { this.state.contactDisplayed && <Contact isPro={ this.state.isPro } user={this.props.user} /> }
-            {
-              this.state.isPro
-              ?
-              this.state.certDisplayed && <Cert user={this.props.user} />
-              :
-              null
-            }
+            { this.state.aboutDisplayed && <About user={this.props.user}/> }
+            { this.state.contactDisplayed && <Contact  user={this.props.user} /> }
             { this.state.reviewsDisplayed && <Reviews data={this.state.data} user={this.props.user}/> }
           </div>
         </div>
@@ -273,11 +200,11 @@ export class ProfilePage extends React.Component {
   }
 }
 
-export default Profile = createContainer((props) => {
+export default ConProfile = createContainer((props) => {
   return {
     user: Meteor.user()
   };
-}, ProfilePage);
+},  ConProfilePage);
 
 
 

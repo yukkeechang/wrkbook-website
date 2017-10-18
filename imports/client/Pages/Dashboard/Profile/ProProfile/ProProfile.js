@@ -1,7 +1,7 @@
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
-import {PROFESSIONAL} from '../../../../api/Schemas/employeeSchema';
-import {CONTRACTOR} from '../../../../api/Schemas/employerSchema';
+import {PROFESSIONAL} from '../../../../../api/Schemas/employeeSchema';
+import {CONTRACTOR} from '../../../../../api/Schemas/employerSchema';
 import GeneralInfo from './Components/GeneralInfo';
 import About from './Components/About';
 import Contact from './Components/Contact';
@@ -13,7 +13,7 @@ import {Link} from 'react-router-dom';
 
 //import Header from '../Shared/Header';
 
-export class ProfilePage extends React.Component {
+export class ProProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -214,7 +214,7 @@ export class ProfilePage extends React.Component {
             </div>
             <div className="col s12 m12 l9">
             <a
-              className={"btn-flat center-align col  s4 l2"}
+              className={ "btn-flat center-align col " + (this.state.isPro ? "s3" : "s4") + " l2" }
               // Change button text color if it is active
               style = { this.state.aboutButtonActive ?
                 { borderLeft: "solid #F0F0F0 5px", boxShadow: "none", padding: 0, fontSize: this.state.navBarTextSize, textTransform: "none", color: "#10A96D", backgroundColor: 'white' } :
@@ -273,14 +273,11 @@ export class ProfilePage extends React.Component {
   }
 }
 
-export default Profile = createContainer((props) => {
+export default ProProfile = createContainer((props) => {
   return {
     user: Meteor.user()
   };
-}, ProfilePage);
-
-
-
+}, ProProfilePage);
 
 
 let styles = {
