@@ -50,8 +50,7 @@ class DisplayReviews extends React.Component {
     else{
       return(
         <div>
-        //<EmployerNoUpcomingJobs/>
-        No jobs
+          No Reviews
         </div>
       );
     }
@@ -75,3 +74,4 @@ export default Reviews = createContainer(({ params }) => {
     reviews:reviews
   };
 }, DisplayReviews);
+
