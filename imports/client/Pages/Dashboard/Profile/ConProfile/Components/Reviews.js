@@ -2,7 +2,7 @@ import React from 'react';
 import Rating from './Rating';
 import { createContainer } from 'meteor/react-meteor-data';
 import ReviewCard from './ReviewCard';
-import MSpinner from '../../../Shared/MSpinner';
+import MSpinner from '../../../../Shared/MSpinner';
 
 
 function isEmpty(obj) {
@@ -28,11 +28,10 @@ class DisplayReviews extends React.Component {
             return(
 
                 <ReviewCard
-                  key={review._id}
-                  companyName={review.companyName.text}
-                  date={review.createdAt.toLocaleString()}
-                  rating={review.rating}
-                  details={review.review.text}
+                  companyName={"Mike Construction Corporation"}
+                  date={"5/1/17"}
+                  rating={review.review}
+                  details={"Mike was very efficient with his job. He did a decent job with the plastering and was very neat with her work. Will definitely hire him again!"}
                 />
 
             )
@@ -50,7 +49,8 @@ class DisplayReviews extends React.Component {
     else{
       return(
         <div>
-          No Reviews
+        //<EmployerNoUpcomingJobs/>
+        No jobs
         </div>
       );
     }
@@ -58,20 +58,20 @@ class DisplayReviews extends React.Component {
 }
 
 export default Reviews = createContainer(({ params }) => {
-
+  let user = Meteor.user();
   let reviews =[];
   let loading = false;
-  let handle = Meteor.subscribe('reviews-for-you');
-  loading = handle.ready();
-  reviews = Review.find({}).fetch();
-  console.log("################1");
-  console.log(reviews);
 
-
-
+  if(!('undefined' === typeof(user))){
+    let handle = Meteor.subscribe('reviews-for-user',user._id);
+    loading = handle.ready();
+    reviews = Review.find({}).fetch();
+    console.log("################1");
+    console.log(reviews);
+  }
   return {
+    user: user,
     loading:loading,
     reviews:reviews
   };
 }, DisplayReviews);
-

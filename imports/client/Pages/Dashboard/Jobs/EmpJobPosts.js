@@ -18,7 +18,6 @@ class EmployeeJobPosts extends React.Component{
   render(){
 
     if(!isEmpty(this.props.jobPost)){
-
       let jobz = this.props.jobPost;
       return(
         <div>
@@ -26,8 +25,9 @@ class EmployeeJobPosts extends React.Component{
           {jobz.map(function(job, index){
             return(
               <EmpJobPostComponent
-                key={index}
-                jobinfo ={job}
+                key={job._id}
+                jobinfo = {job}
+                events = {job.eventInfo}
                 title={job.jobTitle.text}
                 startAt={job.startAt}
                 endAt={job.endAt}
@@ -65,7 +65,6 @@ export default EmpJobPosts = createContainer(({ params }) => {
     let handle = Meteor.subscribe('job-post',user.profile.employeeData);
     loading = handle.ready();
     jobPost = Job.find({}).fetch();
-
 
   }
   return{

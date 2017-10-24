@@ -159,10 +159,33 @@ Meteor.publish('active-jobs-admin',function(){
 
 });
 
+
 Meteor.publish('all-jobs',function(){
-  return Job.find({});
+  if (Roles.userIsInRole(this.userId,'admin')) {
+    return Job.find({});
+  }else{
+    this.stop();
+    return;
+  }
 });
 
+Meteor.publish('active-job-con',function(){
+  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+    return Job.find({employerId:this.userId,isOpen: true});
+  }else {
+    this.stop();
+    return;
+  }
+});
+
+Meteor.publish('closed-job-con',function(){
+  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+    return Job.find({employerId:this.userId,isOpen: false});
+  }else {
+    this.stop();
+    return;
+  }
+});
 Meteor.publish('apply-employee-job',function(jobId){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
 
@@ -314,6 +337,11 @@ Meteor.methods({
 
 
   },
+
+  sendNotificationsToPotential(jobObject){
+
+
+  },
   /**
   Inserts a Job and an Event into the database. That Job must follow the format of
   JobSchema and the Event must follow the format of EventSchema.
@@ -329,7 +357,7 @@ Meteor.methods({
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(Roles.userIsInRole(this.userId,CONTRACTOR) ){
       let person = Meteor.users.findOne({_id : this.userId},{fields: { profile: 1 } });
-      if(!Roles.userIsInRole(this.userId,'free-job') && ('undefined' === typeof(person.profile.customer)))throw new Meteor.Error('403',NOTMADE);
+      if(!Roles.userIsInRole(this.userId,'free-job') && !Roles.userIsInRole(this.userId,'subscribe'))throw new Meteor.Error('403',NOTMADE);
 
 
       let things = Meteor.call('validateJob',newJobEvent);
@@ -372,9 +400,7 @@ Meteor.methods({
   /**
   ------------------------------------------------------------------------------
   ------------------------------------------------------------------------------
-
   THIS FUNCTION WILL HAVE TO BE CHANGE TO MAKE THE SCHEMA CHANGES
-
   -----------------------------------------------------------------------------
   -----------------------------------------------------------------------------
   Updates a JobPost that was already inserted into the database. If the JobPost
@@ -503,6 +529,36 @@ Meteor.methods({
 
 
   },
+  declineJob(jobId){
+    if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
+
+    let job = Job.findOne({_id: jobId});
+    if(!job)throw new Meteor.Error('403','Job was not found');
+
+    if(job.applyemployeeIds.includes(this.userId)){
+      let idx = job.applyemployeeIds.indexOf(this.userId);
+      if (idx != -1) { //Should always be true
+          job.applyemployeeIds.splice(idx,1);
+      }
+    }
+    if (job.admitemployeeIds.includes(this.userId)) {
+      let idx = job.admitemployeeIds.indexOf(this.userId);
+      if (idx != -1) { //Should always be true
+          job.admitemployeeIds.splice(idx,1);
+      }
+    }
+    if (job.declineemployeeIds.includes(this.userId)) {
+      return;
+    }else{
+      job.declineemployeeIds.push(this.userId);
+      let noCopies = new Set(job.declineemployeeIds);
+      job.declineemployeeIds = Array.from(noCopies);
+    }
+
+    let selector = {_id: jobId};
+
+    Job.update(selector,{$set: job});
+  },
   declineEmployee(jobId,employeeId){
       if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
 
@@ -559,10 +615,6 @@ Meteor.methods({
       job.admitemployeeIds = Array.from(noCopies);
     }
 
-    let selector = {_id: jobId};
-
-    Job.update(selector,{$set: job});
-
     let notify = NotificationSchema.clean({});
     notify.toWhomst = employeeId;
     notify.description = "You have been admitted to the job at "+ job.location.locationName;
@@ -570,6 +622,41 @@ Meteor.methods({
     notify.href = "job/"+jobId;
 
     Meteor.call('createNotification',notify);
+
+    Job.update(selector,{$set: job});
+
+      let selector = {_id: jobId};
+
+      Job.update(selector,{$set: job});
+  },
+  admiteEmployee(jobId,employeeId){
+    if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+
+    let job = Job.findOne({_id: jobId});
+    if(!job)throw new Meteor.Error('403','Job was not found');
+
+    if(job.applyemployeeIds.includes(employeeId)){
+      let idx = job.applyemployeeIds.indexOf(employeeId);
+      if (idx != -1) { //Should always be true
+          job.applyemployeeIds.splice(idx,1);
+      }
+    }
+    if(job.declineemployeeIds.includes(employeeId)){ //Shouldn't happen but incase
+      let idx = job.declineemployeeIds.indexOf(employeeId);
+      if (idx != -1) { //Should always be true
+          job.declineemployeeIds.splice(idx,1);
+      }
+    }
+    if (job.admitemployeeIds.includes(employeeId)) {
+      return;
+    }else{
+      job.admitemployeeIds.push(employeeId);
+      let noCopies = new Set(job.admitemployeeIds);
+      job.admitemployeeIds = Array.from(noCopies);
+    }
+
+
+    Job.update(selector,{$set: job});
 
 
   },
