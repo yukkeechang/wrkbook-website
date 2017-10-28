@@ -69,10 +69,16 @@ class Dash extends Component{
                 <Route exact path="/employeecomponent" component={employeeComponent}/>
                 <Route exact path="/edit" component={Edit}/>
                 <Route path="/settings" component={Settings}/>
+<<<<<<< HEAD
                 <Route path="/settings/payment" component={Payment}/>
                 <Route path="/proprofile" component={ProProfile}/>
                 <Route path="/conprofile" component={ConProfile}/>
                 <Route exact path="/edit" component={Edit}/>
+=======
+                <Route path="/proprofile" component={Edit}/>
+                <Route path="/conprofile" component={Edit}/>
+ 
+>>>>>>> testing
                 <Route path="*" component={NotFound}/>
                 </Switch>
 
