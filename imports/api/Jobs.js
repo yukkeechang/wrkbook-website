@@ -169,9 +169,35 @@ Meteor.publish('all-jobs',function(){
   }
 });
 
-Meteor.publish('active-job-con',function(){
+Meteor.publish('upcoming-job-con',function(){
+  let currentDate = new Date();
+  let jobIDarray = [];
+  let count =0;
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    return Job.find({employerId:this.userId,isOpen: true});
+   let events = Event.find({owner:this.userId,startAt:{$gt: currentDate}});
+   events.foeEach((eventy =>{
+     jobIDarray[count] = eventy.jobId;
+     count += 1;
+   }));
+   return Job.find({_id: {$in: jobIDarray } , isOpen:true});
+  }else {
+    this.stop();
+    return;
+  }
+});
+
+
+Meteor.publish('current-job-con',function(){
+  let currentDate = new Date();
+  let jobIDarray = [];
+  let count =0;
+  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+   let events = Event.find({owner:this.userId,startAt:{$lt: currentDate}});
+   events.foeEach((eventy =>{
+     jobIDarray[count] = eventy.jobId;
+     count += 1;
+   }));
+   return Job.find({_id: {$in: jobIDarray } , isOpen:true});
   }else {
     this.stop();
     return;
