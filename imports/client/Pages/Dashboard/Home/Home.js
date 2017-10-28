@@ -8,7 +8,7 @@ import 'rc-select/assets/index.css';
 import Select from 'rc-select';
 import moment from 'moment';
 const now = moment();
-
+import ReviewSchema from  '../../../../api/Schemas/reviewSchema';
 import ConfirmationsCard from './Components/ConfirmationsCard';
 import JobDetailModal from './Components/JobDetailModal';
 import HourRow from './Components/HourRow';
@@ -44,6 +44,7 @@ class HomePage extends React.Component {
     let dateToday = new Date();
     dateTodayParsed = this.parseDate(dateToday);
     this.renderDailyAgenda(dateToday, dateTodayParsed);
+
   }
 
   // Change card positions depending on screen width
@@ -333,28 +334,24 @@ class HomePage extends React.Component {
             className="center-align"
             style={{ margin: 0, padding: 0 }}
           >
-            New Job Confirmations/Job Matches
+            Notifications
           </p>
-          <ConfirmationsCard
-            jobTitle={"Plumber needed to fix apartment water system"}
-            matchType={"New Match!"}
-          />
-          <ConfirmationsCard
-            jobTitle={"Plumber needed to fix house bathroom"}
-            matchType={"New Confirmation!"}
-          />
-          <ConfirmationsCard
-            jobTitle={"Need plumber to fix sink"}
-            matchType={"New Match!"}
-          />
-          <ConfirmationsCard
-            jobTitle={"Need plumber to fix sink"}
-            matchType={"New Match!"}
-          />
-          <ConfirmationsCard
-            jobTitle={"Need plumber to fix sink"}
-            matchType={"New Match!"}
-          />
+          <div>
+          { this.props.notifies.length >0 ?
+            this.props.notifies.map(function(notify,index){
+              return(
+                <ConfirmationsCard
+                  jobTitle={notify.description}
+                  matchType={"THINGZ"}
+                />
+              )
+            })
+            :
+            <h3> No New Notifications</h3>
+          }
+          </div>
+
+
         </div>
       </div>
     );
@@ -401,9 +398,13 @@ class HomePage extends React.Component {
 }
 export default Home = createContainer((props) => {
   let handle = Meteor.subscribe('today-events', props.date);
+
+  let handle2 = Meteor.subscribe('notifications-for-user');
+  let ready2 = handle2.ready();
   let ready = handle.ready();
   return {
-    ready: ready,
-    myEvents: Event.find({}).fetch()
+    ready: ready && ready2,
+    myEvents: Event.find({}).fetch(),
+    notifies : Notification.find({}).fetch()
   };
 }, HomePage);

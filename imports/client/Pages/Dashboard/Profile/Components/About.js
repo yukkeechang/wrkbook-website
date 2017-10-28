@@ -24,7 +24,7 @@ export default class About extends React.Component {
       <div>
       <p>Education Level:</p>
       <p>{highGED ? " High School/GED" : null }</p>
-      <p>{tradeSchool ? " Trade School" : null }</p>
+      <p>{tradeSchool.wentToSchool ? " Trade School" : null }</p>
       <p>{higherEdu ? " Higher Education" : null }</p>
       </div>
     )
@@ -85,3 +85,4 @@ export default class About extends React.Component {
     )
   }
 }
+

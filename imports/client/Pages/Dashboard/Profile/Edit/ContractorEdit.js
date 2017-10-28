@@ -79,7 +79,7 @@ export default class ContractorEdit extends Component{
     return(
       <div className="container">
         <div className="col l6 m6 s12">
-          <img src="/images/facebook.png" height='350px' width='350px' style={{borderRadius:'350px'}}/>
+          <img src={this.props.user.profile.employerData.image} height='350px' width='350px' style={{borderRadius:'350px'}}/>
         </div>
         <div className="row">
           <div className="file-field input-field col l8 m8 s12">
@@ -109,41 +109,6 @@ export default class ContractorEdit extends Component{
               <input id="c-email" ref="email" value={this.props.user.profile.email} type="text"/>
               <label className="active" htmlFor="c-email">Email</label>
             </div>
-          </div>
-          <div className="input-field col l6 m6 s12">
-            <select id="languagesSpoken">
-              <option value="" disabled selected>Languages spoken</option>
-              <option value="Arabic">Arabic</option>
-              <option value="Chinese">Chinese</option>
-              <option value="English">English</option>
-              <option value="French">French</option>
-              <option value="German">German</option>
-              <option value="Hindi">Hindi</option>
-              <option value="Italian">Italian</option>
-              <option value="Korean">Korean</option>
-              <option value="Polish">Polish</option>
-              <option value="Portuguese">Portuguese</option>
-              <option value="Russian">Russian</option>
-              <option value="Spanish">Spanish</option>
-              <option value="Tagalog">Tagalog</option>
-              <option value="Vietnamese">Vietnamese</option>
-            </select>
-          </div>
-          <div className="input-field col l6 m6 s12">
-            <input id="website-link" ref="websiteLink" defaultValue={this.props.user.profile.employerData.webPage} type="text"/>
-            <label className="active" htmlFor="website-link">Website link</label>
-          </div>
-          <div className="input-field col l6 m6 s12">
-            <input id="website-link" ref="websiteLink" defaultValue={this.props.user.profile.employerData.webPage} type="text"/>
-            <label className="active" htmlFor="website-link">Facebook link</label>
-          </div>
-          <div className="input-field col l6 m6 s12">
-            <input id="website-link" ref="websiteLink" defaultValue={this.props.user.profile.employerData.webPage} type="text"/>
-            <label className="active" htmlFor="website-link">Instagram link</label>
-          </div>
-          <div className="input-field col l6 m6 s12">
-            <textarea id="c-about" ref="about" defaultValue={this.props.user.profile.employerData.about.text} className="materialize-textarea"></textarea>
-            <label className="active" htmlFor="c-about">About description</label>
           </div>
           <div style={{display:'flex', justifyContent:'center'}}>
             <button data-target="modal1" className="btn modal-trigger">Update profile</button>

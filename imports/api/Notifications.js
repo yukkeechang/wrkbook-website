@@ -10,22 +10,16 @@ import {CONTRACTOR} from './Schemas/employerSchema';
 Notification = new Mongo.Collection('notifications');
 Notification.attachSchema(NotificationSchema);
 
-Meteor.publish('employer-notify',function(){
-  if(Roles.userIsInRole(this.userId,CONTRACTOR)){
+Meteor.publish('notifications-for-user',function(){
+  if(Roles.userIsInRole(this.userId,CONTRACTOR)||
+  Roles.userIsInRole(this.userId,PROFESSIONAL)){
     return Notification.find({toWhomst: this.userId});
   }else{
     this.stop();
     return;
   }
 });
-Meteor.publish('employee-notify',function(){
-  if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
-    return Notification.find({toWhomst: this.userId});
-  }else{
-    this.stop();
-    return;
-  }
-});
+
 
 Meteor.methods({
   createNotification(newNotify){

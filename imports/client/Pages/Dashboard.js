@@ -6,10 +6,15 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Profile from './Dashboard/Profile/Profile';
+import OtherUser from './Dashboard/Profile/OtherUser'
 import Jobs from './Dashboard/Jobs/Jobs';
 import Home from './Dashboard/Home/Home';
+import NotFound from '../Pages/NotFound';
+
 
 import Edit from './Dashboard/Profile/Edit/Edit';
+import Settings from './Dashboard/Settings/Settings';
+
 
 
 // For testing
@@ -22,12 +27,11 @@ import JobPostAdmit from './Dashboard/Jobs/EmpJobPostAdmit';
 import EmpJobPostComponent from './Dashboard/Jobs/EmpJobPostComponent';
 import EmpJobPosts from './Dashboard/Jobs/EmpJobPosts';
 import employeeComponent from './Dashboard/Jobs/EmployeeComponent';
-import ContractorEdit from './Dashboard/Settings/Edit/ContractorEdit';
-import ProfessionalEdit from './Dashboard/Settings/Edit/ProfessionalEdit';
-
 import References from './Dashboard/References'
-//import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
+import ConProfile from './Dashboard/Profile/ConProfile/ConProfile';
+import ProProfile from './Dashboard/Profile/ProProfile/ProProfile';
 
+//import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
 
 class Dash extends Component{
     constructor(props){
@@ -47,24 +51,29 @@ class Dash extends Component{
             <div>
                 <Header full={false}/>
                 <div style={{height:'64px'}}></div>
+                <Switch>
                 <Route exact path="/" render={()=><Home date={this.state.thisDatu} changeDate={this.setDate.bind(this)}/>}/>
                 <Route exact path="/jobs" component={Jobs}/>
                 <Route exact path="/profile" component={Profile}/>
-
+                <Route exact path="/user/:value" component={OtherUser}/>
 
                 <Route exact path="/references" component={References}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob/:value" component={EditJobs}/>
-
                 <Route exact path="/events" component={DummyEvents}/>
                 <Route exact path="/conjobpostcomponent" component={ConJobPostComponent}/>
                 <Route exact path="/conjobposts" component={ConJobPosts}/>
                 <Route exact path="/empjobposts" component={EmpJobPosts}/>
                 <Route exact path="/employeejobpostsadmit" component={JobPostAdmit}/>
                 <Route exact path="/employeecomponent" component={employeeComponent}/>
-                <Route exact path="/editprofessional" component={ProfessionalEdit}/>
-                <Route exact path="/editcontractor" component={ContractorEdit}/>
-                <Route exact path="/settings" component={Edit}/>
+                <Route exact path="/edit" component={Edit}/>
+                <Route path="/settings" component={Settings}/>
+                <Route path="/proprofile" component={Edit}/>
+                <Route path="/conprofile" component={Edit}/>
+ 
+                <Route path="*" component={NotFound}/>
+                </Switch>
+
 
                     {/*
                         Add in whatever pages' route

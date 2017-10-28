@@ -1,65 +1,37 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 export default class EmployeeComponent extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+    }
+  }
   handleDecline(){
     let job = this.props.jobInfo;
-    let declineemployeeIds = [];
-    let employeeId = this.props.employeeId;
+    let employeeId =  this.props.employeeId;
     let jobId = job._id;
-    if(job.admitemployeeIds.includes(employeeId)){
-      let idx = job.admitemployeeIds.indexOf(employeeId);
-      job.admitemployeeIds.splice(idx, 1);
-    }
-    if(job.applyemployeeIds.includes(employeeId)){
-      let idx = job.applyemployeeIds.indexOf(employeeId);
-      job.applyemployeeIds.splice(idx, 1);
-    }
-    declineemployeeIds = job.declineemployeeIds;
-    declineemployeeIds[declineemployeeIds.length] = this.props.employeeId;
-    let set = new Set(declineemployeeIds);
-    declineemployeeIds = Array.from(set);
-    let empolyeeIds ={
-      apply: job.applyemployeeIds,
-      decline: job.declineemployeeIds,
-      admit: job.admitemployeeIds
-    };
-    Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
-    if(err){
-      console.log(err);
-    }
-    else{
 
-    }
+    Meteor.call('declineEmployee',jobId,employeeId,(err)=>{
+      if(err){
+        console.log(err);
+      }
+      else{
+
+      }
     });
   }
   handleAdmit(){
     let job = this.props.jobInfo;
     let employeeId =  this.props.employeeId;
-    let applyemployeeIds = [];
     let jobId = job._id;
-    if(job.applyemployeeIds.includes(employeeId)){
-      let idx = job.applyemployeeIds.indexOf(employeeId);
-      job.applyemployeeIds.splice(idx, 1);
-      console.log(job.applyemployeeIds);
-    }
-    admitemployeeIds = job.admitemployeeIds;
-    admitemployeeIds[admitemployeeIds.length] = employeeId;
-    let set = new Set(admitemployeeIds);
-    admitemployeeIds = Array.from(set);
 
-    let empolyeeIds ={
-      apply: job.applyemployeeIds,
-      decline: job.declineemployeeIds,
-      admit: job.admitemployeeIds
-    };
+    Meteor.call('admiteEmployee',jobId,employeeId,(err)=>{
+      if(err){
+        console.log(err);
+      }
+      else{
 
-    Meteor.call('updateEmployeeIds',jobId,empolyeeIds,(err)=>{
-    if(err){
-      console.log(err);
-    }
-    else{
-
-    }
+      }
     });
   }
 
@@ -74,22 +46,19 @@ export default class EmployeeComponent extends React.Component{
             <div className="col m8 s12">
               <div className="row">
                 <div className="col s12">
-                  <h4>Name</h4>
-                  <p>Adress</p>
+                  <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
+                  <p>{this.props.profile.employeeData.location.locationName}</p>
                 </div>
-              </div>
-              <div className="row">
-                <p>Certifications</p>
-                <p>About</p>
-                <p>Payments accepted</p>
               </div>
             </div>
           </div>
           <div className="row">
             <div className="col l6 m6 s12" style={{display:'flex', justifyContent:'center', padding:'4px'}}>
-              <button className="waves-effect waves-teal teal lighten-3 btn-flat">
-                View profile
-              </button>
+              <Link to={"user/" + this.props.employeeId}>
+                  <button className="waves-effect waves-teal teal lighten-3 btn-flat">
+                    View profile
+                  </button>
+              </Link>
             </div>
             {
               !this.props.isAdmitted &&

@@ -21,6 +21,7 @@ Meteor.methods({
             });
             newCustomer.profile.customer = result.id;
             Meteor.users.update({_id: this.userId},{$set: newCustomer});
+            Roles.addUsersToRoles(this.userId, 'subscribe' );
       }catch(error){
         console.log(error);
         throw new Meteor.Error('403',error);

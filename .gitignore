@@ -1,3 +1,5 @@
 node_modules/
 bower-components/
 npm-debug.*
+client/general.css
+packages/

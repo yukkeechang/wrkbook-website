@@ -6,5 +6,7 @@ const thumbNail = new FS.Store.GridFS('thumbnail');
 });
 
 Job = new Mongo.Collection('jobs');
+Review = new Mongo.Collection('reviews');
 Event = new Mongo.Collection('events');
 References = new Mongo.Collection('references');
+Notification = new Mongo.Collection('notifications');
