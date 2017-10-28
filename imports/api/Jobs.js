@@ -159,10 +159,33 @@ Meteor.publish('active-jobs-admin',function(){
 
 });
 
+
 Meteor.publish('all-jobs',function(){
-  return Job.find({});
+  if (Roles.userIsInRole(this.userId,'admin')) {
+    return Job.find({});
+  }else{
+    this.stop();
+    return;
+  }
 });
 
+Meteor.publish('active-job-con',function(){
+  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+    return Job.find({employerId:this.userId,isOpen: true});
+  }else {
+    this.stop();
+    return;
+  }
+});
+
+Meteor.publish('closed-job-con',function(){
+  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+    return Job.find({employerId:this.userId,isOpen: false});
+  }else {
+    this.stop();
+    return;
+  }
+});
 Meteor.publish('apply-employee-job',function(jobId){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
 
