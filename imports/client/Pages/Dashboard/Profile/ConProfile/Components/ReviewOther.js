@@ -57,11 +57,11 @@ class DisplayReviews extends React.Component {
   }
 }
 
-export default Reviews = createContainer(({ params }) => {
+export default Reviews = createContainer(( props) => {
 
   let reviews =[];
   let loading = false;
-  let handle = Meteor.subscribe('reviews-for-you');
+  let handle = Meteor.subscribe('reviews-for-user',props.user._id);
   loading = handle.ready();
   reviews = Review.find({}).fetch();
   console.log("################1");
