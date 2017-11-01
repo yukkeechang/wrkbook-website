@@ -2,7 +2,7 @@ import React from 'react';
 import Rating from './Rating';
 import { createContainer } from 'meteor/react-meteor-data';
 import ReviewCard from './ReviewCard';
-import MSpinner from '../../../Shared/MSpinner';
+import MSpinner from '../../../../Shared/MSpinner';
 
 
 function isEmpty(obj) {
@@ -57,11 +57,11 @@ class DisplayReviews extends React.Component {
   }
 }
 
-export default Reviews = createContainer(({ params }) => {
+export default Reviews = createContainer(( props) => {
 
   let reviews =[];
   let loading = false;
-  let handle = Meteor.subscribe('reviews-for-you');
+  let handle = Meteor.subscribe('reviews-for-user',props.user._id);
   loading = handle.ready();
   reviews = Review.find({}).fetch();
   console.log("################1");
@@ -74,4 +74,3 @@ export default Reviews = createContainer(({ params }) => {
     reviews:reviews
   };
 }, DisplayReviews);
-

@@ -164,10 +164,59 @@ Meteor.publish('active-jobs-admin',function(){
 
 });
 
+
 Meteor.publish('all-jobs',function(){
-  return Job.find({});
+  if (Roles.userIsInRole(this.userId,'admin')) {
+    return Job.find({});
+  }else{
+    this.stop();
+    return;
+  }
 });
 
+Meteor.publish('upcoming-job-con',function(){
+  let currentDate = new Date();
+  let jobIDarray = [];
+  let count =0;
+  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+   let events = Event.find({owner:this.userId,startAt:{$gt: currentDate}});
+   events.foeEach((eventy =>{
+     jobIDarray[count] = eventy.jobId;
+     count += 1;
+   }));
+   return Job.find({_id: {$in: jobIDarray } , isOpen:true});
+  }else {
+    this.stop();
+    return;
+  }
+});
+
+
+Meteor.publish('current-job-con',function(){
+  let currentDate = new Date();
+  let jobIDarray = [];
+  let count =0;
+  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+   let events = Event.find({owner:this.userId,startAt:{$lt: currentDate}});
+   events.foeEach((eventy =>{
+     jobIDarray[count] = eventy.jobId;
+     count += 1;
+   }));
+   return Job.find({_id: {$in: jobIDarray } , isOpen:true});
+  }else {
+    this.stop();
+    return;
+  }
+});
+
+Meteor.publish('closed-job-con',function(){
+  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+    return Job.find({employerId:this.userId,isOpen: false});
+  }else {
+    this.stop();
+    return;
+  }
+});
 Meteor.publish('apply-employee-job',function(jobId){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
 

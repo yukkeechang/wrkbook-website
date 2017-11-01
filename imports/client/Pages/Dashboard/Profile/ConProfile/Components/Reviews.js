@@ -2,7 +2,7 @@ import React from 'react';
 import Rating from './Rating';
 import { createContainer } from 'meteor/react-meteor-data';
 import ReviewCard from './ReviewCard';
-import MSpinner from '../../../Shared/MSpinner';
+import MSpinner from '../../../../Shared/MSpinner';
 
 
 function isEmpty(obj) {
@@ -74,4 +74,3 @@ export default Reviews = createContainer(({ params }) => {
     reviews:reviews
   };
 }, DisplayReviews);
-

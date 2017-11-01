@@ -14,7 +14,7 @@ import NotFound from '../Pages/NotFound';
 
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';
-import Calendar from './Dashboard/Calendar';
+
 
 
 // For testing
@@ -28,6 +28,9 @@ import EmpJobPostComponent from './Dashboard/Jobs/EmpJobPostComponent';
 import EmpJobPosts from './Dashboard/Jobs/EmpJobPosts';
 import employeeComponent from './Dashboard/Jobs/EmployeeComponent';
 import References from './Dashboard/References'
+import ConProfile from './Dashboard/Profile/ConProfile/ConProfile';
+import ProProfile from './Dashboard/Profile/ProProfile/ProProfile';
+
 //import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
 
 class Dash extends Component{
@@ -63,11 +66,15 @@ class Dash extends Component{
                 <Route exact path="/empjobposts" component={EmpJobPosts}/>
                 <Route exact path="/employeejobpostsadmit" component={JobPostAdmit}/>
                 <Route exact path="/employeecomponent" component={employeeComponent}/>
-                <Route exact path="/editprofessional" component={Edit}/>
-                <Route exact path="/editcontractor" component={Edit}/>
-                <Route exact path="/settings" component={Edit}/>
+                <Route exact path="/edit" component={Edit}/>
+                <Route path="/settings" component={Settings}/>
+                <Route path="/proprofile" component={Edit}/>
+                <Route path="/conprofile" component={Edit}/>
+
                 <Route path="*" component={NotFound}/>
                 </Switch>
+
+
                     {/*
                         Add in whatever pages' route
                         you need as above and it should
