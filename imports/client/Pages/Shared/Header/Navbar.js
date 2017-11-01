@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import UserIcon from '../UserIcon';
 import ReactDOM from 'react-dom';
 import WrkBookIcon from '../WrkBookIcon';
-import { createContainer } from 'meteor/react-meteor-data';
-
 let styles = {
     logo : {
         position: 'relative',
@@ -23,7 +21,7 @@ let styles = {
         fontSize:'20px',
         textAlign:'left'
     },
-    account:{
+    dropdown:{
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent:'flex-end',
@@ -42,23 +40,22 @@ let styles = {
         flexDirection: 'column',
         justifyContent: 'flex-end',
 
-    },
-
+    }
 }
-export class NavBarPage extends Component{
+export default class Navbar extends Component{
     constructor(props){
         super(props);
-
-          if(this.props.user.roles[0]==="CON"){
-            this.state={isPro: false}
-          } else if (this.props.user.roles[0]==="PRO") {
-            this.state={isPro: true}
-        }
     }
-
     componentDidMount(){
-        let el = ReactDOM.findDOMNode(this.refs.dropdown);
-        $(el).dropdown({
+        let iconDropDown = ReactDOM.findDOMNode(this.refs.dropdown);
+        $(iconDropDown).dropdown({
+            hover: true,
+            belowOrigin: true,
+            alignment: 'right',
+            constrainWidth: false
+        });
+        let jobDropDown = ReactDOM.findDOMNode(this.refs.jobdropdown);
+        $(jobDropDown).dropdown({
             hover: true,
             belowOrigin: true,
             alignment: 'right',
@@ -68,18 +65,13 @@ export class NavBarPage extends Component{
         $(sn).sideNav();
     }
     logout(){
-        console.log(this.props);
         Meteor.logout();
-        console.log(this.props);
     }
     sideClick(){
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
         $(sn).sideNav('hide');
     }
-
     render(){
-      let payment = this.state.isPro ? "" : <li><Link to='/settings/payment'>Payment</Link></li>
-      let subscription = this.state.isPro ? "" : <li><Link to='/settings/subscription'>Subscription</Link></li>
         return(
             <div className="row">
             <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
@@ -89,27 +81,31 @@ export class NavBarPage extends Component{
                 <img style={styles.logo} src="/images/circle-logo.svg"/>
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
-            <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/jobs">Jobs</Link></div>
-            <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
-            <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1">
+
+            <div ref="dropdown" data-activates='account' style={styles.dropdown} className="col s4 m4 push-m1">
+
                 <div style={styles.firstName} className="hide-on-small-only">{this.props.firstName}</div>
                 <div style={styles.profile}>
                     <UserIcon imageId={this.props.image}/>
                 </div>
             </div>
             <ul id='account' className='dropdown-content'>
-                <li><Link to="/settings">Account Settings</Link></li>
-                 <ul className="sub-menu">
-                  <li><Link to='/settings/notifications'>Notifications</Link></li>
-                  <li><Link to='/settings/password'>Change Password</Link></li>
-                  <div>{payment}</div>
-                  <div>{subscription}</div>
 
-
-
-                </ul>
-              <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
+                <li><Link to='/settings/notifications'>Notifications</Link></li>
+                <li><Link to='/settings/password'>Change Password</Link></li>
+                <li><Link to='/settings/subscription'>Subscription</Link></li>
+                <li><a onClick={this.logout}>Logout</a></li>
             </ul>
+
+            <div ref="jobdropdown" data-activates='jobs' style={styles.dropdown} className="col s4 m4 push-m1">
+              <li>Jobs</li>
+            </div>
+            <ul id='jobs' className='dropdown-content'>
+              <li><Link to='/settings/notifications'>Current</Link></li>
+              <li><Link to='/settings/notifications'>Upcoming</Link></li>
+              <li><Link to='/settings/notifications'>Completed</Link></li>
+            </ul>
+
             <ul id="sideNav" className="side-nav">
                 <li>
                     <div style={styles.wrkbook}>
@@ -138,10 +134,3 @@ export class NavBarPage extends Component{
         )
     }
 }
-
-export default NavBar = createContainer(({ params }) => {
-    return {
-
-        user: Meteor.user(),
-    };
-}, NavBarPage);
