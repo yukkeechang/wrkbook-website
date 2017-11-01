@@ -45,6 +45,13 @@ export default class CreateJobs extends Component {
   constructor(props){
     super(props);
     this.state={
+      jobTitle: false,
+      jobTypes: true,
+      visorName: false,
+      visorNumb: false,
+      locationName: true,
+       oshaCheck: true,
+       socialCheck: true,
       locErr: false,
       titles: [],
       osha10: false,
@@ -69,29 +76,36 @@ export default class CreateJobs extends Component {
       let location = LocationSchema.clean({});
       let jobtypes = $('#jobTitles').val();
 
-      const description = this.refs.jobDescription.value.trim();
-      const additionText = this.refs.additionalText.value.trim();
+      const description = this.refs.jd.value;
+      const additionText = this.refs.at.value;
       location = loc.location;
-      job.supervisor.name = this.refs.supervisorName.value.trim();
-      job.supervisor.phone = this.refs.supervisorNumber.value.trim();
+      job.supervisor.name = this.refs.sName.value;
+      job.supervisor.phone = this.refs.sNumber.value;
       job.additionText = additionText;
       job.description.text = description;
       job.jobTypes.texts = Object.values(jobtypes);
       job.professionals = professionals;
       job.location = location;
-      job.jobTitle.text = this.refs.jobTitle.value;
+      job.jobTitle.text = this.refs.jt.value;
       job.requirements.socialPref.social = $("#sscYes").prop('checked');
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
 
-      Meteor.call('createJob',job,(res,err)=>{
+      Meteor.call('validateJob', job, (err)=>{
           if(err){
-            console.log(err.reason);
             console.log(err);
+            this.setState(err.reason);
           }else{
-            console.log(res);
-
+            Meteor.call('createJob', job, (res, err)=>{
+              if(err){
+                console.log(err);
+                console.log(err.reason);
+              }
+              else{
+                console.log(res);
+              }
+            });
           }
       });
     }
@@ -154,25 +168,21 @@ export default class CreateJobs extends Component {
         <div className="card-content">
         <form>
           <div className="input-field col s12">
-            <input className="validate" id="jobTitle" ref="jobTitle" type="text"/>
-            <label data-error="wrong" className="validate" htmlFor="jobTitle">Job title</label>
+            <MTextField ref="jt" id="jobTitle" error={this.state.jobTitle ? empty : ''} label="Job Title *"/>
           </div>
           <div className="row">
             <div className="input-field col m6 s12">
-              <input id="supervisor-name" ref="supervisorName" type="text"/>
-              <label htmlFor="supervisor-name">Supervisors name</label>
+              <MTextField ref="sName" id="supervisorName" error={this.state.visorName ? empty : ''} label="Supervisor Name *"/>
             </div>
             <div className="input-field col m6 s12">
-              <label htmlFor="supervisor-number">Supervisors number</label>
-              <input id="supervisor-number" ref="supervisorNumber" type="text"/>
+              <MTextField ref="sNumber" id="supervisorNumber" error={this.state.visorNumb ? empty : ''} label="Supervisor Number *"/>
             </div>
           </div>
           <div className="input-field col s12">
             <Location ref="loc"/>
           </div>
           <div className="input-field col s12">
-            <input id="job-description" ref="jobDescription" type="text"/>
-            <label htmlFor="job-description">Job description</label>
+            <MTextField ref="jd" id="jobDescription" label="Job Description *"/>
           </div>
         </form>
         <form>
@@ -197,7 +207,7 @@ export default class CreateJobs extends Component {
 
         <form>
           <div className="input-field col m6 s12">
-            <select id="osha" ref="osha" onChange={()=>{}}>
+            <select id="osha" ref="osha" defaultValue={[""]} onChange={()=>{}}>
               <option value="" disabled selected>OSHA preference</option>
               <option value="1">No preference</option>
               <option value="2">OSHA 10</option>
@@ -232,7 +242,7 @@ export default class CreateJobs extends Component {
           </div>
         </form>
         <div className="input-field col s12">
-          <select ref="titles" multiple id="jobTitles">
+          <select className={this.state.jobTypes? '':"Invalid"} multiple ref="titles" id="jobTitles" defaultValue={[""]}>
             <option value="" disabled selected>Type of employee(s)</option>
             <option value="Painter">Painter</option>
             <option value="Demolitioner">Demolitioner</option>
@@ -251,8 +261,7 @@ export default class CreateJobs extends Component {
         })}
         <form>
           <div className="input-field col s12">
-            <input id="additional-text" ref="additionalText" type="text"/>
-            <label htmlFor="additional-text">Additional information:</label>
+            <MTextField ref="at" id="additionalText" label="Additional Information *"/>
           </div>
 
           <div style={{display:'flex', justifyContent:'center'}}>

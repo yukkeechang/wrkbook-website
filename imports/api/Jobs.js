@@ -56,7 +56,12 @@ Meteor.publish('job-post', function(employee){
     let southDisplacement = - northDisplacement;
 
 
-
+    let length = jobTitle.length;
+    if (length == 1) {
+      jobTitle[1]= "AAAA";
+      // console.log(jobTitle);
+    }
+    console.log(jobTitle);
 
     let lat_top = lat + northDisplacement;
     let lat_bot = lat + southDisplacement;
@@ -218,6 +223,7 @@ Meteor.methods({
     let socialCheck = !Match.test(jobObject.requirements.socialPref, SocialSchema);
     let lengthToCheck = jobObject.professionals.length;
     let events = [];
+
 
     for(let i =0;i<lengthToCheck;++i){
         let eventtoMake= EventSchema.clean({});
@@ -391,32 +397,29 @@ Meteor.methods({
   get a match error OR if the user calling the method is not signin a Meteor.Error
   will be called OR if the jobID is not a string.
   */
-  updateJob(jobId,updateJob){
+  updateJob(jobId,updateJ){
     check(jobId,String);
     let optional = Match.Optional;
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
     if( !(Roles.userIsInRole(this.userId,CONTRACTOR)) ) throw new Meteor.Error('401',NOTAUTH);;
 
-    check(updateJob,JobSchema);
+    let things = Meteor.call('validateJob',updateJ);
 
+    let updateJob = things.job;
+    let updateEvent = things.events;
+    console.log(things);
     let prevJob = Job.findOne({_id: jobId});
     if(!(prevJob)) return;
     let requirements = updateJob.requirements;
 
-
+    console.log(jobId);
     if(updateJob.additionText.text != DEFAULT ){
       prevJob.additionText.text = updateJob.additionText.text
     }
-    if(updateJob.eventInfo.length != prevJob.eventInfo.length){
-      prevJob.eventInfo = updateJob.eventInfo;
-    }
-    if(updateJob.pay.length > 0){
-      prevJob.pay = updateJob.pay;
-    }
-    if(updateJob.numWorker.length >0 ){
-      prevJob.numWorker = updateJob.numWorker;
-    }
+
+
+
     if(updateJob.jobTypes.length > 0){
       prevJob.jobTypes = updateJob.jobTypes;
     }
@@ -451,11 +454,11 @@ Meteor.methods({
     if(requirements.socialPref.social != prevJob.requirements.socialPref.social){
       prevJob.requirements.socialPref.social = requirements.socialPref.social;
     }
-    if(requirements.supervisor.name != prevJob.requirements.supervisor.name){
-      prevJob.requirements.supervisor.name = requirements.supervisor.name;
+    if(updateJob.supervisor.name != prevJob.supervisor.name){
+      prevJob.supervisor.name = updateJob.supervisor.name;
     }
-    if(requirements.supervisor.phone != prevJob.requirements.supervisor.phone){
-      prevJob.requirements.supervisor.phone = requirements.supervisor.phone;
+    if(updateJob.supervisor.phone != prevJob.supervisor.phone){
+      prevJob.supervisor.phone = updateJob.supervisor.phone;
     }
 
     if(updateJob.location.locationName != DEFAULT){
@@ -472,6 +475,13 @@ Meteor.methods({
     let selector = {_id: jobId, employerId: this.userId};
 
     Job.update(selector,{$set: prevJob});
+
+    for (let idx in updateEvent) {
+      console.log( prevJob.eventInfo[idx]);
+      let selector2 = {_id: prevJob.eventInfo[idx],owner:this.userId};
+        console.log(updateEvent[idx]); 
+        Event.update( selector2,{$set:updateEvent[idx]});
+    }
   },
 
 

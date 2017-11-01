@@ -63,8 +63,8 @@ class Dash extends Component{
                 <Route exact path="/empjobposts" component={EmpJobPosts}/>
                 <Route exact path="/employeejobpostsadmit" component={JobPostAdmit}/>
                 <Route exact path="/employeecomponent" component={employeeComponent}/>
-                <Route exact path="/editprofessional" component={ProfessionalEdit}/>
-                <Route exact path="/editcontractor" component={ContractorEdit}/>
+                <Route exact path="/editprofessional" component={Edit}/>
+                <Route exact path="/editcontractor" component={Edit}/>
                 <Route exact path="/settings" component={Edit}/>
                 <Route path="*" component={NotFound}/>
                 </Switch>

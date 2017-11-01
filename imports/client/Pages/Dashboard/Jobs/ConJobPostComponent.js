@@ -14,12 +14,15 @@ class ConJobPost extends React.Component{
 
     $(dropdowns).ready(()=>{
       $('select').material_select();
-      $('.tooltipped').tooltip({delay: 50});
+      $('.tooltipped').tooltip({delay: 25});
     });
+    $(this.refs.titles).on('change',(e)=>{
+      this.handleProChange(e);
+    })
 
     this.props.handleChildLoad(this.props.ready);
 
-    Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
+    Meteor.call('getEventInfo',this.props.events[this.state.value],(err,res)=>{
       if(err){
         console.log(err);
       }else{
@@ -34,37 +37,35 @@ class ConJobPost extends React.Component{
     });
   }
   constructor(props){
-  super(props);
-  let job = this.props.jobinfo;
+    super(props);
+    let job = this.props.jobinfo;
 
-  this.state={
-    job: job,
-    startAt: '',
-    endAt: '',
-    osha10: this.props.jobinfo.requirements.osha.osha10,
-    osha30: this.props.jobinfo.requirements.osha.osha30,
-    license: this.props.jobinfo.requirements.driverLicense,
-    nothing1: true,
-    nothing2: true,
-    value: "0"
-  };
-  // console.log(this.props.handleChildLoad)
-
+    this.state={
+      job: job,
+      startAt: '',
+      endAt: '',
+      osha10: this.props.jobinfo.requirements.osha.osha10,
+      osha30: this.props.jobinfo.requirements.osha.osha30,
+      license: this.props.jobinfo.requirements.driverLicense,
+      nothing1: true,
+      nothing2: true,
+      value: "0"
+    };
   }
   handleProChange(e){
-
     this.setState({
       value: e.target.value,
     });
   }
   handleMember(){
-
+    $('#memebers').tooltip('remove');
+    console.log(this.state.value);
   }
 
-
+  toolTipFix(){
+    $('#tool').tooltip('remove');
+  }
   render(){
-
-
     return(
       <div className="card">
         <div className="card-content">
@@ -76,12 +77,12 @@ class ConJobPost extends React.Component{
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
             <div className="col s2 offset-l2 offset-m2 offset-s2">
-            <button className="waves-effect waves-teal lighten-3 btn-flat"onClick={this.handleMember.bind(this)}>
-              <i ref="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Manage workers">people</i>
+            <button className="waves-effect waves-teal lighten-3 btn-flat" onClick={this.handleMember.bind(this)}>
+              <i ref="memebers" id="memebers" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Manage workers">people</i>
             </button>
             <Link to={"/editjob/"+ this.state.job._id}>
-              <a className="waves-effect waves-teal lighten-3 btn-flat">
-                <i ref="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Edit job">edit</i>
+              <a className="waves-effect waves-teal lighten-3 btn-flat" onClick={this.toolTipFix.bind(this)}>
+                <i ref="tool" id="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Edit job">edit</i>
               </a>
             </Link>
             </div>
