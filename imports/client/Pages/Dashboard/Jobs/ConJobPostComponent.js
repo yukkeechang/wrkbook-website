@@ -224,3 +224,4 @@ export default ConJobPostComponent = createContainer((props)=>{
 
 
 },ConJobPost);
+//Filter is here because 2 types of objects (professionals) are being called from the same collection
