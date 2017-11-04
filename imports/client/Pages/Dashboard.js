@@ -11,6 +11,7 @@ import Jobs from './Dashboard/Jobs/Jobs';
 import Home from './Dashboard/Home/Home';
 import NotFound from '../Pages/NotFound';
 import Payment from './Dashboard/Settings/Payment';
+import ProCompleted from './Dashboard/Jobs/Completed/ProCompleted';
 
 
 import Edit from './Dashboard/Profile/Edit/Edit';
@@ -69,16 +70,10 @@ class Dash extends Component{
                 <Route exact path="/employeecomponent" component={employeeComponent}/>
                 <Route exact path="/edit" component={Edit}/>
                 <Route path="/settings" component={Settings}/>
-<<<<<<< HEAD
-                <Route path="/settings/payment" component={Payment}/>
-                <Route path="/proprofile" component={ProProfile}/>
-                <Route path="/conprofile" component={ConProfile}/>
-                <Route exact path="/edit" component={Edit}/>
-=======
                 <Route path="/proprofile" component={Edit}/>
                 <Route path="/conprofile" component={Edit}/>
- 
->>>>>>> testing
+                <Route path="/procompleted" component={ProCompleted}/>
+
                 <Route path="*" component={NotFound}/>
                 </Switch>
 
