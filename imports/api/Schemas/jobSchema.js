@@ -30,6 +30,12 @@ export default JobSchema = new SimpleSchema({
   description:{
     type : BasicText
   },
+  generalStart:{
+    type: Date
+  },
+  generalEnd:{
+    type: Date
+  },
   additionText:{
     type:String,
     min:1,
