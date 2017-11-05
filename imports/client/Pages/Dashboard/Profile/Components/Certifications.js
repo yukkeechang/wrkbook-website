@@ -68,12 +68,12 @@ export default class Certifications extends React.Component{
           console.log(fileObj);
           this.setState({certSources: fileObj._id});
           console.log(this.state.certSources);
-          Meteor.call('updateUserData', user, function(err, res){
+          Meteor.call('uploadCertificate', this.state.certSources, (err)=>{
             if(err){
               console.log(err);
             }
             else{
-              user.profile.employeeData.certfi = this.state.certSources;
+              console.log('done boi');
             }
           });
           console.log(user.profile.employeeData);

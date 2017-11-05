@@ -176,6 +176,9 @@ Meteor.methods({
           User.profile.employeeData.image = ServerSession.get('DEFAULTPIC');
           console.log(ServerSession.get('DEFAULTPIC'));
         }
+        if('undefined' === typeof(User.profile.employeeData.certfi)){
+          User.profile.employeeData.certfi = [];
+        }
       }else{
         if(('undefined' === typeof(User.profile.employerData)))throw new Meteor.Error('403','NAH');
         Meteor.call('validateEmployer',User.profile.employerData);
@@ -219,8 +222,9 @@ Meteor.methods({
       let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
       if (!isPRO) throw new Meteor.Error('401',NOTAUTH);
       let prevUser = Meteor.users.findOne({_id: this.userId});
-      let length = prevUser.certfi.length;
-      prevUser.certfi[length] = imageId;
+      console.log(prevUser);
+      let length = prevUser.profile.employeeData.certfi.length;
+      prevUser.profile.employeeData.certfi[length] = imageId;
 
       Meteor.users.update({_id: this.userId},{$set: prevUser});
 

@@ -76,22 +76,22 @@ export default class CreateJobs extends Component {
       let location = LocationSchema.clean({});
       let jobtypes = $('#jobTitles').val();
 
-      const description = this.refs.jd.value;
-      const additionText = this.refs.at.value;
+      const description = this.refs.jd.value();
+      const additionText = this.refs.at.value();
       location = loc.location;
-      job.supervisor.name = this.refs.sName.value;
-      job.supervisor.phone = this.refs.sNumber.value;
+      job.supervisor.name = this.refs.sName.value();
+      job.supervisor.phone = this.refs.sNumber.value();
       job.additionText = additionText;
       job.description.text = description;
       job.jobTypes.texts = Object.values(jobtypes);
       job.professionals = professionals;
       job.location = location;
-      job.jobTitle.text = this.refs.jt.value;
+      job.jobTitle.text = this.refs.jt.value();
       job.requirements.socialPref.social = $("#sscYes").prop('checked');
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
-
+    console.log(job);
       Meteor.call('validateJob', job, (err)=>{
           if(err){
             console.log(err);
@@ -261,7 +261,7 @@ export default class CreateJobs extends Component {
         })}
         <form>
           <div className="input-field col s12">
-            <MTextField ref="at" id="additionalText" label="Additional Information *"/>
+            <MTextField ref="at" id="additionalText" label="Additional Information"/>
           </div>
 
           <div style={{display:'flex', justifyContent:'center'}}>

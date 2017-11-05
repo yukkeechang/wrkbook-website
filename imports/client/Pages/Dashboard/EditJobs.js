@@ -75,7 +75,7 @@ class EditJob extends Component {
       lng:lng
     });
   }
-  handleCreate(e){
+  handleUpdate(e){
     let loc = this.refs.loc.getAddress();
     if(loc.valid){
       this.setState({locErr: false});
@@ -142,16 +142,22 @@ class EditJob extends Component {
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
-      
+
       let thingss =this.props.jobPost._id;
-      Meteor.call('updateJob', thingss, job, (err)=>{
+      Meteor.call('validateJob', job, (err)=>{
         if(err){
-          console.log(err);
-          console.log(err.reason);
-          console.log('above two are update errors');
-        }
-        else{
-          console.log('no error');
+          this.setState(err.reason);
+        }else{
+          Meteor.call('updateJob', thingss, job, (err)=>{
+            if(err){
+              console.log(err);
+              console.log(err.reason);
+              console.log('above two are update errors');
+            }
+            else{
+              console.log('no error');
+            }
+          });
         }
       });
     }
@@ -288,19 +294,6 @@ class EditJob extends Component {
             </div>
           </div>
         </form>
-        <div className="input-field col s12">
-          <select ref="titles" multiple id="jobTitles">
-            <option value="" disabled selected>Type of employee(s)</option>
-            <option value="Painter">Painter</option>
-            <option value="Demolitioner">Demolitioner</option>
-            <option value="Glazer">Glazer</option>
-            <option value="Masonry/Stone worker">Masonry/Stone worker</option>
-            <option value="Concrete finisher">Concrete finisher</option>
-            <option value="Plumber">Plumber</option>
-            <option value="Electrician">Electrician</option>
-            <option value="Heat/Air conditioning worker">Heat/Air conditioning worker</option>
-          </select>
-        </div>
         {this.state.titles.map((title, index)=>{
           return(
             <JobCreateComponent ref={title} title={title}key={title}/>
@@ -308,16 +301,15 @@ class EditJob extends Component {
         })}
         <form>
           <div className="input-field col s12">
-            <MTextField ref="at" id="additionalText" value={this.props.jobPost.additionText} label="Additional Information *"/>
+            <MTextField ref="at" id="additionalText" value={this.props.jobPost.additionText} label="Additional Information"/>
           </div>
 
           <div style={{display:'flex', justifyContent:'center'}}>
-            <a className="waves-effect waves-teal btn-flat" onClick={this.handleCreate.bind(this)}>Update job</a>
+            <a className="waves-effect waves-teal btn-flat" onClick={this.handleUpdate.bind(this)}>Update job</a>
           </div>
-          <div id="modal1" className="modal">
+          <div id="updateModal" className="modal">
             <div className="modal-content">
-              <h4>Confirmation</h4>
-              <p>Your job post has been created.</p>
+              <h4>Your job has been updated.</h4>
             </div>
             <div className="modal-footer">
               <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
