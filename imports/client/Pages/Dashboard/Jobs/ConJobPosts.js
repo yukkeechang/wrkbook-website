@@ -16,12 +16,6 @@ class ContractorJobPosts extends React.Component{
     this.state={
       loading1: false
     }
-
-
-  }
-  handleChildLoad(isDone){
-
-    this.setState({loading1:isDone && true});
   }
 
   render(){
@@ -41,7 +35,7 @@ class ContractorJobPosts extends React.Component{
 
             return(
               <ConJobPostComponent
-                handleChildLoad={this.handleChildLoad.bind(this)}
+
                 key={job._id}
                 jobinfo = {job}
                 events = {job.eventInfo}

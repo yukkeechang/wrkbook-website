@@ -2,25 +2,51 @@
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
+import MSpinner from '../../../Shared/MSpinner';
 
-import ConProfile from './ConProfile/ConProfile';
-import ProProfile from './ProProfile/ProProfile';
+
+
+
+function isEmpty(obj) {
+    for (var x in obj) { return false; }
+    return true;
+}
 
 class ConCompletedJobsPage extends React.Component {
   constructor(props) {
     super(props);
   }
 
+
 render() {
-  return (
-    <div>
-    blah
-    </div>
-  )
- }
+  if(!this.props.loading) {
+    return (
+      <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+        <MSpinner />
+      </div>
+    )
+  }
+  else if(!(isEmpty(this.props.jobPost))) {
+    return (
+      <div>
+        job post goes here
+      </div>
+    )
+  }
+  else {
+    return (
+      <div>
+      no completed jobs
+      </div>
+      )
+    }
+  }
+
 }
 
-export default ConCompleted = createContainer((props) => {
+
+
+export default ConCompleted = createContainer(({props}) => {
   let user = Meteor.user();
   let jobPost=[]
   let loading = false
@@ -35,7 +61,7 @@ export default ConCompleted = createContainer((props) => {
     loading: loading,
     jobPost: jobPost
   };
-}, ConCompleted);
+}, ConCompletedJobsPage);
 
 
 //get employees from the job
