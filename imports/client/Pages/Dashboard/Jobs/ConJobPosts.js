@@ -19,6 +19,7 @@ class ContractorJobPosts extends React.Component{
   }
 
   render(){
+    console.log(this.props.jobPost)
     if(!this.props.loading){
       return (
         <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >

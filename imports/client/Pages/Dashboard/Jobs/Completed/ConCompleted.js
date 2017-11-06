@@ -19,6 +19,8 @@ class ConCompletedJobsPage extends React.Component {
 
 
 render() {
+  console.log(this.props.jobPost)
+  console.log("employee on the job: "+this.props.jobPost.admitemployeeIds)
   let jobz = this.props.jobPost;
   if(!this.props.loading) {
     return (
@@ -28,7 +30,7 @@ render() {
     )
   }
   else if(!(isEmpty(this.props.jobPost))) {
-    console.log("return completed job")
+    console.log("return completed jobs, isOpen=false: " + this.props.jobPost)
     return (
       <div>
         {jobz.map(function(job, index){
@@ -67,9 +69,9 @@ export default ConCompleted = createContainer(({props}) => {
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employer',user._id);
+    let handle = Meteor.subscribe('closed-job-con',user._id);
     loading = handle.ready();
-    console.log("loading "+loading);
+    console.log("loading: "+loading);
     jobPost = Job.find({}).fetch();
   }
   return {
