@@ -40,6 +40,7 @@ Meteor.publish('job-post', function(employee){
     let bearing = 45;
     const meterDegrees = 111111;
     const mileToMeters= 1609.34;
+
     let jobTitle = employee.jobTitle;
     let lat = employee.location.latitude;
     let lng = employee.location.longitude;
@@ -54,6 +55,7 @@ Meteor.publish('job-post', function(employee){
     let northDisplacement = distance * cos_degg / meterDegrees;
     let westDisplacement = - eastDisplacement;
     let southDisplacement = - northDisplacement;
+    let currentDate = new Date();
 
 
 
@@ -71,6 +73,8 @@ Meteor.publish('job-post', function(employee){
             {
             'jobTypes.texts' : {$in : jobTitle},
             'declineemployeeIds' :{$nin : hackIdThing},
+            'generalStart':{$gt: currentDate},
+            'isOpen':true,
             'location.latitude': {$gte: lat_bot, $lt: lat_top},
             'location.longitude': {$gte: lng_bot , $lt: lng_top}}
             ,
@@ -171,15 +175,11 @@ Meteor.publish('all-jobs',function(){
 
 Meteor.publish('upcoming-job-con',function(){
   let currentDate = new Date();
-  let jobIDarray = [];
-  let count =0;
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-   let events = Event.find({owner:this.userId,startAt:{$gt: currentDate}});
-   events.foeEach((eventy =>{
-     jobIDarray[count] = eventy.jobId;
-     count += 1;
-   }));
-   return Job.find({_id: {$in: jobIDarray } , isOpen:true});
+
+   return Job.find({employerId:this.userId,
+                    generalStart:{$gt: currentDate},
+                    isOpen:true});
   }else {
     this.stop();
     return;
@@ -189,15 +189,10 @@ Meteor.publish('upcoming-job-con',function(){
 
 Meteor.publish('current-job-con',function(){
   let currentDate = new Date();
-  let jobIDarray = [];
-  let count =0;
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-   let events = Event.find({owner:this.userId,startAt:{$lt: currentDate}});
-   events.foeEach((eventy =>{
-     jobIDarray[count] = eventy.jobId;
-     count += 1;
-   }));
-   return Job.find({_id: {$in: jobIDarray } , isOpen:true});
+    return Job.find({employerId:this.userId,
+                     generalStart:{$lt: currentDate},
+                     isOpen:true});
   }else {
     this.stop();
     return;
@@ -282,8 +277,23 @@ Meteor.methods({
         events[i] = eventtoMake;
     }
 
+    let smallTime = new Date();
+    let largeTime = new Date();
 
+    for (let idx in events) {
+        if (smallTime > events[idx].startAt) {
+          smallTime = events[idx].startAt;
+        }
+    }
 
+    for (let idx in events) {
+        if (largeTime < events[idx].endAt) {
+          largeTime =  events[idx].endAt;
+        }
+    }
+
+    jobObject.generalStart = smallTime;
+    jobObject.generalEnd = largeTime;
     let proissue = false;
     let eventissue = false;
     let prodetails = [];
@@ -291,7 +301,7 @@ Meteor.methods({
     if(lengthToCheck < 1){
       proissue = true;
       eventissue=true;
-  }
+    }
     for(let i =0;i<lengthToCheck;++i){
       let protitle = !proValidation.validateOne(jobObject.professionals[i],'responsibilities');
       let propay = !proValidation.validateOne(jobObject.professionals[i],'pay');
@@ -440,89 +450,92 @@ Meteor.methods({
   get a match error OR if the user calling the method is not signin a Meteor.Error
   will be called OR if the jobID is not a string.
   */
-  updateJob(jobId,updateJob){
-    check(jobId,String);
-    let optional = Match.Optional;
-    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+  updateJob(jobId,updateJ){
+  check(jobId,String);
+  let optional = Match.Optional;
+  if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
-    if( !(Roles.userIsInRole(this.userId,CONTRACTOR)) ) throw new Meteor.Error('401',NOTAUTH);;
+  if( !(Roles.userIsInRole(this.userId,CONTRACTOR)) ) throw new Meteor.Error('401',NOTAUTH);;
 
-    check(updateJob,JobSchema);
+  let things = Meteor.call('validateJob',updateJ);
 
-    let prevJob = Job.findOne({_id: jobId});
-    if(!(prevJob)) return;
-    let requirements = updateJob.requirements;
+  let updateJob = things.job;
+  let updateEvent = things.events;
+  console.log(things);
+  let prevJob = Job.findOne({_id: jobId});
+  if(!(prevJob)) return;
+  let requirements = updateJob.requirements;
+
+  console.log(jobId);
+  if(updateJob.additionText.text != DEFAULT ){
+    prevJob.additionText.text = updateJob.additionText.text
+  }
 
 
-    if(updateJob.additionText.text != DEFAULT ){
-      prevJob.additionText.text = updateJob.additionText.text
-    }
-    if(updateJob.eventInfo.length != prevJob.eventInfo.length){
-      prevJob.eventInfo = updateJob.eventInfo;
-    }
-    if(updateJob.pay.length > 0){
-      prevJob.pay = updateJob.pay;
-    }
-    if(updateJob.numWorker.length >0 ){
-      prevJob.numWorker = updateJob.numWorker;
-    }
-    if(updateJob.jobTypes.length > 0){
-      prevJob.jobTypes = updateJob.jobTypes;
-    }
-    if(prevJob.isOpen != updateJob.isOpen){
-        prevJob.isOpen = updateJob.isOpen;
-    }
 
-    if(requirements.languages.length >0){
-      prevJob.requirements.languages = requirements.languages;
+  if(updateJob.jobTypes.length > 0){
+    prevJob.jobTypes = updateJob.jobTypes;
+  }
+  if(prevJob.isOpen != updateJob.isOpen){
+      prevJob.isOpen = updateJob.isOpen;
+  }
 
-    }
-    if(requirements.highGed != prevJob.requirements.highGed){
-      prevJob.requirements.highGed = requirements.highGed;
-    }
+  if(requirements.languages.length >0){
+    prevJob.requirements.languages = requirements.languages;
 
-    if(requirements.backgroundCheck != prevJob.requirements.backgroundCheck){
-      prevJob.requirements.backgroundCheck = requirements.backgroundCheck;
-    }
+  }
+  if(requirements.highGed != prevJob.requirements.highGed){
+    prevJob.requirements.highGed = requirements.highGed;
+  }
 
-    if(requirements.driverLicense != prevJob.requirements.driverLicense){
-      prevJob.requirements.driverLicense = requirements.driverLicense;
-    }
-    if(requirements.osha.osha10 != prevJob.requirements.osha.osha10){
-      prevJob.requirements.osha.osha10 = requirements.osha.osha10;
-    }
-    if(requirements.osha.osha30 != prevJob.requirements.osha.osha30){
-      prevJob.requirements.osha.osha30 = requirements.osha.osha30;
-    }
-    if(requirements.socialPref.taxID != prevJob.requirements.socialPref.taxID){
-      prevJob.requirements.socialPref.taxID = requirements.socialPref.taxID;
-    }
-    if(requirements.socialPref.social != prevJob.requirements.socialPref.social){
-      prevJob.requirements.socialPref.social = requirements.socialPref.social;
-    }
-    if(requirements.supervisor.name != prevJob.requirements.supervisor.name){
-      prevJob.requirements.supervisor.name = requirements.supervisor.name;
-    }
-    if(requirements.supervisor.phone != prevJob.requirements.supervisor.phone){
-      prevJob.requirements.supervisor.phone = requirements.supervisor.phone;
-    }
+  if(requirements.backgroundCheck != prevJob.requirements.backgroundCheck){
+    prevJob.requirements.backgroundCheck = requirements.backgroundCheck;
+  }
 
-    if(updateJob.location.locationName != DEFAULT){
-      prevJob.location.locationName =
-      updateJob.location.locationName;
+  if(requirements.driverLicense != prevJob.requirements.driverLicense){
+    prevJob.requirements.driverLicense = requirements.driverLicense;
+  }
+  if(requirements.osha.osha10 != prevJob.requirements.osha.osha10){
+    prevJob.requirements.osha.osha10 = requirements.osha.osha10;
+  }
+  if(requirements.osha.osha30 != prevJob.requirements.osha.osha30){
+    prevJob.requirements.osha.osha30 = requirements.osha.osha30;
+  }
+  if(requirements.socialPref.taxID != prevJob.requirements.socialPref.taxID){
+    prevJob.requirements.socialPref.taxID = requirements.socialPref.taxID;
+  }
+  if(requirements.socialPref.social != prevJob.requirements.socialPref.social){
+    prevJob.requirements.socialPref.social = requirements.socialPref.social;
+  }
+  if(updateJob.supervisor.name != prevJob.supervisor.name){
+    prevJob.supervisor.name = updateJob.supervisor.name;
+  }
+  if(updateJob.supervisor.phone != prevJob.supervisor.phone){
+    prevJob.supervisor.phone = updateJob.supervisor.phone;
+  }
 
-      prevJob.location.latitude =
-      updateJob.location.latitude;
+  if(updateJob.location.locationName != DEFAULT){
+    prevJob.location.locationName =
+    updateJob.location.locationName;
 
-      prevJob.location.longitude =
-      updateJob.location.longitude;
-    }
-    prevJob.updateAt = new Date();
-    let selector = {_id: jobId, employerId: this.userId};
+    prevJob.location.latitude =
+    updateJob.location.latitude;
 
-    Job.update(selector,{$set: prevJob});
-  },
+    prevJob.location.longitude =
+    updateJob.location.longitude;
+  }
+  prevJob.updateAt = new Date();
+  let selector = {_id: jobId, employerId: this.userId};
 
+  Job.update(selector,{$set: prevJob});
+
+  for (let idx in updateEvent) {
+    console.log( prevJob.eventInfo[idx]);
+    let selector2 = {_id: prevJob.eventInfo[idx],owner:this.userId};
+      console.log(updateEvent[idx]);
+      Event.update( selector2,{$set:updateEvent[idx]});
+  }
+},
 
   applyForJob(jobId){
     if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
