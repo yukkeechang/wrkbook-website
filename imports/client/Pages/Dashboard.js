@@ -72,7 +72,7 @@ class Dash extends Component{
                 <Route path="/settings" component={Settings}/>
                 <Route path="/proprofile" component={Edit}/>
                 <Route path="/conprofile" component={Edit}/>
-                <Route path="/procompleted" component={ProCompleted}/>
+                <Route path="/procompleted" component={ProCompleted}/> 
 
                 <Route path="*" component={NotFound}/>
                 </Switch>
