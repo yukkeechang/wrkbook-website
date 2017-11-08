@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import UserIcon from '../UserIcon';
 import ReactDOM from 'react-dom';
 import WrkBookIcon from '../WrkBookIcon';
+import { createContainer } from 'meteor/react-meteor-data';
+
 let styles = {
     logo : {
         position: 'relative',
@@ -43,16 +45,30 @@ let styles = {
     },
 
 }
-export default class Navbar extends Component{
+export class NavBarPage extends Component{
     constructor(props){
         super(props);
+
+          if(this.props.user.roles[0]==="CON"){
+            this.state={isPro: false}
+          } else if (this.props.user.roles[0]==="PRO") {
+            this.state={isPro: true}
+        }
     }
+
     componentDidMount(){
         let el = ReactDOM.findDOMNode(this.refs.dropdown);
         $(el).dropdown({
             hover: true,
             belowOrigin: true,
             alignment: 'right',
+            constrainWidth: false
+        });
+        let jobDropDown = ReactDOM.findDOMNode(this.refs.jobdropdown);
+        $(jobDropDown).dropdown({
+            hover: true,
+            belowOrigin: true,
+            alignment: 'left',
             constrainWidth: false
         });
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
@@ -67,7 +83,10 @@ export default class Navbar extends Component{
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
         $(sn).sideNav('hide');
     }
+
     render(){
+      let subscription = this.state.isPro ? "" : <li><Link to='/settings/subscription'>Subscription</Link></li>
+
         return(
             <div className="row">
             <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
@@ -77,10 +96,8 @@ export default class Navbar extends Component{
                 <img style={styles.logo} src="/images/circle-logo.svg"/>
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
-            <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/jobs">Jobs</Link></div>
+            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText"><div>Jobs</div></div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
-          
-
             <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1">
                 <div style={styles.firstName} className="hide-on-small-only">{this.props.firstName}</div>
                 <div style={styles.profile}>
@@ -88,8 +105,16 @@ export default class Navbar extends Component{
                 </div>
             </div>
             <ul id='account' className='dropdown-content'>
-                <li><Link to="/settings">Account Settings</Link></li>
-                <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
+              <li><Link to="/settings">Account Settings</Link></li>
+                <li><Link to='/settings/notifications'>Notifications</Link></li>
+                <li><Link to='/settings/password'>Change Password</Link></li>
+                <div>{subscription}</div>
+              <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
+            </ul>
+            <ul id='jobs' className='dropdown-content'>
+              <li><Link to='/settings/notifications'>Current</Link></li>
+              <li><Link to='/settings/notifications'>Upcoming</Link></li>
+              <li><Link to='/settings/notifications'>Completed</Link></li>
             </ul>
             <ul id="sideNav" className="side-nav">
                 <li>
@@ -107,9 +132,6 @@ export default class Navbar extends Component{
                     <Link onClick={this.sideClick.bind(this)} to = "/jobs">Jobs</Link>
                 </li>
                 <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
-                </li>
-                <li>
                     <Link onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>
                 </li>
 
@@ -119,3 +141,10 @@ export default class Navbar extends Component{
         )
     }
 }
+
+export default NavBar = createContainer(({ params }) => {
+    return {
+
+        user: Meteor.user(),
+    };
+}, NavBarPage);
