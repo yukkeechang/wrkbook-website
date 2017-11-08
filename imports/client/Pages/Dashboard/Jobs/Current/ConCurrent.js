@@ -3,25 +3,23 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ConComponent from './ConComponent';
 
+import ConProfile from './ConProfile/ConProfile';
+import ProProfile from './ProProfile/ProProfile';
 
+class ConCurrentPage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
 function isEmpty(obj) {
     for (var x in obj) { return false; }
     return true;
 }
 
-class ConCompletedJobsPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
 
 render() {
-  console.log(this.props.jobPost)
-  console.log("employee on the job: "+this.props.jobPost.admitemployeeIds)
-  let jobz = this.props.jobPost;
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -29,51 +27,32 @@ render() {
       </div>
     )
   }
-  else if(!(isEmpty(this.props.jobPost))) {
-    console.log("return completed jobs, isOpen=false: " + this.props.jobPost)
+  else if(!(isEmpty(jobPost)) {
     return (
       <div>
-        {jobz.map(function(job, index){
-          return (
-            <ConComponent
-            key={job._id}
-            jobinfo = {job}
-            events = {job.eventInfo}
-            title={job.jobTitle.text}
-            startAt={job.startAt}
-            endAt={job.endAt}
-            description={job.description.text}
-            location={job.location}
-            pay={job.pay}
-            />
-          )
-
-        })}
-
+        job post goes here
       </div>
     )
   }
   else {
     return (
       <div>
-      no completed jobs
+      no current jobs
       </div>
-      )
-    }
+    )
   }
-
 }
 
 
 
-export default ConCompleted = createContainer(({props}) => {
+export default ConCurrent = createContainer((props) => {
   let user = Meteor.user();
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('closed-job-con',user._id);
+    let handle = Meteor.subscribe('job-post-employer',user._id);
     loading = handle.ready();
-    console.log("loading: "+loading);
+    console.log("loading "+loading);
     jobPost = Job.find({}).fetch();
   }
   return {
@@ -81,7 +60,7 @@ export default ConCompleted = createContainer(({props}) => {
     loading: loading,
     jobPost: jobPost
   };
-}, ConCompletedJobsPage);
+}, ConCurrentPage);
 
 
 //get employees from the job

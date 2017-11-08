@@ -132,9 +132,6 @@ export class NavBarPage extends Component{
                     <Link onClick={this.sideClick.bind(this)} to = "/jobs">Jobs</Link>
                 </li>
                 <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
-                </li>
-                <li>
                     <Link onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>
                 </li>
 

@@ -17,7 +17,7 @@ class ConJobPost extends React.Component{
       $('.tooltipped').tooltip({delay: 50});
     });
 
-    this.props.handleChildLoad(this.props.ready);
+
 
     Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
       if(err){
@@ -63,7 +63,6 @@ class ConJobPost extends React.Component{
 
 
   render(){
-
 
     return(
       <div className="card">
