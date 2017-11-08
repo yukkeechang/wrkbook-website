@@ -176,6 +176,9 @@ Meteor.methods({
           User.profile.employeeData.image = ServerSession.get('DEFAULTPIC');
           console.log(ServerSession.get('DEFAULTPIC'));
         }
+        if('undefined' === typeof(User.profile.employeeData.certfi)){
+          User.profile.employeeData.certfi =[];
+        }
       }else{
         if(('undefined' === typeof(User.profile.employerData)))throw new Meteor.Error('403','NAH');
         Meteor.call('validateEmployer',User.profile.employerData);
@@ -212,6 +215,135 @@ Meteor.methods({
       let crap =Meteor.users.findOne({_id : userID},{fields: { emails: 1, profile: 1,roles: 1 } });
       return crap;
     },
+    //Uploads the string associated with the certification to the professional object
+    uploadCertificate(imageId){
+      if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+      check(imageId,String);
+      let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
+      if (!isPRO) throw new Meteor.Error('401',NOTAUTH);
+      let prevUser = Meteor.users.findOne({_id: this.userId});
+      let length = prevUser.profile.employeeData.certfi.length;
+      prevUser.profile.employeeData.certfi[length] = imageId;
+
+      Meteor.users.update({_id: this.userId},{$set: prevUser});
+
+    },
+    //update the employer data
+    updateEmployerData(employerData){
+        let prevUser = Meteor.users.findOne({_id: this.userId});
+        let oldData = prevUser.profile.employerData;
+
+
+        check(employerData,EmployerSchema);
+
+        if (employerData.companyName.text != DEFAULT) {
+          oldData.companyName.text = employerData.companyName.text;
+        }
+        if(('undefined' === typeof(oldData.webPage))  ||
+            !('undefined' === typeof(employerData.webPage)) ){
+          oldData.webPage = employerData.webPage;
+        }
+        if(('undefined' === typeof(oldData.licenseNumber))  ||
+            !('undefined' === typeof(employerData.licenseNumber))){
+              oldData.licenseNumber = employerData.licenseNumber;
+        }
+        if(employerData.location.locationName != DEFAULT){
+          oldData.location.locationName =
+          employerData.location.locationName;
+
+          oldData.location.latitude =
+          employerData.location.latitude;
+
+          oldData.location.longitude =
+          employerData.location.longitude;
+        }
+        if(employerData.about.text != DEFAULT){
+          oldData.about.text =
+          employerData.about.text;
+        }
+        if(employerData.image != PICLINK){
+          oldData.image =
+          employerData.image;
+        }
+        prevUser.profile.employerData = oldData;
+        Meteor.users.update({_id: this.userId},{$set: prevUser});
+
+
+    },
+    updateEmployeeData(employeeData){
+
+      let prevUser = Meteor.users.findOne({_id: this.userId});
+      let oldData = prevUser.profile.employeeData;
+      check(employeeData,EmployeeSchema);
+
+      if(employeeData.jobTitle.length >0 ){
+        oldData.jobTitle =
+        employeeData.jobTitle;
+      }
+      if(employeeData.languages.length >0 ){
+        oldData.languages =
+        employeeData.languages;
+      }
+      if(employeeData.certifications.texts.length >0 ){
+        oldData.certifications.texts =
+        employeeData.certifications.texts;
+      }
+      if(employeeData.about.text != DEFAULT ){
+        oldData.about.text =
+        employeeData.about.text;
+      }
+      if(employeeData.skills.text != DEFAULT ){
+        oldData.skills.text =
+        employeeData.skills.text;
+      }
+      if(employeeData.location.locationName != DEFAULT){
+        oldData.location.locationName =
+        employeeData.location.locationName;
+
+        oldData.location.latitude =
+        employeeData.location.latitude;
+
+        oldData.location.longitude =
+        employeeData.location.longitude;
+      }
+
+      if(employeeData.image != PICLINK){
+        oldData.image =
+        employeeData.image;
+      }
+      if(employeeData.education.highGED != oldData.education.highGED){
+        oldData.education.highGED = employeeData.education.highGED;
+      }
+      if(employeeData.education.tradeSchool != oldData.education.tradeSchool){
+        oldData.education.tradeSchool = employeeData.education.tradeSchool;
+      }
+      if(employeeData.education.higherEdu != oldData.education.higherEdu){
+        oldData.education.higherEdu = employeeData.education.higherEdu;
+      }
+      if(employeeData.osha.osha10 != oldData.osha.osha10){
+        oldData.osha.osha10 = employeeData.osha.osha10;
+      }
+      if(employeeData.osha.osha30 != oldData.osha.osha30){
+        oldData.osha.osha30 = employeeData.osha.osha30;
+      }
+      if(employeeData.prevJobs.length>0){
+        oldData.prevJobs = employeeData.prevJobs;
+      }
+      if(employeeData.maxDistance != oldData.maxDistance){
+        oldData.maxDistance = employeeData.maxDistance
+      }
+      if(employeeData.driverLicense != oldData.driverLicense){
+        oldData.driverLicense = employeeData.driverLicense;
+      }
+      if(employeeData.hasCar != oldData.hasCar){
+        oldData.hasCar = employeeData.hasCar;
+      }
+      prevUser.profile.employeeData = oldData;
+
+        Meteor.users.update({_id: this.userId},{$set: prevUser});
+
+    },
+
 
 
     /**
@@ -236,113 +368,9 @@ Meteor.methods({
 
 
           if(isCON){
-            let employerData = User.profile.employerData;
-            let oldData = prevUser.profile.employerData
-            check(employerData,EmployerSchema);
-            if (employerData.companyName.text != DEFAULT) {
-              oldData.companyName.text = employerData.companyName.text;
-            }
-            if(('undefined' === typeof(oldData.webPage))  ||
-                !('undefined' === typeof(employerData.webPage)) ){
-              oldData.webPage = employerData.webPage;
-            }
-            if(('undefined' === typeof(oldData.licenseNumber))  ||
-                !('undefined' === typeof(employerData.licenseNumber))){
-                  oldData.licenseNumber = employerData.licenseNumber;
-            }
-            if(employerData.location.locationName != DEFAULT){
-              oldData.location.locationName =
-              employerData.location.locationName;
-
-              oldData.location.latitude =
-              employerData.location.latitude;
-
-              oldData.location.longitude =
-              employerData.location.longitude;
-            }
-            if(employerData.about.text != DEFAULT){
-              oldData.about.text =
-              employerData.about.text;
-            }
-            if(employerData.image != PICLINK){
-              oldData.image =
-              employerData.image;
-            }
-            prevUser.profile.employerData = oldData;
+              Meteor.call('updateEmployerData',User.profile.employerData);
           }else{
-            let oldData = prevUser.profile.employeeData;
-            let employeeData = User.profile.employeeData;
-            check(employeeData,EmployeeSchema);
-
-            if(employeeData.jobTitle.length >0 ){
-              oldData.jobTitle =
-              employeeData.jobTitle;
-            }
-            if(employeeData.languages.length >0 ){
-              oldData.languages =
-              employeeData.languages;
-            }
-            if(employeeData.certifications.texts.length >0 ){
-              oldData.certifications.texts =
-              employeeData.certifications.texts;
-            }
-            if(employeeData.about.text != DEFAULT ){
-              oldData.about.text =
-              employeeData.about.text;
-            }
-            if(employeeData.skills.text != DEFAULT ){
-              oldData.skills.text =
-              employeeData.skills.text;
-            }
-            if(employeeData.location.locationName != DEFAULT){
-              oldData.location.locationName =
-              employeeData.location.locationName;
-
-              oldData.location.latitude =
-              employeeData.location.latitude;
-
-              oldData.location.longitude =
-              employeeData.location.longitude;
-            }
-            if(employeeData.Availability.beginTime.length > 0){
-              oldData.Availability.beginTime=
-              employeeData.Availability.beginTime;
-
-              oldData.Availability.endTime=
-              employeeData.Availability.endTime;
-            }
-            if(employeeData.image != PICLINK){
-              oldData.image =
-              employeeData.image;
-            }
-            if(employeeData.education.highGED != oldData.education.highGED){
-              oldData.education.highGED = employeeData.education.highGED;
-            }
-            if(employeeData.education.tradeSchool != oldData.education.tradeSchool){
-              oldData.education.tradeSchool = employeeData.education.tradeSchool;
-            }
-            if(employeeData.education.higherEdu != oldData.education.higherEdu){
-              oldData.education.higherEdu = employeeData.education.higherEdu;
-            }
-            if(employeeData.osha.osha10 != oldData.osha.osha10){
-              oldData.osha.osha10 = employeeData.osha.osha10;
-            }
-            if(employeeData.osha.osha30 != oldData.osha.osha30){
-              oldData.osha.osha30 = employeeData.osha.osha30;
-            }
-            if(employeeData.prevJobs.length>0){
-              oldData.prevJobs = employeeData.prevJobs;
-            }
-            if(employeeData.maxDistance != oldData.maxDistance){
-              oldData.maxDistance = employeeData.maxDistance
-            }
-            if(employeeData.driverLicense != oldData.driverLicense){
-              oldData.driverLicense = employeeData.driverLicense;
-            }
-            if(employeeData.hasCar != oldData.hasCar){
-              oldData.hasCar = employeeData.hasCar;
-            }
-            prevUser.profile.employeeData = oldData;
+              Meteor.call('updateEmployeeData',User.profile.employeeData);
 
           }
           Meteor.users.update({_id: this.userId},{$set: prevUser});

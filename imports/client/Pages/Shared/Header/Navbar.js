@@ -58,7 +58,7 @@ export default class Navbar extends Component{
         $(jobDropDown).dropdown({
             hover: true,
             belowOrigin: true,
-            alignment: 'right',
+            alignment: 'left',
             constrainWidth: false
         });
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
@@ -81,25 +81,21 @@ export default class Navbar extends Component{
                 <img style={styles.logo} src="/images/circle-logo.svg"/>
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
-
+            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/jobs">Jobs</Link></div>
+            <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
             <div ref="dropdown" data-activates='account' style={styles.dropdown} className="col s4 m4 push-m1">
-
                 <div style={styles.firstName} className="hide-on-small-only">{this.props.firstName}</div>
                 <div style={styles.profile}>
                     <UserIcon imageId={this.props.image}/>
                 </div>
             </div>
-            <ul id='account' className='dropdown-content'>
 
+            <ul id='account' className='dropdown-content'>
                 <li><Link to='/settings/notifications'>Notifications</Link></li>
                 <li><Link to='/settings/password'>Change Password</Link></li>
                 <li><Link to='/settings/subscription'>Subscription</Link></li>
                 <li><a onClick={this.logout}>Logout</a></li>
             </ul>
-
-            <div ref="jobdropdown" data-activates='jobs' style={styles.dropdown} className="col s4 m4 push-m1">
-              <li>Jobs</li>
-            </div>
             <ul id='jobs' className='dropdown-content'>
               <li><Link to='/settings/notifications'>Current</Link></li>
               <li><Link to='/settings/notifications'>Upcoming</Link></li>

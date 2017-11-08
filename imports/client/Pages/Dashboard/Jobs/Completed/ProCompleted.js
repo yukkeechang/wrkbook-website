@@ -2,6 +2,7 @@
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
+import ProComponent from './ProComponent';
 
 class ProCompletedJobsPage extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class ProCompletedJobsPage extends React.Component {
 render() {
   return (
     <div>
-    blah
+    <ProComponent/>
     </div>
   )
  }
@@ -22,4 +23,4 @@ export default ProCompleted = createContainer((props) => {
   return {
     user: Meteor.user()
   };
-}, ProCompleted);
+}, ProCompletedJobsPage);
