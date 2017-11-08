@@ -31,16 +31,16 @@ export default class ConComponent extends React.Component {
     return (
         <div className="row center-align">
           <div className="col s10">
-            <h3 className="col m4 l4">Professional</h3>
-            <h3 className="col m4 l4">Details</h3>
-            <h3 className="col m4 l4">Rating and Reviews</h3>
+            <h4 className="col m4 l4">Professional</h4>
+            <h4 className="col m4 l4">Details</h4>
+            <h4 className="col m4 l4">Rating and Reviews</h4>
           </div>
         </div>
     )
   }
 
   render() {
-    console.log("rggfdgdf")
+    console.log(this.props.testing)
     return(
       <div>
       <h1 className="center-align">Completed Jobs</h1>

@@ -34,7 +34,7 @@ render() {
     return (
       <div>
         {jobz.map(function(job, index){
-
+          return (
             <ConComponent
             key={job._id}
             jobinfo = {job}
@@ -46,8 +46,10 @@ render() {
             location={job.location}
             pay={job.pay}
             />
+          )
 
         })}
+
       </div>
     )
   }
