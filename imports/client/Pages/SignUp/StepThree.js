@@ -13,6 +13,7 @@ export default class stepThree extends Component{
         shownlink:'',
         submit:'Submit',
         validImage: '',
+        stopclicks: '',
         pesonalPic: false,
         onc3:false,
         width:350,
@@ -102,6 +103,7 @@ export default class stepThree extends Component{
 
     }
     submit(e){
+
       let basic = this.state.basic;
       if(!this.state.captchaSolved){
         this.setState({
@@ -114,6 +116,7 @@ export default class stepThree extends Component{
             if(err) {
               console.log(err);
             }else{
+              this.setState({stopclicks: 'disabled'});
               this.props.next(4, this.props.user, false);
             }
           });
@@ -131,6 +134,7 @@ export default class stepThree extends Component{
                     if(err) {
                       console.log(err);
                     }else{
+                      this.setState({stopclicks: 'disabled'});
                       this.props.next(4, user, false);
                     }
                   });
@@ -140,6 +144,7 @@ export default class stepThree extends Component{
                     if(err) {
                       console.log(err);
                     }else{
+                      this.setState({stopclicks: 'disabled'});
                       this.props.next(4, user, false);
                     }
                   });
@@ -237,7 +242,7 @@ export default class stepThree extends Component{
                    </div>
 
                     <div style ={{display:'flex',justifyContent:'center',alignItems:'center'}} className="col s12">
-                      <a className='btn' onClick={this.submit.bind(this)}>{this.state.submit}</a>
+                      <a className={'btn '+this.state.stopclicks } onClick={this.submit.bind(this)}>{this.state.submit}</a>
                     </div>
                 </div>
               </div>

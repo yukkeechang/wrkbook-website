@@ -1,5 +1,6 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 import Location from '../../Shared/Location';
 import MTextField from '../../Shared/MTextField';
 import JobCreateComponent from './MultiProComponent';
@@ -13,7 +14,9 @@ export default class CreateJobs extends Component {
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
       $('select').material_select();
-      $('.modal').modal();
+      $('.modal').modal({
+        dismissible: false,
+      });
     });
     $(this.refs.titles).change(()=>{
 
@@ -97,13 +100,14 @@ export default class CreateJobs extends Component {
             console.log(err);
             this.setState(err.reason);
           }else{
-            Meteor.call('createJob', job, (res, err)=>{
+            Meteor.call('createJob', job, (err, res)=>{
               if(err){
                 console.log(err);
                 console.log(err.reason);
               }
               else{
                 console.log(res);
+                $('#createModal').modal('open');
               }
             });
           }
@@ -267,13 +271,12 @@ export default class CreateJobs extends Component {
           <div style={{display:'flex', justifyContent:'center'}}>
             <a className="waves-effect waves-teal btn-flat" onClick={this.handleCreate.bind(this)}>Create job</a>
           </div>
-          <div id="modal1" className="modal">
+          <div id="createModal" className="modal">
             <div className="modal-content">
-              <h4>Confirmation</h4>
-              <p>Your job post has been created.</p>
+              <h3>Your job post has been created.</h3>
             </div>
             <div className="modal-footer">
-              <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+              <Link to="/jobs"><a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a></Link>
             </div>
           </div>
         </form>

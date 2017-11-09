@@ -10,6 +10,8 @@ import OtherUser from './Dashboard/Profile/OtherUser'
 import Jobs from './Dashboard/Jobs/Jobs';
 import Home from './Dashboard/Home/Home';
 import NotFound from '../Pages/NotFound';
+import Payment from './Dashboard/Settings/Payment';
+import ProCompleted from './Dashboard/Jobs/Completed/ProCompleted';
 
 
 import Edit from './Dashboard/Profile/Edit/Edit';
@@ -70,6 +72,7 @@ class Dash extends Component{
                 <Route path="/settings" component={Settings}/>
                 <Route path="/proprofile" component={Edit}/>
                 <Route path="/conprofile" component={Edit}/>
+                <Route path="/procompleted" component={ProCompleted}/>
 
                 <Route path="*" component={NotFound}/>
                 </Switch>

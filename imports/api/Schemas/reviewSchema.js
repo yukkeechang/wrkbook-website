@@ -1,4 +1,6 @@
 import  BasicText  from './basicTextSchema';
+import  conReviewSchema from './conReviewSchema';
+import  proReviewSchema from './proReviewSchema';
 export default ReviewSchema = new SimpleSchema({
   reviewerId:{
     type: String,
@@ -19,6 +21,14 @@ export default ReviewSchema = new SimpleSchema({
   },
   review:{
     type: BasicText,
+    optional:true
+  },
+  conReview:{
+    type: conReviewSchema,
+    optional: true
+  },
+  proReview:{
+    type: proReviewSchema,
     optional:true
   },
   createdAt:{

@@ -222,7 +222,6 @@ Meteor.methods({
       let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
       if (!isPRO) throw new Meteor.Error('401',NOTAUTH);
       let prevUser = Meteor.users.findOne({_id: this.userId});
-      console.log(prevUser);
       let length = prevUser.profile.employeeData.certfi.length;
       prevUser.profile.employeeData.certfi[length] = imageId;
 

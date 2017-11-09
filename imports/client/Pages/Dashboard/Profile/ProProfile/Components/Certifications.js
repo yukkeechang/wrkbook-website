@@ -88,21 +88,18 @@ class Cert extends React.Component{
         <div className="card teal">
           <div className="card-content">
             <h5>Certifications</h5>
+            <div className="carousel">
             {
-              this.props.user.profile.employeeData.certfi ?
+              this.props.user.profile.employeeData.certfi.length>0 ?
               this.props.user.profile.employeeData.certfi.map((title, index)=>{
-                let image = Meteor.call('images-id', title);
                 return(
-                  <div className="carousel">
-                    <a className="carousel-item"><img src={this.props.link}/></a>
-                  </div>
+                  <a className="carousel-item"><img src={ "cfs/files/images/" +this.props.links[index]}/></a>
                 )
               })
               :
-              <div className="carousel">
                 <a className="carousel-item"><img src="images/facebook.png"/></a>
-              </div>
             }
+            </div>
           </div>
         </div>
         <div className="card">
@@ -135,9 +132,10 @@ class Cert extends React.Component{
 export default Certifications = createContainer((props)=>{
   let things = [];
   let user = Meteor.user();
-  let handle = Meteor.subscribe('images-id', user.profile.employeeData.certfi[0]);
+  let handle = Meteor.subscribe('cert-images', user.profile.employeeData.certfi);
   let ready = handle.ready();
+  things = Images.find({}).fetch()
   return{
-    link: "cfs/files/images/" + user.profile.employeeData.certfi[0]
+    links: user.profile.employeeData.certfi
   };
 }, Cert);
