@@ -29,9 +29,6 @@ export default ReferenceSchema = new SimpleSchema({
       }
     }
   },
-  location :{
-    type: LocationSchema
-  },
   email: {
     type: String,
     defaultValue: '',

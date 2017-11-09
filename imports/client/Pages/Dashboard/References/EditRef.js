@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MTextField from '../../Shared/MTextField';
-export default class NewRef extends Component {
+export default class EditRef extends Component {
     constructor(props) {
         super(props);
         this.state = {
