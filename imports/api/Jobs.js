@@ -125,7 +125,7 @@ Meteor.publish('job-post', function(employee){
 Meteor.publish('job-post-employer',function(){
 
   if(Roles.userIsInRole(this.userId,CONTRACTOR)){
-    return Job.find({employerId: this.userId});
+    return Job.find({employerId: this.userId},{sort: {generalStart: 1}});
   }else{
     this.stop();
     return ;
@@ -134,7 +134,7 @@ Meteor.publish('job-post-employer',function(){
 });
 Meteor.publish('job-post-employer-edit',function(jobId){
   if(Roles.userIsInRole(this.userId,CONTRACTOR)){
-    return Job.find({_id: jobId,employerId:this.userId});
+    return Job.find({_id: jobId,employerId:this.userId},{sort: {generalStart: 1}});
   }else{
     this.stop();
     return;
@@ -151,7 +151,7 @@ Meteor.publish('job-post-admitted',function(){
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
     let hackIdThing = [];
     hackIdThing[0] = this.userId;
-    return Job.find({admitemployeeIds: {$in: hackIdThing}});;
+    return Job.find({admitemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});;
   }else{
     this.stop();
     return ;
@@ -184,7 +184,7 @@ Meteor.publish('upcoming-job-con',function(){
 
    return Job.find({employerId:this.userId,
                     generalStart:{$gt: currentDate},
-                    isOpen:true});
+                    isOpen:true},{sort: {generalStart: 1}});
   }else {
     this.stop();
     return;
@@ -197,7 +197,7 @@ Meteor.publish('current-job-con',function(){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
     return Job.find({employerId:this.userId,
                      generalStart:{$lt: currentDate},
-                     isOpen:true});
+                     isOpen:true},{sort: {generalStart: 1}});
   }else {
     this.stop();
     return;
@@ -206,7 +206,7 @@ Meteor.publish('current-job-con',function(){
 
 Meteor.publish('closed-job-con',function(){
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    return Job.find({employerId:this.userId,isOpen: false});
+    return Job.find({employerId:this.userId,isOpen: false},{sort: {generalStart: 1}});
   }else {
     this.stop();
     return;
@@ -283,20 +283,22 @@ Meteor.methods({
         events[i] = eventtoMake;
     }
 
-    let smallTime = new Date();
+
     let largeTime = new Date();
 
+    for (let idx in events) {
+      if (largeTime < events[idx].endAt) {
+        largeTime =  events[idx].endAt;
+      }
+    }
+
+    let smallTime =largeTime;
     for (let idx in events) {
         if (smallTime > events[idx].startAt) {
           smallTime = events[idx].startAt;
         }
     }
 
-    for (let idx in events) {
-        if (largeTime < events[idx].endAt) {
-          largeTime =  events[idx].endAt;
-        }
-    }
 
     jobObject.generalStart = smallTime;
     jobObject.generalEnd = largeTime;
@@ -399,7 +401,7 @@ Meteor.methods({
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(Roles.userIsInRole(this.userId,CONTRACTOR) ){
       let person = Meteor.users.findOne({_id : this.userId},{fields: { profile: 1 } });
-      if(!Roles.userIsInRole(this.userId,'free-job') && !Roles.userIsInRole(this.userId,'subscribe'))throw new Meteor.Error('403',NOTMADE);
+      // if(!Roles.userIsInRole(this.userId,'free-job') && !Roles.userIsInRole(this.userId,'subscribe'))throw new Meteor.Error('403',NOTMADE);
 
 
       let things = Meteor.call('validateJob',newJobEvent);

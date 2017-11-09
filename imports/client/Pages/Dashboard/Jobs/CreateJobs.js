@@ -13,15 +13,17 @@ export default class CreateJobs extends Component {
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
-      $('select').material_select();
+
       $('.modal').modal({
-        dismissible: false,
+        complete: function() {this.props.history.push('/jobs')}.bind(this)
       });
+
+      $('select').material_select();
     });
     $(this.refs.titles).change(()=>{
 
       this.setState({titles:$(this.refs.titles).val()})
-    })
+    });
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -43,7 +45,7 @@ export default class CreateJobs extends Component {
     });
     $(this.refs.osha).on('change',(e)=>{
       this.handleSelect(e);
-    })
+    });
   }
   constructor(props){
     super(props);
@@ -263,7 +265,7 @@ export default class CreateJobs extends Component {
             <JobCreateComponent ref={title} title={title} key={title}/>
           )
         })}
-        <form>
+        <div>
           <div className="input-field col s12">
             <MTextField ref="at" id="additionalText" label="Additional Information"/>
           </div>
@@ -276,10 +278,10 @@ export default class CreateJobs extends Component {
               <h3>Your job post has been created.</h3>
             </div>
             <div className="modal-footer">
-              <Link to="/jobs"><a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a></Link>
+              <Link to="/jobs"><a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a></Link>
             </div>
           </div>
-        </form>
+        </div>
         </div>
       </div>
       </div>
