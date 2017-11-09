@@ -64,6 +64,13 @@ export class NavBarPage extends Component{
             alignment: 'right',
             constrainWidth: false
         });
+        let jobDropDown = ReactDOM.findDOMNode(this.refs.jobdropdown);
+        $(jobDropDown).dropdown({
+            hover: true,
+            belowOrigin: true,
+            alignment: 'left',
+            constrainWidth: false
+        });
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
         $(sn).sideNav();
     }
@@ -78,8 +85,8 @@ export class NavBarPage extends Component{
     }
 
     render(){
-      let payment = this.state.isPro ? "" : <li><Link to='/settings/payment'>Payment</Link></li>
       let subscription = this.state.isPro ? "" : <li><Link to='/settings/subscription'>Subscription</Link></li>
+
         return(
             <div className="row">
             <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
@@ -89,7 +96,7 @@ export class NavBarPage extends Component{
                 <img style={styles.logo} src="/images/circle-logo.svg"/>
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
-            <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/jobs">Jobs</Link></div>
+            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText"><div>Jobs</div></div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
             <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1">
                 <div style={styles.firstName} className="hide-on-small-only">{this.props.firstName}</div>
@@ -98,17 +105,16 @@ export class NavBarPage extends Component{
                 </div>
             </div>
             <ul id='account' className='dropdown-content'>
-                <li><Link to="/settings">Account Settings</Link></li>
-                 <ul className="sub-menu">
-                  <li><Link to='/settings/notifications'>Notifications</Link></li>
-                  <li><Link to='/settings/password'>Change Password</Link></li>
-                  <div>{payment}</div>
-                  <div>{subscription}</div>
-
-
-
-                </ul>
+              <li><Link to="/settings">Account Settings</Link></li>
+                <li><Link to='/settings/notifications'>Notifications</Link></li>
+                <li><Link to='/settings/password'>Change Password</Link></li>
+                <div>{subscription}</div>
               <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
+            </ul>
+            <ul id='jobs' className='dropdown-content'>
+              <li><Link to='/settings/notifications'>Current</Link></li>
+              <li><Link to='/settings/notifications'>Upcoming</Link></li>
+              <li><Link to='/settings/notifications'>Completed</Link></li>
             </ul>
             <ul id="sideNav" className="side-nav">
                 <li>
@@ -124,9 +130,6 @@ export class NavBarPage extends Component{
                 </li>
                 <li>
                     <Link onClick={this.sideClick.bind(this)} to = "/jobs">Jobs</Link>
-                </li>
-                <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
                 </li>
                 <li>
                     <Link onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>

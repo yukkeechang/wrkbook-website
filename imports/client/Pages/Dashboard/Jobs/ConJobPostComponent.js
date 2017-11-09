@@ -20,7 +20,7 @@ class ConJobPost extends React.Component{
       this.handleProChange(e);
     })
 
-    this.props.handleChildLoad(this.props.ready);
+
 
     Meteor.call('getEventInfo',this.props.events[this.state.value],(err,res)=>{
       if(err){

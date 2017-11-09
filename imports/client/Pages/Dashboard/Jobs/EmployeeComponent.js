@@ -48,7 +48,7 @@ export default class EmployeeComponent extends React.Component{
   render(){
     return(
       <div className="card">
-        <div className="card-content">
+        <div className="card-content ">
           <div className="row valign-wrapper ec" style={{width:'100%'}}>
             <div className="col m4 s12" style={{display:'flex', justifyContent:'center'}}>
               <img className="circle" src='/images/facebook.png' height='100px' width='100px'/>
@@ -56,7 +56,7 @@ export default class EmployeeComponent extends React.Component{
             <div className="col m8 s12">
               <div className="row">
                 <div className="col s12">
-                  <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
+                  <h5>{this.props.profile.firstName + " " + this.props.profile.lastName}</h5>
                   <p>{this.props.profile.employeeData.location.locationName}</p>
                 </div>
               </div>
@@ -65,16 +65,20 @@ export default class EmployeeComponent extends React.Component{
           <div className="row">
             <div className="col l6 m6 s12" style={{display:'flex', justifyContent:'center', padding:'4px'}}>
               <Link to={"user/" + this.props.employeeId}>
-                  <button className="waves-effect waves-teal teal lighten-3 btn-flat">
-                    View profile
+                  <button className="waves-effect waves-teal teal lighten-1 btn-flat">
+                    <div className="white-text">
+                      View Profile
+                    </div>
                   </button>
               </Link>
             </div>
             {
               !this.props.isAdmitted &&
               <div className="col l6 m6 s12" style={{display:'flex', justifyContent:'center', padding:'4px'}}>
-                <button className="waves-effect waves-teal teal lighten-3 btn-flat" onClick={this.handleAdmit.bind(this)}>
-                  Hire
+                <button className="waves-effect waves-teal teal lighten-1 btn-flat" onClick={this.handleAdmit.bind(this)}>
+                  <div className="white-text">
+                    Hire
+                  </div>
                 </button>
               </div>
             }

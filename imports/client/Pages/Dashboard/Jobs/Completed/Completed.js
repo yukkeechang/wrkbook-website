@@ -4,8 +4,8 @@ import {PROFESSIONAL} from '../../../../api/Schemas/employeeSchema';
 import {CONTRACTOR} from '../../../../api/Schemas/employerSchema';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import ConCompleted from './ConProfile/ConProfile';
-import ProCompleted from './ProProfile/ProProfile';
+import ConCompleted from './ConCompleted';
+import ProCompleted from './ProCompleted';
 
 class CompletedJobsPage extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class CompletedJobsPage extends React.Component {
 
 render() {
   return (
-    this.state.isPro ? <ProProfile/> : <ConProfile/>
+    this.state.isPro ? <ConCompleted/> : <ProCompleted/>
   )
  }
 }
