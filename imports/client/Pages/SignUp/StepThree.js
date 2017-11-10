@@ -103,6 +103,7 @@ export default class stepThree extends Component{
 
     }
     submit(e){
+
       let basic = this.state.basic;
       if(!this.state.captchaSolved){
         this.setState({
@@ -116,6 +117,7 @@ export default class stepThree extends Component{
             if(err) {
               console.log(err);
             }else{
+              this.setState({stopclicks: 'disabled'});
               this.props.next(4, this.props.user, false);
             }
           });
@@ -133,6 +135,7 @@ export default class stepThree extends Component{
                     if(err) {
                       console.log(err);
                     }else{
+                      this.setState({stopclicks: 'disabled'});
                       this.props.next(4, user, false);
                     }
                   });
@@ -142,6 +145,7 @@ export default class stepThree extends Component{
                     if(err) {
                       console.log(err);
                     }else{
+                      this.setState({stopclicks: 'disabled'});
                       this.props.next(4, user, false);
                     }
                   });

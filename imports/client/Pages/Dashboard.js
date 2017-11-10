@@ -12,6 +12,7 @@ import Home from './Dashboard/Home/Home';
 import NotFound from '../Pages/NotFound';
 import Payment from './Dashboard/Settings/Payment';
 import ProCompleted from './Dashboard/Jobs/Completed/ProCompleted';
+import ConCompleted from './Dashboard/Jobs/Completed/ConCompleted';
 
 
 import Edit from './Dashboard/Profile/Edit/Edit';
@@ -30,8 +31,8 @@ import EmpJobPostComponent from './Dashboard/Jobs/EmpJobPostComponent';
 import EmpJobPosts from './Dashboard/Jobs/EmpJobPosts';
 import employeeComponent from './Dashboard/Jobs/EmployeeComponent';
 import References from './Dashboard/References'
-import ConProfile from './Dashboard/Profile/ConProfile/ConProfile';
-import ProProfile from './Dashboard/Profile/ProProfile/ProProfile';
+//import ConProfile from './Dashboard/Profile/ConProfile/ConProfile';
+//import ProProfile from './Dashboard/Profile/ProProfile/ProProfile';
 
 //import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
 
@@ -73,6 +74,7 @@ class Dash extends Component{
                 <Route path="/proprofile" component={Edit}/>
                 <Route path="/conprofile" component={Edit}/>
                 <Route path="/procompleted" component={ProCompleted}/>
+                <Route path="/concompleted" component={ConCompleted}/>
 
                 <Route path="*" component={NotFound}/>
                 </Switch>

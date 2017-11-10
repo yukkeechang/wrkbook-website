@@ -60,3 +60,6 @@ Meteor.publish('images', function(){
 Meteor.publish('images-id',function(imageId){
   return Images.find({_id: imageId});
 });
+Meteor.publish('cert-images',function(arrayofId){
+  return Images.find({_id: {$in : arrayofId} });
+});

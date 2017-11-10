@@ -177,7 +177,7 @@ Meteor.methods({
           console.log(ServerSession.get('DEFAULTPIC'));
         }
         if('undefined' === typeof(User.profile.employeeData.certfi)){
-          User.profile.employeeData.certfi =[];
+          User.profile.employeeData.certfi = [];
         }
       }else{
         if(('undefined' === typeof(User.profile.employerData)))throw new Meteor.Error('403','NAH');
