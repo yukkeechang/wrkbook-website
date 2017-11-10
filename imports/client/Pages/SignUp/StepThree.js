@@ -13,6 +13,7 @@ export default class stepThree extends Component{
         shownlink:'',
         submit:'Submit',
         validImage: '',
+        stopclicks: '',
         pesonalPic: false,
         onc3:false,
         width:350,
@@ -109,6 +110,7 @@ export default class stepThree extends Component{
         });
         return;
       }
+      this.setState({stopclicks: 'disabled'});
       if(this.isEmpty(this.state.basic)){
           Meteor.call('register',this.props.user,(err)=>{
             if(err) {
@@ -237,7 +239,7 @@ export default class stepThree extends Component{
                    </div>
 
                     <div style ={{display:'flex',justifyContent:'center',alignItems:'center'}} className="col s12">
-                      <a className='btn' onClick={this.submit.bind(this)}>{this.state.submit}</a>
+                      <a className={'btn ' + this.state.stopclicks } onClick={this.submit.bind(this)}>{this.state.submit}</a>
                     </div>
                 </div>
               </div>
