@@ -17,6 +17,7 @@ Reference.attachSchema(ReferenceSchema);
 */
 Meteor.publish('your-references',function(){
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
+    console.log("things");
      return Reference.find({owner: this.userId}, {sort: {updateAt: -1}});
   }else{
     this.stop();
@@ -30,9 +31,6 @@ Meteor.methods({
     let nameErr = !validateReference.validateOne(refObject,'name.text');
     let posErr = !validateReference.validateOne(refObject,'position.text');
     let compErr = !validateReference.validateOne(refObject,'companyName.text');
-    let locName = !validateReference.validateOne(refObject,'location.locationName');
-    let locLat = !validateReference.validateOne(refObject,'location.locationName');
-    let locLng = !validateReference.validateOne(refObject,'location.locationName');
     let emailErr = !validateReference.validateOne(refObject,'email');
     let phoneErr = !validateReference.validateOne(refObject,'phone');
 
@@ -40,21 +38,18 @@ Meteor.methods({
       nameErr   : nameErr,
       posErr    :posErr,
       compErr   :compErr,
-      locName   :locName,
-      locLat    :locLat,
-      locLng    :locLng,
       emailErr  :emailErr,
       phoneErr  :phoneErr
     };
 
-    if(nameErr ||posErr  ||compErr || locName
-        ||locLat  ||locLng  ||emailErr ||phoneErr)throw new Meteor.Error('403',Errors);
+    if(nameErr ||posErr  ||compErr ||emailErr ||phoneErr)throw new Meteor.Error('403',Errors);
   },
   createReference(refObject){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     // check(updateJob.,JobSchema);
+    console.log("NEW REF BOIIII");
     if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
     Meteor.call('validateReference',refObject);
     refObject.owner = this.userId;

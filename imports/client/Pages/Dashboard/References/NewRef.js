@@ -27,10 +27,13 @@ export default class NewRef extends Component{
             phone: this.refs.empPhone.value()
         };
         Meteor.call('validateReference',Reference,(err)=>{
+          console.log('createReference');
             if(err){
                 this.setState(err.reason);
+                console.log(err);
             }else{
                 Meteor.call('createReference',Reference,(err)=>{
+                  console.log("things things");
                     if(err) console.log(err);
                     else{
                         this.refs.employerName.reset();
