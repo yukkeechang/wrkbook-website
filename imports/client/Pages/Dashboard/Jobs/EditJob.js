@@ -1,29 +1,26 @@
-import React, {Component}  from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
-import Location from '../../Shared/Location';
-import MTextField from '../../Shared/MTextField';
+
 import JobCreateComponent from './MultiProComponent';
 import JobSchema from '../../../../api/Schemas/jobSchema';
-import EventSchema from '../../../../api/Schemas/eventSchema';
 import { DEFAULT } from '../../../../api/Schemas/basicTextSchema';
 import LocationSchema from '../../../../api/Schemas/locationSchema';
+import Location from '../../Shared/Location';
+import MTextField from '../../Shared/MTextField';
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
 
-export default class CreateJobs extends Component {
+export default class EditJob extends Component {
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
-
-      $('.modal').modal({
-        complete: function() {this.props.history.push('/jobs')}.bind(this)
-      });
-
       $('select').material_select();
+      $('.modal').modal();
     });
     $(this.refs.titles).change(()=>{
-
       this.setState({titles:$(this.refs.titles).val()})
     });
+
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -45,20 +42,19 @@ export default class CreateJobs extends Component {
     });
     $(this.refs.osha).on('change',(e)=>{
       this.handleSelect(e);
+
     });
+
   }
   constructor(props){
     super(props);
+
+
     this.state={
       jobTitle: false,
-      jobTypes: true,
       visorName: false,
       visorNumb: false,
-      locationName: true,
-       oshaCheck: true,
-       socialCheck: true,
-      locErr: false,
-      titles: [],
+      titles: this.props.jobPost.jobTypes.texts,
       osha10: false,
       osha30: false,
       address: DEFAULT,
@@ -67,10 +63,37 @@ export default class CreateJobs extends Component {
       endT: '',
       endD: '',
       lat: -100,
-      lng: -100
+      lng: -100,
+      locationName: ''
     };
+
+    if (this.props.jobPost.requirements.socialPref.taxID) {
+      $("#taxYes").prop('checked',true);
+
+    }else{
+      $("#taxNo").prop('checked',true);
+
+    }
+    if (this.props.jobPost.requirements.socialPref.social) {
+      $("#sscYes").prop('checked',true);
+    }else{
+      $("#sscNo").prop('checked',true);
+    }
+
+    console.log( $("#sscYes").prop('checked'));
+
   }
-  handleCreate(e){
+  componentWillMount(){
+    console.log('mounted');
+  }
+  getCoords(lat, lng){
+    this.setState({
+      address: this.refs.GoogleAuto.state.searchText,
+      lat:lat,
+      lng:lng
+    });
+  }
+  handleUpdate(e){
     let loc = this.refs.loc.getAddress();
     if(loc.valid){
       this.setState({locErr: false});
@@ -79,8 +102,8 @@ export default class CreateJobs extends Component {
       });
       let job = JobSchema.clean({});
       let location = LocationSchema.clean({});
-      let jobtypes = $('#jobTitles').val();
-
+      let jobtypes = this.state.titles;
+      console.log('we in handleCreate');
       const description = this.refs.jd.value();
       const additionText = this.refs.at.value();
       location = loc.location;
@@ -96,27 +119,61 @@ export default class CreateJobs extends Component {
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
-    console.log(job);
-      Meteor.call('validateJob', job, (err)=>{
-          if(err){
-            console.log(err);
-            this.setState(err.reason);
-          }else{
-            Meteor.call('createJob', job, (err, res)=>{
-              if(err){
-                console.log(err);
-                console.log(err.reason);
-              }
-              else{
-                console.log(res);
-                $('#createModal').modal('open');
-              }
-            });
-          }
+      let newJob = {
+        job: job
+      };
+      console.log(job);
+      let thingy =  this.props.match.params.value;
+      Meteor.call('updateJob', thingy, job, (err)=>{
+        if(err){
+          console.log(err);
+          console.log(err.reason);
+          console.log('above two are update errors');
+        }
+        else{
+          console.log('no error');
+        }
       });
     }
     else{
-      this.setState({locErr:true});
+      console.log('you in the else thingy');
+      let professionals = this.state.titles.map((title, index)=>{
+        return this.refs[title].value();
+      });
+      let job = JobSchema.clean({});
+      let location = LocationSchema.clean({});
+      let jobtypes =this.state.titles;
+      console.log('we in handleCreate');
+      const description = this.refs.jd.value();
+      const additionText = this.refs.at.value();
+      location = this.props.jobPost.location;
+      job.supervisor.name = this.refs.sName.value();
+      job.supervisor.phone = this.refs.sNumber.value();
+      job.additionText = additionText;
+      job.description.text = description;
+      job.jobTypes.texts = Object.values(jobtypes);
+      job.professionals = professionals;
+      job.location = location;
+      console.log(location);
+      job.jobTitle.text = this.refs.jt.value();
+      job.requirements.socialPref.social = $("#sscYes").prop('checked');
+      job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
+      job.requirements.osha.osha10 = this.state.osha10;
+      job.requirements.osha.osha30 = this.state.osha30;
+
+      let thingss =this.props.jobPost._id;
+
+      Meteor.call('updateJob', thingss, job, (err)=>{
+        if(err){
+          console.log(err);
+          console.log(err.reason);
+          console.log('above two are update errors');
+        }
+        else{
+          console.log('no error');
+        }
+      });
+
     }
   }
   handleTitles(){
@@ -166,29 +223,32 @@ export default class CreateJobs extends Component {
     this.setState({endT: time});
   }
   render(){
+
     let empty = 'This cannot be empty';
     let phErr = 'Not a valid phone number';
     return(
       <div className="container">
       <div className="card">
-        <div className="card-content">
+      <div className="card-content">
         <form>
           <div className="input-field col s12">
-            <MTextField ref="jt" id="jobTitle" error={this.state.jobTitle ? empty : ''} label="Job Title *"/>
+            <MTextField ref="jt" id="jobTitle" value={this.props.jobPost.jobTitle.text} error={this.state.jobTitle ? empty : ''} label="Job Title *"/>
           </div>
           <div className="row">
             <div className="input-field col m6 s12">
-              <MTextField ref="sName" id="supervisorName" error={this.state.visorName ? empty : ''} label="Supervisor Name *"/>
+              <MTextField ref="sName" id="supervisorName" value={this.props.jobPost.supervisor.name} error={this.state.visorName ? empty : ''} label="Supervisor Name *"/>
             </div>
             <div className="input-field col m6 s12">
-              <MTextField ref="sNumber" id="supervisorNumber" error={this.state.visorNumb ? empty : ''} label="Supervisor Number *"/>
+              <MTextField ref="sNumber" id="supervisorNumber" value={this.props.jobPost.supervisor.phone} error={this.state.visorNumb ? empty : ''} label="Supervisor Number *"/>
             </div>
           </div>
           <div className="input-field col s12">
-            <Location ref="loc"/>
+            <Location ref="loc"
+              prevAddress={this.props.jobPost.location.locationName}
+            />
           </div>
           <div className="input-field col s12">
-            <MTextField ref="jd" id="jobDescription" label="Job Description *"/>
+            <MTextField ref="jd" id="jobDescription" value={this.props.jobPost.description.text} label="Job Description *"/>
           </div>
         </form>
         <form>
@@ -213,7 +273,7 @@ export default class CreateJobs extends Component {
 
         <form>
           <div className="input-field col m6 s12">
-            <select id="osha" ref="osha" defaultValue={[""]} onChange={()=>{}}>
+            <select id="osha" ref="osha" onChange={this.handleSelect.bind(this)}>
               <option value="" disabled selected>OSHA preference</option>
               <option value="1">No preference</option>
               <option value="2">OSHA 10</option>
@@ -247,44 +307,32 @@ export default class CreateJobs extends Component {
             </div>
           </div>
         </form>
-        <div className="input-field col s12">
-          <select className={this.state.jobTypes? '':"Invalid"} multiple ref="titles" id="jobTitles" defaultValue={[""]}>
-            <option value="" disabled selected>Type of employee(s)</option>
-            <option value="Painter">Painter</option>
-            <option value="Demolitioner">Demolitioner</option>
-            <option value="Glazer">Glazer</option>
-            <option value="Masonry/Stone worker">Masonry/Stone worker</option>
-            <option value="Concrete finisher">Concrete finisher</option>
-            <option value="Plumber">Plumber</option>
-            <option value="Electrician">Electrician</option>
-            <option value="Heat/Air conditioning worker">Heat/Air conditioning worker</option>
-          </select>
-        </div>
         {this.state.titles.map((title, index)=>{
           return(
             <JobCreateComponent ref={title} title={title} key={title}/>
           )
         })}
-        <div>
+        <form>
           <div className="input-field col s12">
-            <MTextField ref="at" id="additionalText" label="Additional Information"/>
+            <MTextField ref="at" id="additionalText" value={this.props.jobPost.additionText} label="Additional Information"/>
           </div>
 
           <div style={{display:'flex', justifyContent:'center'}}>
-            <a className="waves-effect waves-teal btn-flat" onClick={this.handleCreate.bind(this)}>Create job</a>
+            <a className="waves-effect waves-teal btn-flat" onClick={this.handleUpdate.bind(this)}>Update job</a>
           </div>
-          <div id="createModal" className="modal">
+          <div id="updateModal" className="modal">
             <div className="modal-content">
-              <h3>Your job post has been created.</h3>
+              <h4>Your job has been updated.</h4>
             </div>
             <div className="modal-footer">
-              <Link to="/jobs"><a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a></Link>
+              <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
           </div>
-        </div>
-        </div>
+        </form>
+      </div>
       </div>
       </div>
     )
+
   }
 }

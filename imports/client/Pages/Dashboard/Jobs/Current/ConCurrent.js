@@ -12,7 +12,7 @@ class ConCurrentPage extends React.Component {
     super(props);
   }
 
-function isEmpty(obj) {
+isEmpty(obj) {
     for (var x in obj) { return false; }
     return true;
 }

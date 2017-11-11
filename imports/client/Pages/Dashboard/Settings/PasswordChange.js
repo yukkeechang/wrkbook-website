@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Accounts } from 'meteor/accounts-base';
 import MTextField from '../../Shared/MTextField';
+import ReactDOM from 'react-dom';
 
 export default class PasswordChange extends Component {
     constructor(props) {
@@ -14,9 +15,22 @@ export default class PasswordChange extends Component {
         };
     }
 
+    componentDidMount(){
+      let dropdowns = ReactDOM.findDOMNode();
+      $(dropdowns).ready(()=>{
+
+        $('.modal').modal({
+           complete: function() { this.props.history.push('/') }.bind(this)
+        });
+      });
+
+
+    }
+
+
     handleSubmit(event) {
         event.preventDefault();
-
+    
         // Clear the error messages of each field
         Object.keys(this.state).map((key) => {
             this.setState({[key]: ''});
@@ -31,6 +45,8 @@ export default class PasswordChange extends Component {
                 // If the old password doesn't match what Meteor has on file, spit back an error
                 if (err && err.reason === "Incorrect password") {
                     this.setState({opError: 'Old password is incorrect'});
+                }else {
+                  $('#modal1').modal('open');
                 }
             });
         } else {
@@ -77,6 +93,16 @@ export default class PasswordChange extends Component {
                             </div>
                         </form>
                     </div>
+                </div>
+
+                <div id="modal1" className="modal">
+                  <div className="modal-content">
+                    <h4>Password Has Been Changed</h4>
+
+                  </div>
+                  <div className="modal-footer">
+                    <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Aiight Bet</a>
+                  </div>
                 </div>
             </div>
         )

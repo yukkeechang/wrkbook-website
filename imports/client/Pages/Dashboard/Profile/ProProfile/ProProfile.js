@@ -10,6 +10,7 @@ import Payment from './Components/Payment';
 import Reviews from './Components/Reviews';
 import { createContainer } from 'meteor/react-meteor-data';
 import {Link} from 'react-router-dom';
+import References from '../../../Dashboard/References';
 
 //import Header from '../Shared/Header';
 
@@ -265,7 +266,9 @@ export class ProProfilePage extends React.Component {
               :
               null
             }
+            {this.state.reviewsDisplayed &&  <References/> }
             { this.state.reviewsDisplayed && <Reviews data={this.state.data} user={this.props.user}/> }
+
           </div>
         </div>
       </div>
