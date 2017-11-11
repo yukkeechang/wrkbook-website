@@ -21,20 +21,7 @@ class ConJobPost extends React.Component{
     })
 
 
-
-    Meteor.call('getEventInfo',this.props.events[this.state.value],(err,res)=>{
-      if(err){
-        console.log(err);
-      }else{
-
-        let startAt = res.startAt.toLocaleString();
-        let endAt = res.endAt.toLocaleString();
-        this.setState({
-          endAt: endAt,
-          startAt: startAt
-        });
-      }
-    });
+    this.getEventData();
   }
   constructor(props){
     super(props);
@@ -56,6 +43,24 @@ class ConJobPost extends React.Component{
     this.setState({
       value: e.target.value,
     });
+
+    this.getEventData();
+
+  }
+  getEventData(){
+        Meteor.call('getEventInfo',this.props.events[this.state.value],(err,res)=>{
+          if(err){
+            console.log(err);
+          }else{
+
+            let startAt = res.startAt.toLocaleString();
+            let endAt = res.endAt.toLocaleString();
+            this.setState({
+              endAt: endAt,
+              startAt: startAt
+            });
+          }
+        });
   }
   handleMember(){
     $('#memebers').tooltip('remove');
