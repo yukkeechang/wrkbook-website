@@ -7,12 +7,12 @@ import MSpinner from '../../../Shared/MSpinner';
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
 
-class ConCurrentPage extends React.Component {
+class ProCurrentPage extends React.Component {
   constructor(props) {
     super(props);
   }
 
-function isEmpty(obj) {
+isEmpty(obj) {
     for (var x in obj) { return false; }
     return true;
 }
@@ -45,7 +45,7 @@ render() {
 
 
 
-export default ConCurrent = createContainer((props) => {
+export default ProCurrent = createContainer((props) => {
   let user = Meteor.user();
   let jobPost=[]
   let loading = false
@@ -60,7 +60,7 @@ export default ConCurrent = createContainer((props) => {
     loading: loading,
     jobPost: jobPost
   };
-}, ConCurrentPage);
+}, ProCurrentPage);
 
 
 //get employees from the job
