@@ -5,6 +5,7 @@ import LocationSchema  from './locationSchema';
 import  RequirementSchema  from './requirementSchema';
 import SupervisorSchema from './supervisorSchema';
 import ProfessionalSchema from './professionalSchema';
+import IdSchema from './specificId';
 
 //Make Jobtitle and are of objects where title corresponds to pay
 SimpleSchema.messages({
@@ -25,6 +26,14 @@ export default JobSchema = new SimpleSchema({
   },
   declineemployeeIds:{
     type: [String],
+    defaultValue: [],
+  },
+  applyAsIDs:{
+    type:[IdSchema],
+    defaultValue: [],
+  },
+  admitAsIDs:{
+    type:[IdSchema],
     defaultValue: [],
   },
   description:{

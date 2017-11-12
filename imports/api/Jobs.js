@@ -8,6 +8,7 @@ import EmployeeSchema  from './Schemas/employeeSchema';
 import EventSchema from './Schemas/eventSchema';
 import OshaSchema from './Schemas/oshaSchema';
 import SocialSchema from './Schemas/socialSchema';
+import IdSchema from './Schemas/specificId';
 import ProfessionalSchema from './Schemas/professionalSchema'
 import NotificationSchema from './Schemas/notificationSchema';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
@@ -58,12 +59,8 @@ Meteor.publish('job-post', function(employee){
     let currentDate = new Date();
 
 
-    let length = jobTitle.length;
-    if (length == 1) {
-      jobTitle[1]= "AAAA";
-      // console.log(jobTitle);
-    }
-    console.log(jobTitle);
+
+
 
     let lat_top = lat + northDisplacement;
     let lat_bot = lat + southDisplacement;
@@ -72,13 +69,12 @@ Meteor.publish('job-post', function(employee){
     let hackIdThing =[];
     hackIdThing[0] = this.userId;
 
-
+// 'generalStart':{$gt: currentDate},
       let results =  Job.find({
           $and: [
             {
             'jobTypes.texts' : {$in : jobTitle},
             'declineemployeeIds' :{$nin : hackIdThing},
-            'generalStart':{$gt: currentDate},
             'isOpen':true,
             'location.latitude': {$gte: lat_bot, $lt: lat_top},
             'location.longitude': {$gte: lng_bot , $lt: lng_top}}
@@ -152,6 +148,19 @@ Meteor.publish('job-post-admitted',function(){
     let hackIdThing = [];
     hackIdThing[0] = this.userId;
     return Job.find({admitemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});;
+  }else{
+    this.stop();
+    return ;
+  }
+
+});
+
+Meteor.publish('job-post-applied',function(){
+
+  if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
+    let hackIdThing = [];
+    hackIdThing[0] = this.userId;
+    return Job.find({applyemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});;
   }else{
     this.stop();
     return ;
@@ -410,6 +419,13 @@ Meteor.methods({
       job.employerId = this.userId;
       job.createdAt = new Date();
       job.updateAt = new Date();
+      let thingy = IdSchema.clean({});
+
+      for (let i = 0; i < eventz.length; i++) {
+        job.applyAsIDs[i] = thingy;
+        job.admitAsIDs[i]= thingy;
+      }
+
       let id1 = Job.insert(job);
       let ids2 =[];
       for (let i = 0; i < eventz.length; i++) {
@@ -417,6 +433,7 @@ Meteor.methods({
         eventz[i].createdAt = new Date();
         ids2[i] =  Event.insert(eventz[i]);
         eventz[i].jobId = id1;
+
         let selector2 = {_id: ids2[i], owner: this.userId};
         Event.update(selector2,{$set:eventz[i]});
       }
@@ -556,9 +573,9 @@ Meteor.methods({
   }
 },
 
-  applyForJob(jobId){
+  applyForJob(jobId,position){
     if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
-
+    // console.log(position);
     let job = Job.findOne({_id: jobId});
     if(!job)throw new Meteor.Error('403','Job was not found');
 
@@ -567,9 +584,18 @@ Meteor.methods({
     if (job.applyemployeeIds.includes(this.userId)) {
       return;
     }else{
+      let idx = job.jobTypes.texts.indexOf(position);
+      if(job.admitAsIDs[idx].ids.length >= job.professionals[idx].numWorkers)return;
       job.applyemployeeIds.push(this.userId);
       let noCopies = new Set(job.applyemployeeIds);
       job.applyemployeeIds = Array.from(noCopies);
+
+
+
+
+      job.applyAsIDs[idx].ids.push(this.userId);
+      let nonCopies = new Set(job.applyAsIDs[idx].ids);
+      job.applyAsIDs[idx].ids = Array.from(nonCopies);
     }
 
     let selector = {_id: jobId};
@@ -598,12 +624,34 @@ Meteor.methods({
       if (idx != -1) { //Should always be true
           job.applyemployeeIds.splice(idx,1);
       }
+      let idxx = -1;
+      let idxx2 = -1;
+      for (let indx in job.applyAsIDs) {
+        if (job.applyAsIDs[indx].ids.indexOf(this.userId) != -1) {
+          idxx = job.applyAsIDs[indx].ids.indexOf(this.userId);
+          idxx2 = indx;
+        }
+      }
+      job.applyAsIDs[idxx2].ids.splice(idxx,1);
+
+
+
     }
     if (job.admitemployeeIds.includes(this.userId)) {
       let idx = job.admitemployeeIds.indexOf(this.userId);
       if (idx != -1) { //Should always be true
           job.admitemployeeIds.splice(idx,1);
       }
+
+      let idxx = -1;
+      let idxx2 = -1;
+      for (let indx in job.admitAsIDs) {
+        if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
+          idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
+          idxx2 = indx;
+        }
+      }
+      job.admitAsIDs[idxx2].ids.splice(idxx,1);
     }
     if (job.declineemployeeIds.includes(this.userId)) {
       return;
@@ -628,12 +676,32 @@ Meteor.methods({
         if (idx != -1) { //Should always be true
             job.applyemployeeIds.splice(idx,1);
         }
+        let idxx = -1;
+        let idxx2 = -1;
+        for (let indx in job.applyAsIDs) {
+          if (job.applyAsIDs[indx].ids.indexOf(employeeId) != -1) {
+            idxx = job.applyAsIDs[indx].ids.indexOf(employeeId);
+            idxx2 = indx;
+          }
+        }
+        job.applyAsIDs[idxx2].ids.splice(idxx,1);
+
       }
       if (job.admitemployeeIds.includes(employeeId)) {
         let idx = job.admitemployeeIds.indexOf(employeeId);
         if (idx != -1) { //Should always be true
             job.admitemployeeIds.splice(idx,1);
         }
+
+        let idxx = -1;
+        let idxx2 = -1;
+        for (let indx in job.admitAsIDs) {
+          if (job.admitAsIDs[indx].ids.indexOf(employeeId) != -1) {
+            idxx = job.admitAsIDs[indx].ids.indexOf(employeeId);
+            idxx2 = indx;
+          }
+        }
+        job.admitAsIDs[idxx2].ids.splice(idxx,1);
       }
       if (job.declineemployeeIds.includes(employeeId)) {
         return;
@@ -653,11 +721,22 @@ Meteor.methods({
     let job = Job.findOne({_id: jobId});
     if(!job)throw new Meteor.Error('403','Job was not found');
 
+    let idxx2 = -1;
+
     if(job.applyemployeeIds.includes(employeeId)){
       let idx = job.applyemployeeIds.indexOf(employeeId);
       if (idx != -1) { //Should always be true
           job.applyemployeeIds.splice(idx,1);
       }
+
+      let idxx = -1;
+      for (let indx in job.applyAsIDs) {
+        if (job.applyAsIDs[indx].ids.indexOf(employeeId) != -1) {
+          idxx = job.applyAsIDs[indx].ids.indexOf(employeeId);
+          idxx2 = indx;
+        }
+      }
+      job.applyAsIDs[idxx2].ids.splice(idxx,1);
     }
     if(job.declineemployeeIds.includes(employeeId)){ //Shouldn't happen but incase
       let idx = job.declineemployeeIds.indexOf(employeeId);
@@ -668,9 +747,14 @@ Meteor.methods({
     if (job.admitemployeeIds.includes(employeeId)) {
       return;
     }else{
+      if(job.admitAsIDs[idxx2].ids.length >= job.professionals[idxx2].numWorkers)return;
       job.admitemployeeIds.push(employeeId);
       let noCopies = new Set(job.admitemployeeIds);
       job.admitemployeeIds = Array.from(noCopies);
+
+      job.admitAsIDs[idxx2].ids.push(employeeId);
+      let nonCopies = new Set(job.admitAsIDs[idxx2].ids);
+      job.admitAsIDs[idxx2].ids = Array.from(nonCopies);
     }
 
     let notify = NotificationSchema.clean({});
