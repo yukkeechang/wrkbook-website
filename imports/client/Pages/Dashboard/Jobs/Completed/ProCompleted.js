@@ -14,6 +14,15 @@ class ProCompletedJobsPage extends React.Component {
     super(props);
   }
 
+  NoCompleteJob() {
+    return (
+      <div className="card-panel  center-align">
+          <img src="/images/hardhat.png" height="150" width="150" />
+          <h5>You dont have any completed jobs!</h5>
+      </div>
+    )
+  }
+
 
 render() {
   let jobz = this.props.jobPost;
@@ -50,7 +59,7 @@ render() {
   else {
     return (
       <div>
-      no completed jobs
+      {this.NoCompleteJob()}
       </div>
       )
     }

@@ -174,7 +174,7 @@ class ConComponentPage extends React.Component{
 render() {
   return(
     <div>
-  test
+    hey
     </div>
 
   )
