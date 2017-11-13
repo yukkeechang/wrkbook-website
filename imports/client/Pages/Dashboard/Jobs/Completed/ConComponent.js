@@ -1,8 +1,7 @@
 import React from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 
-
-export default class ConComponent extends React.Component {
-//MAKE A CARD SHELL
+ class ConComponentPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -38,9 +37,13 @@ export default class ConComponent extends React.Component {
         </div>
     )
   }
+  // console.log("employee:  "+ this.props.admitemployeeIds)
+  // console.log("job:  "+ this.props.jobinfo)
+  // console.log("pay: "+ this.props.jobinfo.pay)
 
   render() {
-    console.log(this.props.testing)
+    console.log("loading: "+ this.props.loading)
+    console.log(this.props.jobinfo._id)
     return(
       <div>
       <h1 className="center-align">Completed Jobs</h1>
@@ -49,6 +52,9 @@ export default class ConComponent extends React.Component {
 
           {this.cardHeader()}
           {this.cardLabel()}
+          this.props.title
+          {this.props.additionText}
+          {this.props.pay}
           </div>
         </div>
       </div>
@@ -57,3 +63,17 @@ export default class ConComponent extends React.Component {
   }
 
 }
+export default ConComponent = createContainer((props) => {
+  let user = Meteor.user();
+  let loading = false
+  if(!('undefined' === typeof(user))){
+
+    let handle = Meteor.subscribe('admit-employee-job', props.jobinfo._id );
+    loading = handle.ready();
+    console.log("loading: "+loading);
+  }
+  return {
+    user: user,
+    loading: loading
+  };
+}, ConComponentPage);

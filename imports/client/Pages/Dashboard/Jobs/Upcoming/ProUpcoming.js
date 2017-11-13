@@ -50,7 +50,7 @@ render() {
   else {
     return (
       <div>
-      no completed jobs
+      no upcoming jobs
       </div>
       )
     }
@@ -64,9 +64,8 @@ export default ProCompleted = createContainer(({props}) => {
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('completed-job-pro',user._id);
+    let handle = Meteor.subscribe('upcoming-job-pro',user._id);
     loading = handle.ready();
-    console.log("loading: "+loading)
     jobPost = Job.find({}).fetch();
     console.log(jobPost)
   }
