@@ -16,6 +16,14 @@ class ProCurrentPage extends React.Component {
     super(props);
   }
 
+  NoCurrentJob() {
+    return (
+      <div className="card-panel  center-align">
+          <img src="/images/hardhat.png" height="150" width="150" />
+          <h5>You dont have any current jobs!</h5>
+      </div>
+    )
+  }
 
 
 
@@ -38,7 +46,7 @@ render() {
   else {
     return (
       <div>
-      no current jobs
+      {this.NoCurrentJob()}
       </div>
     )
   }

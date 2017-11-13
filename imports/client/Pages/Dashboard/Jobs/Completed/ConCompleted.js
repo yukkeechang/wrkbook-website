@@ -4,6 +4,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import ConComponent from './ConComponent';
+import { Link } from 'react-router-dom';
 
 
 
@@ -15,6 +16,20 @@ function isEmpty(obj) {
 class ConCompletedJobsPage extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  NoCompleteJob() {
+    return (
+      <div className="card-panel  center-align">
+          <img src="/images/hardhat.png" height="150" width="150" />
+          <h5>You dont have any completed jobs!</h5>
+          <Link to={"/createjob"} className="btn">
+            <div className="col s12 m12 l12">
+                  Create a New Job!
+            </div>
+            </Link>
+      </div>
+    )
   }
 
 
@@ -57,7 +72,7 @@ render() {
   else {
     return (
       <div>
-      no completed jobs
+      {this.NoCompleteJob()}
       </div>
       )
     }
