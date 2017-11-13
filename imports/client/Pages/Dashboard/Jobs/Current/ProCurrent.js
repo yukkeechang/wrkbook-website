@@ -52,7 +52,7 @@ export default ProCurrent = createContainer((props) => {
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('current-job-pro',user._id);
+    let handle = Meteor.subscribe('current-job-pro');
     loading = handle.ready();
     console.log("loading "+loading);
     jobPost = Job.find({}).fetch();

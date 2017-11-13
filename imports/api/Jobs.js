@@ -147,7 +147,7 @@ Meteor.publish('job-post-admitted',function(){
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
     let hackIdThing = [];
     hackIdThing[0] = this.userId;
-    return Job.find({admitemployeeIds: {$in: hackIdThing}});;
+    return Job.find({admitemployeeIds: {$in: hackIdThing}});
   }else{
     this.stop();
     return ;
@@ -188,10 +188,11 @@ Meteor.publish('upcoming-job-con',function(){
 });
 
 //Find current job for professionals
-Meteor.publish('current-job-pro',function(userId){
+// These dont need to paramter to be passed since we know who is calling this function
+Meteor.publish('current-job-pro',function(){
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
     let hackIdThing =[];
-    hackIdThing[0] = userId;
+    hackIdThing[0] = this.userId;
     let currentDate = new Date()
     console.log("going into current-job-pro")
     let job = Job.find({$and:
@@ -199,7 +200,7 @@ Meteor.publish('current-job-pro',function(userId){
         {
           'admitemployeeIds' :{$in : hackIdThing}
         }, {
-          $or:[{'generalStart':{$lt: currentDate}},{'generalStart':{$eq: currentDate}}]
+          'generalStart':{$lte: currentDate}
         }, {
           'generalEnd':{$gt: currentDate}
         }, {
@@ -220,10 +221,11 @@ Meteor.publish('current-job-pro',function(userId){
 });
 
 //Find completed job for professionals
-Meteor.publish('completed-job-pro',function(userId){
+// These dont need to paramter to be passed since we know who is calling this function
+Meteor.publish('completed-job-pro',function(){
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
     let hackIdThing =[];
-    hackIdThing[0] = userId;
+    hackIdThing[0] = this.userId;
     let currentDate = new Date()
     console.log("going into completed-job-pro")
     let job = Job.find({$and:
@@ -250,10 +252,11 @@ Meteor.publish('completed-job-pro',function(userId){
 });
 
 //Find upcoming job for professionals
-Meteor.publish('upcoming-job-pro',function(userId){
+// These dont need to paramter to be passed since we know who is calling this function 
+Meteor.publish('upcoming-job-pro',function(){
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
     let hackIdThing =[];
-    hackIdThing[0] = userId;
+    hackIdThing[0] = this.userId;
     let currentDate = new Date()
     console.log("going into upcoming-job-pro")
     let job = Job.find({$and:
@@ -374,13 +377,13 @@ Meteor.methods({
     let largeTime = new Date();
 
     for (let idx in events) {
-        if (smallTime > events[idx].startAt) {
+        if (smallTime >= events[idx].startAt) {
           smallTime = events[idx].startAt;
         }
     }
 
     for (let idx in events) {
-        if (largeTime < events[idx].endAt) {
+        if (largeTime <= events[idx].endAt) {
           largeTime =  events[idx].endAt;
         }
     }
