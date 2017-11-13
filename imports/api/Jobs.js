@@ -259,7 +259,7 @@ Meteor.publish('upcoming-job-pro',function(userId){
     let job = Job.find({$and:
       [
         {
-          'admitemployeeIds' :{$in : hackIdThing}
+          'admitemployeeIds' :{$in : [hackIdThing]}
         }, {
           'generalStart':{$gt: currentDate}
         }, {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
+import ConComponent from './ConComponent';
 
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
@@ -26,9 +27,12 @@ render() {
   }
   else if(!(isEmpty(this.props.jobPost))) {
     return (
-      <div>
-        job post goes here
-      </div>
+
+        <ConComponent
+        jobinfo={this.props.jobPost}
+        />
+
+
     )
   }
   else {
