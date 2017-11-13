@@ -67,7 +67,7 @@ export default ConJobPosts = createContainer(( {props} ) => {
   let loading = false;
 
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employee',user._id);
+    let handle = Meteor.subscribe('job-post-employer',user._id);
     loading = handle.ready();
     console.log(loading);
     jobPost = Job.find({}).fetch();

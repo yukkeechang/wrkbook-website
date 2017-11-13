@@ -64,9 +64,11 @@ export default ProCompleted = createContainer(({props}) => {
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post',user.profile.employeeData);
+    let handle = Meteor.subscribe('completed-job-pro',user.profile.employeeData);
     loading = handle.ready();
+    console.log("loading: "+loading)
     jobPost = Job.find({}).fetch();
+    console.log(jobPost)
   }
   return {
     user: user,

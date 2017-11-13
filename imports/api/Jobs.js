@@ -95,7 +95,8 @@ Meteor.publish('job-post', function(employee){
 
 
       });
-
+      console.log("RESULTS ===================================")
+      console.log(results)
       return results;
 
 
@@ -198,7 +199,9 @@ Meteor.publish('current-job-pro',function(userId){
         {
           'admitemployeeIds' :{$in : hackIdThing}
         }, {
-          'generalStart':{$eq: currentDate}
+          $or:[{'generalStart':{$lt: currentDate}},{'generalStart':{$eq: currentDate}}]
+        }, {
+          'generalEnd':{$gt: currentDate}
         }, {
           'isOpen':true
         }
@@ -228,7 +231,7 @@ Meteor.publish('completed-job-pro',function(userId){
         {
           'admitemployeeIds' :{$in : hackIdThing}
         }, {
-          'generalStart':{$lt: currentDate}
+          'generalEnd':{$lt: currentDate}
         }, {
           'isOpen':false
         }
@@ -237,7 +240,7 @@ Meteor.publish('completed-job-pro',function(userId){
     if(!job)throw new Meteor.Error('403','Job was not found');
     console.log("job")
     console.log(job)
-    console.log("coming out of current-job-pro")
+    console.log("coming out of completed-job-pro")
     return job;
 
   } else {
@@ -267,7 +270,6 @@ Meteor.publish('upcoming-job-pro',function(userId){
     if(!job)throw new Meteor.Error('403','Job was not found');
     console.log("job")
     console.log(job)
-    console.log("coming out of current-job-pro")
     return job;
 
   } else {
