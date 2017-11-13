@@ -27,11 +27,17 @@ render() {
   }
   else if(!(isEmpty(this.props.jobPost))) {
     return (
-
-        <ConComponent
-        jobinfo={this.props.jobPost}
-        />
-
+      <div>
+        {this.props.jobPost.map(function(job, index){
+          return(
+            <ConComponent
+            key={job._id}
+            jobinfo={job}
+            />
+          )
+      })
+    }
+      </div>
 
     )
   }
@@ -48,11 +54,10 @@ render() {
 
 
 export default ConCurrent = createContainer((props) => {
-  let user = Meteor.user();
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employer',user._id);
+    let handle = Meteor.subscribe('job-post-employer');
     loading = handle.ready();
     console.log("loading "+loading);
     jobPost = Job.find({}).fetch();
