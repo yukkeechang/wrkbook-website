@@ -6,7 +6,7 @@ import MSpinner from '../../../Shared/MSpinner';
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
 
-isEmpty(obj) {
+function isEmpty(obj) {
     for (var x in obj) { return false; }
     return true;
 }
