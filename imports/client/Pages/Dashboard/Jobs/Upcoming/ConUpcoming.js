@@ -1,16 +1,16 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import EmployerNoUpcomingJobs from './Upcoming/EmployerNoUpcomingJobs';
+import EmployerNoUpcomingJobs from './EmployerNoUpcomingJobs';
 
-import MSpinner from '../../Shared/MSpinner';
-import ConJobPostComponent from './ConJobPostComponent';
+import MSpinner from '../../../Shared/MSpinner';
+import ConComponent from './ConComponent';
 
 function isEmpty(obj) {
   for (var x in obj) { return false; }
   return true;
 }
 
-class ContractorJobPosts extends React.Component{
+class ConUpcomingPage extends React.Component{
   constructor(props){
     super(props);
     this.state={
@@ -34,7 +34,7 @@ class ContractorJobPosts extends React.Component{
           {jobz.map(function(job, index){
 
             return(
-              <ConJobPostComponent
+              <ConComponent
 
                 key={job._id}
                 jobinfo = {job}
@@ -61,13 +61,13 @@ class ContractorJobPosts extends React.Component{
     }
   }
 }
-export default ConJobPosts = createContainer(( {props} ) => {
+export default ConUpcoming = createContainer(( {props} ) => {
   let user = Meteor.user();
   let jobPost =[];
   let loading = false;
 
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employer',user._id);
+    let handle = Meteor.subscribe('upcoming-job-con',user._id);
     loading = handle.ready();
     console.log(loading);
     jobPost = Job.find({}).fetch();
@@ -77,4 +77,4 @@ export default ConJobPosts = createContainer(( {props} ) => {
     loading:loading,
     jobPost:jobPost
   };
-}, ContractorJobPosts);
+}, ConUpcomingPage);
