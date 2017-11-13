@@ -186,6 +186,97 @@ Meteor.publish('upcoming-job-con',function(){
   }
 });
 
+//Find current job for professionals
+Meteor.publish('current-job-pro',function(userId){
+  if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
+    let hackIdThing =[];
+    hackIdThing[0] = userId;
+    let currentDate = new Date()
+    console.log("going into current-job-pro")
+    let job = Job.find({$and:
+      [
+        {
+          'admitemployeeIds' :{$in : hackIdThing}
+        }, {
+          'generalStart':{$eq: currentDate}
+        }, {
+          'isOpen':true
+        }
+      ]
+    })
+    if(!job)throw new Meteor.Error('403','Job was not found');
+    console.log("job")
+    console.log(job)
+    console.log("coming out of current-job-pro")
+    return job;
+
+  } else {
+    this.stop();
+    return;
+  }
+});
+
+//Find completed job for professionals
+Meteor.publish('completed-job-pro',function(userId){
+  if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
+    let hackIdThing =[];
+    hackIdThing[0] = userId;
+    let currentDate = new Date()
+    console.log("going into completed-job-pro")
+    let job = Job.find({$and:
+      [
+        {
+          'admitemployeeIds' :{$in : hackIdThing}
+        }, {
+          'generalStart':{$lt: currentDate}
+        }, {
+          'isOpen':false
+        }
+      ]
+    })
+    if(!job)throw new Meteor.Error('403','Job was not found');
+    console.log("job")
+    console.log(job)
+    console.log("coming out of current-job-pro")
+    return job;
+
+  } else {
+    this.stop();
+    return;
+  }
+});
+
+//Find upcoming job for professionals
+Meteor.publish('upcoming-job-pro',function(userId){
+  if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
+    let hackIdThing =[];
+    hackIdThing[0] = userId;
+    let currentDate = new Date()
+    console.log("going into upcoming-job-pro")
+    let job = Job.find({$and:
+      [
+        {
+          'admitemployeeIds' :{$in : hackIdThing}
+        }, {
+          'generalStart':{$gt: currentDate}
+        }, {
+          'isOpen':true
+        }
+      ]
+    })
+    if(!job)throw new Meteor.Error('403','Job was not found');
+    console.log("job")
+    console.log(job)
+    console.log("coming out of current-job-pro")
+    return job;
+
+  } else {
+    this.stop();
+    return;
+  }
+});
+
+
 
 Meteor.publish('current-job-con',function(){
   let currentDate = new Date();

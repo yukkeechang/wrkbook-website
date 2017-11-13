@@ -1,4 +1,3 @@
-//make page for emp con import React from 'react';
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
@@ -7,17 +6,15 @@ import MSpinner from '../../../Shared/MSpinner';
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
 
-class ConCurrentPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
 function isEmpty(obj) {
     for (var x in obj) { return false; }
     return true;
 }
 
-
+class ConCurrentPage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
 render() {
   if(!this.props.loading) {
@@ -27,7 +24,7 @@ render() {
       </div>
     )
   }
-  else if(!(isEmpty(jobPost)) {
+  else if(!(isEmpty(this.props.jobPost))) {
     return (
       <div>
         job post goes here
@@ -41,6 +38,7 @@ render() {
       </div>
     )
   }
+ }
 }
 
 

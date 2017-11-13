@@ -12,6 +12,8 @@ import Home from './Dashboard/Home/Home';
 import NotFound from '../Pages/NotFound';
 import Payment from './Dashboard/Settings/Payment';
 import Completed from './Dashboard/Jobs/Completed/Completed';
+import Upcoming from './Dashboard/Jobs/Upcoming/Upcoming';
+import Current from './Dashboard/Jobs/Current/Current';
 
 
 
@@ -76,6 +78,8 @@ class Dash extends Component{
                 <Route path="/proprofile" component={Edit}/>
                 <Route path="/conprofile" component={Edit}/>
                 <Route path="/completed" component={Completed}/>
+                <Route path="/current" component={Current}/>
+                <Route path="/upcoming" component={Upcoming}/>
                 <Route path="/procompleted" component={ProCompleted}/>
                 <Route path="/concompleted" component={ConCompleted}/>
 

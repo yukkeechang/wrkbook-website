@@ -6,16 +6,17 @@ import MSpinner from '../../../Shared/MSpinner';
 
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
+function isEmpty(obj) {
+    for (var x in obj) { return false; }
+    return true;
+}
 
 class ProCurrentPage extends React.Component {
   constructor(props) {
     super(props);
   }
 
-isEmpty(obj) {
-    for (var x in obj) { return false; }
-    return true;
-}
+
 
 
 
@@ -27,7 +28,7 @@ render() {
       </div>
     )
   }
-  else if(!(isEmpty(jobPost)) {
+  else if(!(isEmpty(this.props.jobPost))) {
     return (
       <div>
         job post goes here
@@ -41,6 +42,7 @@ render() {
       </div>
     )
   }
+ }
 }
 
 
@@ -50,10 +52,12 @@ export default ProCurrent = createContainer((props) => {
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employer',user._id);
+    let handle = Meteor.subscribe('current-job-pro',user._id);
     loading = handle.ready();
     console.log("loading "+loading);
     jobPost = Job.find({}).fetch();
+    // console.log("job");
+    // console.log(jobPost);
   }
   return {
     user: user,
