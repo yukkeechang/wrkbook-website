@@ -70,6 +70,7 @@ render() {
 export default ConCurrent = createContainer((props) => {
   let jobPost=[]
   let loading = false
+  let user = Meteor.user();
   if(!('undefined' === typeof(user))){
     let handle = Meteor.subscribe('job-post-employer');
     loading = handle.ready();
