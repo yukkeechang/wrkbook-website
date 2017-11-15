@@ -32,6 +32,7 @@ export default class EmpJobPostComponent extends React.Component{
     apply = this.props.jobinfo.applyemployeeIds.includes(Meteor.userId())||this.props.jobinfo.admitemployeeIds.includes(Meteor.userId());
     let label = apply ? 'Applied': 'Apply';
     let disable = apply ? 'disabled': '';
+    let employeeThings = Meteor.user().profile.employeeData;
     this.state={
       id: this.props.jobinfo._id,
       name: '',
@@ -42,7 +43,7 @@ export default class EmpJobPostComponent extends React.Component{
       showapply: disable,
       dropButton: dropButton,
       selectedApply: '',
-      employeeObject: {},
+      employeeObject: employeeThings,
       osha10: this.props.jobinfo.requirements.osha.osha10,
       osha30: this.props.jobinfo.requirements.osha.osha30,
       license: this.props.jobinfo.requirements.driverLicense,
@@ -76,19 +77,9 @@ export default class EmpJobPostComponent extends React.Component{
     });
   }
   handleApply(){
-    Meteor.call('findUserbyId', Meteor.userId(), function(err, res){
-      if(err){
-        console.log(err);
-      }
-      else{
-        if(res){
-          console.log(res);
-        }
-      }
-    }).bind(this);
     let job = this.props.jobinfo;
     let jobId = job._id;
-    Meteor.call('applyForJob',jobId,(err)=>{
+    Meteor.call('applyForJob',jobId,this.state.selectedApply,(err)=>{
       if(err){
         console.log(err);
       }
@@ -168,27 +159,33 @@ export default class EmpJobPostComponent extends React.Component{
                 </div>
               </div>
               <div id="applyModal" className="modal">
-                <div className="modal-content">
+                <div className="modal-content" style={{ overflowY: 'scroll'}}>
                   <div className="col s12">
-                    <select ref="titles" id="jobTitles" onChange={this.selectedApply.bind(this)}>
-                      <option value="" disabled selected>Choose employee type to apply as</option>
-                      {this.props.jobinfo.jobTypes.texts.map((title, index)=>{
-                        return(
-                          <option value={title}>{title}</option>
-                        )
-                      })}
-                    </select>
+                    <div className="row">
+
+                        <select ref="titles" id="jobTitles" onChange={this.selectedApply.bind(this)}>
+                          <option value="" disabled selected>Choose employee type to apply as</option>
+                          {this.state.employeeObject.jobTitle.map((title, index)=>{
+                            return(
+                              <option value={title}>{title}</option>
+                            )
+                          })}
+                        </select>
+
+                    </div>
                   </div>
                 </div>
+                <br/>
                 <div className="modal-footer">
-                  <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleApply.bind(this)}>
+                  <button className="waves-effect waves-green green lighten-3 btn-flat" onClick={this.handleApply.bind(this)}>
                     Confirm apply.
                   </button>
                 </div>
               </div>
+
               <div id="declineModal" className="modal">
                 <div className="modal-content">
-                  <h4>Are you sure you want to decline this job? Once deleted you can not get this job back.</h4>
+                  <h4>Are you sure you want to decline this job? <br/>Once deleted you can not get this job back.</h4>
                 </div>
                 <div className="modal-footer">
                   <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline.bind(this)}>

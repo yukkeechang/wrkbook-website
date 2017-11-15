@@ -14,6 +14,15 @@ class ProCompletedJobsPage extends React.Component {
     super(props);
   }
 
+  NoCompleteJob() {
+    return (
+      <div className="card-panel  center-align">
+          <img src="/images/hardhat.png" height="150" width="150" />
+          <h5>You dont have any completed jobs!</h5>
+      </div>
+    )
+  }
+
 
 render() {
   let jobz = this.props.jobPost;
@@ -50,7 +59,7 @@ render() {
   else {
     return (
       <div>
-      no completed jobs
+      {this.NoCompleteJob()}
       </div>
       )
     }
@@ -64,9 +73,11 @@ export default ProCompleted = createContainer(({props}) => {
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post',user.profile.employeeData);
+    let handle = Meteor.subscribe('completed-job-pro',user._id);
     loading = handle.ready();
+    console.log("loading: "+loading)
     jobPost = Job.find({}).fetch();
+    console.log(jobPost)
   }
   return {
     user: user,

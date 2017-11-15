@@ -1,18 +1,17 @@
+//make page for emp con import React from 'react';
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ConComponent from './ConComponent';
 
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
-
 function isEmpty(obj) {
     for (var x in obj) { return false; }
     return true;
 }
 
-class ConCurrentPage extends React.Component {
+class ProCurrentPage extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -22,14 +21,12 @@ class ConCurrentPage extends React.Component {
       <div className="card-panel  center-align">
           <img src="/images/hardhat.png" height="150" width="150" />
           <h5>You dont have any current jobs!</h5>
-          <Link to={"/createjob"} className="btn">
-            <div className="col s12 m12 l12">
-                  Create a New Job!
-            </div>
-            </Link>
       </div>
     )
   }
+
+
+
 
 render() {
   if(!this.props.loading) {
@@ -42,17 +39,8 @@ render() {
   else if(!(isEmpty(this.props.jobPost))) {
     return (
       <div>
-        {this.props.jobPost.map(function(job, index){
-          return(
-            <ConComponent
-            key={job._id}
-            jobinfo={job}
-            />
-          )
-      })
-    }
+        job post goes here
       </div>
-
     )
   }
   else {
@@ -67,22 +55,24 @@ render() {
 
 
 
-export default ConCurrent = createContainer((props) => {
+export default ProCurrent = createContainer((props) => {
+  let user = Meteor.user();
   let jobPost=[]
   let loading = false
-  let user = Meteor.user();
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employer');
+    let handle = Meteor.subscribe('current-job-pro');
     loading = handle.ready();
     console.log("loading "+loading);
     jobPost = Job.find({}).fetch();
+    // console.log("job");
+    // console.log(jobPost);
   }
   return {
     user: user,
     loading: loading,
     jobPost: jobPost
   };
-}, ConCurrentPage);
+}, ProCurrentPage);
 
 
 //get employees from the job
