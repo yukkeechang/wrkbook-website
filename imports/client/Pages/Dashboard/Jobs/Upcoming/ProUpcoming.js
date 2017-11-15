@@ -9,10 +9,19 @@ function isEmpty(obj) {
     return true;
 }
 
-class ProCompletedJobsPage extends React.Component {
+class ProUpcomingJobsPage extends React.Component {
   constructor(props) {
     super(props);
   }
+  NoUpcomingJob() {
+    return (
+      <div className="card-panel  center-align">
+          <img src="/images/hardhat.png" height="150" width="150" />
+          <h5>You dont have any upcoming jobs!</h5>
+      </div>
+    )
+  }
+
 
 
 render() {
@@ -50,7 +59,7 @@ render() {
   else {
     return (
       <div>
-      no upcoming jobs
+      {this.NoUpcomingJob()}
       </div>
       )
     }
@@ -59,12 +68,12 @@ render() {
 
 
 
-export default ProCompleted = createContainer(({props}) => {
+export default ProUpcoming = createContainer(({props}) => {
   let user = Meteor.user();
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('upcoming-job-pro',user._id);
+    let handle = Meteor.subscribe('upcoming-job-pro');
     loading = handle.ready();
     jobPost = Job.find({}).fetch();
     console.log(jobPost)
@@ -74,7 +83,7 @@ export default ProCompleted = createContainer(({props}) => {
     loading: loading,
     jobPost: jobPost
   };
-}, ProCompletedJobsPage);
+}, ProUpcomingJobsPage);
 
 
 //get employees from the job

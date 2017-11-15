@@ -2,6 +2,7 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
+import ConComponent from './ConComponent';
 
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
@@ -16,6 +17,20 @@ class ConCurrentPage extends React.Component {
     super(props);
   }
 
+  NoCurrentJob() {
+    return (
+      <div className="card-panel  center-align">
+          <img src="/images/hardhat.png" height="150" width="150" />
+          <h5>You dont have any current jobs!</h5>
+          <Link to={"/createjob"} className="btn">
+            <div className="col s12 m12 l12">
+                  Create a New Job!
+            </div>
+            </Link>
+      </div>
+    )
+  }
+
 render() {
   if(!this.props.loading) {
     return (
@@ -27,14 +42,23 @@ render() {
   else if(!(isEmpty(this.props.jobPost))) {
     return (
       <div>
-        job post goes here
+        {this.props.jobPost.map(function(job, index){
+          return(
+            <ConComponent
+            key={job._id}
+            jobinfo={job}
+            />
+          )
+      })
+    }
       </div>
+
     )
   }
   else {
     return (
       <div>
-      no current jobs
+      {this.NoCurrentJob()}
       </div>
     )
   }
@@ -44,11 +68,11 @@ render() {
 
 
 export default ConCurrent = createContainer((props) => {
-  let user = Meteor.user();
   let jobPost=[]
   let loading = false
+  let user = Meteor.user();
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employer',user._id);
+    let handle = Meteor.subscribe('job-post-employer');
     loading = handle.ready();
     console.log("loading "+loading);
     jobPost = Job.find({}).fetch();

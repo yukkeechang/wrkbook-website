@@ -18,6 +18,21 @@ class ConUpcomingPage extends React.Component{
     }
   }
 
+  NoUpcomingJob() {
+    return (
+      <div className="card-panel  center-align">
+          <img src="/images/hardhat.png" height="150" width="150" />
+          <h5>You dont have any current jobs!</h5>
+          <Link to={"/createjob"} className="btn">
+            <div className="col s12 m12 l12">
+                  Create a New Job!
+            </div>
+            </Link>
+      </div>
+    )
+  }
+
+
   render(){
     if(!this.props.loading){
       return (
@@ -55,7 +70,7 @@ class ConUpcomingPage extends React.Component{
     else{
       return(
         <div>
-        <EmployerNoUpcomingJobs/>
+        {this.NoUpcomingJob()}
         </div>
       );
     }
