@@ -4,10 +4,10 @@ import { Roles } from 'meteor/alanning:roles';
 // import {CONTRACTOR} from '../../../../api/Schemas/employerSchema';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import ConCompleted from './ConCompleted';
-import ProCompleted from './ProCompleted';
+import ConCurrent from './ConCurrent';
+import ProCurrent from './ProCurrent';
 
-class CompletedJobs extends React.Component {
+class CurrentJobs extends React.Component {
   constructor(props) {
     super(props);
     const {user} = this.props
@@ -22,13 +22,13 @@ class CompletedJobs extends React.Component {
 
 render() {
   return (
-    this.state.isPro ? <ProCompleted/> : <ConCompleted/>
+    this.state.isPro ? <ProCurrent/> : <ConCurrent/>
   )
  }
 }
 
-export default Completed = createContainer((props) => {
+export default Current = createContainer((props) => {
   return {
     user: Meteor.user()
   };
-}, CompletedJobs);
+}, CurrentJobs);
