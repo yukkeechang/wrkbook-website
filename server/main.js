@@ -17,6 +17,7 @@ Meteor.startup(()=>{
   if (process.env.METEOR_SETTINGS) {
     try {
       Meteor.settings = JSON.parse(process.env.METEOR_SETTINGS);
+      console.log(Meteor.settings);
     } catch (e) {
       throw new Error("METEOR_SETTINGS are not valid JSON: " + process.env.METEOR_SETTINGS);
     }
