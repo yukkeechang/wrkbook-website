@@ -392,26 +392,19 @@ Meteor.methods({
     let largeTime = new Date();
 
     for (let idx in events) {
-<<<<<<< HEAD
-        if (smallTime >= events[idx].startAt) {
-          smallTime = events[idx].startAt;
-        }
-=======
+
       if (largeTime < events[idx].endAt) {
         largeTime =  events[idx].endAt;
       }
->>>>>>> bilal_2
+
     }
 
     let smallTime =largeTime;
     for (let idx in events) {
-<<<<<<< HEAD
-        if (largeTime <= events[idx].endAt) {
-          largeTime =  events[idx].endAt;
-=======
+
         if (smallTime > events[idx].startAt) {
           smallTime = events[idx].startAt;
->>>>>>> bilal_2
+
         }
     }
 
