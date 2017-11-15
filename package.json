@@ -23,5 +23,8 @@
     "react-router-dom": "^4.1.1",
     "react-transition-group": "^1.2.0",
     "stripe": "^4.24.1"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.5.5"
   }
 }

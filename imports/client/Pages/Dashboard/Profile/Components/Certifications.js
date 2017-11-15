@@ -13,23 +13,9 @@ export default class Certifications extends React.Component{
     this.state={
       validImage: '',
       shownlink: '',
-      certSources: []
+      certImage: '',
+      certSources: ''
     };
-    const {user} = this.props
-    const {bringTools, driverLicense} = user.profile.employeeData
-    const {osha10, osha30} = user.profile.employeeData.osha
-
-    this.state={
-      osha10 : osha10,
-      osha30 : osha30,
-      bringTools:bringTools,
-      driverLicense:driverLicense,
-      height: "0px",
-      validImage: '',
-      pesonalPic: false,
-      basic : {}
-    };
-
   }
   isEmpty(obj) {
     for (var key in obj){
@@ -38,77 +24,12 @@ export default class Certifications extends React.Component{
     return true;
   }
 
-  componentDidMount() {
-
-
-    $('#fileInput').on('click',function(e){
-      if(e.type === 'click'){
-        this.setState({pesonalPic:true});
-      }
-    }.bind(this));
-
-
-  }
-
   toggleFileBrowser(e){
     let inputField =document.getElementById('fileInput');
     inputField.click();
     this.setState({pesonalPic:true});
-
-
   }
 
-
-
-  onFileInputChange(e){
-    console.log(e.target.files);
-    console.log(this.state.pesonalPic);
-    if(e.target.files.length){
-      if(!this.state.onc3 || this.isEmpty(this.state.basic) ){
-        let basicz = $('#demo-basic-pls').croppie({
-          viewport: {
-            width: 350,
-            height: 350,
-            type: 'circle'
-          }
-        });
-        this.setState({onc3:true,
-          basic:basicz});
-      }
-
-      let files = e.target.files;
-
-      if(files[0].type.includes('image')){
-        this.setState({validImage:'valid'});
-      }else{
-        this.setState({validImage: 'invalid',shownlink:'',button:'disabled'});
-
-        return;
-      }
-      let fr = new FileReader();
-      fr.onload = function() {
-        window.localStorage.setItem('image',fr.result);
-        this.setState({shownlink:window.localStorage['image'],
-        button:''});
-        let basicz = this.state.basic;
-        basicz.croppie('bind', {
-          url:window.localStorage['image'],
-        });
-        this.setState({basic:basicz});
-      }.bind(this);
-      fr.readAsDataURL(files[0]);
-
-    }else{
-      console.log('On cancel ');
-
-      this.setState({button:'disabled',
-      shownlink:'',
-      pesonalPic:false,
-      basic:{}});
-    }
-
-
-  }
   onFileInputChange(e){
     if(e.target.files.length){
       let files = e.target.files;
@@ -118,14 +39,16 @@ export default class Certifications extends React.Component{
       }
       else{
         this.setState({validImage: 'invalid',shownlink:'',button:'disabled'});
-
         return;
       }
       let fr = new FileReader();
       fr.onload = function() {
         window.localStorage.setItem('image',fr.result);
         this.setState({shownlink:window.localStorage['image'],
+        certImage:window.localStorage['image'],
         button:''});
+        let certification = this.state.certImage;
+        this.setState({certImage: certification})
       }.bind(this);
       fr.readAsDataURL(files[0]);
     }
@@ -133,11 +56,30 @@ export default class Certifications extends React.Component{
       this.setState({button:'disabled',shownlink:'' });
     }
   }
+
   imageSubmit(){
-    console.log('clickclack');
-  }
-
-
+    let certImage = this.state.certImage;
+      Images.insert(certImage, (err, fileObj)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          let user = this.props.user
+          console.log(fileObj);
+          this.setState({certSources: fileObj._id});
+          console.log(this.state.certSources);
+          Meteor.call('uploadCertificate', this.state.certSources, (err)=>{
+            if(err){
+              console.log(err);
+            }
+            else{
+              console.log('done boi');
+            }
+          });
+          console.log(user.profile.employeeData);
+        }
+      });
+    }
 
   render() {
     return (
@@ -146,11 +88,9 @@ export default class Certifications extends React.Component{
           <div className="card-content">
             <h5>Certifications</h5>
             <div className="carousel">
-
-              <a className="carousel-item" href="#one!"><img src="/images/facebook.png"/></a>
-              <a className="carousel-item" href="#two!"><img src="/images/facebook.png"/></a>
-              <a className="carousel-item" href="#three!"><img src="/images/facebook.png"/></a>
-              <a className="carousel-item" href="#four!"><img src="/images/facebook.png"/></a>
+              <a className="carousel-item"><img src='/images/facebook.png'/></a>
+              <a className="carousel-item"><img src='/images/tools.png'/></a>
+              <a className="carousel-item"><img src='/images/worker.png'/></a>
             </div>
           </div>
         </div>

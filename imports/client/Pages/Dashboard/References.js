@@ -7,7 +7,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 class Refs extends Component{
     render(){
         return(
-            <div className="container">
+            <div>
 
                 <NewRef/>
                 {!this.props.ready ? <div className="row"><div className="col s4 offset-s4"style={{textAlign: 'center'}}><MSpinner /></div></div> : this.props.myRefs.map((reference,index)=>{
