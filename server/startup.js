@@ -15,6 +15,8 @@ Meteor.startup(()=>{
     } catch (e) {
       throw new Error("METEOR_SETTINGS are not valid JSON: " + process.env.METEOR_SETTINGS);
     }
+  }else{
+    console.log("THERE IS NO SETTINGS");
   }
 
   let isImage = Images.findOne({'original.name': 'ic_account_circle_black_48dp_2x.png' });
