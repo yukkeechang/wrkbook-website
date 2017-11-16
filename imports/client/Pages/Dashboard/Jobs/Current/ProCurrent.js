@@ -28,6 +28,7 @@ class ProCurrentPage extends React.Component {
 
 
 render() {
+  let jobz = this.props.jobPost;
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -35,20 +36,27 @@ render() {
       </div>
     )
   }
+
   else if(!(isEmpty(this.props.jobPost))) {
     return (
-      <ProComponent
+      <div>
 
-        key={job._id}
-        jobinfo = {job}
-        events = {job.eventInfo}
-        title={job.jobTypes.texts}
-        startAt={job.startAt}
-        endAt={job.endAt}
-        description={job.description.text}
-        location={job.location}
-        pay={job.pay}
-      />
+      {jobz.map(function(job, index){
+        return(
+          <ProComponent
+            key={job._id}
+            jobinfo = {job}
+            events = {job.eventInfo}
+            title={job.jobTitle.text}
+            startAt={job.startAt}
+            endAt={job.endAt}
+            description={job.description.text}
+            location={job.location}
+            pay={job.pay}
+          />
+        )
+      })}
+      </div>
     )
   }
   else {
@@ -73,12 +81,13 @@ export default ProCurrent = createContainer((props) => {
     console.log("loading "+loading);
     jobPost = Job.find({}).fetch();
     // console.log("job");
-    // console.log(jobPost);
+     console.log(jobPost);
   }
   return {
     user: user,
     loading: loading,
     jobPost: jobPost
+
   };
 }, ProCurrentPage);
 
