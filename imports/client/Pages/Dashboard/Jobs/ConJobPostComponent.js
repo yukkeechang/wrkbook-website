@@ -76,12 +76,18 @@ class ConJobPost extends React.Component{
               <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
-            <div className="col s2 offset-l2 offset-m2 offset-s2">
+            <div className="col s2 offset-l2 offset-m1 offset-s1 hide-on-med-and-down">
+              <a className="waves-effect waves-light blue-grey darken-2 btn" onClick={this.handleMember.bind(this)}><i className="small material-icons left">people</i>Manage </a>
+              <Link to={"/editjob/"+ this.state.job._id}>
+                <a className="waves-effect waves-light btn"><i className="small material-icons left">edit</i>Edit job</a>
+              </Link>
+            </div>
+            <div className="col s2 offset-l2 offset-m1 offset-s1 hide-on-large-only">
             <button className="waves-effect waves-teal lighten-3 btn-flat" onClick={this.handleMember.bind(this)}>
               <i ref="memebers" id="memebers" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Manage workers">people</i>
             </button>
             <Link to={"/editjob/"+ this.state.job._id}>
-              <a className="waves-effect waves-teal lighten-3 btn-flat" onClick={this.toolTipFix.bind(this)}>
+              <a className="waves-effect waves-teal lighten-3 btn-flat hide-on-large-only" onClick={this.toolTipFix.bind(this)}>
                 <i ref="tool" id="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Edit job">edit</i>
               </a>
             </Link>

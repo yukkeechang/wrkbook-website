@@ -214,6 +214,10 @@ class EditJob extends Component {
     let empty = 'This cannot be empty';
     let phErr = 'Not a valid phone number';
     return(
+      <div>
+      <div className="container" style={{textAlign:'center'}}>
+        <span style={{color:'red'}}><i>By editing this job, all professionals matched and hired to this job will be dropped. However, professionals can apply again if the job criteria matches their description</i></span>
+      </div>
       <div className="container">
       <div className="card">
       <div className="card-content">
@@ -316,6 +320,7 @@ class EditJob extends Component {
             </div>
           </div>
         </form>
+      </div>
       </div>
       </div>
       </div>
