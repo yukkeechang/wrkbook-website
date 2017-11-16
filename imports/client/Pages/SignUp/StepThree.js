@@ -225,7 +225,7 @@ export default class stepThree extends Component{
                    style={{display:'flex', justifyContent:'center',alignItems:'center'}}>
                      <ReCAPTCHA
                        ref="recaptcha"
-                       sitekey="6LfulisUAAAAAIj482eHy1V-_SveBCkc-kNY_JWL"
+                       sitekey="6LdOGzkUAAAAAJIKdARcx2tDwxq4_Rc2ZNAzJs1t"
                        onChange={this.onCaptchaChange}
                      />
 
