@@ -11,11 +11,10 @@ import Jobs from './Dashboard/Jobs/Jobs';
 import Home from './Dashboard/Home/Home';
 import NotFound from '../Pages/NotFound';
 import Payment from './Dashboard/Settings/Payment';
+
 import Completed from './Dashboard/Jobs/Completed/Completed';
 import Upcoming from './Dashboard/Jobs/Upcoming/Upcoming';
 import Current from './Dashboard/Jobs/Current/Current';
-
-
 
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';
@@ -38,13 +37,14 @@ import ConCompleted from './Dashboard/Jobs/Completed/ConCompleted';
 //import ConProfile from './Dashboard/Profile/ConProfile/ConProfile';
 //import ProProfile from './Dashboard/Profile/ProProfile/ProProfile';
 
+
 //import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
 
 class Dash extends Component{
     constructor(props){
         super(props);
         this.state= {
-            thisDatu: new Date()
+            thisDatu: new Date() //thisDatu is the new date
         }
     }
     setDate(nice){
@@ -77,12 +77,15 @@ class Dash extends Component{
                 <Route path="/settings" component={Settings}/>
                 <Route path="/proprofile" component={Edit}/>
                 <Route path="/conprofile" component={Edit}/>
+
                 <Route path="/completed" component={Completed}/>
                 <Route path="/current" component={Current}/>
                 <Route path="/upcoming" component={Upcoming}/>
                 <Route path="/procompleted" component={ProCompleted}/>
                 <Route path="/concompleted" component={ConCompleted}/>
 
+                <Route path="/concompleted" component={ConCompleted}/>
+                <Route path="/empcompleted" component={ProCompleted}/>
                 <Route path="*" component={NotFound}/>
                 </Switch>
 
