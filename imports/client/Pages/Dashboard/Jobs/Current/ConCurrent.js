@@ -1,28 +1,27 @@
-//make page for emp con import React from 'react';
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import ConComponent from './ConComponent';
-import { Link } from 'react-router-dom';
 
-
+// import ConProfile from './ConProfile/ConProfile';
+// import ProProfile from './ProProfile/ProProfile';
 
 function isEmpty(obj) {
     for (var x in obj) { return false; }
     return true;
 }
 
-class ConCompletedJobsPage extends React.Component {
+class ConCurrentPage extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  NoCompleteJob() {
+  NoCurrentJob() {
     return (
       <div className="card-panel  center-align">
           <img src="/images/hardhat.png" height="150" width="150" />
-          <h5>You dont have any completed jobs!</h5>
+          <h5>You dont have any current jobs!</h5>
           <Link to={"/createjob"} className="btn">
             <div className="col s12 m12 l12">
                   Create a New Job!
@@ -32,11 +31,7 @@ class ConCompletedJobsPage extends React.Component {
     )
   }
 
-
 render() {
-  console.log(this.props.jobPost)
-  console.log("employee on the job: "+this.props.jobPost.admitemployeeIds)
-  let jobz = this.props.jobPost;
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -45,50 +40,41 @@ render() {
     )
   }
   else if(!(isEmpty(this.props.jobPost))) {
-    console.log("return completed jobs, isOpen=false: " + this.props.jobPost)
     return (
       <div>
-        {jobz.map(function(job, index){
-          return (
+        {this.props.jobPost.map(function(job, index){
+          return(
             <ConComponent
             key={job._id}
-            jobinfo = {job}
-            events = {job.eventInfo}
-            title={job.jobTitle.text}
-            startAt={job.startAt}
-            endAt={job.endAt}
-            description={job.description.text}
-            location={job.location}
-            pay={job.pay}
-
+            jobinfo={job}
             />
           )
-
-        })}
-
+      })
+    }
       </div>
+
     )
   }
   else {
     return (
       <div>
-      {this.NoCompleteJob()}
+      {this.NoCurrentJob()}
       </div>
-      )
-    }
+    )
   }
+ }
 }
 
 
 
-export default ConCompleted = createContainer(({props}) => {
-  let user = Meteor.user();
+export default ConCurrent = createContainer((props) => {
   let jobPost=[]
   let loading = false
+  let user = Meteor.user();
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('closed-job-con',user._id);
+    let handle = Meteor.subscribe('job-post-employer');
     loading = handle.ready();
-    console.log("loading: "+loading);
+    console.log("loading "+loading);
     jobPost = Job.find({}).fetch();
   }
   return {
@@ -96,7 +82,7 @@ export default ConCompleted = createContainer(({props}) => {
     loading: loading,
     jobPost: jobPost
   };
-}, ConCompletedJobsPage);
+}, ConCurrentPage);
 
 
 //get employees from the job

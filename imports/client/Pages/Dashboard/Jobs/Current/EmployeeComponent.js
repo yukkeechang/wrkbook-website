@@ -1,25 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 export default class EmployeeComponent extends React.Component{
-  componentDidMount(){
-    let dropdowns = ReactDOM.findDOMNode();
-    $(dropdowns).ready(()=>{
-      $('.modal').modal();
-    });
-  }
   constructor(props){
     super(props);
     this.state={
-      jobId: this.props.jobInfo._id,
-      employeeId: this.props.employeeId
     }
   }
   handleDecline(){
-    let employeeId = this.state.employeeId;
-    let jobId = this.state.jobId;
+    let job = this.props.jobInfo;
+    let employeeId =  this.props.employeeId;
+    let jobId = job._id;
 
-    Meteor.call('declineEmployee', jobId, employeeId, (err)=>{
+    Meteor.call('declineEmployee',jobId,employeeId,(err)=>{
       if(err){
         console.log(err);
       }
@@ -29,10 +21,11 @@ export default class EmployeeComponent extends React.Component{
     });
   }
   handleAdmit(){
-    let employeeId =  this.state.employeeId;
-    let jobId = this.state.jobId;
+    let job = this.props.jobInfo;
+    let employeeId =  this.props.employeeId;
+    let jobId = job._id;
 
-    Meteor.call('admiteEmployee', jobId, employeeId, (err)=>{
+    Meteor.call('admiteEmployee',jobId,employeeId,(err)=>{
       if(err){
         console.log(err);
       }
@@ -40,9 +33,6 @@ export default class EmployeeComponent extends React.Component{
 
       }
     });
-  }
-  openModal(){
-    $('#declineModal').modal('open');
   }
 
   render(){
@@ -83,19 +73,11 @@ export default class EmployeeComponent extends React.Component{
               </div>
             }
             <div className="col l6 m6 s12" style={{display:'flex', justifyContent:'center', padding:'4px'}}>
-              <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.openModal.bind(this)}>
+              <button className="waves-effect waves-red red lighten-1 btn-flat" onClick={this.handleDecline.bind(this)}>
+                <div className="white-text">
                 Decline
+                </div>
               </button>
-            </div>
-            <div id="declineModal" className="modal">
-              <div className="modal-content">
-                <h4>Are you sure you want to delete this employee? Once deleted you can not get this employee back.</h4>
-              </div>
-              <div className="modal-footer">
-                <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline.bind(this)}>
-                  I am sure.
-                </button>
-              </div>
             </div>
           </div>
         </div>

@@ -90,15 +90,15 @@ export class NavBarPage extends Component{
       let jobDropDownLinks = this.state.isPro ?
       <ul id='jobs' className='dropdown-content'>
         <li style={{display:'none'}}><Link to='/projobscompleted'>Current</Link></li>
-        <li><Link to='/empjobposts'>Upcoming</Link></li>
-        <li><Link to='/empcompleted'>Completed</Link></li>
+        <li><Link to='/upcoming'>Upcoming</Link></li>
+        <li><Link to='/completed'>Completed</Link></li>
       </ul>
       :
       <ul id='jobs' className='dropdown-content'>
 
         <li style={{display:'none'}}><Link to='/conjobcurrent'>Current</Link></li>
-        <li><Link to='/conjobposts'>Upcoming</Link></li>
-        <li><Link to='/conjobscompleted'>Completed</Link></li>
+        <li><Link to='/upcoming'>Upcoming</Link></li>
+        <li><Link to='/completed'>Completed</Link></li>
         <li><Link to='/createjob'>Create Job</Link></li>
       </ul>
 
@@ -141,9 +141,6 @@ export class NavBarPage extends Component{
                 </li>
                 <li>
                     <Link onClick={this.sideClick.bind(this)} to = "/jobs">Jobs</Link>
-                </li>
-                <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
                 </li>
                 <li>
                     <Link onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>
