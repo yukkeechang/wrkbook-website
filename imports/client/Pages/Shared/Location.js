@@ -302,7 +302,7 @@ export default class Location extends Component{
           </div>
         </div>
 
-        <div id="modal1" className="modal">
+        <div id="modal1" className="modal modal-fixed-footer">
            <div className="modal-content">
 
                  <div className="row">
