@@ -222,12 +222,51 @@ Meteor.publish('current-job-pro',function(){
         }
       ]
     })
-    if(!job)throw new Meteor.Error('403','Job was not found');
-    console.log("job")
-    console.log(job)
-    console.log("coming out of current-job-pro")
-    return job;
 
+    job.forEach((job) =>{
+      //Index of the smaller array inside AdmitAsIDs array
+      let idxx = -1;
+      //Index for AdmitAsIDs (bigger array), index used for jobTypes array
+      let idxx2 = -1;
+      for (let indx in job.admitAsIDs) /*indx is indexing through admitAsIDs*/ {
+        //if empId is not in the array in array admitAsIDS, move to next array in admitAsIDs array
+        if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
+          idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
+          idxx2 = indx;
+          console.log("uhhuhuhu: "+idxx2)
+        }
+      }
+      console.log("idxx2: "+idxx2)
+      //idx is used to find eventInfo
+      let profession = job.jobTypes.texts[idxx2];
+      console.log("profession: "+profession)
+      let eventId = job.eventInfo[idxx2]
+      console.log("event id: "+eventId)
+      //Find event with event Id
+      console.log("===================================================")
+      hackIdThing = [];
+      hackIdThing[0] = eventId
+      let eventObj = Event.find({_id: {$in: hackIdThing}}, {$and:
+        [
+            {'startAt': {$lte: currentDate}
+          },{'endAt': {$gt: currentDate}}
+        ]
+      })
+
+      console.log(eventObj.fetch());
+      jobId = eventObj.fetch()[0].jobId
+      console.log("=========================================")
+      console.log(jobId)
+      let currjob = Job.find({_id: jobId});
+      console.log(currjob.fetch())
+
+      return currjob;
+
+
+    });
+    if(!job)throw new Meteor.Error('403','Job was not found');
+    return job;
+    console.log("coming out of current-job-pro")
   } else {
     this.stop();
     return;
@@ -745,7 +784,7 @@ Meteor.methods({
 
       let idxx = -1;
       let idxx2 = -1;
-      for (let indx in job.admitAsIDs) {
+      for (let indx in job.admitAsIDs) /*indexing through admitAsIDs*/ {
         if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
           idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
           idxx2 = indx;
