@@ -3,6 +3,7 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
+import ProComponent from './ProComponent';
 
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
@@ -26,9 +27,8 @@ class ProCurrentPage extends React.Component {
   }
 
 
-
-
 render() {
+  let jobz = this.props.jobPost;
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -36,10 +36,26 @@ render() {
       </div>
     )
   }
+
   else if(!(isEmpty(this.props.jobPost))) {
     return (
       <div>
-        job post goes here
+
+      {jobz.map(function(job, index){
+        return(
+          <ProComponent
+            key={job._id}
+            jobinfo = {job}
+            events = {job.eventInfo}
+            title={job.jobTitle.text}
+            startAt={job.startAt}
+            endAt={job.endAt}
+            description={job.description.text}
+            location={job.location}
+            pay={job.pay}
+          />
+        )
+      })}
       </div>
     )
   }
@@ -65,12 +81,13 @@ export default ProCurrent = createContainer((props) => {
     console.log("loading "+loading);
     jobPost = Job.find({}).fetch();
     // console.log("job");
-    // console.log(jobPost);
+     console.log(jobPost);
   }
   return {
     user: user,
     loading: loading,
     jobPost: jobPost
+
   };
 }, ProCurrentPage);
 
