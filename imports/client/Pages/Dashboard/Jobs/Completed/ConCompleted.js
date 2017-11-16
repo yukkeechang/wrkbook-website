@@ -2,9 +2,7 @@
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
-
-import ConProfile from './ConProfile/ConProfile';
-import ProProfile from './ProProfile/ProProfile';
+import ConComponent from './ConComponent';
 
 class ConCompletedJobsPage extends React.Component {
   constructor(props) {
@@ -14,7 +12,7 @@ class ConCompletedJobsPage extends React.Component {
 render() {
   return (
     <div>
-    blah
+    Con completed component
     </div>
   )
  }
@@ -35,7 +33,7 @@ export default ConCompleted = createContainer((props) => {
     loading: loading,
     jobPost: jobPost
   };
-}, ConCompleted);
+}, ConCompletedJobsPage);
 
 
 //get employees from the job

@@ -87,6 +87,21 @@ export class NavBarPage extends Component{
     render(){
       let subscription = this.state.isPro ? "" : <li><Link to='/settings/subscription'>Subscription</Link></li>
 
+      let jobDropDownLinks = this.state.isPro ?
+      <ul id='jobs' className='dropdown-content'>
+        <li><Link to='/Jobs/notifications'>Current</Link></li>
+        <li><Link to='/Jobs/notifications'>Upcoming</Link></li>
+        <li><Link to='/jobs/completed'>Completed</Link></li>
+      </ul>
+      :
+      <ul id='jobs' className='dropdown-content'>
+        
+        <li><Link to='/Jobs/notifications'>Current</Link></li>
+        <li><Link to='/Jobs/notifications'>Upcoming</Link></li>
+        <li><Link to='/concompleted'>Completed</Link></li>
+        <li><Link to='/createjob'>Create Job</Link></li>
+      </ul>
+
         return(
             <div className="row">
             <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
@@ -111,11 +126,7 @@ export class NavBarPage extends Component{
                 <div>{subscription}</div>
               <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
             </ul>
-            <ul id='jobs' className='dropdown-content'>
-              <li><Link to='/settings/notifications'>Current</Link></li>
-              <li><Link to='/settings/notifications'>Upcoming</Link></li>
-              <li><Link to='/settings/notifications'>Completed</Link></li>
-            </ul>
+            <div>{jobDropDownLinks}</div>
             <ul id="sideNav" className="side-nav">
                 <li>
                     <div style={styles.wrkbook}>
