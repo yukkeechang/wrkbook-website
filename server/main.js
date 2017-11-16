@@ -6,7 +6,6 @@ import '../imports/api/Images';
 import '../imports/api/Notifications';
 import '../imports/api/Events';
 import '../imports/api/Reviews';
-import '../imports/api/Payment/index';
 import '../imports/api/Emails/Email';
 import {ServerSession } from 'meteor/matteodem:server-session';
 
@@ -35,3 +34,5 @@ Meteor.startup(()=>{
 
 
 });
+
+import '../imports/api/Payment/index';
