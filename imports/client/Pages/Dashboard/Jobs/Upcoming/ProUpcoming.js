@@ -41,10 +41,11 @@ render() {
       {jobz.map(function(job, index){
         return(
           <ProComponent
+
             key={job._id}
             jobinfo = {job}
             events = {job.eventInfo}
-            title={job.jobTitle.text}
+            title={job.jobTypes.texts}
             startAt={job.startAt}
             endAt={job.endAt}
             description={job.description.text}
