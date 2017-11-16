@@ -61,7 +61,6 @@ import { createContainer } from 'meteor/react-meteor-data';
 
     )
   }
-
 }
 export default ConComponent = createContainer((props) => {
   let user = Meteor.user();
