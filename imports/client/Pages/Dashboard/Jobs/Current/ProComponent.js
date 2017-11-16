@@ -31,9 +31,9 @@ export default class ProComponent extends React.Component{
       job: job,
       startAt: '',
       endAt: '',
-      //osha10: this.props.jobinfo.requirements.osha.osha10,
-      //osha30: this.props.jobinfo.requirements.osha.osha30,
-      //license: this.props.jobinfo.requirements.driverLicense,
+      osha10: this.props.jobinfo.requirements.osha.osha10,
+      osha30: this.props.jobinfo.requirements.osha.osha30,
+      license: this.props.jobinfo.requirements.driverLicense,
       nothing1: true,
       nothing2: true,
       value: "0"

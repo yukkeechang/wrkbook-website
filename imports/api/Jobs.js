@@ -232,13 +232,8 @@ Meteor.publish('current-job-pro',function(){
         if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
           idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
           idxx2 = indx;
-          console.log("uhhuhuhu: "+idxx2)
         }
       }
-      console.log("idxx2: "+idxx2)
-      //idx is used to find eventInfo
-      let profession = job.jobTypes.texts[idxx2];
-      console.log("profession: "+profession)
       let eventId = job.eventInfo[idxx2]
       console.log("event id: "+eventId)
       //Find event with event Id
@@ -284,25 +279,15 @@ Meteor.publish('completed-job-pro',function(){
     })
     return job;
     job.forEach((job) =>{
-      //Index of the smaller array inside AdmitAsIDs array
       let idxx = -1;
-      //Index for AdmitAsIDs (bigger array), index used for jobTypes array
       let idxx2 = -1;
-      for (let indx in job.admitAsIDs) /*indx is indexing through admitAsIDs*/ {
-        //if empId is not in the array in array admitAsIDS, move to next array in admitAsIDs array
+      for (let indx in job.admitAsIDs)  {
         if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
           idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
           idxx2 = indx;
-          console.log("uhhuhuhu: "+idxx2)
         }
       }
-      console.log("idxx2: "+idxx2)
-      //idx is used to find eventInfo
-      let profession = job.jobTypes.texts[idxx2];
-      console.log("profession: "+profession)
       let eventId = job.eventInfo[idxx2]
-      console.log("event id: "+eventId)
-      //Find event with event Id
       hackIdThing = [];
       hackIdThing[0] = eventId
       let eventObj = Event.find({_id: {$in: hackIdThing}}, {$and:
