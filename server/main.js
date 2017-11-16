@@ -37,4 +37,4 @@ import '../imports/api/Emails/Email';
 
 // });
 
-import '../imports/api/Payment/index';
+// import '../imports/api/Payment/index';
