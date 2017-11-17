@@ -6,8 +6,8 @@ import EmployeeComponent from './EmployeeComponent';
 import MSpinner from '../../../Shared/MSpinner';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
-//detailed job view with professionals that applied and admitted professionals
 
+//Contractor Component for Current Jobs
 class ConComponentPage extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
