@@ -587,9 +587,10 @@ Meteor.methods({
       let selector1 = {_id: id1, employerId: this.userId};
       Job.update(selector1,{$set: job});
 
-      if(Roles.userIsInRole(this.userId,'free-job')){
-        Roles.removeUsersFromRoles(this.userId,'free-job');
-      }
+      //========Commented out for TESTING purposes==========
+      // if(Roles.userIsInRole(this.userId,'free-job')){
+      //   Roles.removeUsersFromRoles(this.userId,'free-job');
+      // }
       return things;
 
 
