@@ -53,7 +53,7 @@ export default ConComponent = createContainer((props) => {
   let loading = false
   if(!('undefined' === typeof(user))){
 
-    let handle = Meteor.subscribe('admit-employee-job', props.jobinfo._id );
+    let handle = Meteor.subscribe('current-job-con', props.jobinfo._id );
     loading = handle.ready();
     console.log("loading: "+loading);
   }

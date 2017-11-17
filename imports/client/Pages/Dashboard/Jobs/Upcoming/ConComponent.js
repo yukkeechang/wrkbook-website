@@ -75,13 +75,9 @@ class ConComponentPage extends React.Component{
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
             <div className="col s2 offset-l2 offset-m2 offset-s2">
-            <button className="waves-effect waves-teal lighten-3 btn-flat"onClick={this.handleMember.bind(this)}>
-              <i ref="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Manage workers">people</i>
-            </button>
+            <a className="waves-effect waves-light blue-grey darken-2 btn" onClick={this.handleMember.bind(this)}><i className="small material-icons left">people</i></a>
             <Link to={"/editjob/"+ this.state.job._id}>
-              <a className="waves-effect waves-teal lighten-3 btn-flat">
-                <i ref="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Edit job">edit</i>
-              </a>
+              <a className="waves-effect waves-light btn"><i className="small material-icons left">edit</i></a>
             </Link>
             </div>
           </div>

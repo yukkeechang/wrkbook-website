@@ -344,9 +344,13 @@ Meteor.publish('upcoming-job-pro',function(){
 Meteor.publish('current-job-con',function(){
   let currentDate = new Date();
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    return Job.find({employerId:this.userId,
-                     generalStart:{$lt: currentDate},
-                     isOpen:true},{sort: {generalStart: 1}});
+    return Job.find(
+      { employerId:this.userId,
+        generalStart:{$lt: currentDate},
+        isOpen:true
+      },
+        {sort: {generalStart: 1}}
+     );
   }else {
     this.stop();
     return;
