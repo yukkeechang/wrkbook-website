@@ -111,6 +111,7 @@ export default class stepThree extends Component{
         });
         return;
       }
+      this.setState({stopclicks: 'disabled'});
       if(this.isEmpty(this.state.basic)){
           Meteor.call('register',this.props.user,(err)=>{
             if(err) {
@@ -224,7 +225,7 @@ export default class stepThree extends Component{
                    style={{display:'flex', justifyContent:'center',alignItems:'center'}}>
                      <ReCAPTCHA
                        ref="recaptcha"
-                       sitekey="6LfulisUAAAAAIj482eHy1V-_SveBCkc-kNY_JWL"
+                       sitekey="6LdOGzkUAAAAAJIKdARcx2tDwxq4_Rc2ZNAzJs1t"
                        onChange={this.onCaptchaChange}
                      />
 
@@ -242,7 +243,7 @@ export default class stepThree extends Component{
                    </div>
 
                     <div style ={{display:'flex',justifyContent:'center',alignItems:'center'}} className="col s12">
-                      <a className={'btn '+this.state.stopclicks } onClick={this.submit.bind(this)}>{this.state.submit}</a>
+                      <a className={'btn ' + this.state.stopclicks } onClick={this.submit.bind(this)}>{this.state.submit}</a>
                     </div>
                 </div>
               </div>

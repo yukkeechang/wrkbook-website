@@ -3,74 +3,67 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
 import EmployeeComponent from './EmployeeComponent';
-import MSpinner from '../../Shared/MSpinner';
+import MSpinner from '../../../Shared/MSpinner';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 //detailed job view with professionals that applied and admitted professionals
 
-class ConJobPost extends React.Component{
+class ConComponentPage extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
 
     $(dropdowns).ready(()=>{
       $('select').material_select();
-      $('.tooltipped').tooltip({delay: 25});
+      $('.tooltipped').tooltip({delay: 50});
     });
-    $(this.refs.titles).on('change',(e)=>{
-      this.handleProChange(e);
-    })
 
 
-    this.getEventData();
+
+    Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
+      if(err){
+        console.log(err);
+      }else{
+
+        let startAt = res.startAt.toLocaleString();
+        let endAt = res.endAt.toLocaleString();
+        this.setState({
+          endAt: endAt,
+          startAt: startAt
+        });
+      }
+    });
   }
   constructor(props){
-    super(props);
-    let job = this.props.jobinfo;
+  super(props);
+  let job = this.props.jobinfo;
 
-    this.state={
-      job: job,
-      startAt: '',
-      endAt: '',
-      osha10: this.props.jobinfo.requirements.osha.osha10,
-      osha30: this.props.jobinfo.requirements.osha.osha30,
-      license: this.props.jobinfo.requirements.driverLicense,
-      nothing1: true,
-      nothing2: true,
-      value: "0"
-    };
+  this.state={
+    job: job,
+    startAt: '',
+    endAt: '',
+    osha10: this.props.jobinfo.requirements.osha.osha10,
+    osha30: this.props.jobinfo.requirements.osha.osha30,
+    license: this.props.jobinfo.requirements.driverLicense,
+    nothing1: true,
+    nothing2: true,
+    value: "0"
+  };
+  // console.log(this.props.handleChildLoad)
+
   }
   handleProChange(e){
+
     this.setState({
       value: e.target.value,
     });
-
-    this.getEventData();
-
-  }
-  getEventData(){
-        Meteor.call('getEventInfo',this.props.events[this.state.value],(err,res)=>{
-          if(err){
-            console.log(err);
-          }else{
-
-            let startAt = res.startAt.toLocaleString();
-            let endAt = res.endAt.toLocaleString();
-            this.setState({
-              endAt: endAt,
-              startAt: startAt
-            });
-          }
-        });
   }
   handleMember(){
-    $('#memebers').tooltip('remove');
-    console.log(this.state.value);
+
   }
 
-  toolTipFix(){
-    $('#tool').tooltip('remove');
-  }
+
   render(){
+
     return(
       <div className="card">
         <div className="card-content">
@@ -81,19 +74,13 @@ class ConJobPost extends React.Component{
               <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
-            <div className="col s2 offset-l2 offset-m1 offset-s1 hide-on-med-and-down">
-              <a className="waves-effect waves-light blue-grey darken-2 btn" onClick={this.handleMember.bind(this)}><i className="small material-icons left">people</i>Manage </a>
-              <Link to={"/editjob/"+ this.state.job._id}>
-                <a className="waves-effect waves-light btn"><i className="small material-icons left">edit</i>Edit job</a>
-              </Link>
-            </div>
-            <div className="col s2 offset-l2 offset-m1 offset-s1 hide-on-large-only">
-            <button className="waves-effect waves-teal lighten-3 btn-flat" onClick={this.handleMember.bind(this)}>
-              <i ref="memebers" id="memebers" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Manage workers">people</i>
+            <div className="col s2 offset-l2 offset-m2 offset-s2">
+            <button className="waves-effect waves-teal lighten-3 btn-flat"onClick={this.handleMember.bind(this)}>
+              <i ref="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Manage workers">people</i>
             </button>
             <Link to={"/editjob/"+ this.state.job._id}>
-              <a className="waves-effect waves-teal lighten-3 btn-flat hide-on-large-only" onClick={this.toolTipFix.bind(this)}>
-                <i ref="tool" id="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Edit job">edit</i>
+              <a className="waves-effect waves-teal lighten-3 btn-flat">
+                <i ref="tool" className="small material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Edit job">edit</i>
               </a>
             </Link>
             </div>
@@ -213,7 +200,7 @@ class ConJobPost extends React.Component{
   }
 }
 
-export default ConJobPostComponent = createContainer((props)=>{
+export default ConComponent = createContainer((props)=>{
 
   let handleApply = Meteor.subscribe('apply-employee-job',props.jobinfo._id);
   let handleAdmit = Meteor.subscribe('admit-employee-job',props.jobinfo._id);
@@ -235,5 +222,5 @@ export default ConJobPostComponent = createContainer((props)=>{
   };
 
 
-},ConJobPost);
+},ConComponentPage);
 //Filter is here because 2 types of objects (professionals) are being called from the same collection

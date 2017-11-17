@@ -52,7 +52,7 @@ export default EmpJobPostsAdmit= createContainer(({ params }) => {
   let loading = false;
   let hackIdThing =[];
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-admitted',user._id);
+    let handle = Meteor.subscribe('job-post-admitted');
     loading = handle.ready();
     hackIdThing[0] = user._id;
     jobPost = Job.find({admitemployeeIds: {$in: hackIdThing}}).fetch();

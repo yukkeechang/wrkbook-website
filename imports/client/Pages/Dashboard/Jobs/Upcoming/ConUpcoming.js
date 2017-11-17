@@ -1,22 +1,37 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import EmployerNoUpcomingJobs from './Upcoming/EmployerNoUpcomingJobs';
-
-import MSpinner from '../../Shared/MSpinner';
-import ConJobPostComponent from './ConJobPostComponent';
+import EmployerNoUpcomingJobs from './EmployerNoUpcomingJobs';
+import { Link } from 'react-router-dom';
+import MSpinner from '../../../Shared/MSpinner';
+import ConComponent from './ConComponent';
 
 function isEmpty(obj) {
   for (var x in obj) { return false; }
   return true;
 }
 
-class ContractorJobPosts extends React.Component{
+class ConUpcomingPage extends React.Component{
   constructor(props){
     super(props);
     this.state={
       loading1: false
     }
   }
+
+  NoUpcomingJob() {
+    return (
+      <div className="card-panel  center-align">
+          <img src="/images/hardhat.png" height="150" width="150" />
+          <h5>You dont have any current jobs!</h5>
+          <Link to={"/createjob"} className="btn">
+            <div className="col s12 m12 l12">
+                  Create a New Job!
+            </div>
+            </Link>
+      </div>
+    )
+  }
+
 
   render(){
     if(!this.props.loading){
@@ -34,7 +49,7 @@ class ContractorJobPosts extends React.Component{
           {jobz.map(function(job, index){
 
             return(
-              <ConJobPostComponent
+              <ConComponent
 
                 key={job._id}
                 jobinfo = {job}
@@ -55,19 +70,19 @@ class ContractorJobPosts extends React.Component{
     else{
       return(
         <div>
-        <EmployerNoUpcomingJobs/>
+        {this.NoUpcomingJob()}
         </div>
       );
     }
   }
 }
-export default ConJobPosts = createContainer(( {props} ) => {
+export default ConUpcoming = createContainer(( {props} ) => {
   let user = Meteor.user();
   let jobPost =[];
   let loading = false;
 
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employer');
+    let handle = Meteor.subscribe('upcoming-job-con',user._id);
     loading = handle.ready();
     console.log(loading);
     jobPost = Job.find({}).fetch();
@@ -77,4 +92,4 @@ export default ConJobPosts = createContainer(( {props} ) => {
     loading:loading,
     jobPost:jobPost
   };
-}, ContractorJobPosts);
+}, ConUpcomingPage);
