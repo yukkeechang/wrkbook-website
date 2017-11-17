@@ -1,13 +1,147 @@
-import MSpinner from '../Shared/MSpinner';
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+
+import JobCreateComponent from './Jobs/MultiProComponent';
+import JobSchema from '../../../api/Schemas/jobSchema';
+import { DEFAULT } from '../../../api/Schemas/basicTextSchema';
+import LocationSchema from '../../../api/Schemas/locationSchema';
+import Location from '../Shared/Location';
+import MTextField from '../Shared/MTextField';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
-import React, {Component} from 'react';
-import EditJob from './Jobs/EditJob';
-class EditJOB extends Component{
 
-    render(){
-      return(
-          <div>
+class EditJob extends Component {
+  componentDidMount(){
+    let dropdowns = ReactDOM.findDOMNode();
+    $(dropdowns).ready(()=>{
+      $('select').material_select();
+      $('.modal').modal();
+    });
+    this.setState({
+      titles: this.props.jobPost.jobTypes.texts
+    });
+    $(this.refs.titles).change(()=>{
+      this.setState({titles:$(this.refs.titles).val()})
+    })
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15, // Creates a dropdown of 15 years to control year,
+      today: 'Today',
+      clear: 'Clear',
+      close: 'Ok',
+      closeOnSelect: false // Close upon selecting a date,
+    });
+    $('.timepicker').pickatime({
+      default: 'now', // Set default time: 'now', '1:30AM', '16:30'
+      fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
+      twelvehour: true, // Use AM/PM or 24-hour format
+      donetext: 'OK', // text for done-button
+      cleartext: 'Clear', // text for clear-button
+      canceltext: 'Cancel', // Text for cancel-button
+      autoclose: false, // automatic close timepicker
+      ampmclickable: true, // make AM PM clickable
+      aftershow: function(){} //Function for after opening timepicker
+    });
+    $(this.refs.osha).on('change',(e)=>{
+      this.handleSelect(e);
+    })
+  }
+  constructor(props){
+    super(props);
+    this.state={
+      jobTitle: false,
+      visorName: false,
+      visorNumb: false,
+      titles: [],
+      osha10: false,
+      osha30: false,
+      address: DEFAULT,
+      startT: '',
+      startD: '',
+      endT: '',
+      endD: '',
+      lat: -100,
+      lng: -100,
+      locationName: ''
+    };
+  }
+  componentWillMount(){
+    console.log('mounted');
+  }
+  getCoords(lat, lng){
+    this.setState({
+      address: this.refs.GoogleAuto.state.searchText,
+      lat:lat,
+      lng:lng
+    });
+  }
+  handleUpdate(e){
+    let loc = this.refs.loc.getAddress();
+    if(loc.valid){
+      this.setState({locErr: false});
+      let professionals = this.state.titles.map((title, index)=>{
+        return this.refs[title].value();
+      });
+      let job = JobSchema.clean({});
+      let location = LocationSchema.clean({});
+      let jobtypes = $('#jobTitles').val();
+      console.log('we in handleCreate');
+      const description = this.refs.jd.value();
+      const additionText = this.refs.at.value();
+      location = loc.location;
+      job.supervisor.name = this.refs.sName.value();
+      job.supervisor.phone = this.refs.sNumber.value();
+      job.additionText = additionText;
+      job.description.text = description;
+      job.jobTypes.texts = Object.values(jobtypes);
+      job.professionals = professionals;
+      job.location = location;
+      job.jobTitle.text = this.refs.jt.value();
+      job.requirements.socialPref.social = $("#sscYes").prop('checked');
+      job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
+      job.requirements.osha.osha10 = this.state.osha10;
+      job.requirements.osha.osha30 = this.state.osha30;
+      let newJob = {
+        job: job
+      };
+      console.log(job);
+      let thingy =  this.props.match.params.value;
+      Meteor.call('updateJob', thingy, job, (err)=>{
+        if(err){
+          console.log(err);
+          console.log(err.reason);
+          console.log('above two are update errors');
+        }
+        else{
+          console.log('no error');
+        }
+      });
+    }
+    else{
+      console.log('you in the else thingy');
+      let professionals = this.state.titles.map((title, index)=>{
+        return this.refs[title].value();
+      });
+      let job = JobSchema.clean({});
+      let location = LocationSchema.clean({});
+      let jobtypes = $('#jobTitles').val();
+      console.log('we in handleCreate');
+      const description = this.refs.jd.value();
+      const additionText = this.refs.at.value();
+      location = this.props.jobPost.location;
+      job.supervisor.name = this.refs.sName.value();
+      job.supervisor.phone = this.refs.sNumber.value();
+      job.additionText = additionText;
+      job.description.text = description;
+      job.jobTypes.texts = Object.values(jobtypes);
+      job.professionals = professionals;
+      job.location = location;
+      console.log(location);
+      job.jobTitle.text = this.refs.jt.value();
+      job.requirements.socialPref.social = $("#sscYes").prop('checked');
+      job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
+      job.requirements.osha.osha10 = this.state.osha10;
+      job.requirements.osha.osha30 = this.state.osha30;
 
       let thingss =this.props.jobPost._id;
       Meteor.call('validateJob', job, (err)=>{
@@ -195,14 +329,10 @@ class EditJOB extends Component{
   }
 }
 
-
 export default EditJobs = createContainer((params) =>{
   let handle = Meteor.subscribe('job-post-employer-edit',params.match.params.value);
   let ready = handle.ready();
-  console.log(ready);
   return {
-      ready: ready,
-    job: Job.find({}).fetch()[0]
-
+    jobPost: Job.find({}).fetch()[0]
   };
-},EditJOB);
+},EditJob);
