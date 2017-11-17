@@ -192,7 +192,7 @@ export class ProProfilePage extends React.Component {
         <div
           className="row gray-div"
         >
-        <Link to={"/edit"} className="btn red">
+        <Link to={"/edit"} className="btn teal">
           <div className="col s12 m12 l12">
               <i className="material-icons left edit-profile-button">
                   settings

@@ -28,12 +28,6 @@ export default class GeneralInfo extends React.Component {
             <h4 className="user-name-text">{user.profile.firstName} {user.profile.lastName}</h4>
             <div className="row" style={{ marginLeft: 0 }}>
               <ARating/>
-              <a
-                style={{ fontSize: 12, display: "inline", padding: 0 }}
-                onClick={this.props.onReviewsClick}
-              >
-                View all
-              </a>
             </div>
 
             <div>
@@ -51,3 +45,13 @@ export default class GeneralInfo extends React.Component {
     )
   }
 }
+
+
+
+//link to see all reviews
+// <a
+//   style={{ fontSize: 12, display: "inline", padding: 0 }}
+//   onClick={this.props.onReviewsClick}
+// >
+//   View all
+// </a>
