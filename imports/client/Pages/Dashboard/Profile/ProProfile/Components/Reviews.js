@@ -26,7 +26,6 @@ class DisplayReviews extends React.Component {
           <br/>
           {reviewz.map(function(review, index){
             return(
-
                 <ReviewCard
                   key={review._id}
                   companyName={review.companyName.text}
@@ -49,9 +48,9 @@ class DisplayReviews extends React.Component {
     }
     else{
       return(
-        <div>
-          No Reviews
-        </div>
+        <h4 className="card-title" style={{display:'flex', justifyContent:'center'}}>
+          Currently No Reviews
+        </h4>
       );
     }
   }
