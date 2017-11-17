@@ -1,5 +1,6 @@
 import React from 'react';
 import Rating from './Rating';
+import ARating from './ARating';
 
 export default class GeneralInfo extends React.Component {
 
@@ -26,11 +27,7 @@ export default class GeneralInfo extends React.Component {
           <div className="card-panel" style={{ paddingRight: 0 }}>
             <h4 className="user-name-text">{user.profile.firstName} {user.profile.lastName}</h4>
             <div className="row" style={{ marginLeft: 0 }}>
-              <Rating
-                rating={4.5}
-                starSize={15}
-                textSize={12}
-              />
+              <ARating/>
               <a
                 style={{ fontSize: 12, display: "inline", padding: 0 }}
                 onClick={this.props.onReviewsClick}

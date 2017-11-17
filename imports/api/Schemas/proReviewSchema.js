@@ -13,4 +13,5 @@ export default proReviewSchema = new SimpleSchema({
     type : Boolean,
     defaultValue:false
   }
+
 });
