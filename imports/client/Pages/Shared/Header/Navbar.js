@@ -89,9 +89,10 @@ export class NavBarPage extends Component{
 
       let jobDropDownLinks = this.state.isPro ?
       <ul id='jobs' className='dropdown-content'>
-        <li style={{display:'none'}}><Link to='/projobscompleted'>Current</Link></li>
-        <li><Link to='/upcoming'>Upcoming</Link></li>
+        <li><Link to='/jobs'>Job Matches</Link></li>
+        <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
+
       </ul>
       :
       <ul id='jobs' className='dropdown-content'>
@@ -121,7 +122,6 @@ export class NavBarPage extends Component{
             </div>
             <ul id='account' className='dropdown-content'>
               <li><Link to="/settings">Account Settings</Link></li>
-                <li><Link to='/settings/notifications'>Notifications</Link></li>
                 <li><Link to='/settings/password'>Change Password</Link></li>
                 <div>{subscription}</div>
               <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
