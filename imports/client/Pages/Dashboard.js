@@ -59,7 +59,7 @@ class Dash extends Component{
                 <Header full={false}/>
                 <div style={{height:'64px'}}></div>
                 <Switch>
-                <Route exact path="/" render={()=><Home date={this.state.thisDatu} changeDate={this.setDate.bind(this)}/>}/>
+                <Route exact path="/" render={()=><Upcoming/>}/>
                 <Route exact path="/jobs" component={Jobs}/>
                 <Route exact path="/profile" component={Profile}/>
                 <Route exact path="/user/:value" component={OtherUser}/>
@@ -112,3 +112,6 @@ export default Dashboard = createContainer(({ params }) => {
         user: Meteor.user(),
     };
 }, Dash);
+
+//Route if going to home page
+//<Route exact path="/" render={()=><Home date={this.state.thisDatu} changeDate={this.setDate.bind(this)}/>}/>

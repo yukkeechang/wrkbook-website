@@ -13,15 +13,10 @@ export default class CreateJobs extends Component {
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
-
-      $('.modal').modal({
-        complete: function() {this.props.history.push('/jobs')}.bind(this)
-      });
-
+      $('.modal').modal();
       $('select').material_select();
     });
     $(this.refs.titles).change(()=>{
-
       this.setState({titles:$(this.refs.titles).val()})
     });
     $('.datepicker').pickadate({
@@ -55,8 +50,8 @@ export default class CreateJobs extends Component {
       visorName: false,
       visorNumb: false,
       locationName: true,
-       oshaCheck: true,
-       socialCheck: true,
+      oshaCheck: true,
+      socialCheck: true,
       locErr: false,
       titles: [],
       osha10: false,
@@ -101,11 +96,13 @@ export default class CreateJobs extends Component {
           if(err){
             console.log(err);
             this.setState(err.reason);
+            $('#validationModal').modal('open');
           }else{
             Meteor.call('createJob', job, (err, res)=>{
               if(err){
                 console.log(err);
                 console.log(err.reason);
+                $('#creationModal').modal('open');
               }
               else{
                 console.log(res);
@@ -271,7 +268,7 @@ export default class CreateJobs extends Component {
           </div>
 
           <div style={{display:'flex', justifyContent:'center'}}>
-            <a className="waves-effect waves-teal btn-flat" onClick={this.handleCreate.bind(this)}>Create job</a>
+            <a className="waves-effect waves-teal btn" onClick={this.handleCreate.bind(this)}>Create job</a>
           </div>
           <div id="createModal" className="modal">
             <div className="modal-content">
@@ -279,6 +276,22 @@ export default class CreateJobs extends Component {
             </div>
             <div className="modal-footer">
               <Link to="/jobs"><a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a></Link>
+            </div>
+          </div>
+          <div id="validationModal" className="modal">
+            <div className="modal-content">
+              <h5 style={{color:'red'}}>Please fill out all fields while trying to create a job.</h5>
+            </div>
+            <div className="modal-footer">
+              <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+          </div>
+          <div id="creationModal" className="modal">
+            <div className="modal-content">
+              <h5 style={{color:'red'}}>To create more than one job post you must subscribe to our payment plan.</h5>
+            </div>
+            <div className="modal-footer">
+              <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
           </div>
         </div>

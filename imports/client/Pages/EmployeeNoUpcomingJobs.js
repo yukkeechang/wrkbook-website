@@ -6,7 +6,7 @@ export default class EmployeeNoUpcomingJobs extends Component {
         return (
             <div className="card-panel  center-align">
                 <img src="/images/hardhat.png" height="150" width="150" />
-                <h5>You don't have any jobs yet</h5>
+                <h5>You don't have any matched jobs yet</h5>
 
             </div>
         );

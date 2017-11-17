@@ -38,6 +38,7 @@ render() {
   else if(!(isEmpty(jobz))) {
     return (
       <div>
+      <h3 className="center-align">Completed Jobs</h3>
       {jobz.map(function(job, index){
         return(
           <ProComponent

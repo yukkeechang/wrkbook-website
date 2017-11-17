@@ -85,7 +85,7 @@ class Cert extends React.Component{
   render() {
     return (
       <div className="card-panel">
-        <div className="card teal">
+        <div className="card">
           <div className="card-content">
             <h5>Certifications</h5>
             <div className="carousel">
@@ -105,7 +105,7 @@ class Cert extends React.Component{
         <div className="card">
           <div className="card-content">
             <div className="col l6 m6 s12">
-              <img id="certificationImage" src={this.state.shownlink} height='350px' width='350px' style={{}}/>
+              <img id="certificationImage" src={this.state.shownlink}/>
             </div>
             <div className="row">
               <div className="file-field input-field col m8 s12">
