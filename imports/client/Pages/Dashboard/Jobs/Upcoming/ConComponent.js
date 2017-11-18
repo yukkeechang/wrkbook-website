@@ -122,7 +122,7 @@ class ConComponentPage extends React.Component{
           </div>
           <div className="row">
             <div className="col m6 s12">
-                  <div>
+                  <div classnName='z-depth-0'>
                     {
                       this.props.applyPeople.length < 1 ?
                       <h5>No Professionals have applied</h5>

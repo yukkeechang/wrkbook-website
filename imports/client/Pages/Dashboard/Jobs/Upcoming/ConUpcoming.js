@@ -44,7 +44,10 @@ class ConUpcomingPage extends React.Component{
     else if(!isEmpty(this.props.jobPost)){
       let jobz = this.props.jobPost;
       return(
+        <div>
+        <h3 className="center-align">Upcoming Jobs</h3>
         <div className="container">
+
           <br/>
           {jobz.map(function(job, index){
 
@@ -65,6 +68,7 @@ class ConUpcomingPage extends React.Component{
             )
           }.bind(this))}
         </div>
+      </div>
       );
     }
     else{

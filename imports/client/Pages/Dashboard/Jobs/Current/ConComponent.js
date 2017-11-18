@@ -199,7 +199,7 @@ return(
 }
 
 export default ConComponent = createContainer((props)=>{
-  let handleAdmit = Meteor.subscribe('current-job-con');
+  let handleAdmit = Meteor.subscribe('current-job-con',props.jobinfo._id);
   let admitPeople = [];
   let readyAdmit = handleAdmit.ready();
   if (!!Meteor.users.find({_id: {$in: props.jobinfo.admitemployeeIds}}).fetch()) {

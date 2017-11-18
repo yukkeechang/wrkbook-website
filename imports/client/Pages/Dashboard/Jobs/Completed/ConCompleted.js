@@ -16,6 +16,29 @@ function isEmpty(obj) {
 class ConCompletedJobsPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state= {
+      titleFontSize: 25
+    }
+  }
+
+  textSize() {
+    let width = document.body.scrollWidth;
+    if (width >= 600) {
+      this.setState({
+        titleFontSize: 40
+
+      });
+    } else if (width >= 375){
+      this.setState({
+        titleFontSize: 30
+
+      });
+    } else {
+      this.setState({
+        titleFontSize: 25
+
+      });
+    }
   }
 
   NoCompleteJob() {
@@ -35,7 +58,7 @@ class ConCompletedJobsPage extends React.Component {
 
 render() {
   console.log(this.props.jobPost)
-  console.log("employee on the job: "+this.props.jobPost.admitemployeeIds)
+
   let jobz = this.props.jobPost;
   if(!this.props.loading) {
     return (
@@ -48,6 +71,9 @@ render() {
     console.log("return completed jobs, isOpen=false: " + this.props.jobPost)
     return (
       <div>
+        <div>
+          <h1 className="center-align" style={{fontSize: this.state.titleFontSize}}>Completed Jobs</h1>
+        </div>
         {jobz.map(function(job, index){
           return (
             <ConComponent
