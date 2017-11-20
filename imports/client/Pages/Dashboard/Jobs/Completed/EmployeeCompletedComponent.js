@@ -6,6 +6,7 @@ function isEmpty(obj) {
   return true;
 }
 //Rendered in ConComponent
+//Can't set res aas a state, not sure why 
 class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
    super(props);
