@@ -95,5 +95,5 @@ Meteor.methods({
 
 Meteor.publish('completed-job-pro-event', function(jobId) {
   if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-  return Event.find({jobId: jobId});
+  return Event.find({'jobId': jobId});
 })
