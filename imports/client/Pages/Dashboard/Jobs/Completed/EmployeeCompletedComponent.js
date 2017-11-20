@@ -6,7 +6,7 @@ function isEmpty(obj) {
   return true;
 }
 //Rendered in ConComponent
-//Can't set res aas a state, not sure why 
+//Can't set res aas a state, not sure why
 class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
    super(props);
@@ -97,9 +97,10 @@ class EmployeeCompletedComponent extends React.Component {
  }
 
  render() {
-      str = JSON.stringify(this.props.job);
-      //console.log(str)
+      str = JSON.stringify(this.props.event);
+      console.log(str)
       //console.log(this.props.job._id)
+
       console.log("event: "+this.props.event)
       console.log("job id: "+this.props.job._id)
       let image = "cfs/files/images/"+this.state.imgId
