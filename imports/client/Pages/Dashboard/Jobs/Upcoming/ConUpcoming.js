@@ -1,6 +1,5 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import EmployerNoUpcomingJobs from './EmployerNoUpcomingJobs';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
 import ConComponent from './ConComponent';
@@ -22,7 +21,7 @@ class ConUpcomingPage extends React.Component{
     return (
       <div className="card-panel  center-align">
           <img src="/images/hardhat.png" height="150" width="150" />
-          <h5>You dont have any current jobs!</h5>
+          <h5>You dont have any upcoming jobs!</h5>
           <Link to={"/createjob"} className="btn">
             <div className="col s12 m12 l12">
                   Create a New Job!
@@ -44,7 +43,10 @@ class ConUpcomingPage extends React.Component{
     else if(!isEmpty(this.props.jobPost)){
       let jobz = this.props.jobPost;
       return(
+        <div>
+        <h3 className="center-align">Upcoming Jobs</h3>
         <div className="container">
+
           <br/>
           {jobz.map(function(job, index){
 
@@ -65,6 +67,7 @@ class ConUpcomingPage extends React.Component{
             )
           }.bind(this))}
         </div>
+      </div>
       );
     }
     else{

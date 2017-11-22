@@ -1,15 +1,39 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import EmployeeCompletedComponent from './EmployeeCompletedComponent';
 
  class ConComponentPage extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      labelFontSize: 25,
+      titleFontSize: 30
+    }
   }
 
-  //Get date from event details here
   componentDidMount(){
+    this.textSize();
+  }
 
+  textSize() {
+    let width = document.body.scrollWidth;
+    if (width >= 600) {
+      this.setState({
+        labelFontSize: 25,
+        titleFontSize: 30
+      });
+    } else if (width >= 375){
+      this.setState({
+        labelFontSize: 15,
+        titleFontSize: 20
+      });
+    } else {
+      this.setState({
+        labelFontSize: 12,
+        titleFontSize: 18
+      });
+    }
   }
 
 
@@ -18,32 +42,40 @@ import { createContainer } from 'meteor/react-meteor-data';
       <div>
         <div className="row center-align">
           <div className="col l11">
-            <h4 className="col m4 l4">Professional</h4>
-            <h4 className="col m4 l4">Details</h4>
-            <h4 className="col m4 l4">Rating and Reviews</h4>
+            <div className="col m4 l4"style ={{fontSize:this.state.labelFontSize}} >Professional</div>
+            <div className="col m4 l4"style ={{fontSize:this.state.labelFontSize}}>Details</div>
+            <div className="col m4 l4"style ={{fontSize:this.state.labelFontSize}}>Rating and Reviews</div>
           </div>
         </div>
       </div>
     )
   }
 
-
   render() {
-    console.log("loading: "+ this.props.loading)
-    console.log(this.props.jobinfo._id)
+    let EmpIdArray = this.props.jobinfo.admitemployeeIds
+    let job = this.props.jobinfo
+    //console.log("ids: "+EmpIdArray[0])
     return(
-      <div>
-      <h1 className="center-align">Completed Jobs</h1>
+    <div>
         <div className="container">
           <div className="card">
             <div className="col s10 l12 push-s2 card grey lighten-1">
-              <span className="card-title center-align">{this.props.title}</span>
+              <div style={{fontSize: this.state.labelFontSize}}>{this.props.location}</div>
             </div>
-          {this.cardLabel()}
-
+            {this.cardLabel()}
+            <div>
+              {EmpIdArray.map(function(info, index) {
+                return (
+                  <EmployeeCompletedComponent
+                    id={info}
+                    job={job}
+                  />
+                )
+              })}
+            </div>
           </div>
         </div>
-      </div>
+    </div>
 
     )
   }
@@ -53,9 +85,9 @@ export default ConComponent = createContainer((props) => {
   let loading = false
   if(!('undefined' === typeof(user))){
 
-    let handle = Meteor.subscribe('admit-employee-job', props.jobinfo._id );
+    let handle = Meteor.subscribe('current-job-con', props.jobinfo._id );
     loading = handle.ready();
-    console.log("loading: "+loading);
+    //console.log("loading: "+loading);
   }
   return {
     user: user,

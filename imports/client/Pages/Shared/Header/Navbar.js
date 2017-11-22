@@ -98,7 +98,7 @@ export class NavBarPage extends Component{
       <ul id='jobs' className='dropdown-content'>
 
         <li style={{display:'none'}}><Link to='/conjobcurrent'>Current</Link></li>
-        <li><Link to='/upcoming'>Upcoming</Link></li>
+        <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
         <li><Link to='/createjob'>Create Job</Link></li>
       </ul>

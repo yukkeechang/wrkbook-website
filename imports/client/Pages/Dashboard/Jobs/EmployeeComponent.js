@@ -1,5 +1,5 @@
 import React from 'react';
-import Rating from '../Profile/ProProfile/Components/Rating';
+import ARating from '../Profile/ProProfile/Components/ARating';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 export default class EmployeeComponent extends React.Component{
@@ -64,7 +64,7 @@ export default class EmployeeComponent extends React.Component{
                 <div className="col s12">
                   <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
                   <p>{this.props.profile.employeeData.jobTitle + " "}</p>
-                  <Rating rating={4.5} starSize={15} textSize={12}/>
+                  <ARating/>
                   <p><Link to={"user/" + this.props.employeeId}>
                     View profile
                   </Link></p>

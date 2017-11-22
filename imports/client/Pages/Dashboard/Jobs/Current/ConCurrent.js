@@ -3,7 +3,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import ConComponent from './ConComponent';
-
+import { Link } from 'react-router-dom';
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
 
@@ -46,7 +46,14 @@ render() {
           return(
             <ConComponent
             key={job._id}
-            jobinfo={job}
+            jobinfo = {job}
+            events = {job.eventInfo}
+            title={job.jobTypes.texts}
+            startAt={job.startAt}
+            endAt={job.endAt}
+            description={job.description.text}
+            location={job.location}
+            pay={job.pay}
             />
           )
       })
@@ -72,7 +79,7 @@ export default ConCurrent = createContainer((props) => {
   let loading = false
   let user = Meteor.user();
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employer');
+    let handle = Meteor.subscribe('current-job-con');
     loading = handle.ready();
     console.log("loading "+loading);
     jobPost = Job.find({}).fetch();
