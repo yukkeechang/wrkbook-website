@@ -4,20 +4,16 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check'
 
 
-let createThumb = function(fileObj, readStream, writeStream) {
-  // Transform the image into a 50x50px thumbnail
-  gm(readStream, fileObj.name()).resize('50', '50').stream().pipe(writeStream);
-};
-let createProfilePic = function(fileObj, readStream, writeStream) {
-  // Transform the image into a 350x350px thumbnail
-  gm(readStream, fileObj.name()).resize('350', '350').stream().pipe(writeStream);
-};
-const imageStore = new FS.Store.GridFS('images',{
-  transformWrite: createProfilePic
-});
-const thumbNail = new FS.Store.GridFS('thumbnail',{
-  transformWrite: createThumb
-});
+// let createThumb = function(fileObj, readStream, writeStream) {
+//   // Transform the image into a 50x50px thumbnail
+//   gm(readStream, fileObj.name()).resize('50', '50').stream().pipe(writeStream);
+// };
+// let createProfilePic = function(fileObj, readStream, writeStream) {
+//   // Transform the image into a 350x350px thumbnail
+//   gm(readStream, fileObj.name()).resize('350', '350').stream().pipe(writeStream);
+// };
+const imageStore = new FS.Store.GridFS('images');
+const thumbNail = new FS.Store.GridFS('thumbnail');
 
 Images = new FS.Collection('images',{
   stores: [imageStore,thumbNail]
