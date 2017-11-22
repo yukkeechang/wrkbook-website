@@ -26,7 +26,7 @@ import ConJobPostComponent from './Dashboard/Jobs/ConJobPostComponent';
 import DummyEvents from './Dashboard/DummyEvents';
 import ConJobPosts from './Dashboard/Jobs/ConJobPosts'
 import CreateJobs from './Dashboard/Jobs/CreateJobs';
-import EditJobs from './Dashboard/EditJobs';
+import EditJobs from './Dashboard/Jobs/Upcoming/EditJobsOutter';
 import JobPostAdmit from './Dashboard/Jobs/EmpJobPostAdmit';
 import EmpJobPostComponent from './Dashboard/Jobs/EmpJobPostComponent';
 import EmpJobPosts from './Dashboard/Jobs/EmpJobPosts';

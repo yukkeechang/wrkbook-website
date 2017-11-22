@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
-import JobCreateComponent from './MultiProComponent';
-import JobSchema from '../../../../api/Schemas/jobSchema';
-import { DEFAULT } from '../../../../api/Schemas/basicTextSchema';
-import LocationSchema from '../../../../api/Schemas/locationSchema';
-import Location from '../../Shared/Location';
-import MTextField from '../../Shared/MTextField';
+import JobCreateComponent from '../MultiProComponent';
+import JobSchema from '../../../../../api/Schemas/jobSchema';
+import { DEFAULT } from '../../../../../api/Schemas/basicTextSchema';
+import LocationSchema from '../../../../../api/Schemas/locationSchema';
+import Location from '../../../Shared/Location';
+import MTextField from '../../../Shared/MTextField';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
@@ -17,10 +17,12 @@ export default class EditJob extends Component {
       $('select').material_select();
       $('.modal').modal();
     });
+    this.setState({
+      titles: this.props.jobPost.jobTypes.texts
+    });
     $(this.refs.titles).change(()=>{
       this.setState({titles:$(this.refs.titles).val()})
-    });
-
+    })
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -42,19 +44,15 @@ export default class EditJob extends Component {
     });
     $(this.refs.osha).on('change',(e)=>{
       this.handleSelect(e);
-
-    });
-
+    })
   }
   constructor(props){
     super(props);
-
-
     this.state={
       jobTitle: false,
       visorName: false,
       visorNumb: false,
-      titles: this.props.jobPost.jobTypes.texts,
+      titles: [],
       osha10: false,
       osha30: false,
       address: DEFAULT,
@@ -66,22 +64,6 @@ export default class EditJob extends Component {
       lng: -100,
       locationName: ''
     };
-
-    if (this.props.jobPost.requirements.socialPref.taxID) {
-      $("#taxYes").prop('checked',true);
-
-    }else{
-      $("#taxNo").prop('checked',true);
-
-    }
-    if (this.props.jobPost.requirements.socialPref.social) {
-      $("#sscYes").prop('checked',true);
-    }else{
-      $("#sscNo").prop('checked',true);
-    }
-
-    console.log( $("#sscYes").prop('checked'));
-
   }
   componentWillMount(){
     console.log('mounted');
@@ -102,7 +84,7 @@ export default class EditJob extends Component {
       });
       let job = JobSchema.clean({});
       let location = LocationSchema.clean({});
-      let jobtypes = this.state.titles;
+      let jobtypes = $('#jobTitles').val();
       console.log('we in handleCreate');
       const description = this.refs.jd.value();
       const additionText = this.refs.at.value();
@@ -142,7 +124,7 @@ export default class EditJob extends Component {
       });
       let job = JobSchema.clean({});
       let location = LocationSchema.clean({});
-      let jobtypes =this.state.titles;
+      let jobtypes = $('#jobTitles').val();
       console.log('we in handleCreate');
       const description = this.refs.jd.value();
       const additionText = this.refs.at.value();
@@ -151,7 +133,7 @@ export default class EditJob extends Component {
       job.supervisor.phone = this.refs.sNumber.value();
       job.additionText = additionText;
       job.description.text = description;
-      job.jobTypes.texts = Object.values(jobtypes);
+      job.jobTypes.texts = this.state.titles;
       job.professionals = professionals;
       job.location = location;
       console.log(location);
@@ -162,18 +144,22 @@ export default class EditJob extends Component {
       job.requirements.osha.osha30 = this.state.osha30;
 
       let thingss =this.props.jobPost._id;
-
-      Meteor.call('updateJob', thingss, job, (err)=>{
+      Meteor.call('validateJob', job, (err)=>{
         if(err){
-          console.log(err);
-          console.log(err.reason);
-          console.log('above two are update errors');
-        }
-        else{
-          console.log('no error');
+          this.setState(err.reason);
+        }else{
+          Meteor.call('updateJob', thingss, job, (err)=>{
+            if(err){
+              console.log(err);
+              console.log(err.reason);
+              console.log('above two are update errors');
+            }
+            else{
+              console.log('no error');
+            }
+          });
         }
       });
-
     }
   }
   handleTitles(){
@@ -227,6 +213,10 @@ export default class EditJob extends Component {
     let empty = 'This cannot be empty';
     let phErr = 'Not a valid phone number';
     return(
+      <div>
+      <div className="container" style={{textAlign:'center'}}>
+        <span style={{color:'red'}}><i>By editing this job, all professionals matched and hired to this job will be dropped. However, professionals can apply again if the job criteria matches their description</i></span>
+      </div>
       <div className="container">
       <div className="card">
       <div className="card-content">
@@ -309,7 +299,7 @@ export default class EditJob extends Component {
         </form>
         {this.state.titles.map((title, index)=>{
           return(
-            <JobCreateComponent ref={title} title={title} key={title}/>
+            <JobCreateComponent ref={title} title={title}key={title}/>
           )
         })}
         <form>
@@ -332,7 +322,7 @@ export default class EditJob extends Component {
       </div>
       </div>
       </div>
+      </div>
     )
-
   }
-}
+  }
