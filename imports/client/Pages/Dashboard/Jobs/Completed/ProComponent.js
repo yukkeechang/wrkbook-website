@@ -83,6 +83,8 @@ export default class ProComponent extends React.Component{
             </div>
             <div className="col s2 offset-l2 offset-m2 offset-s2">
             </div>
+            <div className="col s2 offset-l2 offset-m2 offset-s2">
+            </div>
           </div>
           <div className="row">
             <div className="col m8 s12">
@@ -131,3 +133,11 @@ export default class ProComponent extends React.Component{
 
 
 //Filter is here because 2 types of objects (professionals) are being called from the same collection
+
+// <Link to={"/editjob/"+ this.state.job._id}>
+//   <a className="teal btn-flat" onClick={this.toolTipFix.bind(this)}>
+//     <div className="white-text">
+//     Write Review
+//     </div>
+//   </a>
+// </Link>

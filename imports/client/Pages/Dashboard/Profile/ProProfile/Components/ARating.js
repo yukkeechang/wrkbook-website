@@ -10,7 +10,7 @@ function isEmpty(obj) {
   return true;
 }
 
-class DisplayReviews extends React.Component {
+class ARatingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,12 +26,11 @@ class DisplayReviews extends React.Component {
           <br/>
           {reviewz.map(function(review, index){
             return(
-                <ReviewCard
-                  key={review._id}
-                  companyName={review.companyName.text}
-                  date={review.createdAt.toLocaleString()}
+
+                <Rating
                   rating={review.rating}
-                  details={review.review.text}
+                  starSize={20}
+                  textSize={15}
                 />
 
             )
@@ -48,15 +47,15 @@ class DisplayReviews extends React.Component {
     }
     else{
       return(
-        <h4 className="card-title" style={{display:'flex', justifyContent:'center'}}>
-          Currently No Reviews
-        </h4>
+        <div>
+          No Ratings
+        </div>
       );
     }
   }
 }
 
-export default Reviews = createContainer(({ params }) => {
+export default ARating = createContainer(({ params }) => {
 
   let reviews =[];
   let loading = false;
@@ -72,4 +71,4 @@ export default Reviews = createContainer(({ params }) => {
     loading:loading,
     reviews:reviews
   };
-}, DisplayReviews);
+}, ARatingPage);
