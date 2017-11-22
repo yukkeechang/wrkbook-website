@@ -1,6 +1,5 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import EmployerNoUpcomingJobs from './Upcoming/EmployerNoUpcomingJobs';
 
 import MSpinner from '../../Shared/MSpinner';
 import ConJobPostComponent from './ConJobPostComponent';

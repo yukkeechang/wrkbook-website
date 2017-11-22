@@ -1,11 +1,14 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import CreateReviewForCon from '../../Reviews/CreateReviewForCon';
+import ReactDOM from 'react-dom';
 
 function isEmpty(obj) {
   for(var x in obj){return false;}
   return true;
 }
 //Rendered in ConComponent
+
 //Can't set res aas a state, not sure why
 class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
@@ -14,8 +17,13 @@ class EmployeeCompletedComponent extends React.Component {
      userName:"",
      userLastName: "",
      imgId: "",
-     labelFontSize: 18
+     labelFontSize: 18,
+
+     res: {}
    }
+
+
+
     Meteor.call('findUserbyId', this.props.id, function(err, res){
       if(err) {
         console.log("error is: "+err)
@@ -23,10 +31,20 @@ class EmployeeCompletedComponent extends React.Component {
         this.setState({
           userName: res.profile.firstName,
           userLastName: res.profile.lastName,
-          imgId: res.profile.employeeData.image
+          imgId: res.profile.employeeData.image,
+          res: res
         })
       }
     }.bind(this));
+  }
+
+  componentDidMount(){
+    this.textSize();
+    let dropdowns = ReactDOM.findDOMNode();
+    $(dropdowns).ready(()=>{
+      $('.modal').modal();
+      //$('select').material_select();
+    });
   }
 
  textSize() {
@@ -48,6 +66,12 @@ class EmployeeCompletedComponent extends React.Component {
  writeReview() {
    //review modal
  }
+ openModal(){
+   $(document).ready(()=> {
+     $('#modal1').modal('open');
+   });
+   //console.log();
+ }
 
  renderReview() {
    if(!this.props.loading) {
@@ -65,13 +89,23 @@ class EmployeeCompletedComponent extends React.Component {
    }
    else {
      return (
-       <div>
-        <button className="waves-effect waves-teal teal btn-flat" onClick={this.writeReview.bind(this)}>
-          <div className="white-text">
-              Rate and Review
-          </div>
-        </button>
-       </div>
+    <div>
+       <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
+         <div className="white-text">
+             Rate and Review
+         </div>
+       </button>
+
+        <div id="modal1" className="modal modal-fixed-footer">
+         <div className="modal-content">
+           <CreateReviewForCon/>
+         </div>
+         <div className="modal-footer">
+           <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+         </div>
+        </div>
+
+    </div>
        )
      }
    }
@@ -97,8 +131,10 @@ class EmployeeCompletedComponent extends React.Component {
  }
 
  render() {
+      resStr = JSON.stringify(this.state.res)
+    //  console.log("resStr: "+resStr)
       str = JSON.stringify(this.props.event);
-      console.log(str)
+      //console.log(str)
       //console.log(this.props.job._id)
 
       console.log("event: "+this.props.event)
@@ -138,3 +174,21 @@ class EmployeeCompletedComponent extends React.Component {
      review: review
    };
  }, EmployeeCompletedComponent);
+
+
+//<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+// <button className="waves-effect waves-teal teal btn-flat" onClick={this.writeReview.bind(this)}>
+//   <div className="white-text">
+//       Rate and Review
+//   </div>
+// </button>
+
+
+// <div id="creationModal" className="modal">
+//   <div className="modal-content">
+//     <h5 style={{color:'red'}}>To create more than one job post you must subscribe to our payment plan.</h5>
+//   </div>
+//   <div className="modal-footer">
+//     <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+//   </div>
+// </div>
