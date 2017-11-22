@@ -10,7 +10,7 @@ function isEmpty(obj) {
 //Rendered in ConComponent
 
 //Can't set res aas a state, not sure why
-class EmployeeCompletedComponent extends React.Component {
+export default class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
    super(props);
    this.state = {
@@ -74,16 +74,10 @@ class EmployeeCompletedComponent extends React.Component {
  }
 
  renderReview() {
-   if(!this.props.loading) {
-     return (
-       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
-         <MSpinner />
-       </div>
-     )
-   }
-   else if(!(isEmpty(this.props.review))) {
+    if(!(isEmpty(this.props.review))) {
      return (
        <div>
+       
        </div>
      )
    }
@@ -143,37 +137,37 @@ class EmployeeCompletedComponent extends React.Component {
       return (
         <div className="row">
             <div className="card-content">
-            {this.renderProfDetails()}
-          </div>
+              {this.renderProfDetails()}
+            </div>
         </div>
       )
     }
  }
 
- export default  createContainer(props => {
-   let event=[];
-   let review=[];
-   let loading = false
-   let loading2 = false
-   let jobId = props.job._id
-   let proId = props.id
-   let conId = props.job.employerId
-   console.log("job id: "+jobId+" proId: "+proId+" conId: "+conId)
-   let handleReview =  Meteor.subscribe('review-for-pro-completed', jobId, proId, conId)
-   let handle = Meteor.subscribe('completed-job-pro-event',jobId);
-   loading = handle.ready();
-   console.log("loading: "+loading);
-   console.log("loading2: "+loading);
-   event = Event.find({}).fetch();
-   console.log("event: "+event)
-   console.log("review: "+review)
-
-   return {
-     loading: loading,
-     event: event,
-     review: review
-   };
- }, EmployeeCompletedComponent);
+ // export default  createContainer(props => {
+ //   let event=[];
+ //   let review=[];
+ //   let loading = false
+ //   let loading2 = false
+ //   let jobId = props.job._id
+ //   let proId = props.id
+ //   let conId = props.job.employerId
+ //   console.log("job id: "+jobId+" proId: "+proId+" conId: "+conId)
+ //   let handleReview =  Meteor.subscribe('review-for-pro-completed', jobId, proId, conId)
+ //   let handle = Meteor.subscribe('completed-job-pro-event',jobId);
+ //   loading = handle.ready();
+ //   console.log("loading: "+loading);
+ //   console.log("loading2: "+loading);
+ //   event = Event.find({}).fetch();
+ //   console.log("event: "+event)
+ //   console.log("review: "+review)
+ //
+ //   return {
+ //     loading: loading,
+ //     event: event,
+ //     review: review
+ //   };
+ // }, EmployeeCompletedComponent);
 
 
 //<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>

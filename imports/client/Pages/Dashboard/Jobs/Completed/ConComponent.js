@@ -1,6 +1,7 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
+import EmployeeComponentOuter from './EmployeeCompletedComponent';
 
  class ConComponentPage extends React.Component {
   constructor(props) {
@@ -66,7 +67,7 @@ import EmployeeCompletedComponent from './EmployeeCompletedComponent';
             <div>
               {EmpIdArray.map(function(info, index) {
                 return (
-                  <EmployeeCompletedComponent
+                  <EmployeeComponentOuter
                     id={info}
                     job={job}
                   />
