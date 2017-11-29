@@ -2,7 +2,8 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ProComponent from './ProComponent';
+import ProComponent from '../Shared/ProComponent';
+import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
 
 function isEmpty(obj) {
     for (var x in obj) { return false; }
@@ -14,14 +15,6 @@ class ProCompletedJobsPage extends React.Component {
     super(props);
   }
 
-  NoCompleteJob() {
-    return (
-      <div className="card-panel  center-align">
-          <img src="/images/hardhat.png" height="150" width="150" />
-          <h5>You dont have any completed jobs!</h5>
-      </div>
-    )
-  }
 
 
 render() {
@@ -59,9 +52,7 @@ render() {
   }
   else {
     return (
-      <div>
-      {this.NoCompleteJob()}
-      </div>
+      <EmployeeNoJobs/>
       )
     }
   }
