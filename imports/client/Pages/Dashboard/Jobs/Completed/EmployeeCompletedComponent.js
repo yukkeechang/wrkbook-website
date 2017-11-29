@@ -1,6 +1,6 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import CreateReviewForCon from '../../Reviews/CreateReviewForCon';
+import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
 
 function isEmpty(obj) {
@@ -77,7 +77,7 @@ export default class EmployeeCompletedComponent extends React.Component {
     if(!(isEmpty(this.props.review))) {
      return (
        <div>
-       
+
        </div>
      )
    }
@@ -92,7 +92,7 @@ export default class EmployeeCompletedComponent extends React.Component {
 
         <div id="modal1" className="modal modal-fixed-footer">
          <div className="modal-content">
-           <CreateReviewForCon/>
+           <CreateReviewForPro/>
          </div>
          <div className="modal-footer">
            <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
@@ -126,12 +126,12 @@ export default class EmployeeCompletedComponent extends React.Component {
 
  render() {
       resStr = JSON.stringify(this.state.res)
-    //  console.log("resStr: "+resStr)
+      //console.log("resStr: "+resStr)
       str = JSON.stringify(this.props.event);
       //console.log(str)
       //console.log(this.props.job._id)
 
-      console.log("event: "+this.props.event)
+      console.log("event: "+str)
       console.log("job id: "+this.props.job._id)
       let image = "cfs/files/images/"+this.state.imgId
       return (
