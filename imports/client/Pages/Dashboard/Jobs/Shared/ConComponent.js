@@ -68,17 +68,23 @@ class ConComponentPage extends React.Component{
       <div className="card">
         <div className="card-content">
           <div className="row">
-            <div className="col s8">
+            <div className="col m10 s8">
               <span className="card-title">{this.props.jobinfo.jobTitle.text}</span>
               <p>{this.props.description}</p>
               <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
-            <div className="col s2 offset-l2 offset-m2 offset-s2">
-            <a className="waves-effect waves-light blue-grey darken-2 btn" onClick={this.handleMember.bind(this)}><i className="small material-icons left">people</i></a>
-            <Link to={"/editjob/"+ this.state.job._id}>
-              <a className="waves-effect waves-light btn"><i className="small material-icons left">edit</i></a>
-            </Link>
+
+            <div className="col m2  s1">
+              <div className="row">
+                <a className="waves-effect waves-light blue-grey  lighten-3 btn-flat tooltipped" data-position="right" data-tooltip="Manage Employees" onClick={this.handleMember.bind(this)}><i className="small material-icons left">people</i></a>
+              </div>
+              <div className="row">
+                <Link to={"/editjob/"+ this.state.job._id}>
+                  <a className="waves-effect waves-light teal lighten-3 btn-flat tooltipped"  data-position="right" data-tooltip="Edit Job Info"><i className="small material-icons left">edit</i></a>
+                </Link>
+              </div>
+
             </div>
           </div>
           <div className="row">
@@ -122,7 +128,7 @@ class ConComponentPage extends React.Component{
           </div>
           <div className="row">
             <div className="col m6 s12">
-                  <div classnName='z-depth-0'>
+                  <div className='z-depth-0'>
                     {
                       this.props.applyPeople.length < 1 ?
                       <h5>No Professionals have applied</h5>
@@ -130,28 +136,30 @@ class ConComponentPage extends React.Component{
                       <h5>Professionals that applied</h5>
                     }
                   </div>
-                  <ul className="collection">
-                    {
-                      this.props.ready ?
-                      this.props.applyPeople.map(function(user,index){
-                        return(
-                          <li className="collection-item">
-                            <EmployeeComponent
-                              key = {user._id}
-                              jobInfo = {this.state.job}
-                              employeeId = {user._id}
-                              profile = {user.profile}
-                              isAdmitted = {false}
-                            />
-                          </li>
-                        )
-                      }.bind(this))
-                      :
-                      <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
-                        <MSpinner />
-                      </div>
-                    }
-                    </ul>
+                  <div style={{height:'250px',overflow:'auto'}}>
+                    <ul className="collection">
+                      {
+                        this.props.ready ?
+                        this.props.applyPeople.map(function(user,index){
+                          return(
+                            <li className="collection-item">
+                              <EmployeeComponent
+                                key = {user._id}
+                                jobInfo = {this.state.job}
+                                employeeId = {user._id}
+                                profile = {user.profile}
+                                isAdmitted = {false}
+                              />
+                            </li>
+                          )
+                        }.bind(this))
+                        :
+                        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+                          <MSpinner />
+                        </div>
+                      }
+                      </ul>
+                    </div>
               </div>
               <div className="col m6 s12">
                 <div>
@@ -163,6 +171,7 @@ class ConComponentPage extends React.Component{
                   }
 
                 </div>
+                  <div style={{height:'250px',overflow:'auto'}}>
                 <ul className="collection">
                   {
                     this.props.ready ?
@@ -186,6 +195,7 @@ class ConComponentPage extends React.Component{
                     </div>
                   }
                   </ul>
+                  </div>
             </div>
           </div>
 
