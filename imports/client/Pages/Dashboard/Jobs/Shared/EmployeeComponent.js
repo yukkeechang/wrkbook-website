@@ -1,8 +1,12 @@
 import React from 'react';
-import ARating from '../Profile/ProProfile/Components/ARating';
+import ARating from '../../Profile/ProProfile/Components/ARating';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
-export default class EmployeeComponent extends React.Component{
+import MSpinner from '../../../Shared/MSpinner';
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
+
+class EmployeeCom extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
@@ -57,7 +61,14 @@ export default class EmployeeComponent extends React.Component{
           </div>
           <div className="row valign-wrapper ec" style={{width:'100%'}}>
             <div className="col m4 s12" style={{display:'flex', justifyContent:'center'}}>
-              <img className="circle" src='/images/facebook.png' height='100px' width='100px'/>
+                {
+                    this.props.ready ?
+                      <img className="circle" src={this.props.link} height='100px' width='100px'/>
+                      :
+                      <MSpinner/>
+
+                }
+
             </div>
             <div className="col m8 s12">
               <div className="row">
@@ -76,8 +87,10 @@ export default class EmployeeComponent extends React.Component{
             {
               !this.props.isAdmitted &&
               <div className="col m6 s12 offset-m4 offset-s2">
-                <button className="waves-effect waves-teal teal lighten-3 btn-flat" onClick={this.handleAdmit.bind(this)}>
+                <button className="waves-effect teal btn-flat" onClick={this.handleAdmit.bind(this)}>
+                  <div className="white-text">
                   Hire
+                  </div>
                 </button>
               </div>
             }
@@ -97,3 +110,16 @@ export default class EmployeeComponent extends React.Component{
     )
   }
 }
+
+
+export default EmployeeComponent = createContainer((props) => {
+    let things = [];
+    const handle = Meteor.subscribe('images-id',props.profile.employeeData.image);
+    const ready = handle.ready();
+    things = Images.find({}).fetch()
+
+    return {
+        ready:ready,
+        link : "cfs/files/images/"+ props.profile.employeeData.image
+    };
+}, EmployeeCom);

@@ -2,8 +2,9 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ConComponent from './ConComponent';
-
+import ConComponent from '../Shared/ConComponent';
+import { Link } from 'react-router-dom';
+import EmployerNoJobs from '../Shared/EmployerNoJobs';
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
 
@@ -17,19 +18,6 @@ class ConCurrentPage extends React.Component {
     super(props);
   }
 
-  NoCurrentJob() {
-    return (
-      <div className="card-panel  center-align">
-          <img src="/images/hardhat.png" height="150" width="150" />
-          <h5>You dont have any current jobs!</h5>
-          <Link to={"/createjob"} className="btn">
-            <div className="col s12 m12 l12">
-                  Create a New Job!
-            </div>
-            </Link>
-      </div>
-    )
-  }
 
 render() {
   if(!this.props.loading) {
@@ -41,12 +29,19 @@ render() {
   }
   else if(!(isEmpty(this.props.jobPost))) {
     return (
-      <div>
+      <div  className="container">
         {this.props.jobPost.map(function(job, index){
           return(
             <ConComponent
             key={job._id}
-            jobinfo={job}
+            jobinfo = {job}
+            events = {job.eventInfo}
+            title={job.jobTypes.texts}
+            startAt={job.startAt}
+            endAt={job.endAt}
+            description={job.description.text}
+            location={job.location}
+            pay={job.pay}
             />
           )
       })
@@ -57,9 +52,7 @@ render() {
   }
   else {
     return (
-      <div>
-      {this.NoCurrentJob()}
-      </div>
+        <EmployerNoJobs/>
     )
   }
  }
@@ -72,7 +65,7 @@ export default ConCurrent = createContainer((props) => {
   let loading = false
   let user = Meteor.user();
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post-employer');
+    let handle = Meteor.subscribe('current-job-con');
     loading = handle.ready();
     console.log("loading "+loading);
     jobPost = Job.find({}).fetch();

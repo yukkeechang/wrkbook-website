@@ -30,7 +30,7 @@ export default class PasswordChange extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-    
+
         // Clear the error messages of each field
         Object.keys(this.state).map((key) => {
             this.setState({[key]: ''});
@@ -46,7 +46,7 @@ export default class PasswordChange extends Component {
                 if (err && err.reason === "Incorrect password") {
                     this.setState({opError: 'Old password is incorrect'});
                 }else {
-                  $('#modal1').modal('open');
+                  $('#').modal('open');
                 }
             });
         } else {
@@ -97,7 +97,7 @@ export default class PasswordChange extends Component {
 
                 <div id="modal1" className="modal">
                   <div className="modal-content">
-                    <h4>Password Has Been Changed</h4>
+                    <h5>Your password has been sucessfully changed!</h5>
 
                   </div>
                   <div className="modal-footer">

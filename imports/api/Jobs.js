@@ -96,8 +96,7 @@ Meteor.publish('job-post', function(employee){
 
 
       });
-      console.log("RESULTS ===================================")
-      console.log(results)
+
       return results;
 
 
@@ -330,7 +329,6 @@ Meteor.publish('upcoming-job-pro',function(){
     })
     if(!job)throw new Meteor.Error('403','Job was not found');
     console.log("job")
-    console.log(job)
     return job;
 
   } else {
@@ -344,9 +342,13 @@ Meteor.publish('upcoming-job-pro',function(){
 Meteor.publish('current-job-con',function(){
   let currentDate = new Date();
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    return Job.find({employerId:this.userId,
-                     generalStart:{$lt: currentDate},
-                     isOpen:true},{sort: {generalStart: 1}});
+    return Job.find(
+      { employerId:this.userId,
+        generalStart:{$lt: currentDate},
+        isOpen:true
+      },
+        {sort: {generalStart: 1}}
+     );
   }else {
     this.stop();
     return;
@@ -536,8 +538,31 @@ Meteor.methods({
   },
 
   sendNotificationsToPotential(jobObject){
-
-
+    // ,
+    // 'location.latitude': {$gte: lat_bot, $lt: lat_top},
+    // 'location.longitude': {$gte: lng_bot , $lt: lng_top}}
+  //   Meteor.users.find({
+  //     $and: [
+  //               {
+  //               'jobTitle' : {$in : jobObject.jobTypes.texts}
+  //               ,
+  //                 {$or:[ {'driverLicense': true},
+  //                 {'driverLicense':false,'driverLicense':jobObject.requirements.driverLicense}]}
+  //               ,
+  //                 {$or:[ {'osha.osha10': false, 'osha.osha30':true},
+  //                 {'osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employee.osha.osha30},
+  //                 {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employee.osha.osha10},{'requirements.osha.osha10':employee.osha.osha30}] },
+  //                 ]}
+  //               ,
+  //                 {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
+  //                 {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employee.socialPref.social},
+  //                 {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employee.socialPref.taxID},{'requirements.socialPref.social':employee.socialPref.social}] },
+  //                 ]}
+  //
+  //             ]
+  //
+  //
+  //         });
   },
   /**
   Inserts a Job and an Event into the database. That Job must follow the format of
@@ -587,9 +612,11 @@ Meteor.methods({
       let selector1 = {_id: id1, employerId: this.userId};
       Job.update(selector1,{$set: job});
 
-      if(Roles.userIsInRole(this.userId,'free-job')){
-        Roles.removeUsersFromRoles(this.userId,'free-job');
-      }
+      //========Commented out for TESTING purposes==========
+      // if(Roles.userIsInRole(this.userId,'free-job')){
+      //   Roles.removeUsersFromRoles(this.userId,'free-job');
+      // }
+      Meteor.call('sendNotificationsToPotential',job);
       return things;
 
 

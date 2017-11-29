@@ -16,6 +16,29 @@ function isEmpty(obj) {
 class ConCompletedJobsPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state= {
+      titleFontSize: 40
+    }
+  }
+
+  textSize() {
+    let width = document.body.scrollWidth;
+    if (width >= 600) {
+      this.setState({
+        titleFontSize: 40
+
+      });
+    } else if (width >= 375){
+      this.setState({
+        titleFontSize: 30
+
+      });
+    } else {
+      this.setState({
+        titleFontSize: 25
+
+      });
+    }
   }
 
   NoCompleteJob() {
@@ -34,9 +57,9 @@ class ConCompletedJobsPage extends React.Component {
 
 
 render() {
-  console.log(this.props.jobPost)
-  console.log("employee on the job: "+this.props.jobPost.admitemployeeIds)
   let jobz = this.props.jobPost;
+  str = JSON.stringify(jobz);
+//  console.log("jobs: "+str)
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -45,9 +68,11 @@ render() {
     )
   }
   else if(!(isEmpty(this.props.jobPost))) {
-    console.log("return completed jobs, isOpen=false: " + this.props.jobPost)
     return (
       <div>
+        <div>
+          <h1 className="center-align" style={{fontSize: this.state.titleFontSize}}>Completed Jobs</h1>
+        </div>
         {jobz.map(function(job, index){
           return (
             <ConComponent
@@ -58,7 +83,7 @@ render() {
             startAt={job.startAt}
             endAt={job.endAt}
             description={job.description.text}
-            location={job.location}
+            location={job.location.locationName}
             pay={job.pay}
 
             />
@@ -88,7 +113,7 @@ export default ConCompleted = createContainer(({props}) => {
   if(!('undefined' === typeof(user))){
     let handle = Meteor.subscribe('closed-job-con',user._id);
     loading = handle.ready();
-    console.log("loading: "+loading);
+    //console.log("loading: "+loading);
     jobPost = Job.find({}).fetch();
   }
   return {
