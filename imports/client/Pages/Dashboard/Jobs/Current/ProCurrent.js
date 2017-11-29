@@ -3,7 +3,8 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ProComponent from './ProComponent';
+import ProComponent from '../Shared/ProComponent';
+import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
 
 // import ConProfile from './ConProfile/ConProfile';
 // import ProProfile from './ProProfile/ProProfile';
@@ -17,14 +18,6 @@ class ProCurrentPage extends React.Component {
     super(props);
   }
 
-  NoCurrentJob() {
-    return (
-      <div className="card-panel  center-align">
-          <img src="/images/hardhat.png" height="150" width="150" />
-          <h5>You dont have any current jobs!</h5>
-      </div>
-    )
-  }
 
 
 render() {
@@ -61,9 +54,7 @@ render() {
   }
   else {
     return (
-      <div>
-      {this.NoCurrentJob()}
-      </div>
+        <EmployeeNoJobs/>
     )
   }
  }

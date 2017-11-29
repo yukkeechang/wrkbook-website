@@ -2,7 +2,8 @@ import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
-import ConComponent from './ConComponent';
+import ConComponent from '../Shared/ConComponent';
+import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
 function isEmpty(obj) {
   for (var x in obj) { return false; }
@@ -16,22 +17,6 @@ class ConUpcomingPage extends React.Component{
       loading1: false
     }
   }
-
-  NoUpcomingJob() {
-    return (
-      <div className="card-panel  center-align">
-          <img src="/images/hardhat.png" height="150" width="150" />
-          <h5>You dont have any upcoming jobs!</h5>
-          <Link to={"/createjob"} className="btn">
-            <div className="col s12 m12 l12">
-                  Create a New Job!
-            </div>
-            </Link>
-      </div>
-    )
-  }
-
-
   render(){
     if(!this.props.loading){
       return (
@@ -72,9 +57,7 @@ class ConUpcomingPage extends React.Component{
     }
     else{
       return(
-        <div>
-        {this.NoUpcomingJob()}
-        </div>
+          <EmployerNoJobs/>
       );
     }
   }
@@ -85,7 +68,7 @@ export default ConUpcoming = createContainer(( {props} ) => {
   let loading = false;
 
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('upcoming-job-con',user._id);
+    let handle = Meteor.subscribe('upcoming-job-con');
     loading = handle.ready();
     console.log(loading);
     jobPost = Job.find({}).fetch();

@@ -72,7 +72,7 @@ export default class EmpJobPostComponent extends React.Component{
       console.log(err);
     }
     else{
-
+          $('#declineModal').modal('close');
     }
     });
   }
@@ -88,6 +88,7 @@ export default class EmpJobPostComponent extends React.Component{
           label: 'Applied',
           showapply: 'disabled'
         });
+        $('#applyModal').modal('close');
       }
     });
   }
