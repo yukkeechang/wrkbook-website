@@ -42,20 +42,20 @@ export default class CreateReview extends Component {
                         <p>Please select the categories that describe (Professionals name)</p>
                           <p>
                             <input type="checkbox" className="filled-in" id="shows-up-on-time"/>
-                            <label for="filled-in-box">Shows up on time</label>
+                            <label htmlFor="filled-in-box">Shows up on time</label>
                           </p>
 
                           <p>
                             <input type="checkbox" className="filled-in" id="clean"/>
-                            <label for="filled-in-box">Clean</label>
+                            <label htmlFor="filled-in-box">Clean</label>
                           </p>
                         <p>
                           <input type="checkbox" className="filled-in" id="has-tools"/>
-                          <label for="filled-in-box">Has tools</label>
+                          <label htmlFor="filled-in-box">Has tools</label>
                         </p>
                         <p>
                           <input type="checkbox" className="filled-in" id="recommended"/>
-                          <label for="filled-in-box">Recommended</label>
+                          <label htmlFor="filled-in-box">Recommended</label>
                         </p>
                         </div>
                     </div>
