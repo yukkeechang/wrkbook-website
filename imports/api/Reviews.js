@@ -35,6 +35,10 @@ Meteor.publish('reviews-for-user',function (revieweeId) {
   return Review.find({ revieweeId: revieweeId});
 });
 
+Meteor.publish('review-for-pro-completed', function(revieweeId, reviewerId, jobId) {
+  return Review.find({revieweeId: revieweeId, reviewerId:reviewerId, jobId:jobId})
+})
+
 /**
 *
 * Publishes all Reviews written by a user with ID

@@ -216,7 +216,7 @@ let styles = {
      borderLeft: "solid #F0F0F0 5px",
      boxShadow: "none",
      padding: 0,
-     fontSize: 12,
+     fontSize: 14,
      textTransform: "none",
      color: "black",
      backgroundColor: 'white'
@@ -224,7 +224,7 @@ let styles = {
   certOne: {
        borderLeft: "solid #F0F0F0 5px",
        boxShadow: "none", padding: 0,
-       fontSize: 12, textTransform: "none",
+       fontSize: 14, textTransform: "none",
        color: "#10A96D",
        backgroundColor: 'white'
   }

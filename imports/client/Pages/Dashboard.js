@@ -26,7 +26,7 @@ import ConJobPostComponent from './Dashboard/Jobs/ConJobPostComponent';
 import DummyEvents from './Dashboard/DummyEvents';
 import ConJobPosts from './Dashboard/Jobs/ConJobPosts'
 import CreateJobs from './Dashboard/Jobs/CreateJobs';
-import EditJobs from './Dashboard/EditJobs';
+import EditJobs from './Dashboard/Jobs/Upcoming/EditJobsOutter';
 import JobPostAdmit from './Dashboard/Jobs/EmpJobPostAdmit';
 import EmpJobPostComponent from './Dashboard/Jobs/EmpJobPostComponent';
 import EmpJobPosts from './Dashboard/Jobs/EmpJobPosts';
@@ -34,6 +34,8 @@ import employeeComponent from './Dashboard/Jobs/EmployeeComponent';
 import References from './Dashboard/References'
 import ProCompleted from './Dashboard/Jobs/Completed/ProCompleted';
 import ConCompleted from './Dashboard/Jobs/Completed/ConCompleted';
+import CreateReviewForPro from './Dashboard/Reviews/CreateReviewForPro.js';
+import CreateReviewForCon from './Dashboard/Reviews/CreateReviewForCon.js';
 //import ConProfile from './Dashboard/Profile/ConProfile/ConProfile';
 //import ProProfile from './Dashboard/Profile/ProProfile/ProProfile';
 
@@ -86,6 +88,8 @@ class Dash extends Component{
 
                 <Route path="/concompleted" component={ConCompleted}/>
                 <Route path="/empcompleted" component={ProCompleted}/>
+                <Route path="/createreviewforprofessional" component={CreateReviewForPro}/>
+                <Route path="/createreviewforcontractor" component={CreateReviewForCon}/>
                 <Route path="*" component={NotFound}/>
                 </Switch>
 
