@@ -1,7 +1,8 @@
 import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import ARating from '../../Profile/ProProfile/Components/ARating';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
-import EmployeeComponentOuter from './EmployeeCompletedComponent';
+import EmployeeComponentOuter from './EmployeeComponentOuter';
 
  class ConComponentPage extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ import EmployeeComponentOuter from './EmployeeCompletedComponent';
 
   componentDidMount(){
     this.textSize();
+    console.log(this.props.jobinfo);
   }
 
   textSize() {
@@ -38,24 +40,12 @@ import EmployeeComponentOuter from './EmployeeCompletedComponent';
   }
 
 
-  cardLabel() {
-    return (
-      <div>
-        <div className="row center-align">
-          <div className="col l11">
-            <div className="col m4 l4"style ={{fontSize:this.state.labelFontSize}} >Professional</div>
-            <div className="col m4 l4"style ={{fontSize:this.state.labelFontSize}}>Details</div>
-            <div className="col m4 l4"style ={{fontSize:this.state.labelFontSize}}>Rating and Reviews</div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+
 
   render() {
-    let EmpIdArray = this.props.jobinfo.admitemployeeIds
-    let job = this.props.jobinfo
-    //console.log("ids: "+EmpIdArray[0])
+    let EmpIdArray = this.props.jobinfo.admitemployeeIds;
+    let job = this.props.jobinfo;
+
     return(
     <div>
         <div className="container">
@@ -63,7 +53,6 @@ import EmployeeComponentOuter from './EmployeeCompletedComponent';
             <div className="col s10 l12 push-s2 card grey lighten-1">
               <div style={{fontSize: this.state.labelFontSize}}>{this.props.location}</div>
             </div>
-            {this.cardLabel()}
             <div>
               {EmpIdArray.map(function(info, index) {
                 return (

@@ -111,7 +111,7 @@ export default ConCompleted = createContainer(({props}) => {
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('closed-job-con',user._id);
+    let handle = Meteor.subscribe('closed-job-con');
     loading = handle.ready();
     //console.log("loading: "+loading);
     jobPost = Job.find({}).fetch();
