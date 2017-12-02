@@ -39,8 +39,7 @@ export default ReviewSchema = new SimpleSchema({
       }
     }
   },
-  jobID:{
+  jobId:{
     type: String,
-
   }
 });

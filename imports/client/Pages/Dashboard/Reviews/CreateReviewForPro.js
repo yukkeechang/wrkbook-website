@@ -35,7 +35,8 @@ export default class CreateReview extends Component {
     });
   }
 
-  handleCreate(event) {
+  handleSubmit(event) {
+    event.preventDefault();
     let review=ReviewSchema.clean({});
     review.reviewerId = this.props.conId;
     review.revieweeId = this.props.proId;
@@ -45,9 +46,27 @@ export default class CreateReview extends Component {
     review.proReview.wouldRecommend = false;
     review.companyName = 'placeholder text' ;
     review.rating = this.state.rating;
-    review.review = this.refs.reviewText.value();
+    review.review = 'v'
+    //this.refs.reviewText.value();
 
     console.log(review.review)
+    console.log(review)
+    Meteor.call('validateReview', review, function(err) {
+      if(err) {
+        console.log(err.reason)
+      } else {
+        Meteor.call('createReview', review, function(err, res) {
+          console.log("review sent in")
+        })
+      }
+    })
+    // Meteor.call('createReview', review, function(err, res){
+    //   if(err) {
+    //     console.log("error in sending reviews, "+err)
+    //   } else {
+    //     console.log("review sent in")
+    //   }
+    // })
   }
 
   componentDidMount(){
@@ -56,9 +75,7 @@ export default class CreateReview extends Component {
 
 
   render() {
-    console.log(this.props.proId)
     console.log(this.props.conId)
-    console.log(this.props.jobId)
       return (
         <div className="card">
             <div className="card-content">
@@ -70,7 +87,7 @@ export default class CreateReview extends Component {
                         Please take a second to review {this.state.proFirstName} {this.state.proLastName} to help other contractors in the future
                     </span>
                 </div>
-                <form>
+                <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="row">
                         <div className="col s12 m6">
                         <p>Please select the categories that describe {this.state.proFirstName}</p>

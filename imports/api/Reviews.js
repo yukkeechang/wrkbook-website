@@ -86,6 +86,34 @@ Meteor.publish('reviews-by-you',function(){
 })
 
 Meteor.methods({
+
+  validateReview(reviewObject) {
+    let  validations = ReviewSchema.newContext('REVIEW');
+
+    let reviewerId = !validations.validateOne(reviewObject,'reviewerId');
+    let revieweeId = !validations.validateOne(reviewObject,'revieweeId');
+    let jobId = !validations.validateOne(reviewObject,'jobId');
+    let rating = !validations.validateOne(reviewObject, 'rating');
+    let review = !validations.validateOne(reviewObject, 'review.BasicText');
+    let companyName = !validations.validateOne(reviewObject, 'companyName.BasicText');
+    // let conReview =
+    // let proReview =
+
+    let Errors = {
+      reviewerId: reviewerId,
+      revieweeId: revieweeId,
+      jobId: jobId,
+      rating: rating,
+      review: review,
+      companyName: companyName
+    }
+
+    if( revieweeId ||reviewerId || jobId|| rating || review ||
+      companyName)
+      throw new Meteor.Error('403',Errors);
+
+  },
+
   /**
   Inserts a review into the database. That review must follow the format of
   ReviewSchema. If a employer is reviewing a employee, the employee must have
