@@ -1,26 +1,29 @@
-import React from 'react';
+import React ,{Component}from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 //import CreateReviewForCon from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
 
-class EmployeeComponentOutter extends Component{
+class EmployeeComponentOut extends Component{
 
     render(){
 
       return(
-        console.log("props from employee component outter: "+ this.props.review)
-        console.log("props from employee component outter: "+ this.props.event)
+
           <div>
               {!this.props.loading && !this.props.loading2 ?
                 <div className="row"><div className="col s4 offset-s4"style={{textAlign: 'center'}}><MSpinner /></div>
                 </div> :
-                      !!this.props.review && !!this.props.event?
-                      <EmployeeCompletedComponent review={this.props.review} event={this.props.event}
-                        proId ={this.props.proId}
-                        conId = {this.props.job.employerId}
-                        jobId = {this.props.job._id}
-                        />
+                       this.props.event.length > 0?
+                      <EmployeeCompletedComponent
+                      job={this.props.job}
+                      id={this.props.id}
+                      review={this.props.review[0]}
+                      event={this.props.event[0]}
+                      proId={this.props.id}
+                      conId={this.props.job.employerId}
+                      jobId={this.props.job._id}
+                      />
                       :
                       <h1>This Page Cannot Be Loaded</h1>
               }
@@ -30,10 +33,7 @@ class EmployeeComponentOutter extends Component{
 }
 
 
-
-
-
-export default EmployeeComponentOuter = createContainer(props => {
+export default EmployeeComponentOuter = createContainer((props) =>  {
   let event=[];
   let review=[];
   let loading = false
@@ -42,13 +42,14 @@ export default EmployeeComponentOuter = createContainer(props => {
   let proId = props.id
   let conId = props.job.employerId
   console.log("proID: "+proId)
-  let handleReview =  Meteor.subscribe('review-for-pro-completed', jobId, proId, conId);
+  let handleReview =  Meteor.subscribe('review-for-pro-completed', proId, conId,jobId);
   let handle = Meteor.subscribe('completed-job-pro-event',jobId);
   loading = handle.ready();
   console.log("loadingvghvghvgvgvvkg: "+loading)
   console.log("loadingvghvghvgvg====")
   loading2 = handleReview.ready();
   event = Event.find({}).fetch();
+  review = Review.find({}).fetch();
 
 
   return {
@@ -56,8 +57,8 @@ export default EmployeeComponentOuter = createContainer(props => {
     loading2: loading2,
     event: event,
     review: review,
-    proId = props.id,
-    conId = props.job.employerId,
-    jobId = props.job._id
+    proId: props.id,
+    conId: props.job.employerId,
+    jobId: props.job._id
   };
-}, EmployeeCompletedOutter);
+}, EmployeeComponentOut);

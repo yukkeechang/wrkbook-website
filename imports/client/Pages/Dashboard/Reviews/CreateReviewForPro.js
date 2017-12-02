@@ -9,8 +9,22 @@ export default class CreateReview extends Component {
       super(props);
       this.state = {
           rating: 0,
-          hasRated: false
+          hasRated: false,
+          proFirstName: '',
+          proLastName: ''
       }
+
+      Meteor.call('findUserbyId', this.props.proId, function(err, res){
+        if (err) {
+          console.log("error finding user: "+err)
+        } else {
+          this.setState({
+            proFirstName: res.profile.firstName,
+            proLastName: res.profile.lastName
+          })
+        }
+      }.bind(this));
+
   }
 
   // Callback after rating the employer. rate is the star value out of 5 stars
@@ -34,15 +48,17 @@ export default class CreateReview extends Component {
     review.review = this.refs.reviewText.value();
 
     console.log(review.review)
-
-
-
   }
 
   componentDidMount(){
       Materialize.updateTextFields();
   }
+
+
   render() {
+    console.log(this.props.proId)
+    console.log(this.props.conId)
+    console.log(this.props.jobId)
       return (
         <div className="card">
             <div className="card-content">
@@ -51,13 +67,13 @@ export default class CreateReview extends Component {
                         Thank you for using WrkBook!
                     </span>
                     <span className="col s10 card-title">
-                        Please take a second to review (Professionals Name) to help other contractors in the future
+                        Please take a second to review {this.state.proFirstName} {this.state.proLastName} to help other contractors in the future
                     </span>
                 </div>
                 <form>
                     <div className="row">
                         <div className="col s12 m6">
-                        <p>Please select the categories that describe (Professionals name)</p>
+                        <p>Please select the categories that describe {this.state.proFirstName}</p>
                           <p>
                             <input type="checkbox" className="filled-in" id="shows-up-on-time"/>
                             <label htmlFor="filled-in-box">Shows up on time</label>
@@ -79,7 +95,7 @@ export default class CreateReview extends Component {
                     </div>
                     <div className="row">
                         <div className="col s12 m6">
-                        <p>Please rate (Professionals name)</p>
+                        <p>Please rate {this.state.proFirstName} </p>
                         <Rating
                           initialRate={this.state.rating}
                           empty={<i className="material-icons" style={{"fontSize": "40px", color: "#26a69a"}}>star_border</i>}
