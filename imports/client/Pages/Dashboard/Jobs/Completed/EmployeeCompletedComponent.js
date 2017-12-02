@@ -14,25 +14,22 @@ export default class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
    super(props);
    this.state = {
-     userName:"",
-     userLastName: "",
+     proName:"",
+     proLastName: "",
      imgId: "",
      labelFontSize: 18,
-
-     res: {}
+     user: {}
    }
 
-
-
-    Meteor.call('findUserbyId', this.props.id, function(err, res){
+    Meteor.call('findUserbyId', this.props.proId, function(err, res){
       if(err) {
         console.log("error is: "+err)
       } else {
         this.setState({
-          userName: res.profile.firstName,
-          userLastName: res.profile.lastName,
+          proName: res.profile.firstName,
+          proLastName: res.profile.lastName,
           imgId: res.profile.employeeData.image,
-          res: res
+          user: res
         })
       }
     }.bind(this));
@@ -92,7 +89,13 @@ export default class EmployeeCompletedComponent extends React.Component {
 
         <div id="modal1" className="modal modal-fixed-footer">
          <div className="modal-content">
-           <CreateReviewForPro/>
+           <CreateReviewForPro
+           proId={this.props.proId}
+           conId={this.props.conId}
+           jobId={this.props.jobId}
+           proName={this.state.proName}
+           proLastName={this.state.proLastName}
+           />
          </div>
          <div className="modal-footer">
            <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
@@ -130,6 +133,9 @@ export default class EmployeeCompletedComponent extends React.Component {
       str = JSON.stringify(this.props.event);
       //console.log(str)
       //console.log(this.props.job._id)
+      console.log(this.props.job._)
+      console.log(this.props.proId)
+
 
       console.log("event: "+str)
       console.log("job id: "+this.props.job._id)

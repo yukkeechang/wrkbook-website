@@ -4,7 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
 
-class EmployeeComponentOUTer extends Component{
+class EmployeeComponentOutter extends Component{
 
     render(){
 
@@ -16,7 +16,11 @@ class EmployeeComponentOUTer extends Component{
                 <div className="row"><div className="col s4 offset-s4"style={{textAlign: 'center'}}><MSpinner /></div>
                 </div> :
                       !!this.props.review && !!this.props.event?
-                      <EmployeeCompletedComponent review={this.props.review} event={this.props.event}/>
+                      <EmployeeCompletedComponent review={this.props.review} event={this.props.event}
+                        proId ={this.props.proId}
+                        conId = {this.props.job.employerId}
+                        jobId = {this.props.job._id}
+                        />
                       :
                       <h1>This Page Cannot Be Loaded</h1>
               }
@@ -51,6 +55,9 @@ export default EmployeeComponentOuter = createContainer(props => {
     loading: loading,
     loading2: loading2,
     event: event,
-    review: review
+    review: review,
+    proId = props.id,
+    conId = props.job.employerId,
+    jobId = props.job._id
   };
 }, EmployeeCompletedOutter);

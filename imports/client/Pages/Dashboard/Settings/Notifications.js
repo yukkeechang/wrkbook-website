@@ -19,15 +19,15 @@ export default class Notifications extends Component {
                                 <h5>Email</h5>
                                 <div className="col s6">
                                     <p>
-                                        <input id="ne-e" type="checkbox" className="filled-in" defaultChecked="checked"/>
+                                        <input id="ne-e" type="checkbox" className="filled-in" defaultChecked=""/>
                                         <label htmlFor="email-ne">New employee matches</label>
                                     </p>
                                     <p>
-                                        <input id="ec-e" type="checkbox" className="filled-in" defaultChecked="checked"/>
+                                        <input id="ec-e" type="checkbox" className="filled-in" defaultChecked=""/>
                                         <label htmlFor="email-ec">New employee confirmations</label>
                                     </p>
                                     <p>
-                                        <input id="nm-e" type="checkbox" className="filled-in" defaultChecked="checked"/>
+                                        <input id="nm-e" type="checkbox" className="filled-in" defaultChecked=""/>
                                         <label htmlFor="nm-e">New messages</label>
                                     </p>
                                     {/*<p>

@@ -21,6 +21,24 @@ export default class CreateReview extends Component {
     });
   }
 
+  handleCreate(event) {
+    let review=ReviewSchema.clean({});
+    review.reviewerId = this.props.conId;
+    review.revieweeId = this.props.proId;
+    review.jobId = this.props.jobId;
+    review.proReview.onTime = false;
+    review.proReview.neatJob = false;
+    review.proReview.wouldRecommend = false;
+    review.companyName = 'placeholder text' ;
+    review.rating = this.state.rating;
+    review.review = this.refs.reviewText.value();
+
+    console.log(review.review)
+
+
+
+  }
+
   componentDidMount(){
       Materialize.updateTextFields();
   }
@@ -73,7 +91,7 @@ export default class CreateReview extends Component {
                     </div>
                     <div className="row">
                         <div className="col s18 m8">
-                            <MTextField ref="position" id="position"  label="Anything else we should know?" />
+                            <MTextField ref="reviewText" id="reviewText"  label="Anything else we should know?" />
                         </div>
                     </div>
                     <input type="submit" className="btn blue-grey " data-html="true" value="Submit" />

@@ -92,15 +92,18 @@ export class NavBarPage extends Component{
         <li><Link to='/jobs'>Job Matches</Link></li>
         <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
+        <li><Link to='/upcoming'>Upcoming</Link></li>
 
       </ul>
       :
       <ul id='jobs' className='dropdown-content'>
 
         <li style={{display:'none'}}><Link to='/conjobcurrent'>Current</Link></li>
+        <li><Link to='/upcoming'>Upcoming</Link></li>
         <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
         <li><Link to='/createjob'>Create Job</Link></li>
+
       </ul>
 
         return(
