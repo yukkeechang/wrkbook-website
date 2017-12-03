@@ -16,6 +16,7 @@ export default ReviewSchema = new SimpleSchema({
   rating:{
     type: Number,
     defaultValue: 0,
+    decimal:true,
     min:0,
     max:5,
     decimal: true

@@ -103,12 +103,12 @@ export default class stepThree extends Component{
     submit(e){
 
       let basic = this.state.basic;
-      if(!this.state.captchaSolved){
-        this.setState({
-          captchaWarningOn:true
-        });
-        return;
-      }
+      // if(!this.state.captchaSolved){
+      //   this.setState({
+      //     captchaWarningOn:true
+      //   });
+      //   return;
+      // }
       this.setState({stopclicks: 'disabled'});
       if(this.isEmpty(this.state.basic)){
           Meteor.call('register',this.props.user,(err)=>{

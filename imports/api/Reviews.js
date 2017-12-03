@@ -5,6 +5,8 @@ import { Roles } from 'meteor/alanning:roles';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users';
+import ConReviewSchema from  './Schemas/conReviewSchema';
+import ProReviewSchema from  './Schemas/proReviewSchema';
 import ReviewSchema from  './Schemas/reviewSchema';
 import {DEFAULT} from './Schemas/basicTextSchema';
 
@@ -94,11 +96,11 @@ Meteor.methods({
     let revieweeId = !validations.validateOne(reviewObject,'revieweeId');
     let jobId = !validations.validateOne(reviewObject,'jobId');
     let rating = !validations.validateOne(reviewObject, 'rating');
-    let review = !validations.validateOne(reviewObject, 'review.BasicText');
-    let companyName = !validations.validateOne(reviewObject, 'companyName.BasicText');
-
-    let conReview = !Match.test(conReview, conReviewSchema);
-    let proReview = !Match.test(proReview, proReviewSchema);
+    let review = !validations.validateOne(reviewObject, 'review.text');
+    let companyName = !validations.validateOne(reviewObject, 'companyName.text');
+    //
+    let conReview = !Match.test(reviewObject.conReview, ConReviewSchema);
+    let proReview = !Match.test(reviewObject.proReview, ProReviewSchema);
 
     let Errors = {
       reviewerId: reviewerId,
@@ -133,7 +135,8 @@ Meteor.methods({
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
     newReview.reviewerId = this.userId;
-    check(newReview,ReviewSchema);
+    // check(newReview,ReviewSchema);
+    Meteor.call('validateReview',newReview);
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
