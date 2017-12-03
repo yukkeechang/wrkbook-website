@@ -46,11 +46,10 @@ export default class CreateReview extends Component {
     review.proReview.wouldRecommend = false;
     review.companyName = 'placeholder text' ;
     review.rating = this.state.rating;
-    review.review = 'v'
-    //this.refs.reviewText.value();
+    review.review = this.refs.reviewText.value();
 
-    console.log(review.review)
-    console.log(review)
+    let str = JSON.stringify(review);
+    console.log(str)
     Meteor.call('validateReview', review, function(err) {
       if(err) {
         console.log(err.reason)
@@ -75,7 +74,6 @@ export default class CreateReview extends Component {
 
 
   render() {
-    console.log(this.props.conId)
       return (
         <div className="card">
             <div className="card-content">
