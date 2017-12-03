@@ -43,9 +43,9 @@ export default class CreateReview extends Component {
     review.reviewerId = this.props.conId;
     review.revieweeId = this.props.proId;
     review.jobId = this.props.jobId;
-    review.proReview.onTime = false;
-    review.proReview.neatJob = false;
-    review.proReview.wouldRecommend = false;
+    review.conReview.onTime = false;
+    review.conReview.neatJob = false;
+    review.conReview.wouldRecommend = false;
     review.companyName.text = 'placeholder text' ;
     review.rating = this.state.rating;
     review.review.text = this.refs.reviewText.value();
