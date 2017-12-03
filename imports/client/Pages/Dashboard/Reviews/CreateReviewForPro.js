@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import MTextField from '../../Shared/MTextField';
 import Rating from 'react-rating';
 
+import ReviewSchema from '../../../../api/Schemas/reviewSchema';
+
 export default class CreateReview extends Component {
   constructor(props) {
       super(props);
@@ -44,21 +46,18 @@ export default class CreateReview extends Component {
     review.proReview.onTime = false;
     review.proReview.neatJob = false;
     review.proReview.wouldRecommend = false;
-    review.companyName = 'placeholder text' ;
+    review.companyName.text = 'placeholder text' ;
     review.rating = this.state.rating;
-    review.review = this.refs.reviewText.value();
+    review.review.text = this.refs.reviewText.value();
 
-    let str = JSON.stringify(review);
-    console.log(str)
-    Meteor.call('validateReview', review, function(err) {
-      if(err) {
-        console.log(err.reason)
-      } else {
-        Meteor.call('createReview', review, function(err, res) {
-          console.log("review sent in")
-        })
-      }
-    })
+
+    console.log(review)
+
+    Meteor.call('createReview', review, function(err, res) {
+      console.log(err);
+    });
+
+
     // Meteor.call('createReview', review, function(err, res){
     //   if(err) {
     //     console.log("error in sending reviews, "+err)
