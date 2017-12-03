@@ -17,7 +17,8 @@ export default ReviewSchema = new SimpleSchema({
     type: Number,
     defaultValue: 0,
     min:0,
-    max:5
+    max:5,
+    decimal: true
   },
   review:{
     type: BasicText,
