@@ -11,11 +11,14 @@ class CurrentJobs extends React.Component {
   constructor(props) {
     super(props);
     const {user} = this.props
-    this.state = {user: user}
+    this.state = {
+      user: user,
+      current: true
+    };
     if (user.roles[0] === "PRO") {
-      this.state = {isPro: true}
+      this.setState({isPro: true});
     } else if (user.roles[0] === "CON"){
-      this.state = {isPro: false}
+      this.setState({isPro: false});
     }
   }
 

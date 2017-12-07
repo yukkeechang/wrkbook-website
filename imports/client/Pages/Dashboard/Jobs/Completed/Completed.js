@@ -7,16 +7,18 @@ import { createContainer } from 'meteor/react-meteor-data';
 import ConCompleted from './ConCompleted';
 import ProCompleted from './ProCompleted';
 
+
 class CompletedJobs extends React.Component {
   constructor(props) {
     super(props);
     const {user} = this.props
-    console.log(user)
-    this.state = {user: user}
-    if (user.roles[0] === "PRO") {
-      this.state = {isPro: true}
+    this.state = {
+      user: user
+    };
+    if (Roles.userIsInRole(this.userId,PROFESSIONAL)) {
+      this.setState({isPro: true});
     } else if (user.roles[0] === "CON"){
-      this.state = {isPro: false}
+      this.setState({isPro: false});
     }
   }
 

@@ -19,7 +19,6 @@ class ProCompletedJobsPage extends React.Component {
 
 render() {
   let jobz = this.props.jobPost;
-
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -65,7 +64,7 @@ export default ProCompleted = createContainer(({props}) => {
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('completed-job-pro',user._id);
+    let handle = Meteor.subscribe('completed-job-pro');
     loading = handle.ready();
     console.log("loading: "+loading)
     jobPost = Job.find({}).fetch();

@@ -41,6 +41,7 @@ export default class EmployeeCompletedComponent extends React.Component {
       $('.modal').modal();
       //$('select').material_select();
     });
+    console.log(this.props);
   }
 
  textSize() {
@@ -122,14 +123,6 @@ export default class EmployeeCompletedComponent extends React.Component {
     // </div>
 
  render() {
-      resStr = JSON.stringify(this.state.res)
-      //console.log("resStr: "+resStr)
-      str = JSON.stringify(this.props.event);
-      //console.log(str)
-      //console.log(this.props.job._id)
-      // console.log(this.props);
-      // console.log("event: "+str)
-      // console.log("job id: "+this.props.job._id)
        let image = "cfs/files/images/"+this.state.imgId
       return (
         <div>
@@ -193,46 +186,3 @@ export default class EmployeeCompletedComponent extends React.Component {
       )
     }
  }
-
- // export default  createContainer(props => {
- //   let event=[];
- //   let review=[];
- //   let loading = false
- //   let loading2 = false
- //   let jobId = props.job._id
- //   let proId = props.id
- //   let conId = props.job.employerId
- //   console.log("job id: "+jobId+" proId: "+proId+" conId: "+conId)
- //   let handleReview =  Meteor.subscribe('review-for-pro-completed', jobId, proId, conId)
- //   let handle = Meteor.subscribe('completed-job-pro-event',jobId);
- //   loading = handle.ready();
- //   console.log("loading: "+loading);
- //   console.log("loading2: "+loading);
- //   event = Event.find({}).fetch();
- //   console.log("event: "+event)
- //   console.log("review: "+review)
- //
- //   return {
- //     loading: loading,
- //     event: event,
- //     review: review
- //   };
- // }, EmployeeCompletedComponent);
-
-
-//<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
-// <button className="waves-effect waves-teal teal btn-flat" onClick={this.writeReview.bind(this)}>
-//   <div className="white-text">
-//       Rate and Review
-//   </div>
-// </button>
-
-
-// <div id="creationModal" className="modal">
-//   <div className="modal-content">
-//     <h5 style={{color:'red'}}>To create more than one job post you must subscribe to our payment plan.</h5>
-//   </div>
-//   <div className="modal-footer">
-//     <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-//   </div>
-// </div>

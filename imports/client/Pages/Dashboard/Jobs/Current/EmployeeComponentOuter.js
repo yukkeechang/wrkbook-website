@@ -1,6 +1,5 @@
 import React ,{Component}from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-//import CreateReviewForCon from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
 
@@ -41,7 +40,7 @@ export default EmployeeComponentOuter = createContainer((props) =>  {
   let jobId = props.job._id
   let proId = props.id
   let conId = props.job.employerId
-  let handleReview =  Meteor.subscribe('review-for-pro-completed', proId, conId,jobId);
+  let handleReview =  Meteor.subscribe('review-for-pro-completed', proId, conId, jobId);
   let handle = Meteor.subscribe('completed-job-pro-event',jobId);
   loading = handle.ready();
   loading2 = handleReview.ready();

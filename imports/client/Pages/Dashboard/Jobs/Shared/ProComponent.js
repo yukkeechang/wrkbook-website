@@ -20,7 +20,7 @@ export default class ProComponent extends React.Component{
       this.handleProChange(e);
     })
 
-
+    console.log(this.props);
     this.getEventData();
   }
   constructor(props){
