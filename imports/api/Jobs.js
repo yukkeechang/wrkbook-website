@@ -19,7 +19,9 @@ import { Roles } from 'meteor/alanning:roles';
 export const  NOTMADE ={
   jobNotMade : true
 };
-//Defines a collection named jobs
+/**
+Defines a collection named jobs
+**/
 Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
 
@@ -742,6 +744,7 @@ Meteor.methods({
       updateEvent[idx].jobId = jobId;
       Event.update( selector2,{$set:updateEvent[idx]});
   }
+  
 },
 
   applyForJob(jobId,position){

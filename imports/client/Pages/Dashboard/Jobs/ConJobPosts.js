@@ -2,6 +2,7 @@ import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import MSpinner from '../../Shared/MSpinner';
+import EmployerNoUpcomingJobs from './Shared/EmployerNoJobs';
 import ConJobPostComponent from './ConJobPostComponent';
 
 function isEmpty(obj) {

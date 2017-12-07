@@ -33,3 +33,4 @@ meteorhacks:ssr
 session@1.1.7
 matteodem:server-session
 cfs:filesystem
+ostrio:files
