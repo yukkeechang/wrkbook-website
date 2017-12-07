@@ -4,6 +4,7 @@ import UserIcon from '../UserIcon';
 import ReactDOM from 'react-dom';
 import WrkBookIcon from '../WrkBookIcon';
 import { createContainer } from 'meteor/react-meteor-data';
+import { Roles } from 'meteor/alanning:roles';
 
 let styles = {
     logo : {
@@ -26,6 +27,7 @@ let styles = {
     account:{
         display: 'flex',
         alignItems: 'flex-end',
+        alignContent:'flex-end',
         justifyContent:'flex-end',
     },
     profile: {
@@ -49,9 +51,9 @@ export class NavBarPage extends Component{
     constructor(props){
         super(props);
 
-          if(this.props.user.roles[0]==="CON"){
+          if(Roles.userIsInRole(this.props.user._id,"CON")){
             this.state={isPro: false}
-          } else if (this.props.user.roles[0]==="PRO") {
+          } else if (Roles.userIsInRole(this.props.user._id,"PRO")) {
             this.state={isPro: true}
         }
     }

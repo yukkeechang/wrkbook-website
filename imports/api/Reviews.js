@@ -17,9 +17,13 @@ const REVIEWERR ={
   notmade : true,
 
 };
-//Defines a collection with the name "reviews"
+/*
+  Defines a collection with the name "reviews"
+  This also needs to be defined on the client side
+*/
 Review  = new Mongo.Collection('reviews');
 Review.attachSchema(ReviewSchema);
+
 /**
 *
 * Publishes all Reviews written for a user with an String ID
@@ -36,7 +40,9 @@ Meteor.publish('reviews-for-user',function (revieweeId) {
 
   return Review.find({ revieweeId: revieweeId});
 });
+/**
 
+**/
 Meteor.publish('review-for-pro-completed', function(revieweeId, reviewerId, jobId) {
   return Review.find({revieweeId: revieweeId, reviewerId:reviewerId, jobId:jobId})
 });

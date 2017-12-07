@@ -12,13 +12,11 @@ class CompletedJobs extends React.Component {
   constructor(props) {
     super(props);
     const {user} = this.props
-    this.state = {
-      user: user
-    };
-    if (Roles.userIsInRole(this.userId,PROFESSIONAL)) {
-      this.setState({isPro: true});
-    } else if (user.roles[0] === "CON"){
-      this.setState({isPro: false});
+    console.log(user)
+    if(Roles.userIsInRole(this.props.user._id,"CON")){
+      this.state={isPro: false}
+    } else if (Roles.userIsInRole(this.props.user._id,"PRO")) {
+      this.state={isPro: true}
     }
   }
 

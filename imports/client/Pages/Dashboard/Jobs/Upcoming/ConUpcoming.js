@@ -57,7 +57,7 @@ class ConUpcomingPage extends React.Component{
     }
     else{
       return(
-          <EmployerNoJobs/>
+          <EmployerNoJobs message={"upcoming"}/>
       );
     }
   }

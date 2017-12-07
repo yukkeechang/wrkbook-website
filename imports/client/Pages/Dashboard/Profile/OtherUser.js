@@ -38,10 +38,10 @@ export default class OtherUser extends Component {
 
   render() {
     if (!isEmpty(this.state.user)) {
-      if (this.state.user.roles[0] === "PRO") {
+    if (Roles.userIsInRole(this.props.user._id,"PRO")) {
         console.log("WORK");
         return (<ProProfile user={this.state.user}/>);
-      } else if (this.state.user.roles[0] === "CON"){
+      } else if(Roles.userIsInRole(this.props.user._id,"CON")){
         console.log("CON");
         return (<ConProfile user={this.state.user}/>);
       }else{

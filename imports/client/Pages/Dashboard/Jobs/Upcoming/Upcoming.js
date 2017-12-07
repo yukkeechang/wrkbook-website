@@ -12,15 +12,12 @@ class UpcomingJobs extends React.Component {
     super(props);
     const {user} = this.props
     console.log(user)
-    this.state = {
-      user: user,
-      upcoming: true
-    };
-    if (user.roles[0] === "PRO") {
-      this.setState({isPro: true});
-    } else if (user.roles[0] === "CON"){
-      this.setState({isPro: false});
-    }
+    this.state = {user: user}
+    if(Roles.userIsInRole(this.props.user._id,"CON")){
+      this.state={isPro: false}
+    } else if (Roles.userIsInRole(this.props.user._id,"PRO")) {
+      this.state={isPro: true}
+  }
   }
 
 render() {
