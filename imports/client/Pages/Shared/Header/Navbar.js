@@ -43,7 +43,10 @@ let styles = {
         justifyContent: 'flex-end',
 
     },
-
+    sideNavJobDropdown: {
+      textAlign: 'left',
+      color: 'black',
+    },
 }
 export class NavBarPage extends Component{
     constructor(props){
@@ -71,6 +74,13 @@ export class NavBarPage extends Component{
             alignment: 'left',
             constrainWidth: false
         });
+        let jobDropDownSideNav = ReactDOM.findDOMNode(this.refs.jobdropdownSideNav);
+        $(jobDropDownSideNav).dropdown({
+            hover: true,
+            belowOrigin: true,
+            alignment: 'left',
+            constrainWidth: false
+        });
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
         $(sn).sideNav();
     }
@@ -79,6 +89,8 @@ export class NavBarPage extends Component{
         Meteor.logout();
         console.log(this.props);
     }
+
+
     sideClick(){
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
         $(sn).sideNav('hide');
@@ -102,6 +114,22 @@ export class NavBarPage extends Component{
         <li><Link to='/completed'>Completed</Link></li>
         <li><Link to='/createjob'>Create Job</Link></li>
       </ul>
+
+      let jobDropDownLinksSideNav = this.state.isPro ?
+        <div>
+        <li><Link onClick={this.sideClick.bind(this)} to='/jobs'>Job Matches</Link></li>
+        <li><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></li>
+        <li><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></li>
+        </div>
+
+      :
+
+        <div>
+        <li style={{display:'none'}}><Link onClick={this.sideClick.bind(this)} to='/conjobcurrent'>Current</Link></li>
+        <li><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></li>
+        <li><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></li>
+        <li><Link onClick={this.sideClick.bind(this)} to='/createjob'>Create Job</Link></li>
+        </div>
 
         return(
             <div className="row">
@@ -140,12 +168,9 @@ export class NavBarPage extends Component{
                     <Link onClick={this.sideClick.bind(this)} to = "/">Home</Link>
                 </li>
                 <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/jobs">Jobs</Link>
-                </li>
-                <li>
                     <Link onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>
                 </li>
-
+                <div>{jobDropDownLinksSideNav}</div>
             </ul>
             </div>
 
