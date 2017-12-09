@@ -27,6 +27,8 @@ Meteor.startup(()=>{
   }else {
     ServerSession.set('DEFAULTPIC',isImage._id);
   }
+  
+  console.log("Finish With Images");
 
 
 });
