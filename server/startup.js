@@ -18,16 +18,16 @@ Meteor.startup(()=>{
     console.log("THERE IS NO SETTINGS");
   }
 
-  let isImage = Images.findOne({'original.name': 'ic_account_circle_black_48dp_2x.png' });
+//   let isImage = Images.findOne({'original.name': 'ic_account_circle_black_48dp_2x.png' });
 
-  if(!isImage){
-    let thingd = Images.insert('../web.browser/app/images/ic_account_circle_black_48dp_2x.png');
+//   if(!isImage){
+//     let thingd = Images.insert('../web.browser/app/images/ic_account_circle_black_48dp_2x.png');
 
 
-    ServerSession.set('DEFAULTPIC',thingd._id);
-  }else {
-    ServerSession.set('DEFAULTPIC',isImage._id);
-  }
+//     ServerSession.set('DEFAULTPIC',thingd._id);
+//   }else {
+//     ServerSession.set('DEFAULTPIC',isImage._id);
+//   }
   
   console.log("Finish With Images");
 
