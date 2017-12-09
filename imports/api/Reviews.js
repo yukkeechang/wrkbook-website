@@ -41,9 +41,12 @@ Meteor.publish('reviews-for-user',function (revieweeId) {
 /**
 
 **/
-Meteor.publish('review-for-pro-completed', function(revieweeId, reviewerId, jobId) {
-  return Review.find({revieweeId: revieweeId, reviewerId:reviewerId, jobId:jobId})
-})
+Meteor.publish('employee-reviews-for-a-job', function( employeeId,jobId) {
+  return Review.find({revieweeId: employeeId, reviewerId:this.userId, jobId:jobId});
+});
+
+
+
 
 /**
 *

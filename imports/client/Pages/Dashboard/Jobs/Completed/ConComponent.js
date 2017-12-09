@@ -3,7 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
 import EmployeeComponentOuter from './EmployeeCompletedComponent';
 
- class ConComponentPage extends React.Component {
+ export default class ConComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -81,21 +81,6 @@ import EmployeeComponentOuter from './EmployeeCompletedComponent';
     )
   }
 }
-export default ConComponent = createContainer((props) => {
-  let user = Meteor.user();
-  let loading = false
-  if(!('undefined' === typeof(user))){
-
-    let handle = Meteor.subscribe('current-job-con', props.jobinfo._id );
-    loading = handle.ready();
-    //console.log("loading: "+loading);
-  }
-  return {
-    user: user,
-    loading: loading
-  };
-}, ConComponentPage);
-
 
 
 let styles = {
