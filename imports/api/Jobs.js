@@ -398,6 +398,16 @@ Meteor.publish('admit-employee-job',function(jobId){
   }
 });
 
+export const changeIsOpen = () =>{
+
+  let currentDate = new Date();
+
+  let things = Job.update({'generalEnd': {$lt : currentDate},'isOpen':true},
+                {$set: {"isOpen" :false}},
+                {multi:true});
+  return things;
+};
+
 
 Meteor.methods({
 
@@ -744,7 +754,7 @@ Meteor.methods({
       updateEvent[idx].jobId = jobId;
       Event.update( selector2,{$set:updateEvent[idx]});
   }
-  
+
 },
 
   applyForJob(jobId,position){
