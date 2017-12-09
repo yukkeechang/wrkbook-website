@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-
+import '../imports/api/Images';
 import {ServerSession } from 'meteor/matteodem:server-session';
 
 
