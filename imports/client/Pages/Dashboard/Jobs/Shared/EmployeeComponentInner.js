@@ -103,25 +103,6 @@ export default class EmployeeCompletedComponent extends React.Component {
         )
       }
     }
-
-    // <div>
-    //    <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
-    //      <div className="white-text">
-    //          Rate and Review
-    //      </div>
-    //    </button>
-    //
-    //     <div id="modal1" className="modal modal-fixed-footer">
-    //      <div className="modal-content">
-    //        <CreateReviewForPro/>
-    //      </div>
-    //      <div className="modal-footer">
-    //        <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    //      </div>
-    //     </div>
-    //
-    // </div>
-
  render() {
        let image = "cfs/files/images/"+this.state.imgId
       return (

@@ -33,7 +33,7 @@ render() {
   else if(!(isEmpty(this.props.jobPost))) {
     return (
       <div>
-
+        <h3 className="center-align">Current Jobs</h3>
       {jobz.map(function(job, index){
         return(
           <ProComponent
@@ -70,10 +70,7 @@ export default ProCurrent = createContainer((props) => {
   if(!('undefined' === typeof(user))){
     let handle = Meteor.subscribe('current-job-pro');
     loading = handle.ready();
-    console.log("loading "+loading);
     jobPost = Job.find({}).fetch();
-    // console.log("job");
-     console.log(jobPost);
   }
   return {
     user: user,

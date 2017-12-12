@@ -222,7 +222,7 @@ Meteor.publish('current-job-pro',function(){
         }
       ]
     })
-
+    return job;
     job.forEach((job) =>{
       //Index of the smaller array inside AdmitAsIDs array
       let idxx = -1;
@@ -277,7 +277,7 @@ Meteor.publish('completed-job-pro',function(){
           'isOpen':false
         }
       ]
-    })
+    });
     return job;
     job.forEach((job) =>{
       let idxx = -1;
@@ -290,12 +290,16 @@ Meteor.publish('completed-job-pro',function(){
       }
       let eventId = job.eventInfo[idxx2]
       hackIdThing = [];
-      hackIdThing[0] = eventId
+      hackIdThing[0] = eventId;
+      console.log(eventId);
+
       let eventObj = Event.find({_id: {$in: hackIdThing}}, {$and:
         [
           {'endAt': {$lt: currentDate}}
         ]
-      })
+      });
+      console.log(eventObj.fetch());
+
       jobId = eventObj.fetch()[0].jobId
       let currjob = Job.find({_id: jobId});
       return currjob;
@@ -744,7 +748,7 @@ Meteor.methods({
       updateEvent[idx].jobId = jobId;
       Event.update( selector2,{$set:updateEvent[idx]});
   }
-  
+
 },
 
   applyForJob(jobId,position){

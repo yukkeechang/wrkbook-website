@@ -18,8 +18,9 @@ class EmployeeComponentOut extends Component{
                 </div> :
                        this.props.event.length > 0?
                       <EmployeeCompletedComponent
-                      completed={this.state.completed}
-                      current={this.state.current}
+                      upcoming={this.props.upcoming}
+                      completed={this.props.completed}
+                      current={this.props.current}
                       job={this.props.job}
                       id={this.props.id}
                       review={this.props.review[0]}
