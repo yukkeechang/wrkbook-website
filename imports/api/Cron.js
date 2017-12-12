@@ -6,7 +6,7 @@ SyncedCron.config({log: false,utc:true});
 SyncedCron.add({
   name: "Setting the open date to false",
   schedule(parser){
-    return parser.text('every 2 mins');
+    return parser.text('every 24 hours');
   },
   job(){
     let num = changeIsOpen();

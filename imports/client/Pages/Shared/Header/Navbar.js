@@ -123,7 +123,7 @@ export class NavBarPage extends Component{
 
       let jobDropDownLinksSideNav = this.state.isPro ?
         <li>
-        <div className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs</div>
+        <div className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs<i className="large material-icons">arrow_drop_down</i></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobs'>Job Matches</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
@@ -132,7 +132,7 @@ export class NavBarPage extends Component{
       :
 
         <li>
-          <div className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs</div>
+          <div className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs<i className="large material-icons">arrow_drop_down</i></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/createjob'>Create Job</Link></div>
