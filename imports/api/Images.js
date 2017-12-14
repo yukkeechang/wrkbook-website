@@ -13,10 +13,9 @@ FS.debug = true;
 //   gm(readStream, fileObj.name()).resize('350', '350').stream().pipe(writeStream);
 // };
 const imageStore = new FS.Store.GridFS('images');
-const thumbNail = new FS.Store.GridFS('thumbnail');
 
 Images = new FS.Collection('images',{
-  stores: [imageStore,thumbNail]
+  stores: [imageStore]
 });
 
 Images.deny({
