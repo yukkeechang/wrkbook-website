@@ -4,10 +4,7 @@ import ARating from '../../Profile/ProProfile/Components/ARating';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
 import EmployeeComponentOuter from './EmployeeComponentOuter';
 
-//This file will render job details (title of the job). Any details on the employee for the job is rendered in EmployeeComponentOutter
-//and EmployeeCompletedComponent
-
- class ConComponentPage extends React.Component {
+ export default class ConComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -73,13 +70,6 @@ import EmployeeComponentOuter from './EmployeeComponentOuter';
     )
   }
 }
-export default ConComponent = createContainer((props) => {
-  let user = Meteor.user();
-  return {
-    user: user
-  };
-}, ConComponentPage);
-
 
 
 let styles = {

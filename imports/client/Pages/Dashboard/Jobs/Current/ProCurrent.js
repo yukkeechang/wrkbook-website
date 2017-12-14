@@ -71,6 +71,7 @@ export default ProCurrent = createContainer((props) => {
     let handle = Meteor.subscribe('current-job-pro');
     loading = handle.ready();
     jobPost = Job.find({}).fetch();
+    console.log(jobPost);
   }
   return {
     user: user,

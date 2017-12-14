@@ -4,7 +4,6 @@ import UserIcon from '../UserIcon';
 import ReactDOM from 'react-dom';
 import WrkBookIcon from '../WrkBookIcon';
 import { createContainer } from 'meteor/react-meteor-data';
-import { Roles } from 'meteor/alanning:roles';
 
 let styles = {
     logo : {
@@ -27,7 +26,6 @@ let styles = {
     account:{
         display: 'flex',
         alignItems: 'flex-end',
-        alignContent:'flex-end',
         justifyContent:'flex-end',
     },
     profile: {
@@ -45,15 +43,18 @@ let styles = {
         justifyContent: 'flex-end',
 
     },
-
+    sideNavJobDropdown: {
+      textAlign: 'left',
+      color: 'black',
+    },
 }
 export class NavBarPage extends Component{
     constructor(props){
         super(props);
 
-          if(Roles.userIsInRole(this.props.user._id,"CON")){
+          if(this.props.user.roles[0]==="CON"){
             this.state={isPro: false}
-          } else if (Roles.userIsInRole(this.props.user._id,"PRO")) {
+          } else if (this.props.user.roles[0]==="PRO") {
             this.state={isPro: true}
         }
     }
@@ -73,17 +74,32 @@ export class NavBarPage extends Component{
             alignment: 'left',
             constrainWidth: false
         });
+        let jobDropDownSideNav = ReactDOM.findDOMNode(this.refs.jobdropdownSideNav);
+        $(jobDropDownSideNav).dropdown({
+            hover: true,
+            belowOrigin: true,
+            alignment: 'left',
+            constrainWidth: false
+        });
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
         $(sn).sideNav();
+        let collapse = ReactDOM.findDOMNode(this.refs.collapsibleref);
+         $(collapse).collapsible();
+
     }
     logout(){
         console.log(this.props);
         Meteor.logout();
         console.log(this.props);
     }
+
+
     sideClick(){
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
         $(sn).sideNav('hide');
+        let collapse = ReactDOM.findDOMNode(this.refs.collapsibleref);
+        $(collapse).collapsible('close', 0);
+
     }
 
     render(){
@@ -107,6 +123,23 @@ export class NavBarPage extends Component{
         <li><Link to='/createjob'>Create Job</Link></li>
 
       </ul>
+
+      let jobDropDownLinksSideNav = this.state.isPro ?
+        <li>
+        <div className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs<i className="large material-icons">arrow_drop_down</i></div>
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobs'>Job Matches</Link></div>
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
+        </li>
+
+      :
+
+        <li>
+          <div className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs<i className="large material-icons">arrow_drop_down</i></div>
+          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
+          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
+          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/createjob'>Create Job</Link></div>
+        </li>
 
         return(
             <div className="row">
@@ -132,6 +165,7 @@ export class NavBarPage extends Component{
               <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
             </ul>
             <div>{jobDropDownLinks}</div>
+
             <ul id="sideNav" className="side-nav">
                 <li>
                     <div style={styles.wrkbook}>
@@ -145,10 +179,12 @@ export class NavBarPage extends Component{
                     <Link onClick={this.sideClick.bind(this)} to = "/">Home</Link>
                 </li>
                 <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/jobs">Jobs</Link>
+                    <Link onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>
                 </li>
                 <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>
+                    <ul ref="collapsibleref" className="collapsible" data-collapsible="accordion">
+                        {jobDropDownLinksSideNav}
+                    </ul>
                 </li>
 
             </ul>

@@ -47,13 +47,20 @@ export default ProComponent = createContainer((props) => {
   let current = false;
   let completed = false;
   let upcoming = false;
+  let loading = false;
   if(!('undefined' === typeof(props.current))){
+    let handle = Meteor.subscribe('current-job-pro');
+    loading = handle.ready();
     current = props.current;
   }
   if(!('undefined' === typeof(props.completed))){
+    let handle = Meteor.subscribe('completed-job-con');
+    loading = handle.ready();
     completed = props.completed;
   }
   if(!('undefined' === typeof(prop.upcoming))){
+    let handle = Meteor.subscribe('upcoming-job-con');
+    loading = handle.ready();
     upcoming = props.upcoming;
   }
   return {
