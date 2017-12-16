@@ -52,10 +52,11 @@ export class NavBarPage extends Component{
     constructor(props){
         super(props);
 
+
           if(this.props.user.roles[0]==="CON"){
-            this.state={isPro: false}
+            this.state={isPro: false,switchNav:false}
           } else if (this.props.user.roles[0]==="PRO") {
-            this.state={isPro: true}
+            this.state={isPro: true,switchNav:false}
         }
     }
 
@@ -92,6 +93,9 @@ export class NavBarPage extends Component{
         Meteor.logout();
         console.log(this.props);
     }
+    things(){
+      this.setState({switchNav:!this.state.switchNav});
+    }
 
 
     sideClick(){
@@ -99,6 +103,7 @@ export class NavBarPage extends Component{
         $(sn).sideNav('hide');
         let collapse = ReactDOM.findDOMNode(this.refs.collapsibleref);
         $(collapse).collapsible('close', 0);
+          this.setState({switchNav:false});
 
     }
 
@@ -123,7 +128,10 @@ export class NavBarPage extends Component{
 
       let jobDropDownLinksSideNav = this.state.isPro ?
         <li>
-        <div className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs<i className="large material-icons">arrow_drop_down</i></div>
+        <div  className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs {this.state.switchNav  ?
+        <i className="large material-icons">arrow_drop_up</i> :
+        <i className="large material-icons">arrow_drop_down</i>
+        }</div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobs'>Job Matches</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
@@ -132,7 +140,10 @@ export class NavBarPage extends Component{
       :
 
         <li>
-          <div className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs<i className="large material-icons">arrow_drop_down</i></div>
+          <div ref="jobsthingz" className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs{this.state.switchNav ?
+          <i className="large material-icons">arrow_drop_up</i> :
+          <i className="large material-icons">arrow_drop_down</i>
+          }</div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/createjob'>Create Job</Link></div>
@@ -147,9 +158,9 @@ export class NavBarPage extends Component{
                 <img style={styles.logo} src="/images/circle-logo.svg"/>
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
-            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText"><div>Jobs</div></div>
+            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText">Jobs <i className="material-icons">arrow_drop_down</i></div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
-            <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1">
+            <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1 push-s1">
                 <div style={styles.firstName} className="hide-on-small-only">{this.props.firstName}</div>
                 <div style={styles.profile}>
                     <UserIcon imageId={this.props.image}/>
@@ -179,11 +190,16 @@ export class NavBarPage extends Component{
                     <Link onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>
                 </li>
                 <li>
-                    <ul ref="collapsibleref" className="collapsible" data-collapsible="accordion">
+                    <ul ref="collapsibleref" className="collapsible" data-collapsible="accordion" onClick={this.things.bind(this)}>
                         {jobDropDownLinksSideNav}
                     </ul>
                 </li>
-
+                <li>
+                    <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
+                </li>
+                <li>
+                    <Link onClick={this.sideClick.bind(this)} to = "/notifications">Notifications</Link>
+                </li>
             </ul>
             </div>
 

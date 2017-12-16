@@ -3,11 +3,25 @@ import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 
 class Cert extends React.Component{
+  updateDimensions(){
+    this.setState({
+      picWidth: String(document.getElementById("things").offsetWidth -64)+'px',
+      smallz: String((document.getElementById("things").offsetWidth -64)/5)+'px'
+    });
+  }
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
       $('.carousel').carousel({indicators: true});
     });
+    this.setState({
+      picWidth: String(document.getElementById("things").offsetWidth -64)+'px',
+    });
+
+     window.addEventListener("resize", this.updateDimensions.bind(this));
+  }
+  componentWillUnmount(){
+    window.removeEventListener("resize", this.updateDimensions.bind(this));
   }
   constructor(props) {
     super(props);
@@ -15,7 +29,7 @@ class Cert extends React.Component{
       validImage: '',
       shownlink: '',
       certImage: '',
-      certSources: ''
+      certSources: '',
     };
   }
   isEmpty(obj) {
@@ -97,15 +111,15 @@ class Cert extends React.Component{
                 )
               })
               :
-                <a className="carousel-item"><img src="images/facebook.png"/></a>
+                <a className="carousel-item"><img src="images/worker.png"/></a>
             }
             </div>
           </div>
         </div>
-        <div className="card">
+        <div id="things"  className="card" >
           <div className="card-content">
             <div className="col l6 m6 s12">
-              <img id="certificationImage" src={this.state.shownlink}/>
+              <img id="certificationImage" style={{width: this.state.shownlink.length > 1 ? this.state.picWidth : this.state.smallz}} src={this.state.shownlink.length > 1 ? this.state.shownlink : 'images/circle-logo.svg'}/>
             </div>
             <div className="row">
               <div className="file-field input-field col m8 s12">

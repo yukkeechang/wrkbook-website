@@ -9,13 +9,19 @@ export default class  SettingMenu extends Component{
 
   constructor(props){
       super(props);
-
+      this.state = {
+        windowHeight: '0px'
+      }
+  }
+  componentDidMount(){
+    let things = String( $(document).height()/5)+'px'
+    this.setState({windowHeight: things});
   }
   render(){
     let url = 'settings';
       return(
               <div>
-              <div className="container">
+              <div className="container" >
                 <div className="row" >
                   <div className="col s12 m6" >
                      <ul className="collection">
@@ -67,7 +73,9 @@ export default class  SettingMenu extends Component{
                 </div>
 
               </div>
-              <Footer/>
+
+                <Footer/>
+
               </div>
             )
           }
