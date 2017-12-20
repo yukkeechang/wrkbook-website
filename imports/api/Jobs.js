@@ -19,7 +19,9 @@ import { Roles } from 'meteor/alanning:roles';
 export const  NOTMADE ={
   jobNotMade : true
 };
-//Defines a collection named jobs
+/**
+Defines a collection named jobs
+**/
 Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
 
@@ -76,6 +78,9 @@ Meteor.publish('job-post', function(employee){
            'generalStart':{$gt: currentDate},
             'jobTypes.texts' : {$in : jobTitle},
             'declineemployeeIds' :{$nin : hackIdThing},
+            'applyemployeeIds' :{$nin : hackIdThing},
+            'admitemployeeIds' :{$nin : hackIdThing},
+            'generalStart':{$gt: currentDate},
             'isOpen':true,
             'location.latitude': {$gte: lat_bot, $lt: lat_top},
             'location.longitude': {$gte: lng_bot , $lt: lng_top}}
@@ -208,20 +213,13 @@ Meteor.publish('current-job-pro',function(){
     let hackIdThing =[];
     hackIdThing[0] = this.userId;
     let currentDate = new Date()
-    let job = Job.find({$and:
-      [
-        {
-          'admitemployeeIds' :{$in : hackIdThing}
-        }, {
-          'generalStart':{$lte: currentDate}
-        }, {
-          'generalEnd':{$gt: currentDate}
-        }, {
+    let job = Job.find({
+          'admitemployeeIds' :{$in : hackIdThing},
+          'generalStart':{$lte: currentDate},
+          'generalEnd':{$gt: currentDate},
           'isOpen':true
-        }
-      ]
-    })
-
+    });
+    let jobIds = [];
     job.forEach((job) =>{
       //Index of the smaller array inside AdmitAsIDs array
       let idxx = -1;
@@ -239,18 +237,15 @@ Meteor.publish('current-job-pro',function(){
       //Find event with event Id
       hackIdThing = [];
       hackIdThing[0] = eventId
-      let eventObj = Event.find({_id: {$in: hackIdThing}}, {$and:
-        [
-            {'startAt': {$lte: currentDate}
-          },{'endAt': {$gt: currentDate}}
-        ]
+      let eventObj = Event.findOne({_id: {$in: hackIdThing},
+        'startAt': {$lte: currentDate},
+        'endAt': {$gt: currentDate}
       })
-      jobId = eventObj.fetch()[0].jobId
-      let currjob = Job.find({_id: jobId});
-      return currjob;
+      if(!!eventObj)jobIds[jobIds.length] = eventObj.jobId;
+
     });
-    if(!job)throw new Meteor.Error('403','Job was not found');
-    return job;
+    let cursor = Job.find({_id:{$in:  jobIds}});
+    return  cursor;
     console.log("coming out of current-job-pro")
   } else {
     this.stop();
@@ -265,43 +260,35 @@ Meteor.publish('completed-job-pro',function(){
     let hackIdThing =[];
     hackIdThing[0] = this.userId;
     let currentDate = new Date()
+
+
     console.log("going into completed-job-pro")
-    let job = Job.find({$and:
-      [
-        {
-          'admitemployeeIds' :{$in : hackIdThing}
-        }, {
-          'generalEnd':{$lt: currentDate}
-        }, {
-          'isOpen':false
-        }
-      ]
-    })
-    return job;
-    job.forEach((job) =>{
+    let job = Job.find({'admitemployeeIds' :{$in : hackIdThing},
+                        'generalEnd':{$lt: currentDate},
+                        'isOpen':false});
+    // return job;
+    let jobIds = [];
+      job.forEach((job) =>{
       let idxx = -1;
       let idxx2 = -1;
+
       for (let indx in job.admitAsIDs)  {
         if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
           idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
           idxx2 = indx;
         }
       }
-      let eventId = job.eventInfo[idxx2]
+      let eventId = job.eventInfo[idxx2];
+
       hackIdThing = [];
-      hackIdThing[0] = eventId
-      let eventObj = Event.find({_id: {$in: hackIdThing}}, {$and:
-        [
-          {'endAt': {$lt: currentDate}}
-        ]
-      })
-      jobId = eventObj.fetch()[0].jobId
-      let currjob = Job.find({_id: jobId});
-      return currjob;
+      hackIdThing[0] = eventId;
+      let eventObj = Event.findOne({_id: {$in: hackIdThing},'endAt': {$lt: currentDate}});
+      if(!!eventObj)jobIds[jobIds.length] = eventObj.jobId;
+
+
     });
-    if(!job)throw new Meteor.Error('403','Job was not found');
-    console.log("coming out of completed-job-pro")
-    return job;
+    let cursor = Job.find({_id:{$in:  jobIds}});
+    return  cursor;
 
   } else {
     this.stop();
@@ -396,6 +383,16 @@ Meteor.publish('admit-employee-job',function(jobId){
     throw new Meteor.Error('403',NOTAUTH);
   }
 });
+
+export const changeIsOpen = () =>{
+
+  let currentDate = new Date();
+
+  let things = Job.update({'generalEnd': {$lt : currentDate},'isOpen':true},
+                {$set: {"isOpen" :false}},
+                {multi:true});
+  return things;
+};
 
 
 Meteor.methods({
@@ -743,6 +740,7 @@ Meteor.methods({
       updateEvent[idx].jobId = jobId;
       Event.update( selector2,{$set:updateEvent[idx]});
   }
+
 },
 
   applyForJob(jobId,position){

@@ -52,7 +52,7 @@ render() {
   }
   else {
     return (
-        <EmployerNoJobs/>
+        <EmployerNoJobs message={"current"}/>
     )
   }
  }

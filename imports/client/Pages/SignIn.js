@@ -10,7 +10,8 @@ export default class SignIn extends Component{
     super(props);
     this.state = {
       noUser: '',
-      pValid: ''
+      pValid: '',
+      windowHeight: '1px'
     };
 
   }
@@ -22,6 +23,8 @@ export default class SignIn extends Component{
        event.stopImmediatePropagation();
        this.login(event);
      }, false);
+     let things = String( $(document).height()/7)+'px'
+     this.setState({windowHeight: things});
   }
 
   componentWillUnmount(){

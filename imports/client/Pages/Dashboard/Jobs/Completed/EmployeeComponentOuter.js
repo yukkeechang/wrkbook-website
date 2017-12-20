@@ -42,7 +42,7 @@ export default EmployeeComponentOuter = createContainer((props) =>  {
   let proId = props.id
   let conId = props.job.employerId
   console.log("proID: "+proId)
-  let handleReview =  Meteor.subscribe('review-for-pro-completed', proId, conId,jobId);
+  let handleReview =  Meteor.subscribe('employee-reviews-for-a-job', proId,jobId);
   let handle = Meteor.subscribe('completed-job-pro-event',jobId);
   loading = handle.ready();
   console.log("loadingvghvghvgvgvvkg: "+loading)

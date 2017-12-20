@@ -13,10 +13,10 @@ class ProfilePage extends React.Component {
     const {user} = this.props
     console.log(user)
     this.state = {user: user}
-    if (user.roles[0] === "PRO") {
-      this.state = {isPro: true}
-    } else if (user.roles[0] === "CON"){
-      this.state = {isPro: false}
+    if(Roles.userIsInRole(this.props.user._id,"CON")){
+      this.state={isPro: false}
+    } else if (Roles.userIsInRole(this.props.user._id,"PRO")) {
+      this.state={isPro: true}
     }
   }
 

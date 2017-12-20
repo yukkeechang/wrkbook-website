@@ -73,21 +73,6 @@ import EmployeeComponentOuter from './EmployeeComponentOuter';
     )
   }
 }
-export default ConComponent = createContainer((props) => {
-  let user = Meteor.user();
-  let loading = false
-  if(!('undefined' === typeof(user))){
-
-    let handle = Meteor.subscribe('current-job-con', props.jobinfo._id );
-    loading = handle.ready();
-    //console.log("loading: "+loading);
-  }
-  return {
-    user: user,
-    loading: loading
-  };
-}, ConComponentPage);
-
 
 
 let styles = {

@@ -12,6 +12,7 @@ import { check } from 'meteor/check'
 //   // Transform the image into a 350x350px thumbnail
 //   gm(readStream, fileObj.name()).resize('350', '350').stream().pipe(writeStream);
 // };
+// FS.debug = true;
 const imageStore = new FS.Store.GridFS('images');
 const thumbNail = new FS.Store.GridFS('thumbnail');
 
