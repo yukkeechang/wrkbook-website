@@ -4,14 +4,14 @@ import { createContainer } from 'meteor/react-meteor-data';
 import EmpJobPosts from './EmpJobPosts';
 import ConJobPosts from './ConJobPosts';
 import MSpinner from '../../Shared/MSpinner';
-
+import { Roles } from 'meteor/alanning:roles';
 class JobPage extends React.Component{
   render(){
     if(this.props.user){
-      if(this.props.user.roles[0] === "PRO"){
-        return(<EmpJobPosts user={this.props.user}/>);
-      } else if (this.props.user.roles[0] === "CON"){
+      if(Roles.userIsInRole(this.props.user._id,"CON")){
         return(<ConJobPosts user={this.props.user}/>);
+      } else if (Roles.userIsInRole(this.props.user._id,"PRO")) {
+          return(<EmpJobPosts user={this.props.user}/>);
       }
     }
     else{

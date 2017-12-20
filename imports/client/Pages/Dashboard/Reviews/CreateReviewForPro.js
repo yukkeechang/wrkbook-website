@@ -4,13 +4,29 @@ import { Link } from 'react-router-dom';
 import MTextField from '../../Shared/MTextField';
 import Rating from 'react-rating';
 
+import ReviewSchema from '../../../../api/Schemas/reviewSchema';
+
 export default class CreateReview extends Component {
   constructor(props) {
       super(props);
       this.state = {
           rating: 0,
-          hasRated: false
+          hasRated: false,
+          proFirstName: '',
+          proLastName: ''
       }
+
+      Meteor.call('findUserbyId', this.props.proId, function(err, res){
+        if (err) {
+          console.log("error finding user: "+err)
+        } else {
+          this.setState({
+            proFirstName: res.profile.firstName,
+            proLastName: res.profile.lastName
+          })
+        }
+      }.bind(this));
+
   }
 
   // Callback after rating the employer. rate is the star value out of 5 stars
@@ -21,9 +37,41 @@ export default class CreateReview extends Component {
     });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    let review=ReviewSchema.clean({});
+    review.reviewerId = this.props.conId;
+    review.revieweeId = this.props.proId;
+    review.jobId = this.props.jobId;
+    review.conReview.onTime = false;
+    review.conReview.neatJob = false;
+    review.conReview.wouldRecommend = false;
+    review.companyName.text = 'placeholder text' ;
+    review.rating = this.state.rating;
+    review.review.text = this.refs.reviewText.value();
+
+
+    console.log(review)
+
+    Meteor.call('createReview', review, function(err, res) {
+      console.log(err);
+    });
+
+
+    // Meteor.call('createReview', review, function(err, res){
+    //   if(err) {
+    //     console.log("error in sending reviews, "+err)
+    //   } else {
+    //     console.log("review sent in")
+    //   }
+    // })
+  }
+
   componentDidMount(){
       Materialize.updateTextFields();
   }
+
+
   render() {
       return (
         <div className="card">
@@ -33,13 +81,13 @@ export default class CreateReview extends Component {
                         Thank you for using WrkBook!
                     </span>
                     <span className="col s10 card-title">
-                        Please take a second to review (Professionals Name) to help other contractors in the future
+                        Please take a second to review {this.state.proFirstName} {this.state.proLastName} to help other contractors in the future
                     </span>
                 </div>
-                <form>
+                <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="row">
                         <div className="col s12 m6">
-                        <p>Please select the categories that describe (Professionals name)</p>
+                        <p>Please select the categories that describe {this.state.proFirstName}</p>
                           <p>
                             <input type="checkbox" className="filled-in" id="shows-up-on-time"/>
                             <label htmlFor="filled-in-box">Shows up on time</label>
@@ -61,7 +109,7 @@ export default class CreateReview extends Component {
                     </div>
                     <div className="row">
                         <div className="col s12 m6">
-                        <p>Please rate (Professionals name)</p>
+                        <p>Please rate {this.state.proFirstName} </p>
                         <Rating
                           initialRate={this.state.rating}
                           empty={<i className="material-icons" style={{"fontSize": "40px", color: "#26a69a"}}>star_border</i>}
@@ -73,7 +121,7 @@ export default class CreateReview extends Component {
                     </div>
                     <div className="row">
                         <div className="col s18 m8">
-                            <MTextField ref="position" id="position"  label="Anything else we should know?" />
+                            <MTextField ref="reviewText" id="reviewText"  label="Anything else we should know?" />
                         </div>
                     </div>
                     <input type="submit" className="btn blue-grey " data-html="true" value="Submit" />

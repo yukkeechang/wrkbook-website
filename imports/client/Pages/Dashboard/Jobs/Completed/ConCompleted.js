@@ -6,6 +6,7 @@ import MSpinner from '../../../Shared/MSpinner';
 import ConComponent from './ConComponent';
 import { Link } from 'react-router-dom';
 
+//This file will render all completed jobs. job details are renderend in ConComponent
 
 
 function isEmpty(obj) {
@@ -85,7 +86,6 @@ render() {
             description={job.description.text}
             location={job.location.locationName}
             pay={job.pay}
-
             />
           )
 
@@ -111,7 +111,7 @@ export default ConCompleted = createContainer(({props}) => {
   let jobPost=[]
   let loading = false
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('closed-job-con',user._id);
+    let handle = Meteor.subscribe('closed-job-con');
     loading = handle.ready();
     //console.log("loading: "+loading);
     jobPost = Job.find({}).fetch();

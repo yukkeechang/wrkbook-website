@@ -18,6 +18,7 @@ import Current from './Dashboard/Jobs/Current/Current';
 
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';
+import EmailTemplate from './Dashboard/EmailTemplates/EmailTemplateTest';
 
 
 
@@ -90,6 +91,7 @@ class Dash extends Component{
                 <Route path="/empcompleted" component={ProCompleted}/>
                 <Route path="/createreviewforprofessional" component={CreateReviewForPro}/>
                 <Route path="/createreviewforcontractor" component={CreateReviewForCon}/>
+                <Route path="/emailtemplate" component={EmailTemplate}/>
                 <Route path="*" component={NotFound}/>
                 </Switch>
 
