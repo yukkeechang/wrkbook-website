@@ -23,7 +23,6 @@ export default class EmployeeCompletedComponent extends React.Component {
 
     Meteor.call('findUserbyId', this.props.proId, function(err, res){
       if(err) {
-        console.log("error is: "+err)
       } else {
         this.setState({
           proName: res.profile.firstName,

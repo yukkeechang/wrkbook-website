@@ -86,7 +86,6 @@ render() {
             description={job.description.text}
             location={job.location.locationName}
             pay={job.pay}
-
             />
           )
 
