@@ -12,7 +12,7 @@ class Cert extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
-      $('.carousel').carousel({indicators: true});
+      $('.carousel').carousel({indicators: true,});
     });
     this.setState({
       picWidth: String(document.getElementById("things").offsetWidth -64)+'px',
@@ -102,7 +102,7 @@ class Cert extends React.Component{
         <div className="card">
           <div className="card-content">
             <h5>Certifications</h5>
-            <div className="carousel">
+            <div className="carousel ">
             {
               this.props.user.profile.employeeData.certfi.length>0 ?
               this.props.user.profile.employeeData.certfi.map((title, index)=>{

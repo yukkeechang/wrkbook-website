@@ -28,7 +28,7 @@ render() {
 
   else if(!(isEmpty(jobz))) {
     return (
-      <div>
+      <div className="container">
       {jobz.map(function(job, index){
         return(
           <ProComponent

@@ -140,7 +140,7 @@ export class NavBarPage extends Component{
       :
 
         <li>
-          <div ref="jobsthingz" className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs{this.state.switchNav ?
+          <div ref="jobsthingz" className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs <span className="new badge">1</span> {this.state.switchNav ?
           <i className="large material-icons">arrow_drop_up</i> :
           <i className="large material-icons">arrow_drop_down</i>
           }</div>
@@ -158,7 +158,7 @@ export class NavBarPage extends Component{
                 <img style={styles.logo} src="/images/circle-logo.svg"/>
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
-            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText">Jobs <i className="material-icons">arrow_drop_down</i></div>
+            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText"><div>Jobs</div></div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
             <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1 push-s1">
                 <div style={styles.firstName} className="hide-on-small-only">{this.props.firstName}</div>
@@ -194,12 +194,7 @@ export class NavBarPage extends Component{
                         {jobDropDownLinksSideNav}
                     </ul>
                 </li>
-                <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
-                </li>
-                <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/notifications">Notifications</Link>
-                </li>
+
             </ul>
             </div>
 
