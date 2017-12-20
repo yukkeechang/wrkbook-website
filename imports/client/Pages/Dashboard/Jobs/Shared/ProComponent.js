@@ -21,7 +21,7 @@ class proComp extends React.Component{
         <div className="container">
           <div className="card">
             <div className="col s10 l12 push-s2 card grey lighten-1">
-              <div>Location?</div>
+              <div>Location: {job.location.locationName}</div>
             </div>
             <div>
               {EmpIdArray.map(function(info, index) {
@@ -51,16 +51,19 @@ export default ProComponent = createContainer((props) => {
   if(!('undefined' === typeof(props.current))){
     let handle = Meteor.subscribe('current-job-pro');
     loading = handle.ready();
+    console.log(loading);
     current = props.current;
   }
-  if(!('undefined' === typeof(props.completed))){
+  else if(!('undefined' === typeof(props.completed))){
     let handle = Meteor.subscribe('completed-job-con');
     loading = handle.ready();
+    console.log(loading);
     completed = props.completed;
   }
-  if(!('undefined' === typeof(prop.upcoming))){
+  else if(!('undefined' === typeof(props.upcoming))){
     let handle = Meteor.subscribe('upcoming-job-con');
     loading = handle.ready();
+    console.log(loading);
     upcoming = props.upcoming;
   }
   return {

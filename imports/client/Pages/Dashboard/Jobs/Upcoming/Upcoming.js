@@ -23,7 +23,7 @@ class UpcomingJobs extends React.Component {
 render() {
   console.log(this.state.upcoming);
   return (
-    this.state.isPro ? <ProUpcoming upcoming={this.state.upcoming}/> : <ConUpcoming upcoming={this.state.upcoming}/>
+    this.state.isPro ? <ProUpcoming/> : <ConUpcoming/>
   )
  }
 }

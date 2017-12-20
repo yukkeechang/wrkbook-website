@@ -152,7 +152,7 @@ export class NavBarPage extends Component{
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
             <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText"><div>Jobs</div></div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
-            <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1">
+            <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1 push-s1">
                 <div style={styles.firstName} className="hide-on-small-only">{this.props.firstName}</div>
                 <div style={styles.profile}>
                     <UserIcon imageId={this.props.image}/>

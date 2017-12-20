@@ -2,6 +2,9 @@ import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
+import UserInfoComp from './UserInfoComp';
+import DetailsComp from './DetailsComp';
+import ViewJobComp from './ViewJobComp';
 
 function isEmpty(obj) {
   for(var x in obj){return false;}
@@ -14,34 +17,58 @@ export default class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
    super(props);
    this.state = {
+     completed: "",
+     upcoming: "",
+     current: "",
+     id: "",
+     conID: "",
+     proID: "",
+     job: {},
+     jobID: "",
+     events: {},
      proName:"",
      proLastName: "",
      imgId: "",
+     userID: "",
      labelFontSize: 18,
      user: {}
    }
 
-    Meteor.call('findUserbyId', this.props.proId, function(err, res){
-      if(err) {
-      } else {
-        this.setState({
-          proName: res.profile.firstName,
-          proLastName: res.profile.lastName,
-          imgId: res.profile.employeeData.image,
-          user: res
-        })
-      }
-    }.bind(this));
   }
-
+componentWillMount(){
+  Meteor.call('findUserbyId', this.props.proId, function(err, res){
+    if(err) {
+      console.log("eror");
+    } else {
+      console.log(res.profile.employeeData);
+      this.setState({
+        userId: res._id,
+        proName: res.profile.firstName,
+        proLastName: res.profile.lastName,
+        imgId: res.profile.employeeData.image,
+        user: res,
+      })
+    }
+  }.bind(this));
+}
   componentDidMount(){
+    console.log(this.props);
+    this.setState({
+      completed: this.props.completed,
+      upcoming: this.props.upcoming,
+      current: this.props.current,
+      id: this.props.id,
+      conID: this.props.conId,
+      proID: this.props.proId,
+      job: this.props.job,
+      jobID: this.props.jobId,
+      events: this.props.event
+    })
     this.textSize();
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
       $('.modal').modal();
-      //$('select').material_select();
     });
-    console.log(this.props);
   }
 
  textSize() {
@@ -67,7 +94,6 @@ export default class EmployeeCompletedComponent extends React.Component {
    $(document).ready(()=> {
      $('#modal1').modal('open');
    });
-   //console.log();
  }
  renderReview() {
      if(!(isEmpty(this.props.review))) {
@@ -104,41 +130,34 @@ export default class EmployeeCompletedComponent extends React.Component {
       }
     }
  render() {
-       let image = "cfs/files/images/"+this.state.imgId
       return (
         <div>
           <div className="row center-align hide-on-small-only">
-            <div className="col m4">
-              <div  className="row" style={{fontWeight:'bold'}}>
-                Professional
-              </div>
-              <div className="row">
-                <div className="col m4 center-align">
-                  <img src='/images/facebook.png' />
-                </div>
-                <div className="col m8 center-align">
-                  <h5>{this.state.userName} {this.state.userLastName}</h5>
-                  <ARating/>
-                </div>
-
-              </div>
+            <div className="col m4 hide-on-small-only">
+            {!!this.state.imgId ?
+              <UserInfoComp
+                proId={this.state.proID}
+                conId={this.state.conID}
+                userId={this.state.userId}
+                firstName={this.state.proName}
+                lastName={this.state.proLastName}
+                imageId={this.state.imgId}
+              />
+              :
+              <h1> halp</h1>
+            }
             </div>
             <div className="col m4 hide-on-small-only">
-              <div style={{fontWeight:'bold'}}>
-                Details
-              </div>
-              <h6>{this.props.event.startAt.toLocaleString()}</h6>
-              <h6>{this.props.event.endAt.toLocaleString()}</h6>
-              <h6>{this.props.event.responsibilities.text}</h6>
-              <h6>Pay</h6>
+              <DetailsComp
+                events={this.props.event}
+              />
             </div>
             <div className="col m4 hide-on-small-only">
               <div style={{fontWeight:'bold'}}>
                 Rating and Reviews
                 {this.renderReview()}
               </div>
-              <ARating/>
-              <h6>The rating i gave to the company is</h6>
+                <ViewJobComp/>
             </div>
           </div>
 
