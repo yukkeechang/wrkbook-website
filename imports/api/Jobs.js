@@ -75,6 +75,7 @@ Meteor.publish('job-post', function(employee){
       let results =  Job.find({
           $and: [
             {
+            'generalStart':{$gt: currentDate},
             'jobTypes.texts' : {$in : jobTitle},
             'declineemployeeIds' :{$nin : hackIdThing},
             'applyemployeeIds' :{$nin : hackIdThing},
@@ -244,8 +245,8 @@ Meteor.publish('current-job-pro',function(){
 
     });
     let cursor = Job.find({_id:{$in:  jobIds}});
-    return  cursor;
     console.log("coming out of current-job-pro")
+    return  cursor;
   } else {
     this.stop();
     return;
@@ -576,7 +577,7 @@ Meteor.methods({
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(Roles.userIsInRole(this.userId,CONTRACTOR) ){
       let person = Meteor.users.findOne({_id : this.userId},{fields: { profile: 1 } });
-      //if(!Roles.userIsInRole(this.userId,'free-job') && !Roles.userIsInRole(this.userId,'subscribe'))throw new Meteor.Error('403',NOTMADE);
+      // if(!Roles.userIsInRole(this.userId,'free-job') && !Roles.userIsInRole(this.userId,'subscribe'))throw new Meteor.Error('403',NOTMADE);
 
 
       let things = Meteor.call('validateJob',newJobEvent);

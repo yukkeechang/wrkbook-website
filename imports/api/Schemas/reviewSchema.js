@@ -16,8 +16,10 @@ export default ReviewSchema = new SimpleSchema({
   rating:{
     type: Number,
     defaultValue: 0,
+    decimal:true,
     min:0,
-    max:5
+    max:5,
+    decimal: true
   },
   review:{
     type: BasicText,
@@ -39,8 +41,7 @@ export default ReviewSchema = new SimpleSchema({
       }
     }
   },
-  jobID:{
+  jobId:{
     type: String,
-
   }
 });

@@ -7,6 +7,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import ConCompleted from './ConCompleted';
 import ProCompleted from './ProCompleted';
 
+
 class CompletedJobs extends React.Component {
   constructor(props) {
     super(props);

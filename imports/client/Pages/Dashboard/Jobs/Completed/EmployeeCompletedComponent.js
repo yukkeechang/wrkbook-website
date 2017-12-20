@@ -14,25 +14,21 @@ export default class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
    super(props);
    this.state = {
-     userName:"",
-     userLastName: "",
+     proName:"",
+     proLastName: "",
      imgId: "",
      labelFontSize: 18,
-
-     res: {}
+     user: {}
    }
 
-
-
-    Meteor.call('findUserbyId', this.props.id, function(err, res){
+    Meteor.call('findUserbyId', this.props.proId, function(err, res){
       if(err) {
-        console.log("error is: "+err)
       } else {
         this.setState({
-          userName: res.profile.firstName,
-          userLastName: res.profile.lastName,
+          proName: res.profile.firstName,
+          proLastName: res.profile.lastName,
           imgId: res.profile.employeeData.image,
-          res: res
+          user: res
         })
       }
     }.bind(this));
@@ -72,6 +68,40 @@ export default class EmployeeCompletedComponent extends React.Component {
    });
    //console.log();
  }
+ renderReview() {
+     if(!(isEmpty(this.props.review))) {
+      return (
+        <div>
+
+        </div>
+      )
+    }
+    else {
+      return (
+     <div>
+        <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
+          <div className="white-text">
+              Rate and Review
+          </div>
+        </button>
+
+         <div id="modal1" className="modal modal-fixed-footer">
+          <div className="modal-content">
+            <CreateReviewForPro
+            proId={this.props.proId}
+            conId={this.props.conId}
+            jobId={this.props.jobId}
+            />
+          </div>
+          <div className="modal-footer">
+            <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+          </div>
+         </div>
+
+     </div>
+        )
+      }
+    }
 
     // <div>
     //    <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
@@ -97,10 +127,10 @@ export default class EmployeeCompletedComponent extends React.Component {
       str = JSON.stringify(this.props.event);
       //console.log(str)
       //console.log(this.props.job._id)
-      console.log(this.props);
-      console.log("event: "+str)
-      console.log("job id: "+this.props.job._id)
-      // let image = "cfs/files/images/"+this.state.imgId
+      // console.log(this.props);
+      // console.log("event: "+str)
+      // console.log("job id: "+this.props.job._id)
+       let image = "cfs/files/images/"+this.state.imgId
       return (
         <div>
           <div className="row center-align hide-on-small-only">
@@ -131,6 +161,7 @@ export default class EmployeeCompletedComponent extends React.Component {
             <div className="col m4 hide-on-small-only">
               <div style={{fontWeight:'bold'}}>
                 Rating and Reviews
+                {this.renderReview()}
               </div>
               <ARating/>
               <h6>The rating i gave to the company is</h6>

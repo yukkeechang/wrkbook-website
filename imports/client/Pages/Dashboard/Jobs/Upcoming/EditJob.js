@@ -11,7 +11,7 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
 export default class EditJob extends Component {
-  componentDidMount(){
+  componentDMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
       $('select').material_select();

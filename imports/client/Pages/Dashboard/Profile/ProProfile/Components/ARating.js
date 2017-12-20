@@ -62,8 +62,8 @@ export default ARating = createContainer(({ params }) => {
   let handle = Meteor.subscribe('reviews-for-you');
   loading = handle.ready();
   reviews = Review.find({}).fetch();
-  console.log("################1");
-  console.log(reviews);
+  // console.log("################1");
+  // console.log(reviews);
 
 
 
