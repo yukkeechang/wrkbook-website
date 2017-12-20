@@ -11,8 +11,13 @@ export default class Forgot extends Component{
     super(props);
     this.state = {
       noUser: '',
-      showEmail: false
+      showEmail: false,
+      windowHeight: '0px'
     }
+  }
+  componentDidMount(){
+    let things = String( $(document).height()/10)+'px'
+    this.setState({windowHeight: things});
   }
   resetPasswordEmail(e){
     console.log(e);
@@ -35,8 +40,8 @@ export default class Forgot extends Component{
     return(
         <div>
           <Header/>
-          <div style={{height:'64px'}}></div>
-            <div style={{zIndex:'-1'}} className="container">
+          <div style={{height: '64px' }}></div>
+            <div style={{zIndex:'-1',}} className="container">
               <div className="card">
                 <div className="row card-content">
                   <form className="col s12">
@@ -58,7 +63,9 @@ export default class Forgot extends Component{
 
               </div>
             </div>
-          <Footer/>
+            <div id="footer">
+              <Footer />
+            </div>
         </div>
     );
   }

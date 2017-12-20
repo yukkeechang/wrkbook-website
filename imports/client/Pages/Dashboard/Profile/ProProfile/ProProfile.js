@@ -206,7 +206,7 @@ export class ProProfilePage extends React.Component {
             <img
               className="profile-img"
               style={{ width: this.state.mainProfileSize, height: "auto" }}
-              src={image}
+              src={"images/hardhat.png"}
             />
           </div>
         </div>

@@ -78,6 +78,8 @@ Meteor.publish('job-post', function(employee){
             'generalStart':{$gt: currentDate},
             'jobTypes.texts' : {$in : jobTitle},
             'declineemployeeIds' :{$nin : hackIdThing},
+            'applyemployeeIds' :{$nin : hackIdThing},
+            'admitemployeeIds' :{$nin : hackIdThing},
             'generalStart':{$gt: currentDate},
             'isOpen':true,
             'location.latitude': {$gte: lat_bot, $lt: lat_top},
