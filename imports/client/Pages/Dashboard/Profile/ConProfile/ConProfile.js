@@ -129,7 +129,7 @@ export class ConProfilePage extends React.Component {
   }
 
   render() {
-    let image;
+    let image = "cfs/files/images/"+this.props.user.profile.employerData.image;
     return (
       <div className="container">
         <div

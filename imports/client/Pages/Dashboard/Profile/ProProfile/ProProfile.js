@@ -186,27 +186,26 @@ export class ProProfilePage extends React.Component {
 
 
   render() {
-    let image;
+    let image = "cfs/files/images/" + this.props.user.profile.employeeData.image
+    console.log(this.props.user.profile.employeeData.image)
     return (
       <div className="container">
-        <div
-          className="row gray-div"
-        >
-        <Link to={"/edit"} className="btn teal">
-          <div className="col s12 m12 l12">
+        <div className="row gray-div">
+          <Link to={"/edit"} className="btn teal">
+            <div className="col s12 m12 l12">
               <i className="material-icons left edit-profile-button">
                   settings
                 </i>
                 Edit Profile
-          </div>
+           </div>
           </Link>
-          <div
+        <div
             className={ "col s12 m12 l12 " + (this.state.mainProfileCentered ? "center-align" : "") }
             style={{ marginBottom: 40, paddingRight: 40 }}>
             <img
               className="profile-img"
               style={{ width: this.state.mainProfileSize, height: "auto" }}
-              src={image}
+              src={"images/hardhat.png"}
             />
           </div>
         </div>

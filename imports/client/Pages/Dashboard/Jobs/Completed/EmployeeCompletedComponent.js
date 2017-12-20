@@ -14,25 +14,21 @@ export default class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
    super(props);
    this.state = {
-     userName:"",
-     userLastName: "",
+     proName:"",
+     proLastName: "",
      imgId: "",
      labelFontSize: 18,
-
-     res: {}
+     user: {}
    }
 
-
-
-    Meteor.call('findUserbyId', this.props.id, function(err, res){
+    Meteor.call('findUserbyId', this.props.proId, function(err, res){
       if(err) {
-        console.log("error is: "+err)
       } else {
         this.setState({
-          userName: res.profile.firstName,
-          userLastName: res.profile.lastName,
+          proName: res.profile.firstName,
+          proLastName: res.profile.lastName,
           imgId: res.profile.employeeData.image,
-          res: res
+          user: res
         })
       }
     }.bind(this));
@@ -72,57 +68,75 @@ export default class EmployeeCompletedComponent extends React.Component {
    });
    //console.log();
  }
-
  renderReview() {
-    if(!(isEmpty(this.props.review))) {
-     return (
-       <div>
-
-       </div>
-     )
-   }
-   else {
-     return (
-    <div>
-       <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
-         <div className="white-text">
-             Rate and Review
-         </div>
-       </button>
-
-        <div id="modal1" className="modal modal-fixed-footer">
-         <div className="modal-content">
-           <CreateReviewForPro/>
-         </div>
-         <div className="modal-footer">
-           <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-         </div>
-        </div>
-
-    </div>
-       )
-     }
-   }
-
- renderProfDetails() {
-   return (
-     <div className="row">
-       <div className="col l12 m10 s4">
-        <div className="row">
-          <div className="col l2 m10 s4">
-            <img className="circle" src='/images/facebook.png' height='100px' width='100px'/>
+     if(!(isEmpty(this.props.review))) {
+      return (
+        <div>
+        <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
+          <div className="white-text">
+              Rate and Review
           </div>
-          <div className="col l6 m2 s2">
-            <div style={{fontSize: this.state.labelFontSize}}>{this.state.userName} {this.state.userLastName}</div>
+        </button>
+
+         <div id="modal1" className="modal modal-fixed-footer">
+          <div className="modal-content">
+            <CreateReviewForPro
+            proId={this.props.proId}
+            conId={this.props.conId}
+            jobId={this.props.jobId}
+            />
           </div>
+          <div className="modal-footer">
+            <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+          </div>
+         </div>
         </div>
-        </div>
-        <div className="col l8 m2 s2">
-          {this.renderReview()}
-        </div>
+      )
+    }
+    else {
+      return (
+     <div>
+        <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
+          <div className="white-text">
+              Rate and Review
+          </div>
+        </button>
+
+         <div id="modal1" className="modal modal-fixed-footer">
+          <div className="modal-content">
+            <CreateReviewForPro
+            proId={this.props.proId}
+            conId={this.props.conId}
+            jobId={this.props.jobId}
+            />
+          </div>
+          <div className="modal-footer">
+            <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+          </div>
+         </div>
+
      </div>
-   )
- }
+        )
+      }
+    }
+
+    // <div>
+    //    <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
+    //      <div className="white-text">
+    //          Rate and Review
+    //      </div>
+    //    </button>
+    //
+    //     <div id="modal1" className="modal modal-fixed-footer">
+    //      <div className="modal-content">
+    //        <CreateReviewForPro/>
+    //      </div>
+    //      <div className="modal-footer">
+    //        <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    //      </div>
+    //     </div>
+    //
+    // </div>
 
  render() {
       resStr = JSON.stringify(this.state.res)
@@ -130,15 +144,68 @@ export default class EmployeeCompletedComponent extends React.Component {
       str = JSON.stringify(this.props.event);
       //console.log(str)
       //console.log(this.props.job._id)
-
-      console.log("event: "+str)
-      console.log("job id: "+this.props.job._id)
-      let image = "cfs/files/images/"+this.state.imgId
+      // console.log(this.props);
+      // console.log("event: "+str)
+      // console.log("job id: "+this.props.job._id)
+       let image = "cfs/files/images/"+this.state.imgId
       return (
-        <div className="row">
-            <div className="card-content">
-              {this.renderProfDetails()}
+        <div>
+          <div className="row center-align hide-on-small-only">
+            <div className="col m4">
+              <div  className="row" style={{fontWeight:'bold'}}>
+                Professional
+              </div>
+              <div className="row">
+                <div className="col m4 center-align">
+                  <img src='/images/facebook.png' />
+                </div>
+                <div className="col m8 center-align">
+                  <h5>{this.state.userName} {this.state.userLastName}</h5>
+                  <ARating/>
+                </div>
+
+              </div>
             </div>
+            <div className="col m4 hide-on-small-only">
+              <div style={{fontWeight:'bold'}}>
+                Details
+              </div>
+              <h6>{this.props.event.startAt.toLocaleString()}</h6>
+              <h6>{this.props.event.endAt.toLocaleString()}</h6>
+              <h6>{this.props.event.responsibilities.text}</h6>
+              <h6>Pay</h6>
+            </div>
+            <div className="col m4 hide-on-small-only">
+              <div style={{fontWeight:'bold'}}>
+                Rating and Reviews
+                {this.renderReview()}
+              </div>
+              <ARating/>
+
+            </div>
+          </div>
+
+          <div className="row center-align hide-on-med-and-up">
+            <div className="col s12">
+              <div className="row">
+                <div className="col s4 center-align">
+                  <img src='/images/facebook.png' width='50px' height='50px'/>
+                </div>
+                <div className="col s8 center-align">
+                  <h5>{this.state.userName}  {this.state.userLastName}</h5>
+                  <ARating/>
+                </div>
+              </div>
+              <div className="row">
+                <h6>{this.props.event.startAt.toLocaleString()}</h6>
+                <h6>{this.props.event.endAt.toLocaleString()}</h6>
+                <h6>{this.props.event.responsibilities.text}</h6>
+                <h6>Pay: </h6>
+                <ARating/>
+                <h6>The rating i gave to the company is</h6>
+              </div>
+            </div>
+          </div>
         </div>
       )
     }

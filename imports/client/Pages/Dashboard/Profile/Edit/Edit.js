@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Roles } from 'meteor/alanning:roles';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import ContractorEdit from './ContractorEdit';
@@ -8,9 +8,9 @@ import ProfessionalEdit from './ProfessionalEdit';
 class EditPage extends React.Component{
   render(){
     if(this.props.user){
-      if (this.props.user.roles[0] === "PRO") {
+      if(Roles.userIsInRole(this.props.user._id,"PRO")) {
         return <ProfessionalEdit user={this.props.user}/>
-      } else if (this.props.user.roles[0] === "CON"){
+      } else if(Roles.userIsInRole(this.props.user._id,"CON")){
         return <ContractorEdit user={this.props.user}/>
       }
     }

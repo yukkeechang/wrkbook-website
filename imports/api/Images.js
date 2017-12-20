@@ -2,7 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check'
-
+FS.debug = true;
 
 // let createThumb = function(fileObj, readStream, writeStream) {
 //   // Transform the image into a 50x50px thumbnail
@@ -12,11 +12,11 @@ import { check } from 'meteor/check'
 //   // Transform the image into a 350x350px thumbnail
 //   gm(readStream, fileObj.name()).resize('350', '350').stream().pipe(writeStream);
 // };
+// FS.debug = true;
 const imageStore = new FS.Store.GridFS('images');
-const thumbNail = new FS.Store.GridFS('thumbnail');
 
 Images = new FS.Collection('images',{
-  stores: [imageStore,thumbNail]
+  stores: [imageStore]
 });
 
 Images.deny({

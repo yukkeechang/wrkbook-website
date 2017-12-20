@@ -99,8 +99,6 @@ export default class stepThree extends Component{
         pesonalPic:false,
         basic:{}});
       }
-
-
     }
     submit(e){
 

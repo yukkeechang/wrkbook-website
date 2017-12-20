@@ -6,6 +6,7 @@ import {ServerSession } from 'meteor/matteodem:server-session';
 Meteor.startup(()=>{
 
   process.env.MAIL_URL = 'smtp://no-reply%40wrkbook.com:dg56fdghb354@smtp-relay.gmail.com:587/';
+  // console.log(process.env);
   if (process.env.METEOR_SETTINGS) {
     try {
       Meteor.settings = JSON.parse(process.env.METEOR_SETTINGS);
@@ -27,6 +28,8 @@ Meteor.startup(()=>{
   }else {
     ServerSession.set('DEFAULTPIC',isImage._id);
   }
+
+  console.log("Finish With Images");
 
 
 });

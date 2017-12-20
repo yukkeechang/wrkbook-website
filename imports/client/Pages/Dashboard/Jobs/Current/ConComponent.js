@@ -11,16 +11,8 @@ import EmployeeComponentOuter from './EmployeeComponentOuter';
 
     this.state = {
       labelFontSize: 25,
-      titleFontSize: 30,
-      completed: false,
-      current: false
+      titleFontSize: 30
     }
-    if(!('undefined' === this.props.completed)){
-      this.setState({completed: true});
-    };
-    if(!('undefined' === this.props.current)){
-      this.setState({current: true});
-    };
   }
 
   componentDidMount(){
@@ -59,7 +51,7 @@ import EmployeeComponentOuter from './EmployeeComponentOuter';
         <div className="container">
           <div className="card">
             <div className="col s10 l12 push-s2 card grey lighten-1">
-              <div style={{fontSize: this.state.labelFontSize}}>locations</div>
+              <div style={{fontSize: this.state.labelFontSize}}>{this.props.location.locationName}</div>
             </div>
             <div>
               {EmpIdArray.map(function(info, index) {
@@ -67,8 +59,6 @@ import EmployeeComponentOuter from './EmployeeComponentOuter';
                   <EmployeeComponentOuter
                     id={info}
                     job={job}
-                    current={this.state.current}
-                    completed={this.state.completed}
                   />
                 )
               })}

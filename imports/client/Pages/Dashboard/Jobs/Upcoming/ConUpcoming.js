@@ -2,7 +2,7 @@ import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
-import ConComponent from '../Shared/ConComponent';
+import ConJobPostComponent from '../ConJobPostComponent';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
 function isEmpty(obj) {
@@ -36,7 +36,7 @@ class ConUpcomingPage extends React.Component{
           {jobz.map(function(job, index){
 
             return(
-              <ConComponent
+              <ConJobPostComponent
 
                 key={job._id}
                 jobinfo = {job}
@@ -57,7 +57,7 @@ class ConUpcomingPage extends React.Component{
     }
     else{
       return(
-          <EmployerNoJobs/>
+          <EmployerNoJobs message={"upcoming"}/>
       );
     }
   }
