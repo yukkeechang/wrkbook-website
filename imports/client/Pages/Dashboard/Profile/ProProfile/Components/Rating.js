@@ -12,12 +12,13 @@ export default class Rating extends React.Component {
     // filledStars is the rating
     const filledStars = Number(this.props.rating);
     let unfilledStars = 5 - filledStars;
+    console.log(unfilledStars);
     let ratingArr = [];
 
     // Draw full and half stars
     for (let i = filledStars; i > 0; i--) {
       // If i is 0.5, push half star into array
-      if (i == 0.5) {
+      if (i == 0.5 ) {
         ratingArr.push(
           <i
             className="material-icons left"
@@ -43,7 +44,7 @@ export default class Rating extends React.Component {
 
     // Draw empty stars
     for (let i = unfilledStars; i > 0; i--) {
-      if (i == 0.5) {
+      if (i < 0.5) {
         break;
       }
       // Push empty star into array

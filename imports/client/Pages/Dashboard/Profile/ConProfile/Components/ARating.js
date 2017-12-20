@@ -21,20 +21,17 @@ class ARatingPage extends React.Component {
   render() {
     if(!isEmpty(this.props.reviews)){
       let reviewz = this.props.reviews;
+      let avgRate =reviewz.map(function(review, index));
+      console.log(avgRate)
       return(
         <div className="container">
           <br/>
-          {reviewz.map(function(review, index){
-            return(
+              <Rating
+                rating={5}
+                starSize={20}
+                textSize={15}
+              />
 
-                <Rating
-                  rating={review.rating}
-                  starSize={20}
-                  textSize={15}
-                />
-
-            )
-          })}
         </div>
       );
     }

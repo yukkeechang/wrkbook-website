@@ -21,20 +21,31 @@ class ARatingPage extends React.Component {
   render() {
     if(!isEmpty(this.props.reviews)){
       let reviewz = this.props.reviews;
+      let avgRate =reviewz.map(function(review, index){
+        return review;
+        console.log(review)
+      })
+
+      var avg =0 ;
+      console.log("length of array: "+avgRate.length)
+      for (i=0; i < avgRate.length; i++) {
+        avg += avgRate[i].rating
+        //console.log(avgRate[i])
+        console.log("sum: "+avg)
+        console.log("rating: "+avgRate[i].rating)
+        console.log("o")
+      }
+      console.log(avgRate.length)
+      avg = avg/avgRate.length;
+      console.log(avg)
       return(
         <div className="container">
           <br/>
-          {reviewz.map(function(review, index){
-            return(
-
-                <Rating
-                  rating={review.rating}
-                  starSize={20}
-                  textSize={15}
-                />
-
-            )
-          })}
+              <Rating
+                rating={4.1}
+                starSize={20}
+                textSize={15}
+              />
         </div>
       );
     }

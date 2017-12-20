@@ -4,7 +4,10 @@ import ARating from '../../Profile/ProProfile/Components/ARating';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
 import EmployeeComponentOuter from './EmployeeComponentOuter';
 
- export default class ConComponent extends React.Component {
+//This file will render job details (title of the job). Any details on the employee for the job is rendered in EmployeeComponentOutter
+//and EmployeeCompletedComponent
+
+ class ConComponentPage extends React.Component {
   constructor(props) {
     super(props);
 
