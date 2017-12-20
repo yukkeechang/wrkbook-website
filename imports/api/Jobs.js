@@ -69,10 +69,11 @@ Meteor.publish('job-post', function(employee){
     let hackIdThing =[];
     hackIdThing[0] = this.userId;
 
-// 'generalStart':{$gt: currentDate},
+
       let results =  Job.find({
           $and: [
             {
+           'generalStart':{$gt: currentDate},
             'jobTypes.texts' : {$in : jobTitle},
             'declineemployeeIds' :{$nin : hackIdThing},
             'isOpen':true,

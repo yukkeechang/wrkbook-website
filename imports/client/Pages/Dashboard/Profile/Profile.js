@@ -2,12 +2,6 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import {PROFESSIONAL} from '../../../../api/Schemas/employeeSchema';
 import {CONTRACTOR} from '../../../../api/Schemas/employerSchema';
-import GeneralInfo from './Components/GeneralInfo';
-import About from './Components/About';
-import Contact from './Components/Contact';
-import Cert from './Components/Certifications';
-import Payment from './Components/Payment';
-import Reviews from './Components/Reviews';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ConProfile from './ConProfile/ConProfile';

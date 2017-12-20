@@ -73,7 +73,24 @@ export default class EmployeeCompletedComponent extends React.Component {
      if(!(isEmpty(this.props.review))) {
       return (
         <div>
+        <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
+          <div className="white-text">
+              Rate and Review
+          </div>
+        </button>
 
+         <div id="modal1" className="modal modal-fixed-footer">
+          <div className="modal-content">
+            <CreateReviewForPro
+            proId={this.props.proId}
+            conId={this.props.conId}
+            jobId={this.props.jobId}
+            />
+          </div>
+          <div className="modal-footer">
+            <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+          </div>
+         </div>
         </div>
       )
     }
@@ -165,7 +182,7 @@ export default class EmployeeCompletedComponent extends React.Component {
                 {this.renderReview()}
               </div>
               <ARating/>
-              <h6>The rating i gave to the company is</h6>
+
             </div>
           </div>
 
