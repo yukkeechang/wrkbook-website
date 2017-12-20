@@ -3,7 +3,6 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import MSpinner from '../../Shared/MSpinner';
 import EmpJobPostComponent from './EmpJobPostComponent';
-import EmployeeNoUpcomingJobs from '../../EmployeeNoUpcomingJobs';
 
 function isEmpty(obj) {
   for (var x in obj) { return false; }
@@ -50,7 +49,7 @@ class EmployeeJobPosts extends React.Component{
     else{
       return(
         <div>
-          <EmployeeNoUpcomingJobs/>
+          no upcoming jobs
         </div>
       );
     }
