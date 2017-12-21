@@ -114,12 +114,8 @@ export default class CreateJobs extends Component {
     }
     else{
       this.setState({locErr:true});
+        $('#validationModal').modal('open');
     }
-  }
-  handleTitles(){
-    this.setState({
-      titles: $(this.refs.titles).val()
-    })
   }
   handleSelect(){
     if($('#osha').val()==2){
