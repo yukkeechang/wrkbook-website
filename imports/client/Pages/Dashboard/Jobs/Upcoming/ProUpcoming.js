@@ -28,7 +28,8 @@ render() {
 
   else if(!(isEmpty(jobz))) {
     return (
-      <div className="container">
+      <div>
+      <h3 className="center-align">Upcoming Jobs</h3>
       {jobz.map(function(job, index){
         return(
           <ProComponent
@@ -42,6 +43,7 @@ render() {
             description={job.description.text}
             location={job.location}
             pay={job.pay}
+            upcoming = {true}
           />
         )
       })}

@@ -5,6 +5,8 @@ import { Roles } from 'meteor/alanning:roles';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users';
+import ConReviewSchema from  './Schemas/conReviewSchema';
+import ProReviewSchema from  './Schemas/proReviewSchema';
 import ReviewSchema from  './Schemas/reviewSchema';
 import {DEFAULT} from './Schemas/basicTextSchema';
 
@@ -95,6 +97,37 @@ Meteor.publish('reviews-by-you',function(){
 })
 
 Meteor.methods({
+
+  validateReview(reviewObject) {
+    let  validations = ReviewSchema.newContext('REVIEW');
+
+    let reviewerId = !validations.validateOne(reviewObject,'reviewerId');
+    let revieweeId = !validations.validateOne(reviewObject,'revieweeId');
+    let jobId = !validations.validateOne(reviewObject,'jobId');
+    let rating = !validations.validateOne(reviewObject, 'rating');
+    let review = !validations.validateOne(reviewObject, 'review.text');
+    let companyName = !validations.validateOne(reviewObject, 'companyName.text');
+    //
+    let conReview = !Match.test(reviewObject.conReview, ConReviewSchema);
+    let proReview = !Match.test(reviewObject.proReview, ProReviewSchema);
+
+    let Errors = {
+      reviewerId: reviewerId,
+      revieweeId: revieweeId,
+      jobId: jobId,
+      rating: rating,
+      review: review,
+      companyName: companyName,
+      proReview: proReview,
+      conReview: conReview
+    }
+
+    if( revieweeId ||reviewerId || jobId|| rating || review ||
+      companyName || proReview || conReview)
+      throw new Meteor.Error('403',Errors);
+
+  },
+
   /**
   Inserts a review into the database. That review must follow the format of
   ReviewSchema. If a employer is reviewing a employee, the employee must have
@@ -111,7 +144,8 @@ Meteor.methods({
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
     newReview.reviewerId = this.userId;
-    check(newReview,ReviewSchema);
+    // check(newReview,ReviewSchema);
+    Meteor.call('validateReview',newReview);
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);

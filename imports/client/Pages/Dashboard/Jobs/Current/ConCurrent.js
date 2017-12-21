@@ -2,7 +2,7 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { createContainer } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ConComponent from '../Shared/ConComponent';
+import ConComponent from './ConComponent';
 import { Link } from 'react-router-dom';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 // import ConProfile from './ConProfile/ConProfile';
@@ -16,6 +16,8 @@ function isEmpty(obj) {
 class ConCurrentPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+    }
   }
 
 
@@ -29,19 +31,22 @@ render() {
   }
   else if(!(isEmpty(this.props.jobPost))) {
     return (
-      <div  className="container">
+      <div>
+        <div>
+          <h1 className="center-align">Current Jobs</h1>
+        </div>
         {this.props.jobPost.map(function(job, index){
           return(
             <ConComponent
-            key={job._id}
-            jobinfo = {job}
-            events = {job.eventInfo}
-            title={job.jobTypes.texts}
-            startAt={job.startAt}
-            endAt={job.endAt}
-            description={job.description.text}
-            location={job.location}
-            pay={job.pay}
+              key={job._id}
+              jobinfo = {job}
+              events = {job.eventInfo}
+              title={job.jobTypes.texts}
+              startAt={job.startAt}
+              endAt={job.endAt}
+              description={job.description.text}
+              location={job.location}
+              pay={job.pay}
             />
           )
       })
@@ -63,11 +68,11 @@ render() {
 export default ConCurrent = createContainer((props) => {
   let jobPost=[]
   let loading = false
+  let current = false
   let user = Meteor.user();
   if(!('undefined' === typeof(user))){
     let handle = Meteor.subscribe('current-job-con');
     loading = handle.ready();
-    console.log("loading "+loading);
     jobPost = Job.find({}).fetch();
   }
   return {

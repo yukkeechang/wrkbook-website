@@ -23,8 +23,8 @@ export default class CreateReview extends Component {
 
   componentDidMount(){
       Materialize.updateTextFields();
-
   }
+  
   render() {
       return (
         <div className="card">

@@ -19,7 +19,6 @@ class ProCompletedJobsPage extends React.Component {
 
 render() {
   let jobz = this.props.jobPost;
-
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -35,15 +34,16 @@ render() {
       {jobz.map(function(job, index){
         return(
           <ProComponent
-            key={job._id}
+            key = {job._id}
             jobinfo = {job}
             events = {job.eventInfo}
-            title={job.jobTitle.text}
-            startAt={job.startAt}
-            endAt={job.endAt}
-            description={job.description.text}
-            location={job.location}
-            pay={job.pay}
+            title = {job.jobTitle.text}
+            startAt = {job.startAt}
+            endAt = {job.endAt}
+            description = {job.description.text}
+            location = {job.location}
+            pay = {job.pay}
+            current = {true}
           />
         )
       })}
@@ -67,8 +67,7 @@ export default ProCompleted = createContainer(({props}) => {
   if(!('undefined' === typeof(user))){
     let handle = Meteor.subscribe('completed-job-pro');
     loading = handle.ready();
-    console.log("loading: "+loading)
-    jobPost = Job.find({}).fetch();
+    jobPost = Job.find({isOpen:false}).fetch();
     console.log(jobPost)
   }
   return {

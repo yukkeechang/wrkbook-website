@@ -93,7 +93,7 @@ export class NavBarPage extends Component{
         Meteor.logout();
         console.log(this.props);
     }
-    things(){
+    arrow(){
       this.setState({switchNav:!this.state.switchNav});
     }
 
@@ -115,15 +115,18 @@ export class NavBarPage extends Component{
         <li><Link to='/jobs'>Job Matches</Link></li>
         <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
+        <li><Link to='/upcoming'>Upcoming</Link></li>
 
       </ul>
       :
       <ul id='jobs' className='dropdown-content'>
 
         <li style={{display:'none'}}><Link to='/conjobcurrent'>Current</Link></li>
+        <li><Link to='/upcoming'>Upcoming</Link></li>
         <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
         <li><Link to='/createjob'>Create Job</Link></li>
+
       </ul>
 
       let jobDropDownLinksSideNav = this.state.isPro ?
@@ -190,7 +193,7 @@ export class NavBarPage extends Component{
                     <Link onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>
                 </li>
                 <li>
-                    <ul ref="collapsibleref" className="collapsible" data-collapsible="accordion" onClick={this.things.bind(this)}>
+                    <ul ref="collapsibleref" className="collapsible" data-collapsible="accordion" onClick={this.arrow.bind(this)}>
                         {jobDropDownLinksSideNav}
                     </ul>
                 </li>

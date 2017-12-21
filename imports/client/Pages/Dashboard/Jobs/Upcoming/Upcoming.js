@@ -21,6 +21,7 @@ class UpcomingJobs extends React.Component {
   }
 
 render() {
+  console.log(this.state.upcoming);
   return (
     this.state.isPro ? <ProUpcoming/> : <ConUpcoming/>
   )
