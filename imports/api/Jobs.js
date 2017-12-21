@@ -160,7 +160,17 @@ Meteor.publish('job-post-admitted',function(){
   }
 
 });
+Meteor.publish('one-job',function(jobID){
 
+  if(Roles.userIsInRole(this.userId,PROFESSIONAL) ||
+   Roles.userIsInRole(this.userId,CONTRACTOR)){
+     let things= Job.find({_id: jobID});
+     return things;
+   }else{
+     this.stop();
+     return;
+   }
+});
 Meteor.publish('job-post-applied',function(){
 
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
@@ -307,7 +317,7 @@ Meteor.publish('upcoming-job-pro',function(){
     let job = Job.find({$and:
       [
         {
-          'admitemployeeIds' :{$in : [hackIdThing]}
+          'admitemployeeIds' :{$in : hackIdThing}
         }, {
           'generalStart':{$gt: currentDate}
         }, {

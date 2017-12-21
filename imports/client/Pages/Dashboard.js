@@ -63,13 +63,14 @@ class Dash extends Component{
                 <div style={{height:'64px'}}></div>
                 <Switch>
                 <Route exact path="/" render={()=><Upcoming/>}/>
-                <Route exact path="/jobs" component={Jobs}/>
+                <Route exact path="/jobmatchs" component={EmpJobPosts}/>
                 <Route exact path="/profile" component={Profile}/>
                 <Route exact path="/user/:value" component={OtherUser}/>
 
                 <Route exact path="/references" component={References}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob/:value" component={EditJobs}/>
+                <Route exact path="/job/:value" component={ViewJobComp}/>
                 <Route exact path="/events" component={DummyEvents}/>
                 <Route exact path="/conjobpostcomponent" component={ConJobPostComponent}/>
                 <Route exact path="/conjobposts" component={ConJobPosts}/>

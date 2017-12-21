@@ -5,6 +5,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
 import UserIcon from '../../../Shared/UserIcon';
+import Avatar from '../../../Shared/Avatar';
 
 function isEmpty(obj) {
   for(var x in obj){return false;}
@@ -61,8 +62,8 @@ render(){
             Professional
           </div>
           <div className="row">
-            <div className="col m4 push-m2 center-align">
-              <UserIcon imageId={this.props.imageId}/>
+            <div className="col m4 center-align">
+              <Avatar imageId={this.props.imageId} size={70}/>
             </div>
             <div className="col m8 center-align">
               <h5>{this.props.firstName} {this.props.lastName}</h5>

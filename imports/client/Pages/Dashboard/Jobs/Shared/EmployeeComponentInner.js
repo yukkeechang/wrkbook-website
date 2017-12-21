@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import UserInfoComp from './UserInfoComp';
 import DetailsComp from './DetailsComp';
 import ViewJobComp from './ViewJobComp';
-
+import { Link } from 'react-router-dom';
 function isEmpty(obj) {
   for(var x in obj){return false;}
   return true;
@@ -153,11 +153,15 @@ componentWillMount(){
               />
             </div>
             <div className="col m4 hide-on-small-only">
-              <div style={{fontWeight:'bold'}}>
-                Rating and Reviews
-                {this.renderReview()}
+              <div className ="row">
+                <div style={{fontWeight:'bold'}}>
+                  Rating and Reviews
+                  {this.renderReview()}
+                </div>
               </div>
-                <ViewJobComp/>
+              <div className= "row">
+                <Link to={"/job/"+ this.props.jobId}><a className="waves-effect waves-teal teal accent-1 btn-flat">View Job</a></Link>
+              </div>
             </div>
           </div>
 
