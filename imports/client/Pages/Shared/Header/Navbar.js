@@ -140,7 +140,7 @@ export class NavBarPage extends Component{
       :
 
         <li>
-          <div ref="jobsthingz" className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs <span className="new badge">1</span> {this.state.switchNav ?
+          <div ref="jobsthingz" className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs {this.state.switchNav ?
           <i className="large material-icons">arrow_drop_up</i> :
           <i className="large material-icons">arrow_drop_down</i>
           }</div>
