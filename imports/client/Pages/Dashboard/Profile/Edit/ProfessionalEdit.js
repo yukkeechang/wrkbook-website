@@ -59,6 +59,7 @@ export default class ProfessionalEdit extends Component{
           console.log(err);
         }else{
           console.log('updated');
+          $('#updateModal').modal('open');
         }
       });
     }
@@ -113,7 +114,7 @@ export default class ProfessionalEdit extends Component{
     return(
       <div className="container">
         <div className="card">
-          <div className="card-content">
+        <div className="card-content">
           <div className="col l6 m6 s12">
             <img id="profileImage" src={this.props.user.profile.employeeData.image} height='350px' width='350px' style={{borderRadius:'350px'}}/>
           </div>
@@ -196,7 +197,7 @@ export default class ProfessionalEdit extends Component{
               </div>
             </div>
           </form>
-          </div>
+        </div>
         </div>
       </div>
     )
