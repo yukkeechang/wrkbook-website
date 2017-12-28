@@ -114,6 +114,7 @@ export default class CreateJobs extends Component {
     }
     else{
       this.setState({locErr:true});
+      console.log("bruh")
     }
   }
   handleTitles(){

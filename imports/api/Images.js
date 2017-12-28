@@ -2,7 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check'
-FS.debug = true;
+//FS.debug = true;
 
 // let createThumb = function(fileObj, readStream, writeStream) {
 //   // Transform the image into a 50x50px thumbnail
