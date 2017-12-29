@@ -1,7 +1,7 @@
 // Component holds user image, user first and last name and rating for the
 // company or the indivudal and displays on EmployeeComponentInner.js
 import React from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+// import { createContainer } from 'meteor/react-meteor-data';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
 import UserIcon from '../../../Shared/UserIcon';
@@ -57,7 +57,7 @@ render(){
     // console. log(this.props.imageId);
     return (
       <div>
-        <div className="col">
+        <div className="col center-align">
           <div className="row" style={{fontWeight:'bold'}}>
             Professional
           </div>

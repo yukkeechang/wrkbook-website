@@ -1,5 +1,5 @@
 import React from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
 import ConJobPostComponent from '../ConJobPostComponent';
@@ -62,7 +62,7 @@ class ConUpcomingPage extends React.Component{
     }
   }
 }
-export default ConUpcoming = createContainer(( {props} ) => {
+export default ConUpcoming = withTracker(props => {
   let user = Meteor.user();
   let jobPost =[];
   let loading = false;
@@ -78,4 +78,4 @@ export default ConUpcoming = createContainer(( {props} ) => {
     loading:loading,
     jobPost:jobPost
   };
-}, ConUpcomingPage);
+})(ConUpcomingPage);

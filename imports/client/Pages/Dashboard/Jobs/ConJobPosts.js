@@ -1,5 +1,5 @@
 import React from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import MSpinner from '../../Shared/MSpinner';
 import EmployerNoUpcomingJobs from './Shared/EmployerNoJobs';
@@ -61,7 +61,7 @@ class ContractorJobPosts extends React.Component{
     }
   }
 }
-export default ConJobPosts = createContainer(( {props} ) => {
+export default ConJobPosts = withTracker(props => {
   let user = Meteor.user();
   let jobPost =[];
   let loading = false;
@@ -77,4 +77,4 @@ export default ConJobPosts = createContainer(( {props} ) => {
     loading:loading,
     jobPost:jobPost
   };
-}, ContractorJobPosts);
+})(ContractorJobPosts);

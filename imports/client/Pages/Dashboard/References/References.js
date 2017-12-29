@@ -3,7 +3,7 @@ import NewRef from './NewRef';
 import EditRef from './EditRef';
 import MSpinner from '../../Shared/MSpinner';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 class Refs extends Component{
     render(){
         return(
@@ -18,11 +18,11 @@ class Refs extends Component{
         )
     }
 }
-export default References = createContainer(({ params }) => {
+export default References = withTracker(params  => {
     let handle = Meteor.subscribe('your-references');
     let ready = handle.ready();
     return {
         ready: ready,
         myRefs: References.find({}).fetch()
     };
-}, Refs);
+})(Refs);

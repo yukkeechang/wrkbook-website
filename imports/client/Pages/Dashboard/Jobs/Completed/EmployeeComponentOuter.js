@@ -1,5 +1,5 @@
 import React ,{Component}from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 //import CreateReviewForCon from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
@@ -33,7 +33,7 @@ class EmployeeComponentOut extends Component{
 }
 
 
-export default EmployeeComponentOuter = createContainer((props) =>  {
+export default EmployeeComponentOuter = withTracker(props =>  {
   let event=[];
   let review=[];
   let loading = false
@@ -59,4 +59,4 @@ export default EmployeeComponentOuter = createContainer((props) =>  {
     conId: props.job.employerId,
     jobId: props.job._id
   };
-}, EmployeeComponentOut);
+})(EmployeeComponentOut);

@@ -1,7 +1,7 @@
 //make page for emp con import React from 'react';
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import ProComponent from '../Shared/ProComponent';
 import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
@@ -63,7 +63,7 @@ render() {
 
 
 
-export default ProCurrent = createContainer((props) => {
+export default ProCurrent = withTracker(props => {
   let user = Meteor.user();
   let jobPost=[]
   let loading = false
@@ -79,7 +79,7 @@ export default ProCurrent = createContainer((props) => {
     jobPost: jobPost
 
   };
-}, ProCurrentPage);
+})(ProCurrentPage);
 
 
 //get employees from the job

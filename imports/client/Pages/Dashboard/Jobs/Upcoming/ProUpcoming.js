@@ -1,6 +1,6 @@
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import ProComponent from '../Shared/ProComponent';
 import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
@@ -60,7 +60,7 @@ render() {
 
 
 
-export default ProUpcoming = createContainer(({props}) => {
+export default ProUpcoming = withTracker(props => {
   let user = Meteor.user();
   let jobPost=[]
   let loading = false
@@ -75,7 +75,7 @@ export default ProUpcoming = createContainer(({props}) => {
     loading: loading,
     jobPost: jobPost
   };
-}, ProUpcomingJobsPage);
+})(ProUpcomingJobsPage);
 
 
 //get employees from the job

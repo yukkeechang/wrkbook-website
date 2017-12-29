@@ -1,6 +1,6 @@
 
 import React , { Component } from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import Dashboard from './Dashboard';
 class DefPage extends Component{
 
@@ -12,9 +12,9 @@ class DefPage extends Component{
         )
     }
 }
-export default DefaultPage = createContainer(({ params }) => {
+export default DefaultPage = withTracker({ params } => {
     return {
         loggingIn: Meteor.loggingIn(),
         user: Meteor.user(),
     };
-}, DefPage);
+})(DefPage);

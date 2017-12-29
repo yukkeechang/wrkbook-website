@@ -1,5 +1,5 @@
 import React from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 //Just Pull EVENTS
 
@@ -23,7 +23,7 @@ class Eventz extends React.Component{
   }
 }
 
-export default DummyEvents = createContainer(({ params }) => {
+export default DummyEvents = withTracker( params  => {
   let user = Meteor.user();
   let events =[];
   let loading = false;
@@ -39,4 +39,4 @@ export default DummyEvents = createContainer(({ params }) => {
     loading:loading,
     events:events
   };
-}, Eventz);
+})(Eventz);

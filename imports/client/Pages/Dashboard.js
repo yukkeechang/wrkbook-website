@@ -1,13 +1,12 @@
 import React , { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import Header from './Shared/Header';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Profile from './Dashboard/Profile/Profile';
 import OtherUser from './Dashboard/Profile/OtherUser'
-import Jobs from './Dashboard/Jobs/Jobs';
 import Home from './Dashboard/Home/Home';
 import NotFound from '../Pages/NotFound';
 import Payment from './Dashboard/Settings/Payment';
@@ -28,7 +27,7 @@ import DummyEvents from './Dashboard/DummyEvents';
 import ConJobPosts from './Dashboard/Jobs/ConJobPosts'
 import CreateJobs from './Dashboard/Jobs/CreateJobs';
 import EditJobs from './Dashboard/Jobs/Upcoming/EditJobsOutter';
-import JobPostAdmit from './Dashboard/Jobs/EmpJobPostAdmit';
+import AppliedJobs from './Dashboard/Jobs/AppliedJobs';
 import EmpJobPostComponent from './Dashboard/Jobs/EmpJobPostComponent';
 import EmpJobPosts from './Dashboard/Jobs/EmpJobPosts';
 import employeeComponent from './Dashboard/Jobs/EmployeeComponent';
@@ -62,7 +61,7 @@ class Dash extends Component{
                 <Header full={false}/>
                 <div style={{height:'64px'}}></div>
                 <Switch>
-                <Route exact path="/" render={()=><Upcoming/>}/>
+                <Route exact path="/" render={()=> (<Upcoming/> )}/>
                 <Route exact path="/jobmatchs" component={EmpJobPosts}/>
                 <Route exact path="/profile" component={Profile}/>
                 <Route exact path="/user/:value" component={OtherUser}/>
@@ -71,12 +70,9 @@ class Dash extends Component{
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob/:value" component={EditJobs}/>
                 <Route exact path="/job/:value" component={ViewJobComp}/>
+                <Route exact path="/applied" component={AppliedJobs} />
                 <Route exact path="/events" component={DummyEvents}/>
-                <Route exact path="/conjobpostcomponent" component={ConJobPostComponent}/>
-                <Route exact path="/conjobposts" component={ConJobPosts}/>
-                <Route exact path="/empjobposts" component={EmpJobPosts}/>
-                <Route exact path="/employeejobpostsadmit" component={JobPostAdmit}/>
-                <Route exact path="/employeecomponent" component={employeeComponent}/>
+
                 <Route exact path="/edit" component={Edit}/>
                 <Route path="/settings" component={Settings}/>
                 <Route path="/proprofile" component={Edit}/>
@@ -92,7 +88,9 @@ class Dash extends Component{
                 <Route path="/empcompleted" component={ProCompleted}/>
                 <Route path="/createreviewforprofessional" component={CreateReviewForPro}/>
                 <Route path="/createreviewforcontractor" component={CreateReviewForCon}/>
-                <Route path="/emailtemplate" component={EmailTemplate}/>
+
+
+
                 <Route path="*" component={NotFound}/>
                 </Switch>
 
@@ -114,11 +112,11 @@ class Dash extends Component{
         )
     }
 }
-export default Dashboard = createContainer(({ params }) => {
+export default Dashboard = withTracker(params  => {
     return {
         user: Meteor.user(),
     };
-}, Dash);
+})(Dash);
 
 //Route if going to home page
 //<Route exact path="/" render={()=><Home date={this.state.thisDatu} changeDate={this.setDate.bind(this)}/>}/>
