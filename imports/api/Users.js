@@ -179,6 +179,9 @@ Meteor.methods({
         if('undefined' === typeof(User.profile.employeeData.certfi)){
           User.profile.employeeData.certfi = [];
         }
+        if('undefined' === typeof(User.profile.employeeData.prevJobs)){
+          User.profile.employeeData.prevJobs = [];
+        }
       }else{
         if(('undefined' === typeof(User.profile.employerData)))throw new Meteor.Error('403','NAH');
         Meteor.call('validateEmployer',User.profile.employerData);
@@ -234,7 +237,7 @@ Meteor.methods({
         let oldData = prevUser.profile.employerData;
 
 
-        check(employerData,EmployerSchema);
+        Meteor.call('validateEmployer',employerData);
 
         if (employerData.companyName.text != DEFAULT) {
           oldData.companyName.text = employerData.companyName.text;
@@ -274,7 +277,7 @@ Meteor.methods({
 
       let prevUser = Meteor.users.findOne({_id: this.userId});
       let oldData = prevUser.profile.employeeData;
-      check(employeeData,EmployeeSchema);
+      Meteor.call('validateEmployee',employeeData);
 
       if(employeeData.jobTitle.length >0 ){
         oldData.jobTitle =
@@ -283,10 +286,6 @@ Meteor.methods({
       if(employeeData.languages.length >0 ){
         oldData.languages =
         employeeData.languages;
-      }
-      if(employeeData.certifications.texts.length >0 ){
-        oldData.certifications.texts =
-        employeeData.certifications.texts;
       }
       if(employeeData.about.text != DEFAULT ){
         oldData.about.text =
@@ -326,6 +325,9 @@ Meteor.methods({
       if(employeeData.osha.osha30 != oldData.osha.osha30){
         oldData.osha.osha30 = employeeData.osha.osha30;
       }
+      if('undefined' === typeof(employeeData.prevJobs)){
+        employeeData.prevJobs = [];
+      }
       if(employeeData.prevJobs.length>0){
         oldData.prevJobs = employeeData.prevJobs;
       }
@@ -364,7 +366,7 @@ Meteor.methods({
           let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
           let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
 
-          if(!isPRO || !isCON ) throw new Meteor.Error('401',NOTAUTH);
+          if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
 
 
           if(isCON){
