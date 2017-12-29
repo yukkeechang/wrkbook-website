@@ -1,10 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-export default PricingPage = ()=> {
+import Button from '../Shared/Button';
+export default class  PricingPage extends React.Component{
+  constructor(props) {
+    super(props)
+  }
+  pro(){
+      window.localStorage.isPro = true;
+  }
+  con(){
+      window.localStorage.isPro = false;
+  }
+  render(){
     return (
-        <div>
-          <div className="container">
+
+        <div id="price" style={{paddingBottom:'10px',background: 'linear-gradient(#FFFFFF, #A9A9A9)'}} >
+
+          <div className="container" >
             <div className="card grey darken-3">
               <div className="card-content">
                 <div className="row hide-on-small-only">
@@ -24,7 +36,9 @@ export default PricingPage = ()=> {
                       </div>
                     </div>
                     <div style={{display:'flex', justifyContent:'center'}}>
-                      <a className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+                      <Link to="/register" onClick={this.con} >
+                        <a className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+                      </Link>
                     </div>
                     <div className="card">
                       <div className="card-content center-align">
@@ -58,7 +72,9 @@ export default PricingPage = ()=> {
                       </div>
                     </div>
                     <div style={{display:'flex', justifyContent:'center'}}>
-                      <a className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+                          <Link to="/register" onClick={this.pro} >
+                            <a className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+                          </Link>
                     </div>
                   </div>
                 </div>
@@ -79,7 +95,9 @@ export default PricingPage = ()=> {
                       </div>
                     </div>
                     <div style={{display:'flex', justifyContent:'center'}}>
-                      <a className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+                      <Link to="/register" onClick={this.con} >
+                        <a className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+                      </Link>
                     </div>
                     <div className="card">
                       <div className="card-content center-align">
@@ -113,7 +131,9 @@ export default PricingPage = ()=> {
                       </div>
                     </div>
                     <div style={{display:'flex', justifyContent:'center'}}>
-                      <a className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+                          <Link to="/register" onClick={this.pro} >
+                            <a className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+                          </Link>
                     </div>
                   </div>
                 </div>
@@ -122,4 +142,5 @@ export default PricingPage = ()=> {
           </div>
         </div>
     )
+  }
 }
