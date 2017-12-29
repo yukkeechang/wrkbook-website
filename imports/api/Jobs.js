@@ -25,6 +25,9 @@ Defines a collection named jobs
 Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
 
+// function LocationAndDistande(LocationSchema, Distance) {
+//
+// }
 
 /**
 *
@@ -160,7 +163,17 @@ Meteor.publish('job-post-admitted',function(){
   }
 
 });
+Meteor.publish('one-job',function(jobID){
 
+  if(Roles.userIsInRole(this.userId,PROFESSIONAL) ||
+   Roles.userIsInRole(this.userId,CONTRACTOR)){
+     let things= Job.find({_id: jobID});
+     return things;
+   }else{
+     this.stop();
+     return;
+   }
+});
 Meteor.publish('job-post-applied',function(){
 
   if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
@@ -307,7 +320,7 @@ Meteor.publish('upcoming-job-pro',function(){
     let job = Job.find({$and:
       [
         {
-          'admitemployeeIds' :{$in : [hackIdThing]}
+          'admitemployeeIds' :{$in : hackIdThing}
         }, {
           'generalStart':{$gt: currentDate}
         }, {
@@ -535,10 +548,58 @@ Meteor.methods({
 
   },
 
-  sendNotificationsToPotential(jobObject){
+  sendNotificationsToPotential(jobObject,jobId){
     // ,
     // 'location.latitude': {$gte: lat_bot, $lt: lat_top},
     // 'location.longitude': {$gte: lng_bot , $lt: lng_top}}
+    let bearing = 45;
+    const meterDegrees = 111111;
+    const mileToMeters= 1609.34;
+
+    let potentialUser = Meteor.users.find({
+      'profile.employeeData.jobTitle' : {$in : jobObject.jobTypes.texts}
+    });
+    let peoples = [];
+    potentialUser.forEach((user)=>{
+      let lat= user.profile.employeeData.location.latitude;
+      let lng = user.profile.employeeData.location.longitude;
+      let distance = user.profile.employeeData.maxDistance*(mileToMeters/2);
+      // ranges[ranges.length] = user.profile.employeeData.maxDistance;
+      let cos_degg = Math.cos(bearing* Math.PI/180);
+      let sin_degg = Math.sin(bearing* Math.PI/180);
+
+      let lat_rad = Math.cos(lat * Math.PI/180);
+
+      let eastDisplacement = distance * sin_degg / lat_rad / meterDegrees;
+      let northDisplacement = distance * cos_degg / meterDegrees;
+      let westDisplacement = - eastDisplacement;
+      let southDisplacement = - northDisplacement;
+
+      let lat_top = lat + northDisplacement;
+      let lat_bot = lat + southDisplacement;
+      let lng_top = lng + eastDisplacement;
+      let lng_bot = lng + westDisplacement;
+
+      if(jobObject.location.latitude >= lat_bot &&
+         jobObject.location.latitude <=  lat_top &&
+         jobObject.location.longitude >= lng_bot &&
+         jobObject.location.longitude <= lng_top ){
+         peoples[peoples.length] = user._id;
+       }
+
+    });
+    // console.log("people");
+    console.log(peoples);
+    let notify = NotificationSchema.clean({});
+    // notify.toWhomst = job.employerId;
+    notify.description = "There is a potential Job Match at "+ jobObject.location.locationName;
+    notify.jobId = jobId;
+    notify.typeNotifi = "MATCH";
+    notify.href = "job/"+jobId;
+    for(let i =0 ;i < peoples.length;++i){
+      notify.toWhomst = peoples[i];
+      Meteor.call('createNotification',notify);
+    }
   //   Meteor.users.find({
   //     $and: [
   //               {
@@ -614,7 +675,7 @@ Meteor.methods({
       // if(Roles.userIsInRole(this.userId,'free-job')){
       //   Roles.removeUsersFromRoles(this.userId,'free-job');
       // }
-      Meteor.call('sendNotificationsToPotential',job);
+      Meteor.call('sendNotificationsToPotential',job,id1);
       return things;
 
 

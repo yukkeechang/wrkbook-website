@@ -1,6 +1,6 @@
 
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import React, {Component} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { render } from 'react-dom';
@@ -57,13 +57,13 @@ class Application extends Component {
         );
     }
 }
-const App = createContainer((props) => {
+const App = withTracker(props => {
     return {
         loggingIn: Meteor.loggingIn(),
         userId: Meteor.userId(),
         user: Meteor.user()
     }
-}, Application);
+}) (Application);
 
 Meteor.startup(() => {
     render(<App/>, document.getElementById('render-target'));

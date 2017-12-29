@@ -16,7 +16,7 @@ export default class SignIn extends Component{
 
   }
   componentDidMount(){
-    console.log("mounted");
+    console.log($(window).height());
     ReactDOM.findDOMNode(this.refs.butt).addEventListener('click', (event) => {
        event.stopPropagation();
        event.preventDefault();
@@ -79,7 +79,9 @@ export default class SignIn extends Component{
 
             </div>
           </div>
-        <Footer/>
+        <div>
+          <Footer/>
+        </div>
       </div>
 
     )

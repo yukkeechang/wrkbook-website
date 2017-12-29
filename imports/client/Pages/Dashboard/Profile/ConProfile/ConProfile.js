@@ -6,7 +6,7 @@ import GeneralInfo from './Components/GeneralInfo';
 import About from './Components/About';
 import Contact from './Components/Contact';
 import Reviews from './Components/Reviews';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import {Link} from 'react-router-dom';
 
 //import Header from '../Shared/Header';
@@ -200,11 +200,11 @@ export class ConProfilePage extends React.Component {
   }
 }
 
-export default ConProfile = createContainer((props) => {
+export default ConProfile = withTracker(props => {
   return {
     user: Meteor.user()
   };
-},  ConProfilePage);
+})(ConProfilePage);
 
 
 

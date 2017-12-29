@@ -276,7 +276,7 @@ export default class CreateJobs extends Component {
               <h3>Your job post has been created.</h3>
             </div>
             <div className="modal-footer">
-              <Link to="/jobs"><a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a></Link>
+              <Link to="/upcoming"><a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a></Link>
             </div>
           </div>
           <div id="validationModal" className="modal">

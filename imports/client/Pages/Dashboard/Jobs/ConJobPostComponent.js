@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import EmployeeComponent from './EmployeeComponent';
 import MSpinner from '../../Shared/MSpinner';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 //detailed job view with professionals that applied and admitted professionals
 
 class ConComponentPage extends React.Component{
@@ -21,6 +21,7 @@ class ConComponentPage extends React.Component{
 
 
     Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
+      console.log(this.props.events[0]);
       if(err){
         console.log(err);
       }else{
@@ -212,7 +213,7 @@ class ConComponentPage extends React.Component{
   }
 }
 
-export default ConComponent = createContainer((props)=>{
+export default ConComponent = withTracker(props=>{
 
   let handleApply = Meteor.subscribe('apply-employee-job',props.jobinfo._id);
   let handleAdmit = Meteor.subscribe('admit-employee-job',props.jobinfo._id);
@@ -234,4 +235,4 @@ export default ConComponent = createContainer((props)=>{
   };
 
 
-},ConComponentPage);
+})(ConComponentPage);

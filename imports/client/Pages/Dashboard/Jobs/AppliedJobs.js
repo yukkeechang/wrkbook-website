@@ -10,7 +10,7 @@ function isEmpty(obj) {
 }
 // Job = new Mongo.Collection('jobs');
 
-class EmployeeJobPosts extends React.Component{
+class EmployeeJob extends React.Component{
   constructor(props){
     super(props);
   }
@@ -53,13 +53,13 @@ class EmployeeJobPosts extends React.Component{
     }
   }
 }
-export default EmpJobPosts = withTracker( params  => {
+export default Applied = withTracker( params  => {
   let user = Meteor.user();
   let jobPost =[];
   let loading = false;
 
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post',user.profile.employeeData);
+    let handle = Meteor.subscribe('job-post-applied');
     loading = handle.ready();
     jobPost = Job.find({}).fetch();
 
@@ -69,4 +69,4 @@ export default EmpJobPosts = withTracker( params  => {
     loading:loading,
     jobPost:jobPost
   };
-})(EmployeeJobPosts);
+})(EmployeeJob);

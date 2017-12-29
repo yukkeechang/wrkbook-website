@@ -1,11 +1,12 @@
 import React from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+// import { createContainer } from 'meteor/react-meteor-data';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
+import Avatar from '../../../Shared/Avatar';
 import UserInfoComp from './UserInfoComp';
 import DetailsComp from './DetailsComp';
 import ViewJobComp from './ViewJobComp';
-
+import { Link } from 'react-router-dom';
 function isEmpty(obj) {
   for(var x in obj){return false;}
   return true;
@@ -133,7 +134,7 @@ componentWillMount(){
       return (
         <div>
           <div className="row center-align hide-on-small-only">
-            <div className="col m4 hide-on-small-only">
+            <div className="col center-align m4 hide-on-small-only">
             {!!this.state.imgId ?
               <UserInfoComp
                 proId={this.state.proID}
@@ -153,11 +154,15 @@ componentWillMount(){
               />
             </div>
             <div className="col m4 hide-on-small-only">
-              <div style={{fontWeight:'bold'}}>
+              <div className ="row">
+                <div className="col s12" style={{fontWeight:'bold'}}>
                 Rating and Reviews
-                {this.renderReview()}
+                  {this.renderReview()}
+                </div>
               </div>
-                <ViewJobComp/>
+              <div className= "row">
+                  <Link to={"/job/"+ this.props.jobId}><a className="waves-effect waves-teal teal accent-1 btn-flat">View Job</a></Link>
+              </div>
             </div>
           </div>
 
@@ -165,9 +170,9 @@ componentWillMount(){
             <div className="col s12">
               <div className="row">
                 <div className="col s4 center-align">
-                  <img src='/images/facebook.png' width='50px' height='50px'/>
+                    <Avatar imageId={this.state.imgId} size={50}/>
                 </div>
-                <div className="col s8 center-align">
+                <div className="col s7 pull-s1 center-align">
                   <h5>{this.state.userName}  {this.state.userLastName}</h5>
                   <ARating/>
                 </div>
