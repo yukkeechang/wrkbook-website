@@ -3,7 +3,7 @@ import React from 'react';
 
 export default Footer = (props)=>{
     return(
-        <footer className="page-footer" style={{backgroundColor:'#3e3e3e'}}>
+        <footer id="footer" className="page-footer" style={{backgroundColor:'#3e3e3e'}}>
             <div className="container">
                 <div style={{paddingTop:'20px',marginBottom:'0'}} className="row">
                     <div className="col s12 m5">

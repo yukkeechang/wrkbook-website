@@ -590,6 +590,7 @@ Meteor.methods({
     });
     // console.log("people");
     console.log(peoples);
+    console.log("job notification");
     let notify = NotificationSchema.clean({});
     // notify.toWhomst = job.employerId;
     notify.description = "There is a potential Job Match at "+ jobObject.location.locationName;
@@ -835,6 +836,7 @@ Meteor.methods({
 
     let notify = NotificationSchema.clean({});
     notify.toWhomst = job.employerId;
+    notify.typeNotifi="APPLIED";
     notify.description = "Someone applied for the job you posted at "+ job.location.locationName;
     notify.jobId = jobId;
     notify.href = "job/"+jobId;
@@ -991,6 +993,7 @@ Meteor.methods({
     let notify = NotificationSchema.clean({});
     notify.toWhomst = employeeId;
     notify.description = "You have been admitted to the job at "+ job.location.locationName;
+    notify.typeNotifi="HIRED"
     notify.jobId =jobId;
     notify.href = "job/"+jobId;
 
@@ -1018,6 +1021,7 @@ Meteor.methods({
     let jobRemove = Job.findOne({_id:jobId,employerId:this.userId});
     notify.description = 'The Job located at '+  jobRemove.location.locationName+
     ' has been deleted';
+    notify.typeNotifi="REMOVE"
     let peopleApplied = jobRemove.applyemployeeIds;
     let peopleMatch = jobRemove.admitemployeeIds;
     let totalPeople = peopleApplied.concat(peopleMatch);

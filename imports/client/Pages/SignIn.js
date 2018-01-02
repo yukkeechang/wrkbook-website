@@ -56,10 +56,12 @@ export default class SignIn extends Component{
 
   render(){
     return(
-      <div>
+      <div style={{height:'100vmin'}}>
+
         <Header/>
-        <div style={{height:'64px'}}></div>
-          <div style={{zIndex:'-1'}} className="container">
+
+        <div style={{height:'70px'}}></div>
+          <div style={{zIndex:'-1'}}  className="container">
             <div className="card">
               <div className="row card-content">
               <form className="col s12">
@@ -79,9 +81,9 @@ export default class SignIn extends Component{
 
             </div>
           </div>
-        <div>
-          <Footer/>
-        </div>
+          <div >
+            <Footer/>
+          </div>
       </div>
 
     )

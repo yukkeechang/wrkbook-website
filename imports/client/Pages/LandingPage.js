@@ -12,7 +12,7 @@ export default class LandingPage extends React.Component{
     super(props);
   }
   componentDidMount(){
-
+    console.log(this.props);
   }
   handleClick=(words)=>{
     console.log("clickly-click");
@@ -35,11 +35,12 @@ export default class LandingPage extends React.Component{
     return(
 
         <div>
+
         <Header handleClick={this.handleClick}/>
 
         <Hero ref="home"/>
         <HowTo ref="HowTo"/>
-        <Price  ref="price"/>
+        <Price history={this.props.history} ref="price"/>
         <About/>
         <Footer/>
 

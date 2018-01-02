@@ -1,4 +1,6 @@
-
+console.log("panel-success");
+console.log("lol");
+console.log("lol");
 
 import './startup';
 import '../imports/api/Users';

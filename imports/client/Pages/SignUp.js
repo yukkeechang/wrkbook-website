@@ -50,7 +50,9 @@ export default class SignUp extends Component{
                 </div>
                 {step}
 
-                <Footer/>
+                <div>
+                  <Footer/>
+                </div>
 
 
             </div>
