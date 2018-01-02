@@ -60,7 +60,9 @@ class ConComponentPage extends React.Component{
     });
   }
   handleMember(){
-
+  }
+  tooltip(){
+    $('.tooltipped').tooltip('remove');
   }
 
 
@@ -78,12 +80,12 @@ class ConComponentPage extends React.Component{
             </div>
 
             <div className="col m2  s1">
-              <div className="row">
+              <div className="row" style={{display:'none'}}>
                 <a className="waves-effect waves-light blue-grey  lighten-3 btn-flat tooltipped" data-position="right" data-tooltip="Manage Employees" onClick={this.handleMember.bind(this)}><i className="small material-icons left">people</i></a>
               </div>
               <div className="row">
                 <Link to={"/editjob/"+ this.state.job._id}>
-                  <a className="waves-effect waves-light teal lighten-3 btn-flat tooltipped"  data-position="right" data-tooltip="Edit Job Info"><i className="small material-icons left">edit</i></a>
+                  <a className="waves-effect waves-light teal lighten-3 btn-flat tooltipped"  data-position="right" data-tooltip="Edit Job Info" onClick={this.tooltip.bind(this)}><i className="small material-icons left">edit</i></a>
                 </Link>
               </div>
 
