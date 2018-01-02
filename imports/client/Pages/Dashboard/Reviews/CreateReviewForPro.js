@@ -13,7 +13,10 @@ export default class CreateReview extends Component {
           rating: 0,
           hasRated: false,
           proFirstName: '',
-          proLastName: ''
+          proLastName: '',
+          onTime: false,
+          neatJob: false,
+          recommend: false
       }
 
       Meteor.call('findUserbyId', this.props.proId, function(err, res){
@@ -38,14 +41,14 @@ export default class CreateReview extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
+  //  event.preventDefault();
     let review=ReviewSchema.clean({});
     review.reviewerId = this.props.conId;
     review.revieweeId = this.props.proId;
     review.jobId = this.props.jobId;
-    review.conReview.onTime = false;
-    review.conReview.neatJob = false;
-    review.conReview.wouldRecommend = false;
+    review.conReview.onTime = this.state.onTime;
+    review.conReview.neatJob = this.state.neatJob;
+    review.conReview.wouldRecommend = this.state.recommended;
     review.companyName.text = 'placeholder text' ;
     review.rating = this.state.rating;
     review.review.text = this.refs.reviewText.value();
@@ -71,6 +74,19 @@ export default class CreateReview extends Component {
       Materialize.updateTextFields();
   }
 
+  handleOnTime() {
+    this.setState({onTime: true});
+  }
+  handleNeatJob() {
+    this.setState({neatJob: true});
+  }
+  handleRecommend() {
+    this.setState({recommended: true});
+  }
+
+
+
+
 
   render() {
       return (
@@ -89,21 +105,16 @@ export default class CreateReview extends Component {
                         <div className="col s12 m6">
                         <p>Please select the categories that describe {this.state.proFirstName}</p>
                           <p>
-                            <input type="checkbox" className="filled-in" id="shows-up-on-time"/>
-                            <label htmlFor="filled-in-box">Shows up on time</label>
+                            <input type="checkbox" className="filled-in" id="onTime"  value={this.state.onTime} onChange={this.handleOnTime.bind(this)}/>
+                            <label htmlFor="onTime">Shows up on time</label>
                           </p>
-
                           <p>
-                            <input type="checkbox" className="filled-in" id="clean"/>
-                            <label htmlFor="filled-in-box">Clean</label>
+                            <input type="checkbox" className="filled-in" id="neatJob" value={this.state.neatJob} onChange={this.handleNeatJob.bind(this)} />
+                            <label htmlFor="neatJob">Neat Job</label>
                           </p>
                         <p>
-                          <input type="checkbox" className="filled-in" id="has-tools"/>
-                          <label htmlFor="filled-in-box">Has tools</label>
-                        </p>
-                        <p>
-                          <input type="checkbox" className="filled-in" id="recommended"/>
-                          <label htmlFor="filled-in-box">Recommended</label>
+                          <input type="checkbox" className="filled-in" id="recommend" value={this.state.recommend} onChange={this.handleRecommend.bind(this)}/>
+                          <label htmlFor="recommend">Recommended</label>
                         </p>
                         </div>
                     </div>
