@@ -72,7 +72,19 @@ export default class EmployeeCompletedComponent extends React.Component {
      if(!(isEmpty(this.props.review))) {
       return (
         <div>
-         <ARating/>
+
+         <div id="modal1" className="modal modal-fixed-footer">
+          <div className="modal-content">
+            <CreateReviewForPro
+            proId={this.props.proId}
+            conId={this.props.conId}
+            jobId={this.props.jobId}
+            />
+          </div>
+          <div className="modal-footer">
+            <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+          </div>
+         </div>
         </div>
       )
     }
@@ -163,6 +175,8 @@ export default class EmployeeCompletedComponent extends React.Component {
                 Rating and Reviews
                 {this.renderReview()}
               </div>
+              <ARating/>
+
             </div>
           </div>
 

@@ -25,24 +25,16 @@ class ARatingPage extends React.Component {
         return review;
         console.log(review)
       })
-
-      var avg =0 ;
-      console.log("length of array: "+avgRate.length)
+      var sum=0;
       for (i=0; i < avgRate.length; i++) {
-        avg += avgRate[i].rating
-        //console.log(avgRate[i])
-        console.log("sum: "+avg)
-        console.log("rating: "+avgRate[i].rating)
-        console.log("o")
+        sum += avgRate[i].rating
       }
-      console.log(avgRate.length)
-      avg = avg/avgRate.length;
-      console.log(avg)
+      let avg = sum/avgRate.length;
       return(
         <div className="container">
           <br/>
               <Rating
-                rating={4.1}
+                rating={avg}
                 starSize={20}
                 textSize={15}
               />

@@ -59,7 +59,7 @@ export default ARating = withTracker( params  => {
   let handle = Meteor.subscribe('reviews-for-you');
   loading = handle.ready();
   reviews = Review.find({}).fetch();
-  console.log("################1");
+  console.log("call to find reviews for you - contractor");
   console.log(reviews);
 
 
