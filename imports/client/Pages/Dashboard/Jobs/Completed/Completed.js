@@ -2,7 +2,7 @@ import React , { Component } from 'react';
 import { Roles } from 'meteor/alanning:roles';
 // import {PROFESSIONAL} from '../../../../api/Schemas/employeeSchema';
 // import {CONTRACTOR} from '../../../../api/Schemas/employerSchema';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import ConCompleted from './ConCompleted';
 import ProCompleted from './ProCompleted';
@@ -27,8 +27,8 @@ render() {
  }
 }
 
-export default Completed = createContainer((props) => {
+export default Completed = withTracker(props => {
   return {
     user: Meteor.user()
   };
-}, CompletedJobs);
+})(CompletedJobs);

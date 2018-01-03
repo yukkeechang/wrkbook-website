@@ -10,24 +10,18 @@ function isEmpty(obj) {
 }
 // Job = new Mongo.Collection('jobs');
 
-class EmployeeJobPosts extends React.Component{
+class EmployeeJob extends React.Component{
   constructor(props){
     super(props);
   }
   render(){
 
     if(!isEmpty(this.props.jobPost)){
-      let notifications = this.props.notifications;
-      notifications.map(function(notify,index){
-        Meteor.call('updateNotification',notify._id,(err)=>{
-          console.log(err);
-        });
-      });
-
+      let jobz = this.props.jobPost;
       return(
         <div>
-          { this.props.jobPost.map((job,index)=>{
-            console.log(job._id);
+          <br/>
+          {jobz.map(function(job, index){
             return(
               <EmpJobPostComponent
                 key={job._id}
@@ -45,7 +39,7 @@ class EmployeeJobPosts extends React.Component{
         </div>
       );
     }
-    else if(!this.props.loading && !this.props.notifiloading){
+    else if(!this.props.loading){
       return (
         <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
           <MSpinner />
@@ -59,27 +53,20 @@ class EmployeeJobPosts extends React.Component{
     }
   }
 }
-export default EmpJobPosts = withTracker( params  => {
+export default Applied = withTracker( params  => {
   let user = Meteor.user();
   let jobPost =[];
-  let notifications = [];
   let loading = false;
-  let notifiloading = false;
+
   if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('job-post',user.profile.employeeData);
-    let notificationHandle = Meteor.subscribe('notifications-for-user');
-
+    let handle = Meteor.subscribe('job-post-applied');
     loading = handle.ready();
-    notifiloading = notificationHandle.ready();
-
-    jobPost = Job.find({},{sort: {generalStart: 1}}).fetch();
-    notifications = Notification.find({typeNotifi:'MATCH'}).fetch();
+    jobPost = Job.find({}).fetch();
 
   }
   return{
     user: user,
     loading:loading,
-    jobPost:jobPost,
-    notifications:notifications
+    jobPost:jobPost
   };
-})(EmployeeJobPosts);
+})(EmployeeJob);

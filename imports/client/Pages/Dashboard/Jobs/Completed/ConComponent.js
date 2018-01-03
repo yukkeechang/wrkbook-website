@@ -1,5 +1,5 @@
 import React from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+// import { createContainer } from 'meteor/react-meteor-data';
 import ARating from '../../Profile/ProProfile/Components/ARating';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
 import EmployeeComponentOuter from './EmployeeComponentOuter';
@@ -7,7 +7,7 @@ import EmployeeComponentOuter from './EmployeeComponentOuter';
 //This file will render job details (title of the job). Any details on the employee for the job is rendered in EmployeeComponentOutter
 //and EmployeeCompletedComponent
 
- class ConComponentPage extends React.Component {
+ export default class ConComponentPage extends React.Component {
   constructor(props) {
     super(props);
 

@@ -8,7 +8,7 @@ import Contact from './Components/Contact';
 import Cert from './Components/Certifications';
 import Payment from './Components/Payment';
 import Reviews from './Components/Reviews';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import {Link} from 'react-router-dom';
 import RefCard from '../../../Dashboard/References/RefCard';
 
@@ -276,11 +276,11 @@ export class ProProfilePage extends React.Component {
   }
 }
 
-export default ProProfile = createContainer((props) => {
+export default ProProfile = withTracker(props => {
   return {
     user: Meteor.user()
   };
-}, ProProfilePage);
+})(ProProfilePage);
 
 
 let styles = {

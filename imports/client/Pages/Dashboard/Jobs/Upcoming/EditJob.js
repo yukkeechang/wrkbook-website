@@ -77,8 +77,8 @@ export default class EditJob extends Component {
   }
   handleUpdate(e){
     let loc = this.refs.loc.getAddress();
+    console.log(loc.location);
     if(loc.valid){
-      this.setState({locErr: false});
       let professionals = this.state.titles.map((title, index)=>{
         return this.refs[title].value();
       });
@@ -144,20 +144,14 @@ export default class EditJob extends Component {
       job.requirements.osha.osha30 = this.state.osha30;
 
       let thingss =this.props.jobPost._id;
-      Meteor.call('validateJob', job, (err)=>{
+      Meteor.call('updateJob', thingss, job, (err)=>{
         if(err){
-          this.setState(err.reason);
-        }else{
-          Meteor.call('updateJob', thingss, job, (err)=>{
-            if(err){
-              console.log(err);
-              console.log(err.reason);
-              console.log('above two are update errors');
-            }
-            else{
-              console.log('no error');
-            }
-          });
+          console.log(err);
+          console.log(err.reason);
+          console.log('above two are update errors');
+        }
+        else{
+          console.log('no error');
         }
       });
     }

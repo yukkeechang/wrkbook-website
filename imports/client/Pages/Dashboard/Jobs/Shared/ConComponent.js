@@ -1,5 +1,5 @@
 import React from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import EmployeeComponentOuter from './EmployeeComponentOuter';
 
 //This file will render job details (title of the job). Any details on the employee for the job is rendered in EmployeeComponentOutter
@@ -80,12 +80,12 @@ import EmployeeComponentOuter from './EmployeeComponentOuter';
     )
   }
 }
-export default ConComponent = createContainer((props) => {
+export default ConComponent = withTracker(props => {
   let user = Meteor.user();
   return {
     user: user,
   };
-}, ConComponentPage);
+})(ConComponentPage);
 
 
 

@@ -13,7 +13,7 @@ Notification.attachSchema(NotificationSchema);
 Meteor.publish('notifications-for-user',function(){
   if(Roles.userIsInRole(this.userId,CONTRACTOR)||
   Roles.userIsInRole(this.userId,PROFESSIONAL)){
-    return Notification.find({toWhomst: this.userId});
+    return Notification.find({toWhomst: this.userId,seen:false});
   }else{
     this.stop();
     return;
@@ -28,14 +28,12 @@ Meteor.methods({
     check(newNotify,NotificationSchema);
     Notification.insert(newNotify);
   },
-  updateNotification(notifyId, seen){
+  updateNotification(notifyId){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(notifyId,String);
     let notification = Notification.findOne({_id: notifyId,toWhomst:this.userId});
     if(!(notification)) return;
-    if(seen){
-      notification.seen = seen;
-    }
+    notification.seen = true;
     Notification.update({_id:notifyId},{$set: notification});
   }
 });

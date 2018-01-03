@@ -1,5 +1,5 @@
 import React from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+// import { createContainer } from 'meteor/react-meteor-data';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
 

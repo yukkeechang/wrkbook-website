@@ -1,6 +1,6 @@
 import MSpinner from '../../../Shared/MSpinner';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import React, {Component} from 'react';
 import EditJob from './EditJob';
 class EditJOB extends Component{
@@ -22,7 +22,7 @@ class EditJOB extends Component{
 }
 
 
-export default EditJobs = createContainer((params) =>{
+export default EditJobs = withTracker(params =>{
   let handle = Meteor.subscribe('job-post-employer-edit',params.match.params.value);
   let ready = handle.ready();
   console.log(ready);
@@ -31,4 +31,4 @@ export default EditJobs = createContainer((params) =>{
     job: Job.find({}).fetch()[0]
 
   };
-},EditJOB);
+})(EditJOB);

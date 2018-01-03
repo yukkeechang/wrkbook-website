@@ -34,3 +34,13 @@ Table of Contents End
 -------------------------------------------------*/
 /* 1.2 - Gray Div
 -------------------------------------------------*/
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+#render-target{
+      height: 100vmin;
+      min-height: 100%;
+}
