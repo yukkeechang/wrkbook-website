@@ -127,9 +127,12 @@ export default class EmployeeCompletedComponent extends React.Component {
     // </div>
 
  render() {
-      // resStr = JSON.stringify(this.state.res)
-      // str = JSON.stringify(this.props.event);
-      // console.log(this.state.user.profile);
+       var hours = Math.abs(this.props.event.endAt.getTime() - this.props.event.startAt.getTime()) / 36e5;
+       var totalPay = hours * this.props.job.professionals[0].pay;
+       let endtime = this.props.event.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+       let starttime = this.props.event.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+       let enddate = this.props.event.endAt.getDate() + "/" + (this.props.event.endAt.getMonth() + 1) + "/" + this.props.event.endAt.getFullYear()
+       let startdate = this.props.event.startAt.getDate() + "/" + (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getFullYear()
        let image = "cfs/files/images/"+this.state.imgId
        if(('undefined' === typeof(this.state.user.profile))){
          return(
@@ -159,16 +162,16 @@ export default class EmployeeCompletedComponent extends React.Component {
                 <div style={{fontWeight:'bold'}}>
                   Details
                 </div>
-                <h6>Profession: why you undefined</h6>
-                <h6>Start: {this.props.event.startAt.toLocaleString()}</h6>
-                <h6>End: {this.props.event.endAt.toLocaleString()}</h6>
+                <h6>Profession: {this.state.jobType}</h6>
+                <h6>Start: {startdate + " at " + starttime}</h6>
+                <h6>End: {enddate + " at " + endtime}</h6>
               </div>
 
               <div className="col m4 hide-on-small-only">
                 <div style={{fontWeight:'bold'}}>
                   Pay
                 </div>
-                <h6>Pay: </h6>
+                <h6>Total Payment: ${totalPay}</h6>
               </div>
             </div>
 
@@ -185,8 +188,8 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
                 <div className="row">
                   <h6>Profession: cant acess some reason</h6>
-                  <h6>{this.props.event.startAt.toLocaleString()}</h6>
-                  <h6>{this.props.event.endAt.toLocaleString()}</h6>
+                  <h6>{startdate + " at " + starttime}</h6>
+                  <h6>{enddate + " at " + endtime}</h6>
                   <h6>Pay: </h6>
                 </div>
               </div>

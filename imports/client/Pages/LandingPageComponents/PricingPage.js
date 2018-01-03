@@ -1,20 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Button from '../Shared/Button';
+export default class  PricingPage extends React.Component{
+  constructor(props) {
+    super(props)
+  }
+  componentDidMount(){
+    console.log(this.props);
+  }
+  pro(){
+      window.localStorage.isPro = true;
+      this.props.history.push("/register");
+  }
+  con(){
 
-export default PricingPage = ()=> {
+      window.localStorage.isPro = false;
+      this.props.history.push("/register");
+  }
+  render(){
     return (
-        <div id="our-story">
-          <div className="container">
+
+        <div id="price" style={{paddingBottom:'10px',background: 'linear-gradient(#FFFFFF, #515151)'}} >
+
+          <div className="container" >
             <div className="card grey darken-3">
               <div className="card-content">
                 <div className="row hide-on-small-only">
-                  <div className="col s6">
-                    <h3 style={{color:'white'}}>Business</h3>
+                  <div   style={{borderRight:'1px solid #e0e0e0'}} className="col s6">
+                    <h3 style={{color:'white', textAlign:'center'}}>Business</h3>
                     <div className="card">
-                      <div className="card-content">
+                      <div className="card-content center-align">
                         <p className="flow-text genText">
                           <b>Sign Up Free</b><br/>
                         </p>
+                        <hr/>
                         <h6>
                           - Create a Profile<br/>
                           - Post job<br/>
@@ -23,13 +42,16 @@ export default PricingPage = ()=> {
                       </div>
                     </div>
                     <div style={{display:'flex', justifyContent:'center'}}>
-                      <a className="waves-effect waves-teal btn">Sign Up</a>
+
+                        <a onClick={this.con.bind(this)} className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+
                     </div>
                     <div className="card">
-                      <div className="card-content">
+                      <div className="card-content center-align">
                         <p className="flow-text genText">
                           <b>Early release fee</b><br/>
                         </p>
+                        <hr/>
                         <h6>
                           $100.00 monthly (Cancel anytime with ease)<br/>
                           - Create a profile<br/>
@@ -40,13 +62,15 @@ export default PricingPage = ()=> {
                       </div>
                     </div>
                   </div>
+
                   <div className="col s6">
-                    <h3 style={{color:'white'}}>Professionals</h3>
+                    <h3 style={{color:'white', textAlign:'center'}}>Professionals</h3>
                     <div className="card">
-                      <div className="card-content">
+                      <div className="card-content center-align">
                         <p className="flow-text genText">
                           <b>Always Free</b><br/>
                         </p>
+                        <hr/>
                         <h6>
                           - Create a profile/resume<br/>
                           - Get matched with jobs<br/>
@@ -55,18 +79,22 @@ export default PricingPage = ()=> {
                       </div>
                     </div>
                     <div style={{display:'flex', justifyContent:'center'}}>
-                      <a className="waves-effect waves-teal btn">Sign Up</a>
+
+                            <a  onClick={this.pro.bind(this)} className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+
                     </div>
                   </div>
                 </div>
+
                 <div className="col hide-on-med-and-up">
                   <div className="col s6">
-                    <h3 style={{color:'white'}}>Business</h3>
+                    <h3 style={{color:'white', textAlign:'center'}}>Business</h3>
                     <div className="card">
-                      <div className="card-content">
+                      <div className="card-content center-align">
                         <p className="flow-text genText">
                           <b>Sign Up Free</b><br/>
                         </p>
+                        <hr/>
                         <h6>
                           - Create a Profile<br/>
                           - Post job<br/>
@@ -75,13 +103,16 @@ export default PricingPage = ()=> {
                       </div>
                     </div>
                     <div style={{display:'flex', justifyContent:'center'}}>
-                      <a className="waves-effect waves-teal btn">Sign Up</a>
+
+                        <a  onClick={this.con.bind(this)} className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+
                     </div>
                     <div className="card">
-                      <div className="card-content">
+                      <div className="card-content center-align">
                         <p className="flow-text genText">
                           <b>Early release fee</b><br/>
                         </p>
+                        <hr/>
                         <h6>
                           $100.00 monthly (Cancel anytime with ease)<br/>
                           - Create a profile<br/>
@@ -92,13 +123,15 @@ export default PricingPage = ()=> {
                       </div>
                     </div>
                   </div>
+                  <div className="divider"> </div>
                   <div className="col s6">
-                    <h3 style={{color:'white'}}>Professionals</h3>
+                    <h3 style={{color:'white', textAlign:'center'}}>Professionals</h3>
                     <div className="card">
-                      <div className="card-content">
+                      <div className="card-content center-align">
                         <p className="flow-text genText">
                           <b>Always Free</b><br/>
                         </p>
+                        <hr/>
                         <h6>
                           - Create a profile/resume<br/>
                           - Get matched with jobs<br/>
@@ -107,7 +140,9 @@ export default PricingPage = ()=> {
                       </div>
                     </div>
                     <div style={{display:'flex', justifyContent:'center'}}>
-                      <a className="waves-effect waves-teal btn">Sign Up</a>
+
+                            <a onClick={this.pro.bind(this)} className="waves-effect waves-teal btn-flat teal">Sign Up</a>
+
                     </div>
                   </div>
                 </div>
@@ -116,4 +151,5 @@ export default PricingPage = ()=> {
           </div>
         </div>
     )
+  }
 }

@@ -11,6 +11,7 @@ import Dashboard from './Pages/Dashboard';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import Forgot from './Pages/Forgot';
+import Faq from './Pages/FaqPage';
 import ResetPassword from './Pages/ResetPassword';
 import MSpinner from './Pages/Shared/MSpinner';
 
@@ -43,6 +44,7 @@ class Application extends Component {
                         <Route exact path="/" component={LandingPage}/>
                         <Route exact path="/login" component={SignIn}/>
                         <Route exact path="/register" component={SignUp}/>
+                        <Route exact path="/questions" component={Faq} />
                         <Route exact path="/forgot" component={Forgot}/>
                         <Route exact path="/reset/:value" component={ResetPassword}/>
                         <Route path="*" component={LoggedOutNotFound}/>

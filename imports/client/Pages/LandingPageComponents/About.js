@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../Shared/Header';
 export default About = ()=> {
     return (
-        <div id="our-story">
+        <div id="our-story" style={{marginTop:'-13px'}}>
             <div className="container">
                 <div>
                     <h4 style={{fontStyle:'bold',fontSize:'40px'}} className="genText">Our Story</h4>

@@ -59,9 +59,10 @@ class ConComponentPage extends React.Component{
       value: e.target.value,
     });
   }
-
-  deleteJob(){
-   Meteor.call('removeJob', this.state.job._id)
+  handleMember(){
+  }
+  tooltip(){
+    $('.tooltipped').tooltip('remove');
   }
 
 
@@ -92,7 +93,18 @@ class ConComponentPage extends React.Component{
               <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
-          {this.sideButtons()}
+
+            <div className="col m2  s1">
+              <div className="row" style={{display:'none'}}>
+                <a className="waves-effect waves-light blue-grey  lighten-3 btn-flat tooltipped" data-position="right" data-tooltip="Manage Employees" onClick={this.handleMember.bind(this)}><i className="small material-icons left">people</i></a>
+              </div>
+              <div className="row">
+                <Link to={"/editjob/"+ this.state.job._id}>
+                  <a className="waves-effect waves-light teal lighten-3 btn-flat tooltipped"  data-position="right" data-tooltip="Edit Job Info" onClick={this.tooltip.bind(this)}><i className="small material-icons left">edit</i></a>
+                </Link>
+              </div>
+
+            </div>
           </div>
           <div className="row">
             <div className="col m8 s12">
@@ -116,7 +128,7 @@ class ConComponentPage extends React.Component{
                 <div className="col l6 m6 s12">
                   <p><b>Start time: </b>{this.state.startAt}</p>
                   <p><b>End time: </b>{this.state.endAt}</p>
-                  <p><b>Pay: </b>{this.props.jobinfo.professionals[this.state.value].pay}</p>
+                  <p><b>Pay: </b>${this.props.jobinfo.professionals[this.state.value].pay}/hr</p>
                   <p><b>Location: </b>{this.props.jobinfo.location.locationName}</p>
                 </div>
                 <div className="col l6 m6 s12">

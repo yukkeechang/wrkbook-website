@@ -73,7 +73,7 @@ export default class Base extends Component{
           <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
               <i style={{fontSize:'30px',padding: '17px 0 17px 10px'}}className="material-icons">menu</i>
           </div>
-              <Link to="/">
+              <Link to="/#" onClick={this.things.bind(this,"home")}>
                   <div className="col m4 hide-on-small-only">
                       <div style={{height: '54px',position:'relative',top:'5px', paddingLeft:'50px'}}>
                           <WrkBookIcon/>
@@ -84,10 +84,10 @@ export default class Base extends Component{
                       <img style={styles.logo} src="/images/circle-logo.svg"/>
                   </div>
               </Link>
-              <Link to="/price">
+              <Link to="/#" onClick={this.things.bind(this,"home")}>
                 <div  style={styles.links} className="col  m1 hide-on-small-only">Home</div>
               </Link>
-              <Link to="/price">
+              <Link to="/#price"  onClick={this.things.bind(this,"price")}>
                 <div  style={styles.links} className="col  m1 hide-on-small-only">Pricing</div>
               </Link>
               <Link  to="/questions">
