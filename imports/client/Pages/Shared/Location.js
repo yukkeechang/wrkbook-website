@@ -6,6 +6,7 @@ var componentForm = {
   street_number: 'short_name',
   route: 'long_name',
   locality: 'short_name',
+  // sublocality_level_1: 'short_name',
   administrative_area_level_1: 'short_name',
   country: 'long_name',
   postal_code: 'short_name'
@@ -70,15 +71,23 @@ export default class Location extends Component{
     $('#modal1').modal('open');
     Materialize.updateTextFields();
     });
-    for (var component in componentForm) {
+    for (let component in componentForm) {
       document.getElementById(component).value = '';
       document.getElementById(component).disabled = false;
     }
-    for (var i = 0; i < place.address_components.length; i++) {
-      var addressType = place.address_components[i].types[0];
-      if (componentForm[addressType]) {
-        var val = place.address_components[i][componentForm[addressType]];
-        document.getElementById(addressType).value = val;
+    for (let i = 0; i < place.address_components.length; i++) {
+      let addressType = place.address_components[i].types[0];
+      if (componentForm[addressType] || addressType === 'sublocality_level_1') {
+        if (addressType === 'sublocality_level_1') {
+          let val = place.address_components[i]['short_name'];
+
+          document.getElementById('locality').value = val;
+        }else{
+          let val = place.address_components[i][componentForm[addressType]];
+  
+          document.getElementById(addressType).value = val;
+        }
+
       }
     }
 
@@ -212,9 +221,17 @@ export default class Location extends Component{
 
         for (var i = 0; i < place.address_components.length; i++) {
           var addressType = place.address_components[i].types[0];
-          if (componentForm[addressType]) {
-            var val = place.address_components[i][componentForm[addressType]];
-            document.getElementById(addressType).value = val;
+          if (componentForm[addressType] || addressType === 'sublocality_level_1') {
+            if (addressType === 'sublocality_level_1') {
+              let val = place.address_components[i]['short_name'];
+
+              document.getElementById('locality').value = val;
+            }else{
+              let val = place.address_components[i][componentForm[addressType]];
+
+              document.getElementById(addressType).value = val;
+            }
+
           }
         }
         $(document).ready(function() {
@@ -340,8 +357,9 @@ export default class Location extends Component{
 
            </div>
            <div className="modal-footer">
-               <a className="waves-effect waves-light btn red lighten-2 col s12" onClick={this.checkAddress.bind(this)}>Verify Address</a>
-
+              <div className="col s12">
+                  <a style={{width:'100%'}} className="waves-effect waves-light btn red lighten-2" onClick={this.checkAddress.bind(this)}>Verify Address</a>
+              </div>
            </div>
          </div>
 

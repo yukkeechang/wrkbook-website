@@ -63,9 +63,9 @@ export default class Forgot extends Component{
 
               </div>
             </div>
-            <div id="footer">
-              <Footer />
-            </div>
+
+              <Footer/>
+            
         </div>
     );
   }
