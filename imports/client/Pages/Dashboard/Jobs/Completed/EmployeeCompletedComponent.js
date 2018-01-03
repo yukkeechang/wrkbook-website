@@ -73,18 +73,7 @@ export default class EmployeeCompletedComponent extends React.Component {
       return (
         <div>
 
-         <div id="modal1" className="modal modal-fixed-footer">
-          <div className="modal-content">
-            <CreateReviewForPro
-            proId={this.props.proId}
-            conId={this.props.conId}
-            jobId={this.props.jobId}
-            />
-          </div>
-          <div className="modal-footer">
-            <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-          </div>
-         </div>
+
         </div>
       )
     }
@@ -134,14 +123,6 @@ export default class EmployeeCompletedComponent extends React.Component {
     // </div>
 
  render() {
-      resStr = JSON.stringify(this.state.res)
-      //console.log("resStr: "+resStr)
-      str = JSON.stringify(this.props.event);
-      //console.log(str)
-      //console.log(this.props.job._id)
-      // console.log(this.props);
-      // console.log("event: "+str)
-      // console.log("job id: "+this.props.job._id)
        let image = "cfs/files/images/"+this.state.imgId
       return (
         <div>
@@ -156,7 +137,6 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
                 <div className="col m8 center-align">
                   <h5>{this.state.userName} {this.state.userLastName}</h5>
-                  <ARating/>
                 </div>
 
               </div>
@@ -175,8 +155,6 @@ export default class EmployeeCompletedComponent extends React.Component {
                 Rating and Reviews
                 {this.renderReview()}
               </div>
-              <ARating/>
-
             </div>
           </div>
 
@@ -196,8 +174,7 @@ export default class EmployeeCompletedComponent extends React.Component {
                 <h6>{this.props.event.endAt.toLocaleString()}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
                 <h6>Pay: </h6>
-                <ARating/>
-                <h6>The rating i gave to the company is</h6>
+
               </div>
             </div>
           </div>
