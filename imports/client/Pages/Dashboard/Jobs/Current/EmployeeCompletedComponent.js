@@ -3,6 +3,8 @@ import MSpinner from '../../../Shared/MSpinner';
 import { createContainer } from 'meteor/react-meteor-data';
 import ARating from '../../Profile/ProProfile/Components/ARating';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
+import UserIcon from '../../../Shared/UserIcon';
+import Avatar from '../../../Shared/Avatar';
 import ReactDOM from 'react-dom';
 
 function isEmpty(obj) {
@@ -149,7 +151,7 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
                 <div className="row">
                   <div className="col m4 center-align">
-                    <img src='/images/facebook.png' />
+                    <Avatar imageId={this.state.imgId} size={70}/>
                   </div>
                   <div className="col m8 center-align">
                     <h5>{this.state.proName} {this.state.proLastName}</h5>
@@ -179,7 +181,7 @@ export default class EmployeeCompletedComponent extends React.Component {
               <div className="col s12">
                 <div className="row">
                   <div className="col s4 center-align">
-                    <img src='/images/facebook.png' width='50px' height='50px'/>
+                    <Avatar imageId={this.state.imgId} size={50}/>
                   </div>
                   <div className="col s8 center-align">
                     <h5>{this.state.proName}  {this.state.proLastName}</h5>
@@ -187,10 +189,10 @@ export default class EmployeeCompletedComponent extends React.Component {
                   </div>
                 </div>
                 <div className="row">
-                  <h6>Profession: cant acess some reason</h6>
+                  <h6>Profession: {this.state.jobType}</h6>
                   <h6>{startdate + " at " + starttime}</h6>
                   <h6>{enddate + " at " + endtime}</h6>
-                  <h6>Pay: </h6>
+                  <h6>Total Payment: ${totalPay}</h6>
                 </div>
               </div>
             </div>
