@@ -1,7 +1,7 @@
 import React from 'react';
 import MSpinner from '../../../Shared/MSpinner';
 import { createContainer } from 'meteor/react-meteor-data';
-import ARating from '../../Profile/ProProfile/Components/ARating';
+import Rating from '../../Profile/Rating';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
 
@@ -153,7 +153,7 @@ export default class EmployeeCompletedComponent extends React.Component {
                   </div>
                   <div className="col m8 center-align">
                     <h5>{this.state.proName} {this.state.proLastName}</h5>
-                    <ARating/>
+                    <Rating/>
                   </div>
                 </div>
               </div>
@@ -183,7 +183,7 @@ export default class EmployeeCompletedComponent extends React.Component {
                   </div>
                   <div className="col s8 center-align">
                     <h5>{this.state.proName}  {this.state.proLastName}</h5>
-                    <ARating/>
+                    <Rating/>
                   </div>
                 </div>
                 <div className="row">

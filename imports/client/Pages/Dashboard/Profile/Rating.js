@@ -10,7 +10,7 @@ export default class Rating extends React.Component {
 
   render() {
     //---filledStars is the rating
-    let filledStars = 4;
+    let filledStars = this.props.rating;
     console.log("filled stars: "+filledStars);
     let unfilledStars = 5 - filledStars;
     console.log("unfilled: "+unfilledStars);

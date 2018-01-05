@@ -128,7 +128,7 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
                 <div className="col m8 center-align">
                   <h5>{this.state.userName} {this.state.userLastName}</h5>
-                  <ARating/>
+                  <Rating/>
                 </div>
 
               </div>
@@ -158,7 +158,7 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
                 <div className="col s8 center-align">
                   <h5>{this.state.userName}  {this.state.userLastName}</h5>
-                  <ARating/>
+                  <Rating/>
                 </div>
               </div>
               <div className="row">
@@ -166,7 +166,7 @@ export default class EmployeeCompletedComponent extends React.Component {
                 <h6>{startdate + " at " + starttime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
                 <h6>Pay: </h6>
-                <ARating/>
+                <Rating/>
                 <h6>The rating i gave to the company is</h6>
               </div>
             </div>
