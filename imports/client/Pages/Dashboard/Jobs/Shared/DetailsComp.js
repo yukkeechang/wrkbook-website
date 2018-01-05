@@ -56,10 +56,10 @@ render(){
           <div style={{fontWeight:'bold'}}>
             Details
           </div>
-          <h6>{this.props.events.startAt.toLocaleString()}</h6>
-          <h6>{this.props.events.endAt.toLocaleString()}</h6>
+          <h6>{this.props.startdate + " " + this.props.starttime}</h6>
+          <h6>{this.props.enddate + " " + this.props.endtime}</h6>
           <h6>{this.props.events.responsibilities.text}</h6>
-          <h6>Pay</h6>
+          <h6>Total Pay: ${this.props.pay}</h6>
         </div>
       </div>
     )

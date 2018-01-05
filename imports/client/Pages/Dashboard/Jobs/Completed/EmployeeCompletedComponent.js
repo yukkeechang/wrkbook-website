@@ -1,5 +1,7 @@
 import React from 'react';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
+import UserIcon from '../../../Shared/UserIcon';
+import Avatar from '../../../Shared/Avatar';
 import ReactDOM from 'react-dom';
 import Rating from '../../Profile/Rating';
 
@@ -124,10 +126,10 @@ export default class EmployeeCompletedComponent extends React.Component {
               </div>
               <div className="row">
                 <div className="col m4 center-align">
-                  <img src='/images/facebook.png' />
+                  <Avatar imageId={this.state.imgId} size={70}/>
                 </div>
                 <div className="col m8 center-align">
-                  <h5>{this.state.userName} {this.state.userLastName}</h5>
+                  <h5>{this.state.proName} {this.state.proLastName}</h5>
                   <Rating/>
                 </div>
 
@@ -140,7 +142,7 @@ export default class EmployeeCompletedComponent extends React.Component {
               <h6>{startdate + " at " + starttime}</h6>
               <h6>{enddate + " at " + endtime}</h6>
               <h6>{this.props.event.responsibilities.text}</h6>
-              <h6>Pay: ${totalPay}/hr</h6>
+              <h6>Pay: ${totalPay}</h6>
             </div>
             <div className="col m4 hide-on-small-only">
               <div style={{fontWeight:'bold'}}>
@@ -154,10 +156,10 @@ export default class EmployeeCompletedComponent extends React.Component {
             <div className="col s12">
               <div className="row">
                 <div className="col s4 center-align">
-                  <img src='/images/facebook.png' width='50px' height='50px'/>
+                  <Avatar imageId={this.state.imgId} size={50}/>
                 </div>
                 <div className="col s8 center-align">
-                  <h5>{this.state.userName}  {this.state.userLastName}</h5>
+                  <h5>{this.state.proName}  {this.state.proLastName}</h5>
                   <Rating/>
                 </div>
               </div>
@@ -165,7 +167,7 @@ export default class EmployeeCompletedComponent extends React.Component {
                 <h6>{startdate + " at " + starttime}</h6>
                 <h6>{startdate + " at " + starttime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
-                <h6>Pay: </h6>
+                <h6>Pay: ${totalPay}</h6>
                 <Rating/>
                 <h6>The rating i gave to the company is</h6>
               </div>
