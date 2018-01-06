@@ -11,9 +11,9 @@ export default class Rating extends React.Component {
   render() {
     //---filledStars is the rating
     let filledStars = this.props.rating;
-    console.log("filled stars: "+filledStars);
+    //console.log("filled stars: "+filledStars);
     let unfilledStars = 5 - filledStars;
-    console.log("unfilled: "+unfilledStars);
+    //console.log("unfilled: "+unfilledStars);
     let ratingArr = [];
     let unfilledArr = [];
 
@@ -52,8 +52,8 @@ export default class Rating extends React.Component {
     if(leftOver > .9) {
       wholeUnfilledStar = unfilledStars;
     }
-    console.log("leftover: "+leftOver);
-    console.log("whole unfilled: "+wholeUnfilledStar);
+    //console.log("leftover: "+leftOver);
+    //console.log("whole unfilled: "+wholeUnfilledStar);
 
     //---Draw empty stars
     //---if rating is less than .25, give 0 stars
@@ -61,8 +61,8 @@ export default class Rating extends React.Component {
       if (i < 0.25) {
         break;
       }
-      console.log("push into array");
-      // Push empty star into array
+      //console.log("push into array");
+      //---Push empty star into array
       ratingArr.push(
         <i
           className="material-icons left"
@@ -73,7 +73,7 @@ export default class Rating extends React.Component {
         </i>
       );
     }
-    console.log("rating array size: "+ratingArr.length)
+    //console.log("rating array size: "+ratingArr.length)
     return (
 
       <div
