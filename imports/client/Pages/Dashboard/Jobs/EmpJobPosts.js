@@ -15,13 +15,19 @@ class EmployeeJobPosts extends React.Component{
     super(props);
   }
   render(){
-
+    console.log("Upcoming/EmpJobPost")
     if(!isEmpty(this.props.jobPost)){
-      let jobz = this.props.jobPost;
+      let notifications = this.props.notifications;
+      notifications.map(function(notify,index){
+        Meteor.call('updateNotification',notify._id,(err)=>{
+          console.log(err);
+        });
+      });
+
       return(
         <div>
-          <br/>
-          {jobz.map(function(job, index){
+          { this.props.jobPost.map((job,index)=>{
+            console.log(job._id);
             return(
               <EmpJobPostComponent
                 key={job._id}
@@ -39,7 +45,7 @@ class EmployeeJobPosts extends React.Component{
         </div>
       );
     }
-    else if(!this.props.loading){
+    else if(!this.props.loading && !this.props.notifiloading){
       return (
         <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
           <MSpinner />
@@ -48,7 +54,8 @@ class EmployeeJobPosts extends React.Component{
     }
     else{
       return(
-          <EmployeeNoJobs/>
+          <EmployeeNoJobs
+          message={"upcoming"}/>
       );
     }
   }
@@ -56,17 +63,24 @@ class EmployeeJobPosts extends React.Component{
 export default EmpJobPosts = withTracker( params  => {
   let user = Meteor.user();
   let jobPost =[];
+  let notifications = [];
   let loading = false;
-
+  let notifiloading = false;
   if(!('undefined' === typeof(user))){
     let handle = Meteor.subscribe('job-post',user.profile.employeeData);
+    let notificationHandle = Meteor.subscribe('notifications-for-user');
+
     loading = handle.ready();
-    jobPost = Job.find({}).fetch();
+    notifiloading = notificationHandle.ready();
+
+    jobPost = Job.find({},{sort: {generalStart: 1}}).fetch();
+    notifications = Notification.find({typeNotifi:'MATCH'}).fetch();
 
   }
   return{
     user: user,
     loading:loading,
-    jobPost:jobPost
+    jobPost:jobPost,
+    notifications:notifications
   };
 })(EmployeeJobPosts);

@@ -5,6 +5,8 @@ import MSpinner from '../../../Shared/MSpinner';
 import ProComponent from '../Shared/ProComponent';
 import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
 
+//---This page renders UPCOMING jobs for PROFESSIONALS
+
 function isEmpty(obj) {
     for (var x in obj) { return false; }
     return true;
@@ -27,6 +29,12 @@ render() {
   }
 
   else if(!(isEmpty(jobz))) {
+    let notifications = this.props.notifications;
+    notifications.map(function(notify,index){
+      Meteor.call('updateNotification',notify._id,(err)=>{
+        console.log(err);
+      });
+    });
     return (
       <div>
       <h3 className="center-align">Upcoming Jobs</h3>
@@ -52,7 +60,8 @@ render() {
   }
   else {
     return (
-        <EmployeeNoJobs/>
+        <EmployeeNoJobs
+        message={"upcoming"}/>
       )
     }
   }
@@ -62,18 +71,24 @@ render() {
 
 export default ProUpcoming = withTracker(props => {
   let user = Meteor.user();
-  let jobPost=[]
-  let loading = false
+  let jobPost=[];
+  let notifications = [];
+  let loading = false;
+  let notifiloading = false;
   if(!('undefined' === typeof(user))){
     let handle = Meteor.subscribe('upcoming-job-pro');
+    let notificationHandle = Meteor.subscribe('notifications-for-user');
     loading = handle.ready();
+    notifiloading = notificationHandle.ready();
+
+    notifications = Notification.find({typeNotifi:'HIRED'}).fetch();
     jobPost = Job.find({}).fetch();
-    console.log(jobPost)
   }
   return {
     user: user,
     loading: loading,
-    jobPost: jobPost
+    jobPost: jobPost,
+    notifications:notifications
   };
 })(ProUpcomingJobsPage);
 
