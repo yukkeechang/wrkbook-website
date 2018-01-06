@@ -55,7 +55,8 @@ class ContractorJobPosts extends React.Component{
     else{
       return(
         <div>
-        <EmployerNoUpcomingJobs/>
+        <EmployerNoUpcomingJobs
+        message={"upcoming"}/>
         </div>
       );
     }

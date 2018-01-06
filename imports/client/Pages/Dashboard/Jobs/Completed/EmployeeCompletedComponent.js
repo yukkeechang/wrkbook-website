@@ -1,15 +1,18 @@
 import React from 'react';
-// import { createContainer } from 'meteor/react-meteor-data';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
+import UserIcon from '../../../Shared/UserIcon';
+import Avatar from '../../../Shared/Avatar';
 import ReactDOM from 'react-dom';
+import Rating from '../../Profile/Rating';
+
+//-----------Details of completed jobs page for CONTRACTOR
 
 function isEmpty(obj) {
   for(var x in obj){return false;}
   return true;
 }
-//Rendered in ConComponent
 
-//Can't set res aas a state, not sure why
+
 export default class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
    super(props);
@@ -59,21 +62,23 @@ export default class EmployeeCompletedComponent extends React.Component {
      });
    }
  }
- writeReview() {
-   //review modal
- }
+
  openModal(){
    $(document).ready(()=> {
      $('#modal1').modal('open');
    });
    //console.log();
  }
+
+ //-----------Renders review or review button for CONTRACTOR to rate PROFESSIONAL
  renderReview() {
      if(!(isEmpty(this.props.review))) {
+       let rating = this.props.review.rating
       return (
         <div>
-
-
+          <Rating
+          rating = {rating}
+          />
         </div>
       )
     }
@@ -85,7 +90,6 @@ export default class EmployeeCompletedComponent extends React.Component {
               Rate and Review
           </div>
         </button>
-
          <div id="modal1" className="modal modal-fixed-footer">
           <div className="modal-content">
             <CreateReviewForPro
@@ -104,25 +108,14 @@ export default class EmployeeCompletedComponent extends React.Component {
       }
     }
 
-    // <div>
-    //    <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
-    //      <div className="white-text">
-    //          Rate and Review
-    //      </div>
-    //    </button>
-    //
-    //     <div id="modal1" className="modal modal-fixed-footer">
-    //      <div className="modal-content">
-    //        <CreateReviewForPro/>
-    //      </div>
-    //      <div className="modal-footer">
-    //        <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    //      </div>
-    //     </div>
-    //
-    // </div>
 
  render() {
+   var hours = Math.abs(this.props.event.endAt.getTime() - this.props.event.startAt.getTime()) / 36e5;
+   var totalPay = hours * this.props.job.professionals[0].pay;
+   let endtime = this.props.event.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+   let starttime = this.props.event.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+   let enddate = this.props.event.endAt.getDate() + "/" + (this.props.event.endAt.getMonth() + 1) + "/" + this.props.event.endAt.getFullYear()
+   let startdate = this.props.event.startAt.getDate() + "/" + (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getFullYear()
        let image = "cfs/files/images/"+this.state.imgId
       return (
         <div>
@@ -133,10 +126,11 @@ export default class EmployeeCompletedComponent extends React.Component {
               </div>
               <div className="row">
                 <div className="col m4 center-align">
-                  <img src='/images/facebook.png' />
+                  <Avatar imageId={this.state.imgId} size={70}/>
                 </div>
                 <div className="col m8 center-align">
-                  <h5>{this.state.userName} {this.state.userLastName}</h5>
+                  <h5>{this.state.proName} {this.state.proLastName}</h5>
+                  <Rating/>
                 </div>
 
               </div>
@@ -145,10 +139,10 @@ export default class EmployeeCompletedComponent extends React.Component {
               <div style={{fontWeight:'bold'}}>
                 Details
               </div>
-              <h6>{this.props.event.startAt.toLocaleString()}</h6>
-              <h6>{this.props.event.endAt.toLocaleString()}</h6>
+              <h6>{startdate + " at " + starttime}</h6>
+              <h6>{enddate + " at " + endtime}</h6>
               <h6>{this.props.event.responsibilities.text}</h6>
-              <h6>Pay</h6>
+              <h6>Pay: ${totalPay}</h6>
             </div>
             <div className="col m4 hide-on-small-only">
               <div style={{fontWeight:'bold'}}>
@@ -162,18 +156,21 @@ export default class EmployeeCompletedComponent extends React.Component {
             <div className="col s12">
               <div className="row">
                 <div className="col s4 center-align">
-                  <img src='/images/facebook.png' width='50px' height='50px'/>
+                  <Avatar imageId={this.state.imgId} size={50}/>
                 </div>
                 <div className="col s8 center-align">
-                  <h5>{this.state.userName}  {this.state.userLastName}</h5>
-                  <ARating/>
+                  <h5>{this.state.proName}  {this.state.proLastName}</h5>
+                  <Rating/>
                 </div>
               </div>
               <div className="row">
-                <h6>{this.props.event.startAt.toLocaleString()}</h6>
-                <h6>{this.props.event.endAt.toLocaleString()}</h6>
+                <h6>{startdate + " at " + starttime}</h6>
+                <h6>{startdate + " at " + starttime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
-                <h6>Pay: </h6>
+
+                <h6>Pay: ${totalPay}</h6>
+                <Rating/>
+
 
               </div>
             </div>
@@ -182,46 +179,3 @@ export default class EmployeeCompletedComponent extends React.Component {
       )
     }
  }
-
- // export default  createContainer(props => {
- //   let event=[];
- //   let review=[];
- //   let loading = false
- //   let loading2 = false
- //   let jobId = props.job._id
- //   let proId = props.id
- //   let conId = props.job.employerId
- //   console.log("job id: "+jobId+" proId: "+proId+" conId: "+conId)
- //   let handleReview =  Meteor.subscribe('review-for-pro-completed', jobId, proId, conId)
- //   let handle = Meteor.subscribe('completed-job-pro-event',jobId);
- //   loading = handle.ready();
- //   console.log("loading: "+loading);
- //   console.log("loading2: "+loading);
- //   event = Event.find({}).fetch();
- //   console.log("event: "+event)
- //   console.log("review: "+review)
- //
- //   return {
- //     loading: loading,
- //     event: event,
- //     review: review
- //   };
- // }, EmployeeCompletedComponent);
-
-
-//<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
-// <button className="waves-effect waves-teal teal btn-flat" onClick={this.writeReview.bind(this)}>
-//   <div className="white-text">
-//       Rate and Review
-//   </div>
-// </button>
-
-
-// <div id="creationModal" className="modal">
-//   <div className="modal-content">
-//     <h5 style={{color:'red'}}>To create more than one job post you must subscribe to our payment plan.</h5>
-//   </div>
-//   <div className="modal-footer">
-//     <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-//   </div>
-// </div>

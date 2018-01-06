@@ -59,25 +59,22 @@ class ConComponentPage extends React.Component{
       value: e.target.value,
     });
   }
-
-  deleteJob(){
-   Meteor.call('removeJob', this.state.job._id)
+  deleteModal(){
+    $('#deleteModal').modal('open');
   }
-
-
-  sideButtons() {
-    return (
-      <div className="col m2  s1">
-        <div className="row">
-          <Link to={"/editjob/"+ this.state.job._id}>
-            <a className="waves-effect waves-light teal lighten-3 btn-flat tooltipped"  data-position="right" data-tooltip="Edit Job Info"><i className="small material-icons left">edit</i></a>
-          </Link>
-        </div>
-        <div className="row">
-            <a className="waves-effect waves-light red lighten-3 btn-flat tooltipped"  data-position="right" data-tooltip="Delete Job" onClick={this.deleteJob.bind(this)}> <i className="small material-icons left">delete</i></a>
-        </div>
-      </div>
-    )
+  deleteJob(){
+    Meteor.call('removeJob', this.state.job._id, (err) => {
+      if(err){
+        console.log(err);
+      }
+      else{
+        $('#deleteModal').modal('close');
+        console.log('job delet');
+      }
+    });
+  }
+  tooltip(){
+    $('.tooltipped').tooltip('remove');
   }
 
 
@@ -92,7 +89,18 @@ class ConComponentPage extends React.Component{
               <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
-          {this.sideButtons()}
+
+            <div className="col m2  s1">
+              <div className="row right-align">
+                <a onClick={this.deleteModal.bind(this)} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" style={{height:'40px', width:'40px', borderRadius:'100%', textAlign:'center', fontSize:'30px', color:'red'}}><i className="material-icons">delete_forever</i></a>
+              </div>
+              <div className="row right-align">
+                <Link to={"/editjob/"+ this.state.job._id}>
+                  <a className="waves-effect waves-light teal lighten-3 btn-flat tooltipped"  data-position="right" data-tooltip="Edit Job Info" onClick={this.tooltip.bind(this)}><i className="small material-icons left">edit</i></a>
+                </Link>
+              </div>
+
+            </div>
           </div>
           <div className="row">
             <div className="col m8 s12">
@@ -116,7 +124,7 @@ class ConComponentPage extends React.Component{
                 <div className="col l6 m6 s12">
                   <p><b>Start time: </b>{this.state.startAt}</p>
                   <p><b>End time: </b>{this.state.endAt}</p>
-                  <p><b>Pay: </b>{this.props.jobinfo.professionals[this.state.value].pay}</p>
+                  <p><b>Pay: </b>${this.props.jobinfo.professionals[this.state.value].pay}/hr</p>
                   <p><b>Location: </b>{this.props.jobinfo.location.locationName}</p>
                 </div>
                 <div className="col l6 m6 s12">
@@ -206,6 +214,16 @@ class ConComponentPage extends React.Component{
             </div>
           </div>
 
+        </div>
+        <div id="deleteModal" className="modal">
+          <div className="modal-content">
+            <h4>Are you sure you want to delete this job? Once deleted you can not get this job back.</h4>
+          </div>
+          <div className="modal-footer">
+            <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.deleteJob.bind(this)}>
+              I am sure.
+            </button>
+          </div>
         </div>
       </div>
     );

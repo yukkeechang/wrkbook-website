@@ -9,15 +9,17 @@ export default class Rating extends React.Component {
   }
 
   render() {
-    // filledStars is the rating
-    const filledStars = Number(this.props.rating);
+    //---filledStars is the rating
+    let filledStars = this.props.rating;
+    console.log("filled stars: "+filledStars);
     let unfilledStars = 5 - filledStars;
-    //console.log("unfilled: "+unfilledStars);
+    console.log("unfilled: "+unfilledStars);
     let ratingArr = [];
+    let unfilledArr = [];
 
-    // Draw full and half stars
+    //---Draw full and half stars
     for (let i = filledStars; i > 0; i--) {
-      // If i is 0.5, push half star into array
+      //---If i is 0.5, push half star into array
       if (i <= 0.5) {
         ratingArr.push(
           <i
@@ -30,7 +32,7 @@ export default class Rating extends React.Component {
         );
         break;
       }
-      // Push full star into array
+      //---Push full star into array
       ratingArr.push(
         <i
           className="material-icons left"
@@ -41,20 +43,25 @@ export default class Rating extends React.Component {
         </i>
       );
     }
-    //Round down to whole number
+    //---Round down to whole number
     var wholeUnfilledStar = Math.floor(unfilledStars);
-    //Get the difference between actual rating and rounded down whole number rating
+
+    //---Get the difference between actual rating and rounded down whole number rating
     let leftOver = unfilledStars - wholeUnfilledStar;
-    //If it's almost at 1, include another full star. ie: 3.9 should be 4 stars
+    //---If it's almost at 1, include another full star. ie: 3.9 should be 4 stars
     if(leftOver > .9) {
       wholeUnfilledStar = unfilledStars;
     }
-    // Draw empty stars
-    //if rating is less than .25, give 0 stars
+    console.log("leftover: "+leftOver);
+    console.log("whole unfilled: "+wholeUnfilledStar);
+
+    //---Draw empty stars
+    //---if rating is less than .25, give 0 stars
     for (let i = wholeUnfilledStar; i > 0; i--) {
       if (i < 0.25) {
         break;
       }
+      console.log("push into array");
       // Push empty star into array
       ratingArr.push(
         <i
@@ -66,12 +73,14 @@ export default class Rating extends React.Component {
         </i>
       );
     }
-
+    console.log("rating array size: "+ratingArr.length)
     return (
+
       <div
         style={{fontSize: this.props.textSize }}
       >
         {ratingArr}
+
         <p style={{ display: "inline", margin: 0, padding: 0, marginLeft: 5 }}>{this.props.rating}</p>
       </div>
 

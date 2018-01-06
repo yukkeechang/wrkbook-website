@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
 
 class EmployeeComponentOut extends Component{
-
+  
     render(){
 
       return(

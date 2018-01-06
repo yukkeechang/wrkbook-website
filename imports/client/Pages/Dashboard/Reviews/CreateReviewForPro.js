@@ -41,14 +41,15 @@ export default class CreateReview extends Component {
   }
 
   handleSubmit(event) {
-  //  event.preventDefault();
+    console.log("handle submit")
+    event.preventDefault();
     let review=ReviewSchema.clean({});
     review.reviewerId = this.props.conId;
     review.revieweeId = this.props.proId;
     review.jobId = this.props.jobId;
     review.conReview.onTime = this.state.onTime;
     review.conReview.neatJob = this.state.neatJob;
-    review.conReview.wouldRecommend = this.state.recommended;
+    review.conReview.wouldRecommend = this.state.recommend;
     review.companyName.text = 'placeholder text' ;
     review.rating = this.state.rating;
     review.review.text = this.refs.reviewText.value();
@@ -81,7 +82,7 @@ export default class CreateReview extends Component {
     this.setState({neatJob: true});
   }
   handleRecommend() {
-    this.setState({recommended: true});
+    this.setState({recommend: true});
   }
 
 
@@ -89,6 +90,7 @@ export default class CreateReview extends Component {
 
 
   render() {
+    console.log("create review")
       return (
         <div className="card">
             <div className="card-content">

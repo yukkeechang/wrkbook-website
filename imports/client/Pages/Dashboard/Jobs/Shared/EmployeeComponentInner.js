@@ -131,6 +131,12 @@ componentWillMount(){
       }
     }
  render() {
+   var hours = Math.abs(this.props.event.endAt.getTime() - this.props.event.startAt.getTime()) / 36e5;
+   var totalPay = hours * this.props.job.professionals[0].pay;
+   let endtime = this.props.event.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+   let starttime = this.props.event.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+   let enddate = this.props.event.endAt.getDate() + "/" + (this.props.event.endAt.getMonth() + 1) + "/" + this.props.event.endAt.getFullYear()
+   let startdate = this.props.event.startAt.getDate() + "/" + (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getFullYear()
       return (
         <div>
           <div className="row center-align hide-on-small-only">
@@ -151,6 +157,11 @@ componentWillMount(){
             <div className="col m4 hide-on-small-only">
               <DetailsComp
                 events={this.props.event}
+                pay={totalPay}
+                endtime={endtime}
+                enddate={enddate}
+                starttime={starttime}
+                startdate={startdate}
               />
             </div>
             <div className="col m4 hide-on-small-only">
@@ -174,15 +185,15 @@ componentWillMount(){
                 </div>
                 <div className="col s7 pull-s1 center-align">
                   <h5>{this.state.userName}  {this.state.userLastName}</h5>
-                  <ARating/>
+                  <Rating/>
                 </div>
               </div>
               <div className="row">
-                <h6>{this.props.event.startAt.toLocaleString()}</h6>
-                <h6>{this.props.event.endAt.toLocaleString()}</h6>
+                <h6>{startdate + " " + starttime}</h6>
+                <h6>{enddate + " " + endtime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
-                <h6>Pay: </h6>
-                <ARating/>
+                <h6>Total Pay: {totalPay}</h6>
+                <Rating/>
                 <h6>The rating i gave to the company is</h6>
               </div>
             </div>

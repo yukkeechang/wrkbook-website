@@ -5,6 +5,8 @@ import MSpinner from '../../../Shared/MSpinner';
 import ProComponent from '../Shared/ProComponent';
 import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
 
+//---This page renders UPCOMING jobs for PROFESSIONALS
+
 function isEmpty(obj) {
     for (var x in obj) { return false; }
     return true;
@@ -58,7 +60,8 @@ render() {
   }
   else {
     return (
-        <EmployeeNoJobs/>
+        <EmployeeNoJobs
+        message={"upcoming"}/>
       )
     }
   }
