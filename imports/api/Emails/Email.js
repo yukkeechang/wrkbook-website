@@ -43,13 +43,43 @@ Meteor.methods({
   passwordChange(){
     if(!this.userId) throw new Meteor.Error('403',NOTAUTH);
 
-    let userMyGuy = Meteor.findOne({_id:this.userId},{fields: { emails: 1, profile: 1,roles: 1 } });
+    let userMyGuy = Meteor.users.findOne({_id:this.userId},{fields: { emails: 1, profile: 1,roles: 1 } });
 
     Email.send({
       to: userMyGuy.emails[0].address,
       from: "no-reply@wrkbook.com",
-      subject: "Your Password Has Been Change BOIIII",
-      text: "Your password has been changed. If you didn't do this just please contact us."
+      subject: "Your Password Has Been Changed",
+      text: "Your password has been changed. If you didn't do this, please disregard this email."
+    });
+  },
+
+  removeJobPro(totalPeople,jobLocation) {
+    console.log("removing job email")
+    for (let i = 0; i < totalPeople.length; i++){
+      //send email out for everyone in the array
+      console.log("function email for removing job")
+      Email.send({
+        to: totalPeople.emails[0].address,
+        from: "no-reply@wrkbook.com",
+        subject: `You have been removed from a matched job at ${jobLocation}`,
+        text: "The contractor who created this job that you were matched to has deleted the job post."
+      });
+    }
+    Email.send({
+      to: conId.emails[0].address,
+      from: "no-reply@wrkbook.com",
+      subject: `You have deleted a job at  ${jobLocation}`,
+      text: "bruh"
+    });
+  },
+
+  removeJobCon(conId, jobLocation) {
+    let conUser = Meteor.users.findOne({_id:conId},{fields: { emails: 1} });
+    Email.send({
+      to: conUser.emails[0].address,
+      from: "no-reply@wrkbook.com",
+      subject: `You have deleted a job at  ${jobLocation}`,
+      text: "All matched/hired employees are notified that this job has been deleted."
     });
   }
 })

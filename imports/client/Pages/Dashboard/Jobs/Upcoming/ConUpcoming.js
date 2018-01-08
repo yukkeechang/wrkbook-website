@@ -5,6 +5,8 @@ import MSpinner from '../../../Shared/MSpinner';
 import ConJobPostComponent from '../ConJobPostComponent';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
+//---This page renders UPCOMING jobs for CONTRACTORS
+
 function isEmpty(obj) {
   for (var x in obj) { return false; }
   return true;

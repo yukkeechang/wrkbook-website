@@ -1,8 +1,10 @@
 import React from 'react';
 import MSpinner from '../../../Shared/MSpinner';
 import { createContainer } from 'meteor/react-meteor-data';
-import ARating from '../../Profile/ProProfile/Components/ARating';
+import Rating from '../../Profile/Rating';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
+import UserIcon from '../../../Shared/UserIcon';
+import Avatar from '../../../Shared/Avatar';
 import ReactDOM from 'react-dom';
 
 function isEmpty(obj) {
@@ -127,9 +129,12 @@ export default class EmployeeCompletedComponent extends React.Component {
     // </div>
 
  render() {
-      // resStr = JSON.stringify(this.state.res)
-      // str = JSON.stringify(this.props.event);
-      // console.log(this.state.user.profile);
+       var hours = Math.abs(this.props.event.endAt.getTime() - this.props.event.startAt.getTime()) / 36e5;
+       var totalPay = hours * this.props.job.professionals[0].pay;
+       let endtime = this.props.event.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+       let starttime = this.props.event.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+       let enddate = this.props.event.endAt.getDate() + "/" + (this.props.event.endAt.getMonth() + 1) + "/" + this.props.event.endAt.getFullYear()
+       let startdate = this.props.event.startAt.getDate() + "/" + (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getFullYear()
        let image = "cfs/files/images/"+this.state.imgId
        if(('undefined' === typeof(this.state.user.profile))){
          return(
@@ -146,11 +151,11 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
                 <div className="row">
                   <div className="col m4 center-align">
-                    <img src='/images/facebook.png' />
+                    <Avatar imageId={this.state.imgId} size={70}/>
                   </div>
                   <div className="col m8 center-align">
                     <h5>{this.state.proName} {this.state.proLastName}</h5>
-                    <ARating/>
+                    <Rating/>
                   </div>
                 </div>
               </div>
@@ -159,16 +164,16 @@ export default class EmployeeCompletedComponent extends React.Component {
                 <div style={{fontWeight:'bold'}}>
                   Details
                 </div>
-                <h6>Profession: why you undefined</h6>
-                <h6>Start: {this.props.event.startAt.toLocaleString()}</h6>
-                <h6>End: {this.props.event.endAt.toLocaleString()}</h6>
+                <h6>Profession: {this.state.jobType}</h6>
+                <h6>Start: {startdate + " at " + starttime}</h6>
+                <h6>End: {enddate + " at " + endtime}</h6>
               </div>
 
               <div className="col m4 hide-on-small-only">
                 <div style={{fontWeight:'bold'}}>
                   Pay
                 </div>
-                <h6>Pay: </h6>
+                <h6>Total Payment: ${totalPay}</h6>
               </div>
             </div>
 
@@ -176,18 +181,18 @@ export default class EmployeeCompletedComponent extends React.Component {
               <div className="col s12">
                 <div className="row">
                   <div className="col s4 center-align">
-                    <img src='/images/facebook.png' width='50px' height='50px'/>
+                    <Avatar imageId={this.state.imgId} size={50}/>
                   </div>
                   <div className="col s8 center-align">
                     <h5>{this.state.proName}  {this.state.proLastName}</h5>
-                    <ARating/>
+                    <Rating/>
                   </div>
                 </div>
                 <div className="row">
-                  <h6>Profession: cant acess some reason</h6>
-                  <h6>{this.props.event.startAt.toLocaleString()}</h6>
-                  <h6>{this.props.event.endAt.toLocaleString()}</h6>
-                  <h6>Pay: </h6>
+                  <h6>Profession: {this.state.jobType}</h6>
+                  <h6>{startdate + " at " + starttime}</h6>
+                  <h6>{enddate + " at " + endtime}</h6>
+                  <h6>Total Payment: ${totalPay}</h6>
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import ARating from '../../Profile/ProProfile/Components/ARating';
+import Rating from '../../Profile/Rating';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
@@ -75,7 +75,7 @@ class EmployeeCom extends React.Component{
                 <div className="col s12">
                   <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
                   <p>{this.props.profile.employeeData.jobTitle + " "}</p>
-                  <ARating/>
+                  <Rating/>
                   <p><Link to={"user/" + this.props.employeeId}>
                     View profile
                   </Link></p>

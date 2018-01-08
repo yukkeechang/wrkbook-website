@@ -52,7 +52,8 @@ render() {
   }
   else {
     return (
-      <EmployeeNoJobs/>
+      <EmployeeNoJobs
+      message={"completed"}/>
       )
     }
   }
@@ -68,7 +69,7 @@ export default ProCompleted = withTracker(props => {
     let handle = Meteor.subscribe('completed-job-pro');
     loading = handle.ready();
     jobPost = Job.find({isOpen:false}).fetch();
-    console.log(jobPost)
+    console.log("JOB POST: "+jobPost)
   }
   return {
     user: user,
