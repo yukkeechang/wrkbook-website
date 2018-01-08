@@ -189,7 +189,7 @@ export class ProProfilePage extends React.Component {
     let image = "cfs/files/images/" + this.props.user.profile.employeeData.image
     console.log(this.props.user.profile.employeeData.image)
     console.log("about displayed: "+this.state.aboutDisplayed)
-    console.log("about displayed: "+this.state.aboutButtonActive)
+    console.log("about displayed button: "+this.state.aboutButtonActive)
     return (
       <div className="container">
         <div className="row gray-div">
