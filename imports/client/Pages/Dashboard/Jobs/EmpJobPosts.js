@@ -15,7 +15,6 @@ class EmployeeJobPosts extends React.Component{
     super(props);
   }
   render(){
-    console.log("Upcoming/EmpJobPost")
     if(!isEmpty(this.props.jobPost)){
       let notifications = this.props.notifications;
       notifications.map(function(notify,index){

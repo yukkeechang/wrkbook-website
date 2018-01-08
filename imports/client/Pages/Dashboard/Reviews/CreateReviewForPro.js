@@ -16,8 +16,11 @@ export default class CreateReview extends Component {
           proLastName: '',
           onTime: false,
           neatJob: false,
-          recommend: false
+          recommend: false,
+          companyName: ' ',
+          conObj: {}
       }
+
 
       Meteor.call('findUserbyId', this.props.proId, function(err, res){
         if (err) {
@@ -29,6 +32,18 @@ export default class CreateReview extends Component {
           })
         }
       }.bind(this));
+
+      //get job object
+      //stringify
+      //get company name
+      Meteor.call('findUserbyId', this.props.conId, function(err,res) {
+        if(err) {
+          console.log("error finding a con user object in CreateReviewForPro: "+err)
+        } else {
+          this.setState({companyName: res.profile.employerData.companyName.text, conObj: res })
+        }
+      }.bind(this));
+
 
   }
 
@@ -42,6 +57,7 @@ export default class CreateReview extends Component {
 
   handleSubmit(event) {
     console.log("handle submit")
+    console.log(this.state.companyName)
     event.preventDefault();
     let review=ReviewSchema.clean({});
     review.reviewerId = this.props.conId;
@@ -50,7 +66,7 @@ export default class CreateReview extends Component {
     review.conReview.onTime = this.state.onTime;
     review.conReview.neatJob = this.state.neatJob;
     review.conReview.wouldRecommend = this.state.recommend;
-    review.companyName.text = 'placeholder text' ;
+    review.companyName.text = this.state.companyName ;
     review.rating = this.state.rating;
     review.review.text = this.refs.reviewText.value();
 
@@ -61,14 +77,6 @@ export default class CreateReview extends Component {
       console.log(err);
     });
 
-
-    // Meteor.call('createReview', review, function(err, res){
-    //   if(err) {
-    //     console.log("error in sending reviews, "+err)
-    //   } else {
-    //     console.log("review sent in")
-    //   }
-    // })
   }
 
   componentDidMount(){
@@ -90,7 +98,8 @@ export default class CreateReview extends Component {
 
 
   render() {
-    console.log("create review")
+    let jobObj = JSON.stringify(this.state.companyName);
+    console.log(jobObj)
       return (
         <div className="card">
             <div className="card-content">
