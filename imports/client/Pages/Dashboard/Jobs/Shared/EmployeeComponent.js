@@ -75,7 +75,7 @@ class EmployeeCom extends React.Component{
                 <div className="col s12">
                   <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
                   <p>{this.props.profile.employeeData.jobTitle + " "}</p>
-                  <Rating/>
+                  
                   <p><Link to={"user/" + this.props.employeeId}>
                     View profile
                   </Link></p>
