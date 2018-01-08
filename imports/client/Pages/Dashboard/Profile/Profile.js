@@ -2,7 +2,7 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import {PROFESSIONAL} from '../../../../api/Schemas/employeeSchema';
 import {CONTRACTOR} from '../../../../api/Schemas/employerSchema';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import ConProfile from './ConProfile/ConProfile';
 import ProProfile from './ProProfile/ProProfile';
@@ -27,8 +27,8 @@ render() {
  }
 }
 
-export default Profile = createContainer((props) => {
+export default Profile = withTracker(props => {
   return {
     user: Meteor.user()
   };
-}, ProfilePage);
+})(ProfilePage);

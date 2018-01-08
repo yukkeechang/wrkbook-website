@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 class UserI extends React.Component{
     constructor(props){
@@ -19,7 +19,7 @@ class UserI extends React.Component{
         )
     }
 }
-export default UserIcon = createContainer((props) => {
+export default UserIcon = withTracker(props => {
     let things = [];
     const handle = Meteor.subscribe('images-id',props.imageId);
     const ready = handle.ready();
@@ -28,4 +28,4 @@ export default UserIcon = createContainer((props) => {
         ready : handle.ready(),
         link : "cfs/files/images/" + props.imageId
     };
-}, UserI);
+})(UserI);

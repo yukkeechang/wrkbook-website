@@ -6,7 +6,7 @@ import GeneralInfo from './Components/GeneralInfo';
 import About from './Components/About';
 import Contact from './Components/Contact';
 import Reviews from './Components/ReviewOther';
-import { createContainer } from 'meteor/react-meteor-data';
+// import { createContainer } from 'meteor/react-meteor-data';
 import {Link} from 'react-router-dom';
 
 //import Header from '../Shared/Header';

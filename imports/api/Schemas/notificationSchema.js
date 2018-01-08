@@ -17,6 +17,10 @@ export default NotificationSchema = new SimpleSchema({
     type: String,
     defaultValue: ''
   },
+  typeNotifi:{
+    type: String,
+    defaultValue:''
+  },
   href:{
     type:String,
     defaultValue:''

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import EmployeeComponentOuter from './EmployeeComponentOuter';
 import MSpinner from '../../../Shared/MSpinner';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 class proComp extends React.Component{
     //get employer info here
@@ -21,7 +21,7 @@ class proComp extends React.Component{
         <div className="container">
           <div className="card">
             <div className="col s10 l12 push-s2 card grey lighten-1">
-              <div>Location: {job.location.locationName}</div>
+              <div> <Link style={{color: 'black'}} to={"/job/"+ job._id}> <p className="flow-text">Location: {job.location.locationName}</p></Link></div>
             </div>
             <div>
               {EmpIdArray.map(function(info, index) {
@@ -42,7 +42,7 @@ class proComp extends React.Component{
     )
   }
 }
-export default ProComponent = createContainer((props) => {
+export default ProComponent = withTracker(props => {
   let user = Meteor.user();
   let current = false;
   let completed = false;
@@ -72,4 +72,4 @@ export default ProComponent = createContainer((props) => {
     completed: completed,
     upcoming: upcoming
   };
-}, proComp);
+})(proComp);

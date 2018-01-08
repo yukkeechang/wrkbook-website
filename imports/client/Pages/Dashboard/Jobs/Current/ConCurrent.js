@@ -1,6 +1,6 @@
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import ConComponent from './ConComponent';
 import { Link } from 'react-router-dom';
@@ -65,7 +65,7 @@ render() {
 
 
 
-export default ConCurrent = createContainer((props) => {
+export default ConCurrent = withTracker(props => {
   let jobPost=[]
   let loading = false
   let current = false
@@ -80,7 +80,7 @@ export default ConCurrent = createContainer((props) => {
     loading: loading,
     jobPost: jobPost
   };
-}, ConCurrentPage);
+})(ConCurrentPage);
 
 
 //get employees from the job

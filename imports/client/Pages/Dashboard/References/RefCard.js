@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import NewRef from './NewRef';
 
@@ -72,11 +72,11 @@ class Ref extends Component{
     }
   }
 }
-export default RefCard = createContainer(({ params }) => {
+export default RefCard = withTracker( params  => {
     let handle = Meteor.subscribe('your-references');
     let ready = handle.ready();
     return {
         ready: ready,
         myRefs: References.find({}).fetch()
     };
-}, Ref);
+})(Ref);

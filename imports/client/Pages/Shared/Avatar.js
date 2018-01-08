@@ -1,8 +1,9 @@
 import React ,{Component} from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Link } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
 
-
-
-export default class Avatar extends Component{
+ class Ava extends Component{
     constructor(props){
         super(props);
         let width = this.props.size;
@@ -16,17 +17,21 @@ export default class Avatar extends Component{
 
     }
     render(){
-
-      let page = (
-      <div onClick={this.props.onClick}style={{backgroundColor: '#eeeeee',height:this.state.width,width:this.state.width,cursor:'pointer',display:'flex', justifyContent:'center',alignItems:'center'}} className="circle">
-        <h1 style={{fontSize:this.state.textSize,fontFamily: 'avenir-lt-w01_35-light1475496,sans-serif',color:'#595959'}}> {!!this.props.letter ? this.props.letter: "N"}</h1>
-      </div>);
-
-        return(
-
-        page
-
-
-        )
+      return(
+      <div>
+              <img style={{width: this.state.width, height: this.state.width}} src={this.props.link} alt=""/>
+      </div>
+      );
     }
 }
+
+
+export default Avatar =  withTracker(props=>{
+  const handle = Meteor.subscribe('images-id',props.imageId);
+  const ready = handle.ready();
+  things = Images.find({}).fetch()
+  return {
+      ready : handle.ready(),
+      link : "cfs/files/images/" + props.imageId
+  };
+})(Ava);

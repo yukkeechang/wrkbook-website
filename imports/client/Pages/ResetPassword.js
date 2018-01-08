@@ -71,7 +71,9 @@ export default class ResetPassword extends Component{
 
               </div>
             </div>
-          <Footer/>
+            <div>
+              <Footer/>
+            </div>
         </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import ContractorEdit from './ContractorEdit';
 import ProfessionalEdit from './ProfessionalEdit';
 
@@ -16,9 +16,9 @@ class EditPage extends React.Component{
     }
   }
 }
-export default Edit = createContainer(({ params }) => {
+export default Edit = withTracker( params  => {
     return {
         loggingIn: Meteor.loggingIn(),
         user: Meteor.user(),
     };
-}, EditPage);
+})(EditPage);

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import 'rc-calendar/assets/index.css';
 import FullCalendar from 'rc-calendar/lib/FullCalendar';
 import 'rc-select/assets/index.css';
@@ -396,7 +396,7 @@ class HomePage extends React.Component {
     )
   }
 }
-export default Home = createContainer((props) => {
+export default Home = withTracker(props => {
   let handle = Meteor.subscribe('today-events', props.date);
 
   let handle2 = Meteor.subscribe('notifications-for-user');
@@ -407,4 +407,4 @@ export default Home = createContainer((props) => {
     myEvents: Event.find({}).fetch(),
     notifies : Notification.find({}).fetch()
   };
-}, HomePage);
+})(HomePage);

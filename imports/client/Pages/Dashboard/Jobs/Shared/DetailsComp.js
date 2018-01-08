@@ -1,7 +1,7 @@
 // Component holds event times and responsibilities/information for the
 // job and displays on EmployeeComponentInner.js
 import React from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
+// import { createContainer } from 'meteor/react-meteor-data';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
 import ReactDOM from 'react-dom';
 
