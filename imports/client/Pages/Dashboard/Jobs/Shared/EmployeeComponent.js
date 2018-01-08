@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 class EmployeeCom extends React.Component{
   componentDidMount(){
@@ -112,7 +112,7 @@ class EmployeeCom extends React.Component{
 }
 
 
-export default EmployeeComponent = createContainer((props) => {
+export default EmployeeComponent = withTracker(props => {
     let things = [];
     const handle = Meteor.subscribe('images-id',props.profile.employeeData.image);
     const ready = handle.ready();
@@ -122,4 +122,4 @@ export default EmployeeComponent = createContainer((props) => {
         ready:ready,
         link : "cfs/files/images/"+ props.profile.employeeData.image
     };
-}, EmployeeCom);
+})(EmployeeCom);

@@ -114,12 +114,8 @@ export default class CreateJobs extends Component {
     }
     else{
       this.setState({locErr:true});
+        $('#validationModal').modal('open');
     }
-  }
-  handleTitles(){
-    this.setState({
-      titles: $(this.refs.titles).val()
-    })
   }
   handleSelect(){
     if($('#osha').val()==2){
@@ -275,7 +271,7 @@ export default class CreateJobs extends Component {
               <h3>Your job post has been created.</h3>
             </div>
             <div className="modal-footer">
-              <Link to="/jobs"><a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a></Link>
+              <Link to="/upcoming"><a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a></Link>
             </div>
           </div>
           <div id="validationModal" className="modal">

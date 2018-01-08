@@ -1,6 +1,6 @@
 
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import React, {Component} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { render } from 'react-dom';
@@ -11,6 +11,7 @@ import Dashboard from './Pages/Dashboard';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import Forgot from './Pages/Forgot';
+import Faq from './Pages/FaqPage';
 import ResetPassword from './Pages/ResetPassword';
 import MSpinner from './Pages/Shared/MSpinner';
 
@@ -43,6 +44,7 @@ class Application extends Component {
                         <Route exact path="/" component={LandingPage}/>
                         <Route exact path="/login" component={SignIn}/>
                         <Route exact path="/register" component={SignUp}/>
+                        <Route exact path="/questions" component={Faq} />
                         <Route exact path="/forgot" component={Forgot}/>
                         <Route exact path="/reset/:value" component={ResetPassword}/>
                         <Route path="*" component={LoggedOutNotFound}/>
@@ -57,13 +59,13 @@ class Application extends Component {
         );
     }
 }
-const App = createContainer((props) => {
+const App = withTracker(props => {
     return {
         loggingIn: Meteor.loggingIn(),
         userId: Meteor.userId(),
         user: Meteor.user()
     }
-}, Application);
+}) (Application);
 
 Meteor.startup(() => {
     render(<App/>, document.getElementById('render-target'));

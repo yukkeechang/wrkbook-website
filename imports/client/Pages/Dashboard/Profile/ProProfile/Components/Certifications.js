@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 class Cert extends React.Component{
   updateDimensions(){
@@ -143,7 +143,7 @@ class Cert extends React.Component{
     )
   }
 }
-export default Certifications = createContainer((props)=>{
+export default Certifications = withTracker(props=>{
   let things = [];
   let user = Meteor.user();
   let handle = Meteor.subscribe('cert-images', user.profile.employeeData.certfi);
@@ -152,4 +152,4 @@ export default Certifications = createContainer((props)=>{
   return{
     links: user.profile.employeeData.certfi
   };
-}, Cert);
+})(Cert);

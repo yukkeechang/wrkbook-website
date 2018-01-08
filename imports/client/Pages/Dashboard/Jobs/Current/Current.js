@@ -2,7 +2,7 @@ import React , { Component } from 'react';
 import { Roles } from 'meteor/alanning:roles';
 // import {PROFESSIONAL} from '../../../../api/Schemas/employeeSchema';
 // import {CONTRACTOR} from '../../../../api/Schemas/employerSchema';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import ConCurrent from './ConCurrent';
 import ProCurrent from './ProCurrent';
@@ -26,8 +26,8 @@ render() {
  }
 }
 
-export default Current = createContainer((props) => {
+export default Current = withTracker(props => {
   return {
     user: Meteor.user()
   };
-}, CurrentJobs);
+})(CurrentJobs);

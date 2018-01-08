@@ -12,7 +12,7 @@ export default class EmpJobPostComponent extends React.Component{
       if(err){
         console.log(err);
       }else{
-        console.log(res);
+        // console.log(res);
         let startAt = res.startAt.toLocaleString();
         let endAt = res.endAt.toLocaleString();
         this.setState({
@@ -23,7 +23,7 @@ export default class EmpJobPostComponent extends React.Component{
     });
     $(this.refs.titles).on('change',(e)=>{
       this.selectedApply(e);
-    })
+    });
   }
   constructor(props){
     super(props);
@@ -54,10 +54,10 @@ export default class EmpJobPostComponent extends React.Component{
       }
       else{
         if(res){
-          console.log(res);
-          console.log(this.props.jobinfo);
+          // console.log(res);
+          // console.log(this.props.jobinfo);
           let crap = res.profile.employerData.companyName.text;
-          console.log(crap);
+          // console.log(crap);
           this.setState({
             name:crap,
             load: false
@@ -77,9 +77,8 @@ export default class EmpJobPostComponent extends React.Component{
     });
   }
   handleApply(){
-    let job = this.props.jobinfo;
-    let jobId = job._id;
-    Meteor.call('applyForJob',jobId,this.state.selectedApply,(err)=>{
+
+    Meteor.call('applyForJob',this.state.id,this.state.selectedApply,(err)=>{
       if(err){
         console.log(err);
       }
@@ -93,11 +92,13 @@ export default class EmpJobPostComponent extends React.Component{
     });
   }
   selectedApply(){
+    console.log(this);
       this.setState({
         selectedApply: this.refs.titles.value
       });
-      console.log(this.refs.titles.value);
-      console.log(this.state.selectedApply);
+      console.log("changeboiii");
+      // console.log(this.refs.titles.value);
+      // console.log(this.state.selectedApply);
   }
   openApplyModal(){
     $('#applyModal').modal('open');
@@ -164,11 +165,11 @@ export default class EmpJobPostComponent extends React.Component{
                   <div className="col s12">
                     <div className="row">
 
-                        <select ref="titles" id="jobTitles" onChange={this.selectedApply.bind(this)}>
+                        <select ref="titles" id="jobTitles">
                           <option value="" disabled selected>Choose employee type to apply as</option>
                           {this.state.employeeObject.jobTitle.map((title, index)=>{
                             return(
-                              <option value={title}>{title}</option>
+                              <option key={this.state.id+"1"} value={title} >{title}</option>
                             )
                           })}
                         </select>

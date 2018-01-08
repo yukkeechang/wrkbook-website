@@ -1,6 +1,6 @@
 import React from 'react';
 import Rating from './Rating';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import ReviewCard from './ReviewCard';
 import MSpinner from '../../../../Shared/MSpinner';
 
@@ -52,7 +52,7 @@ class ARatingPage extends React.Component {
   }
 }
 
-export default ARating = createContainer(({ params }) => {
+export default ARating = withTracker( params  => {
 
   let reviews =[];
   let loading = false;
@@ -68,4 +68,4 @@ export default ARating = createContainer(({ params }) => {
     loading:loading,
     reviews:reviews
   };
-}, ARatingPage);
+})(ARatingPage);

@@ -1,10 +1,11 @@
 //make page for emp con import React from 'react';
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import ConComponent from './ConComponent';
 import { Link } from 'react-router-dom';
+import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
 //This file will render all completed jobs. job details are renderend in ConComponent
 
@@ -58,9 +59,8 @@ class ConCompletedJobsPage extends React.Component {
 
 
 render() {
-  let jobz = this.props.jobPost;
-  str = JSON.stringify(jobz);
-//  console.log("jobs: "+str)
+
+
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -69,6 +69,7 @@ render() {
     )
   }
   else if(!(isEmpty(this.props.jobPost))) {
+    let jobz = this.props.jobPost;
     return (
       <div>
         <div>
@@ -96,9 +97,7 @@ render() {
   }
   else {
     return (
-      <div>
-      {this.NoCompleteJob()}
-      </div>
+        <EmployerNoJobs message={"completed"}/>
       )
     }
   }
@@ -106,7 +105,7 @@ render() {
 
 
 
-export default ConCompleted = createContainer(({props}) => {
+export default ConCompleted = withTracker(props => {
   let user = Meteor.user();
   let jobPost=[]
   let loading = false
@@ -121,7 +120,7 @@ export default ConCompleted = createContainer(({props}) => {
     loading: loading,
     jobPost: jobPost
   };
-}, ConCompletedJobsPage);
+})(ConCompletedJobsPage);
 
 
 //get employees from the job

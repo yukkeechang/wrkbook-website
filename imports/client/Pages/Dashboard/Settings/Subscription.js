@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 
 class Subscription extends Component {
     constructor(props) {
@@ -77,9 +77,9 @@ class Subscription extends Component {
     }
 }
 
-export default createContainer(() => {
+export default withTracker( params => {
     return {
         loggingIn: Meteor.loggingIn(),
         user: Meteor.user(),
     }
-}, Subscription)
+}) (Subscription);

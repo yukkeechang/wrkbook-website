@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import UserIcon from '../UserIcon';
 import ReactDOM from 'react-dom';
 import WrkBookIcon from '../WrkBookIcon';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 let styles = {
     logo : {
@@ -86,12 +86,13 @@ export class NavBarPage extends Component{
         $(sn).sideNav();
         let collapse = ReactDOM.findDOMNode(this.refs.collapsibleref);
          $(collapse).collapsible();
+         console.log(this.props);
 
     }
     logout(){
-        console.log(this.props);
+        // console.log(this.props);
         Meteor.logout();
-        console.log(this.props);
+        // console.log(this.props);
     }
     arrow(){
       this.setState({switchNav:!this.state.switchNav});
@@ -112,17 +113,21 @@ export class NavBarPage extends Component{
 
       let jobDropDownLinks = this.state.isPro ?
       <ul id='jobs' className='dropdown-content'>
-        <li><Link to='/jobs'>Job Matches</Link></li>
+        <li><Link to='/jobmatchs'>Job Matches{this.props.match > 0 ?
+      <span className="new badge left-align">{this.props.match}</span> : null}</Link></li>
+        <li><Link to='/applied'>Applied Jobs</Link></li>
         <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
-        <li><Link to='/upcoming'>Upcoming</Link></li>
+        <li><Link to='/upcoming'>Upcoming{this.props.employeeHired > 0 ?
+      <span className="new badge left-align">{this.props.employeeHired}</span> : null}</Link></li>
 
       </ul>
       :
       <ul id='jobs' className='dropdown-content'>
 
         <li style={{display:'none'}}><Link to='/conjobcurrent'>Current</Link></li>
-        <li><Link to='/upcoming'>Upcoming</Link></li>
+        <li><Link to='/upcoming'>Upcoming{this.props.appliedEmployer > 0 ?
+      <span className="new badge left-align">{this.props.appliedEmployer}</span> : null}</Link></li>
         <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
         <li><Link to='/createjob'>Create Job</Link></li>
@@ -134,10 +139,15 @@ export class NavBarPage extends Component{
         <div  className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs {this.state.switchNav  ?
         <i className="large material-icons">arrow_drop_up</i> :
         <i className="large material-icons">arrow_drop_down</i>
-        }</div>
-        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobs'>Job Matches</Link></div>
+      }{this.props.general > 0 ?
+        <span className="new badge">{this.props.general}</span> : null}</div>
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobmatchs'>Job Matches{this.props.match > 0 ?
+      <span className="new badge left-align">{this.props.match}</span> : null}</Link></div>
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/applied'>Applied Jobs</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming{this.props.employeeHired > 0 ?
+      <span className="new badge left-align">{this.props.employeeHired}</span> : null}</Link></div>
         </li>
 
       :
@@ -146,25 +156,36 @@ export class NavBarPage extends Component{
           <div ref="jobsthingz" className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs {this.state.switchNav ?
           <i className="large material-icons">arrow_drop_up</i> :
           <i className="large material-icons">arrow_drop_down</i>
-          }</div>
+          }{this.props.general > 0 ?
+            <span className="new badge">{this.props.general}</span> : null}</div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/createjob'>Create Job</Link></div>
+          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming{this.props.appliedEmployer > 0 ?
+        <span className="new badge left-align">{this.props.appliedEmployer}</span> : null}</Link></div>
+
+
         </li>
 
         return(
             <div className="row">
             <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
-                <i style={styles.icon}className="material-icons">menu</i>
+                <div className="valign-wrapper left-align">
+                  <i style={styles.icon}className="material-icons">menu</i>{this.props.general > 0 ?
+                  <span className="new badge">{this.props.general}</span> : null}
+                </div>
             </div>
             <div style={{textAlign:'center'}}className="col s4 m1">
                 <img style={styles.logo} src="/images/circle-logo.svg"/>
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
-            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText"><div>Jobs</div></div>
+
+            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText"><div className="valign-wrapper">Jobs {this.props.general > 0 ?
+            <span className="new badge">{this.props.general}</span> : null} <i className="material-icons">arrow_drop_down</i> </div></div>
+
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
             <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1 push-s1">
-                <div style={styles.firstName} className="hide-on-small-only">{this.props.firstName}</div>
+                <div style={styles.firstName} className="hide-on-small-only">{this.props.user.profile.firstName}</div>
                 <div style={styles.profile}>
                     <UserIcon imageId={this.props.image}/>
                 </div>
@@ -205,9 +226,19 @@ export class NavBarPage extends Component{
     }
 }
 
-export default NavBar = createContainer(({ params }) => {
+export default NavBar = withTracker( params => {
+  let handle = Meteor.subscribe('notifications-for-user');
+  let ready = handle.ready();
+  let general = Notification.find({}).count();
+  let match = Notification.find({typeNotifi:'MATCH'}).count();
+  let appliedEmployer = Notification.find({typeNotifi:'APPLIED'}).count();
+  let employeeHired = Notification.find({typeNotifi:'HIRED'}).count();
     return {
-
+        ready: ready,
+        general: general,
+        match:match,
+        appliedEmployer:appliedEmployer,
+        employeeHired:employeeHired,
         user: Meteor.user(),
     };
-}, NavBarPage);
+})(NavBarPage);
