@@ -15,7 +15,6 @@ class EmployeeJobPosts extends React.Component{
     super(props);
   }
   render(){
-
     if(!isEmpty(this.props.jobPost)){
       let notifications = this.props.notifications;
       notifications.map(function(notify,index){
@@ -54,7 +53,8 @@ class EmployeeJobPosts extends React.Component{
     }
     else{
       return(
-          <EmployeeNoJobs/>
+          <EmployeeNoJobs
+          message={"upcoming"}/>
       );
     }
   }
