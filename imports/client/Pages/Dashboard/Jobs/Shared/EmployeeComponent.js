@@ -1,5 +1,5 @@
 import React from 'react';
-import Rating from '../../Profile/Rating';
+//import Rating from '../../Profile/Rating';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
