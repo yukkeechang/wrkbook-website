@@ -11,9 +11,9 @@ function isEmpty(obj) {
   for(var x in obj){return false;}
   return true;
 }
-//Rendered in ConComponent
 
-//Can't set res aas a state, not sure why
+
+
 export default class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
    super(props);
