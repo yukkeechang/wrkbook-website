@@ -62,7 +62,7 @@ export default EmpJobPosts = withTracker( params  => {
     let handle = Meteor.subscribe('job-post',user.profile.employeeData);
     loading = handle.ready();
     jobPost = Job.find({}).fetch();
-
+    console.log(jobPost);
   }
   return{
     user: user,

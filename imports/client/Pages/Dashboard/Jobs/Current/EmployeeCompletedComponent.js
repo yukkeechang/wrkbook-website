@@ -165,8 +165,8 @@ export default class EmployeeCompletedComponent extends React.Component {
                   Details
                 </div>
                 <h6>Profession: {this.state.jobType}</h6>
-                <h6>Start: {startdate + " at " + starttime}</h6>
-                <h6>End: {enddate + " at " + endtime}</h6>
+                <h6>{startdate + " - " + enddate}</h6>
+                <h6>{starttime + " - " + endtime}</h6>
               </div>
 
               <div className="col m4 hide-on-small-only">
@@ -190,8 +190,8 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
                 <div className="row">
                   <h6>Profession: {this.state.jobType}</h6>
-                  <h6>{startdate + " at " + starttime}</h6>
-                  <h6>{enddate + " at " + endtime}</h6>
+                  <h6>{startdate + " - " + enddate}</h6>
+                  <h6>{starttime + " - " + endtime}</h6>
                   <h6>Total Payment: ${totalPay}</h6>
                 </div>
               </div>

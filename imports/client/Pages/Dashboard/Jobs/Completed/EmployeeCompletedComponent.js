@@ -170,8 +170,8 @@ export default class EmployeeCompletedComponent extends React.Component {
               <div style={{fontWeight:'bold'}}>
                 Details
               </div>
-              <h6>{startdate + " at " + starttime}</h6>
-              <h6>{enddate + " at " + endtime}</h6>
+              <h6>{startdate + " - " + enddate}</h6>
+              <h6>{starttime + " - " + endtime}</h6>
               <h6>{this.props.event.responsibilities.text}</h6>
               <h6>Pay: ${totalPay}</h6>
             </div>
@@ -197,8 +197,8 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
               </div>
               <div className="row">
-                <h6>{startdate + " at " + starttime}</h6>
-                <h6>{startdate + " at " + starttime}</h6>
+                <h6>{startdate + " - " + enddate}</h6>
+                <h6>{starttime + " - " + endtime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
                 <h6>Pay: ${totalPay}</h6>
                 <ARating/>

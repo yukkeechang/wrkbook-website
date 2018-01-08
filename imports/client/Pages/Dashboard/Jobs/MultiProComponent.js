@@ -58,13 +58,13 @@ export default class JobCreateComponent extends Component{
         <div className="row">
           <div className="col s12 m8">
           <div className="input-field">
-            <input id="numberEmployees" ref="numberEmployees" type="number"/>
+            <input id="numberEmployees" ref="numberEmployees" type="number" min="1"/>
             <label htmlFor="numberEmployees">Number of {this.props.title}s</label>
           </div>
           </div>
           <div className="col s12 m4">
           <div className="input-field">
-            <input id="employeePay" onChange={(e) => {this.setState({pay: parseInt(e.target.value.length <= 0 ? 0.00 : e.target.value)})}}ref="employeePay" type="number"/>
+            <input id="employeePay" onChange={(e) => {this.setState({pay: parseInt(e.target.value.length <= 0 ? 0.00 : e.target.value)})}}ref="employeePay" type="number" min="1"/>
             <label htmlFor="employeePay">Pay (${this.state.pay}.00 / Hour)</label>
           </div>
           </div>
