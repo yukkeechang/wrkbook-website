@@ -121,10 +121,3 @@ export default ConCompleted = withTracker(props => {
     jobPost: jobPost
   };
 })(ConCompletedJobsPage);
-
-
-//get employees from the job
-//get the actual job
-//check if job is closed <- that should be done in the completed jobs subscription
-
-//return completed job componenent or no completed job component/page

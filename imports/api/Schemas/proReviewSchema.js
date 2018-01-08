@@ -8,10 +8,6 @@ export default proReviewSchema = new SimpleSchema({
   safeWorkSpace:{
     type : Boolean,
     defaultValue:false
-  },
-  wouldRecommend:{
-    type : Boolean,
-    defaultValue:false
   }
 
 });

@@ -32,6 +32,9 @@ export default class EmpJobPostComponent extends React.Component{
     apply = this.props.jobinfo.applyemployeeIds.includes(Meteor.userId())||this.props.jobinfo.admitemployeeIds.includes(Meteor.userId());
     let label = apply ? 'Applied': 'Apply';
     let disable = apply ? 'disabled': '';
+    let disableButtons = false;
+    disableButtons = this.props.jobinfo.declineemployeeIds.includes(Meteor.userId());
+    let buttonsDisabled = disableButtons ? 'disabled' : '';
     let employeeThings = Meteor.user().profile.employeeData;
     this.state={
       id: this.props.jobinfo._id,
@@ -40,6 +43,7 @@ export default class EmpJobPostComponent extends React.Component{
       startAt: '',
       load: true,
       label: label,
+      disableEm: buttonsDisabled,
       showapply: disable,
       dropButton: dropButton,
       selectedApply: '',
@@ -152,10 +156,10 @@ export default class EmpJobPostComponent extends React.Component{
               </div>
               <div className="col s12">
                 <div className="row">
-                  <a id="disabledButton" className={"waves-effect green lighten-3 btn-flat "+ this.state.showapply}  onClick={this.openApplyModal.bind(this)}>
+                  <a id="disabledButton" className={"waves-effect green lighten-3 btn-flat " + this.state.showapply + this.state.disableEm}  onClick={this.openApplyModal.bind(this)}>
                     {this.state.label}
                   </a>
-                  <a id="disabledButton" className="waves-effect red lighten-3 btn-flat" onClick={this.openDeclineModal.bind(this)}>
+                  <a id="disabledButton" className={"waves-effect red lighten-3 btn-flat  " + this.state.disableEm} onClick={this.openDeclineModal.bind(this)}>
                     Decline
                   </a>
                 </div>
@@ -187,7 +191,7 @@ export default class EmpJobPostComponent extends React.Component{
 
               <div id="declineModal" className="modal">
                 <div className="modal-content">
-                  <h4>Are you sure you want to decline this job? <br/>Once deleted you can not get this job back.</h4>
+                  <h4 className="flow-text">Are you sure you want to decline this job? <br/>Once deleted you can not get this job back.</h4>
                 </div>
                 <div className="modal-footer">
                   <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline.bind(this)}>

@@ -48,7 +48,8 @@ class EmployeeJob extends React.Component{
     }
     else{
       return(
-          <EmployeeNoJobs/>
+          <EmployeeNoJobs
+          message={"applied"}/>
       );
     }
   }

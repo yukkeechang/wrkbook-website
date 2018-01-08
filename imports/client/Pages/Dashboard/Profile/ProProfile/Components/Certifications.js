@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 
 class Cert extends React.Component{
@@ -12,6 +13,7 @@ class Cert extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
+      $('.modal').modal();
       $('.carousel').carousel({indicators: true,});
     });
     this.setState({
@@ -89,11 +91,16 @@ class Cert extends React.Component{
             }
             else{
               console.log('done boi');
+              $('#submitModal').modal('open');
             }
           });
           console.log(user.profile.employeeData);
         }
       });
+    }
+    closeModal(){
+      $('#submitModal').modal('close');
+       window.location.reload();
     }
 
   render() {
@@ -111,7 +118,7 @@ class Cert extends React.Component{
                 )
               })
               :
-                <a className="carousel-item"><img src="images/worker.png"/></a>
+                <h4 className="flow-text">You have no uploaded certifications.</h4>
             }
             </div>
           </div>
@@ -137,6 +144,14 @@ class Cert extends React.Component{
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div id="submitModal" className="modal">
+          <div className="modal-content">
+            <h4 className="flow-text">You have successfully uploaded your certification.</h4>
+          </div>
+          <div className="modal-footer">
+            <a className="waves-effect waves-light red lighten-3 btn-flat" onClick={this.closeModal.bind(this)}>Done</a>
           </div>
         </div>
       </div>

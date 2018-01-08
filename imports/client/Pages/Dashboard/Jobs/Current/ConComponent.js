@@ -17,6 +17,7 @@ import EmployeeComponentOuter from './EmployeeComponentOuter';
 
   componentDidMount(){
     this.textSize();
+    console.log(this.props.jobinfo);
   }
 
   textSize() {

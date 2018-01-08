@@ -301,6 +301,8 @@ Meteor.publish('completed-job-pro',function(){
 
     });
     let cursor = Job.find({_id:{$in:  jobIds}});
+    console.log("CURSOR in completed jobs pro")
+    console.log(cursor)
     return  cursor;
 
   } else {
@@ -1028,7 +1030,10 @@ Meteor.methods({
     for (let i = 0; i < totalPeople.length; i++){
       notify.toWhomst = totalPeople[i];
       Meteor.call('createNotification',notify);
+      Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName);
     }
+    Meteor.call('removeJobCon', this.userId, jobRemove.location.locationName);
+
 
     Job.remove({_id: jobId, employerId: this.userId});
     Event.remove({jobId: jobId,owner:this.userId});
