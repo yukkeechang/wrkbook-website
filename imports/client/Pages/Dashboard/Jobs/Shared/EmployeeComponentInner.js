@@ -185,7 +185,7 @@ componentWillMount(){
                 </div>
                 <div className="col s7 pull-s1 center-align">
                   <h5>{this.state.userName}  {this.state.userLastName}</h5>
-                  <Rating/>
+                  
                 </div>
               </div>
               <div className="row">
@@ -193,8 +193,7 @@ componentWillMount(){
                 <h6>{enddate + " " + endtime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
                 <h6>Total Pay: {totalPay}</h6>
-                <Rating/>
-                <h6>The rating i gave to the company is</h6>
+                
               </div>
             </div>
           </div>
