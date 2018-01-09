@@ -185,7 +185,7 @@ export default class ProOther extends React.Component {
 
 
   render() {
-    let image;
+    let image = "cfs/files/images/" + this.props.user.profile.employeeData.image
     return (
       <div className="container">
         <div
