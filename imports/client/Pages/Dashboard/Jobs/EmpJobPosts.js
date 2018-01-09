@@ -31,6 +31,7 @@ class EmployeeJobPosts extends React.Component{
             return(
               <EmpJobPostComponent
                 key={job._id}
+                ref={job._id+"123"}
                 jobinfo = {job}
                 events = {job.eventInfo}
                 title={job.jobTitle.text}

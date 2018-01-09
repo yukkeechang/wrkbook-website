@@ -174,7 +174,7 @@ componentWillMount(){
                 </div>
                 <div className="col s7 pull-s1 center-align">
                   <h5>{this.state.userName}  {this.state.userLastName}</h5>
-                  <ARating/>
+
                 </div>
               </div>
               <div className="row">
@@ -182,7 +182,7 @@ componentWillMount(){
                 <h6>{this.props.event.endAt.toLocaleString()}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
                 <h6>Pay: </h6>
-                <ARating/>
+                
                 <h6>The rating i gave to the company is</h6>
               </div>
             </div>

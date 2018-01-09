@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom';
 
 export default class EmpJobPostComponent extends React.Component{
   componentDidMount(){
-    let dropdowns = ReactDOM.findDOMNode();
+
+    let things = this.props.jobinfo._id +"11";
+    console.log(this.refs[things]);
+    let dropdowns = ReactDOM.findDOMNode(this.refs[things]);
     $(dropdowns).ready(()=>{
       $('.modal').modal();
       $('select').material_select();
     });
+
     Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
       if(err){
         console.log(err);
@@ -77,26 +81,30 @@ export default class EmpJobPostComponent extends React.Component{
     });
   }
   handleApply(){
+console.log(this.props.jobinfo._id);
 
-    Meteor.call('applyForJob',this.state.id,this.state.selectedApply,(err)=>{
-      if(err){
-        console.log(err);
-      }
-      else{
-        this.setState({
-          label: 'Applied',
-          showapply: 'disabled'
-        });
-        $('#applyModal').modal('close');
-      }
-    });
+console.log(this.state.id);
+    // Meteor.call('applyForJob',this.state.id,this.state.selectedApply,(err)=>{
+    //   if(err){
+    //     console.log(err);
+    //   }
+    //   else{
+    //     this.setState({
+    //       label: 'Applied',
+    //       showapply: 'disabled'
+    //     });
+    //     $('#applyModal').modal('close');
+    //   }
+    // });
   }
   selectedApply(){
-    console.log(this);
+    // console.log(this);
       this.setState({
         selectedApply: this.refs.titles.value
       });
       console.log("changeboiii");
+      // console.log(this.state.id);
+      // console.log( this.props.jobinfo._id);
       // console.log(this.refs.titles.value);
       // console.log(this.state.selectedApply);
   }
@@ -107,7 +115,9 @@ export default class EmpJobPostComponent extends React.Component{
     $('#declineModal').modal('open');
   }
   render(){
+
     return(
+    <div ref={this.state.id+"11"}>
       <div className="container">
         <div className="card">
           <div className="card-content">
@@ -152,7 +162,7 @@ export default class EmpJobPostComponent extends React.Component{
               </div>
               <div className="col s12">
                 <div className="row">
-                  <a id="disabledButton" className={"waves-effect green lighten-3 btn-flat "+ this.state.showapply}  onClick={this.openApplyModal.bind(this)}>
+                  <a id="applydButton" className={"waves-effect green lighten-3 btn-flat "+ this.state.showapply}  onClick={this.handleApply.bind(this)}>
                     {this.state.label}
                   </a>
                   <a id="disabledButton" className="waves-effect red lighten-3 btn-flat" onClick={this.openDeclineModal.bind(this)}>
@@ -160,45 +170,48 @@ export default class EmpJobPostComponent extends React.Component{
                   </a>
                 </div>
               </div>
-              <div id="applyModal" className="modal">
-                <div className="modal-content" style={{ overflowY: 'scroll'}}>
-                  <div className="col s12">
-                    <div className="row">
+              <div>
+                <div id="applyModal" className="modal">
+                  <div className="modal-content" style={{ overflowY: 'scroll'}}>
+                    <div className="col s12">
+                      <div className="row">
 
-                        <select ref="titles" id="jobTitles">
-                          <option value="" disabled selected>Choose employee type to apply as</option>
-                          {this.state.employeeObject.jobTitle.map((title, index)=>{
-                            return(
-                              <option key={this.state.id+"1"} value={title} >{title}</option>
-                            )
-                          })}
-                        </select>
+                          <select ref="titles" id="jobTitles">
+                            <option value="" disabled selected>Choose employee type to apply as</option>
+                            {this.state.employeeObject.jobTitle.map((title, index)=>{
+                              return(
+                                <option key={this.state.id+"1"} value={title} >{title}</option>
+                              )
+                            })}
+                          </select>
 
+                      </div>
                     </div>
                   </div>
-                </div>
-                <br/>
-                <div className="modal-footer">
-                  <button className="waves-effect waves-green green lighten-3 btn-flat" onClick={this.handleApply.bind(this)}>
-                    Confirm apply.
-                  </button>
-                </div>
-              </div>
 
-              <div id="declineModal" className="modal">
-                <div className="modal-content">
-                  <h4>Are you sure you want to decline this job? <br/>Once deleted you can not get this job back.</h4>
+                  <div className="modal-footer">
+                    <button className="waves-effect waves-green green lighten-3 btn-flat" onClick={this.handleApply.bind(this)}>
+                      Confirm apply.
+                    </button>
+                  </div>
                 </div>
-                <div className="modal-footer">
-                  <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline.bind(this)}>
-                    I am sure.
-                  </button>
+
+                <div id="declineModal" className="modal">
+                  <div className="modal-content">
+                    <h4>Are you sure you want to decline this job? <br/>Once deleted you can not get this job back.</h4>
+                  </div>
+                  <div className="modal-footer">
+                    <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline.bind(this)}>
+                      I am sure.
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
     )
   }
 }

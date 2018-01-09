@@ -27,13 +27,15 @@
     "react-big-calendar": "^0.16.1",
     "react-dom": "^15.6.2",
     "react-google-recaptcha": "^0.9.9",
+    "react-pdf": "^2.5.2",
     "react-rating": "^0.9.1",
     "react-router-dom": "^4.1.1",
     "react-scroll-to-component": "^1.0.2",
     "react-star-rating": "^1.4.2",
     "react-stars": "^2.2.5",
     "react-transition-group": "^1.2.1",
-    "stripe": "^4.24.1"
+    "stripe": "^4.24.1",
+    "webpack": "^3.10.0"
   },
   "devDependencies": {
     "jsdoc": "^3.5.5"

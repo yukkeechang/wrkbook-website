@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
+import MSpinner from '../../../../Shared/MSpinner';
+import { Document, Page } from 'react-pdf/build/entry.noworker';
 
 class Cert extends React.Component{
   updateDimensions(){
+
     this.setState({
+      docWidth: document.getElementById('someCard').offsetWidth,
       picWidth: String(document.getElementById("things").offsetWidth -64)+'px',
       smallz: String((document.getElementById("things").offsetWidth -64)/5)+'px'
     });
@@ -15,6 +19,7 @@ class Cert extends React.Component{
       $('.carousel').carousel({indicators: true,});
     });
     this.setState({
+      docWidth: document.getElementById('someCard').offsetWidth,
       picWidth: String(document.getElementById("things").offsetWidth -64)+'px',
     });
 
@@ -23,13 +28,28 @@ class Cert extends React.Component{
   componentWillUnmount(){
     window.removeEventListener("resize", this.updateDimensions.bind(this));
   }
+  onDocumentLoad = ({ numPages }) => {
+  let thingz = Array(numPages).fill().map((e,i)=>i+1);
+
+  this.setState({ numPages , pagesTomap:thingz});
+}
+onDocumentRender = () => {
+  let node = ReactDOM.findDOMNode(this.refs[1]);
+  //  node.classList.toggle('active');
+}
   constructor(props) {
     super(props);
     this.state={
+      isImage: false,
+      isPDF : false,
       validImage: '',
       shownlink: '',
       certImage: '',
       certSources: '',
+      numPages: null,
+      pageNumber: 1,
+      docWidth:0,
+      pagesTomap: [],
     };
   }
   isEmpty(obj) {
@@ -48,14 +68,18 @@ class Cert extends React.Component{
   onFileInputChange(e){
     if(e.target.files.length){
       let files = e.target.files;
-
+      console.log(files);
       if(files[0].type.includes('image')){
-        this.setState({validImage:'valid'});
+        this.setState({validImage:'valid', isImage:true,isPDF:false});
+      }
+      else if(files[0].type.includes('pdf')){
+        this.setState({isPDF:true,validImage:'valid', isImage:false,pageNumber:1})
       }
       else{
         this.setState({validImage: 'invalid',shownlink:'',button:'disabled'});
         return;
       }
+      console.log(this.state);
       let fr = new FileReader();
       fr.onload = function() {
         window.localStorage.setItem('image',fr.result);
@@ -95,11 +119,31 @@ class Cert extends React.Component{
         }
       });
     }
+  pageClick(e){
+    console.log(e);
+    let node = ReactDOM.findDOMNode(this.refs[e]);
+    for (let i = 1; i <= this.state.numPages; i++) {
+      let removeclass = ReactDOM.findDOMNode(this.refs[i]);
+      removeclass.classList.remove('active');
+    }
+
+
+
+    node.classList.toggle('active');
+    this.setState({pageNumber:e});
+  }
+  leftClick(e){
+
+  }
+  rightClick(e){
+
+  }
 
   render() {
+
     return (
       <div className="card-panel">
-        <div className="card">
+        <div id="someCard" className="card">
           <div className="card-content">
             <h5>Certifications</h5>
             <div className="carousel ">
@@ -116,6 +160,28 @@ class Cert extends React.Component{
             </div>
           </div>
         </div>
+
+        <Document
+            file={this.state.certImage}
+            loading={MSpinner}
+            onLoadSuccess={this.onDocumentLoad}
+          >
+            <Page onRenderSuccess={this.onDocumentRender} width={this.state.docWidth} pageNumber={this.state.pageNumber} />
+        </Document>
+      <div className="center-align">
+      <ul className="pagination">
+        <li className="waves-effect" onClick={this.leftClick.bind(this)}><a href="#!"><i className="material-icons">chevron_left</i></a></li>
+        {
+          this.state.pagesTomap.map((number,index)=>{
+            return (
+              <li ref={number} className="waves-effect" onClick={this.pageClick.bind(this,number)}><a href="#!">{number}</a></li>
+            )
+          })
+        }
+
+        <li className="waves-effect" onClick={this.rightClick.bind(this)}><a href="#!"><i className="material-icons">chevron_right</i></a></li>
+      </ul>
+      </div>
         <div id="things"  className="card" >
           <div className="card-content">
             <div className="col l6 m6 s12">
@@ -125,7 +191,7 @@ class Cert extends React.Component{
               <div className="file-field input-field col m8 s12">
                 <div className="btn">
                   <span>Upload Certification</span>
-                  <input id="fileInput" onChange={this.onFileInputChange.bind(this)} type="file" accept="image/*"/>
+                  <input id="fileInput" onChange={this.onFileInputChange.bind(this)} type="file" accept="image/*, application/pdf"/>
                 </div>
                 <div className="file-path-wrapper">
                   <input id='fileName'className={"file-path  "+ this.state.validImage} type="text"/>

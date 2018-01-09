@@ -50,12 +50,13 @@ Images.allow({
 });
 //publish all images from the database the limit is 20
 Meteor.publish('images', function(){
-  return Images.find();
+  return Images.find({});
  });
  //publish a image with the specific id
 Meteor.publish('images-id',function(imageId){
   return Images.find({_id: imageId});
 });
 Meteor.publish('cert-images',function(arrayofId){
+  console.log(Images.find({_id: {$in : arrayofId} }).fetch());
   return Images.find({_id: {$in : arrayofId} });
 });

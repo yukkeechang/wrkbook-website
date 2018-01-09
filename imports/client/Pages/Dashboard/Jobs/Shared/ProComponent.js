@@ -49,21 +49,15 @@ export default ProComponent = withTracker(props => {
   let upcoming = false;
   let loading = false;
   if(!('undefined' === typeof(props.current))){
-    let handle = Meteor.subscribe('current-job-pro');
-    loading = handle.ready();
-    console.log(loading);
+
     current = props.current;
   }
   else if(!('undefined' === typeof(props.completed))){
-    let handle = Meteor.subscribe('completed-job-con');
-    loading = handle.ready();
-    console.log(loading);
+
     completed = props.completed;
   }
   else if(!('undefined' === typeof(props.upcoming))){
-    let handle = Meteor.subscribe('upcoming-job-con');
-    loading = handle.ready();
-    console.log(loading);
+
     upcoming = props.upcoming;
   }
   return {
