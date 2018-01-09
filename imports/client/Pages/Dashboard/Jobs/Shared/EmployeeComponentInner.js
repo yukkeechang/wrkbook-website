@@ -1,6 +1,6 @@
 import React from 'react';
 // import { createContainer } from 'meteor/react-meteor-data';
-import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
+import CreateReviewForCon from '../../Reviews/CreateReviewForCon';
 import ReactDOM from 'react-dom';
 import Avatar from '../../../Shared/Avatar';
 import UserInfoComp from './UserInfoComp';
@@ -14,7 +14,7 @@ function isEmpty(obj) {
 
 
 
-export default class EmployeeCompletedComponent extends React.Component {
+export default class EmployeeComponentInner extends React.Component {
  constructor(props) {
    super(props);
    this.state = {
@@ -115,7 +115,7 @@ componentWillMount(){
 
          <div id="modal1" className="modal modal-fixed-footer">
           <div className="modal-content">
-            <CreateReviewForPro
+            <CreateReviewForCon
             proId={this.props.proId}
             conId={this.props.conId}
             jobId={this.props.jobId}
@@ -185,7 +185,7 @@ componentWillMount(){
                 </div>
                 <div className="col s7 pull-s1 center-align">
                   <h5>{this.state.userName}  {this.state.userLastName}</h5>
-                  
+
                 </div>
               </div>
               <div className="row">
@@ -193,7 +193,7 @@ componentWillMount(){
                 <h6>{enddate + " " + endtime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
                 <h6>Total Pay: {totalPay}</h6>
-                
+
               </div>
             </div>
           </div>

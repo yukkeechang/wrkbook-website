@@ -54,6 +54,7 @@ class EmployeeJobPosts extends React.Component{
       );
     }
     else{
+
       return(
           <EmployeeNoJobs
           message={"upcoming"}/>

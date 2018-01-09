@@ -142,14 +142,16 @@ Meteor.methods({
   */
   createReview(newReview){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-
     newReview.reviewerId = this.userId;
     // check(newReview,ReviewSchema);
     Meteor.call('validateReview',newReview);
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
-    if (newReview.revieweeId === this.userId) throw new Meteor.Error('403',REVIEWERR)
+    if (newReview.revieweeId === this.userId) {
+      console.log("error 1")
+      throw new Meteor.Error('403',REVIEWERR);
+     }
     if(isCON && Roles.userIsInRole(newReview.revieweeId,PROFESSIONAL)){
       //make an array of one user id to compare to another array
       let hackIdThing = [];
@@ -158,12 +160,19 @@ Meteor.methods({
         $and :[{employerId: this.userId},{admitemployeeIds: {$in: hackIdThing}}]
       });
       let workedOnJobs = cursor.count() > 0 ? true : false;
-      if(!workedOnJobs) throw new Meteor.Error('403',REVIEWERR);
+      if(!workedOnJobs) {
+        console.log("error 2")
+        throw new Meteor.Error('403',REVIEWERR)
+
+      };
     }
     if(isPRO &&  Roles.userIsInRole(newReview.revieweeId,PROFESSIONAL) ){
       let currentUser = Meteor.users.findOne({_id : this.userId},{fields: {  'profile.employeeData.prevJobs': 1} });
       let toBeReviewed = Meteor.users.findOne({_id : newReview.revieweeId},{fields: {  'profile.employeeData.prevJobs': 1} });
-      if(currentUser.profile.employeeData.prevJobs.length  === 0) throw new Meteor.Error('403',REVIEWERR);
+      if(currentUser.profile.employeeData.prevJobs.length  === 0) {
+       console.log("error 3")
+       throw new Meteor.Error('403',REVIEWERR)
+       };
 
       let workedOnJobs = function (arry1,arry2) {
           return arry1.some(function (v) {
@@ -172,7 +181,10 @@ Meteor.methods({
       };
 
       let prevWorked = workedOnJobs(currentUser.profile.employeeData.prevJobs,toBeReviewed.profile.employeeData.prevJobs);
-      if(!prevWorked) throw new Meteor.Error('403',REVIEWERR);
+      if(!prevWorked) {
+        console.log("error4")
+        throw new Meteor.Error('406',REVIEWERR)
+    };
 
     }
     if(isPRO &&  Roles.userIsInRole(newReview.revieweeId,CONTRACTOR)){
@@ -182,7 +194,10 @@ Meteor.methods({
         $and :[{employerId: newReview.revieweeId},{admitemployeeIds: {$in: hackIdThing}}]
       });
       let workedOnJobs = cursor.count() > 0 ? true : false;
-      if(!workedOnJobs) throw new Meteor.Error('403',REVIEWERR);
+      if(!workedOnJobs) {
+        console.log("5")
+      throw new Meteor.Error('403',REVIEWERR)
+      };
     }
 
 

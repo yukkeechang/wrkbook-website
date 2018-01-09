@@ -8,11 +8,11 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
 class proComp extends React.Component{
-    //get employer info here
+    //---Renders an EmployeeOuterComponent based on what type of job. Rendered in highest pro job pages
   render(){
-    //or get eomployer info here
-    let EmpIdArray = this.props.jobinfo.admitemployeeIds;
-    let job = this.props.jobinfo;
+
+    let EmpIdArray = this.props.job.admitemployeeIds;
+    let job = this.props.job;
     let current = this.props.current;
     let completed = this.props.current;
     let upcoming = this.props.upcoming;
