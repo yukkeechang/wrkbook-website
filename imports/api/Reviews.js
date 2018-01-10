@@ -105,7 +105,7 @@ Meteor.methods({
     let revieweeId = !validations.validateOne(reviewObject,'revieweeId');
     let jobId = !validations.validateOne(reviewObject,'jobId');
     let rating = !validations.validateOne(reviewObject, 'rating');
-    let review = !validations.validateOne(reviewObject, 'review.text');
+    //let review = !validations.validateOne(reviewObject, 'review.text');
     let companyName = !validations.validateOne(reviewObject, 'companyName.text');
     //
     let conReview = !Match.test(reviewObject.conReview, ConReviewSchema);
@@ -116,16 +116,18 @@ Meteor.methods({
       revieweeId: revieweeId,
       jobId: jobId,
       rating: rating,
-      review: review,
+      //review: review,
       companyName: companyName,
       proReview: proReview,
       conReview: conReview
     }
 
-    if( revieweeId ||reviewerId || jobId|| rating || review ||
+    // if( revieweeId ||reviewerId || jobId|| rating || review ||
+    //   companyName || proReview || conReview)
+    //   throw new Meteor.Error('403',Errors);
+    if( revieweeId ||reviewerId || jobId|| rating ||
       companyName || proReview || conReview)
       throw new Meteor.Error('403',Errors);
-
   },
 
   /**

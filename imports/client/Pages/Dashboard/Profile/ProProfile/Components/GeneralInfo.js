@@ -1,5 +1,5 @@
 import React from 'react';
-import Rating from './Rating';
+import Rating from '../../Rating';
 import { withTracker } from 'meteor/react-meteor-data';
 
 function isEmpty(obj) {

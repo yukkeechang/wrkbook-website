@@ -1,5 +1,5 @@
 import React from 'react';
-import Rating from './Rating';
+import Rating from '../../Rating';
 import { withTracker } from 'meteor/react-meteor-data';
 import ReviewCard from './ReviewCard';
 import MSpinner from '../../../../Shared/MSpinner';

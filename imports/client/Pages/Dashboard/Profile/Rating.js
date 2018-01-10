@@ -9,6 +9,14 @@ export default class Rating extends React.Component {
   }
 
   render() {
+
+    //let ratingParsee = parseInt(this.props.rating);
+    //let ratingParsee = Math.round((this.props.rating*100)/100);
+    //let blah = this.props.rating*100;
+   //let blah = this.props.rating
+   //console.log("from rating.js: "+Number.isInteger(blah))
+   //console.log("from rating.js: "+typeof(blah))
+
     //---filledStars is the rating
     let filledStars = this.props.rating;
     //console.log("filled stars: "+filledStars);
@@ -74,6 +82,8 @@ export default class Rating extends React.Component {
       );
     }
     //console.log("rating array size: "+ratingArr.length)
+    //console.log(ratingParsee);
+    //console.log("fsdfds: "+blah);
     return (
 
       <div
