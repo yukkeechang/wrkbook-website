@@ -188,6 +188,8 @@ export class ProProfilePage extends React.Component {
   render() {
     let image = "cfs/files/images/" + this.props.user.profile.employeeData.image
     console.log(this.props.user.profile.employeeData.image)
+    console.log("about displayed: "+this.state.aboutDisplayed)
+    console.log("about displayed: "+this.state.aboutButtonActive)
     return (
       <div className="container">
         <div className="row gray-div">
@@ -205,7 +207,7 @@ export class ProProfilePage extends React.Component {
             <img
               className="profile-img"
               style={{ width: this.state.mainProfileSize, height: "auto" }}
-              src={"images/hardhat.png"}
+              src={image}
             />
           </div>
         </div>
@@ -256,7 +258,7 @@ export class ProProfilePage extends React.Component {
           </div>
           <div className="col s12 m12 l9">
             {/* Show tab content only if corresponding state is set to true */}
-            { this.state.aboutDisplayed && <About user={this.props.user} isPro={ this.state.isPro }   /> }
+            { this.state.aboutDisplayed && <About user={this.props.user}/> }
             { this.state.contactDisplayed && <Contact isPro={ this.state.isPro } user={this.props.user} /> }
             {
               this.state.isPro

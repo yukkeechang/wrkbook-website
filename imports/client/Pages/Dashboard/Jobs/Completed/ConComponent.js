@@ -1,6 +1,4 @@
 import React from 'react';
-// import { createContainer } from 'meteor/react-meteor-data';
-import ARating from '../../Profile/ProProfile/Components/ARating';
 import EmployeeCompletedComponent from './EmployeeCompletedComponent';
 import EmployeeComponentOuter from './EmployeeComponentOuter';
 

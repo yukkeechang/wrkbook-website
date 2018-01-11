@@ -158,6 +158,31 @@ export default class CreateJobs extends Component {
     let time = JSON.stringify(event);
     this.setState({endT: time});
   }
+  
+  renderGenInfo() {
+    return (
+      <form>
+        <div className="input-field col s12">
+          <MTextField ref="jt" id="jobTitle" error={this.state.jobTitle ? empty : ''} label="Job Title *"/>
+        </div>
+        <div className="row">
+          <div className="input-field col m6 s12">
+            <MTextField ref="sName" id="supervisorName" error={this.state.visorName ? empty : ''} label="Supervisor Name *"/>
+          </div>
+          <div className="input-field col m6 s12">
+            <MTextField ref="sNumber" id="supervisorNumber" error={this.state.visorNumb ? empty : ''} label="Supervisor Number *"/>
+          </div>
+        </div>
+        <div className="input-field col s12">
+          <Location ref="loc"/>
+        </div>
+        <div className="input-field col s12">
+          <MTextField ref="jd" id="jobDescription" label="Job Description *"/>
+        </div>
+      </form>
+
+    )
+  }
   render(){
     let empty = 'This cannot be empty';
     let phErr = 'Not a valid phone number';
@@ -165,25 +190,7 @@ export default class CreateJobs extends Component {
       <div className="container">
       <div className="card">
         <div className="card-content">
-        <form>
-          <div className="input-field col s12">
-            <MTextField ref="jt" id="jobTitle" error={this.state.jobTitle ? empty : ''} label="Job Title *"/>
-          </div>
-          <div className="row">
-            <div className="input-field col m6 s12">
-              <MTextField ref="sName" id="supervisorName" error={this.state.visorName ? empty : ''} label="Supervisor Name *"/>
-            </div>
-            <div className="input-field col m6 s12">
-              <MTextField ref="sNumber" id="supervisorNumber" error={this.state.visorNumb ? empty : ''} label="Supervisor Number *"/>
-            </div>
-          </div>
-          <div className="input-field col s12">
-            <Location ref="loc"/>
-          </div>
-          <div className="input-field col s12">
-            <MTextField ref="jd" id="jobDescription" label="Job Description *"/>
-          </div>
-        </form>
+          {this.renderGenInfo()}
         <form>
           <div className="row">
             <div className="col m2 s4">

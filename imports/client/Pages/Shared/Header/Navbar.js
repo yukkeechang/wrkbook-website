@@ -113,18 +113,21 @@ export class NavBarPage extends Component{
 
       let jobDropDownLinks = this.state.isPro ?
       <ul id='jobs' className='dropdown-content'>
-        <li><Link to='/jobmatchs'>Job Matches</Link></li>
+        <li><Link to='/jobmatchs'>Job Matches{this.props.match > 0 ?
+      <span className="new badge left-align">{this.props.match}</span> : null}</Link></li>
         <li><Link to='/applied'>Applied Jobs</Link></li>
         <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
-        <li><Link to='/upcoming'>Upcoming</Link></li>
+        <li><Link to='/upcoming'>Upcoming{this.props.employeeHired > 0 ?
+      <span className="new badge left-align">{this.props.employeeHired}</span> : null}</Link></li>
 
       </ul>
       :
       <ul id='jobs' className='dropdown-content'>
 
         <li style={{display:'none'}}><Link to='/conjobcurrent'>Current</Link></li>
-        <li><Link to='/upcoming'>Upcoming</Link></li>
+        <li><Link to='/upcoming'>Upcoming{this.props.appliedEmployer > 0 ?
+      <span className="new badge left-align">{this.props.appliedEmployer}</span> : null}</Link></li>
         <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
         <li><Link to='/createjob'>Create Job</Link></li>
@@ -136,13 +139,15 @@ export class NavBarPage extends Component{
         <div  className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs {this.state.switchNav  ?
         <i className="large material-icons">arrow_drop_up</i> :
         <i className="large material-icons">arrow_drop_down</i>
-        }{this.props.notifications > 0 ?
-        <span className="new badge">{this.props.notifications}</span> : null}</div>
-        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobmatchs'>Job Matches{this.props.notifications > 0 ?
-        <span className="new badge">{this.props.notifications}</span> : null}</Link></div>
+      }{this.props.general > 0 ?
+        <span className="new badge">{this.props.general}</span> : null}</div>
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobmatchs'>Job Matches{this.props.match > 0 ?
+      <span className="new badge left-align">{this.props.match}</span> : null}</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/applied'>Applied Jobs</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming{this.props.employeeHired > 0 ?
+      <span className="new badge left-align">{this.props.employeeHired}</span> : null}</Link></div>
         </li>
 
       :
@@ -151,11 +156,13 @@ export class NavBarPage extends Component{
           <div ref="jobsthingz" className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs {this.state.switchNav ?
           <i className="large material-icons">arrow_drop_up</i> :
           <i className="large material-icons">arrow_drop_down</i>
-          }</div>
+          }{this.props.general > 0 ?
+            <span className="new badge">{this.props.general}</span> : null}</div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/createjob'>Create Job</Link></div>
-          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming</Link></div>
+          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming{this.props.appliedEmployer > 0 ?
+        <span className="new badge left-align">{this.props.appliedEmployer}</span> : null}</Link></div>
 
 
         </li>
@@ -163,15 +170,18 @@ export class NavBarPage extends Component{
         return(
             <div className="row">
             <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
-                <i style={styles.icon}className="material-icons">menu</i>
+                <div className="valign-wrapper left-align">
+                  <i style={styles.icon}className="material-icons">menu</i>{this.props.general > 0 ?
+                  <span className="new badge">{this.props.general}</span> : null}
+                </div>
             </div>
             <div style={{textAlign:'center'}}className="col s4 m1">
                 <img style={styles.logo} src="/images/circle-logo.svg"/>
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
-            
-            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText"><div className="valign-wrapper">Jobs {this.props.notifications > 0 ?
-            <span className="new badge">{this.props.notifications}</span> : null} <i className="material-icons">arrow_drop_down</i> </div></div>
+
+            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText"><div className="valign-wrapper">Jobs {this.props.general > 0 ?
+            <span className="new badge">{this.props.general}</span> : null} <i className="material-icons">arrow_drop_down</i> </div></div>
 
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
             <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1 push-s1">
@@ -219,11 +229,16 @@ export class NavBarPage extends Component{
 export default NavBar = withTracker( params => {
   let handle = Meteor.subscribe('notifications-for-user');
   let ready = handle.ready();
-  let notifis = Notification.find({}).count();
-  console.log(notifis);
+  let general = Notification.find({}).count();
+  let match = Notification.find({typeNotifi:'MATCH'}).count();
+  let appliedEmployer = Notification.find({typeNotifi:'APPLIED'}).count();
+  let employeeHired = Notification.find({typeNotifi:'HIRED'}).count();
     return {
         ready: ready,
-        notifications: notifis,
+        general: general,
+        match:match,
+        appliedEmployer:appliedEmployer,
+        employeeHired:employeeHired,
         user: Meteor.user(),
     };
 })(NavBarPage);

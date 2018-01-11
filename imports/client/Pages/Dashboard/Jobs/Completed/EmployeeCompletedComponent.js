@@ -1,17 +1,18 @@
 import React from 'react';
-// import { createContainer } from 'meteor/react-meteor-data';
 import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
 import UserIcon from '../../../Shared/UserIcon';
 import Avatar from '../../../Shared/Avatar';
 import ReactDOM from 'react-dom';
+import Rating from '../../Profile/Rating';
+
+//-----------Details of completed jobs page for CONTRACTOR
 
 function isEmpty(obj) {
   for(var x in obj){return false;}
   return true;
 }
-//Rendered in ConComponent
 
-//Can't set res aas a state, not sure why
+
 export default class EmployeeCompletedComponent extends React.Component {
  constructor(props) {
    super(props);
@@ -61,37 +62,23 @@ export default class EmployeeCompletedComponent extends React.Component {
      });
    }
  }
- writeReview() {
-   //review modal
- }
+
  openModal(){
    $(document).ready(()=> {
      $('#modal1').modal('open');
    });
    //console.log();
  }
+
+ //-----------Renders review or review button for CONTRACTOR to rate PROFESSIONAL
  renderReview() {
      if(!(isEmpty(this.props.review))) {
+       let rating = this.props.review.rating
       return (
         <div>
-        <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
-          <div className="white-text">
-              Rate and Review
-          </div>
-        </button>
-
-         <div id="modal1" className="modal modal-fixed-footer">
-          <div className="modal-content">
-            <CreateReviewForPro
-            proId={this.props.proId}
-            conId={this.props.conId}
-            jobId={this.props.jobId}
-            />
-          </div>
-          <div className="modal-footer">
-            <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-          </div>
-         </div>
+          <Rating
+          rating = {rating}
+          />
         </div>
       )
     }
@@ -103,7 +90,6 @@ export default class EmployeeCompletedComponent extends React.Component {
               Rate and Review
           </div>
         </button>
-
          <div id="modal1" className="modal modal-fixed-footer">
           <div className="modal-content">
             <CreateReviewForPro
@@ -122,23 +108,6 @@ export default class EmployeeCompletedComponent extends React.Component {
       }
     }
 
-    // <div>
-    //    <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal.bind(this)}>
-    //      <div className="white-text">
-    //          Rate and Review
-    //      </div>
-    //    </button>
-    //
-    //     <div id="modal1" className="modal modal-fixed-footer">
-    //      <div className="modal-content">
-    //        <CreateReviewForPro/>
-    //      </div>
-    //      <div className="modal-footer">
-    //        <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    //      </div>
-    //     </div>
-    //
-    // </div>
 
  render() {
       var hours = Math.abs(this.props.event.endAt.getHours() - this.props.event.startAt.getHours());
@@ -163,7 +132,7 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
                 <div className="col m8 center-align">
                   <h5>{this.state.proName} {this.state.proLastName}</h5>
-                  <ARating/>
+                  <Rating/>
                 </div>
 
               </div>
@@ -182,8 +151,6 @@ export default class EmployeeCompletedComponent extends React.Component {
                 Rating and Reviews
                 {this.renderReview()}
               </div>
-              <ARating/>
-
             </div>
           </div>
 
@@ -195,16 +162,18 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
                 <div className="col s8 center-align">
                   <h5>{this.state.proName}  {this.state.proLastName}</h5>
-                  <ARating/>
+                  <Rating/>
                 </div>
               </div>
               <div className="row">
                 <h6>{startdate + " - " + enddate}</h6>
                 <h6>{starttime + " - " + endtime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
+
                 <h6>Pay: ${totalPay}</h6>
-                <ARating/>
-                <h6>The rating i gave to the company is</h6>
+                <Rating/>
+
+
               </div>
             </div>
           </div>
@@ -212,46 +181,3 @@ export default class EmployeeCompletedComponent extends React.Component {
       )
     }
  }
-
- // export default  createContainer(props => {
- //   let event=[];
- //   let review=[];
- //   let loading = false
- //   let loading2 = false
- //   let jobId = props.job._id
- //   let proId = props.id
- //   let conId = props.job.employerId
- //   console.log("job id: "+jobId+" proId: "+proId+" conId: "+conId)
- //   let handleReview =  Meteor.subscribe('review-for-pro-completed', jobId, proId, conId)
- //   let handle = Meteor.subscribe('completed-job-pro-event',jobId);
- //   loading = handle.ready();
- //   console.log("loading: "+loading);
- //   console.log("loading2: "+loading);
- //   event = Event.find({}).fetch();
- //   console.log("event: "+event)
- //   console.log("review: "+review)
- //
- //   return {
- //     loading: loading,
- //     event: event,
- //     review: review
- //   };
- // }, EmployeeCompletedComponent);
-
-
-//<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
-// <button className="waves-effect waves-teal teal btn-flat" onClick={this.writeReview.bind(this)}>
-//   <div className="white-text">
-//       Rate and Review
-//   </div>
-// </button>
-
-
-// <div id="creationModal" className="modal">
-//   <div className="modal-content">
-//     <h5 style={{color:'red'}}>To create more than one job post you must subscribe to our payment plan.</h5>
-//   </div>
-//   <div className="modal-footer">
-//     <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-//   </div>
-// </div>
