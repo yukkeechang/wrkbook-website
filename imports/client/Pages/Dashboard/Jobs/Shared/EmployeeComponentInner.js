@@ -27,8 +27,8 @@ export default class EmployeeCompletedComponent extends React.Component {
      job: {},
      jobID: "",
      events: {},
-     proName:"",
-     proLastName: "",
+     conName:"",
+     conLastName: "",
      imgId: "",
      userID: "",
      labelFontSize: 18,
@@ -37,16 +37,16 @@ export default class EmployeeCompletedComponent extends React.Component {
 
   }
 componentWillMount(){
-  Meteor.call('findUserbyId', this.props.proId, function(err, res){
+  Meteor.call('findUserbyId', this.props.conId, function(err, res){
     if(err) {
       console.log("eror");
     } else {
-      console.log(res.profile.employeeData);
+      console.log(res);
       this.setState({
         userId: res._id,
-        proName: res.profile.firstName,
-        proLastName: res.profile.lastName,
-        imgId: res.profile.employeeData.image,
+        conName: res.profile.firstName,
+        conLastName: res.profile.lastName,
+        imgId: res.profile.employerData.image,
         user: res,
       })
     }
@@ -148,8 +148,8 @@ componentWillMount(){
                 proId={this.state.proID}
                 conId={this.state.conID}
                 userId={this.state.userId}
-                firstName={this.state.proName}
-                lastName={this.state.proLastName}
+                firstName={this.state.conName}
+                lastName={this.state.conLastName}
                 imageId={this.state.imgId}
               />
               :
@@ -186,12 +186,12 @@ componentWillMount(){
                     <Avatar imageId={this.state.imgId} size={50}/>
                 </div>
                 <div className="col s7 pull-s1 center-align">
-                  <h5>{this.state.userName}  {this.state.userLastName}</h5>
+                  <h5>{this.state.conName}  {this.state.conLastName}</h5>
                 </div>
               </div>
               <div className="row">
-                <h6>{startdate + " " + starttime}</h6>
-                <h6>{enddate + " " + endtime}</h6>
+                <h6>{startdate + " - " + enddate}</h6>
+                <h6>{starttime + " - " + endtime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
                 <h6>Total Pay: {totalPay}</h6>
                 <h6>The rating i gave to the company is</h6>
