@@ -92,6 +92,7 @@ class Cert extends React.Component{
             else{
               console.log('done boi');
               $('#submitModal').modal('open');
+              setInterval(function(){window.location.reload()},3000);
             }
           });
           console.log(user.profile.employeeData);

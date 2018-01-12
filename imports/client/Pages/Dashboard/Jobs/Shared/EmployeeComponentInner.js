@@ -27,8 +27,8 @@ export default class EmployeeCompletedComponent extends React.Component {
      job: {},
      jobID: "",
      events: {},
-     proName:"",
-     proLastName: "",
+     conName:"",
+     conLastName: "",
      imgId: "",
      userID: "",
      labelFontSize: 18,
@@ -37,16 +37,16 @@ export default class EmployeeCompletedComponent extends React.Component {
 
   }
 componentWillMount(){
-  Meteor.call('findUserbyId', this.props.proId, function(err, res){
+  Meteor.call('findUserbyId', this.props.conId, function(err, res){
     if(err) {
       console.log("eror");
     } else {
-      console.log(res.profile.employeeData);
+      console.log(res);
       this.setState({
         userId: res._id,
-        proName: res.profile.firstName,
-        proLastName: res.profile.lastName,
-        imgId: res.profile.employeeData.image,
+        conName: res.profile.firstName,
+        conLastName: res.profile.lastName,
+        imgId: res.profile.employerData.image,
         user: res,
       })
     }
@@ -131,12 +131,14 @@ componentWillMount(){
       }
     }
  render() {
-   var hours = Math.abs(this.props.event.endAt.getTime() - this.props.event.startAt.getTime()) / 36e5;
-   var totalPay = hours * this.props.job.professionals[0].pay;
+   var hours = Math.abs(this.props.event.endAt.getHours() - this.props.event.startAt.getHours());
+   var timediff = Math.abs(this.props.event.endAt.getTime() - this.props.event.startAt.getTime());
+   var days = Math.ceil(timediff / (1000 * 3600 * 24));
+   var totalPay = hours * days * this.props.job.professionals[0].pay;
    let endtime = this.props.event.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
    let starttime = this.props.event.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-   let enddate = this.props.event.endAt.getDate() + "/" + (this.props.event.endAt.getMonth() + 1) + "/" + this.props.event.endAt.getFullYear()
-   let startdate = this.props.event.startAt.getDate() + "/" + (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getFullYear()
+   let enddate = (this.props.event.endAt.getMonth() + 1) + "/" + this.props.event.endAt.getDate() + "/" + this.props.event.endAt.getFullYear();
+   let startdate = (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getDate() + "/" + this.props.event.startAt.getFullYear();
       return (
         <div>
           <div className="row center-align hide-on-small-only">
@@ -146,8 +148,8 @@ componentWillMount(){
                 proId={this.state.proID}
                 conId={this.state.conID}
                 userId={this.state.userId}
-                firstName={this.state.proName}
-                lastName={this.state.proLastName}
+                firstName={this.state.conName}
+                lastName={this.state.conLastName}
                 imageId={this.state.imgId}
               />
               :
@@ -184,16 +186,14 @@ componentWillMount(){
                     <Avatar imageId={this.state.imgId} size={50}/>
                 </div>
                 <div className="col s7 pull-s1 center-align">
-                  <h5>{this.state.userName}  {this.state.userLastName}</h5>
-                  <Rating/>
+                  <h5>{this.state.conName}  {this.state.conLastName}</h5>
                 </div>
               </div>
               <div className="row">
-                <h6>{startdate + " " + starttime}</h6>
-                <h6>{enddate + " " + endtime}</h6>
+                <h6>{startdate + " - " + enddate}</h6>
+                <h6>{starttime + " - " + endtime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
                 <h6>Total Pay: {totalPay}</h6>
-                <Rating/>
                 <h6>The rating i gave to the company is</h6>
               </div>
             </div>
