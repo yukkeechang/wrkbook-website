@@ -77,15 +77,25 @@ export default class JobCreateComponent extends Component{
             <input ref="startDate" id="startDate"type="text" className="datepicker"/>
           </div>
           <div className="col s6">
+<<<<<<< HEAD
             <label htmlFor="endDate">Job End Date</label>
+=======
+            <label htmlFor="endDate">End Date</label>
+>>>>>>> rearranged date and time in CreateJobs.js
             <input ref="endDate" id="endDate"type="text" className="datepicker"/>
           </div>
         </div>
         <div className="row">
           <div className="col s6">
+<<<<<<< HEAD
           <label htmlFor="startTime">Daily Start Time</label>
             <input ref="startTime" id="startTime"type="text" className="timepicker"/>
           </div>
+=======
+            <label htmlFor="startTime">Start Time</label>
+              <input ref="startTime" id="startTime"type="text" className="timepicker"/>
+            </div>
+>>>>>>> rearranged date and time in CreateJobs.js
           <div className="col s6">
             <label htmlFor="endTime">Daily End Time</label>
             <input ref="endTime" id="endTime"type="text" className="timepicker"/>
