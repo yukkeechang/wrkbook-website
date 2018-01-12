@@ -194,7 +194,7 @@ componentWillMount(){
                 <h6>{starttime + " - " + endtime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
                 <h6>Total Pay: {totalPay}</h6>
-                <h6>The rating i gave to the company is</h6>
+                
               </div>
             </div>
           </div>
