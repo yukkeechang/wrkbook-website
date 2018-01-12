@@ -35,7 +35,7 @@ render() {
         return(
           <ProComponent
             key = {job._id}
-            jobinfo = {job}
+            job = {job}
             events = {job.eventInfo}
             title = {job.jobTitle.text}
             startAt = {job.startAt}

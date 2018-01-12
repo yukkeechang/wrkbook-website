@@ -231,6 +231,25 @@ Meteor.methods({
       Meteor.users.update({_id: this.userId},{$set: prevUser});
 
     },
+    //Uploads the string associated with the Employee or Employer image
+    uploadProfImage(imageId){
+      if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+      check(imageId,String);
+      let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
+      let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
+      if (isPRO){
+      let prevUser = Meteor.users.findOne({_id: this.userId});
+      prevUser.profile.employeeData.image = imageId;
+
+      Meteor.users.update({_id: this.userId},{$set: prevUser});
+      }
+      else if (isCON){
+        let prevUser = Meteor.users.findOne({_id: this.userId});
+        prevUser.profile.employerData.image = imageId;
+
+        Meteor.users.update({_id: this.userId},{$set: prevUser});
+      }
+    },
     //update the employer data
     updateEmployerData(employerData){
         let prevUser = Meteor.users.findOne({_id: this.userId});

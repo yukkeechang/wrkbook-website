@@ -6,8 +6,8 @@ import { createContainer } from 'meteor/react-meteor-data';
 import {Link} from 'react-router-dom';
 
 
-import ConProfile from './ConProfile/ConOther';
-import ProProfile from './ProProfile/ProOther';
+import ConOther from './ConProfile/ConOther';
+import ProOther from './ProProfile/ProOther';
 
 //import Header from '../Shared/Header';
 function isEmpty(obj) {
@@ -18,39 +18,56 @@ function isEmpty(obj) {
 export default class OtherUser extends Component {
   constructor(props) {
     super(props);
-    this.state ={
-      user: {},
+    this.state = {
+      user: {}
     }
   }
   componentDidMount(){
-    // console.log(this.props.match.params.value);
+     console.log(this.props.match.params.value);
     Meteor.call('findUserbyId',this.props.match.params.value,(err,res)=>{
        if(err){
             console.log(err);
         }
         else {
           console.log(res);
-          this.setState({user: res})
+          this.setState({
+            user: res
+          });
+          console.log(this.state.user);
         }
 
       });
   }
 
   render() {
+    console.log(this.state.user.roles)
     if (!isEmpty(this.state.user)) {
-    if (Roles.userIsInRole(this.props.user._id,"PRO")) {
-        console.log("WORK");
-        return (<ProProfile user={this.state.user}/>);
-      } else if(Roles.userIsInRole(this.props.user._id,"CON")){
-        console.log("CON");
-        return (<ConProfile user={this.state.user}/>);
-      }else{
-        return (<h1> L</h1>);
-      }
-    }else{
+    //----userIsInRole isn't returning what kind of user this is!
+    // if (Roles.userIsInRole(this.state.user._id,"PRO")) {
+    //     console.log("other user is PRO");
+    //     return (<ProProfile user={this.state.user}/>);
+    //   } else if(Roles.userIsInRole(this.state.user._id,"CON")){
+    //     console.log("other user is CON");
+    //     return (<ConProfile user={this.state.user}/>);
+    //   }else{
+    //     return (<h1> L</h1>);
+    //   }
+    // }else{
+    //
+    //   return (<h3>User not found!</h3>);
+    //
+    // }
 
-      return (<h1> esdfsdf</h1>);
-
+    //---temp fix for now
+    if(this.state.user.roles[0] == "PRO") {
+      return (<ProOther user={this.state.user}/>);
+    } else if (this.state.user.roles[0] == "CON") {
+      return (<ConOther user={this.state.user}/>);
+    } else {
+      return (<h1>User exists but profile cannot be displayed</h1>)
     }
+  } else {
+    return(<h3>User not found!</h3>);
   }
+ }
 }

@@ -1,7 +1,7 @@
 import React ,{Component}from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
-import EmployeeCompletedComponent from './EmployeeComponentInner';
+import EmployeeComponentInner from './EmployeeComponentInner';
 
 class EmployeeComponentOut extends Component{
   constructor(props){
@@ -17,7 +17,7 @@ class EmployeeComponentOut extends Component{
                 <div className="row"><div className="col s4 offset-s4"style={{textAlign: 'center'}}><MSpinner /></div>
                 </div> :
                        this.props.event.length > 0?
-                      <EmployeeCompletedComponent
+                      <EmployeeComponentInner
                       upcoming={this.props.upcoming}
                       completed={this.props.completed}
                       current={this.props.current}

@@ -15,6 +15,8 @@ class EmployeeJobPosts extends React.Component{
     super(props);
   }
   render(){
+    let jobObj =  JSON.stringify(this.props.jobPost)
+    console.log("job obj in job matches: "+ jobObj)
     if(!isEmpty(this.props.jobPost)){
       let notifications = this.props.notifications;
       notifications.map(function(notify,index){
@@ -52,6 +54,7 @@ class EmployeeJobPosts extends React.Component{
       );
     }
     else{
+
       return(
           <EmployeeNoJobs
           message={"upcoming"}/>

@@ -301,8 +301,6 @@ Meteor.publish('completed-job-pro',function(){
 
     });
     let cursor = Job.find({_id:{$in:  jobIds}});
-    console.log("CURSOR in completed jobs pro")
-    console.log(cursor)
     return  cursor;
 
   } else {
@@ -330,8 +328,10 @@ Meteor.publish('upcoming-job-pro',function(){
         }
       ]
     })
-    if(!job)throw new Meteor.Error('403','Job was not found');
-    console.log("job")
+    //console.log(job.fetch())
+    if(!job) {
+      throw new Meteor.Error('403','Job was not found')
+    };
     return job;
 
   } else {

@@ -33,9 +33,6 @@ export default class CreateReview extends Component {
         }
       }.bind(this));
 
-      //get job object
-      //stringify
-      //get company name
       Meteor.call('findUserbyId', this.props.conId, function(err,res) {
         if(err) {
           console.log("error finding a con user object in CreateReviewForPro: "+err)
@@ -66,7 +63,7 @@ export default class CreateReview extends Component {
     review.conReview.onTime = this.state.onTime;
     review.conReview.neatJob = this.state.neatJob;
     review.conReview.wouldRecommend = this.state.recommend;
-    review.companyName.text = this.state.companyName ;
+    review.companyName.text = this.state.companyName;
     review.rating = this.state.rating;
     review.review.text = this.refs.reviewText.value();
 
