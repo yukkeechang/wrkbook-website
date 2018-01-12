@@ -110,13 +110,15 @@ export default class EmployeeCompletedComponent extends React.Component {
 
 
  render() {
-   var hours = Math.abs(this.props.event.endAt.getTime() - this.props.event.startAt.getTime()) / 36e5;
-   var totalPay = hours * this.props.job.professionals[0].pay;
-   let endtime = this.props.event.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-   let starttime = this.props.event.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-   let enddate = this.props.event.endAt.getDate() + "/" + (this.props.event.endAt.getMonth() + 1) + "/" + this.props.event.endAt.getFullYear()
-   let startdate = this.props.event.startAt.getDate() + "/" + (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getFullYear()
-       let image = "cfs/files/images/"+this.state.imgId
+      var hours = Math.abs(this.props.event.endAt.getHours() - this.props.event.startAt.getHours());
+      var timediff = Math.abs(this.props.event.endAt.getTime() - this.props.event.startAt.getTime());
+      var days = Math.ceil(timediff / (1000 * 3600 * 24));
+      var totalPay = hours * days * this.props.job.professionals[0].pay;
+      let endtime = this.props.event.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      let starttime = this.props.event.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      let enddate = (this.props.event.endAt.getMonth() + 1) + "/" + this.props.event.endAt.getDate() + "/" + this.props.event.endAt.getFullYear();
+      let startdate = (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getDate() + "/" + this.props.event.startAt.getFullYear();
+      let image = "cfs/files/images/"+this.state.imgId
       return (
         <div>
           <div className="row center-align hide-on-small-only">
@@ -139,8 +141,8 @@ export default class EmployeeCompletedComponent extends React.Component {
               <div style={{fontWeight:'bold'}}>
                 Details
               </div>
-              <h6>{startdate + " at " + starttime}</h6>
-              <h6>{enddate + " at " + endtime}</h6>
+              <h6>{startdate + " - " + enddate}</h6>
+              <h6>{starttime + " - " + endtime}</h6>
               <h6>{this.props.event.responsibilities.text}</h6>
               <h6>Pay: ${totalPay}</h6>
             </div>
@@ -164,8 +166,8 @@ export default class EmployeeCompletedComponent extends React.Component {
                 </div>
               </div>
               <div className="row">
-                <h6>{startdate + " at " + starttime}</h6>
-                <h6>{startdate + " at " + starttime}</h6>
+                <h6>{startdate + " - " + enddate}</h6>
+                <h6>{starttime + " - " + endtime}</h6>
                 <h6>{this.props.event.responsibilities.text}</h6>
 
                 <h6>Pay: ${totalPay}</h6>

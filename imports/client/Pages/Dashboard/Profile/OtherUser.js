@@ -18,8 +18,8 @@ function isEmpty(obj) {
 export default class OtherUser extends Component {
   constructor(props) {
     super(props);
-    this.state ={
-      user: {},
+    this.state = {
+      user: {}
     }
   }
   componentDidMount(){
@@ -29,8 +29,11 @@ export default class OtherUser extends Component {
             console.log(err);
         }
         else {
-          console.log("other-user object: "+ JSON.stringify(res));
-          this.setState({user: res})
+          console.log(res);
+          this.setState({
+            user: res
+          });
+          console.log(this.state.user);
         }
 
       });

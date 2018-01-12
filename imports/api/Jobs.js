@@ -301,8 +301,6 @@ Meteor.publish('completed-job-pro',function(){
 
     });
     let cursor = Job.find({_id:{$in:  jobIds}});
-    console.log("CURSOR in completed jobs pro")
-    console.log(cursor.fetch())
     return  cursor;
 
   } else {

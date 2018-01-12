@@ -14,14 +14,41 @@ class ConComponentPage extends React.Component{
     let dropdowns = ReactDOM.findDOMNode();
 
     $(dropdowns).ready(()=>{
+      $('.modal').modal();
       $('select').material_select();
       $('.tooltipped').tooltip({delay: 50});
     });
+    $(this.refs.titles).on('change',(e)=>{
+      this.handleProChange(e);
+    })
+    this.getEventInfo();
+  }
+  constructor(props){
+    super(props);
+    let job = this.props.jobinfo;
 
+    this.state={
+      job: job,
+      startAt: '',
+      endAt: '',
+      osha10: this.props.jobinfo.requirements.osha.osha10,
+      osha30: this.props.jobinfo.requirements.osha.osha30,
+      license: this.props.jobinfo.requirements.driverLicense,
+      nothing1: true,
+      nothing2: true,
+      value: "0"
+    }
+  }
 
+  handleProChange(e){
 
-    Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
-      console.log(this.props.events[0]);
+    this.setState({
+      value: e.target.value,
+    });
+    this.getEventInfo();
+  }
+  getEventInfo(){
+    Meteor.call('getEventInfo',this.props.events[this.state.value],(err,res)=>{
       if(err){
         console.log(err);
       }else{
@@ -33,30 +60,6 @@ class ConComponentPage extends React.Component{
           startAt: startAt
         });
       }
-    });
-  }
-  constructor(props){
-  super(props);
-  let job = this.props.jobinfo;
-
-  this.state={
-    job: job,
-    startAt: '',
-    endAt: '',
-    osha10: this.props.jobinfo.requirements.osha.osha10,
-    osha30: this.props.jobinfo.requirements.osha.osha30,
-    license: this.props.jobinfo.requirements.driverLicense,
-    nothing1: true,
-    nothing2: true,
-    value: "0"
-  };
-  // console.log(this.props.handleChildLoad)
-
-  }
-  handleProChange(e){
-
-    this.setState({
-      value: e.target.value,
     });
   }
   deleteModal(){
@@ -74,7 +77,7 @@ class ConComponentPage extends React.Component{
     });
   }
   tooltip(){
-    $('.tooltipped').tooltip('remove');
+    $('#edit').tooltip('remove');
   }
 
 
@@ -92,11 +95,11 @@ class ConComponentPage extends React.Component{
 
             <div className="col m2  s1">
               <div className="row right-align">
-                <a onClick={this.deleteModal.bind(this)} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" style={{height:'40px', width:'40px', borderRadius:'100%', textAlign:'center', fontSize:'30px', color:'red'}}><i className="material-icons">delete_forever</i></a>
+                <a className="waves-effect waves-light blue-grey  lighten-3 btn-flat tooltipped" data-position="right" data-tooltip="Delete Job" onClick={this.deleteModal.bind(this)}><i className="small material-icons left">delete_forever</i></a>
               </div>
               <div className="row right-align">
                 <Link to={"/editjob/"+ this.state.job._id}>
-                  <a className="waves-effect waves-light teal lighten-3 btn-flat tooltipped"  data-position="right" data-tooltip="Edit Job Info" onClick={this.tooltip.bind(this)}><i className="small material-icons left">edit</i></a>
+                  <a className="waves-effect waves-light teal lighten-3 btn-flat tooltipped" id="edit" data-position="right" data-tooltip="Edit Job Info" onClick={this.tooltip.bind(this)}><i className="small material-icons left">edit</i></a>
                 </Link>
               </div>
 

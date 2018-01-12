@@ -2,6 +2,7 @@ import React from 'react';
 import Rating from '../Profile/Rating';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
+import Avatar from '../../Shared/Avatar';
 export default class EmployeeComponent extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
@@ -47,6 +48,7 @@ export default class EmployeeComponent extends React.Component{
   }
 
   render(){
+    let image = this.props.profile.employeeData.image;
     return(
       <div className="card z-depth-0">
         <div className="card-content">
@@ -57,7 +59,7 @@ export default class EmployeeComponent extends React.Component{
           </div>
           <div className="row valign-wrapper ec" style={{width:'100%'}}>
             <div className="col m4 s12" style={{display:'flex', justifyContent:'center'}}>
-              <img className="circle" src='/images/facebook.png' height='100px' width='100px'/>
+              <Avatar imageId={image} size={70}/>
             </div>
             <div className="col m8 s12">
               <div className="row">
