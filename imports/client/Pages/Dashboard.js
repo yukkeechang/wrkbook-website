@@ -23,7 +23,6 @@ import EmailTemplate from './Dashboard/EmailTemplates/EmailTemplateTest';
 
 // For testing
 import ConJobPostComponent from './Dashboard/Jobs/ConJobPostComponent';
-import DummyEvents from './Dashboard/DummyEvents';
 import ConJobPosts from './Dashboard/Jobs/ConJobPosts'
 import CreateJobs from './Dashboard/Jobs/CreateJobs';
 import EditJobs from './Dashboard/Jobs/Upcoming/EditJobsOutter';
@@ -62,7 +61,7 @@ class Dash extends Component{
                 <div style={{height:'64px'}}></div>
                 <Switch>
                 <Route exact path="/" render={()=> (<Upcoming/> )}/>
-                <Route exact path="/jobmatchs" component={EmpJobPosts}/>
+                <Route exact path="/jobmatches" component={EmpJobPosts}/>
                 <Route exact path="/profile" component={Profile}/>
                 <Route exact path="/user/:value" component={OtherUser}/>
 
@@ -71,7 +70,7 @@ class Dash extends Component{
                 <Route exact path="/editjob/:value" component={EditJobs}/>
                 <Route exact path="/job/:value" component={ViewJobComp}/>
                 <Route exact path="/applied" component={AppliedJobs} />
-                <Route exact path="/events" component={DummyEvents}/>
+
 
                 <Route exact path="/edit" component={Edit}/>
                 <Route path="/settings" component={Settings}/>

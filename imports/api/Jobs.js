@@ -328,8 +328,10 @@ Meteor.publish('upcoming-job-pro',function(){
         }
       ]
     })
-    if(!job)throw new Meteor.Error('403','Job was not found');
-    console.log("job")
+    //console.log(job.fetch())
+    if(!job) {
+      throw new Meteor.Error('403','Job was not found')
+    };
     return job;
 
   } else {
