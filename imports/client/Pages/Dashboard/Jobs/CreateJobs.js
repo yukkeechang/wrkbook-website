@@ -158,11 +158,7 @@ export default class CreateJobs extends Component {
     let time = JSON.stringify(event);
     this.setState({endT: time});
   }
-<<<<<<< HEAD
   
-=======
-
->>>>>>> rearranged date and time in CreateJobs.js
   renderGenInfo() {
     return (
       <form>
