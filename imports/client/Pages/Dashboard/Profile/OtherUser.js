@@ -2,7 +2,7 @@ import React, {Component}  from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import {PROFESSIONAL} from '../../../../api/Schemas/employeeSchema';
 import {CONTRACTOR} from '../../../../api/Schemas/employerSchema';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import {Link} from 'react-router-dom';
 
 
@@ -15,7 +15,7 @@ function isEmpty(obj) {
   return true;
 }
 
-export default class OtherUser extends Component {
+class OUser extends Component {
   constructor(props) {
     super(props);
     this.state ={
@@ -24,33 +24,37 @@ export default class OtherUser extends Component {
   }
   componentDidMount(){
     // console.log(this.props.match.params.value);
-    Meteor.call('findUserbyId',this.props.match.params.value,(err,res)=>{
-       if(err){
-            console.log(err);
-        }
-        else {
-          console.log(res);
-          this.setState({user: res})
-        }
 
-      });
   }
 
   render() {
-    if (!isEmpty(this.state.user)) {
-    if (Roles.userIsInRole(this.props.user._id,"PRO")) {
-        console.log("WORK");
-        return (<ProProfile user={this.state.user}/>);
-      } else if(Roles.userIsInRole(this.props.user._id,"CON")){
-        console.log("CON");
-        return (<ConProfile user={this.state.user}/>);
-      }else{
-        return (<h1> L</h1>);
-      }
-    }else{
+    console.log(this.props);
+    // console.log(Meteor.userId());
+    if (!isEmpty(this.props.user)) {
+      if (Roles.userIsInRole(this.props.user._id,"PRO")) {
+          console.log("other user is PRO");
+          return (<ProProfile user={this.props.user}/>);
+        } else if(Roles.userIsInRole(this.props.user._id,"CON")){
+          console.log("other user is CON");
+          return (<ConProfile user={this.props.user}/>);
+        }else{
+          return (<h1> L</h1>);
+        }
+    }else if(!this.props.ready){
+      return (<MSpinner/>);
 
-      return (<h1> esdfsdf</h1>);
 
+    }else {
+      return (<h3>User not found!</h3>);
     }
   }
 }
+export default OtherUser = withTracker(props => {
+  let user = {};
+  let handle = Meteor.subscribe('other-user',props.match.params.value);
+  let ready = handle.ready();
+  return {
+    ready:ready,
+    user:Meteor.users.find({_id:props.match.params.value}).fetch()[0],
+  };
+})(OUser);

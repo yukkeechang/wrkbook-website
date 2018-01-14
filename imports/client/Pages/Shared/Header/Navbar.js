@@ -86,7 +86,7 @@ export class NavBarPage extends Component{
         $(sn).sideNav();
         let collapse = ReactDOM.findDOMNode(this.refs.collapsibleref);
          $(collapse).collapsible();
-         console.log(this.props);
+
 
     }
     logout(){
@@ -110,7 +110,7 @@ export class NavBarPage extends Component{
 
     render(){
       let subscription = this.state.isPro ? "" : <li><Link to='/settings/subscription'>Subscription</Link></li>
-
+   console.log(this.props);
       let jobDropDownLinks = this.state.isPro ?
       <ul id='jobs' className='dropdown-content'>
         <li><Link to='/jobmatchs'>Job Matches{this.props.match > 0 ?

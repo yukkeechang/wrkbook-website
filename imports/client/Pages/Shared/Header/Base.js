@@ -57,13 +57,11 @@ export default class Base extends Component{
   sideClick(){
       let sn = ReactDOM.findDOMNode(this.refs.sideNav);
       $(sn).sideNav('hide');
-      // let collapse = ReactDOM.findDOMNode(this.refs.collapsibleref);
-      // $(collapse).collapsible('close', 0);
-      //   this.setState({switchNav:false});
+
 
   }
   things(event){
-    console.log(event);
+
     this.props.handleClick(event);
   }
     render(){

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import MTextField from '../../../Shared/MTextField';
 import Location from '../../../Shared/Location';
+import Avatar from '../../../Shared/Avatar';
 import { DEFAULT } from '../../../../../api/Schemas/basicTextSchema';
 import LocationSchema from '../../../../../api/Schemas/locationSchema';
 
@@ -34,6 +35,7 @@ export default class ProfessionalEdit extends Component{
       phoneE : false,
       gPhone : true,
       validImage: '',
+      employeeImage: '',
       address: DEFAULT,
       lat: -100,
       lng: -100
@@ -49,11 +51,27 @@ export default class ProfessionalEdit extends Component{
       if(empJobTitles.length < 1){
         empJobTitles = this.state.prevTitles;
       }
+      let empImage = this.state.employeeImage;
+      Images.insert(empImage, (err, fileObj) => {
+        if(err){
+          console.log(err);
+          console.log('in error');
+        }
+        else{
+          Meteor.call('uploadProfImage', fileObj._id, (err) => {
+            if(err){
+              console.log(err);
+            }
+            else{
+              console.log('pic uploaded');
+            }
+          })
+        }
+      })
       user.profile.phone = this.refs.ph.value()
       user.profile.employeeData.location = location;
       user.profile.employeeData.jobTitle = Object.values(empJobTitles);
       user.profile.employeeData.about.text = this.refs.ua.value();
-      console.log(user);
       Meteor.call('updateUserData', user, (err)=>{
         if(err){
           console.log(err);
@@ -71,17 +89,33 @@ export default class ProfessionalEdit extends Component{
       if(empJobTitles.length < 1){
         empJobTitles = this.state.prevTitles;
       }
+      let empImage = this.state.employeeImage;
+      Images.insert(empImage, (err, fileObj) => {
+        if(err){
+          console.log(err);
+        }
+        else{
+          Meteor.call('updateImage', fileObj._id, (err) => {
+            if(err){
+              console.log(err);
+            }
+            else{
+              console.log('pic uploaded');
+            }
+          })
+        }
+      })
       user.profile.phone = this.refs.ph.value()
       user.profile.employeeData.location = location;
       user.profile.employeeData.jobTitle = Object.values(empJobTitles);
       user.profile.employeeData.about.text = this.refs.ua.value();
-      console.log(user);
       Meteor.call('updateUserData', user, (err)=>{
         if(err){
           console.log(err);
         }else{
           console.log('updated');
           $('#updateModal').modal('open');
+          setInterval(function(){window.location.reload()},3000);
         }
       });
     }
@@ -102,6 +136,7 @@ export default class ProfessionalEdit extends Component{
       fr.onload = function() {
         window.localStorage.setItem('image',fr.result);
         this.setState({shownlink:window.localStorage['image'],
+        employeeImage:window.localStorage['image'],
         button:''});
       }.bind(this);
       fr.readAsDataURL(files[0]);
@@ -110,13 +145,18 @@ export default class ProfessionalEdit extends Component{
       this.setState({button:'disabled',shownlink:'' });
     }
   }
+  closeModal(){
+    $('#updateModal').modal('close');
+    //  window.location.reload();
+  }
   render(){
+    let image = this.props.user.profile.employeeData.image;
     return(
       <div className="container">
         <div className="card">
         <div className="card-content">
           <div className="col l6 m6 s12">
-            <img id="profileImage" src={this.props.user.profile.employeeData.image} height='350px' width='350px' style={{borderRadius:'350px'}}/>
+            <Avatar imageId={image} size={300}/>
           </div>
           <div className="row">
             <div className="file-field input-field col l8 m8 s12">
@@ -193,7 +233,7 @@ export default class ProfessionalEdit extends Component{
                 <p>Your profile has been updated.</p>
               </div>
               <div className="modal-footer">
-                <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a className="modal-action modal-close waves-effect waves-green btn-flat" onClick={this.closeModal.bind(this)}>Close</a>
               </div>
             </div>
           </form>

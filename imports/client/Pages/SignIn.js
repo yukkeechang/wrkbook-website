@@ -17,14 +17,7 @@ export default class SignIn extends Component{
   }
   componentDidMount(){
     console.log($(window).height());
-    ReactDOM.findDOMNode(this.refs.butt).addEventListener('click', (event) => {
-       event.stopPropagation();
-       event.preventDefault();
-       event.stopImmediatePropagation();
-       this.login(event);
-     }, false);
-     let things = String( $(document).height()/7)+'px'
-     this.setState({windowHeight: things});
+
   }
 
   componentWillUnmount(){
@@ -33,11 +26,9 @@ export default class SignIn extends Component{
 
   login(e){
     console.log(e);
-    // e.preventDefault();
-    e.stopPropagation();
 
     e.preventDefault();
-    // e.nativeEvent.stopImmediatePropagation();
+
     let email = this.refs.em.value();
     let passw = this.refs.p1.value();
 
@@ -50,8 +41,7 @@ export default class SignIn extends Component{
         this.props.history.push('/');
       }
     });
-    e.preventDefault();
-    // e.nativeEvent.stopImmediatePropagation();
+
   }
 
   render(){

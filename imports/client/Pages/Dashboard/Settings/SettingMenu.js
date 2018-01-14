@@ -10,12 +10,11 @@ export default class  SettingMenu extends Component{
   constructor(props){
       super(props);
       this.state = {
-        windowHeight: '0px'
+
       }
   }
   componentDidMount(){
-    let things = String( $(document).height()/5)+'px'
-    this.setState({windowHeight: things});
+
   }
   render(){
     let url = 'settings';

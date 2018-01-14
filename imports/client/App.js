@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { render } from 'react-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
-import LoggedOutNotFound from './Pages/LoggedOutNotFound';
+import LoggedOutNotFound from './Pages/NotFound';
 import LandingPage from './Pages/LandingPage';
 import Dashboard from './Pages/Dashboard';
 import SignIn from './Pages/SignIn';

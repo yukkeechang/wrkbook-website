@@ -1,7 +1,10 @@
 
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check'
+import { check } from 'meteor/check';
+import {PROFESSIONAL} from './Schemas/employeeSchema';
+import {CONTRACTOR} from './Schemas/employerSchema';
+import {NOTAUTH} from './Users'
 // FS.debug = true;
 
 // let createThumb = function(fileObj, readStream, writeStream) {
@@ -57,6 +60,27 @@ Meteor.publish('images-id',function(imageId){
   return Images.find({_id: imageId});
 });
 Meteor.publish('cert-images',function(arrayofId){
-  console.log(Images.find({_id: {$in : arrayofId} }).fetch());
   return Images.find({_id: {$in : arrayofId} });
+});
+Meteor.methods({
+  updateImage(imageId){
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+    check(imageId,String);
+    let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
+    let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
+    if (isPRO){
+    let prevUser = Meteor.users.findOne({_id: this.userId});
+    // Images.remove({_id: prevUser.profile.employeeData.image});
+    prevUser.profile.employeeData.image = imageId;
+    Meteor.users.update({_id: this.userId},{$set: prevUser});
+    }
+    else if (isCON){
+      let prevUser = Meteor.users.findOne({_id: this.userId});
+      prevUser.profile.employerData.image = imageId;
+      // Images.remove({_id: prevUser.profile.employerData.image});
+      Meteor.users.update({_id: this.userId},{$set: prevUser});
+    }else{
+      throw new Meteor.Error('401','NOT AUTHORIZED');
+    }
+  }
 });

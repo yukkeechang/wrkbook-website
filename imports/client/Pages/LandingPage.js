@@ -15,8 +15,6 @@ export default class LandingPage extends React.Component{
     console.log(this.props);
   }
   handleClick=(words)=>{
-    console.log("clickly-click");
-    console.log(words);
     let node = ReactDOM.findDOMNode(this.refs.HowTo);
     let node2 = ReactDOM.findDOMNode(this.refs.price);
     let node3 = ReactDOM.findDOMNode(this.refs.home);

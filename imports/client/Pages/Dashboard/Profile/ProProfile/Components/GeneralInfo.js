@@ -1,8 +1,13 @@
 import React from 'react';
 import Rating from './Rating';
-import ARating from './ARating';
+import { withTracker } from 'meteor/react-meteor-data';
 
-export default class GeneralInfo extends React.Component {
+function isEmpty(obj) {
+  for (var x in obj) { return false; }
+  return true;
+}
+
+class GeneralInfoPage extends React.Component {
 
   constructor(props) {
     super(props);
@@ -20,38 +25,64 @@ export default class GeneralInfo extends React.Component {
 }
 
   render() {
-    const {user} = this.props
-    return (
-      <div className="row">
-        <div className="col s12">
-          <div className="card-panel" style={{ paddingRight: 0 }}>
-            <h4 className="user-name-text">{user.profile.firstName} {user.profile.lastName}</h4>
-            <div className="row" style={{ marginLeft: 0 }}>
-              <ARating/>
-            </div>
+    const {user} = this.props;
+    if(!isEmpty(this.props.reviews)){
+      let reviewz = this.props.reviews;
+      let sum = reviewz.reduce(function(a, b) { return a + b; });
+      let avg = sum / reviewz.length;
+        return (
+          <div className="row">
+            <div className="col s12">
+              <div className="card-panel" style={{ paddingRight: 0 }}>
+                <h4 className="user-name-text">{user.profile.firstName} {user.profile.lastName}</h4>
+                <div className="container">
+                  <br/>
+                      <Rating
+                        rating={avg}
+                        starSize={20}
+                        textSize={15}
+                      />
+                </div>
 
-            <div>
-
-            {this.props.isPro ? this.state.jobTitle
-              .map(i => <span>{i}</span>)
-              .reduce((prev, curr) => [prev, ',  ', curr]) : null
-            }
+                <div>
+                {this.props.isPro ? this.state.jobTitle
+                  .map(i => <span>{i}</span>)
+                  .reduce((prev, curr) => [prev, ',  ', curr]) : null
+                }
+                </div>
+                <p>{this.state.companyName}</p>
+                <p className="gray-text" ></p>
+              </div>
             </div>
-            <p>{this.state.companyName}</p>
-            <p className="gray-text" ></p>
           </div>
+        )
+    }else if(!this.props.loading){
+      return (
+        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+          <MSpinner />
         </div>
-      </div>
-    )
+      );
+    }else{
+          return(
+            <div>
+              No Ratings
+            </div>
+          );
+    }
   }
 }
 
+export default GeneralInfo = withTracker(params => {
+
+  let reviews =[];
+  let loading = false;
+  let handle = Meteor.subscribe('reviews-for-you');
+  loading = handle.ready();
+  reviews = Review.find({}).fetch();
 
 
-//link to see all reviews
-// <a
-//   style={{ fontSize: 12, display: "inline", padding: 0 }}
-//   onClick={this.props.onReviewsClick}
-// >
-//   View all
-// </a>
+  return {
+    loading:loading,
+    reviews:reviews
+  };
+})(GeneralInfoPage);

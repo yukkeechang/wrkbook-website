@@ -25,6 +25,14 @@ Meteor.publish(null, function() {
     return Meteor.users.find({_id: this.userId}, {fields: { emails: 1, profile: 1,roles: 1 } });
 });
 
+Meteor.publish('other-user',function(id){
+    if (id === this.userId|| !this.userId) {
+      this.stop();
+      throw new Meteor.Error('401',NOTAUTH);
+    }else{
+      return Meteor.users.find({_id: id}, {fields: { emails: 1, profile: 1,roles: 1 } });
+    }
+})
 
 Meteor.methods({
     checkPasswords(passwords){

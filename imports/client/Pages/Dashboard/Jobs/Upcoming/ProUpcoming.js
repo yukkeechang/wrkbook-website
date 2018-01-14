@@ -1,9 +1,11 @@
 import React from 'react';
-import { Roles } from 'meteor/alanning:roles';
+
 import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ProComponent from '../Shared/ProComponent';
+import ListingView from '../Shared/ProJobListingView';
 import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
+
+//---This page renders UPCOMING jobs for PROFESSIONALS
 
 function isEmpty(obj) {
     for (var x in obj) { return false; }
@@ -16,9 +18,10 @@ class ProUpcomingJobsPage extends React.Component {
   }
 
 render() {
-  let jobz = this.props.jobPost;
-
-  if(!this.props.loading) {
+  let jobz = this.props.job;
+  console.log(this.props);
+  console.log(this.props.job.length >1 );
+  if(!this.props.ready) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
         <MSpinner />
@@ -26,39 +29,35 @@ render() {
     )
   }
 
-  else if(!(isEmpty(jobz))) {
+  else if(this.props.job.length >0 ) {
     let notifications = this.props.notifications;
     notifications.map(function(notify,index){
       Meteor.call('updateNotification',notify._id,(err)=>{
         console.log(err);
       });
     });
+    console.log("we in it boiii");
     return (
       <div>
       <h3 className="center-align">Upcoming Jobs</h3>
       {jobz.map(function(job, index){
         return(
-          <ProComponent
-
+          <ListingView
             key={job._id}
-            jobinfo = {job}
-            events = {job.eventInfo}
-            title={job.jobTypes.texts}
-            startAt={job.startAt}
-            endAt={job.endAt}
-            description={job.description.text}
-            location={job.location}
-            pay={job.pay}
-            upcoming = {true}
+            job = {job}
+            userId={this.props.userId}
+            isCompeleted = {false}
           />
         )
-      })}
+      }.bind(this))}
       </div>
     )
   }
   else {
+    console.log("in here");
     return (
-        <EmployeeNoJobs/>
+        <EmployeeNoJobs
+        message={"upcoming"}/>
       )
     }
   }
@@ -67,24 +66,24 @@ render() {
 
 
 export default ProUpcoming = withTracker(props => {
-  let user = Meteor.user();
+  let user = Meteor.userId();
   let jobPost=[];
   let notifications = [];
-  let loading = false;
+  let ready = false;
   let notifiloading = false;
-  if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('upcoming-job-pro');
-    let notificationHandle = Meteor.subscribe('notifications-for-user');
-    loading = handle.ready();
-    notifiloading = notificationHandle.ready();
 
-    notifications = Notification.find({typeNotifi:'HIRED'}).fetch();
-    jobPost = Job.find({}).fetch();
-  }
+  let handle = Meteor.subscribe('upcoming-job-pro');
+  let notificationHandle = Meteor.subscribe('notifications-for-user');
+  ready = handle.ready();
+  notifiloading = notificationHandle.ready();
+
+  notifications = Notification.find({typeNotifi:'HIRED'}).fetch();
+  jobPost = Job.find({}).fetch();
+
   return {
-    user: user,
-    loading: loading,
-    jobPost: jobPost,
+    userId: user,
+    ready: ready,
+    job: jobPost,
     notifications:notifications
   };
 })(ProUpcomingJobsPage);

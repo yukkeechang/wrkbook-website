@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../../Shared/MSpinner';
 import { Document, Page } from 'react-pdf/build/entry.noworker';
@@ -16,6 +17,7 @@ class Cert extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
+      $('.modal').modal();
       $('.carousel').carousel({indicators: true,});
     });
     this.setState({
@@ -113,6 +115,7 @@ onDocumentRender = () => {
             }
             else{
               console.log('done boi');
+              $('#submitModal').modal('open');
             }
           });
           console.log(user.profile.employeeData);
@@ -139,6 +142,11 @@ onDocumentRender = () => {
 
   }
 
+  closeModal(){
+  $('#submitModal').modal('close');
+
+}
+
   render() {
 
     return (
@@ -155,7 +163,7 @@ onDocumentRender = () => {
                 )
               })
               :
-                <a className="carousel-item"><img src="images/worker.png"/></a>
+                <h4 className="flow-text">You have no uploaded certifications.</h4>
             }
             </div>
           </div>
@@ -203,6 +211,14 @@ onDocumentRender = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div id="submitModal" className="modal">
+          <div className="modal-content">
+            <h4 className="flow-text">You have successfully uploaded your certification.</h4>
+          </div>
+          <div className="modal-footer">
+            <a className="waves-effect waves-light red lighten-3 btn-flat" onClick={this.closeModal.bind(this)}>Done</a>
           </div>
         </div>
       </div>

@@ -17,11 +17,19 @@ import { Meteor } from 'meteor/meteor';
 
     }
     render(){
-      return(
-      <div>
-              <img style={{width: this.state.width, height: this.state.width}} src={this.props.link} alt=""/>
-      </div>
-      );
+      if (!this.props.ready) {
+        return(
+          <h1>loading</h1>
+        )
+
+      }else{
+        return(
+        <div>
+                <img style={{width: this.state.width, height: this.state.width}} src={this.props.link} alt=""/>
+        </div>
+        );
+      }
+
     }
 }
 

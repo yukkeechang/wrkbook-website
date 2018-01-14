@@ -4,18 +4,15 @@ export default class About extends React.Component {
   constructor(props) {
     super(props);
 
-    const {user, isPro} = this.props
-      if(!isPro) {
-        this.state = {
-          about: user.profile.employerData.about.text
-        }
-      } else {
+    const {user} = this.props
+
+
         this.state = {
           about: user.profile.employeeData.about.text,
           languages: user.profile.employeeData.languages,
           skills: user.profile.employeeData.skills.text
         }
-      }
+      
   }
 
   renderEdu() {

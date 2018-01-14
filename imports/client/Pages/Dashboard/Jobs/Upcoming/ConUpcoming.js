@@ -2,8 +2,11 @@ import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
-import ConJobPostComponent from '../ConJobPostComponent';
+// import ConJobPostComponent from '../ConJobPostComponent';
+import ListingView from '../Shared/ConJobListingView';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
+
+//---This page renders UPCOMING jobs for CONTRACTORS
 
 function isEmpty(obj) {
   for (var x in obj) { return false; }
@@ -14,8 +17,12 @@ class ConUpcomingPage extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      loading1: false
+      loading1: false,
+      index:0
     }
+  }
+  handleChangeIndex(index){
+    this.setState({index:index});
   }
   render(){
     if(!this.props.loading){
@@ -42,24 +49,20 @@ class ConUpcomingPage extends React.Component{
           {jobz.map(function(job, index){
 
             return(
-              <ConJobPostComponent
-
-                key={job._id}
-                jobinfo = {job}
-                events = {job.eventInfo}
-                title={job.jobTypes.texts}
-                startAt={job.startAt}
-                endAt={job.endAt}
-                description={job.description.text}
-                location={job.location}
-                pay={job.pay}
-              />
+            <ListingView
+            key={job._id}
+            job = {job}
+            isCompeleted={false}
+            employeeIds={job.admitAsIDs[this.state.index].ids}
+            handleChangeIndex={this.handleChangeIndex.bind(this)}
+            />
 
             )
-          }.bind(this))}
+          }.bind(this))
+        }
         </div>
       </div>
-      );
+    );
     }
     else{
       return(
@@ -75,7 +78,6 @@ export default ConUpcoming = withTracker(props => {
   let loading = false;
   let notifiloading = false;
 
-  if(!('undefined' === typeof(user))){
     let handle = Meteor.subscribe('upcoming-job-con');
     let notificationHandle = Meteor.subscribe('notifications-for-user');
     loading = handle.ready();
@@ -83,7 +85,7 @@ export default ConUpcoming = withTracker(props => {
 
     notifications = Notification.find({typeNotifi:'APPLIED'}).fetch();
     jobPost = Job.find({}).fetch();
-  }
+
   return {
     user: user,
     loading:loading,

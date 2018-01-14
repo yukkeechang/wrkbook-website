@@ -1,13 +1,19 @@
-//make page for emp con import React from 'react';
+
+/**
+ *
+ * @class
+ * @classdesc This file will render all completed jobs. job details are renderend in ConComponent
+ *
+ */
 import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ConComponent from './ConComponent';
+import ListingView from '../Shared/ConJobListingView';
 import { Link } from 'react-router-dom';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
-//This file will render all completed jobs. job details are renderend in ConComponent
+
 
 
 function isEmpty(obj) {
@@ -19,7 +25,8 @@ class ConCompletedJobsPage extends React.Component {
   constructor(props) {
     super(props);
     this.state= {
-      titleFontSize: 40
+      titleFontSize: 40,
+      index:0
     }
   }
 
@@ -42,19 +49,8 @@ class ConCompletedJobsPage extends React.Component {
       });
     }
   }
-
-  NoCompleteJob() {
-    return (
-      <div className="card-panel  center-align">
-          <img src="/images/hardhat.png" height="150" width="150" />
-          <h5>You dont have any completed jobs!</h5>
-          <Link to={"/createjob"} className="btn">
-            <div className="col s12 m12 l12">
-                  Create a New Job!
-            </div>
-            </Link>
-      </div>
-    )
+  handleChangeIndex(index){
+    this.setState({index:index});
   }
 
 
@@ -68,25 +64,21 @@ render() {
       </div>
     )
   }
-  else if(!(isEmpty(this.props.jobPost))) {
-    let jobz = this.props.jobPost;
+  else if(!(isEmpty(this.props.job))) {
+    let jobz = this.props.job;
     return (
       <div>
         <div>
           <h1 className="center-align" style={{fontSize: this.state.titleFontSize}}>Completed Jobs</h1>
         </div>
-        {jobz.map(function(job, index){
+        {jobz.map((job, index)=>{
           return (
-            <ConComponent
+            <ListingView
             key={job._id}
-            jobinfo = {job}
-            events = {job.eventInfo}
-            title={job.jobTitle.text}
-            startAt={job.startAt}
-            endAt={job.endAt}
-            description={job.description.text}
-            location={job.location.locationName}
-            pay={job.pay}
+            job = {job}
+            isCompeleted={true}
+            employeeIds={job.admitAsIDs[this.state.index].ids}
+            handleChangeIndex={this.handleChangeIndex.bind(this)}
             />
           )
 
@@ -109,22 +101,13 @@ export default ConCompleted = withTracker(props => {
   let user = Meteor.user();
   let jobPost=[]
   let loading = false
-  if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('closed-job-con');
-    loading = handle.ready();
-    //console.log("loading: "+loading);
-    jobPost = Job.find({}).fetch();
-  }
+  let handle = Meteor.subscribe('closed-job-con');
+  loading = handle.ready();
+  jobPost = Job.find({}).fetch();
+
   return {
     user: user,
     loading: loading,
-    jobPost: jobPost
+    job: jobPost
   };
 })(ConCompletedJobsPage);
-
-
-//get employees from the job
-//get the actual job
-//check if job is closed <- that should be done in the completed jobs subscription
-
-//return completed job componenent or no completed job component/page

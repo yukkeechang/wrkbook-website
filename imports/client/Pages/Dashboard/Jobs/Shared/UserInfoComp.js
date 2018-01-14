@@ -1,76 +1,46 @@
 // Component holds user image, user first and last name and rating for the
 // company or the indivudal and displays on EmployeeComponentInner.js
 import React from 'react';
-// import { createContainer } from 'meteor/react-meteor-data';
-import CreateReviewForPro from '../../Reviews/CreateReviewForPro';
-import ReactDOM from 'react-dom';
+
 import UserIcon from '../../../Shared/UserIcon';
 import Avatar from '../../../Shared/Avatar';
-
-function isEmpty(obj) {
-  for(var x in obj){return false;}
-  return true;
-}
+import ViewReview from '../../Reviews/ViewReview';
 export default class UserInfoComp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      firstName:"",
-      lastName: "",
-      imgId: "",
-      user: {}
-    }
-    // if(Roles.userIsInRole(this.props.userId,"PRO")){
-    //   Meteor.call('findUserbyId', this.props.proId, function(err, res){
-    //     if(err) {
-    //     } else {
-    //       this.setState({
-    //         firstName: res.profile.firstName,
-    //         lastName: res.profile.lastName,
-    //         imgId: res.profile.employeeData.image,
-    //         user: res
-    //       })
-    //     }
-    //   }.bind(this));
-    // }
-    // else if(Roles.userIsInRole(this.props.user._id,"CON")){
-    //   Meteor.call('findUserbyId', this.props.conId, function(err, res){
-    //     if(err) {
-    //     } else {
-    //       this.setState({
-    //         firstName: res.profile.firstName,
-    //         lastName: res.profile.lastName,
-    //         imgId: res.profile.employerData.image,
-    //         user: res
-    //       })
-    //     }
-    //   }.bind(this));
-    // }
+
 
   }
   componentDidMount(){
     // console.log(this.props);
     console.log(this.props);
   }
-render(){
-    let image = "cfs/files/images/"+this.props.imageId
+  render(){
+
     // console. log(this.props.imageId);
     return (
-      <div>
-        <div className="col center-align">
+        <div className="col s12 m4">
           <div className="row" style={{fontWeight:'bold'}}>
-            Professional
-          </div>
-          <div className="row">
-            <div className="col m4 center-align">
-              <Avatar imageId={this.props.imageId} size={70}/>
+            <div className="center-align">
+                {this.props.isPro?"Company":"Professional"}
             </div>
-            <div className="col m8 center-align">
-              <h5>{this.props.firstName} {this.props.lastName}</h5>
+
+          </div>
+
+          <div className="row ">
+            <div className="col s12 m6 center-align">
+              <Avatar imageId={this.props.imageId} size={this.props.size}/>
+            </div>
+            <div className="col s12 m6 center-align">
+              <h5>{this.props.name}</h5>
+              {!!this.props.ratingText &&
+              <ViewReview ratingValue={this.props.ratingValue}
+                          ratingText={!!this.props.ratingText? this.props.ratingText :""} />
+              }
             </div>
           </div>
         </div>
-      </div>
+
     )
   }
 }

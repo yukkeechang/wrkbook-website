@@ -14,23 +14,24 @@ import Payment from './Dashboard/Settings/Payment';
 import Completed from './Dashboard/Jobs/Completed/Completed';
 import Upcoming from './Dashboard/Jobs/Upcoming/Upcoming';
 import Current from './Dashboard/Jobs/Current/Current';
+import DetailView from './Dashboard/Jobs/DetailJobView';
 
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';
-import EmailTemplate from './Dashboard/EmailTemplates/EmailTemplateTest';
+
 
 
 
 // For testing
-import ConJobPostComponent from './Dashboard/Jobs/ConJobPostComponent';
-import DummyEvents from './Dashboard/DummyEvents';
+
+
 import ConJobPosts from './Dashboard/Jobs/ConJobPosts'
 import CreateJobs from './Dashboard/Jobs/CreateJobs';
 import EditJobs from './Dashboard/Jobs/Upcoming/EditJobsOutter';
-import AppliedJobs from './Dashboard/Jobs/AppliedJobs';
-import EmpJobPostComponent from './Dashboard/Jobs/EmpJobPostComponent';
-import EmpJobPosts from './Dashboard/Jobs/EmpJobPosts';
-import employeeComponent from './Dashboard/Jobs/EmployeeComponent';
+import AppliedJobs from './Dashboard/Jobs/EmployeeAppliedJobs';
+
+import EmpJobPosts from './Dashboard/Jobs/EmployeeJobMatches';
+
 import References from './Dashboard/References'
 import ProCompleted from './Dashboard/Jobs/Completed/ProCompleted';
 import ConCompleted from './Dashboard/Jobs/Completed/ConCompleted';
@@ -69,9 +70,8 @@ class Dash extends Component{
                 <Route exact path="/references" component={References}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob/:value" component={EditJobs}/>
-                <Route exact path="/job/:value" component={ViewJobComp}/>
+                <Route exact path="/job/:value" component={DetailView}/>
                 <Route exact path="/applied" component={AppliedJobs} />
-                <Route exact path="/events" component={DummyEvents}/>
 
                 <Route exact path="/edit" component={Edit}/>
                 <Route path="/settings" component={Settings}/>

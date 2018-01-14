@@ -140,7 +140,7 @@ export default class  PricingPage extends React.Component{
                       </div>
                     </div>
                     <div style={{display:'flex', justifyContent:'center'}}>
-                      
+
                             <a onClick={this.pro.bind(this)} className="waves-effect waves-teal btn-flat teal">Sign Up</a>
 
                     </div>
