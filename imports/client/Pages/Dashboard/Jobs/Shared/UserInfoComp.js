@@ -59,7 +59,7 @@ render(){
       <div>
         <div className="col center-align">
           <div className="row" style={{fontWeight:'bold'}}>
-            Professional
+            Contractor
           </div>
           <div className="row">
             <div className="col m4 center-align">
