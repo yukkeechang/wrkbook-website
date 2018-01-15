@@ -50,6 +50,7 @@ Meteor.publish('employee-reviews-for-a-job', function( employeeId,employerId,job
 Meteor.publish('reviews-for-job',function(jobID){
     let job = Job.findOne({_id: jobID},{fields: {employerId:1}});
     if(!job)throw new Meteor.Error('401','JOB NOT FOUND');
+    console.log(job);
     return Review.find({reviewerId:this.userId,jobId:jobID,revieweeId:job.employerId});
 });
 
@@ -115,25 +116,37 @@ Meteor.methods({
     let revieweeId = !validations.validateOne(reviewObject,'revieweeId');
     let jobId = !validations.validateOne(reviewObject,'jobId');
     let rating = !validations.validateOne(reviewObject, 'rating');
-    let review = !validations.validateOne(reviewObject, 'review.text');
-    // let companyName = !validations.validateOne(reviewObject, 'companyName.text');
-    //
+
+    // let review = !validations.validateOne(reviewObject, 'review.text');
     let conReview = !Match.test(reviewObject.conReview, ConReviewSchema);
     let proReview = !Match.test(reviewObject.proReview, ProReviewSchema);
-
     let Errors = {
       reviewerId: reviewerId,
       revieweeId: revieweeId,
       jobId: jobId,
       rating: rating,
-      review: review,
       proReview: proReview,
       conReview: conReview
     }
 
-    if( revieweeId ||reviewerId || jobId|| rating || review ||
-       proReview || conReview)
-      throw new Meteor.Error('403',Errors);
+    let nukeText = reviewObject.review.length>0? false: true;
+
+    if(nukeText){
+      delete reviewObject.review;
+      if( revieweeId ||reviewerId || jobId|| rating  ||
+         proReview || conReview)
+        throw new Meteor.Error('403',Errors);
+    }else{
+      let review = !validations.validateOne(reviewObject, 'review.text');
+      Errors.review = review;
+      if( revieweeId ||reviewerId || jobId|| rating  ||review||
+         proReview || conReview)
+        throw new Meteor.Error('403',Errors);
+    }
+
+
+    console.log(reviewObject);
+
 
   },
 
@@ -151,9 +164,9 @@ Meteor.methods({
   */
   createReview(newReview){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-
+    // console.log(newReview);
     newReview.reviewerId = this.userId;
-    let jobInfo = Job.findOne({_id: this.userId}, {fields: {employerId:1}});
+    let jobInfo = Job.findOne({_id: newReview.jobId}, {fields: {employerId:1}});
     let employerInfo = Meteor.users.findOne({_id: jobInfo.employerId});
     newReview.companyName.text = employerInfo.profile.employerData.companyName.text;
 

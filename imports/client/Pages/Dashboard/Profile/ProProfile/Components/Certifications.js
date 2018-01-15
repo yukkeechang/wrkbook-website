@@ -118,7 +118,7 @@ onDocumentRender = () => {
               $('#submitModal').modal('open');
             }
           });
-          console.log(user.profile.employeeData);
+
         }
       });
     }

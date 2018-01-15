@@ -2,7 +2,7 @@ import React from 'react';
 
 import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ListingView from '../Shared/ConJobListingView';
+import SelectConJobList from '../Shared/SelectConJobListView';
 import { Link } from 'react-router-dom';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
@@ -17,9 +17,6 @@ class ConCurrentPage extends React.Component {
     this.state = {
       index:0
     }
-  }
-  handleChangeIndex(index){
-    this.setState({index:index});
   }
 
 
@@ -40,12 +37,11 @@ render() {
 
         {this.props.jobPost.map((job, index)=>{
           return(
-            <ListingView
-            key={job._id}
-            job = {job}
-            isCompeleted={false}
-            employeeIds={job.admitAsIDs[this.state.index].ids}
-            handleChangeIndex={this.handleChangeIndex.bind(this)}
+            <SelectConJobList
+              key={job._id}
+              job = {job}
+              isCompeleted={false}
+              isUpcoming={false}
             />
           )
       })

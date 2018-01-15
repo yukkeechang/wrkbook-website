@@ -52,6 +52,8 @@ import { withTracker } from 'meteor/react-meteor-data';
   }
 
   render(){
+    console.log(this.props);
+    let imageId=this.props.profile.employeeData.image
     return(
       <div className="card z-depth-0">
         <div className="card-content">
@@ -63,7 +65,7 @@ import { withTracker } from 'meteor/react-meteor-data';
           <div className="row valign-wrapper ec" style={{width:'100%'}}>
             <div className="col m4 s12" style={{display:'flex', justifyContent:'center'}}>
 
-              <Avatar size={100} imageId={this.props.profile.employeeData.image}/>
+              <Avatar size={100} imageId={imageId}/>
             </div>
             <div className="col m8 s12">
               <div className="row">

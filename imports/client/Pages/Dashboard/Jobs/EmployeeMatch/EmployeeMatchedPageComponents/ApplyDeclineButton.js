@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
+import { Link } from 'react-router-dom';
 export default class ApplyDeclineButton extends React.Component{
 
   componentDidMount(){
@@ -58,6 +58,11 @@ export default class ApplyDeclineButton extends React.Component{
   openDeclineModal=()=>{
     $(this.refs.declineModal).modal('open');
   }
+  componentWillUnmount(){
+
+          $(this.refs.declineModal).modal('close');
+            $(this.refs.applyModal).modal('close');
+  }
   render(){
     return(
   <div className="col s12">
@@ -100,9 +105,11 @@ export default class ApplyDeclineButton extends React.Component{
                 <h4>Are you sure you want to decline this job? <br/>Once deleted you can not get this job back.</h4>
               </div>
               <div className="modal-footer">
-                <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline}>
-                  I am sure.
-                </button>
+                <Link to={"/"} onClick={this.handleDecline}>
+                  <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline}>
+                    I am sure.
+                  </button>
+                </Link>
               </div>
             </div>
 

@@ -6,6 +6,7 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Profile from './Dashboard/Profile/Profile';
+import Testing from './Dashboard/Profile/ProProfileNew';
 import OtherUser from './Dashboard/Profile/OtherUser'
 import Home from './Dashboard/Home/Home';
 import NotFound from '../Pages/NotFound';
@@ -89,7 +90,7 @@ class Dash extends Component{
                 <Route path="/createreviewforprofessional" component={CreateReviewForPro}/>
                 <Route path="/createreviewforcontractor" component={CreateReviewForCon}/>
 
-
+                <Route path="/testingcrap" component={Testing}/>
 
                 <Route path="*" component={NotFound}/>
                 </Switch>

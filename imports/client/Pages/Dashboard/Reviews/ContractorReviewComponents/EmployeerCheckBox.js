@@ -12,7 +12,7 @@ export default class EmployeeCheckBoxs extends Component{
   value(){
     return{
       paidOnTime: this.state.paidOnTime,
-      safeWorkspace: this.state.safeWorkspace,
+      safeWorkSpace: this.state.safeWorkspace,
 
     };
 

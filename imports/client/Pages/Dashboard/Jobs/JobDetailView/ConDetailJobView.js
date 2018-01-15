@@ -82,10 +82,18 @@ class ConComponentPage extends React.Component{
   componentWillUnmount(){
     console.log("removing tooltip");
         $('.tooltipped').tooltip('remove');
+        $(this.refs.deleteModal).modal('close');
   }
 
 
   render(){
+    console.log(this.props);
+    let notifications = this.props.notifications;
+    notifications.map(function(notify,index){
+      Meteor.call('updateNotification',notify._id,(err)=>{
+        console.log(err);
+      });
+    });
     return(
     <div className="container">
       <div ref="detailedView" className="card">
@@ -157,9 +165,11 @@ class ConComponentPage extends React.Component{
             <h4>Are you sure you want to delete this job? Once deleted you can not get this job back.</h4>
           </div>
           <div className="modal-footer">
-            <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.deleteJob}>
-              I am sure.
-            </button>
+            <Link to={"/"} onClick={this.deleteJob}>
+              <button className="waves-effect waves-red red lighten-3 btn-flat" >
+                I am sure.
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -177,6 +187,14 @@ export default ConComponent = withTracker(props=>{
   let admitPeople = [];
   let readyApply = handleApply.ready();
   let readyAdmit = handleAdmit.ready();
+  let notifications =[];
+  let notifiloading =false;
+
+  let notificationHandle = Meteor.subscribe('notifications-for-user')
+  notifiloading = notificationHandle.ready();
+
+  notifications = Notification.find({typeNotifi:'APPLIED',jobId:props.jobinfo._id}).fetch();
+
   if(!!Meteor.users.find({_id: {$in: props.jobinfo.applyemployeeIds}}).fetch()){
     applyPeople =  Meteor.users.find({_id: {$in: props.jobinfo.applyemployeeIds}}).fetch();
   }
@@ -187,6 +205,7 @@ export default ConComponent = withTracker(props=>{
   return {
     applyPeople : applyPeople,
     admitPeople : admitPeople,
+    notifications:notifications,
     ready : readyApply && readyAdmit,
   };
 

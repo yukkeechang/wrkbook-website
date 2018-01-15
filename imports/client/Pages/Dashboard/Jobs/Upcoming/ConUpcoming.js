@@ -3,7 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
 // import ConJobPostComponent from '../ConJobPostComponent';
-import ListingView from '../Shared/ConJobListingView';
+import SelectConJobList from '../Shared/SelectConJobListView';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
 //---This page renders UPCOMING jobs for CONTRACTORS
@@ -21,9 +21,7 @@ class ConUpcomingPage extends React.Component{
       index:0
     }
   }
-  handleChangeIndex(index){
-    this.setState({index:index});
-  }
+
   render(){
     if(!this.props.loading){
       return (
@@ -34,12 +32,7 @@ class ConUpcomingPage extends React.Component{
     }
     else if(!isEmpty(this.props.jobPost)){
       let jobz = this.props.jobPost;
-      let notifications = this.props.notifications;
-      notifications.map(function(notify,index){
-        Meteor.call('updateNotification',notify._id,(err)=>{
-          console.log(err);
-        });
-      });
+
       return(
         <div>
         <h3 className="center-align">Upcoming Jobs</h3>
@@ -49,12 +42,11 @@ class ConUpcomingPage extends React.Component{
           {jobz.map(function(job, index){
 
             return(
-            <ListingView
-            key={job._id}
-            job = {job}
-            isCompeleted={false}
-            employeeIds={job.admitAsIDs[this.state.index].ids}
-            handleChangeIndex={this.handleChangeIndex.bind(this)}
+            <SelectConJobList
+              key={job._id}
+              job = {job}
+              isCompeleted={false}
+              isUpcoming={true}
             />
 
             )
@@ -79,17 +71,17 @@ export default ConUpcoming = withTracker(props => {
   let notifiloading = false;
 
     let handle = Meteor.subscribe('upcoming-job-con');
-    let notificationHandle = Meteor.subscribe('notifications-for-user');
+    // let notificationHandle = Meteor.subscribe('notifications-for-user');
     loading = handle.ready();
-    notifiloading = notificationHandle.ready();
-
-    notifications = Notification.find({typeNotifi:'APPLIED'}).fetch();
+    // notifiloading = notificationHandle.ready();
+    //
+    // notifications = Notification.find({typeNotifi:'APPLIED'}).fetch();
     jobPost = Job.find({}).fetch();
 
   return {
     user: user,
     loading:loading,
     jobPost:jobPost,
-    notifications:notifications
+    // notifications:notifications
   };
 })(ConUpcomingPage);

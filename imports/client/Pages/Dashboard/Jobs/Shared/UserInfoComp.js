@@ -33,7 +33,7 @@ export default class UserInfoComp extends React.Component {
             </div>
             <div className="col s12 m6 center-align">
               <h5>{this.props.name}</h5>
-              {!!this.props.ratingText &&
+              {this.props.ratingValue>0 &&
               <ViewReview ratingValue={this.props.ratingValue}
                           ratingText={!!this.props.ratingText? this.props.ratingText :""} />
               }

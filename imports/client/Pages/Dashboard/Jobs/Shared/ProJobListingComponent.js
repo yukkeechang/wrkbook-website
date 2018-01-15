@@ -71,7 +71,7 @@ componentWillMount(){
                 size={100}
                 isPro={true}
                 name={this.props.employerInfo.profile.firstName+" "+this.props.employerInfo.profile.lastName}
-                rating={this.props.employerRating}
+                ratingValue={this.props.employerRating}
                 imageId={this.props.employerInfo.profile.employerData.image}
               />
 

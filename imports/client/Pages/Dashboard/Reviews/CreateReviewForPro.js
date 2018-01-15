@@ -30,7 +30,7 @@ export default class CreateReview extends Component {
     review.jobId = this.props.jobId;
     review.conReview = this.refs.checkbox.value();
     review.rating = this.state.rating;
-    review.review.text = this.refs.reviewText.value();
+    review.review = this.refs.reviewText.value();
         console.log(review);
     return{
       review: review,

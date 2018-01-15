@@ -227,18 +227,7 @@ Meteor.methods({
       return crap;
     },
     //Uploads the string associated with the certification to the professional object
-    uploadCertificate(imageId){
-      if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-      check(imageId,String);
-      let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
-      if (!isPRO) throw new Meteor.Error('401',NOTAUTH);
-      let prevUser = Meteor.users.findOne({_id: this.userId});
-      let length = prevUser.profile.employeeData.certfi.length;
-      prevUser.profile.employeeData.certfi[length] = imageId;
 
-      Meteor.users.update({_id: this.userId},{$set: prevUser});
-
-    },
     //update the employer data
     updateEmployerData(employerData){
         let prevUser = Meteor.users.findOne({_id: this.userId});

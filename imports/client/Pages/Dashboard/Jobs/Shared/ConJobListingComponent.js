@@ -71,7 +71,7 @@ class ConJobListingPageComp extends React.Component {
                 size={100}
                 isPro={false}
                 name={this.props.employeeInfo.profile.firstName+" "+this.props.employeeInfo.profile.lastName}
-                rating={this.props.employeeRating}
+                ratingValue={this.props.employeeRating}
                 imageId={this.props.employeeInfo.profile.employeeData.image}
               />
 

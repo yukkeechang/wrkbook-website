@@ -7,14 +7,14 @@ export default class EmployeeCheckBoxs extends Component{
     this.state={
       onTime: false,
       neatJob: false,
-      recommend: false,
+      wouldRecommend: false,
     }
   }
   value(){
     return{
       onTime: this.state.onTime,
       neatJob: this.state.neatJob,
-      recommend: this.state.recommend
+      wouldRecommend: this.state.wouldRecommend
     };
 
   }
@@ -25,7 +25,7 @@ export default class EmployeeCheckBoxs extends Component{
     this.setState({neatJob: true});
   }
   handleRecommend=()=> {
-    this.setState({recommend: true});
+    this.setState({wouldRecommend: true});
   }
 
 

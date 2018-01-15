@@ -59,18 +59,12 @@ Meteor.methods({
       //send email out for everyone in the array
       console.log("function email for removing job")
       Email.send({
-        to: totalPeople.emails[0].address,
+        to: totalPeople[i].emails[0].address,
         from: "no-reply@wrkbook.com",
         subject: `You have been removed from a matched job at ${jobLocation}`,
         text: "The contractor who created this job that you were matched to has deleted the job post."
       });
     }
-    Email.send({
-      to: conId.emails[0].address,
-      from: "no-reply@wrkbook.com",
-      subject: `You have deleted a job at  ${jobLocation}`,
-      text: "bruh"
-    });
   },
 
   removeJobCon(conId, jobLocation) {

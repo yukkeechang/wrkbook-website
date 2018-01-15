@@ -9,7 +9,7 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ListingView from '../Shared/ConJobListingView';
+import SelectConJobList from '../Shared/SelectConJobListView';
 import { Link } from 'react-router-dom';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
@@ -73,12 +73,11 @@ render() {
         </div>
         {jobz.map((job, index)=>{
           return (
-            <ListingView
-            key={job._id}
-            job = {job}
-            isCompeleted={true}
-            employeeIds={job.admitAsIDs[this.state.index].ids}
-            handleChangeIndex={this.handleChangeIndex.bind(this)}
+            <SelectConJobList
+              key={job._id}
+              job = {job}
+              isCompeleted={true}
+              isUpcoming={false}
             />
           )
 

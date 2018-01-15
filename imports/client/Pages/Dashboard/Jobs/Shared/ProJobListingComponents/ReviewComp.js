@@ -23,7 +23,7 @@ class ReviewC extends Component{
                 this.props.ready  ? (
                     this.props.reviews.length >0 ?
                     <ViewReview ratingValue={this.props.reviews[0].rating}
-                    ratingText={this.props.reviews[0].review.text}/>
+                    ratingText={this.props.reviews[0].review}/>
                     :
                     <ReviewModal isProReview={false}
                         conId={this.props.conId}
