@@ -4,7 +4,7 @@ import Header from './Header/Header';
 import About from './AboutCard/AboutPage';
 import Contact from './ContactCard/ContactPage';
 import Certificates from './CertificationCard/Certificates';
-import ReviewsCurrent from './ReviewCard/ReviewsForCurrent';
+import ReviewsCurrent from './ReviewCard/ReviewsForOther';
 import ReactDOM from 'react-dom';
 import GeneralInfo from './GeneralCard/GeneralInfo';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';

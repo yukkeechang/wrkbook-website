@@ -25,7 +25,8 @@ Meteor.publish(null, function() {
 });
 
 Meteor.publish('other-user',function(id){
-    if (id === this.userId|| !this.userId) {
+    if (!this.userId) {
+      console.log("somebody");
       this.stop();
       throw new Meteor.Error('401',NOTAUTH);
     }else{

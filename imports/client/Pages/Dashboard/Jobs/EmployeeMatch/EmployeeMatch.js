@@ -69,7 +69,7 @@ export default class EmpJobPostComponent extends React.Component{
     let isApplied = this.props.jobinfo.applyemployeeIds.includes(this.props.userId)|| this.props.jobinfo.admitemployeeIds.includes(this.props.userId);
     let isDecline = this.props.jobinfo.declineemployeeIds.includes(this.props.userId);
     console.log(isApplied);
-    let addArr = this.props.location.locationName.split(",");
+    let addArr = this.props.location.split(",");
     let parsedAddress = addArr[1]+","+addArr[2]+","+addArr[4];
     return(
     <div ref={this.state.id+"11"}>

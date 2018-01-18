@@ -10,7 +10,7 @@ class ReviewCompU extends React.Component{
     super(props);
   }
   render(){
-
+    console.log(this.props);
     if(!this.props.ready){
       return(
         <MSpinner/>
