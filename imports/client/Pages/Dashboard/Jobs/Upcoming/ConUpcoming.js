@@ -2,7 +2,8 @@ import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
-import ConJobPostComponent from '../ConJobPostComponent';
+// import ConJobPostComponent from '../ConJobPostComponent';
+import SelectConJobList from '../Shared/SelectConJobListView';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
 //---This page renders UPCOMING jobs for CONTRACTORS
@@ -16,9 +17,11 @@ class ConUpcomingPage extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      loading1: false
+      loading1: false,
+      index:0
     }
   }
+
   render(){
     if(!this.props.loading){
       return (
@@ -29,12 +32,7 @@ class ConUpcomingPage extends React.Component{
     }
     else if(!isEmpty(this.props.jobPost)){
       let jobz = this.props.jobPost;
-      let notifications = this.props.notifications;
-      notifications.map(function(notify,index){
-        Meteor.call('updateNotification',notify._id,(err)=>{
-          console.log(err);
-        });
-      });
+
       return(
         <div>
         <h3 className="center-align">Upcoming Jobs</h3>
@@ -44,24 +42,19 @@ class ConUpcomingPage extends React.Component{
           {jobz.map(function(job, index){
 
             return(
-              <ConJobPostComponent
-
-                key={job._id}
-                jobinfo = {job}
-                events = {job.eventInfo}
-                title={job.jobTypes.texts}
-                startAt={job.startAt}
-                endAt={job.endAt}
-                description={job.description.text}
-                location={job.location}
-                pay={job.pay}
-              />
+            <SelectConJobList
+              key={job._id}
+              job = {job}
+              isCompeleted={false}
+              isUpcoming={true}
+            />
 
             )
-          }.bind(this))}
+          }.bind(this))
+        }
         </div>
       </div>
-      );
+    );
     }
     else{
       return(
@@ -77,19 +70,18 @@ export default ConUpcoming = withTracker(props => {
   let loading = false;
   let notifiloading = false;
 
-  if(!('undefined' === typeof(user))){
     let handle = Meteor.subscribe('upcoming-job-con');
-    let notificationHandle = Meteor.subscribe('notifications-for-user');
+    // let notificationHandle = Meteor.subscribe('notifications-for-user');
     loading = handle.ready();
-    notifiloading = notificationHandle.ready();
-
-    notifications = Notification.find({typeNotifi:'APPLIED'}).fetch();
+    // notifiloading = notificationHandle.ready();
+    //
+    // notifications = Notification.find({typeNotifi:'APPLIED'}).fetch();
     jobPost = Job.find({}).fetch();
-  }
+
   return {
     user: user,
     loading:loading,
     jobPost:jobPost,
-    notifications:notifications
+    // notifications:notifications
   };
 })(ConUpcomingPage);

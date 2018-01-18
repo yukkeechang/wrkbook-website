@@ -1,6 +1,8 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
+import EmployerTitle from './ContractorReviewComponents/EmployeerTitle';
+import EmployerCheckBoxs from './ContractorReviewComponents/EmployeerCheckBox';
+import ReviewSchema from '../../../../api/Schemas/reviewSchema';
 import MTextField from '../../Shared/MTextField';
 import Rating from 'react-rating';
 
@@ -42,87 +44,50 @@ export default class CreateReview extends Component {
 
   componentDidMount(){
       Materialize.updateTextFields();
-  };
-
-  handlePaidOnTime() {
-    this.setState({paidOnTime: true})
-  };
-
-  handleSafeWorkspace() {
-    this.setState({safeWorkspace: true})
-  };
+  }
+  returnReview(e) {
 
 
-  handleSubmit (event) {
-    event.preventDefault();
-    let review = ReviewSchema.clean({});
-    review.proReview.paidOnTime = this.state.paidOnTime;
-    review.proReview.safeWorkspace = this.state.safeWorkspace;
-    review.rating = this.state.rating
-    review.review.text = this.refs.reviewText.value();
-    review.reviewerId = this.props.proId;
+    let review=ReviewSchema.clean({});
     review.revieweeId = this.props.conId;
-    review.companyName.text = this.state.companyName;
     review.jobId = this.props.jobId;
-    //console.log(JSON.stringify(review));
-    Meteor.call('createReview', review, function(err, res) {
-      if(err) {
-        console.log("error: " + err);
-      } else {
-        console.log("review made")
-      }
+    review.proReview = this.refs.checkbox.value();
+    review.rating = this.state.rating;
+    review.review = this.refs.reviewText.value();
+    console.log(review);
+    return{
+      review: review,
+      valid: this.state.hasRated,
+    }
 
-    })
-
-  };
-
-
+  }
 
   render() {
       return (
         <div className="card">
             <div className="card-content">
-                <div className="row">
-                    <span className="col s10 card-title">
-                        Thank you for using WrkBook!
-                    </span>
-                    <span className="col s10 card-title">
-                        Please take a second to review {this.state.conFirstName} {this.state.conLastName} at the company {this.state.companyName} to help other professionals like yourself
-                    </span>
-                </div>
-                <form onSubmit={this.handleSubmit.bind(this)}>
-                    <div className="row">
-                        <div className="col s12 m6">
-                        <p>Please select the categories that describe {this.state.conFirstName} {this.state.conLastName} and the job.</p>
-                          <p>
-                            <input type="checkbox" className="filled-in" id="paid-on-time" value={this.state.paidOnTime} onChange={this.handlePaidOnTime.bind(this)}/>
-                            <label htmlFor="paid-on-time">Paid on time</label>
-                          </p>
-                        <p>
-                          <input type="checkbox" className="filled-in" id="safe-workspace" value={this.state.safeWorkspace} onChange={this.handleSafeWorkspace.bind(this)}/>
-                          <label htmlFor="safe-workspace">Safe workspace</label>
-                        </p>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col s12 m6">
-                        <p>Please rate {this.state.companyName}</p>
-                        <Rating
-                          initialRate={this.state.rating}
-                          empty={<i className="material-icons" style={{"fontSize": "40px", color: "#26a69a"}}>star_border</i>}
-                          full={<i className="material-icons" style={{"fontSize": "40px", color: "#26a69a"}}>star</i>}
-                          fractions={2}
-                          onChange={this.handleRate.bind(this)}
-                        />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col s18 m8">
-                            <MTextField ref="reviewText" id="reviewText"  label="Anything else we should know?" />
-                        </div>
-                    </div>
-                    <input type="submit" className="btn blue-grey " data-html="true" value="Submit" />
-                </form>
+                <EmployerTitle conId={this.props.conId}/>
+                <EmployerCheckBoxs ref="checkbox"/>
+
+                  <div className="row">
+                      <div className="col s12 m6 offset-m3">
+                      <p>Please rate </p>
+                      <Rating
+                        initialRate={this.state.rating}
+                        empty={<i className="material-icons" style={{fontSize: "40px", color: "#26a69a"}}>star_border</i>}
+                        full={<i className="material-icons" style={{fontSize: "40px", color: "#26a69a"}}>star</i>}
+                        fractions={2}
+                        onChange={this.handleRate.bind(this)}
+                      />
+                      </div>
+                  </div>
+                  <div className="row">
+                      <div className="col s12 m6 offset-m3">
+                          <MTextField ref="reviewText" id="reviewText"  label="Anything else we should know?" />
+                      </div>
+                  </div>
+
+
             </div>
         </div>
     )

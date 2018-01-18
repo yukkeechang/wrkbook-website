@@ -2,7 +2,7 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ProComponent from '../Shared/ProComponent';
+import ListingView from '../Shared/ProJobListingView';
 import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
 
 function isEmpty(obj) {
@@ -18,7 +18,7 @@ class ProCompletedJobsPage extends React.Component {
 
 
 render() {
-  let jobz = this.props.jobPost;
+  let jobz = this.props.job;
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -33,20 +33,14 @@ render() {
       <h3 className="center-align">Completed Jobs</h3>
       {jobz.map(function(job, index){
         return(
-          <ProComponent
-            key = {job._id}
+          <ListingView
+            userId={this.props.userId}
+            key={job._id}
             job = {job}
-            events = {job.eventInfo}
-            title = {job.jobTitle.text}
-            startAt = {job.startAt}
-            endAt = {job.endAt}
-            description = {job.description.text}
-            location = {job.location}
-            pay = {job.pay}
-            current = {true}
+            isCompeleted = {true}
           />
         )
-      })}
+      }.bind(this))}
       </div>
     )
   }
@@ -62,19 +56,19 @@ render() {
 
 
 export default ProCompleted = withTracker(props => {
-  let user = Meteor.user();
+    let user = Meteor.userId();
   let jobPost=[]
   let loading = false
-  if(!('undefined' === typeof(user))){
-    let handle = Meteor.subscribe('completed-job-pro');
-    loading = handle.ready();
-    jobPost = Job.find({isOpen:false}).fetch();
-    console.log("JOB POST: "+jobPost)
-  }
+
+  let handle = Meteor.subscribe('completed-job-pro');
+  loading = handle.ready();
+  jobPost = Job.find({isOpen:false}).fetch();
+  console.log("JOB POST: "+jobPost)
+
   return {
-    user: user,
+    userId: user,
     loading: loading,
-    jobPost: jobPost
+    job: jobPost
   };
 })(ProCompletedJobsPage);
 
