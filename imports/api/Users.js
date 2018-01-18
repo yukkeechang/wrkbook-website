@@ -25,6 +25,14 @@ Meteor.publish(null, function() {
     return Meteor.users.find({_id: this.userId}, {fields: { emails: 1, profile: 1,roles: 1 } });
 });
 
+Meteor.publish('other-user',function(id){
+    if (id === this.userId|| !this.userId) {
+      this.stop();
+      throw new Meteor.Error('401',NOTAUTH);
+    }else{
+      return Meteor.users.find({_id: id}, {fields: { emails: 1, profile: 1,roles: 1 } });
+    }
+})
 
 Meteor.methods({
     checkPasswords(passwords){
@@ -219,18 +227,7 @@ Meteor.methods({
       return crap;
     },
     //Uploads the string associated with the certification to the professional object
-    uploadCertificate(imageId){
-      if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-      check(imageId,String);
-      let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
-      if (!isPRO) throw new Meteor.Error('401',NOTAUTH);
-      let prevUser = Meteor.users.findOne({_id: this.userId});
-      let length = prevUser.profile.employeeData.certfi.length;
-      prevUser.profile.employeeData.certfi[length] = imageId;
-
-      Meteor.users.update({_id: this.userId},{$set: prevUser});
-
-    },
+    
     //Uploads the string associated with the Employee or Employer image
     uploadProfImage(imageId){
       if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
@@ -250,6 +247,7 @@ Meteor.methods({
         Meteor.users.update({_id: this.userId},{$set: prevUser});
       }
     },
+
     //update the employer data
     updateEmployerData(employerData){
         let prevUser = Meteor.users.findOne({_id: this.userId});

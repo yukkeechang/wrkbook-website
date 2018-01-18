@@ -1,9 +1,13 @@
 import React from 'react';
-import Rating from '../Profile/Rating';
+// import Rating from '../../../../Profile/ProProfile/Rating';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
-import Avatar from '../../Shared/Avatar';
-export default class EmployeeComponent extends React.Component{
+import MSpinner from '../../../../Shared/MSpinner';
+import { Meteor } from 'meteor/meteor';
+import Avatar from '../../../../Shared/Avatar';
+import { withTracker } from 'meteor/react-meteor-data';
+
+ export default  class EmployeeComponent extends React.Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
@@ -48,7 +52,9 @@ export default class EmployeeComponent extends React.Component{
   }
 
   render(){
-    let image = this.props.profile.employeeData.image;
+    console.log(this.props);
+    let imageId=this.props.profile.employeeData.image
+    console.log(imageId);
     return(
       <div className="card z-depth-0">
         <div className="card-content">
@@ -59,15 +65,18 @@ export default class EmployeeComponent extends React.Component{
           </div>
           <div className="row valign-wrapper ec" style={{width:'100%'}}>
             <div className="col m4 s12" style={{display:'flex', justifyContent:'center'}}>
-              <Avatar imageId={image} size={70}/>
+
+              <Avatar size={100} imageId={imageId}/>
             </div>
             <div className="col m8 s12">
               <div className="row">
                 <div className="col s12">
                   <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
                   <p>{this.props.profile.employeeData.jobTitle + " "}</p>
-                  <Rating/>
-                  <p><Link to={"user/" + this.props.employeeId}>
+                  {
+                    //rating
+                  }
+                  <p><Link to={"/user/" + this.props.employeeId}>
                     View profile
                   </Link></p>
                 </div>
@@ -78,8 +87,10 @@ export default class EmployeeComponent extends React.Component{
             {
               !this.props.isAdmitted &&
               <div className="col m6 s12 offset-m4 offset-s2">
-                <button className="waves-effect waves-teal teal lighten-3 btn-flat" onClick={this.handleAdmit.bind(this)}>
+                <button className="waves-effect teal btn-flat" onClick={this.handleAdmit.bind(this)}>
+                  <div className="white-text">
                   Hire
+                  </div>
                 </button>
               </div>
             }

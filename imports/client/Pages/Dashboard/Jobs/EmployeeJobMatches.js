@@ -2,7 +2,7 @@ import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import MSpinner from '../../Shared/MSpinner';
-import EmpJobPostComponent from './EmpJobPostComponent';
+import EmployeeMatch from './EmployeeMatch/EmployeeMatch';
 import EmployeeNoJobs from './Shared/EmployeeNoJobs';
 function isEmpty(obj) {
   for (var x in obj) { return false; }
@@ -26,25 +26,25 @@ class EmployeeJobPosts extends React.Component{
       return(
         <div>
           { this.props.jobPost.map((job,index)=>{
-            console.log(job._id);
+
             return(
-              <EmpJobPostComponent
+              <EmployeeMatch
                 key={job._id}
+                userId={this.props.userId}
+                ref={job._id+"123"}
                 jobinfo = {job}
                 events = {job.eventInfo}
                 title={job.jobTitle.text}
-                startAt={job.startAt}
-                endAt={job.endAt}
                 description={job.description.text}
                 location={job.location}
-                pay={job.pay}
+
               />
             )
           })}
         </div>
       );
     }
-    else if(!this.props.loading && !this.props.notifiloading){
+    else if(!this.props.loading){
       return (
         <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
           <MSpinner />
@@ -65,7 +65,7 @@ export default EmpJobPosts = withTracker( params  => {
   let notifications = [];
   let loading = false;
   let notifiloading = false;
-  if(!('undefined' === typeof(user))){
+
     let handle = Meteor.subscribe('job-post',user.profile.employeeData);
     let notificationHandle = Meteor.subscribe('notifications-for-user');
 
@@ -75,11 +75,11 @@ export default EmpJobPosts = withTracker( params  => {
     jobPost = Job.find({},{sort: {generalStart: 1}}).fetch();
     notifications = Notification.find({typeNotifi:'MATCH'}).fetch();
 
-  }
+
   return{
-    user: user,
+    userId: user._id,
     loading:loading,
     jobPost:jobPost,
-    notifications:notifications
+    notifications:notifications,
   };
 })(EmployeeJobPosts);

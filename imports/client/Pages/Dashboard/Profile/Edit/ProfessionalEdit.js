@@ -1,6 +1,7 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
 
+import UpdateProfilePic from './UpdateProfilePic';
 import MTextField from '../../../Shared/MTextField';
 import Location from '../../../Shared/Location';
 import Avatar from '../../../Shared/Avatar';
@@ -34,8 +35,6 @@ export default class ProfessionalEdit extends Component{
       isEmail: true,
       phoneE : false,
       gPhone : true,
-      validImage: '',
-      employeeImage: '',
       address: DEFAULT,
       lat: -100,
       lng: -100
@@ -51,23 +50,6 @@ export default class ProfessionalEdit extends Component{
       if(empJobTitles.length < 1){
         empJobTitles = this.state.prevTitles;
       }
-      let empImage = this.state.employeeImage;
-      Images.insert(empImage, (err, fileObj) => {
-        if(err){
-          console.log(err);
-          console.log('in error');
-        }
-        else{
-          Meteor.call('uploadProfImage', fileObj._id, (err) => {
-            if(err){
-              console.log(err);
-            }
-            else{
-              console.log('pic uploaded');
-            }
-          })
-        }
-      })
       user.profile.phone = this.refs.ph.value()
       user.profile.employeeData.location = location;
       user.profile.employeeData.jobTitle = Object.values(empJobTitles);
@@ -89,22 +71,6 @@ export default class ProfessionalEdit extends Component{
       if(empJobTitles.length < 1){
         empJobTitles = this.state.prevTitles;
       }
-      let empImage = this.state.employeeImage;
-      Images.insert(empImage, (err, fileObj) => {
-        if(err){
-          console.log(err);
-        }
-        else{
-          Meteor.call('uploadProfImage', fileObj._id, (err) => {
-            if(err){
-              console.log(err);
-            }
-            else{
-              console.log('pic uploaded');
-            }
-          })
-        }
-      })
       user.profile.phone = this.refs.ph.value()
       user.profile.employeeData.location = location;
       user.profile.employeeData.jobTitle = Object.values(empJobTitles);
@@ -120,31 +86,6 @@ export default class ProfessionalEdit extends Component{
       });
     }
   }
-  onFileInputChange(e){
-    if(e.target.files.length){
-      let files = e.target.files;
-
-      if(files[0].type.includes('image')){
-        this.setState({validImage:'valid'});
-      }
-      else{
-        this.setState({validImage: 'invalid',shownlink:'',button:'disabled'});
-
-        return;
-      }
-      let fr = new FileReader();
-      fr.onload = function() {
-        window.localStorage.setItem('image',fr.result);
-        this.setState({shownlink:window.localStorage['image'],
-        employeeImage:window.localStorage['image'],
-        button:''});
-      }.bind(this);
-      fr.readAsDataURL(files[0]);
-    }
-    else{
-      this.setState({button:'disabled',shownlink:'' });
-    }
-  }
   closeModal(){
     $('#updateModal').modal('close');
      window.location.reload();
@@ -155,20 +96,7 @@ export default class ProfessionalEdit extends Component{
       <div className="container">
         <div className="card">
         <div className="card-content">
-          <div className="col l6 m6 s12">
-            <Avatar imageId={image} size={300}/>
-          </div>
-          <div className="row">
-            <div className="file-field input-field col l8 m8 s12">
-              <div className="btn">
-                <span>Upload Image</span>
-                <input id="fileInput" onChange={this.onFileInputChange.bind(this)} type="file" accept="image/*"/>
-              </div>
-              <div className="file-path-wrapper">
-                <input id='fileName'className={"file-path  "+ this.state.validImage} type="text"/>
-              </div>
-            </div>
-          </div>
+          <UpdateProfilePic image={image}/>
           <form>
             <div className="input-field col l6 m6 s12">
               <label className="active" htmlFor="p-job">Current job title(s)</label>

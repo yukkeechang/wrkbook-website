@@ -58,13 +58,13 @@ export default class JobCreateComponent extends Component{
         <div className="row">
           <div className="col s12 m8">
           <div className="input-field">
-            <input id="numberEmployees" ref="numberEmployees" type="number" min="1"/>
+            <input id="numberEmployees" ref="numberEmployees" type="number"/>
             <label htmlFor="numberEmployees">Number of {this.props.title}s</label>
           </div>
           </div>
           <div className="col s12 m4">
           <div className="input-field">
-            <input id="employeePay" onChange={(e) => {this.setState({pay: parseInt(e.target.value.length <= 0 ? 0.00 : e.target.value)})}}ref="employeePay" type="number" min="1"/>
+            <input id="employeePay" onChange={(e) => {this.setState({pay: parseInt(e.target.value.length <= 0 ? 0.00 : e.target.value)})}}ref="employeePay" type="number"/>
             <label htmlFor="employeePay">Pay (${this.state.pay}.00 / Hour)</label>
           </div>
           </div>
@@ -73,21 +73,21 @@ export default class JobCreateComponent extends Component{
         </div>
         <div className="row">
           <div className="col s6">
-            <label htmlFor="startDate">Job Start Date</label>
+            <label htmlFor="startDate">Start Date</label>
             <input ref="startDate" id="startDate"type="text" className="datepicker"/>
           </div>
           <div className="col s6">
-            <label htmlFor="endDate">Job End Date</label>
-            <input ref="endDate" id="endDate"type="text" className="datepicker"/>
+          <label htmlFor="startTime">Start Time</label>
+            <input ref="startTime" id="startTime"type="text" className="timepicker"/>
           </div>
         </div>
         <div className="row">
           <div className="col s6">
-          <label htmlFor="startTime">Daily Start Time</label>
-            <input ref="startTime" id="startTime"type="text" className="timepicker"/>
+            <label htmlFor="endDate">End Date</label>
+            <input ref="endDate" id="endDate"type="text" className="datepicker"/>
           </div>
           <div className="col s6">
-            <label htmlFor="endTime">Daily End Time</label>
+            <label htmlFor="endTime">End Time</label>
             <input ref="endTime" id="endTime"type="text" className="timepicker"/>
           </div>
         </div>
