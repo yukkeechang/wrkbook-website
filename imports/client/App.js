@@ -17,12 +17,6 @@ import MSpinner from './Pages/Shared/MSpinner';
 
 
 
-import Profile from './Pages/Dashboard/Profile/Profile';
-
-// import Step3Reg from './Pages/SignUp/StepThree.js';
-
-import CreateJobs from './Pages/Dashboard/Jobs/CreateJobs'
-
 class Application extends Component {
     render(){
         let spinner  = (

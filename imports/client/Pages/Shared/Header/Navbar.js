@@ -110,7 +110,7 @@ export class NavBarPage extends Component{
 
     render(){
       let subscription = this.state.isPro ? "" : <li><Link to='/settings/subscription'>Subscription</Link></li>
-   console.log(this.props);
+
       let jobDropDownLinks = this.state.isPro ?
       <ul id='jobs' className='dropdown-content'>
         <li><Link to='/jobmatchs'>Job Matches{this.props.match > 0 ?
@@ -176,7 +176,9 @@ export class NavBarPage extends Component{
                 </div>
             </div>
             <div style={{textAlign:'center'}}className="col s4 m1">
+              <Link to='/'>
                 <img style={styles.logo} src="/images/circle-logo.svg"/>
+              </Link>
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
 

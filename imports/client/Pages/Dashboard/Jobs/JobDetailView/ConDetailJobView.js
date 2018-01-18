@@ -106,13 +106,13 @@ class ConComponentPage extends React.Component{
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
 
-            <div className="col m2  s1">
-              <div className="row right-align">
-                <a onClick={this.deleteModal} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" style={{ fontSize:'30px', color:'red'}}><i className="material-icons">delete_forever</i></a>
+            <div className="col m2  s2">
+              <div className="row center-align">
+                <a  style={{padding:'10px'}} onClick={this.deleteModal} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" style={{ fontSize:'30px', color:'red'}}><div style={{height:'40px',width:'40px'}} className="circle blue-grey lighten-5"><i className="material-icons">delete_forever</i></div></a>
               </div>
-              <div className="row right-align">
-                <Link to={"/editjob/"+ this.state.job._id}>
-                  <a className="waves-effect waves-light  btn-flat tooltipped"  data-position="right" data-tooltip="Edit Job Info" ><i className="small material-icons left">edit</i></a>
+              <div className="row center-align">
+                <Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
+                  <a style={{padding:'0px',fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Edit Job Info" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey center-align lighten-5"> <i className="material-icons">edit</i></div></a>
                 </Link>
               </div>
 

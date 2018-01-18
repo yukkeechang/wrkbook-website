@@ -5,9 +5,9 @@ import Header from './Shared/Header';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import Profile from './Dashboard/Profile/Profile';
-import Testing from './Dashboard/Profile/ProProfileNew';
-import OtherUser from './Dashboard/Profile/OtherUser'
+
+import Profile from './Dashboard/Profile/CurrentUserProfile';
+import OtherUser from './Dashboard/Profile/OtherUserProfile'
 import Home from './Dashboard/Home/Home';
 import NotFound from '../Pages/NotFound';
 import Payment from './Dashboard/Settings/Payment';
@@ -65,8 +65,8 @@ class Dash extends Component{
                 <Switch>
                 <Route exact path="/" render={()=> (<Upcoming/> )}/>
                 <Route exact path="/jobmatchs" component={EmpJobPosts}/>
-                <Route exact path="/profile" component={Profile}/>
-                <Route exact path="/user/:value" component={OtherUser}/>
+                <Route  path="/profile" component={Profile}/>
+                <Route  path="/user/:value" component={OtherUser}/>
 
                 <Route exact path="/references" component={References}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
@@ -90,7 +90,6 @@ class Dash extends Component{
                 <Route path="/createreviewforprofessional" component={CreateReviewForPro}/>
                 <Route path="/createreviewforcontractor" component={CreateReviewForCon}/>
 
-                <Route path="/testingcrap" component={Testing}/>
 
                 <Route path="*" component={NotFound}/>
                 </Switch>
