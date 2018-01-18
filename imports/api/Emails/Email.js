@@ -52,7 +52,6 @@ Meteor.methods({
       text: "Your password has been changed. If you didn't do this, please disregard this email."
     });
   },
-
   removeJobPro(totalPeople,jobLocation) {
     console.log("removing job email")
     for (let i = 0; i < totalPeople.length; i++){
@@ -66,7 +65,6 @@ Meteor.methods({
       });
     }
   },
-
   removeJobCon(conId, jobLocation) {
     let conUser = Meteor.users.findOne({_id:conId},{fields: { emails: 1} });
     Email.send({
