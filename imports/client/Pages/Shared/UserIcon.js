@@ -26,6 +26,6 @@ export default UserIcon = withTracker(props => {
     things = Images.find({}).fetch()
     return {
         ready : handle.ready(),
-        link : "cfs/files/images/" + props.imageId
+        link : "/cfs/files/images/" + props.imageId
     };
 })(UserI);

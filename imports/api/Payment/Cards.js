@@ -43,6 +43,7 @@ Meteor.methods({
 
     }
   },
+
   updateCard(cardId,updateField){
     if(Roles.userIsInRole(this.userId,CONTRACTOR)){
       let customerInfo = Meteor.users.findOne({_id:this.userId});
@@ -109,6 +110,6 @@ Meteor.methods({
 
   },
   getAllCards(){
-    
+
   }
 });

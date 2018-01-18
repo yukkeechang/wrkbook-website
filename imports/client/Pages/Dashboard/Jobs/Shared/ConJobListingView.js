@@ -33,8 +33,9 @@ class ConView extends React.Component{
         <div className="container">
           <div className="card">
             <div className="row card grey lighten-1">
+
               <div  className="col s12 center-align">
-                   <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'100%'}} className="flow-text">Location: {this.props.job.location.locationName}</p></Link>
+                <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'100%'}} className="flow-text">Location: {this.props.job.location.locationName}</p></Link>
               </div>
             </div>
             <div style={{height:'200px',overflow: 'auto'}}>

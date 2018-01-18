@@ -44,3 +44,27 @@ body {
       height: 100vmin;
       min-height: 100%;
 }
+/*
+custom scrollbar
+*/
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+     border-radius: 10px
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

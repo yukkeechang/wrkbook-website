@@ -12,30 +12,6 @@ class Subscription extends Component {
         };
     }
 
-    renderBilling() {
-        if (this.props.user) {
-            return (
-                <span><strong>Next billing date:</strong> {this.dateFormatter(this.state.date)}</span>
-            );
-        } else {
-            return (
-                <span style={{opacity: 0.5}}>Next billing date: -</span>
-            );
-        }
-    }
-
-    renderButton() {
-        if (this.props.user) {
-            return (
-                <button className="btn waves-effect waves-light red lighten-1 lowercase">Cancel Membership</button>
-            )
-        } else {
-            return (
-                <button className="btn waves-effect waves-light green lighten-1 lowercase">Resume Membership</button>
-            )
-        }
-    }
-
     // Returns a MM/DD/YYYY  string format for Date objects
     dateFormatter(date) {
         return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
@@ -65,10 +41,25 @@ class Subscription extends Component {
                         <div className="left-align">
                             <strong>Member since:</strong> {this.dateFormatter(this.state.date)}
                             <br/>
-                            {this.renderBilling()}
+                            {
+                                  this.props.user?
+                                    <span><strong>Next billing date:</strong> {this.dateFormatter(this.state.date)}</span>
+                                    :
+                                    <span style={{opacity: 0.5}}>Next billing date: -</span>
+
+                            }
                         </div>
                         <div className="center-align" style={{'marginTop': 60}}>
-                            {this.renderButton()}
+                              {
+                                //THE LINES BELOW MAKES NO SENSE
+                                //SINCE ITS CHECKING IF THERE IS A LOGGED IN USER
+                                //BUT TO ACCESS THIS PAGE YOU HAVE TO BE LOGGED IN
+                                this.props.user ?
+                                  <button className="btn waves-effect waves-light red lighten-1 lowercase">Cancel Membership</button>
+                                  :
+                                  <button className="btn waves-effect waves-light green lighten-1 lowercase">Resume Membership</button>
+                              }
+
                         </div>
                     </div>
                 </div>

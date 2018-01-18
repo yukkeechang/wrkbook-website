@@ -108,7 +108,11 @@ Meteor.publish('reviews-by-you',function(){
 })
 
 Meteor.methods({
-
+/**
+ * Check if the Review Object follows the Schema
+ * @param  {Object} reviewObject The reviewObject sent by the user
+ * @throws {Meteor.Error}  If the reviewObject being sent violates the Schema
+ */
   validateReview(reviewObject) {
     let  validations = ReviewSchema.newContext('REVIEW');
 

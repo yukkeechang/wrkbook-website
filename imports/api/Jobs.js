@@ -25,10 +25,6 @@ Defines a collection named jobs
 Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
 
-// function LocationAndDistande(LocationSchema, Distance) {
-//
-// }
-
 /**
 *
 * Publishes all Jobs that matchs the jobTitles of a  employee, and
@@ -548,7 +544,13 @@ Meteor.methods({
 
 
   },
-
+/**
+ * Base upon the jobObject,notifications will be sent to the employees how are
+ * in the area of the location of the job.
+ * @todo Need to filter employees by the requirements of the job
+ * @param  {Object} jobObject the object of the job that contains info such location
+ * @param  {string} jobId     the id of the job
+ */
   sendNotificationsToPotential(jobObject,jobId){
     // ,
     // 'location.latitude': {$gte: lat_bot, $lt: lat_top},
@@ -589,11 +591,8 @@ Meteor.methods({
        }
 
     });
-    // console.log("people");
-    console.log(peoples);
-    console.log("job notification");
+
     let notify = NotificationSchema.clean({});
-    // notify.toWhomst = job.employerId;
     notify.description = "There is a potential Job Match at "+ jobObject.location.locationName;
     notify.jobId = jobId;
     notify.typeNotifi = "MATCH";
@@ -809,9 +808,15 @@ Meteor.methods({
   applyForJob(jobId,position){
     if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
     // console.log(position);
+    let currentUser = Meteor.users.findOne({_id:this.userId},{fields: {'profile.employeeData.jobTitle':1 } });
+
     let job = Job.findOne({_id: jobId});
     if(!job)throw new Meteor.Error('403','Job was not found');
+    let employeeDoesntHave= currentUser.profile.employeeData.jobTitle.includes(position)? false:true;
+    let jobDoesntHave = job.jobTypes.texts.includes(position) ? false:true;
 
+
+    if(jobDoesntHave||employeeDoesntHave)return;
     if (job.declineemployeeIds.includes(this.userId)) return;
     if(job.admitemployeeIds.includes(this.userId)) return;
     if (job.applyemployeeIds.includes(this.userId)) {
@@ -1051,6 +1056,13 @@ Meteor.methods({
 
     if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
     Job.findOne({_id:jobId,employerId:this.userId})
+
+  },
+  closeJob(jobId){
+    check(jobId,String);
+    if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+    let job = Job.findOne({_id:jobId});
+    if(!job) throw new Meteor.Error('403','Job Not Found');
 
   }
 });

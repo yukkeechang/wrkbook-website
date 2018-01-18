@@ -36,7 +36,7 @@ class EmployeeJobPosts extends React.Component{
                 events = {job.eventInfo}
                 title={job.jobTitle.text}
                 description={job.description.text}
-                location={job.location}
+                location={job.location.locationName}
 
               />
             )

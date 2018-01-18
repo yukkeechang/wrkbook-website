@@ -37,10 +37,10 @@ export default class EmployeeSelect extends React.Component {
     console.log(this.props);
     return(
     <div className="row">
-      <div className="col s12 m6 center-align">
+      <div className="col s10 m6 center-align offset-s1">
         <h6  className="flow-text"> Show Employees Admitted as </h6>
       </div>
-      <div className="col s12 m5 center-align">
+      <div className="col s10 m5 center-align offset-s1">
         <select ref="employeeType" id="employeeType">
           {this.props.jobTypes.map((title, index)=>{
 

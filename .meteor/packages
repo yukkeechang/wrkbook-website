@@ -25,4 +25,4 @@ session@1.1.7
 matteodem:server-session
 percolate:synced-cron
 
-ecmascript
+ecmascript@0.9.0

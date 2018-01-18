@@ -88,7 +88,7 @@ export default class ProfessionalEdit extends Component{
   }
   closeModal(){
     $('#updateModal').modal('close');
-     window.location.reload();
+    //  window.location.reload();
   }
   render(){
     let image = this.props.user.profile.employeeData.image;

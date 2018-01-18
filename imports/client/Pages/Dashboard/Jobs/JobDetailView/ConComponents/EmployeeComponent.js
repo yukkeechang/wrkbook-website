@@ -54,7 +54,6 @@ import { withTracker } from 'meteor/react-meteor-data';
   render(){
     console.log(this.props);
     let imageId=this.props.profile.employeeData.image
-    console.log(imageId);
     return(
       <div className="card z-depth-0">
         <div className="card-content">
