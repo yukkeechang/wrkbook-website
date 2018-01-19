@@ -104,10 +104,13 @@ Meteor.publish('cert-pdfs',function(arrayofId){
   console.log(PDFs.find({_id: {$in : arrayofId} }).fetch());
   return PDFs.find({_id: {$in : arrayofId} });
 });
+
 Meteor.methods({
   updateImage(imageId){
+    // let imageFile = Images.find
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(imageId,String);
+
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     if (isPRO){
