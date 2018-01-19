@@ -403,9 +403,13 @@ export const changeIsOpen = () =>{
   let things = Job.update({'generalEnd': {$lt : currentDate},'isOpen':true},
                 {$set: {"isOpen" :false}},
                 {multi:true});
+  updateEmployeeWorkHistory()
   return things;
 };
 
+const updateEmployeeWorkHistory = ()=>{
+    console.log("Need to Implement");
+};
 
 Meteor.methods({
 
@@ -1068,6 +1072,16 @@ Meteor.methods({
     if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
     let job = Job.findOne({_id:jobId});
     if(!job) throw new Meteor.Error('403','Job Not Found');
+    job.isOpen=false;
+    let selector = {_id: jobId, employerId:this.userId};
 
+    Job.update(selector,{$set: job});
+    let admitemployeeIds= job.admitemployeeIds;
+
+    for (var variable in admitemployeeIds) {
+      Meteor.call('updateEmployeeJobHistory',admitemployeeIds[variable],jobId,(err)=>{
+        if(err)console.log(err);
+      })
+    }
   }
 });
