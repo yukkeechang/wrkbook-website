@@ -95,7 +95,7 @@ export default class ProfessionalEdit extends Component{
           console.log(err);
         }
         else{
-          Meteor.call('uploadProfImage', fileObj._id, (err) => {
+          Meteor.call('updateImage', fileObj._id, (err) => {
             if(err){
               console.log(err);
             }
@@ -147,7 +147,7 @@ export default class ProfessionalEdit extends Component{
   }
   closeModal(){
     $('#updateModal').modal('close');
-     window.location.reload();
+    //  window.location.reload();
   }
   render(){
     let image = this.props.user.profile.employeeData.image;

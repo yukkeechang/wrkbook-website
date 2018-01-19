@@ -5,8 +5,9 @@ import Header from './Shared/Header';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import Profile from './Dashboard/Profile/Profile';
-import OtherUser from './Dashboard/Profile/OtherUser'
+
+import Profile from './Dashboard/Profile/CurrentUserProfile';
+import OtherUser from './Dashboard/Profile/OtherUserProfile'
 import Home from './Dashboard/Home/Home';
 import NotFound from '../Pages/NotFound';
 import Payment from './Dashboard/Settings/Payment';
@@ -14,22 +15,24 @@ import Payment from './Dashboard/Settings/Payment';
 import Completed from './Dashboard/Jobs/Completed/Completed';
 import Upcoming from './Dashboard/Jobs/Upcoming/Upcoming';
 import Current from './Dashboard/Jobs/Current/Current';
+import DetailView from './Dashboard/Jobs/DetailJobView';
 
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';
-import EmailTemplate from './Dashboard/EmailTemplates/EmailTemplateTest';
+
 
 
 
 // For testing
-import ConJobPostComponent from './Dashboard/Jobs/ConJobPostComponent';
+
+
 import ConJobPosts from './Dashboard/Jobs/ConJobPosts'
 import CreateJobs from './Dashboard/Jobs/CreateJobs';
 import EditJobs from './Dashboard/Jobs/Upcoming/EditJobsOutter';
-import AppliedJobs from './Dashboard/Jobs/AppliedJobs';
-import EmpJobPostComponent from './Dashboard/Jobs/EmpJobPostComponent';
-import EmpJobPosts from './Dashboard/Jobs/EmpJobPosts';
-import employeeComponent from './Dashboard/Jobs/EmployeeComponent';
+import AppliedJobs from './Dashboard/Jobs/EmployeeAppliedJobs';
+
+import EmpJobPosts from './Dashboard/Jobs/EmployeeJobMatches';
+
 import References from './Dashboard/References'
 import ProCompleted from './Dashboard/Jobs/Completed/ProCompleted';
 import ConCompleted from './Dashboard/Jobs/Completed/ConCompleted';
@@ -62,15 +65,14 @@ class Dash extends Component{
                 <Switch>
                 <Route exact path="/" render={()=> (<Upcoming/> )}/>
                 <Route exact path="/jobmatches" component={EmpJobPosts}/>
-                <Route exact path="/profile" component={Profile}/>
-                <Route exact path="/user/:value" component={OtherUser}/>
+                <Route  path="/profile" component={Profile}/>
+                <Route  path="/user/:value" component={OtherUser}/>
 
                 <Route exact path="/references" component={References}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob/:value" component={EditJobs}/>
-                <Route exact path="/job/:value" component={ViewJobComp}/>
+                <Route exact path="/job/:value" component={DetailView}/>
                 <Route exact path="/applied" component={AppliedJobs} />
-
 
                 <Route exact path="/edit" component={Edit}/>
                 <Route path="/settings" component={Settings}/>
@@ -87,7 +89,6 @@ class Dash extends Component{
                 <Route path="/empcompleted" component={ProCompleted}/>
                 <Route path="/createreviewforprofessional" component={CreateReviewForPro}/>
                 <Route path="/createreviewforcontractor" component={CreateReviewForCon}/>
-
 
 
                 <Route path="*" component={NotFound}/>
