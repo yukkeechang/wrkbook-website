@@ -242,7 +242,6 @@ Meteor.publish('current-job-pro',function(){
         }
       }
       let eventId = job.eventInfo[idxx2]
-      console.log("event id: "+eventId)
       //Find event with event Id
       hackIdThing = [];
       hackIdThing[0] = eventId
@@ -254,7 +253,7 @@ Meteor.publish('current-job-pro',function(){
 
     });
     let cursor = Job.find({_id:{$in:  jobIds}});
-    console.log("coming out of current-job-pro")
+
     return  cursor;
   } else {
     this.stop();
@@ -271,7 +270,7 @@ Meteor.publish('completed-job-pro',function(){
     let currentDate = new Date()
 
 
-    console.log("going into completed-job-pro")
+
     let job = Job.find({'admitemployeeIds' :{$in : hackIdThing},
                         'generalEnd':{$lt: currentDate},
                         'isOpen':false});
@@ -313,7 +312,6 @@ Meteor.publish('upcoming-job-pro',function(){
     let hackIdThing =[];
     hackIdThing[0] = this.userId;
     let currentDate = new Date()
-    console.log("going into upcoming-job-pro")
     let job = Job.find({$and:
       [
         {
@@ -325,10 +323,8 @@ Meteor.publish('upcoming-job-pro',function(){
         }
       ]
     })
-    //console.log(job.fetch())
-    if(!job) {
-      throw new Meteor.Error('403','Job was not found')
-    };
+    if(!job)throw new Meteor.Error('403','Job was not found');
+
     return job;
 
   } else {
@@ -342,6 +338,10 @@ Meteor.publish('upcoming-job-pro',function(){
 Meteor.publish('current-job-con',function(){
   let currentDate = new Date();
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+    Job.update({'generalEnd': {$lt : currentDate},'isOpen':true,employerId:this.userId},
+                  {$set: {"isOpen" :false}},
+                  {multi:true});
+
     return Job.find(
       { employerId:this.userId,
         generalStart:{$lt: currentDate},
@@ -403,9 +403,13 @@ export const changeIsOpen = () =>{
   let things = Job.update({'generalEnd': {$lt : currentDate},'isOpen':true},
                 {$set: {"isOpen" :false}},
                 {multi:true});
+  updateEmployeeWorkHistory()
   return things;
 };
 
+const updateEmployeeWorkHistory = ()=>{
+    console.log("Need to Implement");
+};
 
 Meteor.methods({
 
@@ -799,7 +803,7 @@ Meteor.methods({
   Job.update(selector,{$set: prevJob});
 
   for (let idx in updateEvent) {
-    console.log( prevJob.eventInfo[idx]);
+
     let selector2 = {_id: prevJob.eventInfo[idx],owner:this.userId};
       updateEvent[idx].jobId = jobId;
       Event.update( selector2,{$set:updateEvent[idx]});
@@ -809,7 +813,7 @@ Meteor.methods({
 
   applyForJob(jobId,position){
     if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
-    // console.log(position);
+
     let currentUser = Meteor.users.findOne({_id:this.userId},{fields: {'profile.employeeData.jobTitle':1 } });
 
     let job = Job.findOne({_id: jobId});
@@ -1044,6 +1048,9 @@ Meteor.methods({
     Meteor.call('removeJobCon', this.userId, jobRemove.location.locationName,(err)=>{
       if(err)console.log(err);
     });
+    Meteor.call('deleteNotificationsForJob',jobId,(err)=>{
+      if(err)console.log(err);
+    });
 
 
     Job.remove({_id: jobId, employerId: this.userId});
@@ -1065,6 +1072,16 @@ Meteor.methods({
     if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
     let job = Job.findOne({_id:jobId});
     if(!job) throw new Meteor.Error('403','Job Not Found');
+    job.isOpen=false;
+    let selector = {_id: jobId, employerId:this.userId};
 
+    Job.update(selector,{$set: job});
+    let admitemployeeIds= job.admitemployeeIds;
+
+    for (var variable in admitemployeeIds) {
+      Meteor.call('updateEmployeeJobHistory',admitemployeeIds[variable],jobId,(err)=>{
+        if(err)console.log(err);
+      })
+    }
   }
 });

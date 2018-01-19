@@ -19,6 +19,7 @@ constructor(props) {
 }
 
 render() {
+  console.log(this.props);
     return(
       <div className="card-panel">
         {this.props.ready?

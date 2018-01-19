@@ -18,7 +18,7 @@ Meteor.publish('today-events',function(currentDate) {
     ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
 
     // currentDate.setHours(0,0,0,0);
-    console.log(currentDate);
+
     return Event.find(
       {$and:[
         {$or : [{startAt:{$lte: currentDate}},{endAt:{$gte:currentDate}}]},

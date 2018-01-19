@@ -92,10 +92,9 @@ render() {
                 </div>
 
           </div>
-          <div className="row "></div>
 
-          <div  style={{marginBottom:'0px'}} className="row " >
-            <div className="col s12 m8 l8 offset-l4  offset-m4">
+          <div   style={{marginBottom:'0px',position:'relative'}} className="row " >
+            <div className="col s12 m8 l8 offset-l3  offset-m3">
               <div  style={{paddingRight:'3px',paddingLeft:'3px'}} className="col center-align s3 m3 l3">
 
                 <Link style={{backgroundColor:'white',height:'100%',width:'100%'}} to={this.state.defaultRoute ? this.props.url+"/about": this.state.link+"about"} onClick={this.handleClick.bind(this,'about')}>
