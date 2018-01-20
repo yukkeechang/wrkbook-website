@@ -7,6 +7,11 @@ import { Roles } from 'meteor/alanning:roles';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 
+/**
+  @global
+  @description Defines the notifications collection,
+  has the basic MongoBD functions(insert,update,remove,etc)
+**/
 Notification = new Mongo.Collection('notifications');
 Notification.attachSchema(NotificationSchema);
 
@@ -22,12 +27,14 @@ Meteor.publish('notifications-for-user',function(){
 
 
 Meteor.methods({
+
   createNotification(newNotify){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     newNotify.createdAt = new Date();
     check(newNotify,NotificationSchema);
     Notification.insert(newNotify);
   },
+
   updateNotification(notifyId){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(notifyId,String);
@@ -35,5 +42,11 @@ Meteor.methods({
     if(!(notification)) return;
     notification.seen = true;
     Notification.update({_id:notifyId},{$set: notification});
+  },
+  deleteNotificationsForJob(jobId){
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+    check(jobId,String);
+    Notification.remove({jobId:jobId});
   }
+
 });

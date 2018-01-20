@@ -3,7 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import MSpinner from '../../Shared/MSpinner';
 import EmployerNoUpcomingJobs from './Shared/EmployerNoJobs';
-import ConJobPostComponent from './ConJobPostComponent';
+// import ConJobPostComponent from './ConJobPostComponent';
 
 function isEmpty(obj) {
   for (var x in obj) { return false; }
@@ -31,33 +31,32 @@ class ContractorJobPosts extends React.Component{
       return(
         <div className="container">
           <br/>
-          {jobz.map(function(job, index){
+          {/*jobz.map(function(job, index){
 
             return(
               <ConJobPostComponent
-
+                isUpcoming={true}
                 key={job._id}
                 jobinfo = {job}
                 events = {job.eventInfo}
                 title={job.jobTypes.texts}
-                startAt={job.startAt}
-                endAt={job.endAt}
                 description={job.description.text}
                 location={job.location}
-                pay={job.pay}
+
               />
 
             )
-          }.bind(this))}
+          }.bind(this))*/
+        }
         </div>
       );
     }
     else{
       return(
-        <div>
+
         <EmployerNoUpcomingJobs
         message={"upcoming"}/>
-        </div>
+
       );
     }
   }

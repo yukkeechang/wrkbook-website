@@ -12,7 +12,6 @@ export default class Forgot extends Component{
     this.state = {
       noUser: '',
       showEmail: false,
-      windowHeight: '0px'
     }
   }
   componentDidMount(){
@@ -65,7 +64,7 @@ export default class Forgot extends Component{
             </div>
 
               <Footer/>
-            
+
         </div>
     );
   }

@@ -10,9 +10,7 @@ import ProUpcoming from './ProUpcoming';
 class UpcomingJobs extends React.Component {
   constructor(props) {
     super(props);
-    const {user} = this.props
-    console.log(user)
-    this.state = {user: user}
+
     if(Roles.userIsInRole(this.props.user._id,"CON")){
       this.state={isPro: false}
     } else if (Roles.userIsInRole(this.props.user._id,"PRO")) {
@@ -21,7 +19,7 @@ class UpcomingJobs extends React.Component {
   }
 
 render() {
-  console.log(this.state.upcoming);
+  // console.log(this.state.upcoming);
   return (
     this.state.isPro ? <ProUpcoming/> : <ConUpcoming/>
   )

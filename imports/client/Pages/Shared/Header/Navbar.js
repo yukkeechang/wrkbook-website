@@ -86,7 +86,7 @@ export class NavBarPage extends Component{
         $(sn).sideNav();
         let collapse = ReactDOM.findDOMNode(this.refs.collapsibleref);
          $(collapse).collapsible();
-         console.log(this.props);
+
 
     }
     logout(){
@@ -113,7 +113,7 @@ export class NavBarPage extends Component{
 
       let jobDropDownLinks = this.state.isPro ?
       <ul id='jobs' className='dropdown-content'>
-        <li><Link to='/jobmatchs'>Job Matches{this.props.match > 0 ?
+        <li><Link to='/jobmatches'>Job Matches{this.props.match > 0 ?
       <span className="new badge left-align">{this.props.match}</span> : null}</Link></li>
         <li><Link to='/applied'>Applied Jobs</Link></li>
         <li><Link to='/current'>Current</Link></li>
@@ -176,7 +176,9 @@ export class NavBarPage extends Component{
                 </div>
             </div>
             <div style={{textAlign:'center'}}className="col s4 m1">
+              <Link to='/'>
                 <img style={styles.logo} src="/images/circle-logo.svg"/>
+              </Link>
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
 

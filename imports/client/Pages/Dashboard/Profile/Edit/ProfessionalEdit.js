@@ -1,8 +1,10 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
 
+import UpdateProfilePic from './UpdateProfilePic';
 import MTextField from '../../../Shared/MTextField';
 import Location from '../../../Shared/Location';
+import Avatar from '../../../Shared/Avatar';
 import { DEFAULT } from '../../../../../api/Schemas/basicTextSchema';
 import LocationSchema from '../../../../../api/Schemas/locationSchema';
 
@@ -33,7 +35,6 @@ export default class ProfessionalEdit extends Component{
       isEmail: true,
       phoneE : false,
       gPhone : true,
-      validImage: '',
       address: DEFAULT,
       lat: -100,
       lng: -100
@@ -53,7 +54,6 @@ export default class ProfessionalEdit extends Component{
       user.profile.employeeData.location = location;
       user.profile.employeeData.jobTitle = Object.values(empJobTitles);
       user.profile.employeeData.about.text = this.refs.ua.value();
-      console.log(user);
       Meteor.call('updateUserData', user, (err)=>{
         if(err){
           console.log(err);
@@ -75,60 +75,28 @@ export default class ProfessionalEdit extends Component{
       user.profile.employeeData.location = location;
       user.profile.employeeData.jobTitle = Object.values(empJobTitles);
       user.profile.employeeData.about.text = this.refs.ua.value();
-      console.log(user);
       Meteor.call('updateUserData', user, (err)=>{
         if(err){
           console.log(err);
         }else{
           console.log('updated');
           $('#updateModal').modal('open');
+          setInterval(function(){window.location.reload()},3000);
         }
       });
     }
   }
-  onFileInputChange(e){
-    if(e.target.files.length){
-      let files = e.target.files;
-
-      if(files[0].type.includes('image')){
-        this.setState({validImage:'valid'});
-      }
-      else{
-        this.setState({validImage: 'invalid',shownlink:'',button:'disabled'});
-
-        return;
-      }
-      let fr = new FileReader();
-      fr.onload = function() {
-        window.localStorage.setItem('image',fr.result);
-        this.setState({shownlink:window.localStorage['image'],
-        button:''});
-      }.bind(this);
-      fr.readAsDataURL(files[0]);
-    }
-    else{
-      this.setState({button:'disabled',shownlink:'' });
-    }
+  closeModal(){
+    $('#updateModal').modal('close');
+    //  window.location.reload();
   }
   render(){
+    let image = this.props.user.profile.employeeData.image;
     return(
       <div className="container">
         <div className="card">
         <div className="card-content">
-          <div className="col l6 m6 s12">
-            <img id="profileImage" src={this.props.user.profile.employeeData.image} height='350px' width='350px' style={{borderRadius:'350px'}}/>
-          </div>
-          <div className="row">
-            <div className="file-field input-field col l8 m8 s12">
-              <div className="btn">
-                <span>Upload Image</span>
-                <input id="fileInput" onChange={this.onFileInputChange.bind(this)} type="file" accept="image/*"/>
-              </div>
-              <div className="file-path-wrapper">
-                <input id='fileName'className={"file-path  "+ this.state.validImage} type="text"/>
-              </div>
-            </div>
-          </div>
+          <UpdateProfilePic image={image}/>
           <form>
             <div className="input-field col l6 m6 s12">
               <label className="active" htmlFor="p-job">Current job title(s)</label>
@@ -193,7 +161,7 @@ export default class ProfessionalEdit extends Component{
                 <p>Your profile has been updated.</p>
               </div>
               <div className="modal-footer">
-                <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a className="modal-action modal-close waves-effect waves-green btn-flat" onClick={this.closeModal.bind(this)}>Close</a>
               </div>
             </div>
           </form>

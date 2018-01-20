@@ -14,5 +14,4 @@ SyncedCron.add({
   },
 
 });
-
 SyncedCron.start();

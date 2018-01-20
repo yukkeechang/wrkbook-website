@@ -84,7 +84,7 @@ export default class Location extends Component{
           document.getElementById('locality').value = val;
         }else{
           let val = place.address_components[i][componentForm[addressType]];
-  
+
           document.getElementById(addressType).value = val;
         }
 
@@ -130,6 +130,7 @@ export default class Location extends Component{
   isValid(str){
      return !/[~`!@#$%\^&*+=\[\]\\';,/{}|\\":<>\?]/g.test(str);
   }
+
   //Checks the form if any field is empty or if any fields contains
   // illegal characters. If any field is empty or contains special characters
   // the user will be notify
