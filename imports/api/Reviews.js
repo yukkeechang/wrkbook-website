@@ -174,6 +174,11 @@ Meteor.methods({
     newReview.companyName.text = employerInfo.profile.employerData.companyName.text;
 
     Meteor.call('validateReview',newReview);
+    let reviewExist = Review.find({reviewerId: this.userId,
+                            revieweeId: newReview.revieweeId,
+                            jobId:newReview.jobId}).count() > 0 ? true : false;
+
+    if(reviewExist)throw new Meteor.Error('403',REVIEWERR);
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
@@ -191,7 +196,7 @@ Meteor.methods({
       let workedOnJobs = cursor.count() > 0 ? true : false;
       if(!workedOnJobs) {
         console.log("error 2")
-        throw new Meteor.Error('403',REVIEWERR)
+        throw new Meteor.Error('403',REVIEWERR);
 
       };
     }
