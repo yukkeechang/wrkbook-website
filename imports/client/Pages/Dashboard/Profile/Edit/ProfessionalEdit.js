@@ -1,5 +1,6 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
 import UpdateProfilePic from './UpdateProfilePic';
 import MTextField from '../../../Shared/MTextField';
@@ -10,10 +11,11 @@ import LocationSchema from '../../../../../api/Schemas/locationSchema';
 
 export default class ProfessionalEdit extends Component{
   componentDidMount(){
-    let dropdowns = ReactDOM.findDOMNode();
-    $(dropdowns).ready(()=>{
+    let page = ReactDOM.findDOMNode(this.refs.editPage);
+    $(page).ready(()=>{
       $('select').material_select();
       $('.modal').modal();
+      $('.tooltipped').tooltip({delay: 50});
     });
     this.setState({
       prevTitles: this.props.user.profile.employeeData.jobTitle
@@ -90,12 +92,21 @@ export default class ProfessionalEdit extends Component{
     $('#updateModal').modal('close');
     //  window.location.reload();
   }
+  componentWillUnmount(){
+    $('.tooltipped').tooltip('remove');
+    $(this.refs.updateModal).modal('close');
+  }
   render(){
     let image = this.props.user.profile.employeeData.image;
     return(
       <div className="container">
-        <div className="card">
+        <div ref="editPage" className="card">
         <div className="card-content">
+          <div className="row right-align" style={{margin:'0px'}}>
+            <Link style={{padding:'0px'}} to={"/profile"}>
+              <a style={{padding:'0px', fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Back to Profile" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey center-align lighten-5"> <i className="material-icons">arrow_back</i></div></a>
+            </Link>
+          </div>
           <UpdateProfilePic image={image}/>
           <form>
             <div className="input-field col l6 m6 s12">
@@ -153,7 +164,7 @@ export default class ProfessionalEdit extends Component{
               </div>
             </div>
             <div style={{display:'flex', justifyContent:'center'}}>
-              <a className="waves-effect waves-teal btn-flat" onClick={this.updateUser.bind(this)}>Update Profile</a>
+              <a className="waves-effect waves-teal btn" onClick={this.updateUser.bind(this)}>Update Profile</a>
             </div>
             <div id="updateModal" className="modal">
               <div className="modal-content">
