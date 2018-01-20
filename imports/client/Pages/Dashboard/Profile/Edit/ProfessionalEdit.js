@@ -14,7 +14,11 @@ export default class ProfessionalEdit extends Component{
     let page = ReactDOM.findDOMNode(this.refs.editPage);
     $(page).ready(()=>{
       $('select').material_select();
-      $('.modal').modal();
+      $('.modal').modal({
+        complete: function(){
+
+        }
+      });
       $('.tooltipped').tooltip({delay: 50});
     });
     this.setState({
@@ -83,14 +87,12 @@ export default class ProfessionalEdit extends Component{
         }else{
           console.log('updated');
           $('#updateModal').modal('open');
-          setInterval(function(){window.location.reload()},3000);
         }
       });
     }
   }
   closeModal(){
     $('#updateModal').modal('close');
-    //  window.location.reload();
   }
   componentWillUnmount(){
     $('.tooltipped').tooltip('remove');
@@ -104,7 +106,7 @@ export default class ProfessionalEdit extends Component{
         <div className="card-content">
           <div className="row right-align" style={{margin:'0px'}}>
             <Link style={{padding:'0px'}} to={"/profile"}>
-              <a style={{padding:'0px', fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Back to Profile" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey center-align lighten-5"> <i className="material-icons">arrow_back</i></div></a>
+              <a style={{padding:'0px', fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Back to Profile" ><div style={{paddingRight:'7px', height:'40px',width:'40px'}} className="circle blue-grey center-align lighten-5"> <i className="material-icons">arrow_back</i></div></a>
             </Link>
           </div>
           <UpdateProfilePic image={image}/>
