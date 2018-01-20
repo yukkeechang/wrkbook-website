@@ -76,7 +76,7 @@ export default class ContractorEdit extends Component{
           console.log(err);
         }
         else{
-          Meteor.call('uploadProfImage', fileObj._id, (err) => {
+          Meteor.call('updateImage', fileObj._id, (err) => {
             if(err){
               console.log(err);
             }
@@ -97,7 +97,7 @@ export default class ContractorEdit extends Component{
         }else{
           console.log('updated');
           $('#updateModal').modal('open');
-          setInterval(function(){window.location.reload()},3000);
+          // setInterval(function(){window.location.reload()},3000);
         }
       });
     }

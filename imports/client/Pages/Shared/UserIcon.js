@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+import MSpinner from './MSpinner';
 import { withTracker } from 'meteor/react-meteor-data';
 
 class UserI extends React.Component{
@@ -9,6 +10,11 @@ class UserI extends React.Component{
         super(props);
     }
     render(){
+      if(!this.props.ready){
+        return(
+          <MSpinner size={'30px'}/>
+        )
+      }else{
         return(
             <div style={{width:'54px', height:'30px'}}>
                 <a className="dropdown-button" data-activates="logdrop">
@@ -17,6 +23,7 @@ class UserI extends React.Component{
                 <i className="material-icons">arrow_drop_down</i>
             </div>
         )
+      }
     }
 }
 export default UserIcon = withTracker(props => {
@@ -26,6 +33,6 @@ export default UserIcon = withTracker(props => {
     things = Images.find({}).fetch()
     return {
         ready : handle.ready(),
-        link : "cfs/files/images/" + props.imageId
+        link : "/cfs/files/images/" + props.imageId
     };
 })(UserI);

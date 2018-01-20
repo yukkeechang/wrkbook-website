@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { render } from 'react-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
-import LoggedOutNotFound from './Pages/LoggedOutNotFound';
+import LoggedOutNotFound from './Pages/NotFound';
 import LandingPage from './Pages/LandingPage';
 import Dashboard from './Pages/Dashboard';
 import SignIn from './Pages/SignIn';
@@ -16,12 +16,6 @@ import ResetPassword from './Pages/ResetPassword';
 import MSpinner from './Pages/Shared/MSpinner';
 
 
-
-import Profile from './Pages/Dashboard/Profile/Profile';
-
-// import Step3Reg from './Pages/SignUp/StepThree.js';
-
-import CreateJobs from './Pages/Dashboard/Jobs/CreateJobs'
 
 class Application extends Component {
     render(){

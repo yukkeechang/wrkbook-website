@@ -1,9 +1,9 @@
 //make page for emp con import React from 'react';
 import React from 'react';
-import { Roles } from 'meteor/alanning:roles';
+
 import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
-import ProComponent from '../Shared/ProComponent';
+import ListingView from '../Shared/ProJobListingView';
 import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
 
 // import ConProfile from './ConProfile/ConProfile';
@@ -21,7 +21,7 @@ class ProCurrentPage extends React.Component {
 
 
 render() {
-  let jobz = this.props.jobPost;
+  let jobz = this.props.job;
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -36,20 +36,14 @@ render() {
         <h3 className="center-align">Current Jobs</h3>
       {jobz.map(function(job, index){
         return(
-          <ProComponent
+          <ListingView
             key={job._id}
-            jobinfo = {job}
-            events = {job.eventInfo}
-            title={job.jobTitle.text}
-            startAt={job.startAt}
-            endAt={job.endAt}
-            description={job.description.text}
-            location={job.location}
-            pay={job.pay}
-            current = {true}
+            job = {job}
+            userId={this.props.userId}
+            isCompeleted = {false}
           />
         )
-      })}
+      }.bind(this))}
       </div>
     )
   }
@@ -67,16 +61,16 @@ export default ProCurrent = withTracker(props => {
   let user = Meteor.user();
   let jobPost=[]
   let loading = false
-  if(!('undefined' === typeof(user))){
+
     let handle = Meteor.subscribe('current-job-pro');
     loading = handle.ready();
     jobPost = Job.find({}).fetch();
     console.log(jobPost);
-  }
+
   return {
-    user: user,
+    userId: user._id,
     loading: loading,
-    jobPost: jobPost
+    job: jobPost
 
   };
 })(ProCurrentPage);

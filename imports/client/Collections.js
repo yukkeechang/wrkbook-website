@@ -1,8 +1,11 @@
 const imageStore = new FS.Store.GridFS('images');
+const pdfStore = new FS.Store.GridFS('pdfs');
 
-//COPY THIS
- Images = new FS.Collection('images',{
+Images = new FS.Collection('images',{
   stores: [imageStore]
+});
+PDFs = new FS.Collection('pdfs',{
+  stores: [pdfStore]
 });
 
 Job = new Mongo.Collection('jobs');

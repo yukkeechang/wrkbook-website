@@ -18,7 +18,7 @@ Meteor.publish('today-events',function(currentDate) {
     ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
 
     // currentDate.setHours(0,0,0,0);
-    console.log(currentDate);
+
     return Event.find(
       {$and:[
         {$or : [{startAt:{$lte: currentDate}},{endAt:{$gte:currentDate}}]},
@@ -47,6 +47,10 @@ Meteor.publish('your-events-this-month',function(currentDate){
     return;
   }
 });
+Meteor.publish('get-event', function(jobId) {
+  if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+  return Event.find({'jobId': jobId});
+})
 
 Meteor.methods({
   validateEvent(eventToValidate){
@@ -91,9 +95,4 @@ Meteor.methods({
     return Event.findOne({_id:eventId });
   }
 
-})
-
-Meteor.publish('completed-job-pro-event', function(jobId) {
-  if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-  return Event.find({'jobId': jobId});
 })

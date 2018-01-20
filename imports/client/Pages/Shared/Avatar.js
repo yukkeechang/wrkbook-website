@@ -17,11 +17,19 @@ import { Meteor } from 'meteor/meteor';
 
     }
     render(){
-      return(
-      <div>
-              <img style={{width: this.state.width, height: this.state.width}} src={this.props.link} alt=""/>
-      </div>
-      );
+      if (!this.props.ready) {
+        return(
+          <h1>loading</h1>
+        )
+
+      }else{
+        return(
+        <div>
+                <img className="circle" style={{width: this.state.width, height: this.state.width}} src={this.props.link} alt=""/>
+        </div>
+        );
+      }
+
     }
 }
 
@@ -32,6 +40,6 @@ export default Avatar =  withTracker(props=>{
   things = Images.find({}).fetch()
   return {
       ready : handle.ready(),
-      link : "cfs/files/images/" + props.imageId
+      link : "/cfs/files/images/" + props.imageId
   };
 })(Ava);
