@@ -50,7 +50,7 @@ Meteor.publish('employee-reviews-for-a-job', function( employeeId,employerId,job
 Meteor.publish('reviews-for-job',function(jobID){
     let job = Job.findOne({_id: jobID},{fields: {employerId:1}});
     if(!job)throw new Meteor.Error('401','JOB NOT FOUND');
-    console.log(job);
+
     return Review.find({reviewerId:this.userId,jobId:jobID,revieweeId:job.employerId});
 });
 
@@ -84,7 +84,7 @@ Meteor.publish('reviews-by-user',function (reviewerId) {
 *
 */
 Meteor.publish('reviews-for-you',function(){
-  console.log("say things");
+
   if(!this.userId){
     this.stop();
     throw new Meteor.Error('401',NOTAUTH);
@@ -149,7 +149,6 @@ Meteor.methods({
     }
 
 
-    console.log(reviewObject);
 
 
   },
@@ -168,13 +167,18 @@ Meteor.methods({
   */
   createReview(newReview){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-    // console.log(newReview);
+
     newReview.reviewerId = this.userId;
     let jobInfo = Job.findOne({_id: newReview.jobId}, {fields: {employerId:1}});
     let employerInfo = Meteor.users.findOne({_id: jobInfo.employerId});
     newReview.companyName.text = employerInfo.profile.employerData.companyName.text;
 
     Meteor.call('validateReview',newReview);
+    let reviewExist = Review.find({reviewerId: this.userId,
+                            revieweeId: newReview.revieweeId,
+                            jobId:newReview.jobId}).count() > 0 ? true : false;
+
+    if(reviewExist)throw new Meteor.Error('403',REVIEWERR);
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
@@ -192,7 +196,7 @@ Meteor.methods({
       let workedOnJobs = cursor.count() > 0 ? true : false;
       if(!workedOnJobs) {
         console.log("error 2")
-        throw new Meteor.Error('403',REVIEWERR)
+        throw new Meteor.Error('403',REVIEWERR);
 
       };
     }

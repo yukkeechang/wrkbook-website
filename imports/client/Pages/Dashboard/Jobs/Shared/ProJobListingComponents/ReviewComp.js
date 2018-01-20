@@ -59,7 +59,7 @@ export default ReviewComp =  withTracker(props=>{
   const handle = Meteor.subscribe('reviews-for-job',props.jobId);
   const ready = handle.ready();
 
-  let reviews = Review.find({}).fetch();
+  let reviews = Review.find({jobId:props.jobId}).fetch();
   return {
       ready : handle.ready(),
       reviews: reviews ,

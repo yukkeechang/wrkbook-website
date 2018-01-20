@@ -28,10 +28,7 @@ export default class CreateReview extends Component {
     let review=ReviewSchema.clean({});
     review.revieweeId = this.props.proId;
     review.jobId = this.props.jobId;
-    review.conReview.onTime = this.state.onTime;
-    review.conReview.neatJob = this.state.neatJob;
-    review.conReview.wouldRecommend = this.state.recommend;
-    review.companyName.text = this.state.companyName;
+    review.conReview = this.refs.checkbox.value();
     review.rating = this.state.rating;
     review.review = this.refs.reviewText.value();
         console.log(review);

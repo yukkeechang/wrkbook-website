@@ -36,7 +36,7 @@ class ConUpcomingPage extends React.Component{
       return(
         <div>
         <h3 className="center-align">Upcoming Jobs</h3>
-        <div className="container">
+        <div >
 
           <br/>
           {jobz.map(function(job, index){

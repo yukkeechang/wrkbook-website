@@ -94,7 +94,7 @@ render() {
           </div>
           <div className="row "></div>
 
-          <div style={{height:'30px',position:'relative'}}className="row" >
+          <div style={{marginBottom:'0px',position:'relative'}} className="row" >
             <div  className="col center-align  s12 m8 l8 offset-l3  offset-m3">
               <div style={{paddingRight:'3px',paddingLeft:'3px'}}   className="col s4 m4 l4">
 

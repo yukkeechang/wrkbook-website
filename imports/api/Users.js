@@ -25,7 +25,7 @@ Meteor.publish(null, function() {
 });
 
 Meteor.publish('other-user',function(id){
-    if (id === this.userId|| !this.userId) {
+    if (!this.userId) {
       this.stop();
       throw new Meteor.Error('401',NOTAUTH);
     }else{
@@ -198,7 +198,6 @@ Meteor.methods({
         Meteor.call('validateEmployee',User.profile.employeeData);
         if('undefined' === typeof(User.profile.employeeData.image)){
           User.profile.employeeData.image = ServerSession.get('DEFAULTPIC');
-          console.log(ServerSession.get('DEFAULTPIC'));
         }
         if('undefined' === typeof(User.profile.employeeData.certfi)){
           User.profile.employeeData.certfi = [];
@@ -210,7 +209,6 @@ Meteor.methods({
         if(('undefined' === typeof(User.profile.employerData)))throw new Meteor.Error('403','NAH');
         Meteor.call('validateEmployer',User.profile.employerData);
         if('undefined' === typeof(User.profile.employerData.image)){
-            console.log(ServerSession.get('DEFAULTPIC'));
           User.profile.employerData.image = ServerSession.get('DEFAULTPIC');
         }
       }

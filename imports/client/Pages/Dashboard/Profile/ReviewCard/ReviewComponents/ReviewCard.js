@@ -19,11 +19,12 @@ constructor(props) {
 }
 
 render() {
+  console.log(this.props);
     return(
       <div className="card-panel">
         {this.props.ready?
         <div className="row">
-          <div className="col s12 m4">
+          <div className="col center-align s12 m4">
             {Roles.userIsInRole(this.props.review.reviewerId,"PRO") ?
 
             <Avatar key={this.props.user.profile.employeeData.image} imageId={this.props.user.profile.employeeData.image} size={this.props.size}/>

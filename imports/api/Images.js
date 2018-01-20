@@ -5,6 +5,7 @@ import { check } from 'meteor/check';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
+import {ServerSession } from 'meteor/matteodem:server-session';
 // FS.debug = true;
 
 // let createThumb = function(fileObj, readStream, writeStream) {
@@ -97,30 +98,39 @@ Meteor.publish('images-id',function(imageId){
   return Images.find({_id: imageId});
 });
 Meteor.publish('cert-images',function(arrayofId){
-  console.log(Images.find({_id: {$in : arrayofId} }).fetch());
+
   return Images.find({_id: {$in : arrayofId} });
 });
 Meteor.publish('cert-pdfs',function(arrayofId){
-  console.log(PDFs.find({_id: {$in : arrayofId} }).fetch());
+
   return PDFs.find({_id: {$in : arrayofId} });
 });
+
 Meteor.methods({
   updateImage(imageId){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(imageId,String);
+
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
-    if (isPRO){
     let prevUser = Meteor.users.findOne({_id: this.userId});
-    // Images.remove({_id: prevUser.profile.employeeData.image});
-    prevUser.profile.employeeData.image = imageId;
-    Meteor.users.update({_id: this.userId},{$set: prevUser});
+    let defaultImage = ServerSession.get('DEFAULTPIC');
+    if (isPRO){
+
+      let oldImageId =prevUser.profile.employeeData.image;
+
+      prevUser.profile.employeeData.image = imageId;
+      
+      Meteor.users.update({_id: this.userId},{$set: prevUser});
+      if(!(oldImageId === defaultImage))Images.remove({_id:oldImageId});
+
     }
     else if (isCON){
-      let prevUser = Meteor.users.findOne({_id: this.userId});
+      let oldImageId =prevUser.profile.employerData.image;
+
       prevUser.profile.employerData.image = imageId;
-      // Images.remove({_id: prevUser.profile.employerData.image});
       Meteor.users.update({_id: this.userId},{$set: prevUser});
+      if(!(oldImageId === defaultImage))Images.remove({_id:oldImageId});
     }else{
       throw new Meteor.Error('401','NOT AUTHORIZED');
     }
