@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EmployeeCheckBoxs from './EmployeeReviewComponents/EmployeeCheckBox';
-import EmployeeTitle from './EmployeeReviewComponents/EmployeeTitle';
+import EmployeeCheckBoxs from './EmployeeReviewComponents/EmployeerCheckBox';
+import EmployeerTitle from './EmployeeReviewComponents/EmployeerTitle';
 import MTextField from '../../Shared/MTextField';
 import Rating from 'react-rating';
 
 
-export default class EditReviewForCon extends React.Component{
+export default class EditReviewForPro extends React.Component{
   constructor(props){
     super(props);
     this.state = {
@@ -32,10 +32,10 @@ export default class EditReviewForCon extends React.Component{
 
   submitReview=()=>{
     let review=ReviewSchema.clean({});
-    review.revieweeId = this.props.proId;
-    review.reviewerId = this.props.conId;
+    review.revieweeId = this.props.conId;
+    review.reviewerId = this.props.proId;
     review.jobId = this.props.jobId;
-    review.conReview = this.refs.checkbox.value();
+    review.proReview = this.refs.checkbox.value();
     review.rating = this.state.rating;
     review.review = this.refs.reviewText.value();
     let reviewId = this.props.review._id;
@@ -64,7 +64,7 @@ export default class EditReviewForCon extends React.Component{
            <div className="modal-content">
             <div className="card">
                <div className="card-content">
-                   <EmployeeTitle proId={this.props.proId}/>
+                   <EmployeerTitle conId={this.props.conId}/>
                    <EmployeeCheckBoxs ref="checkbox"/>
                      <div className="row">
                          <div className="col s12 m6 offset-m3">

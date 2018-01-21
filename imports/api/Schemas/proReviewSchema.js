@@ -5,7 +5,7 @@ export default proReviewSchema = new SimpleSchema({
     type: Boolean,
     defaultValue:false
   },
-  safeWorkspace:{
+  safeWorkSpace:{
     type : Boolean,
     defaultValue:false
   }

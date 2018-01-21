@@ -24,7 +24,6 @@ class ProView extends React.Component{
             employerRating={this.props.employerRating}
             jobTypesIndex={this.props.jobTypesIndex}
           />
-
         </div>
       )
     }else{
