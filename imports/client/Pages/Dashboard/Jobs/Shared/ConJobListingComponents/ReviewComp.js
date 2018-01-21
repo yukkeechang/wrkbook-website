@@ -3,6 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import MSpinner from '../../../../Shared/MSpinner';
 import ReviewModal from '../../../Reviews/ReviewModal';
+import EditReviewForCon from '../../../Reviews/EditReviewForCon';
 import ViewReview from '../../../Reviews/ViewReview';
 import Rating from 'react-rating';
 
@@ -10,7 +11,7 @@ class ReviewC extends Component{
    constructor(props){
      super(props);
    }
-   render(){
+   render(){ 
     return (
       <div className="col s12 m4">
         <div className="center-align">
@@ -22,8 +23,19 @@ class ReviewC extends Component{
               this.props.isCompeleted ?(
                 this.props.ready  ? (
                     this.props.reviews.length >0 ?
-                    <ViewReview ratingValue={this.props.reviews[0].rating}
-                    ratingText={this.props.reviews[0].review}/>
+                  <div>
+                    <ViewReview
+                    ratingValue={this.props.reviews[0].rating}
+                    ratingText={this.props.reviews[0].review}
+                    />
+                    <EditReviewForCon
+                    review={this.props.reviews[0]}
+                    conId={this.props.conId}
+                    proId={this.props.proId}
+                    jobId={this.props.jobId}
+                    />
+                  </div>
+
                     :
                     <ReviewModal isProReview={true}
                         conId={this.props.conId}
