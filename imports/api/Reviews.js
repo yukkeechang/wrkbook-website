@@ -136,9 +136,7 @@ Meteor.methods({
     let nukeText = reviewObject.review.length>0? false: true;
 
     if(nukeText){
-      //delete reviewObject.review
-      reviewObject.review = DEFAULT;
-      console.log("reviewObject.review.text EMPTY: "+reviewObject.review)
+      delete reviewObject.review
       if( revieweeId ||reviewerId || jobId|| rating  ||
          proReview || conReview)
         throw new Meteor.Error('403',Errors);
@@ -251,7 +249,6 @@ Meteor.methods({
     Meteor.call('validateReview', newReview);
     let prevReview = Review.findOne({_id: reviewId});
     if(!(prevReview)) return;
-    //console.log("new review text: "+newReview.review)
     if(newReview.review != DEFAULT){ // Check if the text provided is new user text
       prevReview.review = newReview.review;
     }

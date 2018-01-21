@@ -11,8 +11,7 @@ class ReviewC extends Component{
    constructor(props){
      super(props);
    }
-   render(){
-     console.log("PRO ID: "+this.props.proId)
+   render(){ 
     return (
       <div className="col s12 m4">
         <div className="center-align">

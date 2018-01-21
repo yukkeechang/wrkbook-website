@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import CreateReviewForPro from './CreateReviewForPro';
 import CreateReviewForCon from './CreateReviewForCon';
 import EmployeeCheckBoxs from './EmployeeReviewComponents/EmployeeCheckBox';
 import EmployeeTitle from './EmployeeReviewComponents/EmployeeTitle';
 import MTextField from '../../Shared/MTextField';
-
 import Rating from 'react-rating';
 
 
@@ -27,7 +25,6 @@ export default class EditReviewForCon extends React.Component{
       $(this.refs.modal1).modal('open');
   }
   handleRate(rate) {
-    console.log(rate)
     this.setState({
       rating: rate,
     });
@@ -46,7 +43,7 @@ export default class EditReviewForCon extends React.Component{
     review.rating = this.state.rating;
     review.review = this.refs.reviewText.value();
     let reviewId = this.props.review._id;
-    console.log(review);
+    //console.log(review);
     Meteor.call('updateReview', reviewId, review,(err)=>{
           if(err){
             console.log(err);
@@ -59,8 +56,6 @@ export default class EditReviewForCon extends React.Component{
 
 
   render(){
-    console.log("REVIEW OBJECT: "+this.props.review.conReview.onTime)
-    console.log(this.props.review.rating)
     return(
 
 
@@ -107,9 +102,3 @@ export default class EditReviewForCon extends React.Component{
     );
   }
 }
-
-// <CreateReviewForPro ref="reviewPage"
-// proId={this.props.proId}
-// jobId={this.props.jobId}
-// review={this.props.review}
-// />

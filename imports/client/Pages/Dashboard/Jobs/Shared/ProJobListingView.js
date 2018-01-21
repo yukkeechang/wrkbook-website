@@ -7,7 +7,6 @@ class ProView extends React.Component{
     super(props);
   }
   render(){
-    console.log(this.props);
     if (!this.props.ready) {
       return(
         <MSpinner/>
@@ -25,7 +24,7 @@ class ProView extends React.Component{
             employerRating={this.props.employerRating}
             jobTypesIndex={this.props.jobTypesIndex}
           />
-        
+
         </div>
       )
     }else{
