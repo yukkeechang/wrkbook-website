@@ -136,7 +136,9 @@ Meteor.methods({
     let nukeText = reviewObject.review.length>0? false: true;
 
     if(nukeText){
-      delete reviewObject.review;
+      //delete reviewObject.review
+      reviewObject.review = DEFAULT;
+      console.log("reviewObject.review.text EMPTY: "+reviewObject.review)
       if( revieweeId ||reviewerId || jobId|| rating  ||
          proReview || conReview)
         throw new Meteor.Error('403',Errors);
@@ -241,15 +243,17 @@ Meteor.methods({
   get a match error OR if the user calling the method is not signin a Meteor.Error
   will be called OR if the reviewId is not a string.
   */
-  updateReview(reviewId,updateReview){
+  updateReview(reviewId,newReview){
     check(reviewId,String);
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
-    check(updateReview,ReviewSchema);
+    //check(updateReview,ReviewSchema);
+    Meteor.call('validateReview', newReview);
     let prevReview = Review.findOne({_id: reviewId});
     if(!(prevReview)) return;
-    if(newReview.review.text != DEFAULT){ // Check if the text provided is new user text
-      prevReview.review.text = newReview.review.text;
+    //console.log("new review text: "+newReview.review)
+    if(newReview.review != DEFAULT){ // Check if the text provided is new user text
+      prevReview.review = newReview.review;
     }
     if(newReview.rating > 0){
       prevReview.rating = newReview.rating;
