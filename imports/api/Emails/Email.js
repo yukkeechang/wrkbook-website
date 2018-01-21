@@ -9,7 +9,7 @@ Accounts.urls.resetPassword = (token) => {
   return Meteor.absoluteUrl(`reset/${token}`);
 };
 Accounts.emailTemplates.siteName = 'WRKBOOK';
-Accounts.emailTemplates.from = 'WRKBOOK Admin <no-reply@wrkbook.com';
+Accounts.emailTemplates.from = 'WRKBOOK Admin <info@wrkbook.com';
 Accounts.emailTemplates.enrollAccount.subject = (user) => {
   return `WRKBOOK , ${user.profile.firstName}`;
 };
@@ -24,7 +24,7 @@ Accounts.emailTemplates.resetPassword.subject =(user) =>{
 Accounts.emailTemplates.resetPassword.from = () => {
   // Overrides the value set in `Accounts.emailTemplates.from` when resetting
   // passwords.
-  return 'WRKBOOK Password Reset <no-reply@wrkbook.com>';
+  return 'WRKBOOK Password Reset <info@wrkbook.com>';
 };
 Accounts.emailTemplates.resetPassword.text = (user,url) =>{
   return `Hey ${user.profile.firstName},\n Click the link the reset your password `
@@ -47,7 +47,7 @@ Meteor.methods({
 
     Email.send({
       to: userMyGuy.emails[0].address,
-      from: "no-reply@wrkbook.com",
+      from: "info@wrkbook.com",
       subject: "Your Password Has Been Changed",
       text: "Your password has been changed. If you didn't do this, please disregard this email."
     });
@@ -59,7 +59,7 @@ Meteor.methods({
       console.log("function email for removing job")
       Email.send({
         to: totalPeople[i].emails[0].address,
-        from: "no-reply@wrkbook.com",
+        from: "info@wrkbook.com",
         subject: `You have been removed from a matched job at ${jobLocation}`,
         text: "The contractor who created this job that you were matched to has deleted the job post."
       });
@@ -69,7 +69,7 @@ Meteor.methods({
     let conUser = Meteor.users.findOne({_id:conId},{fields: { emails: 1} });
     Email.send({
       to: conUser.emails[0].address,
-      from: "no-reply@wrkbook.com",
+      from: "info@wrkbook.com",
       subject: `You have deleted a job at  ${jobLocation}`,
       text: "All matched/hired employees are notified that this job has been deleted."
     });
