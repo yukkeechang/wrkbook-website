@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EmployeeCheckBoxs from './EmployeeReviewComponents/EmployeerCheckBox';
-import EmployeerTitle from './EmployeeReviewComponents/EmployeerTitle';
+import EmployeerCheckBox from './ContractorReviewComponents/EmployeerCheckBox';
+import EmployeerTitle from './ContractorReviewComponents/EmployeerTitle';
 import MTextField from '../../Shared/MTextField';
 import Rating from 'react-rating';
 
@@ -52,6 +52,7 @@ export default class EditReviewForPro extends React.Component{
 
 
   render(){
+    console.log("fsjhkfhjkghsfjf")
     return(
       <div>
          <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal}>
@@ -65,7 +66,7 @@ export default class EditReviewForPro extends React.Component{
             <div className="card">
                <div className="card-content">
                    <EmployeerTitle conId={this.props.conId}/>
-                   <EmployeeCheckBoxs ref="checkbox"/>
+                   <EmployeerCheckBox ref="checkbox"/>
                      <div className="row">
                          <div className="col s12 m6 offset-m3">
                          <p>Please rate </p>
