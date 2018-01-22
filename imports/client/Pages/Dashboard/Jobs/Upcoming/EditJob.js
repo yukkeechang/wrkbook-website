@@ -11,9 +11,9 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
 export default class EditJob extends Component {
-  componentDMount(){
-    let dropdowns = ReactDOM.findDOMNode();
-    $(dropdowns).ready(()=>{
+  componentDidMount(){
+    let page = ReactDOM.findDOMNode(this.refs.editJobPage);
+    $(page).ready(()=>{
       $('select').material_select();
       $('.modal').modal();
     });
@@ -212,7 +212,7 @@ export default class EditJob extends Component {
         <span style={{color:'red'}}><i>By editing this job, all professionals matched and hired to this job will be dropped. However, professionals can apply again if the job criteria matches their description</i></span>
       </div>
       <div className="container">
-      <div className="card">
+      <div ref="editJobPage" className="card">
       <div className="card-content">
         <form>
           <div className="input-field col s12">
