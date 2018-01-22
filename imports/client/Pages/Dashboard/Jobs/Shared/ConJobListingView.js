@@ -33,9 +33,11 @@ class ConView extends React.Component{
         <div className="container">
           <div className="card">
             <div className="row card grey lighten-1">
-
-              <div  className="col s12 center-align">
-                <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'100%'}} className="flow-text">Location: {this.props.job.location.locationName}</p></Link>
+              <div className="col s12 center-align">
+                <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'150%', margin:'0px'}} className="flow-text">Job Title: {this.props.job.jobTitle.text}</p></Link>
+              </div>
+              <div className="col s12 left-align">
+                <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'100%', margin:'0px'}} className="flow-text">Location: <u>{this.props.job.location.locationName}</u></p></Link>
               </div>
             </div>
             <div style={{height:'200px',overflow: 'auto'}}>
@@ -70,16 +72,20 @@ class ConView extends React.Component{
         <div className="container">
           <div className="card">
             <div className="row card grey lighten-1">
-              <div  className="col s12 center-align">
+              <div className="col s12 center-align">
+                  <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}>
+                  <p style={{fontSize: '150%', margin:'0px'}} className="flow-text">Job Title: {this.props.job.jobTitle.text}</p>
+                  </Link>
+              </div>
+              <div className="col s12 left-align">
                    <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}>
-                   <p style={{fontSize:'100%'}} className="flow-text">Location: {this.props.job.location.locationName}
+                   <p style={{fontSize:'100%', margin:'0px'}} className="flow-text">Location: <u>{this.props.job.location.locationName}</u>
                    {this.props.notifications.length >0 ? <span className="new badge">{this.props.notifications.length}</span> : null}</p>
-
                    </Link>
               </div>
             </div>
             <div className="row center-align">
-              <p className="flow-text"> Sorry No Professionals Were Admitted to this Job</p>
+              <p style={{margin:'16px'}} className="flow-text"> Sorry No Professionals Were Admitted to this Job</p>
             </div>
             {this.props.isUpcoming &&
               <PendingEmployees numberofEmployees={this.props.job.applyemployeeIds.length}

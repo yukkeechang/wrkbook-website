@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
 import JobCreateComponent from '../MultiProComponent';
 import JobSchema from '../../../../../api/Schemas/jobSchema';
@@ -113,7 +114,7 @@ export default class EditJob extends Component {
           console.log('above two are update errors');
         }
         else{
-          console.log('no error');
+          $('#updateModal').modal('open');
         }
       });
     }
@@ -136,13 +137,12 @@ export default class EditJob extends Component {
       job.jobTypes.texts = this.state.titles;
       job.professionals = professionals;
       job.location = location;
-      console.log(location);
       job.jobTitle.text = this.refs.jt.value();
       job.requirements.socialPref.social = $("#sscYes").prop('checked');
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
-
+      console.log(job);
       let thingss =this.props.jobPost._id;
       Meteor.call('updateJob', thingss, job, (err)=>{
         if(err){
@@ -151,7 +151,7 @@ export default class EditJob extends Component {
           console.log('above two are update errors');
         }
         else{
-          console.log('no error');
+          $('#updateModal').modal('open');
         }
       });
     }
@@ -240,11 +240,11 @@ export default class EditJob extends Component {
             <div className="col m2 s4">
               <label>Are tools required?</label>
               <div>
-                <input name="group1" type="radio" id="toolYes" onClick={this.handletoolYesClick.bind(this)} />
+                <input name="group1" type="radio" id="toolYes" onClick={this.handletoolYesClick.bind(this)}/>
                 <label htmlFor="toolYes">Yes</label>
               </div>
               <div>
-                <input name="group1" type="radio" id="toolNo" onClick={this.handletoolNoClick.bind(this)} />
+                <input name="group1" type="radio" id="toolNo" onClick={this.handletoolNoClick.bind(this)}/>
                 <label htmlFor="toolNo">No</label>
               </div>
             </div>
@@ -270,22 +270,22 @@ export default class EditJob extends Component {
             <div className="col m4 s6">
               <label>Is Social Security required?</label>
               <div>
-                <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick.bind(this)}/>
+                <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick.bind(this)} defaultChecked={this.props.jobPost.requirements.socialPref.social}/>
                 <label htmlFor="sscYes">Yes</label>
               </div>
               <div>
-                <input name="group1" type="radio" id="sscNo" onClick={this.handlesscNoClick.bind(this)}/>
+                <input name="group1" type="radio" id="sscNo" onClick={this.handlesscNoClick.bind(this)} defaultChecked={!this.props.jobPost.requirements.socialPref.social}/>
                 <label htmlFor="sscNo">No</label>
               </div>
             </div>
             <div id="taxDisplay" style={{display:'none'}} className="col m4 s6">
               <label>Is Tax Id required?</label>
               <div>
-                <input name="group2" type="radio" id="taxYes"/>
+                <input name="group2" type="radio" id="taxYes" defaultChecked={this.props.jobPost.requirements.socialPref.taxID}/>
                 <label htmlFor="taxYes">Yes</label>
               </div>
               <div>
-                <input name="group2" type="radio" id="taxNo"/>
+                <input name="group2" type="radio" id="taxNo" defaultChecked={!this.props.jobPost.requirements.socialPref.taxID}/>
                 <label htmlFor="taxNo">No</label>
               </div>
             </div>
@@ -293,7 +293,7 @@ export default class EditJob extends Component {
         </form>
         {this.state.titles.map((title, index)=>{
           return(
-            <JobCreateComponent ref={title} title={title}key={title}/>
+            <JobCreateComponent ref={title} title={title} key={index} index={index} events={this.props.jobPost.eventInfo} jobInfo={this.props.jobPost} fromEditJob={true}/>
           )
         })}
         <form>
@@ -302,14 +302,14 @@ export default class EditJob extends Component {
           </div>
 
           <div style={{display:'flex', justifyContent:'center'}}>
-            <a className="waves-effect waves-teal btn-flat" onClick={this.handleUpdate.bind(this)}>Update job</a>
+            <a className="waves-effect waves-teal btn" onClick={this.handleUpdate.bind(this)}>Update job</a>
           </div>
           <div id="updateModal" className="modal">
             <div className="modal-content">
               <h4>Your job has been updated.</h4>
             </div>
             <div className="modal-footer">
-              <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+              <Link to={"/job/"+this.props.jobPost._id}><a className="modal-action modal-close red waves-effect waves-green btn">Close</a></Link>
             </div>
           </div>
         </form>
