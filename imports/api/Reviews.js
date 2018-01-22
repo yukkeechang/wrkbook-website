@@ -50,7 +50,7 @@ Meteor.publish('employee-reviews-for-a-job', function( employeeId,employerId,job
 Meteor.publish('reviews-for-job',function(jobID){
     let job = Job.findOne({_id: jobID},{fields: {employerId:1}});
     if(!job)throw new Meteor.Error('401','JOB NOT FOUND');
-    console.log(job);
+
     return Review.find({reviewerId:this.userId,jobId:jobID,revieweeId:job.employerId});
 });
 
@@ -84,7 +84,7 @@ Meteor.publish('reviews-by-user',function (reviewerId) {
 *
 */
 Meteor.publish('reviews-for-you',function(){
-  console.log("say things");
+
   if(!this.userId){
     this.stop();
     throw new Meteor.Error('401',NOTAUTH);
@@ -136,7 +136,7 @@ Meteor.methods({
     let nukeText = reviewObject.review.length>0? false: true;
 
     if(nukeText){
-      delete reviewObject.review;
+      delete reviewObject.review
       if( revieweeId ||reviewerId || jobId|| rating  ||
          proReview || conReview)
         throw new Meteor.Error('403',Errors);
@@ -149,7 +149,6 @@ Meteor.methods({
     }
 
 
-    console.log(reviewObject);
 
 
   },
@@ -168,17 +167,25 @@ Meteor.methods({
   */
   createReview(newReview){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-    // console.log(newReview);
+
     newReview.reviewerId = this.userId;
     let jobInfo = Job.findOne({_id: newReview.jobId}, {fields: {employerId:1}});
     let employerInfo = Meteor.users.findOne({_id: jobInfo.employerId});
     newReview.companyName.text = employerInfo.profile.employerData.companyName.text;
 
     Meteor.call('validateReview',newReview);
+    let reviewExist = Review.find({reviewerId: this.userId,
+                            revieweeId: newReview.revieweeId,
+                            jobId:newReview.jobId}).count() > 0 ? true : false;
+
+    if(reviewExist)throw new Meteor.Error('403',REVIEWERR);
     let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
     if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
-    if (newReview.revieweeId === this.userId) throw new Meteor.Error('403',REVIEWERR)
+    if (newReview.revieweeId === this.userId) {
+      console.log("error 1")
+      throw new Meteor.Error('403',REVIEWERR);
+     }
     if(isCON && Roles.userIsInRole(newReview.revieweeId,PROFESSIONAL)){
       //make an array of one user id to compare to another array
       let hackIdThing = [];
@@ -187,12 +194,19 @@ Meteor.methods({
         $and :[{employerId: this.userId},{_id:newReview.jobId},{admitemployeeIds: {$in: hackIdThing}}]
       });
       let workedOnJobs = cursor.count() > 0 ? true : false;
-      if(!workedOnJobs) throw new Meteor.Error('403',REVIEWERR);
+      if(!workedOnJobs) {
+        console.log("error 2")
+        throw new Meteor.Error('403',REVIEWERR);
+
+      };
     }
     if(isPRO &&  Roles.userIsInRole(newReview.revieweeId,PROFESSIONAL) ){
       let currentUser = Meteor.users.findOne({_id : this.userId},{fields: {  'profile.employeeData.prevJobs': 1} });
       let toBeReviewed = Meteor.users.findOne({_id : newReview.revieweeId},{fields: {  'profile.employeeData.prevJobs': 1} });
-      if(currentUser.profile.employeeData.prevJobs.length  === 0) throw new Meteor.Error('403',REVIEWERR);
+      if(currentUser.profile.employeeData.prevJobs.length  === 0) {
+       console.log("error 3")
+       throw new Meteor.Error('403',REVIEWERR)
+       };
 
       let currentUserWorked = currentUser.profile.employeeData.prevJobs.indexOf(newReview.jobId);
       let toBeReviewedWorked = toBeReviewed.profile.employeeData.prevJobs.indexOf(newReview.jobId);
@@ -208,7 +222,10 @@ Meteor.methods({
         $and :[{employerId: newReview.revieweeId},{_id:newReview.jobId},{admitemployeeIds: {$in: hackIdThing}}]
       });
       let workedOnJobs = cursor.count() > 0 ? true : false;
-      if(!workedOnJobs) throw new Meteor.Error('403',REVIEWERR);
+      if(!workedOnJobs) {
+        console.log("5")
+      throw new Meteor.Error('403',REVIEWERR)
+      };
     }
 
 
@@ -224,15 +241,16 @@ Meteor.methods({
   get a match error OR if the user calling the method is not signin a Meteor.Error
   will be called OR if the reviewId is not a string.
   */
-  updateReview(reviewId,updateReview){
+  updateReview(reviewId,newReview){
     check(reviewId,String);
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
-    check(updateReview,ReviewSchema);
+    //check(updateReview,ReviewSchema);
+    Meteor.call('validateReview', newReview);
     let prevReview = Review.findOne({_id: reviewId});
     if(!(prevReview)) return;
-    if(newReview.review.text != DEFAULT){ // Check if the text provided is new user text
-      prevReview.review.text = newReview.review.text;
+    if(newReview.review != DEFAULT){ // Check if the text provided is new user text
+      prevReview.review = newReview.review;
     }
     if(newReview.rating > 0){
       prevReview.rating = newReview.rating;

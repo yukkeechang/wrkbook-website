@@ -113,7 +113,7 @@ export class NavBarPage extends Component{
 
       let jobDropDownLinks = this.state.isPro ?
       <ul id='jobs' className='dropdown-content'>
-        <li><Link to='/jobmatchs'>Job Matches{this.props.match > 0 ?
+        <li><Link to='/jobmatches'>Job Matches{this.props.match > 0 ?
       <span className="new badge left-align">{this.props.match}</span> : null}</Link></li>
         <li><Link to='/applied'>Applied Jobs</Link></li>
         <li><Link to='/current'>Current</Link></li>

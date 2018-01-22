@@ -64,7 +64,7 @@ class Dash extends Component{
                 <div style={{height:'64px'}}></div>
                 <Switch>
                 <Route exact path="/" render={()=> (<Upcoming/> )}/>
-                <Route exact path="/jobmatchs" component={EmpJobPosts}/>
+                <Route exact path="/jobmatches" component={EmpJobPosts}/>
                 <Route  path="/profile" component={Profile}/>
                 <Route  path="/user/:value" component={OtherUser}/>
 

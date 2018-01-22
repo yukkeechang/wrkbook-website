@@ -11,9 +11,28 @@ export default class CreateReview extends Component {
       super(props);
       this.state = {
           rating: 0,
-          hasRated: false
+          hasRated: false,
+          conFirstName: '',
+          conLastName: '',
+          companyName: '',
+          paidOnTime: false,
+          safeWorkspace: false,
+          review: ''
       }
-  }
+
+      Meteor.call('findUserbyId', this.props.conId, function(err,res) {
+        if(err) {
+          console.log("error finding a con user object in CreateReviewForPro: "+err)
+        } else {
+          this.setState({
+            companyName: res.profile.employerData.companyName.text,
+            conFirstName: res.profile.firstName,
+            conLastName: res.profile.lastName
+
+           })
+        }
+      }.bind(this));
+  };
 
   // Callback after rating the employer. rate is the star value out of 5 stars
   handleRate(rate) {
@@ -21,7 +40,7 @@ export default class CreateReview extends Component {
       hasRated: true,
       rating: rate,
     });
-  }
+  };
 
   componentDidMount(){
       Materialize.updateTextFields();

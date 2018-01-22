@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import Rating from 'react-rating';
 import EmployeeTitle from './EmployeeReviewComponents/EmployeeTitle';
-import EmployeeCheckBoxs from './EmployeeReviewComponents/EmployeeCheckBox';
+import EmployeeCheckBoxs from './ContractorReviewComponents/EmployeerCheckBox';
 import ReviewSchema from '../../../../api/Schemas/reviewSchema';
 import MTextField from '../../Shared/MTextField';
 export default class CreateReview extends Component {
@@ -29,6 +29,7 @@ export default class CreateReview extends Component {
     review.revieweeId = this.props.proId;
     review.jobId = this.props.jobId;
     review.conReview = this.refs.checkbox.value();
+
     review.rating = this.state.rating;
     review.review = this.refs.reviewText.value();
         console.log(review);

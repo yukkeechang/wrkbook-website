@@ -42,5 +42,11 @@ Meteor.methods({
     if(!(notification)) return;
     notification.seen = true;
     Notification.update({_id:notifyId},{$set: notification});
+  },
+  deleteNotificationsForJob(jobId){
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+    check(jobId,String);
+    Notification.remove({jobId:jobId});
   }
+
 });
