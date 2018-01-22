@@ -26,3 +26,4 @@ matteodem:server-session
 percolate:synced-cron
 
 ecmascript@0.9.0
+meteorhacks:ssr
