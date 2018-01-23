@@ -25,7 +25,7 @@ class ConComponentPage extends React.Component{
     $(this.refs.titles).on('change',(e)=>{
       this.handleProChange(e);
     });
-
+    console.log(this.props);
 
 
     Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
@@ -67,6 +67,23 @@ class ConComponentPage extends React.Component{
     let index = jobTitles.indexOf(this.refs.titles.value);
     this.setState({
       value: index,
+    });
+    Meteor.call('getEventInfo',this.props.events[index],(err,res)=>{
+      console.log(this.props.events[index]);
+      if(err){
+        console.log(err);
+      }else{
+        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
+        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
+        let startAt = startdate+' - '+enddate;
+        let endAt = starttime+' - '+endtime;
+        this.setState({
+          endAt: endAt,
+          startAt: startAt
+        });
+      }
     });
   }
   deleteModal=()=>{

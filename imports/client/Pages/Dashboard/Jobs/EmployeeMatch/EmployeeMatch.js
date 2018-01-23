@@ -18,9 +18,12 @@ export default class EmpJobPostComponent extends React.Component{
       if(err){
         console.log(err);
       }else{
-        // console.log(res);
-        let startAt = res.startAt.toLocaleString();
-        let endAt = res.endAt.toLocaleString();
+        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
+        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
+        let startAt = startdate+' - '+enddate;
+        let endAt = starttime+' - '+endtime;
         this.setState({
           endAt: endAt,
           startAt: startAt
@@ -50,10 +53,13 @@ export default class EmpJobPostComponent extends React.Component{
       if(err){
         console.log(err);
       }else{
-        // console.log(res);
         console.log(index);
-        let startAt = res.startAt.toLocaleString();
-        let endAt = res.endAt.toLocaleString();
+        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
+        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
+        let startAt = startdate+' - '+enddate;
+        let endAt = starttime+' - '+endtime;
         this.setState({
           endAt: endAt,
           startAt: startAt,
