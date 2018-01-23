@@ -14,9 +14,11 @@ export default class ProfessionalEdit extends Component{
     $(dropdowns).ready(()=>{
       $('select').material_select();
       $('.modal').modal();
+      $('.tooltipped').tooltip({delay: 50});
     });
     this.setState({
-      prevTitles: this.props.user.profile.employeeData.jobTitle
+      prevTitles: this.props.user.profile.employeeData.jobTitle,
+      showTrade: this.props.user.profile.employeeData.education.tradeSchool.wentToSchool
     })
     $(this.refs.titles).change(()=>{
       this.setState({jobTitles:$(this.refs.titles).val()})
@@ -37,7 +39,8 @@ export default class ProfessionalEdit extends Component{
       gPhone : true,
       address: DEFAULT,
       lat: -100,
-      lng: -100
+      lng: -100,
+      showTrade: false
     };
   }
   updateUser(e){
@@ -50,10 +53,29 @@ export default class ProfessionalEdit extends Component{
       if(empJobTitles.length < 1){
         empJobTitles = this.state.prevTitles;
       }
+      let tradeS = {};
+      if(this.refs.ts.checked){
+        tradeS.wentToSchool = true;
+        tradeS.schoolName = this.refs.tradeS.value();
+      }else{
+        tradeS.wentToSchool = false;
+        tradeS.schoolName='';
+      }
       user.profile.phone = this.refs.ph.value()
       user.profile.employeeData.location = location;
       user.profile.employeeData.jobTitle = Object.values(empJobTitles);
       user.profile.employeeData.about.text = this.refs.ua.value();
+      user.profile.employeeData.osha.osha10 = this.refs.o1.checked;
+      user.profile.employeeData.osha.osha30 = this.refs.o3.checked;
+      user.profile.employeeData.education.highGED = this.refs.hs.checked;
+      user.profile.employeeData.education.tradeSchool = tradeS;
+      user.profile.employeeData.education.higherEdu = this.refs.he.checked;
+      user.profile.employeeData.socialPref.taxID = $("#taxYes").prop('checked');
+      user.profile.employeeData.socialPref.social = $("#sscYes").prop('checked');
+      user.profile.employeeData.hasCar = this.refs.cy.checked;
+      user.profile.employeeData.driverLicense = this.refs.dy.checked;
+      user.profile.employeeData.bringTools = this.refs.ty. checked;
+      console.log(user);
       Meteor.call('updateUserData', user, (err)=>{
         if(err){
           console.log(err);
@@ -71,10 +93,29 @@ export default class ProfessionalEdit extends Component{
       if(empJobTitles.length < 1){
         empJobTitles = this.state.prevTitles;
       }
+      let tradeS = {};
+      if(this.refs.ts.checked){
+        tradeS.wentToSchool = true;
+        tradeS.schoolName = this.refs.tradeS.value();
+      }else{
+        tradeS.wentToSchool = false;
+        tradeS.schoolName='';
+      }
       user.profile.phone = this.refs.ph.value()
       user.profile.employeeData.location = location;
       user.profile.employeeData.jobTitle = Object.values(empJobTitles);
       user.profile.employeeData.about.text = this.refs.ua.value();
+      user.profile.employeeData.osha.osha10 = this.refs.o1.checked;
+      user.profile.employeeData.osha.osha30 = this.refs.o3.checked;
+      user.profile.employeeData.education.highGED = this.refs.hs.checked;
+      user.profile.employeeData.education.tradeSchool = tradeS;
+      user.profile.employeeData.education.higherEdu = this.refs.he.checked;
+      user.profile.employeeData.socialPref.taxID = $("#taxYes").prop('checked');
+      user.profile.employeeData.socialPref.social = $("#sscYes").prop('checked');
+      user.profile.employeeData.hasCar = this.refs.cy.checked;
+      user.profile.employeeData.driverLicense = this.refs.dy.checked;
+      user.profile.employeeData.bringTools = this.refs.ty. checked;
+      console.log(user);
       Meteor.call('updateUserData', user, (err)=>{
         if(err){
           console.log(err);
@@ -86,12 +127,20 @@ export default class ProfessionalEdit extends Component{
       });
     }
   }
+  handlesscYesClick(){
+    $("#taxDisplay").css("display","none"); //keeps tax display hidden on yes click for ssc
+    $("#taxYes").prop('checked',true);  //checks appropriate tax field for ssc yes click
+  }
+  handlesscNoClick(){
+    $("#taxDisplay").css("display","block");  //shows tax display on no click for ssc
+  }
   closeModal(){
     $('#updateModal').modal('close');
     //  window.location.reload();
   }
   render(){
-    let image = this.props.user.profile.employeeData.image;
+    let employeeData = this.props.user.profile.employeeData;
+    let image = employeeData.image;
     return(
       <div className="container">
         <div className="card">
@@ -117,7 +166,7 @@ export default class ProfessionalEdit extends Component{
             </div>
             <div className="input-field col s12">
               <Location ref="loc"
-              prevAddress={this.props.user.profile.employeeData.location.locationName}
+              prevAddress={employeeData.location.locationName}
               />
             </div>
             <div className="row">
@@ -148,8 +197,96 @@ export default class ProfessionalEdit extends Component{
               </select>
             </div>
             <div className="row">
+              <div className="col s6">
+                  <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Update your OSHA certification level?</p>
+                  <p>
+                  <input ref="on"name="osha" type="radio" id="on" defaultChecked={!employeeData.osha.osha10 && !employeeData.osha.osha30}/>
+                  <label htmlFor="on">None</label>
+                  </p>
+                  <p>
+                  <input ref="o1"name="osha" type="radio" id="o1" defaultChecked={employeeData.osha.osha10}/>
+                  <label htmlFor="o1">Osha 10</label>
+                  <input ref="o3"name="osha" type="radio" id="o3" defaultChecked={employeeData.osha.osha30}/>
+                  <label htmlFor="o3">Osha 30</label>
+                  </p>
+              </div>
+              <div className="col s6">
+                  <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Can you bring your own tools?</p>
+                  <p>
+                  <input ref="ty"name="tools" type="radio" id="ty" defaultChecked={employeeData.bringTools}/>
+                  <label htmlFor="ty">Yes</label>
+                  </p>
+                  <p>
+                  <input ref="tn"name="tools" type="radio" id="tn" defaultChecked={!employeeData.bringTools}/>
+                  <label htmlFor="tn">No</label>
+                  </p>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col s6">
+                  <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Do you have a car?</p>
+                  <p>
+                  <input ref="cy"name="car" type="radio" id="cy" defaultChecked={employeeData.hasCar}/>
+                  <label htmlFor="cy">Yes</label>
+                  </p>
+                  <p>
+                  <input ref="cn"name="car" type="radio" id="cn" defaultChecked={!employeeData.hasCar}/>
+                  <label htmlFor="cn">No</label>
+                  </p>
+              </div>
+              <div className="col s6">
+                  <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Do you have a driver license?</p>
+                  <p>
+                  <input ref="dy"name="driver" type="radio" id="dy" defaultChecked={employeeData.driverLicense}/>
+                  <label htmlFor="dy">Yes</label>
+                  </p>
+                  <p>
+                  <input ref="dn"name="driver" type="radio" id="dn" defaultChecked={!employeeData.driverLicense}/>
+                  <label htmlFor="dn">No</label>
+                  </p>
+              </div>
+              <div className="col s12">
+                  <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Education</p>
+                  <p>
+                  <input ref="hs" type="checkbox" id="hs" defaultChecked={employeeData.education.highGED}/>
+                  <label htmlFor="hs">HighSchool/GED</label>
+                  </p>
+                  <p>
+                  <input onChange={()=>{this.setState({showTrade:!this.state.showTrade})}} ref="ts" type="checkbox" id="ts" defaultChecked={employeeData.education.tradeSchool.wentToSchool}/>
+                  <label htmlFor="ts">Trade Shool</label>
+                  {this.state.showTrade ? <MTextField ref="tradeS" label="Trade School" defaultValue={employeeData.education.tradeSchool.schoolName}/> : null}
+                  </p>
+                  <p>
+                  <input ref="he" type="checkbox" id="he" defaultChecked={employeeData.education.higherEdu}/>
+                  <label htmlFor="he">Higher Education</label>
+                  </p>
+              </div>
+              <div className="col m4 s6">
+                <label>Do you have a SSN?</label>
+                <div>
+                  <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick.bind(this)} defaultChecked={employeeData.socialPref.social}/>
+                  <label htmlFor="sscYes">Yes</label>
+                </div>
+                <div>
+                  <input name="group1" type="radio" id="sscNo" onClick={this.handlesscNoClick.bind(this)} defaultChecked={!employeeData.socialPref.social}/>
+                  <label htmlFor="sscNo">No</label>
+                </div>
+              </div>
+              <div id="taxDisplay" style={{display:'none'}} className="col m4 s6">
+                <label>Do you have a Tax Id number?</label>
+                <div>
+                  <input name="group2" type="radio" id="taxYes" defaultChecked={employeeData.socialPref.taxID}/>
+                  <label htmlFor="taxYes">Yes</label>
+                </div>
+                <div>
+                  <input name="group2" type="radio" id="taxNo" defaultChecked={!employeeData.socialPref.taxID}/>
+                  <label htmlFor="taxNo">No</label>
+                </div>
+              </div>
+            </div>
+            <div className="row">
               <div className="input-field col l12 m12 s12">
-                <MTextField ref="ua" id="userAbout" value={this.props.user.profile.employeeData.about.text} label="About description"/>
+                <MTextField ref="ua" id="userAbout" value={employeeData.about.text} label="About yourself"/>
               </div>
             </div>
             <div style={{display:'flex', justifyContent:'center'}}>
