@@ -426,6 +426,7 @@ Meteor.methods({
     let locLat = !validations.validateOne(jobObject,'location.latitude');
     let locLng = !validations.validateOne(jobObject,'location.longitude');
     let reqLicense = !validations.validateOne(jobObject,'requirements.driverLicense');
+    let excWeekends = !validations.validateOne(jobObject, 'requirements.weekendExcluded')
     let reqBackground = !validations.validateOne(jobObject,'requirements.backgroundCheck');
     let reqLanguages = !validations.validateOne(jobObject,'requirements.languages');
     let oshaCheck = !Match.test(jobObject.requirements.osha, OshaSchema);
