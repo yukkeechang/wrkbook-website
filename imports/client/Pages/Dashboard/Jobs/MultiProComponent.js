@@ -50,6 +50,7 @@ export default class JobCreateComponent extends Component{
       format: 'mmm dd yyyy'
     });
   }
+
   render(){
     return(
       <div className="card">

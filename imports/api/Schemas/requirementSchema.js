@@ -19,6 +19,10 @@ export default RequirementSchema = new SimpleSchema({
     type: [String],
     defaultValue: [],
     optional: true
+  },
+  weekendExcluded: {
+    type: Boolean,
+    defaultValue: false
   }
 
 });
