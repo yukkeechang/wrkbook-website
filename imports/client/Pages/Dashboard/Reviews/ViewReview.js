@@ -8,8 +8,8 @@ export default ViewReview =(props)=>{
             <Rating
               initialRate={props.ratingValue}
               readonly={true}
-              empty={<i className="material-icons" style={{fontSize: "40px", color: "#26a69a"}}>star_border</i>}
-              full={<i className="material-icons" style={{fontSize: "40px", color: "#26a69a"}}>star</i>}
+              empty={<i className="material-icons" style={{fontSize: "20px", color: "#26a69a"}}>star_border</i>}
+              full={<i className="material-icons" style={{fontSize: "20px", color: "#26a69a"}}>star</i>}
               fractions={2}
             />
 
