@@ -75,8 +75,9 @@ Meteor.methods({
       to: userMyGuy.emails[0].address,
       from: "info@wrkbook.com",
       subject: "Your Password Has Been Changed",
-      text: "Your password has been changed. If you didn't do this, please disregard this email.",
-    //  html: SSR.render('htmlEmail', emailData)
+      //***---Use text if you don't want to use an HTML file
+      //text: "Your password has been changed. If you didn't do this, please disregard this email.",
+      html: SSR.render('htmlEmail', emailData)
     });
   },
 
