@@ -84,6 +84,7 @@ componentWillMount(){
                 pay={totalPay}
                 jobDate={jobDate}
                 jobTime={jobTime}
+                weekendExcluded={this.props.job.requirements.weekendExcluded}
                 responsibilities={this.props.event.responsibilities.text}
               />
 

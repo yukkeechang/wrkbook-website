@@ -158,7 +158,7 @@ class ConComponentPage extends React.Component{
           <JobInfo osha10={this.state.osha10} osha30={this.state.osha30} license={this.state.license}
             location={this.props.jobinfo.location.locationName}
             pay={this.props.jobinfo.professionals[this.state.value].pay} endAt={this.state.endAt} startAt={this.state.startAt} numWorkers={this.props.jobinfo.professionals[this.state.value].numWorkers}
-            responsibilities={this.props.jobinfo.professionals[this.state.value].responsibilities} />
+            responsibilities={this.props.jobinfo.professionals[this.state.value].responsibilities} excludeWeekend={this.props.jobinfo.requirements.weekendExcluded} />
 
             {
 
