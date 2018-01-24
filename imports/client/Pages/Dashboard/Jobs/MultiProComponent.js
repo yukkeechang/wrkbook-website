@@ -40,7 +40,10 @@ export default class JobCreateComponent extends Component{
       console.log(endDate);
       const startAt = new Date(startDate +" "+ startTime);
       const endAt = new Date(endDate +" "+ endTime);
-      let responsibilities = this.refs.responsibilities.value;
+      let responsibilities = this.state.responsibilities;
+      if(this.refs.responsibilities.value == ''){
+        responsibilities = this.state.responsibilities;
+      }
       let Jobs = {
         title: this.props.title,
         pay: payEmp,

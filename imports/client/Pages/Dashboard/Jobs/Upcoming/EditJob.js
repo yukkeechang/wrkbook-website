@@ -42,9 +42,6 @@ export default class EditJob extends Component {
       autoclose: false, // automatic close timepicker
       ampmclickable: true, // make AM PM clickable
       aftershow: function(){} //Function for after opening timepicker
-    });
-    $(this.refs.osha).on('change',(e)=>{
-      this.handleSelect(e);
     })
   }
   constructor(props){
@@ -100,8 +97,8 @@ export default class EditJob extends Component {
       job.jobTitle.text = this.refs.jt.value();
       job.requirements.socialPref.social = $("#sscYes").prop('checked');
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
-      job.requirements.osha.osha10 = this.state.osha10;
-      job.requirements.osha.osha30 = this.state.osha30;
+      job.requirements.osha.osha10 = this.refs.o1.checked;
+      job.requirements.osha.osha30 = this.refs.o3.checked;
       let newJob = {
         job: job
       };
@@ -140,8 +137,8 @@ export default class EditJob extends Component {
       job.jobTitle.text = this.refs.jt.value();
       job.requirements.socialPref.social = $("#sscYes").prop('checked');
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
-      job.requirements.osha.osha10 = this.state.osha10;
-      job.requirements.osha.osha30 = this.state.osha30;
+      job.requirements.osha.osha10 = this.refs.o1.checked;
+      job.requirements.osha.osha30 = this.refs.o3.checked;
       console.log(job);
       let thingss =this.props.jobPost._id;
       Meteor.call('updateJob', thingss, job, (err)=>{
@@ -160,18 +157,6 @@ export default class EditJob extends Component {
     this.setState({
       titles: $(this.refs.titles).val()
     })
-  }
-  handleSelect(){
-    if($('#osha').val()==2){
-      this.setState({
-        osha10: true
-      })
-    }
-    else if($('#osha').val()==3){
-      this.setState({
-        osha30: true
-      })
-    }
   }
   handletoolYesClick(){
     $("#toolDisplay").css("display","block"); //displays tool input on yes click
@@ -240,11 +225,11 @@ export default class EditJob extends Component {
             <div className="col m2 s4">
               <label>Are tools required?</label>
               <div>
-                <input name="group1" type="radio" id="toolYes" onClick={this.handletoolYesClick.bind(this)}/>
+                <input name="group1" type="radio" id="toolYes" onClick={this.handletoolYesClick.bind(this)} />
                 <label htmlFor="toolYes">Yes</label>
               </div>
               <div>
-                <input name="group1" type="radio" id="toolNo" onClick={this.handletoolNoClick.bind(this)}/>
+                <input name="group1" type="radio" id="toolNo" onClick={this.handletoolNoClick.bind(this)} />
                 <label htmlFor="toolNo">No</label>
               </div>
             </div>
@@ -256,13 +241,20 @@ export default class EditJob extends Component {
         </form>
 
         <form>
-          <div className="input-field col m6 s12">
-            <select id="osha" ref="osha" onChange={this.handleSelect.bind(this)}>
-              <option value="" disabled selected>OSHA preference</option>
-              <option value="1">No preference</option>
-              <option value="2">OSHA 10</option>
-              <option value="3">OSHA 30</option>
-            </select>
+          <div className="col m6 s12">
+              <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Update your jobs OSHA certification level?</p>
+              <p>
+              <input ref="osha" name="osha" type="radio" id="on" defaultChecked={!this.props.jobPost.requirements.osha.osha10 && !this.props.jobPost.requirements.osha.osha30}/>
+              <label htmlFor="osha">None</label>
+              </p>
+              <p>
+              <input ref="o1"name="osha" type="radio" id="o1" defaultChecked={this.props.jobPost.requirements.osha.osha10}/>
+              <label htmlFor="o1">Osha 10</label>
+              </p>
+              <p>
+              <input ref="o3"name="osha" type="radio" id="o3" defaultChecked={this.props.jobPost.requirements.osha.osha30}/>
+              <label htmlFor="o3">Osha 30</label>
+              </p>
           </div>
         </form>
         <form>
@@ -300,9 +292,13 @@ export default class EditJob extends Component {
           <div className="input-field col s12">
             <MTextField ref="at" id="additionalText" value={this.props.jobPost.additionText} label="Additional Information"/>
           </div>
-
-          <div style={{display:'flex', justifyContent:'center'}}>
-            <a className="waves-effect waves-teal btn" onClick={this.handleUpdate.bind(this)}>Update job</a>
+          <div className="row">
+            <Link to={"/job/"+this.props.jobPost._id}><div className="col m6 s12 center-align">
+              <a className="waves-effect red lighten-1 waves-red btn">Cancel</a>
+            </div></Link>
+            <div className="col m6 s12 center-align">
+              <a className="waves-effect waves-teal btn" onClick={this.handleUpdate.bind(this)}>Update job</a>
+            </div>
           </div>
           <div id="updateModal" className="modal">
             <div className="modal-content">
