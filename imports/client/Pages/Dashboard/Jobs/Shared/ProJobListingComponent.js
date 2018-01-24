@@ -61,8 +61,11 @@ componentWillMount(){
         <div className="card">
 
           <div className="row card grey lighten-1">
-            <div  className="col s12 center-align">
-              <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'100%'}} className="flow-text">Location: {this.props.job.location.locationName}</p></Link>
+            <div className="col s12 center-align">
+              <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'150%', margin:'0px'}} className="flow-text">Job Title: {this.props.job.jobTitle.text}</p></Link>
+            </div>
+            <div  className="col s12 left-align">
+              <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'100%', margin:'0px'}} className="flow-text">Location: <u>{this.props.job.location.locationName}</u></p></Link>
             </div>
           </div>
 
@@ -81,6 +84,7 @@ componentWillMount(){
                 pay={totalPay}
                 jobDate={jobDate}
                 jobTime={jobTime}
+                weekendExcluded={this.props.job.requirements.weekendExcluded}
                 responsibilities={this.props.event.responsibilities.text}
               />
 

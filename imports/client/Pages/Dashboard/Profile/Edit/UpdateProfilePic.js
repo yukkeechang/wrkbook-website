@@ -104,7 +104,7 @@ export default class UpdateProfilePic extends React.Component{
                 <h4>Your Image has been updated.</h4>
               </div>
               <div className="modal-footer">
-                <Link to={"/profile"} onClick={this.closeConfirmModal}>
+                <Link to={"/profile"}>
                   <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.closeConfirmModal}>
                     Close
                   </button>
