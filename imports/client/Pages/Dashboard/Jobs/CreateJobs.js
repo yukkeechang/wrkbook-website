@@ -274,7 +274,7 @@ export default class CreateJobs extends Component {
         </div>
         {this.state.titles.map((title, index)=>{
           return(
-            <JobCreateComponent ref={title} title={title} key={title}/>
+            <JobCreateComponent ref={title} title={title} key={title} fromEditJob={false}/>
           )
         })}
         <div>

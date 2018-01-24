@@ -30,7 +30,7 @@ render() {
     )
   }
 
-  else if(!(isEmpty(this.props.jobPost))) {
+  else if(!(isEmpty(this.props.job))) {
     return (
       <div>
         <h3 className="center-align">Current Jobs</h3>

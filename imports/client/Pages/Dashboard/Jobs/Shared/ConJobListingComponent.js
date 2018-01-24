@@ -87,6 +87,7 @@ class ConJobListingPageComp extends React.Component {
                   profession={profession}
                   jobDate={jobDate}
                   jobTime={jobTime}
+                  weekendExcluded={this.props.job.requirements.weekendExcluded}
                   hourPay={ this.props.job.professionals[this.props.jobTypesIndex].pay}
                   dayPay={hours*this.props.job.professionals[this.props.jobTypesIndex].pay}
                   />
