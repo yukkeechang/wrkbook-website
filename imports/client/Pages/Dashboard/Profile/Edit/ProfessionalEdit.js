@@ -14,11 +14,7 @@ export default class ProfessionalEdit extends Component{
     let page = ReactDOM.findDOMNode(this.refs.editPage);
     $(page).ready(()=>{
       $('select').material_select();
-      $('.modal').modal({
-        complete: function(){
-
-        }
-      });
+      $('.modal').modal();
       $('.tooltipped').tooltip({delay: 50});
     });
     this.setState({

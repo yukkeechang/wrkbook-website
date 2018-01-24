@@ -8,6 +8,7 @@ export default JobInfo = (props)=>{
           <div className="col l6 m6 s12">
             <p><b>Job dates: </b>{props.startAt}</p>
             <p><b>Job times: </b>{props.endAt}</p>
+            {props.weekendExcluded ? <p>Weekends are excluded for this job*</p> : <p>Weekends are not excluded for this job*</p>}
             <p><b>Pay: </b>${props.pay}/hr</p>
             <p><b>Location: </b>{props.location}</p>
           </div>
