@@ -18,6 +18,19 @@ export default ViewReview =(props)=>{
         <div className="row">
           <h6>{props.ratingText}</h6>
         </div>
+        <div>
+        {/*
+          this.props.review ?
+        {this.props.review.conReview.onTime ? "- On Time" : ''}
+        {this.props.review.conReview.neatjob ? "- Neat Job" : ''}
+        {this.props.review.conReview.wouldRecommend ? "- Would Recommend" : ''}
+        {this.props.review.proReview.paidOnTime ? "Paid on time" : ''}
+        {this.props.review.proReview.safeWorkSpace ? "Safe workspace" : ''}
+        : ''
+
+    */  }
+
+        </div>
       </div>
   )
 }
