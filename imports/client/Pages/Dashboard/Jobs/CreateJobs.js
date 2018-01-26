@@ -63,7 +63,6 @@ export default class CreateJobs extends Component {
       endD: '',
       lat: -100,
       lng: -100,
-      weekendExcluded: ''
     };
   }
   handleCreate(e){
@@ -92,7 +91,7 @@ export default class CreateJobs extends Component {
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
-      job.requirements.excludeWeekend = this.refs.eweekend.checked;
+      job.requirements.weekendExcluded = this.refs.eweekend.checked;
     console.log(job);
       Meteor.call('validateJob', job, (err)=>{
           if(err){
@@ -143,9 +142,6 @@ export default class CreateJobs extends Component {
   }
   handlesscNoClick(){
     $("#taxDisplay").css("display","block");  //shows tax display on no click for ssc
-  }
-  handleWeekend(e) {
-    this.setState({weekendExcluded: 'checked'});
   }
   setStartD(x,event){
     let date = JSON.stringify(event);
@@ -251,12 +247,12 @@ export default class CreateJobs extends Component {
         <div>
           <label htmlFor="weekend">Exclude Weekends? Only applies if dates selected include weekends. (This means that professionals will not work on weekends)</label>
           <div>
-            <input  ref="iweekend"  name="eweekend" type="radio" id="excludeNo" defaultChecked={this.state.weekendExcluded} onClick={this.handleWeekend.bind(this)}/>
-            <label htmlFor="excludeNo" >No</label>
+            <input  ref="eweekend" name="eweekend" type="radio" id="excludeYes"/>
+            <label htmlFor="excludeYes" >Yes</label>
           </div>
           <div>
-            <input  ref="eweekend" name="eweekend" type="radio" id="excludeYes" defaultChecked='' onClick={this.handleWeekend.bind(this)}/>
-            <label htmlFor="excludeYes" >Yes</label>
+            <input  ref="iweekend"  name="eweekend" type="radio" id="excludeNo" defaultChecked={true}/>
+            <label htmlFor="excludeNo" >No</label>
           </div>
         </div>
         <div className="input-field col s12">

@@ -19,8 +19,26 @@ export default class ProfessionalEdit extends Component{
     });
     this.setState({
       prevTitles: this.props.user.profile.employeeData.jobTitle,
-      showTrade: this.props.user.profile.employeeData.education.tradeSchool.wentToSchool
-    })
+      showTrade: this.props.user.profile.employeeData.education.tradeSchool.wentToSchool,
+      dist: this.props.user.profile.employeeData.maxDistance
+    });
+    let dist = ReactDOM.findDOMNode(this.refs.dist);
+    noUiSlider.create(dist, {
+        start: [this.props.user.profile.employeeData.maxDistance],
+        connect: true,
+        step: 1,
+        orientation: 'horizontal',
+        range: {
+            'min': 0,
+            'max': 100
+        },
+        format: wNumb({
+            decimals: 0
+        })
+    });
+    dist.noUiSlider.on('change',(value, handle)=>{
+        this.setState({dist: parseInt(value[0])});
+    });
     $(this.refs.titles).change(()=>{
       this.setState({jobTitles:$(this.refs.titles).val()})
     });
@@ -39,6 +57,7 @@ export default class ProfessionalEdit extends Component{
       phoneE : false,
       gPhone : true,
       address: DEFAULT,
+      dist: '',
       lat: -100,
       lng: -100,
       showTrade: false
@@ -76,6 +95,7 @@ export default class ProfessionalEdit extends Component{
       user.profile.employeeData.hasCar = this.refs.cy.checked;
       user.profile.employeeData.driverLicense = this.refs.dy.checked;
       user.profile.employeeData.bringTools = this.refs.ty. checked;
+      user.profile.employeeData.maxDistance = this.state.dist;
       console.log(user);
       Meteor.call('updateUserData', user, (err)=>{
         if(err){
@@ -116,6 +136,7 @@ export default class ProfessionalEdit extends Component{
       user.profile.employeeData.hasCar = this.refs.cy.checked;
       user.profile.employeeData.driverLicense = this.refs.dy.checked;
       user.profile.employeeData.bringTools = this.refs.ty. checked;
+      user.profile.employeeData.maxDistance = this.state.dist;
       console.log(user);
       Meteor.call('updateUserData', user, (err)=>{
         if(err){
@@ -204,6 +225,8 @@ export default class ProfessionalEdit extends Component{
                 <option value="Vietnamese">Vietnamese</option>
               </select>
             </div>
+            <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Distance you are willing to travel <span style={{fontWeight:'bold'}}>{this.state.dist} miles</span></p>
+            <div className="row" ref="dist"></div>
             <div className="row">
               <div className="col s6">
                   <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Update your OSHA certification level?</p>
