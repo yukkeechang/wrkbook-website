@@ -736,7 +736,6 @@ Meteor.methods({
   if(requirements.languages.length >0){
     prevJob.requirements.languages = requirements.languages;
   }
-
   if(requirements.driverLicense != prevJob.requirements.driverLicense){
     prevJob.requirements.driverLicense = requirements.driverLicense;
   }
@@ -751,6 +750,9 @@ Meteor.methods({
   }
   if(requirements.socialPref.social != prevJob.requirements.socialPref.social){
     prevJob.requirements.socialPref.social = requirements.socialPref.social;
+  }
+  if(requirements.weekendExcluded != prevJob.requirements.weekendExcluded){
+    prevJob.requirements.weekendExcluded = requirements.weekendExcluded
   }
   if(updateJob.supervisor.name != prevJob.supervisor.name){
     prevJob.supervisor.name = updateJob.supervisor.name;

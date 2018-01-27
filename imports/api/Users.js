@@ -350,8 +350,7 @@ Meteor.methods({
       }
       prevUser.profile.employeeData = oldData;
 
-        Meteor.users.update({_id: this.userId},{$set: prevUser});
-
+      Meteor.users.update({_id: this.userId},{$set: prevUser});
     },
 
 
@@ -366,16 +365,10 @@ Meteor.methods({
 
           if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
-          let prevUser = Meteor.users.findOne({_id: this.userId});
-          prevUser.profile.firstName = User.profile.firstName;
-          prevUser.profile.lastName = User.profile.lastName;
-          prevUser.profile.phone = User.profile.phone;
-
           let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
           let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
 
           if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
-
 
           if(isCON){
               Meteor.call('updateEmployerData',User.profile.employerData);
@@ -383,6 +376,12 @@ Meteor.methods({
               Meteor.call('updateEmployeeData',User.profile.employeeData);
 
           }
+
+          let prevUser = Meteor.users.findOne({_id: this.userId});
+          prevUser.profile.firstName = User.profile.firstName;
+          prevUser.profile.lastName = User.profile.lastName;
+          prevUser.profile.phone = User.profile.phone;
+          
           Meteor.users.update({_id: this.userId},{$set: prevUser});
     },
     /**
