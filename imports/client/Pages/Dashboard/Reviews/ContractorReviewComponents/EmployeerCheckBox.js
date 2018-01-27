@@ -6,13 +6,13 @@ export default class EmployeeCheckBoxs extends Component{
     super(props);
     this.state={
       paidOnTime: false,
-      safeWorkspace: false,
+      safeWorkSpace: false,
     }
   }
   value(){
     return{
       paidOnTime: this.state.paidOnTime,
-      safeWorkSpace: this.state.safeWorkspace,
+      safeWorkSpace: this.state.safeWorkSpace,
 
     };
 
@@ -21,8 +21,8 @@ export default class EmployeeCheckBoxs extends Component{
     this.setState({paidOnTime: true})
   };
 
-  handleSafeWorkspace=()=>{
-    this.setState({safeWorkspace: true})
+  handlesafeWorkSpace=()=>{
+    this.setState({safeWorkSpace: true})
   };
 
 
@@ -44,7 +44,7 @@ export default class EmployeeCheckBoxs extends Component{
           </div>
 
           <div className="col s12 m6 ">
-          <input type="checkbox" className="filled-in" id="safe-workspace" value={this.state.safeWorkspace} onChange={this.handleSafeWorkspace}/>
+          <input type="checkbox" className="filled-in" id="safe-workspace" value={this.state.safeWorkSpace} onChange={this.handlesafeWorkSpace}/>
           <label htmlFor="safe-workspace">Safe workspace</label>
           </div>
 
