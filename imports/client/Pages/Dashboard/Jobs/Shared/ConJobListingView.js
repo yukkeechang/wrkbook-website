@@ -16,14 +16,14 @@ class ConView extends React.Component{
 
   }
   changeIndex=(e)=>{
-    console.log(e);
+    //console.log(e);
     this.props.handleChangeIndex(e);
   }
 
   render(){
 
     let employeesBoi = this.props.employees;
-    console.log(employeesBoi.length);
+    //console.log(employeesBoi.length);
     if (!this.props.ready) {
       return(
         <MSpinner/>

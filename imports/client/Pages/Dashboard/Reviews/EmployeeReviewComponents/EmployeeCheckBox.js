@@ -19,13 +19,13 @@ export default class EmployeeCheckBoxs extends Component{
 
   }
   handleOnTime=()=> {
-    this.setState({onTime: true});
+    this.state.onTime ? this.setState({onTime: false}) : this.setState({onTime: true})
   }
   handleNeatJob=()=>{
-    this.setState({neatJob: true});
+    this.state.neatJob ? this.setState({neatJob: false}) : this.setState({neatJob: true})
   }
   handleRecommend=()=> {
-    this.setState({wouldRecommend: true});
+    this.state.neatJob ? this.setState({handleRecommend: false}) : this.setState({handleRecommend: true})
   }
 
 
