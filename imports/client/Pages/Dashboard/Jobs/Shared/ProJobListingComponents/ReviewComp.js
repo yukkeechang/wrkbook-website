@@ -27,6 +27,7 @@ class ReviewC extends Component{
                       <ViewReview
                       ratingValue={this.props.reviews[0].rating}
                       ratingText={this.props.reviews[0].review}
+                      review={this.props.reviews[0]}
                       />
                       <EditReviewForPro
                       review={this.props.reviews[0]}

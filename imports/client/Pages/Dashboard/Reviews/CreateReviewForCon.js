@@ -16,7 +16,7 @@ export default class CreateReview extends Component {
           conLastName: '',
           companyName: '',
           paidOnTime: false,
-          safeWorkspace: false,
+          safeWorkSpace: false,
           review: ''
       }
 

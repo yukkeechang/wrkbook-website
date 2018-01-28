@@ -39,7 +39,7 @@ export default class EditReviewForCon extends React.Component{
     review.rating = this.state.rating;
     review.review = this.refs.reviewText.value();
     let reviewId = this.props.review._id;
-    //console.log(review);
+    console.log(review);
     Meteor.call('updateReview', reviewId, review,(err)=>{
           if(err){
             console.log(err);
