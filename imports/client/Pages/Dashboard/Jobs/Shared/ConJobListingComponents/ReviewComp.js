@@ -11,7 +11,7 @@ class ReviewC extends Component{
    constructor(props){
      super(props);
    }
-   render(){ 
+   render(){
     return (
       <div className="col s12 m4">
         <div className="center-align">
@@ -27,6 +27,7 @@ class ReviewC extends Component{
                     <ViewReview
                     ratingValue={this.props.reviews[0].rating}
                     ratingText={this.props.reviews[0].review}
+                    review={this.props.reviews[0]}
                     />
                     <EditReviewForCon
                     review={this.props.reviews[0]}
