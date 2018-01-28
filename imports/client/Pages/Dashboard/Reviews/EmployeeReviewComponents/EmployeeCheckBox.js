@@ -25,7 +25,7 @@ export default class EmployeeCheckBoxs extends Component{
     this.state.neatJob ? this.setState({neatJob: false}) : this.setState({neatJob: true})
   }
   handleRecommend=()=> {
-    this.state.neatJob ? this.setState({handleRecommend: false}) : this.setState({handleRecommend: true})
+    this.state.wouldRecommend ? this.setState({wouldRecommend: false}) : this.setState({wouldRecommend: true})
   }
 
 

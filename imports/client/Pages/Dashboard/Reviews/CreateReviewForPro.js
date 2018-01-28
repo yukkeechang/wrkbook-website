@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import Rating from 'react-rating';
 import EmployeeTitle from './EmployeeReviewComponents/EmployeeTitle';
-import EmployeeCheckBoxs from './ContractorReviewComponents/EmployeerCheckBox';
+import EmployeeCheckBoxs from './EmployeeReviewComponents/EmployeeCheckBox';
 import ReviewSchema from '../../../../api/Schemas/reviewSchema';
 import MTextField from '../../Shared/MTextField';
 export default class CreateReview extends Component {
