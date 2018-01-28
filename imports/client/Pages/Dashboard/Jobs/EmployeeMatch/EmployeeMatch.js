@@ -125,12 +125,18 @@ export default class EmpJobPostComponent extends React.Component{
                 </div>
               </div>
 
+              {!this.props.isCompleted ?
               <ApplyDeclineButton
                 jobID={this.state.id}
                 isApplied={isApplied}
                 isDecline={isDecline}
                 jobTitles={this.props.jobinfo.jobTypes.texts}
               />
+              :
+              <div className="center-align">
+                <a className="btn disabled">Job Completed</a>
+              </div>
+              }
             </div>
           </div>
         </div>

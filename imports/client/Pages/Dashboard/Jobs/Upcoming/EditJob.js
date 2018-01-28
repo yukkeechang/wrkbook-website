@@ -99,6 +99,7 @@ export default class EditJob extends Component {
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.refs.o1.checked;
       job.requirements.osha.osha30 = this.refs.o3.checked;
+      job.requirements.weekendExcluded = this.refs.eweekend.checked;
       let newJob = {
         job: job
       };
@@ -139,6 +140,7 @@ export default class EditJob extends Component {
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.refs.o1.checked;
       job.requirements.osha.osha30 = this.refs.o3.checked;
+      job.requirements.weekendExcluded = this.refs.eweekend.checked;
       console.log(job);
       let thingss =this.props.jobPost._id;
       Meteor.call('updateJob', thingss, job, (err)=>{
@@ -280,6 +282,17 @@ export default class EditJob extends Component {
                 <input name="group2" type="radio" id="taxNo" defaultChecked={!this.props.jobPost.requirements.socialPref.taxID}/>
                 <label htmlFor="taxNo">No</label>
               </div>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="weekend">Exclude Weekends? Only applies if dates selected include weekends. (This means that professionals will not work on weekends)</label>
+            <div>
+              <input  ref="eweekend" name="eweekend" type="radio" id="excludeYes" defaultChecked={this.props.jobPost.requirements.weekendExcluded}/>
+              <label htmlFor="excludeYes" >Yes</label>
+            </div>
+            <div>
+              <input  ref="iweekend"  name="eweekend" type="radio" id="excludeNo" defaultChecked={!this.props.jobPost.requirements.weekendExcluded}/>
+              <label htmlFor="excludeNo" >No</label>
             </div>
           </div>
         </form>

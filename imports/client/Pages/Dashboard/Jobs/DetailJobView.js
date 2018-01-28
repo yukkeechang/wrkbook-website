@@ -32,6 +32,7 @@ class ViewJob extends React.Component {
           <ContractorView
             userId={this.props.userId}
             isUpcoming={job.generalStart > new Date() ? true : false}
+            isCompleted={job.generalEnd < new Date() ? true : false}
             key={job._id}
             jobinfo = {job}
             events = {job.eventInfo}
@@ -55,7 +56,7 @@ class ViewJob extends React.Component {
               title={job.jobTitle.text}
               description={job.description.text}
               location={job.location.locationName}
-
+              isCompleted={job.generalEnd < new Date() ? true : false}
             />
             )
       }else{
