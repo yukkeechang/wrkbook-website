@@ -23,16 +23,23 @@ export default class ViewReview extends React.Component {
 
 
       if(wouldRecommend || neatJob || onTime ) {
-        console.log("SUCL MY ASS")
         return (
           <div>
-          <div>Other Comments: </div>
-          <div>{this.props.review.conReview.wouldRecommend ? "- Would Recommend" : null}</div>
-          <div>{this.props.review.conReview.neatJob ? "- Neat Job" : ''}</div>
+            <div>Other Comments: </div>
+            <div>{this.props.review.conReview.wouldRecommend ? "- Would Recommend" : null}</div>
+            <div>{this.props.review.conReview.neatJob ? "- Neat Job" : ''}</div>
           </div>
         )
-
-    }
+      }
+      if(safeWorkSpace || paidOnTime) {
+        return (
+          <div>
+            <div>Other Comments: </div>
+            <div>{this.props.review.proReview.safeWorkSpace ? "-Safe Workspace" : null}</div>
+            <div>{this.props.review.proReview.paidOnTime ? "- Paid on Time" : ''}</div>
+          </div>
+        )
+      }
     //  if(safeWorkSpace || paidOnTime) {
     //    return (
     //      <div>Other Comments: <div/>
