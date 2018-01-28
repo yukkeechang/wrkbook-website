@@ -125,18 +125,20 @@ class ConComponentPage extends React.Component{
               <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
-
-            <div className="col m2  s2">
-              <div className="row center-align">
-                <a  style={{padding:'10px'}} onClick={this.deleteModal} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" style={{ fontSize:'30px', color:'red'}}><div style={{height:'40px',width:'40px'}} className="circle blue-grey lighten-5"><i className="material-icons">delete_forever</i></div></a>
+            {!this.props.isCompleted ?
+              <div className="col m2  s2">
+                <div className="row center-align">
+                  <a  style={{padding:'10px'}} onClick={this.deleteModal} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" style={{ fontSize:'30px', color:'red'}}><div style={{height:'40px',width:'40px'}} className="circle blue-grey lighten-5"><i className="material-icons">delete_forever</i></div></a>
+                </div>
+                <div className="row center-align">
+                  <Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
+                    <a style={{padding:'0px',fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Edit Job Info" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey center-align lighten-5"> <i className="material-icons">edit</i></div></a>
+                  </Link>
+                </div>
               </div>
-              <div className="row center-align">
-                <Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
-                  <a style={{padding:'0px',fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Edit Job Info" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey center-align lighten-5"> <i className="material-icons">edit</i></div></a>
-                </Link>
-              </div>
-
-            </div>
+              :
+              null
+            }
           </div>
           <div className="row">
             <div className="col m8 s12">
@@ -158,7 +160,7 @@ class ConComponentPage extends React.Component{
           <JobInfo osha10={this.state.osha10} osha30={this.state.osha30} license={this.state.license}
             location={this.props.jobinfo.location.locationName}
             pay={this.props.jobinfo.professionals[this.state.value].pay} endAt={this.state.endAt} startAt={this.state.startAt} numWorkers={this.props.jobinfo.professionals[this.state.value].numWorkers}
-            responsibilities={this.props.jobinfo.professionals[this.state.value].responsibilities} excludeWeekend={this.props.jobinfo.requirements.weekendExcluded} />
+            responsibilities={this.props.jobinfo.professionals[this.state.value].responsibilities} weekendExcluded={this.props.jobinfo.requirements.weekendExcluded} />
 
             {
 
@@ -172,6 +174,7 @@ class ConComponentPage extends React.Component{
                     <div className="col m12 s12">
                         <Employees
                         isAdmitted={true}
+                        isCompleted={this.props.isCompleted}
                         job={this.props.jobinfo}
                         filterIds={this.props.jobinfo.admitAsIDs[this.state.value].ids}/>
                     </div>
