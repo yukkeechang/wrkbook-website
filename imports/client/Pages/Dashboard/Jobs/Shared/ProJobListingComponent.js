@@ -56,7 +56,7 @@ componentWillMount(){
    let startdate = (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getDate()  + "/" + this.props.event.startAt.getFullYear();
    let jobDate = startdate+" - "+ enddate ;
    let jobTime = starttime+ " - "+endtime;
-   console.log(hours);
+   //console.log(hours);
       return (
         <div className="card">
 

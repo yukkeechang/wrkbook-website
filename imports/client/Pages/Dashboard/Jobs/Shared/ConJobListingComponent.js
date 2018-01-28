@@ -59,10 +59,10 @@ class ConJobListingPageComp extends React.Component {
    let startdate = (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getDate()  + "/" + this.props.event.startAt.getFullYear();
    let jobDate = startdate+" - "+ enddate ;
    let jobTime = starttime+ " - "+endtime;
-   console.log( this.props.job.jobTypes);
+   //console.log( this.props.job.jobTypes);
    let profession = this.props.job.jobTypes.texts[this.props.jobTypesIndex];
 
-   console.log(this.props);
+   //console.log(this.props);
       return (
         <div className="card-content">
 
@@ -134,7 +134,7 @@ export default ConJobListingPage = withTracker(props =>  {
 
   reviews = Review.find({revieweeId:props.employeeInfo._id}).fetch();
 
-  console.log(reviews);
+  //console.log(reviews);
   for(let index in reviews) {
       dataArray.push(reviews[index].rating);
   }
