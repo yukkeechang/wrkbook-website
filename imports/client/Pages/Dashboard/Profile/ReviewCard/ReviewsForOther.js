@@ -5,6 +5,8 @@ import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import ReviewCard from './ReviewComponents/ReviewCard';
 import Rating from 'react-rating';
+import RefForOther from './RefForOther';
+
 class ReviewCompU extends React.Component{
   constructor(props){
     super(props);
@@ -18,10 +20,12 @@ class ReviewCompU extends React.Component{
     }else if (this.props.reviews.length>0) {
 
       return(
+        <div>
         <div className="card-panel">
 
           <div className="right-align row">
           <div className="center-align s12">
+
                 <Rating
                   initialRate={this.props.reviewAverage}
                   readonly={true}
@@ -41,6 +45,9 @@ class ReviewCompU extends React.Component{
               <ReviewCard  key={reviews._id} size={100} review={reviews}/>
             );
           })}
+
+        </div>
+        <RefForOther userId={this.props.userId}/>
         </div>
       )
 
@@ -53,6 +60,10 @@ class ReviewCompU extends React.Component{
         </div>
       )
     }
+    return(
+      <RefForOther/>
+    )
+
   }
 
 }
