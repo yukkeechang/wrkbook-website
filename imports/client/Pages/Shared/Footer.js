@@ -30,12 +30,12 @@ export default Footer = (props)=>{
                 <div style={{marginBottom:'0'}} className="row">
                     <div className="col s6 m3 offset-m3">
                         <p style={{textAlign:'center',textDecoration:'underline'}}>
-                            <a style={{color:'white'}}href="">Terms of Service</a>
+                            <a style={{color:'white'}}href="WrkbookUser AccessTerms.pdf">Terms of Service</a>
                         </p>
                     </div>
                     <div className="col s6 m3">
                         <p style={{textAlign:'center',textDecoration:'underline'}}>
-                            <a style={{color:'white'}}href="">Privacy Policy</a>
+                            <a style={{color:'white'}}href="WrkbookPrivacyPolicy.pdf">Privacy Policy</a>
                         </p>
                     </div>
                 </div>

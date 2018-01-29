@@ -31,10 +31,14 @@ render() {
   else if(!(isEmpty(this.props.jobPost))) {
     return (
       <div>
-        <div>
+        <div className="row">
           <h1 className="center-align">Current Jobs</h1>
         </div>
-
+        <div className="right-align" style={{paddingRight: '100px', paddingBottom: '20px'}}>
+          <Link to={"/createjob"} className="btn">
+            Make a Job Post
+          </Link>
+        </div>
         {this.props.jobPost.map((job, index)=>{
           return(
             <SelectConJobList
