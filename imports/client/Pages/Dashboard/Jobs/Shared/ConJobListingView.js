@@ -84,9 +84,9 @@ class ConView extends React.Component{
                    </Link>
               </div>
             </div>
-            <div className="row center-align">
+            {/*<div className="row center-align">
               <p style={{margin:'16px'}} className="flow-text"> Sorry No Professionals Were Admitted to this Job</p>
-            </div>
+            </div> */}
             {this.props.isUpcoming &&
               <PendingEmployees numberofEmployees={this.props.job.applyemployeeIds.length}
               jobId={this.props.job._id} />

@@ -34,10 +34,18 @@ class ConUpcomingPage extends React.Component{
       let jobz = this.props.jobPost;
 
       return(
+        <div className="row">
+          <div className="row" style={{paddingTop: '10px'}}>
+            <div className="center-align " style={{fontSize: '50px'}}>
+            Upcoming Jobs
+            </div>
+            <div className="right-align" style={{paddingRight: '100px'}}>
+              <Link to={"/createjob"} className="btn">
+                Make a Job Post
+              </Link>
+            </div>
+        </div>
         <div>
-        <h3 className="center-align">Upcoming Jobs</h3>
-        <div >
-
           <br/>
           {jobz.map(function(job, index){
 
