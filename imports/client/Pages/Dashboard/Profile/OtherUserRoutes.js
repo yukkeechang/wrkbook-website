@@ -17,28 +17,29 @@ constructor(props) {
   super(props);
   this.state={
       routeName:'',
+      isPro: false
   }
-  console.log(this.props);
+  //console.log(this.props);
 
 
 }
 componentDidMount(){
-  console.log(this.refs);
-  console.log(this.props.props);
+  //console.log(this.refs);
+  //console.log(this.props.props);
   let switchRouter =this.refs.halp.context.router.route.location.pathname;
   this.setState({routeName:switchRouter});
-  console.log(switchRouter);
-}
-things(){
-  console.log("hahah");
+  //console.log(switchRouter);
 }
 
+
 render() {
+
+
     let url = this.props.props.match.url;
     console.log(url);
     let ContactPage = ()=>{
       return(
-          <Contact user={this.props.user} />
+          <Contact user={this.props.user}  />
       )
     };
     let AboutPage = () =>{
