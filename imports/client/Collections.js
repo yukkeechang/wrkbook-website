@@ -11,5 +11,5 @@ PDFs = new FS.Collection('pdfs',{
 Job = new Mongo.Collection('jobs');
 Review = new Mongo.Collection('reviews');
 Event = new Mongo.Collection('events');
-References = new Mongo.Collection('references');
+Reference = new Mongo.Collection('references');
 Notification = new Mongo.Collection('notifications');
