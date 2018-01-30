@@ -381,7 +381,7 @@ Meteor.methods({
           prevUser.profile.firstName = User.profile.firstName;
           prevUser.profile.lastName = User.profile.lastName;
           prevUser.profile.phone = User.profile.phone;
-          
+
           Meteor.users.update({_id: this.userId},{$set: prevUser});
     },
     /**
@@ -453,26 +453,38 @@ Meteor.methods({
 
 
     },
-    updateEmail(newEmail){
+    /**
+     * Udates the email of the currently logged in user. The user must pass to
+     * email addresses( one is for conformation) of the emails match and
+     * are valid email strings the email for the user will be updated and a new
+     * Verification email will be sent.
+     * @param  {Object} Emails the object that contains two email addresses
+     * @throw {Meteor.Error} if the emails dont match or if the fields are empty.
+     */
+    updateEmail(Emails){
 
       if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+      let isEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(Emails.email1);
+      let eEmpty = Emails.email1.length > 0 ? false : true;
+      let nEqual = Emails.email1 !== Emails.email2 ? true : false;
 
-      //LAST RESORT: ADD OR REMOVE EMAIL method
+      let Errors ={
+        isEmail : isEmail,
+        eEmpty : eEmpty,
+        nEqual : nEqual
+      };
+      
+      if(!isEmail|| eEmpty|| nEqual) throw new Meteor.Error('403',Errors);
+      let oldEmail = Meteor.users.findOne({_id: this.userId}).emails[0].address;
 
-      //---This below  doesn't work, ERROR: E11000 duplicate key error collection: meteor.users index:
-      // let prevUser = Meteor.users.findOne({_id: this.userId});
-      // prevUser.emails[0].address = newEmail;
-      // Meteor.users.update({_id: this.userId}, {$set: prevUser});
+      if(Accounts.addEmail(this.userId,Emails.email1)){
+        Accounts.removeEmail(this.userId,oldEmail);
+      }
+      Meteor.call('sendVerificationEmail',(err)=>{
+        if(err)console.log(err);
+      })
 
 
-      //---This below  doesn't work
-      //Meteor.users.update({_id: this.userId}, {$set: {'user.emails[0].address': newEmail}});
-
-      //----Uncomment below AFTER changing email works
-    //Accounts.sendVerificationEmail(this.userId);
-    //TODO: reset verify to false
-      let user = Meteor.users.findOne({_id: this.userId});
-      console.log(user.emails[0].address)
 
     }
 

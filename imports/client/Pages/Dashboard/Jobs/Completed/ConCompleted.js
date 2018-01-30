@@ -12,6 +12,7 @@ import MSpinner from '../../../Shared/MSpinner';
 import SelectConJobList from '../Shared/SelectConJobListView';
 import { Link } from 'react-router-dom';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
+import JobButton from '../Shared/ConJobListingComponents/CreateJobButton';
 
 
 
@@ -71,13 +72,6 @@ render() {
         <div className="row" style={{paddingTop: '10px'}}>
           <div>
           <h1 className="center-align" style={{fontSize: this.state.titleFontSize}}>Completed Jobs</h1>
-          <div className="right-align" style={{paddingRight: '100px'}}>
-          <Link to={"/createjob"} className="btn">
-            <div className="right-align">
-                  Create a New Job!
-            </div>
-            </Link>
-            </div>
         </div>
         </div>
         {jobz.map((job, index)=>{
@@ -91,7 +85,7 @@ render() {
           )
 
         })}
-
+        <JobButton/>
       </div>
     )
   }
