@@ -18,7 +18,8 @@ export default class InfoCard extends React.Component{
         changeUrl=true;
       }
     }
-
+    let addArr = this.props.location.split(",");
+    let parsedAddress = addArr[1]+","+addArr[2];
     return(
       <div className="card-panel">
         <div className="row">
@@ -54,7 +55,7 @@ export default class InfoCard extends React.Component{
         </div>
         <div className="row">
           <div  className="col s12 center-align">
-            <h6>{this.props.location}</h6>
+            <h6>{parsedAddress}</h6>
           </div>
         </div>
 

@@ -12,6 +12,7 @@ import MSpinner from '../../../Shared/MSpinner';
 import SelectConJobList from '../Shared/SelectConJobListView';
 import { Link } from 'react-router-dom';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
+import JobButton from '../Shared/ConJobListingComponents/CreateJobButton';
 
 
 
@@ -68,8 +69,10 @@ render() {
     let jobz = this.props.job;
     return (
       <div>
-        <div>
+        <div className="row" style={{paddingTop: '10px'}}>
+          <div>
           <h1 className="center-align" style={{fontSize: this.state.titleFontSize}}>Completed Jobs</h1>
+        </div>
         </div>
         {jobz.map((job, index)=>{
           return (
@@ -82,7 +85,7 @@ render() {
           )
 
         })}
-
+        <JobButton/>
       </div>
     )
   }

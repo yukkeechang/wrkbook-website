@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
 import JobCreateComponent from '../MultiProComponent';
 import JobSchema from '../../../../../api/Schemas/jobSchema';
@@ -12,8 +13,8 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 export default class EditJob extends Component {
   componentDidMount(){
-    let dropdowns = ReactDOM.findDOMNode();
-    $(dropdowns).ready(()=>{
+    let page = ReactDOM.findDOMNode(this.refs.editJobPage);
+    $(page).ready(()=>{
       $('select').material_select();
       $('.modal').modal();
     });
@@ -41,9 +42,6 @@ export default class EditJob extends Component {
       autoclose: false, // automatic close timepicker
       ampmclickable: true, // make AM PM clickable
       aftershow: function(){} //Function for after opening timepicker
-    });
-    $(this.refs.osha).on('change',(e)=>{
-      this.handleSelect(e);
     })
   }
   constructor(props){
@@ -99,8 +97,9 @@ export default class EditJob extends Component {
       job.jobTitle.text = this.refs.jt.value();
       job.requirements.socialPref.social = $("#sscYes").prop('checked');
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
-      job.requirements.osha.osha10 = this.state.osha10;
-      job.requirements.osha.osha30 = this.state.osha30;
+      job.requirements.osha.osha10 = this.refs.o1.checked;
+      job.requirements.osha.osha30 = this.refs.o3.checked;
+      job.requirements.weekendExcluded = this.refs.eweekend.checked;
       let newJob = {
         job: job
       };
@@ -113,7 +112,7 @@ export default class EditJob extends Component {
           console.log('above two are update errors');
         }
         else{
-          console.log('no error');
+          $('#updateModal').modal('open');
         }
       });
     }
@@ -136,13 +135,13 @@ export default class EditJob extends Component {
       job.jobTypes.texts = this.state.titles;
       job.professionals = professionals;
       job.location = location;
-      console.log(location);
       job.jobTitle.text = this.refs.jt.value();
       job.requirements.socialPref.social = $("#sscYes").prop('checked');
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
-      job.requirements.osha.osha10 = this.state.osha10;
-      job.requirements.osha.osha30 = this.state.osha30;
-
+      job.requirements.osha.osha10 = this.refs.o1.checked;
+      job.requirements.osha.osha30 = this.refs.o3.checked;
+      job.requirements.weekendExcluded = this.refs.eweekend.checked;
+      console.log(job);
       let thingss =this.props.jobPost._id;
       Meteor.call('updateJob', thingss, job, (err)=>{
         if(err){
@@ -151,7 +150,7 @@ export default class EditJob extends Component {
           console.log('above two are update errors');
         }
         else{
-          console.log('no error');
+          $('#updateModal').modal('open');
         }
       });
     }
@@ -160,18 +159,6 @@ export default class EditJob extends Component {
     this.setState({
       titles: $(this.refs.titles).val()
     })
-  }
-  handleSelect(){
-    if($('#osha').val()==2){
-      this.setState({
-        osha10: true
-      })
-    }
-    else if($('#osha').val()==3){
-      this.setState({
-        osha30: true
-      })
-    }
   }
   handletoolYesClick(){
     $("#toolDisplay").css("display","block"); //displays tool input on yes click
@@ -212,7 +199,7 @@ export default class EditJob extends Component {
         <span style={{color:'red'}}><i>By editing this job, all professionals matched and hired to this job will be dropped. However, professionals can apply again if the job criteria matches their description</i></span>
       </div>
       <div className="container">
-      <div className="card">
+      <div ref="editJobPage" className="card">
       <div className="card-content">
         <form>
           <div className="input-field col s12">
@@ -256,13 +243,20 @@ export default class EditJob extends Component {
         </form>
 
         <form>
-          <div className="input-field col m6 s12">
-            <select id="osha" ref="osha" onChange={this.handleSelect.bind(this)}>
-              <option value="" disabled selected>OSHA preference</option>
-              <option value="1">No preference</option>
-              <option value="2">OSHA 10</option>
-              <option value="3">OSHA 30</option>
-            </select>
+          <div className="col m6 s12">
+              <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Update your jobs OSHA certification level?</p>
+              <p>
+              <input ref="osha" name="osha" type="radio" id="on" defaultChecked={!this.props.jobPost.requirements.osha.osha10 && !this.props.jobPost.requirements.osha.osha30}/>
+              <label htmlFor="osha">None</label>
+              </p>
+              <p>
+              <input ref="o1"name="osha" type="radio" id="o1" defaultChecked={this.props.jobPost.requirements.osha.osha10}/>
+              <label htmlFor="o1">Osha 10</label>
+              </p>
+              <p>
+              <input ref="o3"name="osha" type="radio" id="o3" defaultChecked={this.props.jobPost.requirements.osha.osha30}/>
+              <label htmlFor="o3">Osha 30</label>
+              </p>
           </div>
         </form>
         <form>
@@ -270,46 +264,61 @@ export default class EditJob extends Component {
             <div className="col m4 s6">
               <label>Is Social Security required?</label>
               <div>
-                <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick.bind(this)}/>
+                <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick.bind(this)} defaultChecked={this.props.jobPost.requirements.socialPref.social}/>
                 <label htmlFor="sscYes">Yes</label>
               </div>
               <div>
-                <input name="group1" type="radio" id="sscNo" onClick={this.handlesscNoClick.bind(this)}/>
+                <input name="group1" type="radio" id="sscNo" onClick={this.handlesscNoClick.bind(this)} defaultChecked={!this.props.jobPost.requirements.socialPref.social}/>
                 <label htmlFor="sscNo">No</label>
               </div>
             </div>
             <div id="taxDisplay" style={{display:'none'}} className="col m4 s6">
               <label>Is Tax Id required?</label>
               <div>
-                <input name="group2" type="radio" id="taxYes"/>
+                <input name="group2" type="radio" id="taxYes" defaultChecked={this.props.jobPost.requirements.socialPref.taxID}/>
                 <label htmlFor="taxYes">Yes</label>
               </div>
               <div>
-                <input name="group2" type="radio" id="taxNo"/>
+                <input name="group2" type="radio" id="taxNo" defaultChecked={!this.props.jobPost.requirements.socialPref.taxID}/>
                 <label htmlFor="taxNo">No</label>
               </div>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="weekend">Exclude Weekends? Only applies if dates selected include weekends. (This means that professionals will not work on weekends)</label>
+            <div>
+              <input  ref="eweekend" name="eweekend" type="radio" id="excludeYes" defaultChecked={this.props.jobPost.requirements.weekendExcluded}/>
+              <label htmlFor="excludeYes" >Yes</label>
+            </div>
+            <div>
+              <input  ref="iweekend"  name="eweekend" type="radio" id="excludeNo" defaultChecked={!this.props.jobPost.requirements.weekendExcluded}/>
+              <label htmlFor="excludeNo" >No</label>
             </div>
           </div>
         </form>
         {this.state.titles.map((title, index)=>{
           return(
-            <JobCreateComponent ref={title} title={title}key={title}/>
+            <JobCreateComponent ref={title} title={title} key={index} index={index} events={this.props.jobPost.eventInfo} jobInfo={this.props.jobPost} fromEditJob={true}/>
           )
         })}
         <form>
           <div className="input-field col s12">
             <MTextField ref="at" id="additionalText" value={this.props.jobPost.additionText} label="Additional Information"/>
           </div>
-
-          <div style={{display:'flex', justifyContent:'center'}}>
-            <a className="waves-effect waves-teal btn-flat" onClick={this.handleUpdate.bind(this)}>Update job</a>
+          <div className="row">
+            <Link to={"/job/"+this.props.jobPost._id}><div className="col m6 s12 center-align">
+              <a className="waves-effect red lighten-1 waves-red btn">Cancel</a>
+            </div></Link>
+            <div className="col m6 s12 center-align">
+              <a className="waves-effect waves-teal btn" onClick={this.handleUpdate.bind(this)}>Update job</a>
+            </div>
           </div>
           <div id="updateModal" className="modal">
             <div className="modal-content">
               <h4>Your job has been updated.</h4>
             </div>
             <div className="modal-footer">
-              <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+              <Link to={"/job/"+this.props.jobPost._id}><a className="modal-action modal-close red waves-effect waves-green btn">Close</a></Link>
             </div>
           </div>
         </form>

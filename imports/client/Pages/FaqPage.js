@@ -1,18 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
 export default class FaqPage  extends React.Component {
   constructor(props) {
     super(props)
   }
-  pro(){
+  pro=()=>{
       window.localStorage.isPro = true;
-      this.props.history.push("/register");
   }
-  con(){
-
+  con=()=>{
       window.localStorage.isPro = false;
-      this.props.history.push("/register");
   }
   render(){
     return(
@@ -64,11 +62,15 @@ export default class FaqPage  extends React.Component {
                         <h6 className="flow-text">E-mail us at <a style={{color:'#26a69a'}}href="mailto:info@wrkbook.com?subject=[Information Inquiry]">info@wrkbook.com</a> or call us at 914-719-6422</h6>
                         <h4 className="center-align flow-text">Ready to work?</h4>
                         <div className="center-align">
-                          <a onClick={this.pro.bind(this)} className="waves-effect waves-teal btn">Sign Up</a>
+                          <Link to="/register"  onClick={this.pro}>
+                            <a className="waves-effect waves-light btn">Sign Up</a>
+                          </Link>
                         </div>
                         <h4 className="center-align flow-text">Ready to hire?</h4>
                         <div className="center-align">
-                          <a onClick={this.con.bind(this)} className="waves-effect waves-teal btn">Sign Up</a>
+                          <Link to="/register" onClick={this.con}>
+                            <a className="waves-effect waves-light btn">Sign Up</a>
+                          </Link>
                         </div>
                       </div>
                     </div>
