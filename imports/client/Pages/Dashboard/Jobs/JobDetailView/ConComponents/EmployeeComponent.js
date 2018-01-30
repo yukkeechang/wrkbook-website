@@ -57,11 +57,15 @@ import { withTracker } from 'meteor/react-meteor-data';
     return(
       <div className="card z-depth-0">
         <div className="card-content">
-          <div className="row" style={{height: '10px', padding: 'none', margin: '0px'}}>
-            <div className="col s1 offset-s11" style={{textAlign:'right'}}>
-                <a onClick={this.openModal.bind(this)} className="waves-effect" style={{height: '25px', width:'25px',textAlign: 'center', fontSize: '30px', color: 'red'}}><i className="material-icons">delete_forever</i></a>
+          {!this.props.isCompleted ?
+            <div className="row" style={{height: '10px', padding: 'none', margin: '0px'}}>
+              <div className="col s1 offset-s11" style={{textAlign:'right'}}>
+                  <a onClick={this.openModal.bind(this)} className="waves-effect" style={{height: '25px', width:'25px',textAlign: 'center', fontSize: '30px', color: 'red'}}><i className="material-icons">delete_forever</i></a>
+              </div>
             </div>
-          </div>
+            :
+            null
+          }
           <div className="row valign-wrapper ec" style={{width:'100%'}}>
             <div className="col m4 s12" style={{display:'flex', justifyContent:'center'}}>
 

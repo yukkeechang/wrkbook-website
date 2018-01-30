@@ -1,5 +1,5 @@
 import React from 'react';
-
+import JobButton from '../Shared/ConJobListingComponents/CreateJobButton';
 import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import SelectConJobList from '../Shared/SelectConJobListView';
@@ -31,7 +31,7 @@ render() {
   else if(!(isEmpty(this.props.jobPost))) {
     return (
       <div>
-        <div>
+        <div className="row">
           <h1 className="center-align">Current Jobs</h1>
         </div>
 
@@ -46,6 +46,7 @@ render() {
           )
       })
     }
+      <JobButton/>
       </div>
 
     )

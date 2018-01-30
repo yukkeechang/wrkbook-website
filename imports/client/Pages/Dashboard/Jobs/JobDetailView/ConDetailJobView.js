@@ -25,7 +25,7 @@ class ConComponentPage extends React.Component{
     $(this.refs.titles).on('change',(e)=>{
       this.handleProChange(e);
     });
-
+    console.log(this.props);
 
 
     Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
@@ -68,6 +68,23 @@ class ConComponentPage extends React.Component{
     this.setState({
       value: index,
     });
+    Meteor.call('getEventInfo',this.props.events[index],(err,res)=>{
+      console.log(this.props.events[index]);
+      if(err){
+        console.log(err);
+      }else{
+        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
+        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
+        let startAt = startdate+' - '+enddate;
+        let endAt = starttime+' - '+endtime;
+        this.setState({
+          endAt: endAt,
+          startAt: startAt
+        });
+      }
+    });
   }
   deleteModal=()=>{
     $(this.refs.deleteModal).modal('open');
@@ -108,18 +125,20 @@ class ConComponentPage extends React.Component{
               <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
-
-            <div className="col m2  s2">
-              <div className="row center-align">
-                <a  style={{padding:'10px'}} onClick={this.deleteModal} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" style={{ fontSize:'30px', color:'red'}}><div style={{height:'40px',width:'40px'}} className="circle blue-grey lighten-5"><i className="material-icons">delete_forever</i></div></a>
+            {!this.props.isCompleted ?
+              <div className="col m2  s2">
+                <div className="row center-align">
+                  <a  style={{padding:'10px'}} onClick={this.deleteModal} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" style={{ fontSize:'30px', color:'red'}}><div style={{height:'40px',width:'40px'}} className="circle blue-grey lighten-5"><i className="material-icons">delete_forever</i></div></a>
+                </div>
+                <div className="row center-align">
+                  <Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
+                    <a style={{padding:'0px',fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Edit Job Info" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey center-align lighten-5"> <i className="material-icons">edit</i></div></a>
+                  </Link>
+                </div>
               </div>
-              <div className="row center-align">
-                <Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
-                  <a style={{padding:'0px',fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Edit Job Info" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey center-align lighten-5"> <i className="material-icons">edit</i></div></a>
-                </Link>
-              </div>
-
-            </div>
+              :
+              null
+            }
           </div>
           <div className="row">
             <div className="col m8 s12">
@@ -141,7 +160,7 @@ class ConComponentPage extends React.Component{
           <JobInfo osha10={this.state.osha10} osha30={this.state.osha30} license={this.state.license}
             location={this.props.jobinfo.location.locationName}
             pay={this.props.jobinfo.professionals[this.state.value].pay} endAt={this.state.endAt} startAt={this.state.startAt} numWorkers={this.props.jobinfo.professionals[this.state.value].numWorkers}
-            responsibilities={this.props.jobinfo.professionals[this.state.value].responsibilities} />
+            responsibilities={this.props.jobinfo.professionals[this.state.value].responsibilities} weekendExcluded={this.props.jobinfo.requirements.weekendExcluded} />
 
             {
 
@@ -155,6 +174,7 @@ class ConComponentPage extends React.Component{
                     <div className="col m12 s12">
                         <Employees
                         isAdmitted={true}
+                        isCompleted={this.props.isCompleted}
                         job={this.props.jobinfo}
                         filterIds={this.props.jobinfo.admitAsIDs[this.state.value].ids}/>
                     </div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Accounts } from 'meteor/accounts-base';
 import MTextField from '../../Shared/MTextField';
 import ReactDOM from 'react-dom';
+import EmailChange from './EmailChange';
 
 export default class PasswordChange extends Component {
     constructor(props) {
@@ -75,6 +76,7 @@ export default class PasswordChange extends Component {
     render() {
         return (
             <div className="container">
+            <EmailChange/>
                 <div className="card">
                     <div className="card-content center-align" style={{paddingTop: '-10px'}}>
                         <h5>Change Password</h5>
@@ -103,6 +105,7 @@ export default class PasswordChange extends Component {
                   <div className="modal-footer">
                     <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Aiight Bet</a>
                   </div>
+
                 </div>
             </div>
         )

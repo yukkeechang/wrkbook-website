@@ -5,6 +5,8 @@ import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import ReviewCard from './ReviewComponents/ReviewCard';
 import Rating from 'react-rating';
+import RefForOther from '../../References/RefForOther';
+
 class ReviewCompU extends React.Component{
   constructor(props){
     super(props);
@@ -18,41 +20,50 @@ class ReviewCompU extends React.Component{
     }else if (this.props.reviews.length>0) {
 
       return(
-        <div className="card-panel">
+        <div>
+          <div className="card-panel">
 
-          <div className="right-align row">
-          <div className="center-align s12">
-                <Rating
-                  initialRate={this.props.reviewAverage}
-                  readonly={true}
-                  empty={<i className="material-icons" style={{fontSize: "40px", color: "#26a69a"}}>star_border</i>}
-                  full={<i className="material-icons" style={{fontSize: "40px", color: "#26a69a"}}>star</i>}
-                  fractions={2}
-                />
+            <div className="right-align row">
+            <div className="center-align s12">
+
+                  <Rating
+                    initialRate={this.props.reviewAverage}
+                    readonly={true}
+                    empty={<i className="material-icons" style={{fontSize: "40px", color: "#26a69a"}}>star_border</i>}
+                    full={<i className="material-icons" style={{fontSize: "40px", color: "#26a69a"}}>star</i>}
+                    fractions={2}
+                  />
+              </div>
             </div>
+            <div className="row center-align">
+              <h5>
+                  Reviews
+              </h5>
+            </div>
+            {this.props.reviews.map((reviews,index)=>{
+              return(
+                <ReviewCard  key={reviews._id} size={100} review={reviews}/>
+              );
+            })}
+
           </div>
-          <div className="row center-align">
-            <h5>
-                Reviews
-            </h5>
-          </div>
-          {this.props.reviews.map((reviews,index)=>{
-            return(
-              <ReviewCard  key={reviews._id} size={100} review={reviews}/>
-            );
-          })}
+          <RefForOther userId={this.props.userId}/>
         </div>
       )
 
     }else{
       return(
-        <div className="card-panel">
-          <div className="row center-align">
-              <h5>No Reviews </h5>
+        <div>
+          <div className="card-panel">
+            <div className="row center-align">
+                <h5>No Reviews </h5>
+            </div>
           </div>
+          <RefForOther userId={this.props.userId}/>
         </div>
       )
     }
+
   }
 
 }

@@ -34,6 +34,18 @@ Meteor.publish('your-references',function(){
   }
 });
 
+Meteor.publish('references-for-user', function(id){
+  if(Roles.userIsInRole(id,PROFESSIONAL)){
+    //console.log("user is pro!")
+     return Reference.find({owner: id}, {sort: {updateAt: -1}});
+  }else{
+  //console.log("STOP----")
+    this.stop();
+    return ;
+  }
+});
+
+
 Meteor.methods({
   /**
    * Validates the references object against the ReferenceSchema

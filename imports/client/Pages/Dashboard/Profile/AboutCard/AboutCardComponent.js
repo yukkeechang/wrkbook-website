@@ -12,26 +12,25 @@ export default About = (props)=>{
         </h5>
       </div>
       <div className="row center-align">
-        <h6>{props.aboutText}</h6>
+        <h6 className="flow-text" style={{overflowWrap:'break-word'}}>{props.aboutText}</h6>
       </div>
       {props.isPro&&
         <div>
           <div className="divider"/><br/>
           <div className="row">
             <div className="col m6 s12">
-                <Skills
-                  skills={props.skillsText}
-                  />
-              </div>
-              <div className="col m6 s12">
-                <Education
-                  highGED={props.highGED}
-                  tradeSchool={props.tradeSchool}
-                  tradeSchoolName={props.tradeSchoolName}
-                  higherEDU={props.higherEDU}
-                />
-              </div>
-
+              <Skills
+                skills={props.skillsText}
+              />
+            </div>
+            <div className="col m6 s12">
+              <Education
+                highGED={props.highGED}
+                tradeSchool={props.tradeSchool}
+                tradeSchoolName={props.tradeSchoolName}
+                higherEDU={props.higherEDU}
+              />
+            </div>
           </div>
           {props.languages.length>0 &&
             <div className="row">

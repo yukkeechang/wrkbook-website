@@ -27,7 +27,7 @@ export default class  SettingMenu extends Component{
                      <Link to={url + '/password'} >
                       <li className="collection-item">
                         <i className="large material-icons">security</i>
-                        Change Password
+                        Change Email and Password
                       </li>
                       </Link>
                     </ul>

@@ -62,7 +62,7 @@ export default class CreateJobs extends Component {
       endT: '',
       endD: '',
       lat: -100,
-      lng: -100
+      lng: -100,
     };
   }
   handleCreate(e){
@@ -91,6 +91,7 @@ export default class CreateJobs extends Component {
       job.requirements.socialPref.taxID = $("#taxYes").prop('checked');
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
+      job.requirements.weekendExcluded = this.refs.eweekend.checked;
     console.log(job);
       Meteor.call('validateJob', job, (err)=>{
           if(err){
@@ -192,7 +193,7 @@ export default class CreateJobs extends Component {
             <div className="col m2 s4">
               <label>Are tools required?</label>
               <div>
-                <input name="group1" type="radio" id="toolYes" onClick={this.handletoolYesClick.bind(this)} />
+                <input name="group1" type="radio" id="toolYes"  onClick={this.handletoolYesClick.bind(this)} />
                 <label htmlFor="toolYes">Yes</label>
               </div>
               <div>
@@ -243,6 +244,17 @@ export default class CreateJobs extends Component {
             </div>
           </div>
         </form>
+        <div>
+          <label htmlFor="weekend">Exclude Weekends? Only applies if dates selected include weekends. (This means that professionals will not work on weekends)</label>
+          <div>
+            <input  ref="eweekend" name="eweekend" type="radio" id="excludeYes"/>
+            <label htmlFor="excludeYes" >Yes</label>
+          </div>
+          <div>
+            <input  ref="iweekend"  name="eweekend" type="radio" id="excludeNo" defaultChecked={true}/>
+            <label htmlFor="excludeNo" >No</label>
+          </div>
+        </div>
         <div className="input-field col s12">
           <select className={this.state.jobTypes? '':"Invalid"} multiple ref="titles" id="jobTitles" defaultValue={[""]}>
             <option value="" disabled selected>Type of employee(s)</option>
@@ -258,7 +270,7 @@ export default class CreateJobs extends Component {
         </div>
         {this.state.titles.map((title, index)=>{
           return(
-            <JobCreateComponent ref={title} title={title} key={title}/>
+            <JobCreateComponent ref={title} title={title} key={title} fromEditJob={false}/>
           )
         })}
         <div>

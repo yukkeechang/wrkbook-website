@@ -18,9 +18,12 @@ export default class EmpJobPostComponent extends React.Component{
       if(err){
         console.log(err);
       }else{
-        // console.log(res);
-        let startAt = res.startAt.toLocaleString();
-        let endAt = res.endAt.toLocaleString();
+        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
+        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
+        let startAt = startdate+' - '+enddate;
+        let endAt = starttime+' - '+endtime;
         this.setState({
           endAt: endAt,
           startAt: startAt
@@ -50,10 +53,13 @@ export default class EmpJobPostComponent extends React.Component{
       if(err){
         console.log(err);
       }else{
-        // console.log(res);
         console.log(index);
-        let startAt = res.startAt.toLocaleString();
-        let endAt = res.endAt.toLocaleString();
+        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
+        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
+        let startAt = startdate+' - '+enddate;
+        let endAt = starttime+' - '+endtime;
         this.setState({
           endAt: endAt,
           startAt: startAt,
@@ -102,7 +108,8 @@ export default class EmpJobPostComponent extends React.Component{
                     <div className="col l6 m6 s12">
                       <p><b>Start time: </b>{this.state.startAt}</p>
                       <p><b>End time: </b>{this.state.endAt}</p>
-                      <p><b>Pay: </b>{this.props.jobinfo.professionals[this.state.index].pay}</p>
+                      {this.props.jobinfo.requirements.weekendExcluded ? <p>Weekends are excluded for this job*</p> : <p>Weekends are not excluded for this job*</p>}
+                      <p><b>Pay: </b>${this.props.jobinfo.professionals[this.state.index].pay}/hr</p>
                       <p><b>Location: </b>{parsedAddress}</p>
                     </div>
                     <Requirements osha10={this.state.osha10} osha30={this.state.osha30} license={this.state.license}/>
@@ -118,12 +125,18 @@ export default class EmpJobPostComponent extends React.Component{
                 </div>
               </div>
 
+              {!this.props.isCompleted ?
               <ApplyDeclineButton
                 jobID={this.state.id}
                 isApplied={isApplied}
                 isDecline={isDecline}
                 jobTitles={this.props.jobinfo.jobTypes.texts}
               />
+              :
+              <div className="center-align">
+                <a className="btn disabled">Job Completed</a>
+              </div>
+              }
             </div>
           </div>
         </div>

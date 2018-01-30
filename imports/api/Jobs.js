@@ -426,6 +426,7 @@ Meteor.methods({
     let locLat = !validations.validateOne(jobObject,'location.latitude');
     let locLng = !validations.validateOne(jobObject,'location.longitude');
     let reqLicense = !validations.validateOne(jobObject,'requirements.driverLicense');
+    let excWeekends = !validations.validateOne(jobObject, 'requirements.weekendExcluded')
     let reqBackground = !validations.validateOne(jobObject,'requirements.backgroundCheck');
     let reqLanguages = !validations.validateOne(jobObject,'requirements.languages');
     let oshaCheck = !Match.test(jobObject.requirements.osha, OshaSchema);
@@ -558,15 +559,14 @@ Meteor.methods({
  * @param  {string} jobId     the id of the job
  */
   sendNotificationsToPotential(jobObject,jobId){
-    // ,
-    // 'location.latitude': {$gte: lat_bot, $lt: lat_top},
-    // 'location.longitude': {$gte: lng_bot , $lt: lng_top}}
+    ({ '$or': [ { 'a': 1 , 'b' : {$ne : 1} }, { 'b': 1, 'a' : {$ne : 1} } ] })
+
     let bearing = 45;
     const meterDegrees = 111111;
     const mileToMeters= 1609.34;
 
     let potentialUser = Meteor.users.find({
-      'profile.employeeData.jobTitle' : {$in : jobObject.jobTypes.texts}
+          'profile.employeeData.jobTitle' : {$in : jobObject.jobTypes.texts}
     });
     let peoples = [];
     potentialUser.forEach((user)=>{
@@ -593,10 +593,31 @@ Meteor.methods({
          jobObject.location.latitude <=  lat_top &&
          jobObject.location.longitude >= lng_bot &&
          jobObject.location.longitude <= lng_top ){
-         peoples[peoples.length] = user._id;
+           console.log(user);
+          let matched = Job.find({
+             $and: [
+               {_id:jobId},
+               {$or:[ {'requirements.driverLicense':{$ne : true}},
+               {'requirements.driverLicense':true,'requirements.driverLicense': user.profile.employeeData.driverLicense }]}
+             ,
+               {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
+               {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':user.profile.employeeData.osha.osha30},
+               {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':user.profile.employeeData.osha.osha10},{'requirements.osha.osha10':user.profile.employeeData.osha.osha30}] },
+               ]}
+             ,
+               {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
+               {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':user.profile.employeeData.socialPref.social},
+               {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':user.profile.employeeData.socialPref.taxID},{'requirements.socialPref.social':user.profile.employeeData.socialPref.social}] },
+               ]}
+             ]
+           }).count() >0 ? true:false;
+           if(matched) peoples[peoples.length] = user._id;
+
        }
 
     });
+
+
 
     let notify = NotificationSchema.clean({});
     notify.description = "There is a potential Job Match at "+ jobObject.location.locationName;
@@ -607,28 +628,7 @@ Meteor.methods({
       notify.toWhomst = peoples[i];
       Meteor.call('createNotification',notify);
     }
-  //   Meteor.users.find({
-  //     $and: [
-  //               {
-  //               'jobTitle' : {$in : jobObject.jobTypes.texts}
-  //               ,
-  //                 {$or:[ {'driverLicense': true},
-  //                 {'driverLicense':false,'driverLicense':jobObject.requirements.driverLicense}]}
-  //               ,
-  //                 {$or:[ {'osha.osha10': false, 'osha.osha30':true},
-  //                 {'osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employee.osha.osha30},
-  //                 {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employee.osha.osha10},{'requirements.osha.osha10':employee.osha.osha30}] },
-  //                 ]}
-  //               ,
-  //                 {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
-  //                 {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employee.socialPref.social},
-  //                 {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employee.socialPref.taxID},{'requirements.socialPref.social':employee.socialPref.social}] },
-  //                 ]}
-  //
-  //             ]
-  //
-  //
-  //         });
+
   },
   /**
   Inserts a Job and an Event into the database. That Job must follow the format of
@@ -735,7 +735,6 @@ Meteor.methods({
   if(requirements.languages.length >0){
     prevJob.requirements.languages = requirements.languages;
   }
-
   if(requirements.driverLicense != prevJob.requirements.driverLicense){
     prevJob.requirements.driverLicense = requirements.driverLicense;
   }
@@ -750,6 +749,9 @@ Meteor.methods({
   }
   if(requirements.socialPref.social != prevJob.requirements.socialPref.social){
     prevJob.requirements.socialPref.social = requirements.socialPref.social;
+  }
+  if(requirements.weekendExcluded != prevJob.requirements.weekendExcluded){
+    prevJob.requirements.weekendExcluded = requirements.weekendExcluded
   }
   if(updateJob.supervisor.name != prevJob.supervisor.name){
     prevJob.supervisor.name = updateJob.supervisor.name;

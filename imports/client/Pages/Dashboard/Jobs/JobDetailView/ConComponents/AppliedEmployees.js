@@ -6,10 +6,15 @@ import { withTracker } from 'meteor/react-meteor-data';
 import EmployeeComponent from './EmployeeComponent'
 class AppiedEmployee extends React.Component{
   componentDidMount(){
-
+    this.setState({
+      isCompleted: this.props.isCompleted
+    });
   }
   constructor(props){
     super(props);
+    this.state={
+      isCompleted:'false'
+    };
   }
   render(){
     return(
@@ -36,7 +41,7 @@ class AppiedEmployee extends React.Component{
                 return(
                   <li   key = {user._id} className="collection-item">
                     <EmployeeComponent
-
+                      isCompleted={this.state.isCompleted}
                       jobInfo = {this.props.job}
                       employeeId = {user._id}
                       profile = {user.profile}
