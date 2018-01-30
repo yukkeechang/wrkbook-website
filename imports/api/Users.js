@@ -381,7 +381,7 @@ Meteor.methods({
           prevUser.profile.firstName = User.profile.firstName;
           prevUser.profile.lastName = User.profile.lastName;
           prevUser.profile.phone = User.profile.phone;
-          
+
           Meteor.users.update({_id: this.userId},{$set: prevUser});
     },
     /**
@@ -453,26 +453,13 @@ Meteor.methods({
 
 
     },
-    updateEmail(newEmail){
-
+    updateEmail(oldEmail, newEmail){
       if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-
-      //LAST RESORT: ADD OR REMOVE EMAIL method
-
-      //---This below  doesn't work, ERROR: E11000 duplicate key error collection: meteor.users index:
-      // let prevUser = Meteor.users.findOne({_id: this.userId});
-      // prevUser.emails[0].address = newEmail;
-      // Meteor.users.update({_id: this.userId}, {$set: prevUser});
-
-
-      //---This below  doesn't work
-      //Meteor.users.update({_id: this.userId}, {$set: {'user.emails[0].address': newEmail}});
-
-      //----Uncomment below AFTER changing email works
-    //Accounts.sendVerificationEmail(this.userId);
-    //TODO: reset verify to false
-      let user = Meteor.users.findOne({_id: this.userId});
-      console.log(user.emails[0].address)
+      Accounts.addEmail(this.userId, newEmail)
+      Accounts.removeEmail(this.userId, oldEmail)
+      Accounts.sendVerificationEmail(this.userId);
+      //let user = Meteor.users.findOne({_id: this.userId});
+      //console.log(user.emails[0].address)
 
     }
 
