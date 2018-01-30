@@ -46,7 +46,7 @@ render() {
             </div>
 
             <div className="row">
-              <h6>{this.props.review.review}</h6>
+              <h6 className="flow-text" style={{overflowWrap:'break-word'}}>{this.props.review.review}</h6>
               <Rating
                    rating={this.props.review.rating}
                    starSize={20}
