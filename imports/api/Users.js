@@ -381,7 +381,7 @@ Meteor.methods({
           prevUser.profile.firstName = User.profile.firstName;
           prevUser.profile.lastName = User.profile.lastName;
           prevUser.profile.phone = User.profile.phone;
-          
+
           Meteor.users.update({_id: this.userId},{$set: prevUser});
     },
     /**
@@ -453,9 +453,18 @@ Meteor.methods({
 
 
     },
-    updateEmail(newEmail){
+    updateEmail(oldEmail, newEmail){
 
       if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+      Accounts.addEmail(this.userId, newEmail, function(err,res){
+        if(err) {
+          console.log("ERROR SERVERSIDE IN UPDATE EMAIL: "+err)
+        } else {
+          console.log(res)
+
+        }
+      Accounts.removeEmail(this.userId, oldEmail)
+      })
 
       //LAST RESORT: ADD OR REMOVE EMAIL method
 

@@ -40,7 +40,7 @@ export default class EmailChange extends Component {
 
         if (emailIsValid && oldEmailMatch) {
           console.log("EMAIL IS VALID AND OLD EMAIL IS CORRECT");
-          Meteor.call('updateEmail', this.refs.newEmail.value(), function(err, res){
+          Meteor.call('updateEmail', user.emails[0].address, this.refs.newEmail.value(), function(err, res){
             if(err) {
               console.log("ERROR IN UPDATE EMAIL"+err)
             } else {
@@ -58,7 +58,6 @@ export default class EmailChange extends Component {
 
         }
         let empty = 'This cannot be empty';
-        console.log("3")
         // Set the error messages to be "this cannot be empty" if they are empty
         if (!this.refs.oldEmail.value()) {
             this.setState({oeError: empty});
