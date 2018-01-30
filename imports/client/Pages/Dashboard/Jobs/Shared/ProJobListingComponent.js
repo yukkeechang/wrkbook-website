@@ -9,9 +9,7 @@ import ReviewComp from './ProJobListingComponents/ReviewComp';
 import { Link } from 'react-router-dom';
 
 
-//Rendered in ConComponent
 
-//Can't set res aas a state, not sure why
 export default class ProJobListingPage extends React.Component {
  constructor(props) {
    super(props);
@@ -21,12 +19,7 @@ export default class ProJobListingPage extends React.Component {
    }
 
   }
-componentWillMount(){
 
-}
-  componentDidMount(){
-
-  }
 
  textSize() {
   let width = document.body.scrollWidth;
@@ -56,7 +49,7 @@ componentWillMount(){
    let startdate = (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getDate()  + "/" + this.props.event.startAt.getFullYear();
    let jobDate = startdate+" - "+ enddate ;
    let jobTime = starttime+ " - "+endtime;
-   console.log(hours);
+   //console.log(hours);
       return (
         <div className="card">
 

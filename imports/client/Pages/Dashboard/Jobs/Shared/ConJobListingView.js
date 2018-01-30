@@ -16,14 +16,14 @@ class ConView extends React.Component{
 
   }
   changeIndex=(e)=>{
-    console.log(e);
+    //console.log(e);
     this.props.handleChangeIndex(e);
   }
 
   render(){
 
     let employeesBoi = this.props.employees;
-    console.log(employeesBoi.length);
+    //console.log(employeesBoi.length);
     if (!this.props.ready) {
       return(
         <MSpinner/>
@@ -84,9 +84,9 @@ class ConView extends React.Component{
                    </Link>
               </div>
             </div>
-            <div className="row center-align">
+            {/*<div className="row center-align">
               <p style={{margin:'16px'}} className="flow-text"> Sorry No Professionals Were Admitted to this Job</p>
-            </div>
+            </div> */}
             {this.props.isUpcoming &&
               <PendingEmployees numberofEmployees={this.props.job.applyemployeeIds.length}
               jobId={this.props.job._id} />

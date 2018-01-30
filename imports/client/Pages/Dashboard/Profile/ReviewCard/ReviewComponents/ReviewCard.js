@@ -4,7 +4,7 @@ import MSpinner from '../../../../Shared/MSpinner';
 import { Roles } from 'meteor/alanning:roles';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
-import Rating from './Rating';
+import Rating from 'react-rating';
 
 import ReactDOM from 'react-dom';
 
@@ -19,7 +19,7 @@ constructor(props) {
 }
 
 render() {
-  console.log(this.props);
+  //console.log(this.props);
     return(
       <div className="card-panel">
         {this.props.ready?
@@ -48,9 +48,12 @@ render() {
             <div className="row">
               <h6 className="flow-text" style={{overflowWrap:'break-word'}}>{this.props.review.review}</h6>
               <Rating
-                   rating={this.props.review.rating}
-                   starSize={20}
-                   textSize={15} />
+                initialRate={this.props.review.rating}
+                readonly={true}
+                empty={<i className="material-icons" style={{fontSize: "20px", color: "#26a69a"}}>star_border</i>}
+                full={<i className="material-icons" style={{fontSize: "20px", color: "#26a69a"}}>star</i>}
+                fractions={2}
+              />
             </div>
 
           </div>

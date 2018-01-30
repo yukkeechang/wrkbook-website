@@ -34,7 +34,7 @@ class ProView extends React.Component{
   }
 }
 export default ProJobListingView = withTracker(props =>  {
-  console.log(props);
+  //console.log(props);
   let job = props.job
   let employerId = props.job.employerId;
   let employerInfo={};
@@ -61,7 +61,7 @@ export default ProJobListingView = withTracker(props =>  {
 
   let dataArray = [];
   let avg = 0;
-  console.log(reviews);
+  //console.log(reviews);
   for(let index in reviews) {
       dataArray.push(reviews[index].rating);
   }

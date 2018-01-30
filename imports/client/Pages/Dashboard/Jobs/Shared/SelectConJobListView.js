@@ -12,7 +12,7 @@ export default class SelectConJobList extends React.Component{
     }
   }
   handleChangeIndex(index){
-    console.log(index);
+    //console.log(index);
     this.setState({index:index});
   }
   render(){

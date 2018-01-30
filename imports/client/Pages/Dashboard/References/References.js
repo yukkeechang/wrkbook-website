@@ -23,6 +23,6 @@ export default References = withTracker(params  => {
     let ready = handle.ready();
     return {
         ready: ready,
-        myRefs: References.find({}).fetch()
+        myRefs: Reference.find({}).fetch()
     };
 })(Refs);

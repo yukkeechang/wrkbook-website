@@ -39,7 +39,7 @@ export default class EditReviewForPro extends React.Component{
     review.rating = this.state.rating;
     review.review = this.refs.reviewText.value();
     let reviewId = this.props.review._id;
-    //console.log(review);
+    console.log(review);
     Meteor.call('updateReview', reviewId, review,(err)=>{
           if(err){
             console.log(err);
@@ -52,7 +52,6 @@ export default class EditReviewForPro extends React.Component{
 
 
   render(){
-    console.log("fsjhkfhjkghsfjf")
     return(
       <div>
          <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal}>
