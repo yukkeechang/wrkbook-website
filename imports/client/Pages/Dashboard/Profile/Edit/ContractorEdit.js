@@ -116,7 +116,9 @@ export default class ContractorEdit extends Component{
                 <p>Your profile has been updated.</p>
               </div>
               <div className="modal-footer">
-                <a className="modal-action modal-close waves-effect waves-green btn-flat" onClick={this.closeModal.bind(this)}>Close</a>
+                <Link style={{padding:'0px'}} to={"/profile"}>
+                  <a className="modal-action modal-close waves-effect waves-green btn-flat" onClick={this.closeModal.bind(this)}>Close</a>
+                </Link>
               </div>
             </div>
           </form>
