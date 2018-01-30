@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Accounts } from 'meteor/accounts-base';
 import MTextField from '../../Shared/MTextField';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
 export default class EmailChange extends Component {
     constructor(props) {
@@ -15,15 +16,20 @@ export default class EmailChange extends Component {
 
     componentDidMount(){
       let dropdowns = ReactDOM.findDOMNode();
-      $(dropdowns).ready(()=>{
-
-        $('.modal').modal({
-           complete: function() { this.props.history.push('/') }.bind(this)
-        });
-      });
-
-
+      // $(dropdowns).ready(()=>{
+      //
+      //   $('.modal').modal({
+      //      complete: function() { this.props.history.push('/') }.bind(this)
+      //   });
+      // });
     }
+
+    closeModal() {
+      $('#modal1').modal('close');
+      $('#modal2').modal('close');
+      $('#modal3').modal('close');
+    }
+
 
 
     handleSubmit(event) {
@@ -33,19 +39,21 @@ export default class EmailChange extends Component {
         Object.keys(this.state).map((key) => {
             this.setState({[key]: ''});
         });
-        console.log(this.refs.newEmail.value());
         // Check if the email entered into the new email field matches our format
         const emailIsValid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.refs.newEmail.value());
         let oldEmailMatch = user.emails[0].address == this.refs.oldEmail.value();
 
         if (emailIsValid && oldEmailMatch) {
-          console.log("EMAIL IS VALID AND OLD EMAIL IS CORRECT");
           Meteor.call('updateEmail', user.emails[0].address, this.refs.newEmail.value(), function(err, res){
             if(err) {
-              console.log("ERROR IN UPDATE EMAIL"+err)
+              console.log(err.reason)
+              if(err.reason == "Email already exists.") {
+                $('#modal2').modal('open');
+              } else {
+                $('#modal3').modal('open');
+              }
             } else {
-              console.log("uh email changed")
-              console.log(user.emails[0].address)
+              $('#modal1').modal('open');
             }
           })
         } else {
@@ -70,7 +78,6 @@ export default class EmailChange extends Component {
 
     render() {
       let user = Meteor.user()
-      console.log(user)
         return (
 
                 <div className="card">
@@ -93,19 +100,36 @@ export default class EmailChange extends Component {
                 <div id="modal1" className="modal">
                   <div className="modal-content">
                     <h5>Your email has been sucessfully changed!</h5>
-
                   </div>
                   <div className="modal-footer">
-                    <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Aiight Bet</a>
+                  <Link style={{padding:'0px'}} to={"/profile"}>
+                   <a className="modal-action modal-close waves-effect waves-gray btn-flat" onClick={this.closeModal.bind(this)}>Close</a>
+                  </Link>
                   </div>
                 </div>
+                <div id="modal2" className="modal">
+                  <div className="modal-content">
+                    <h5>This email already exists!</h5>
+                  </div>
+                  <div className="modal-footer">
+                    <Link style={{padding:'0px'}} to={"/settings/password"}>
+                      <a className="modal-action modal-close waves-effect waves-gray btn-flat" onClick={this.closeModal.bind(this)}>Close</a>
+                    </Link>
+                  </div>
+                </div>
+                <div id="modal3" className="modal">
+                  <div className="modal-content">
+                    <h5>Error updating email. Please try again later or contact info@wrkbook.com</h5>
+                  </div>
+                  <div className="modal-footer">
+                    <Link style={{padding:'0px'}} to={"/settings/password"}>
+                      <a className="modal-action modal-close waves-effect waves-gray btn-flat" onClick={this.closeModal.bind(this)}>Close</a>
+                    </Link>
+                  </div>
+                </div>
+
 
             </div>
         )
     }
 }
-
-// export default EmailChange = withTracker(props => {
-//   let user = Meteor.user();
-//
-// })
