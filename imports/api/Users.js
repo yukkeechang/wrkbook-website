@@ -453,6 +453,7 @@ Meteor.methods({
 
 
     },
+
     /**
      * Udates the email of the currently logged in user. The user must pass to
      * email addresses( one is for conformation) of the emails match and
