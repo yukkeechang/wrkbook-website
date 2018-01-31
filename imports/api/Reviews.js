@@ -247,8 +247,7 @@ Meteor.methods({
 
     //check(updateReview,ReviewSchema);
     Meteor.call('validateReview', newReview);
-    console.log("===========================")
-    console.log("NEW REVIEW OBJECT"+JSON.stringify(newReview))
+
     let prevReview = Review.findOne({_id: reviewId});
     if(!(prevReview)) return;
     if(newReview.review != DEFAULT){ // Check if the text provided is new user text
@@ -258,29 +257,17 @@ Meteor.methods({
       prevReview.rating = newReview.rating;
     }
 
-   console.log("NEW PRO: "+JSON.stringify(newReview.proReview))
-   console.log("PREV CON: "+JSON.stringify(prevReview.proReview))
 
 
-   console.log("NEW CON: "+ JSON.stringify(newReview.conReview))
-   console.log("PREV CON: "+JSON.stringify(prevReview.conReview))
-
-
-
-
-    if(newReview.proReview != prevReview.proReview) {
-      prevReview.proReview = newReview.proReview
-      console.log("=========")
+    if( !(_.isEqual(newReview.proReview,prevReview.proReview)) ) {
+      prevReview.proReview = newReview.proReview;
     }
-    if(newReview.conReview != prevReview.conReview) {
-      prevReview.conReview = newReview.conReview
-      console.log("+++++++++")
+    if( !(_.isEqual(newReview.conReview,prevReview.conReview)) ) {
+      prevReview.conReview = newReview.conReview;
+
     }
 
     Review.update({_id: reviewId,reviewerId:this.userId},{$set: prevReview});
-    let newReviewAfterUpdate = Review.findOne({_id: reviewId})
-    console.log("===================")
-    console.log(newReviewAfterUpdate)
 
   },
   /**
