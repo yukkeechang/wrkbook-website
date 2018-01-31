@@ -474,16 +474,17 @@ Meteor.methods({
         eEmpty : eEmpty,
         nEqual : nEqual
       };
-      
+
       if(!isEmail|| eEmpty|| nEqual) throw new Meteor.Error('403',Errors);
       let oldEmail = Meteor.users.findOne({_id: this.userId}).emails[0].address;
 
       if(Accounts.addEmail(this.userId,Emails.email1)){
         Accounts.removeEmail(this.userId,oldEmail);
+
+          Meteor.call('sendVerificationEmail',(err)=>{
+            if(err)console.log(err);
+          });
       }
-      Meteor.call('sendVerificationEmail',(err)=>{
-        if(err)console.log(err);
-      })
 
 
 
