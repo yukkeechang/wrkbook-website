@@ -559,7 +559,7 @@ Meteor.methods({
  * @param  {string} jobId     the id of the job
  */
   sendNotificationsToPotential(jobObject,jobId){
-    ({ '$or': [ { 'a': 1 , 'b' : {$ne : 1} }, { 'b': 1, 'a' : {$ne : 1} } ] })
+    
 
     let bearing = 45;
     const meterDegrees = 111111;
