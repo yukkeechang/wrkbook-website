@@ -2,8 +2,8 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import MSpinner from '../../../Shared/MSpinner';
-import RefCard from  '../../References/RefCard.js';
+import MSpinner from '../../Shared/MSpinner';
+import RefCard from  './RefCard.js';
 
 class RefOther extends React.Component{
   constructor(props) {
@@ -29,8 +29,11 @@ render(){
         </div>
       )
     } else {
-      console.log("no references")
-      return;
+
+      return( <div>
+                No References
+            </div>
+      )
     }
  }
 }

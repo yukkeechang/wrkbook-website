@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import MSpinner from '../../../Shared/MSpinner';
 // import ConJobPostComponent from '../ConJobPostComponent';
 import SelectConJobList from '../Shared/SelectConJobListView';
+import JobButton from '../Shared/ConJobListingComponents/CreateJobButton';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
 //---This page renders UPCOMING jobs for CONTRACTORS
@@ -39,11 +40,7 @@ class ConUpcomingPage extends React.Component{
             <div className="center-align " style={{fontSize: '50px'}}>
             Upcoming Jobs
             </div>
-            <div className="right-align" style={{paddingRight: '100px'}}>
-              <Link to={"/createjob"} className="btn">
-                Make a Job Post
-              </Link>
-            </div>
+
         </div>
         <div>
           <br/>
@@ -61,6 +58,7 @@ class ConUpcomingPage extends React.Component{
           }.bind(this))
         }
         </div>
+        <JobButton/>
       </div>
     );
     }
