@@ -20,7 +20,7 @@ let ConComments =(props)=>{
 };
 let ProComments = (props)=>{
   console.log(props);
-    if(!!props.review){
+  if(!!props.review){
     return (
       <div>
         <div>Other Comments: </div>

@@ -246,15 +246,15 @@ export default class EditJob extends Component {
           <div className="col m6 s12">
               <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Update your jobs OSHA certification level?</p>
               <p>
-              <input ref="osha" name="osha" type="radio" id="on" defaultChecked={!this.props.jobPost.requirements.osha.osha10 && !this.props.jobPost.requirements.osha.osha30}/>
-              <label htmlFor="osha">None</label>
+              <input ref="on" name="osha" type="radio" id="on" defaultChecked={!this.props.jobPost.requirements.osha.osha10 && !this.props.jobPost.requirements.osha.osha30}/>
+              <label htmlFor="on">None</label>
               </p>
               <p>
-              <input ref="o1"name="osha" type="radio" id="o1" defaultChecked={this.props.jobPost.requirements.osha.osha10}/>
+              <input ref="o1" name="osha" type="radio" id="o1" defaultChecked={this.props.jobPost.requirements.osha.osha10}/>
               <label htmlFor="o1">Osha 10</label>
               </p>
               <p>
-              <input ref="o3"name="osha" type="radio" id="o3" defaultChecked={this.props.jobPost.requirements.osha.osha30}/>
+              <input ref="o3" name="osha" type="radio" id="o3" defaultChecked={this.props.jobPost.requirements.osha.osha30}/>
               <label htmlFor="o3">Osha 30</label>
               </p>
           </div>
