@@ -53,11 +53,6 @@ export default class EditJob extends Component {
       titles: [],
       osha10: false,
       osha30: false,
-      address: DEFAULT,
-      startT: '',
-      startD: '',
-      endT: '',
-      endD: '',
       lat: -100,
       lng: -100,
       locationName: ''
@@ -65,13 +60,6 @@ export default class EditJob extends Component {
   }
   componentWillMount(){
     console.log('mounted');
-  }
-  getCoords(lat, lng){
-    this.setState({
-      address: this.refs.GoogleAuto.state.searchText,
-      lat:lat,
-      lng:lng
-    });
   }
   handleUpdate(e){
     let loc = this.refs.loc.getAddress();
@@ -172,22 +160,6 @@ export default class EditJob extends Component {
   }
   handlesscNoClick(){
     $("#taxDisplay").css("display","block");  //shows tax display on no click for ssc
-  }
-  setStartD(x,event){
-    let date = JSON.stringify(event);
-    this.setState({startD: date});
-  }
-  setEndD(x,event){
-    let date = JSON.stringify(event);
-    this.setState({endD: date});
-  }
-  setStartT(x,event){
-    let time = JSON.stringify(event);
-    this.setState({startT: time});
-  }
-  setEndT(x,event){
-    let time = JSON.stringify(event);
-    this.setState({endT: time});
   }
   render(){
 

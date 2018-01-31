@@ -14,6 +14,9 @@ class EmployeeJob extends React.Component{
   constructor(props){
     super(props);
   }
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
   render(){
 
     if(!isEmpty(this.props.jobPost)){
@@ -60,6 +63,7 @@ export default Applied = withTracker( params  => {
   loading = handle.ready();
   jobPost = Job.find({}).fetch();
   return{
+    handle:handle,
     userId: userId,
     loading:loading,
     jobPost:jobPost

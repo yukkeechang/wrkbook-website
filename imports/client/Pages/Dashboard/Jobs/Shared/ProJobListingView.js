@@ -6,6 +6,9 @@ class ProView extends React.Component{
   constructor(props){
     super(props);
   }
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
   render(){
     if (!this.props.ready) {
       return(
@@ -72,6 +75,7 @@ export default ProJobListingView = withTracker(props =>  {
   return {
     ready: ready&&readyReview&&userReady,
     event: event,
+    handle:handle,
     userId:Meteor.userId(),
     employerInfo:employerInfo,
     employerRating: avg,

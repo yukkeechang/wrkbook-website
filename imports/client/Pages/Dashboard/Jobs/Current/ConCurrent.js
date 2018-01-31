@@ -19,7 +19,9 @@ class ConCurrentPage extends React.Component {
     }
   }
 
-
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
 render() {
   if(!this.props.loading) {
     return (
@@ -72,6 +74,7 @@ export default ConCurrent = withTracker(props => {
     jobPost = Job.find({}).fetch();
 
   return {
+    handle:handle,
     user: user,
     loading: loading,
     jobPost: jobPost

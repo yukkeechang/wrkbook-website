@@ -22,7 +22,9 @@ class ConUpcomingPage extends React.Component{
       index:0
     }
   }
-
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
   render(){
     if(!this.props.loading){
       return (
@@ -85,7 +87,8 @@ export default ConUpcoming = withTracker(props => {
     jobPost = Job.find({}).fetch();
 
   return {
-    user: user,
+    user:user,
+    handle:handle,
     loading:loading,
     jobPost:jobPost,
     // notifications:notifications
