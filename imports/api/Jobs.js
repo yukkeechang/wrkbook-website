@@ -422,6 +422,8 @@ Meteor.methods({
     let visorName = !validations.validateOne(jobObject,'supervisor.name');
     let jobTypes = !validations.validateOne(jobObject,'jobTypes.texts');
     let jobTitle = !validations.validateOne(jobObject,'jobTitle.text');
+    let tools = !validations.validateOne(jobObject,'tools.toolsRequired');
+    let toolsname = !validations.validateOne(jobObject,'tools.toolsName');
     let locationName = !validations.validateOne(jobObject,'location.locationName');
     let locLat = !validations.validateOne(jobObject,'location.latitude');
     let locLng = !validations.validateOne(jobObject,'location.longitude');
@@ -515,6 +517,8 @@ Meteor.methods({
       visorName : visorName,
       jobTypes : jobTypes,
       jobTitle : jobTitle,
+      tools : tools,
+      toolsname: toolsname,
       locationName :  locationName,
       locLat : locLat,
       locLng :  locLng,
@@ -535,7 +539,7 @@ Meteor.methods({
 
 
 
-    if( visorNumb ||visorName || jobTypes || jobTitle || locationName ||
+    if( visorNumb||tools|| toolsname ||visorName || jobTypes || jobTitle || locationName ||
       locLat || locLng || reqLicense || reqBackground || reqLanguages ||
       oshaCheck  || socialCheck || proissue || eventissue
     ) throw new Meteor.Error('403',Errors);
@@ -559,7 +563,7 @@ Meteor.methods({
  * @param  {string} jobId     the id of the job
  */
   sendNotificationsToPotential(jobObject,jobId){
-    
+
 
     let bearing = 45;
     const meterDegrees = 111111;
@@ -728,8 +732,8 @@ Meteor.methods({
   if(!(prevJob)) return;
   let requirements = updateJob.requirements;
 
-  if(updateJob.additionText.text != DEFAULT ){
-    prevJob.additionText.text = updateJob.additionText.text
+  if(updateJob.additionText != DEFAULT ){
+    prevJob.additionText = updateJob.additionText
   }
 
   if(requirements.languages.length >0){
@@ -762,28 +766,6 @@ Meteor.methods({
 
   if(requirements.backgroundCheck != prevJob.requirements.backgroundCheck){
     prevJob.requirements.backgroundCheck = requirements.backgroundCheck;
-  }
-
-  if(requirements.driverLicense != prevJob.requirements.driverLicense){
-    prevJob.requirements.driverLicense = requirements.driverLicense;
-  }
-  if(requirements.osha.osha10 != prevJob.requirements.osha.osha10){
-    prevJob.requirements.osha.osha10 = requirements.osha.osha10;
-  }
-  if(requirements.osha.osha30 != prevJob.requirements.osha.osha30){
-    prevJob.requirements.osha.osha30 = requirements.osha.osha30;
-  }
-  if(requirements.socialPref.taxID != prevJob.requirements.socialPref.taxID){
-    prevJob.requirements.socialPref.taxID = requirements.socialPref.taxID;
-  }
-  if(requirements.socialPref.social != prevJob.requirements.socialPref.social){
-    prevJob.requirements.socialPref.social = requirements.socialPref.social;
-  }
-  if(updateJob.supervisor.name != prevJob.supervisor.name){
-    prevJob.supervisor.name = updateJob.supervisor.name;
-  }
-  if(updateJob.supervisor.phone != prevJob.supervisor.phone){
-    prevJob.supervisor.phone = updateJob.supervisor.phone;
   }
 
   if(updateJob.location.locationName != DEFAULT){
