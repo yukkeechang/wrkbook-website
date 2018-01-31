@@ -8,6 +8,7 @@ const ConComments =(props)=>{
     <div>Other Comments: </div>
     <div>{props.review.conReview.wouldRecommend ? "- Would Recommend" : null}</div>
     <div>{props.review.conReview.neatJob ? "- Neat Job" : ''}</div>
+    <div>{props.review.conReview.onTime ? "- On Time" : ''}</div>
   </div>
   );
 };
