@@ -33,7 +33,6 @@ export default class EditReviewForCon extends React.Component{
   submitReview=()=>{
     let review=ReviewSchema.clean({});
     review.revieweeId = this.props.proId;
-    review.reviewerId = this.props.conId;
     review.jobId = this.props.jobId;
     review.conReview = this.refs.checkbox.value();
     review.rating = this.state.rating;

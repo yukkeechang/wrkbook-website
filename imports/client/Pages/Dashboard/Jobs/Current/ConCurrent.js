@@ -1,5 +1,5 @@
 import React from 'react';
-
+import JobButton from '../Shared/ConJobListingComponents/CreateJobButton';
 import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../../Shared/MSpinner';
 import SelectConJobList from '../Shared/SelectConJobListView';
@@ -34,11 +34,7 @@ render() {
         <div className="row">
           <h1 className="center-align">Current Jobs</h1>
         </div>
-        <div className="right-align" style={{paddingRight: '100px', paddingBottom: '20px'}}>
-          <Link to={"/createjob"} className="btn">
-            Make a Job Post
-          </Link>
-        </div>
+
         {this.props.jobPost.map((job, index)=>{
           return(
             <SelectConJobList
@@ -50,6 +46,7 @@ render() {
           )
       })
     }
+      <JobButton/>
       </div>
 
     )
