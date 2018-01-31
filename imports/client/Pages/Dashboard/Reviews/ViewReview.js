@@ -1,46 +1,34 @@
 import React,  { Component } from 'react'
 import Rating from 'react-rating';
+
+
+const ConComments =(props)=>{
+  return(
+  <div>
+    <div>Other Comments: </div>
+    <div>{props.review.conReview.wouldRecommend ? "- Would Recommend" : null}</div>
+    <div>{props.review.conReview.neatJob ? "- Neat Job" : ''}</div>
+  </div>
+  );
+};
+const ProComments = (props)=>{
+  return (
+    <div>
+      <div>Other Comments: </div>
+      <div>{props.review.proReview.safeWorkSpace ? "-Safe Workspace" : null}</div>
+      <div>{props.review.proReview.paidOnTime ? "- Paid on Time" : ''}</div>
+    </div>
+  )
+}
+
+
 export default class ViewReview extends React.Component {
 
   constructor(props) {
     super(props);
-    // console.log("review objct: "+this.props.review)
-    // console.log("review rate val: "+this.props.ratingValue)
-    // console.log("review rate txt: "+this.props.ratingText)
+
 }
 
-
-
-  renderCheckboxes() {
-    if(this.props.review) {
-      let wouldRecommend = this.props.review.conReview.wouldRecommend ? true : false;
-      let  neatJob = this.props.review.conReview.neatJob ? true : false;
-      let onTime = this.props.review.conReview.onTime ? true : false;
-
-      let safeWorkSpace = this.props.review.proReview.safeWorkSpace ? true : false;
-      let paidOnTime = this.props.review.proReview.paidOnTime ? true : false;
-
-
-      if(wouldRecommend || neatJob || onTime ) {
-        return (
-          <div>
-            <div>Other Comments: </div>
-            <div>{this.props.review.conReview.wouldRecommend ? "- Would Recommend" : null}</div>
-            <div>{this.props.review.conReview.neatJob ? "- Neat Job" : ''}</div>
-          </div>
-        )
-      }
-      if(safeWorkSpace || paidOnTime) {
-        return (
-          <div>
-            <div>Other Comments: </div>
-            <div>{this.props.review.proReview.safeWorkSpace ? "-Safe Workspace" : null}</div>
-            <div>{this.props.review.proReview.paidOnTime ? "- Paid on Time" : ''}</div>
-          </div>
-        )
-      }
-  }
-}
 
 render() {
 
@@ -59,7 +47,12 @@ render() {
         </div>
         <div className="row">
           <h6>{this.props.ratingText}</h6>
-          {this.renderCheckboxes()}
+            {
+              !this.props.isProReview ?
+              <ProComments review={this.props.review}/>
+              :
+              <ConComments review={this.props.review}/>
+            }
         </div>
       </div>
     )
