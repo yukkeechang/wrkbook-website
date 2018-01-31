@@ -2,25 +2,38 @@ import React,  { Component } from 'react'
 import Rating from 'react-rating';
 
 
-const ConComments =(props)=>{
-  return(
-  <div>
-    <div>Other Comments: </div>
-    <div>{props.review.conReview.wouldRecommend ? "- Would Recommend" : null}</div>
-    <div>{props.review.conReview.neatJob ? "- Neat Job" : ''}</div>
-    <div>{props.review.conReview.onTime ? "- On Time" : ''}</div>
-  </div>
-  );
-};
-const ProComments = (props)=>{
-  return (
+let ConComments =(props)=>{
+  console.log(props);
+  if(!!props.review){
+    return(
     <div>
       <div>Other Comments: </div>
-      <div>{props.review.proReview.safeWorkSpace ? "-Safe Workspace" : null}</div>
-      <div>{props.review.proReview.paidOnTime ? "- Paid on Time" : ''}</div>
+      <div>{props.review.conReview.wouldRecommend ? "- Would Recommend" : null}</div>
+      <div>{props.review.conReview.neatJob ? "- Neat Job" : ''}</div>
     </div>
-  )
-}
+    );
+  }else{
+    return(
+      <div> </div>
+    )
+  }
+};
+let ProComments = (props)=>{
+  console.log(props);
+  if(!!props.review){
+    return (
+      <div>
+        <div>Other Comments: </div>
+        <div>{props.review.proReview.safeWorkSpace ? "-Safe Workspace" : null}</div>
+        <div>{props.review.proReview.paidOnTime ? "- Paid on Time" : ''}</div>
+      </div>
+    )
+  }else{
+    return(
+      <div> </div>
+    )
+  }
+};
 
 
 export default class ViewReview extends React.Component {
@@ -32,7 +45,6 @@ export default class ViewReview extends React.Component {
 
 
 render() {
-
   return(
       <div>
         <div className="row">
@@ -49,7 +61,7 @@ render() {
         <div className="row">
           <h6>{this.props.ratingText}</h6>
             {
-              !this.props.isProReview ?
+              !this.props.isProReview && !!this.props.review ?
               <ProComments review={this.props.review}/>
               :
               <ConComments review={this.props.review}/>
