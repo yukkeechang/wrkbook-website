@@ -32,7 +32,7 @@ export default class PendingEmployees extends React.Component {
         </h6>
         :
         <h5>
-          No Professionals have applied to this job
+          No New Professionals have applied to this job
         </h5>
       }
 
