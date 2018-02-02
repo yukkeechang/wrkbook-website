@@ -1,7 +1,11 @@
-import BasicText  from './basicTextSchema';
+import SimpleSchema from 'simpl-schema';
+
 export default IdSchema = new SimpleSchema({
   ids:{
-      type:[String],
-      defaultValue: [],
-  }
+    type:Array,
+    defaultValue: [],
+  },
+  'ids.$':{
+    type: String
+  },
 });

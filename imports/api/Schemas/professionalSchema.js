@@ -1,3 +1,4 @@
+import SimpleSchema from 'simpl-schema';
 export default ProfessionalSchema = new SimpleSchema({
   responsibilities :{
     type: String,

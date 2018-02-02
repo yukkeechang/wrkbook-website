@@ -1,8 +1,5 @@
-SimpleSchema.messages({
-  "short": "Needs to be atleast 1 character",
-  "long" : "This is greater than 250 characters",
-  "noTools" : "you claimed that you don't require tools but you put a name for the tools"
-});
+import SimpleSchema from 'simpl-schema';
+
 export default ToolSchema = new SimpleSchema({
   toolsRequired :{
     type: Boolean,
@@ -31,4 +28,10 @@ export default ToolSchema = new SimpleSchema({
       }
     }
   }
+});
+
+ToolSchema.messageBox.messages({
+  "short": "Needs to be atleast 1 character",
+  "long" : "This is greater than 250 characters",
+  "noTools" : "you claimed that you don't require tools but you put a name for the tools"
 });

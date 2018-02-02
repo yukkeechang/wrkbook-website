@@ -4,6 +4,7 @@ import EmployeerCheckBox from './ContractorReviewComponents/EmployeerCheckBox';
 import EmployeerTitle from './ContractorReviewComponents/EmployeerTitle';
 import MTextField from '../../Shared/MTextField';
 import Rating from 'react-rating';
+import ReviewSchema from '../../../../api/Schemas/reviewSchema';
 
 
 export default class EditReviewForPro extends React.Component{
@@ -31,7 +32,7 @@ export default class EditReviewForPro extends React.Component{
 
 
   submitReview=()=>{
-    let review=ReviewSchema.clean({});
+    let review=ReviewSchema.clean({},{mutate:true});
     review.revieweeId = this.props.conId;
     review.jobId = this.props.jobId;
     review.proReview = this.refs.checkbox.value();

@@ -1,3 +1,4 @@
+import SimpleSchema from 'simpl-schema';
 export default OshaSchema = new SimpleSchema({
   osha10: {
     type: Boolean,

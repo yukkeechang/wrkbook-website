@@ -67,8 +67,8 @@ export default class EditJob extends Component {
       let professionals = this.state.titles.map((title, index)=>{
         return this.refs[title].value();
       });
-      let job = JobSchema.clean({});
-      let location = LocationSchema.clean({});
+      let job = JobSchema.clean({},{mutate:true});
+      let location = LocationSchema.clean({},{mutate:true});
       let jobtypes = $('#jobTitles').val();
       console.log('we in handleCreate');
       const description = this.refs.jd.value();
@@ -108,8 +108,8 @@ export default class EditJob extends Component {
       let professionals = this.state.titles.map((title, index)=>{
         return this.refs[title].value();
       });
-      let job = JobSchema.clean({});
-      let location = LocationSchema.clean({});
+      let job = JobSchema.clean({},{mutate:true});
+      let location = LocationSchema.clean({},{mutate:true});
       let jobtypes = $('#jobTitles').val();
       console.log('we in handleCreate');
       const description = this.refs.jd.value();

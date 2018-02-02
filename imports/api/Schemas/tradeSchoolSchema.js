@@ -1,8 +1,5 @@
-SimpleSchema.messages({
-  "short": "Needs to be atleast 1 character",
-  "long" : "This is greater than 250 characters",
-  "noSchool" : "you claimed that you didn't go to trade school but you put a name for the trade school"
-});
+import SimpleSchema from 'simpl-schema';
+
 export default TradeSchoolSchema = new SimpleSchema({
   wentToSchool :{
     type: Boolean,
@@ -31,4 +28,12 @@ export default TradeSchoolSchema = new SimpleSchema({
       }
     }
   }
+});
+
+TradeSchoolSchema.messageBox.messages({
+  en:{
+    "short": "Needs to be atleast 1 character",
+    "long" : "This is greater than 250 characters",
+    "noSchool" : "you claimed that you didn't go to trade school but you put a name for the trade school"
+  },
 });

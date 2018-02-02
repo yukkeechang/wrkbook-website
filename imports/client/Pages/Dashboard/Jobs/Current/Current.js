@@ -10,8 +10,6 @@ import ProCurrent from './ProCurrent';
 class CurrentJobs extends React.Component {
   constructor(props) {
     super(props);
-    const {user} = this.props
-    this.state = {user: user}
     if(Roles.userIsInRole(this.props.user._id,"CON")){
       this.state={isPro: false}
     } else if (Roles.userIsInRole(this.props.user._id,"PRO")) {

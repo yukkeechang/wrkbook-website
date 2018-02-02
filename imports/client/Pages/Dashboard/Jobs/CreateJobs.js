@@ -67,13 +67,14 @@ export default class CreateJobs extends Component {
   }
   handleCreate(e){
     let loc = this.refs.loc.getAddress();
+
     if(loc.valid){
       this.setState({locErr: false});
       let professionals = this.state.titles.map((title, index)=>{
         return this.refs[title].value();
       });
-      let job = JobSchema.clean({});
-      let location = LocationSchema.clean({});
+      let job = JobSchema.clean({},{mutate:true});
+      let location = LocationSchema.clean({},{mutate:true});
       let jobtypes = $('#jobTitles').val();
 
       const description = this.refs.jd.value();

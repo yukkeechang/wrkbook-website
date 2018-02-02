@@ -7,38 +7,41 @@ import SupervisorSchema from './supervisorSchema';
 import ProfessionalSchema from './professionalSchema';
 import IdSchema from './specificId';
 import ToolSchema from './toolSchema';
-
+import SimpleSchema from 'simpl-schema';
 //Make Jobtitle and are of objects where title corresponds to pay
-SimpleSchema.messages({
-  "unmatched": "there is a issue with the amount of worker and the days and pay rate",
 
-});
 export default JobSchema = new SimpleSchema({
   employerId:{
     type:String
   },
   applyemployeeIds:{
-    type: [String],
+    type: Array,
     defaultValue: [],
   },
+  'applyemployeeIds.$':{type:String},
   admitemployeeIds:{
-    type:[String],
+    type: Array,
     defaultValue: [],
   },
+  'admitemployeeIds.$':{type:String},
   declineemployeeIds:{
-    type: [String],
+    type: Array,
     defaultValue: [],
   },
+  'declineemployeeIds.$':{type:String},
   applyAsIDs:{
-    type:[IdSchema],
+    type:Array,
     defaultValue: [],
   },
+  'applyAsIDs.$':{type:IdSchema},
   admitAsIDs:{
-    type:[IdSchema],
+    type:Array,
     defaultValue: [],
   },
+  'admitAsIDs.$':{type:IdSchema},
   description:{
-    type : BasicText
+    type : BasicText,
+    defaultValue:BasicText.clean({})
   },
   generalStart:{
     type: Date
@@ -53,11 +56,13 @@ export default JobSchema = new SimpleSchema({
     optional: true
   },
   eventInfo:{
-    type: [String],
+    type: Array,
     defaultValue: [],
   },
+  'eventInfo.$':{type:String},
   location:{
-    type: LocationSchema
+    type: LocationSchema,
+    defaultValue:LocationSchema.clean({})
   },
   createdAt:{
     type: Date,
@@ -68,11 +73,13 @@ export default JobSchema = new SimpleSchema({
     }
   },
   professionals:{
-    type: [ProfessionalSchema],
+    type: Array,
     defaultValue: []
   },
+  'professionals.$':{type:ProfessionalSchema},
   supervisor:{
-    type: SupervisorSchema
+    type: SupervisorSchema,
+    defaultValue:SupervisorSchema.clean({})
   },
   updateAt:{
     type:Date,
@@ -83,13 +90,16 @@ export default JobSchema = new SimpleSchema({
     }
   },
   jobTypes:{
-    type: TextList
+    type: TextList,
+    defaultValue:TextList.clean({})
   },
   tools:{
-    type: ToolSchema
+    type: ToolSchema,
+    defaultValue:ToolSchema.clean({})
   },
   jobTitle:{
-   type: BasicText
+   type: BasicText,
+   defaultValue:BasicText.clean({})
   },
   isOpen:{
     type: Boolean,
@@ -97,5 +107,6 @@ export default JobSchema = new SimpleSchema({
   },
   requirements:{
     type: RequirementSchema,
+    defaultValue:RequirementSchema.clean({})
   }
 });

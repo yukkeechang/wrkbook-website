@@ -1,3 +1,4 @@
+import SimpleSchema from 'simpl-schema';
  export default MessagesSchema = new SimpleSchema({
   channel: {
     type: String,
