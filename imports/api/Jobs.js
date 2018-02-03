@@ -1029,9 +1029,9 @@ Meteor.methods({
     // notify.description = 'The Job located at '+  jobRemove.location.locationName+
     // ' has been deleted';
     // notify.typeNotifi="REMOVE"
-    // let peopleApplied = jobRemove.applyemployeeIds;
-    // let peopleMatch = jobRemove.admitemployeeIds;
-    // let totalPeople = peopleApplied.concat(peopleMatch);
+    let peopleApplied = jobRemove.applyemployeeIds;
+    let peopleMatch = jobRemove.admitemployeeIds;
+    let totalPeople = peopleApplied.concat(peopleMatch);
     // for (let i = 0; i < totalPeople.length; i++){
     //   notify.toWhomst = totalPeople[i];
     //   Meteor.call('createNotification',notify);
