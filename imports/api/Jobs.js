@@ -1026,17 +1026,17 @@ Meteor.methods({
     let notify = NotificationSchema.clean({},{mutate:true});
 
     let jobRemove = Job.findOne({_id:jobId,employerId:this.userId});
-    notify.description = 'The Job located at '+  jobRemove.location.locationName+
-    ' has been deleted';
-    notify.typeNotifi="REMOVE"
-    let peopleApplied = jobRemove.applyemployeeIds;
-    let peopleMatch = jobRemove.admitemployeeIds;
-    let totalPeople = peopleApplied.concat(peopleMatch);
-    for (let i = 0; i < totalPeople.length; i++){
-      notify.toWhomst = totalPeople[i];
-      Meteor.call('createNotification',notify);
-      // Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName);
-    }
+    // notify.description = 'The Job located at '+  jobRemove.location.locationName+
+    // ' has been deleted';
+    // notify.typeNotifi="REMOVE"
+    // let peopleApplied = jobRemove.applyemployeeIds;
+    // let peopleMatch = jobRemove.admitemployeeIds;
+    // let totalPeople = peopleApplied.concat(peopleMatch);
+    // for (let i = 0; i < totalPeople.length; i++){
+    //   notify.toWhomst = totalPeople[i];
+    //   Meteor.call('createNotification',notify);
+    //   // Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName);
+    // }
     Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName,(err)=>{
       if(err)console.log(err);
     });
