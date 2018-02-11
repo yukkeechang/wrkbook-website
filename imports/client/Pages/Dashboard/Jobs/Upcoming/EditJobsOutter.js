@@ -4,7 +4,9 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React, {Component} from 'react';
 import EditJob from './EditJob';
 class EditJOB extends Component{
-
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
     render(){
       return(
           <div>
@@ -27,7 +29,8 @@ export default EditJobs = withTracker(params =>{
   let ready = handle.ready();
   console.log(ready);
   return {
-      ready: ready,
+    handle:handle,
+    ready: ready,
     job: Job.find({}).fetch()[0]
 
   };

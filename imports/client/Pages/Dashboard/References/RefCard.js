@@ -26,20 +26,26 @@ export default class RefCard extends Component{
     $('#tool').tooltip('remove');
   }
   render(){
-    if(!isEmpty(this.props.references)){
-      let ref = this.props.references;
+    if(!isEmpty(this.props.reference)){
+      let ref = this.props.reference;
       return(
 
                 <div className="card">
                   <div className="card-content">
-                    <p>{ref.name.text}</p>
-                    <p>{ref.companyName.text}</p>
-                    <p>{ref.email}</p>
-                    <p>{ref.phone}</p>
+                    <div className="row">
+                      <div className="col s6">
+                        <p>{ref.name.text}</p>
+                        <p>{ref.companyName.text}</p>
+                      </div>
+                      <div className="col s6">
+                        <p>{ref.phone}</p>
+                        <p>{ref.email}</p>
+                      </div>
+                    </div>
                     <p>{ref.position.text}</p>
                   </div>
                 </div>
-              
+
 
 
       );

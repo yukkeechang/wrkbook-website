@@ -56,7 +56,7 @@ export default class EditRef extends Component {
                 <div className="card-content">
                     <div className="row">
                         <span className="col s10 card-title">
-                            Update a Reference
+                            Update your Reference
                         </span>
                         <div className="col s2" style={{textAlign:'right'}}>
                             <a onClick={this.deletThis.bind(this)} className="waves-effect" style={{height: '40px', width:'40px',borderRadius:'100%',textAlign: 'center', fontSize: '30px', color: 'red'}}><i className="material-icons">delete_forever</i></a>
@@ -84,9 +84,9 @@ export default class EditRef extends Component {
                                 <MTextField ref="position" id="position" error={posErr} label="Your position at the job" value={this.props.reference.position.text}/>
                             </div>
                         </div>
-
-                        <input type="submit" className="btn blue-grey " data-html="true" value="Update Reference" />
-
+                        <div className="center-align">
+                          <input type="submit" className="btn blue-grey " data-html="true" value="Update Reference" />
+                        </div>
                     </form>
                 </div>
             </div>
