@@ -12,6 +12,9 @@ class ViewJob extends React.Component {
 
 
   }
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
   componentDidMount(){
     // console.log(this.props);
     console.log(this.props);
@@ -80,6 +83,7 @@ export default DetailView = withTracker(props=>{
   return {
       loggingIn: Meteor.loggingIn(),
       ready: ready,
+      handle:handle,
       userId: Meteor.userId(),
       jobPost: jobPost,
   };

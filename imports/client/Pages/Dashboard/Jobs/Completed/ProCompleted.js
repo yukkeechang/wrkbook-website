@@ -16,7 +16,9 @@ class ProCompletedJobsPage extends React.Component {
   }
 
 
-
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
 render() {
   let jobz = this.props.job;
   if(!this.props.loading) {
@@ -66,6 +68,7 @@ export default ProCompleted = withTracker(props => {
   //console.log("JOB POST: "+jobPost)
 
   return {
+    handle:handle,
     userId: user,
     loading: loading,
     job: jobPost

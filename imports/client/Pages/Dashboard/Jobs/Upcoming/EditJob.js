@@ -54,24 +54,11 @@ export default class EditJob extends Component {
       osha10: false,
       osha30: false,
       address: DEFAULT,
-      startT: '',
-      startD: '',
-      endT: '',
-      endD: '',
-      lat: -100,
-      lng: -100,
-      locationName: ''
+
     };
   }
   componentWillMount(){
     console.log('mounted');
-  }
-  getCoords(lat, lng){
-    this.setState({
-      address: this.refs.GoogleAuto.state.searchText,
-      lat:lat,
-      lng:lng
-    });
   }
   handleUpdate(e){
     let loc = this.refs.loc.getAddress();
@@ -80,8 +67,8 @@ export default class EditJob extends Component {
       let professionals = this.state.titles.map((title, index)=>{
         return this.refs[title].value();
       });
-      let job = JobSchema.clean({});
-      let location = LocationSchema.clean({});
+      let job = JobSchema.clean({},{mutate:true});
+      let location = LocationSchema.clean({},{mutate:true});
       let jobtypes = $('#jobTitles').val();
       console.log('we in handleCreate');
       const description = this.refs.jd.value();
@@ -121,8 +108,8 @@ export default class EditJob extends Component {
       let professionals = this.state.titles.map((title, index)=>{
         return this.refs[title].value();
       });
-      let job = JobSchema.clean({});
-      let location = LocationSchema.clean({});
+      let job = JobSchema.clean({},{mutate:true});
+      let location = LocationSchema.clean({},{mutate:true});
       let jobtypes = $('#jobTitles').val();
       console.log('we in handleCreate');
       const description = this.refs.jd.value();
@@ -173,22 +160,7 @@ export default class EditJob extends Component {
   handlesscNoClick(){
     $("#taxDisplay").css("display","block");  //shows tax display on no click for ssc
   }
-  setStartD(x,event){
-    let date = JSON.stringify(event);
-    this.setState({startD: date});
-  }
-  setEndD(x,event){
-    let date = JSON.stringify(event);
-    this.setState({endD: date});
-  }
-  setStartT(x,event){
-    let time = JSON.stringify(event);
-    this.setState({startT: time});
-  }
-  setEndT(x,event){
-    let time = JSON.stringify(event);
-    this.setState({endT: time});
-  }
+
   render(){
 
     let empty = 'This cannot be empty';

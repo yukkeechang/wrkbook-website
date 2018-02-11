@@ -32,6 +32,7 @@
     "react-router-dom": "^4.1.1",
     "react-scroll-to-component": "^1.0.2",
     "react-transition-group": "^1.2.1",
+    "simpl-schema": "^1.4.1",
     "stripe": "^4.24.1",
     "webpack": "^3.10.0"
   },

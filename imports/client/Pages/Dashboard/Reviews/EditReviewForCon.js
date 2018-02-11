@@ -4,6 +4,7 @@ import EmployeeCheckBoxs from './EmployeeReviewComponents/EmployeeCheckBox';
 import EmployeeTitle from './EmployeeReviewComponents/EmployeeTitle';
 import MTextField from '../../Shared/MTextField';
 import Rating from 'react-rating';
+import ReviewSchema from '../../../../api/Schemas/reviewSchema';
 
 
 export default class EditReviewForCon extends React.Component{
@@ -31,7 +32,7 @@ export default class EditReviewForCon extends React.Component{
 
 
   submitReview=()=>{
-    let review=ReviewSchema.clean({});
+    let review=ReviewSchema.clean({},{mutate:true});
     review.revieweeId = this.props.proId;
     review.jobId = this.props.jobId;
     review.conReview = this.refs.checkbox.value();

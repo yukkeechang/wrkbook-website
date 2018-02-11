@@ -1,40 +1,47 @@
 import  TextList from './textListSchema';
 import  BasicText  from './basicTextSchema';
 import LocationSchema  from './locationSchema';
-import AvailabeSchema from './availableSchema';
 import {DEFAULT} from './basicTextSchema';
 import OshaSchema from './oshaSchema';
 import {PICLINK} from './basicTextSchema';
 import EducationSchema from './educationSchema';
 import SocialSchema from './socialSchema';
+import SimpleSchema from 'simpl-schema';
 
 export const PROFESSIONAL = 'PRO';
 
 export default EmployeeSchema = new SimpleSchema({
   jobTitle:{
-    type: [String],
+    type: Array,
     minCount: 1,
     defaultValue: [],
   },
+  'jobTitle.$':{type:String},
   education:{
     type: EducationSchema,
+    defaultValue:EducationSchema.clean({})
   },
   languages:{
-    type: [String],
+    type: Array,
     minCount: 1,
     defaultValue: [],
   },
+  'languages.$':{type:String},
   osha:{
     type: OshaSchema,
+    defaultValue:OshaSchema.clean({})
   },
   about:{
     type: BasicText,
+    defaultValue:BasicText.clean({})
   },
   skills:{
     type:BasicText,
+    defaultValue:BasicText.clean({})
   },
   location:{
     type: LocationSchema,
+    defaultValue:LocationSchema.clean({})
   },
   hasCar :{
     type: Boolean
@@ -52,18 +59,21 @@ export default EmployeeSchema = new SimpleSchema({
     max: 100
   },
   prevJobs:{
-    type: [String],
+    type: Array,
     defaultValue:[]
   },
+  'prevJobs.$':{type:String},
   socialPref :{
-    type: SocialSchema
+    type: SocialSchema,
+    defaultValue:SocialSchema.clean({})
   },
   certfi : {
-    type : [String],
+    type : Array,
     defaultValue : [],
     minCount: 0,
     maxCount:5
   },
+  'certfi.$':{type:String},
   image:{
     type: String,
     defaultValue: PICLINK
@@ -74,10 +84,6 @@ export default EmployeeSchema = new SimpleSchema({
   },
   instaLink :{
     type: String,
-    optional: true
-  },
-  Availability:{
-    type: AvailabeSchema,
     optional: true
   }
 });

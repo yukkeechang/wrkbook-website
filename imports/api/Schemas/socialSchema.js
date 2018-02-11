@@ -1,3 +1,4 @@
+import SimpleSchema from 'simpl-schema';
 
 export default SocialSchema = new SimpleSchema({
   taxID: {

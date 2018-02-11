@@ -43,7 +43,8 @@ class ConView extends React.Component{
               </div>
               <div className="row">
                 <div className="col s12 center-align">
-                  <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'1.5em', margin:'0px'}} >Location: <u>{this.props.job.location.locationName}</u></p></Link>
+                  <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'1.5em', margin:'0px'}} >Location: <u>{this.props.job.location.locationName}</u></p> <p>{this.props.notifications.length >0 ?
+                    <span className="new badge">{this.props.notifications.length}</span> : null}</p></Link>
                 </div>
               </div>
             </div>

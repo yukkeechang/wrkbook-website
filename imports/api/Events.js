@@ -54,7 +54,7 @@ Meteor.publish('get-event', function(jobId) {
 
 Meteor.methods({
   validateEvent(eventToValidate){
-    let validations = EventSchema.newContext('EVE');
+    let validations = EventSchema.namedContext('EVE');
 
 
   },
@@ -63,6 +63,8 @@ Meteor.methods({
     newEvent.owner = this.userId;
     newEvent.createdAt = new Date();
     check(newEvent,EventSchema);
+    let validation  = EventSchema.namedContext('Event');
+    if(!validation.validate(newEvent))throw new Meteor.Error('403','THINGS');
     Event.insert(newEvent);
   },
   updateEvent(eventId, editEvent){

@@ -1,17 +1,22 @@
 import  BasicText  from './basicTextSchema';
 import LocationSchema  from './locationSchema';
+import SimpleSchema from 'simpl-schema';
+
 export default ReferenceSchema = new SimpleSchema({
   owner:{
     type: String
   },
   name:{
-    type: BasicText
+    type: BasicText,
+    defaultValue:BasicText.clean({})
   },
   position :{
-    type: BasicText
+    type: BasicText,
+    defaultValue:BasicText.clean({})
   },
   companyName :{
-    type: BasicText
+    type: BasicText,
+    defaultValue:BasicText.clean({})
   },
   createdAt:{
     type: Date,
@@ -33,13 +38,13 @@ export default ReferenceSchema = new SimpleSchema({
     type: String,
     defaultValue: '',
     min: 1,
-    regEx : /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    regEx : SimpleSchema.RegEx.Email
   },
   phone:{
     type: String,
     defaultValue: '',
     min: 1,
-    regEx:  /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/
+    regEx: SimpleSchema.RegEx.Phone
   }
 
 });

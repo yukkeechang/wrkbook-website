@@ -17,7 +17,7 @@ accounts-password@1.5.0
 react-meteor-data
 service-configuration@1.0.11
 check@1.2.5
-aldeed:collection2
+aldeed:collection2@3.0.0
 alanning:roles
 static-html
 email@1.2.3

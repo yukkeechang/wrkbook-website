@@ -18,8 +18,8 @@ class ConJobListingPageComp extends React.Component {
    }
 
   }
-  componentWillMount(){
-
+  componentWillUnmount(){
+    this.props.handle.stop();
   }
   componentDidMount(){
 
@@ -151,6 +151,7 @@ export default ConJobListingPage = withTracker(props =>  {
   return {
     userId:userId,
     event:event,
+    handle:handle,
     ready: eventReady&&reviewReady,
     employeeRating:avg,
     jobTypesIndex: idxx2,
