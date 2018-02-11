@@ -1,11 +1,15 @@
 import OshaSchema from './oshaSchema';
 import SocialSchema from './socialSchema';
+import SimpleSchema from 'simpl-schema';
+
 export default RequirementSchema = new SimpleSchema({
   osha:{
-    type: OshaSchema
+    type: OshaSchema,
+    defaultValue:OshaSchema.clean({})
   },
   socialPref :{
-    type: SocialSchema
+    type: SocialSchema,
+    defaultValue:SocialSchema.clean({})
   },
   driverLicense:{
     type: Boolean,
@@ -16,10 +20,11 @@ export default RequirementSchema = new SimpleSchema({
     defaultValue: false
   },
   languages:{
-    type: [String],
+    type: Array,
     defaultValue: [],
     optional: true
   },
+  'languages.$':{type:String},
   weekendExcluded: {
     type: Boolean,
     defaultValue: false

@@ -51,7 +51,7 @@ export default class NonJobEventCreate extends Component {
 
         // console.log(eventObject);
 
-        let toEventSchema = EventSchema.clean({});
+        let toEventSchema = EventSchema.clean({},{mutate:true});
         toEventSchema.title.text = eventObject.title;
         toEventSchema.responsibilities.text = eventObject.description;
         toEventSchema.startAt = eventObject.startAt;

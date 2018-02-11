@@ -1,3 +1,4 @@
+import SimpleSchema from 'simpl-schema';
 export default SupervisorSchema = new SimpleSchema({
     name:{
       type: String,
@@ -9,6 +10,6 @@ export default SupervisorSchema = new SimpleSchema({
       type: String,
       defaultValue: '',
       min:1,
-      regEx:  /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/
+      regEx: SimpleSchema.RegEx.Phone
     }
 });

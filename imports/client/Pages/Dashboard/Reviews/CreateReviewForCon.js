@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
 import EmployerTitle from './ContractorReviewComponents/EmployeerTitle';
-import EmployeeCheckBoxs from './EmployeeReviewComponents/EmployeeCheckBox';
+import EmployeerCheckBoxs from './ContractorReviewComponents/EmployeerCheckBox';
 import ReviewSchema from '../../../../api/Schemas/reviewSchema';
 import MTextField from '../../Shared/MTextField';
 import Rating from 'react-rating';
@@ -48,7 +48,7 @@ export default class CreateReview extends Component {
   returnReview(e) {
 
 
-    let review=ReviewSchema.clean({});
+    let review=ReviewSchema.clean({},{mutate:true});
     review.revieweeId = this.props.conId;
     review.jobId = this.props.jobId;
     review.proReview = this.refs.checkbox.value();
@@ -67,7 +67,7 @@ export default class CreateReview extends Component {
         <div className="card">
             <div className="card-content">
                 <EmployerTitle conId={this.props.conId}/>
-                <EmployeeCheckBoxs ref="checkbox"/>
+                <EmployeerCheckBoxs ref="checkbox"/>
 
                   <div className="row">
                       <div className="col s12 m6 offset-m3">

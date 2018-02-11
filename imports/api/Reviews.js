@@ -114,16 +114,16 @@ Meteor.methods({
  * @throws {Meteor.Error}  If the reviewObject being sent violates the Schema
  */
   validateReview(reviewObject) {
-    let  validations = ReviewSchema.newContext('REVIEW');
+    let  validations = ReviewSchema.namedContext('REVIEW');
 
-    let reviewerId = !validations.validateOne(reviewObject,'reviewerId');
-    let revieweeId = !validations.validateOne(reviewObject,'revieweeId');
-    let jobId = !validations.validateOne(reviewObject,'jobId');
-    let rating = !validations.validateOne(reviewObject, 'rating');
+    let reviewerId = !validations.validate(reviewObject,{keys:['reviewerId']});
+    let revieweeId = !validations.validate(reviewObject,{keys:['revieweeId']});
+    let jobId = !validations.validate(reviewObject,{keys:['jobId']});
+    let rating = !validations.validate(reviewObject,{keys:['rating']} );
 
     // let review = !validations.validateOne(reviewObject, 'review.text');
-    let conReview = !Match.test(reviewObject.conReview, ConReviewSchema);
-    let proReview = !Match.test(reviewObject.proReview, ProReviewSchema);
+    let conReview = !validations.validate(reviewObject,{keys:['conReview']} );
+    let proReview = !validations.validate(reviewObject,{keys:['proReview']} );
     let Errors = {
       reviewerId: reviewerId,
       revieweeId: revieweeId,
@@ -141,7 +141,7 @@ Meteor.methods({
          proReview || conReview)
         throw new Meteor.Error('403',Errors);
     }else{
-      let review = !validations.validateOne(reviewObject, 'review.text');
+      let review = !validations.validate(reviewObject, {keys:['review.text']});
       Errors.review = review;
       if( revieweeId ||reviewerId || jobId|| rating  ||review||
          proReview || conReview)
@@ -247,8 +247,7 @@ Meteor.methods({
 
     //check(updateReview,ReviewSchema);
     Meteor.call('validateReview', newReview);
-    console.log("===========================")
-    console.log("NEW REVIEW OBJECT"+JSON.stringify(newReview))
+
     let prevReview = Review.findOne({_id: reviewId});
     if(!(prevReview)) return;
     if(newReview.review != DEFAULT){ // Check if the text provided is new user text
@@ -258,29 +257,17 @@ Meteor.methods({
       prevReview.rating = newReview.rating;
     }
 
-   console.log("NEW PRO: "+JSON.stringify(newReview.proReview))
-   console.log("PREV CON: "+JSON.stringify(prevReview.proReview))
 
 
-   console.log("NEW CON: "+ JSON.stringify(newReview.conReview))
-   console.log("PREV CON: "+JSON.stringify(prevReview.conReview))
-
-
-
-
-    if(newReview.proReview != prevReview.proReview) {
-      prevReview.proReview = newReview.proReview
-      console.log("=========")
+    if( !(_.isEqual(newReview.proReview,prevReview.proReview)) ) {
+      prevReview.proReview = newReview.proReview;
     }
-    if(newReview.conReview != prevReview.conReview) {
-      prevReview.conReview = newReview.conReview
-      console.log("+++++++++")
+    if( !(_.isEqual(newReview.conReview,prevReview.conReview)) ) {
+      prevReview.conReview = newReview.conReview;
+
     }
 
     Review.update({_id: reviewId,reviewerId:this.userId},{$set: prevReview});
-    let newReviewAfterUpdate = Review.findOne({_id: reviewId})
-    console.log("===================")
-    console.log(newReviewAfterUpdate)
 
   },
   /**

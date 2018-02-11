@@ -31,7 +31,8 @@ Meteor.methods({
   createNotification(newNotify){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     newNotify.createdAt = new Date();
-    check(newNotify,NotificationSchema);
+    let validation = NotificationSchema.namedContext('Notification');
+    if(!validation.validate(newNotify))throw new Meteor.Error('403','THINGS');
     Notification.insert(newNotify);
   },
 

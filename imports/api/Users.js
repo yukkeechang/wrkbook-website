@@ -101,18 +101,18 @@ Meteor.methods({
     if the fields are incorrect an Error object will be thrown.
     */
     validateEmployee(employee){
-      const validationz = EmployeeSchema.newContext('Employees');
+      const validationz = EmployeeSchema.namedContext('Employees');
       const employ = employee;
-      let jobs = validationz.validateOne(employ,'jobTitle');
-      let edu = Match.test(employee.education, EducationSchema);
-      let languages = validationz.validateOne(employ,'languages');
-      let osha =  Match.test(employee.osha, OshaSchema);
-      let location = Match.test(employee.location, LocationSchema);
-      let car = validationz.validateOne(employ,'hasCar');
-      let driver = validationz.validateOne(employ,'driverLicense');
-      let tools = validationz.validateOne(employ,'bringTools');
-      let distance = validationz.validateOne(employ,'maxDistance');
-      let socialThings = Match.test(employee.socialPref, SocialSchema);
+      let jobs = validationz.validate(employ,{keys:['jobTitle']});
+      let edu =  validationz.validate(employ,{keys:['education']});
+      let languages = validationz.validate(employ,{keys:['languages']});
+      let osha =  validationz.validate(employ,{keys:['osha']});
+      let location = validationz.validate(employ,{keys:['location']});
+      let car = validationz.validate(employ,{keys:['hasCar']});
+      let driver = validationz.validate(employ,{keys:['driverLicense']});
+      let tools = validationz.validate(employ,{keys:['bringTools']});
+      let distance = validationz.validate(employ,{keys:['maxDistance']});
+      let socialThings = validationz.validate(employ,{keys:['socialPref.taxID','socialPref.social']});
       let Errors ={
         validJobTitles: jobs,
         validEdu: edu,
@@ -139,17 +139,17 @@ Meteor.methods({
     if the fields are incorrect an Error object will be thrown.
     */
     validateEmployer(employer){
-      const validation = EmployerSchema.newContext();
-      let company =Match.test(employer.companyName, BasicText);
-      let about = Match.test(employer.about, BasicText);
-      let location = Match.test(employer.location,LocationSchema);
+      const validation = EmployerSchema.namedContext('Employeer');
+      let company = validation.validate(employer,{keys:['companyName']});
+      let about = validation.validate(employer,{keys:['about']});
+      let location = validation.validate(employer,{keys:['location']});
       let web = true;
       let licenseNumber = true;
       if(!('undefined' === typeof(employer.webPage))){
-        web =  validation.validateOne(employer,'webPage');
+        web =  validation.validate(employer,{keys:['webPage']});
       }
       if(!('undefined' === typeof(employer.licenseNumber))){
-        licenseNumber = validation.validateOne(employer,'licenseNumber');
+        licenseNumber = validation.validate(employer,{keys:['licenseNumber']});
       }
       let Errors = {
         validCompany: company,
@@ -474,16 +474,17 @@ Meteor.methods({
         eEmpty : eEmpty,
         nEqual : nEqual
       };
-      
+
       if(!isEmail|| eEmpty|| nEqual) throw new Meteor.Error('403',Errors);
       let oldEmail = Meteor.users.findOne({_id: this.userId}).emails[0].address;
 
       if(Accounts.addEmail(this.userId,Emails.email1)){
         Accounts.removeEmail(this.userId,oldEmail);
+
+          Meteor.call('sendVerificationEmail',(err)=>{
+            if(err)console.log(err);
+          });
       }
-      Meteor.call('sendVerificationEmail',(err)=>{
-        if(err)console.log(err);
-      })
 
 
 
