@@ -338,9 +338,14 @@ Meteor.publish('upcoming-job-pro',function(){
 Meteor.publish('current-job-con',function(){
   let currentDate = new Date();
   if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    Job.update({'generalEnd': {$lt : currentDate},'isOpen':true,employerId:this.userId},
-                  {$set: {"isOpen" :false}},
-                  {multi:true});
+
+      let things = Job.find({'generalEnd': {$lt : currentDate},
+                             'isOpen':true,
+                             'employerId':this.userId});
+     things.forEach((job)=>{
+       job.isOpen = false;
+       Job.update({_id:job._id},{$set:job});
+     });
 
     return Job.find(
       { employerId:this.userId,
@@ -400,11 +405,13 @@ export const changeIsOpen = () =>{
 
   let currentDate = new Date();
 
-  let things = Job.update({'generalEnd': {$lt : currentDate},'isOpen':true},
-                {$set: {"isOpen" :false}},
-                {multi:true});
+  let things = Job.find({'generalEnd': {$lt : currentDate},'isOpen':true});
+  things.forEach((job)=>{
+    job.isOpen = false;
+    Job.update({_id:job._id},{$set:job});
+  });
   updateEmployeeWorkHistory()
-  return things;
+  return things.count();
 };
 
 const updateEmployeeWorkHistory = ()=>{
@@ -414,29 +421,34 @@ const updateEmployeeWorkHistory = ()=>{
 Meteor.methods({
 
   validateJob(jobObject){
-    let  validations = JobSchema.newContext('JOB');
-    let proValidation = ProfessionalSchema.newContext('PRO');
-    let eventValidation = EventSchema.newContext('EVE');
+    let  validations = JobSchema.namedContext('JOB');
+    let proValidation = ProfessionalSchema.namedContext('PRO');
+    let eventValidation = EventSchema.namedContext('EVE');
 
-    let visorNumb = !validations.validateOne(jobObject,'supervisor.phone');
-    let visorName = !validations.validateOne(jobObject,'supervisor.name');
-    let jobTypes = !validations.validateOne(jobObject,'jobTypes.texts');
-    let jobTitle = !validations.validateOne(jobObject,'jobTitle.text');
-    let locationName = !validations.validateOne(jobObject,'location.locationName');
-    let locLat = !validations.validateOne(jobObject,'location.latitude');
-    let locLng = !validations.validateOne(jobObject,'location.longitude');
-    let reqLicense = !validations.validateOne(jobObject,'requirements.driverLicense');
-    let excWeekends = !validations.validateOne(jobObject, 'requirements.weekendExcluded')
-    let reqBackground = !validations.validateOne(jobObject,'requirements.backgroundCheck');
-    let reqLanguages = !validations.validateOne(jobObject,'requirements.languages');
-    let oshaCheck = !Match.test(jobObject.requirements.osha, OshaSchema);
-    let socialCheck = !Match.test(jobObject.requirements.socialPref, SocialSchema);
+    let visorNumb = !validations.validate(jobObject,{keys:['supervisor.phone']});
+    let visorName = !validations.validate(jobObject,{keys:['supervisor.name']});
+    let jobTypes = !validations.validate(jobObject,{keys:['jobTypes.texts']});
+    let jobTitle = !validations.validate(jobObject,{keys:['jobTitle.text']});
+    let tools = !validations.validate(jobObject,{keys:['tools.toolsRequired']});
+    let toolsname = !validations.validate(jobObject,{keys:['tools.toolsName']});
+    let locationName = !validations.validate(jobObject,{keys:['location.locationName']});
+    let locLat = !validations.validate(jobObject,{keys:['location.latitude']});
+    let locLng = !validations.validate(jobObject,{keys:['location.longitude']});
+    let reqLicense = !validations.validate(jobObject,{keys:['requirements.driverLicense']});
+    let excWeekends = !validations.validate(jobObject, {keys:['requirements.weekendExcluded']})
+    let reqBackground = !validations.validate(jobObject,{keys:['requirements.backgroundCheck']});
+    let reqLanguages = !validations.validate(jobObject,{keys:['requirements.languages']});
+    let oshaCheck = !validations.validate(jobObject,{keys:['requirements.osha.osha10','requirements.osha.osha30']});
+    let socialCheck = !validations.validate(jobObject,{keys:['requirements.socialPref.taxID','requirements.socialPref.social']});
+
     let lengthToCheck = jobObject.professionals.length;
     let events = [];
+    console.log(SocialSchema.clean({}));
+    console.log(jobObject.requirements.socialPref);
 
 
     for(let i =0;i<lengthToCheck;++i){
-        let eventtoMake= EventSchema.clean({});
+        let eventtoMake= EventSchema.clean({},{mutate:true});
         eventtoMake.title.text = jobObject.professionals[i].title;
         eventtoMake.responsibilities.text = jobObject.professionals[i].responsibilities;
         eventtoMake.startAt = jobObject.professionals[i].startAt;
@@ -481,14 +493,14 @@ Meteor.methods({
       eventissue=true;
     }
     for(let i =0;i<lengthToCheck;++i){
-      let protitle = !proValidation.validateOne(jobObject.professionals[i],'responsibilities');
-      let propay = !proValidation.validateOne(jobObject.professionals[i],'pay');
-      let proworker = !proValidation.validateOne(jobObject.professionals[i],'numWorkers');
+      let protitle = !proValidation.validate(jobObject.professionals[i],{keys:['responsibilities']});
+      let propay = !proValidation.validate(jobObject.professionals[i],{keys:['pay']});
+      let proworker = !proValidation.validate(jobObject.professionals[i],{keys:['numWorkers']});
 
-      let eventTitle = !eventValidation.validateOne(events[i],'title.text');
-      let eventRes = !eventValidation.validateOne(events[i],'responsibilities.text');
-      let eventStart = !eventValidation.validateOne(events[i],'startAt');
-      let eventEnd =  !eventValidation.validateOne(events[i],'endAt');
+      let eventTitle = !eventValidation.validate(events[i],{keys:['title.text']});
+      let eventRes = !eventValidation.validate(events[i],{keys:['responsibilities.text']});
+      let eventStart = !eventValidation.validate(events[i],{keys:['startAt']});
+      let eventEnd =  !eventValidation.validate(events[i],{keys:['endAt']});
 
 
       let ProError = {
@@ -515,6 +527,8 @@ Meteor.methods({
       visorName : visorName,
       jobTypes : jobTypes,
       jobTitle : jobTitle,
+      tools : tools,
+      toolsname: toolsname,
       locationName :  locationName,
       locLat : locLat,
       locLng :  locLng,
@@ -535,7 +549,7 @@ Meteor.methods({
 
 
 
-    if( visorNumb ||visorName || jobTypes || jobTitle || locationName ||
+    if( visorNumb||tools|| toolsname ||visorName || jobTypes || jobTitle || locationName ||
       locLat || locLng || reqLicense || reqBackground || reqLanguages ||
       oshaCheck  || socialCheck || proissue || eventissue
     ) throw new Meteor.Error('403',Errors);
@@ -559,7 +573,7 @@ Meteor.methods({
  * @param  {string} jobId     the id of the job
  */
   sendNotificationsToPotential(jobObject,jobId){
-    
+
 
     let bearing = 45;
     const meterDegrees = 111111;
@@ -619,13 +633,14 @@ Meteor.methods({
 
 
 
-    let notify = NotificationSchema.clean({});
+    let notify = NotificationSchema.clean({},{mutate:true});
     notify.description = "There is a potential Job Match at "+ jobObject.location.locationName;
     notify.jobId = jobId;
     notify.typeNotifi = "MATCH";
     notify.href = "job/"+jobId;
     for(let i =0 ;i < peoples.length;++i){
       notify.toWhomst = peoples[i];
+      console.log(notify);
       Meteor.call('createNotification',notify);
     }
 
@@ -654,7 +669,7 @@ Meteor.methods({
       job.employerId = this.userId;
       job.createdAt = new Date();
       job.updateAt = new Date();
-      let thingy = IdSchema.clean({});
+      let thingy = IdSchema.clean({},{mutate:true});
 
       for (let i = 0; i < eventz.length; i++) {
         job.applyAsIDs[i] = thingy;
@@ -728,8 +743,8 @@ Meteor.methods({
   if(!(prevJob)) return;
   let requirements = updateJob.requirements;
 
-  if(updateJob.additionText.text != DEFAULT ){
-    prevJob.additionText.text = updateJob.additionText.text
+  if(updateJob.additionText != DEFAULT ){
+    prevJob.additionText = updateJob.additionText
   }
 
   if(requirements.languages.length >0){
@@ -762,28 +777,6 @@ Meteor.methods({
 
   if(requirements.backgroundCheck != prevJob.requirements.backgroundCheck){
     prevJob.requirements.backgroundCheck = requirements.backgroundCheck;
-  }
-
-  if(requirements.driverLicense != prevJob.requirements.driverLicense){
-    prevJob.requirements.driverLicense = requirements.driverLicense;
-  }
-  if(requirements.osha.osha10 != prevJob.requirements.osha.osha10){
-    prevJob.requirements.osha.osha10 = requirements.osha.osha10;
-  }
-  if(requirements.osha.osha30 != prevJob.requirements.osha.osha30){
-    prevJob.requirements.osha.osha30 = requirements.osha.osha30;
-  }
-  if(requirements.socialPref.taxID != prevJob.requirements.socialPref.taxID){
-    prevJob.requirements.socialPref.taxID = requirements.socialPref.taxID;
-  }
-  if(requirements.socialPref.social != prevJob.requirements.socialPref.social){
-    prevJob.requirements.socialPref.social = requirements.socialPref.social;
-  }
-  if(updateJob.supervisor.name != prevJob.supervisor.name){
-    prevJob.supervisor.name = updateJob.supervisor.name;
-  }
-  if(updateJob.supervisor.phone != prevJob.supervisor.phone){
-    prevJob.supervisor.phone = updateJob.supervisor.phone;
   }
 
   if(updateJob.location.locationName != DEFAULT){
@@ -848,7 +841,7 @@ Meteor.methods({
 
     Job.update(selector,{$set: job});
 
-    let notify = NotificationSchema.clean({});
+    let notify = NotificationSchema.clean({},{mutate:true});
     notify.toWhomst = job.employerId;
     notify.typeNotifi="APPLIED";
     notify.description = "Someone applied for the job you posted at "+ job.location.locationName;
@@ -1004,7 +997,7 @@ Meteor.methods({
       job.admitAsIDs[idxx2].ids = Array.from(nonCopies);
     }
 
-    let notify = NotificationSchema.clean({});
+    let notify = NotificationSchema.clean({},{mutate:true});
     notify.toWhomst = employeeId;
     notify.description = "You have been admitted to the job at "+ job.location.locationName;
     notify.typeNotifi="HIRED"
@@ -1030,7 +1023,7 @@ Meteor.methods({
     check(jobId,String);
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(!Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
-    let notify = NotificationSchema.clean({});
+    let notify = NotificationSchema.clean({},{mutate:true});
 
     let jobRemove = Job.findOne({_id:jobId,employerId:this.userId});
     notify.description = 'The Job located at '+  jobRemove.location.locationName+

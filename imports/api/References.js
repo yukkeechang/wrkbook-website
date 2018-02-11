@@ -53,12 +53,12 @@ Meteor.methods({
    * @throws {Meteor.Error} If the object being validated violates the ReferenceSchema
    */
   validateReference(refObject){
-    let validateReference  = ReferenceSchema.newContext('REF');
-    let nameErr = !validateReference.validateOne(refObject,'name.text');
-    let posErr = !validateReference.validateOne(refObject,'position.text');
-    let compErr = !validateReference.validateOne(refObject,'companyName.text');
-    let emailErr = !validateReference.validateOne(refObject,'email');
-    let phoneErr = !validateReference.validateOne(refObject,'phone');
+    let validateReference  = ReferenceSchema.namedContext('REF');
+    let nameErr = !validateReference.validate(refObject,{keys:['name.text']});
+    let posErr = !validateReference.validate(refObject,{keys:['position.text']});
+    let compErr = !validateReference.validate(refObject,{keys:['companyName.text']});
+    let emailErr = !validateReference.validate(refObject,{keys:['email']});
+    let phoneErr = !validateReference.validate(refObject,{keys:['phone']});
 
     let Errors = {
       nameErr   : nameErr,

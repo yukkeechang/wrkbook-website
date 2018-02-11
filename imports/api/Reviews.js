@@ -114,16 +114,16 @@ Meteor.methods({
  * @throws {Meteor.Error}  If the reviewObject being sent violates the Schema
  */
   validateReview(reviewObject) {
-    let  validations = ReviewSchema.newContext('REVIEW');
+    let  validations = ReviewSchema.namedContext('REVIEW');
 
-    let reviewerId = !validations.validateOne(reviewObject,'reviewerId');
-    let revieweeId = !validations.validateOne(reviewObject,'revieweeId');
-    let jobId = !validations.validateOne(reviewObject,'jobId');
-    let rating = !validations.validateOne(reviewObject, 'rating');
+    let reviewerId = !validations.validate(reviewObject,{keys:['reviewerId']});
+    let revieweeId = !validations.validate(reviewObject,{keys:['revieweeId']});
+    let jobId = !validations.validate(reviewObject,{keys:['jobId']});
+    let rating = !validations.validate(reviewObject,{keys:['rating']} );
 
     // let review = !validations.validateOne(reviewObject, 'review.text');
-    let conReview = !Match.test(reviewObject.conReview, ConReviewSchema);
-    let proReview = !Match.test(reviewObject.proReview, ProReviewSchema);
+    let conReview = !validations.validate(reviewObject,{keys:['conReview']} );
+    let proReview = !validations.validate(reviewObject,{keys:['proReview']} );
     let Errors = {
       reviewerId: reviewerId,
       revieweeId: revieweeId,
@@ -141,7 +141,7 @@ Meteor.methods({
          proReview || conReview)
         throw new Meteor.Error('403',Errors);
     }else{
-      let review = !validations.validateOne(reviewObject, 'review.text');
+      let review = !validations.validate(reviewObject, {keys:['review.text']});
       Errors.review = review;
       if( revieweeId ||reviewerId || jobId|| rating  ||review||
          proReview || conReview)

@@ -21,6 +21,7 @@ class ConCurrentPage extends React.Component {
 
 
 render() {
+  console.log(this.props);
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -65,14 +66,13 @@ export default ConCurrent = withTracker(props => {
   let jobPost=[]
   let loading = false
 
-  let user = Meteor.user();
 
-    let handle = Meteor.subscribe('current-job-con');
-    loading = handle.ready();
-    jobPost = Job.find({}).fetch();
+
+  let handle = Meteor.subscribe('current-job-con');
+  loading = handle.ready();
+  jobPost = Job.find({}).fetch();
 
   return {
-    user: user,
     loading: loading,
     jobPost: jobPost
   };

@@ -1,6 +1,8 @@
 import  BasicText  from './basicTextSchema';
 import  conReviewSchema from './conReviewSchema';
 import  proReviewSchema from './proReviewSchema';
+import SimpleSchema from 'simpl-schema';
+
 export default ReviewSchema = new SimpleSchema({
   reviewerId:{
     type: String,
@@ -11,15 +13,14 @@ export default ReviewSchema = new SimpleSchema({
     defaultValue: ''
   },
   companyName:{
-    type: BasicText
+    type: BasicText,
+    defaultValue:BasicText.clean({})
   },
   rating:{
     type: Number,
     defaultValue: 0,
-    decimal:true,
     min:0,
     max:5,
-    decimal: true
   },
   review:{
     type:String,

@@ -3,12 +3,13 @@ import  BasicText from './basicTextSchema';
 import LocationSchema  from './locationSchema';
 import {DEFAULT} from './basicTextSchema';
 import {PICLINK} from './basicTextSchema';
-
+import SimpleSchema from 'simpl-schema';
 export const CONTRACTOR = 'CON';
 
 export default  EmployerSchema = new SimpleSchema({
   companyName: {
-    type: BasicText
+    type: BasicText,
+    defaultValue:BasicText.clean({})
   },
   licenseNumber: {
     type:String,
@@ -21,10 +22,12 @@ export default  EmployerSchema = new SimpleSchema({
     optional:true
   },
   location:{
-    type:LocationSchema
+    type:LocationSchema,
+    defaultValue:LocationSchema.clean({})
   },
   about:{
-    type: BasicText
+    type: BasicText,
+    defaultValue:BasicText.clean({})
   },
   image:{
     type: String,
