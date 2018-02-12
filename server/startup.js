@@ -5,7 +5,7 @@ import {ServerSession } from 'meteor/matteodem:server-session';
 
 Meteor.startup(()=>{
 
-   process.env.MAIL_URL = 'smtp://info%40wrkbook.com:8W0pwO4FDVndIRLR@smtp-relay.gmail.com:587/';
+
   if (process.env.METEOR_SETTINGS) {
     try {
       Meteor.settings = JSON.parse(process.env.METEOR_SETTINGS);
