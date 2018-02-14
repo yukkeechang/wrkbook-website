@@ -53,9 +53,8 @@ export default class EditJob extends Component {
       titles: [],
       osha10: false,
       osha30: false,
-      lat: -100,
-      lng: -100,
-      locationName: ''
+      address: DEFAULT,
+
     };
   }
   componentWillMount(){
@@ -68,8 +67,8 @@ export default class EditJob extends Component {
       let professionals = this.state.titles.map((title, index)=>{
         return this.refs[title].value();
       });
-      let job = JobSchema.clean({});
-      let location = LocationSchema.clean({});
+      let job = JobSchema.clean({},{mutate:true});
+      let location = LocationSchema.clean({},{mutate:true});
       let jobtypes = $('#jobTitles').val();
       console.log('we in handleCreate');
       const description = this.refs.jd.value();
@@ -109,8 +108,8 @@ export default class EditJob extends Component {
       let professionals = this.state.titles.map((title, index)=>{
         return this.refs[title].value();
       });
-      let job = JobSchema.clean({});
-      let location = LocationSchema.clean({});
+      let job = JobSchema.clean({},{mutate:true});
+      let location = LocationSchema.clean({},{mutate:true});
       let jobtypes = $('#jobTitles').val();
       console.log('we in handleCreate');
       const description = this.refs.jd.value();
@@ -161,6 +160,7 @@ export default class EditJob extends Component {
   handlesscNoClick(){
     $("#taxDisplay").css("display","block");  //shows tax display on no click for ssc
   }
+
   render(){
 
     let empty = 'This cannot be empty';

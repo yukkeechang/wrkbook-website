@@ -141,7 +141,7 @@ export class NavBarPage extends Component{
         <i className="large material-icons">arrow_drop_down</i>
       }{this.props.general > 0 ?
         <span className="new badge">{this.props.general}</span> : null}</div>
-        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobmatchs'>Job Matches{this.props.match > 0 ?
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobmatches'>Job Matches{this.props.match > 0 ?
       <span className="new badge left-align">{this.props.match}</span> : null}</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/applied'>Applied Jobs</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>

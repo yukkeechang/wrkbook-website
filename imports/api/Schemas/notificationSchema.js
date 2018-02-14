@@ -1,3 +1,4 @@
+import SimpleSchema from 'simpl-schema';
 export default NotificationSchema = new SimpleSchema({
   toWhomst:{
     type:String,

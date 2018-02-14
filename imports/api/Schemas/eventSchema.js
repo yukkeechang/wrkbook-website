@@ -1,23 +1,20 @@
 import  BasicText from './basicTextSchema';
 import ImportantSchema from './importanceSchema'
-
+import SimpleSchema from 'simpl-schema';
 //https://wiki.mozilla.org/Calendar:Sql_Calendar_Schema
-SimpleSchema.messages({
-  "pastDate":"Can't make a start date before today",
-  "beginDate": "BEGIN DATE IS SET AFTER END DATE",
-  "endDATE" :"END DATE IS SET BEFORE BEGIN DATE",
-  "interval": "The interval is not valid given the recurring type"
-});
+
 
 export default  EventSchema = new SimpleSchema({
   owner:{
     type:String
   },
   title:{
-    type: BasicText
+    type: BasicText,
+    defaultValue:BasicText.clean({})
   },
   responsibilities:{
-    type:BasicText
+    type:BasicText,
+    defaultValue:BasicText.clean({})
   },
   startAt:{
     type: Date,
@@ -51,7 +48,8 @@ export default  EventSchema = new SimpleSchema({
     }
   },
   important:{
-    type:ImportantSchema
+    type:ImportantSchema,
+    defaultValue:ImportantSchema.clean({})
   },
   createdAt:{
     type: Date,
@@ -129,7 +127,7 @@ if recurringTYpe then the interval should be 0 : since its a one time event
   the second and third day of the weeek
   **/
   recurringData:{
-    type: [Number],
+    type: Array,
     defaultValue:[],
     custom : function(){
       let recurringType = this.field('recurringType');
@@ -157,9 +155,17 @@ if recurringTYpe then the interval should be 0 : since its a one time event
       }
     }
   },
+  'recurringData.$':{type:Number},
   jobId:{
     type: String,
     defaultValue: ''
   }
 
+});
+
+EventSchema.messageBox.messages({
+  "pastDate":"Can't make a start date before today",
+  "beginDate": "BEGIN DATE IS SET AFTER END DATE",
+  "endDATE" :"END DATE IS SET BEFORE BEGIN DATE",
+  "interval": "The interval is not valid given the recurring type"
 });
