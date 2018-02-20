@@ -463,7 +463,7 @@ Meteor.methods({
      * @throw {Meteor.Error} if the emails dont match or if the fields are empty.
      */
     updateEmail(Emails){
-
+      console.log(Emails);
       if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
       let isEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(Emails.email1);
       let eEmpty = Emails.email1.length > 0 ? false : true;
@@ -474,18 +474,13 @@ Meteor.methods({
         eEmpty : eEmpty,
         nEqual : nEqual
       };
-
-      if(!isEmail|| eEmpty|| nEqual) throw new Meteor.Error('403',Errors);
+      if(!isEmail|| eEmpty|| !nEqual) throw new Meteor.Error('403',Errors);
       let oldEmail = Meteor.users.findOne({_id: this.userId}).emails[0].address;
-
-      if(Accounts.addEmail(this.userId,Emails.email1)){
-        Accounts.removeEmail(this.userId,oldEmail);
-
-          Meteor.call('sendVerificationEmail',(err)=>{
-            if(err)console.log(err);
-          });
-      }
-
+      Accounts.addEmail(this.userId,Emails.email1)
+      Accounts.removeEmail(this.userId,oldEmail);
+      Meteor.call('sendVerificationEmail',(err)=>{
+        if(err)console.log(err);
+      });
 
 
     }
