@@ -11,6 +11,9 @@ class ReviewC extends Component{
    constructor(props){
      super(props);
    }
+   componentWillUnmount(){
+     this.props.handle.stop();
+   }
    render(){
     return (
       <div className="col s12 m4">
@@ -75,6 +78,7 @@ export default ReviewComp =  withTracker(props=>{
 
   let reviews = Review.find({jobId:props.jobId}).fetch();
   return {
+      handle:handle,
       ready : handle.ready(),
       reviews: reviews ,
   };

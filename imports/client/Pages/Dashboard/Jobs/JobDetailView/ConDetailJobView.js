@@ -100,9 +100,10 @@ class ConComponentPage extends React.Component{
     });
   }
   componentWillUnmount(){
-    console.log("removing tooltip");
-        $('.tooltipped').tooltip('remove');
-        $(this.refs.deleteModal).modal('close');
+    this.props.handleApply.stop();
+    this.props.handleAdmit.stop();
+    $('.tooltipped').tooltip('remove');
+    $(this.refs.deleteModal).modal('close');
   }
 
 
@@ -231,6 +232,8 @@ export default ConComponent = withTracker(props=>{
   }
 
   return {
+    handleApply:handleApply,
+    handleAdmit:handleAdmit,
     applyPeople : applyPeople,
     admitPeople : admitPeople,
     notifications:notifications,

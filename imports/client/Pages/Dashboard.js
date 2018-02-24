@@ -31,6 +31,7 @@ import AppliedJobs from './Dashboard/Jobs/EmployeeAppliedJobs';
 import EmpJobPosts from './Dashboard/Jobs/EmployeeJobMatches';
 
 import References from './Dashboard/References'
+import EditReferences from './Dashboard/References/EditReferences'
 import ProCompleted from './Dashboard/Jobs/Completed/ProCompleted';
 import ConCompleted from './Dashboard/Jobs/Completed/ConCompleted';
 import CreateReviewForPro from './Dashboard/Reviews/CreateReviewForPro.js';
@@ -68,6 +69,7 @@ class Dash extends Component{
                 <Route  path="/user/:value" component={OtherUser}/>
 
                 <Route exact path="/references" component={References}/>
+                <Route exact path="/edit+references" component={EditReferences}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob/:value" component={EditJobs}/>
                 <Route exact path="/job/:value" component={DetailView}/>

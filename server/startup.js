@@ -6,12 +6,8 @@ import dotenv from 'dotenv'
 
 Meteor.startup(()=>{
 
-  process.env.MAIL_URL = 'smtp://info%40wrkbook.com:ruXm2cVJqSMF5Pd5@smtp-relay.gmail.com:587';
-// const result = dotenv.config();
-// console.log(result.parsed);
-//   console.log(process.env.MAIL_URL);
-//
-//   console.log(process.cwd());
+  process.env.MAIL_URL = 'smtp://info%40wrkbook.com:ruXm2cVJqSMF5Pd5@smtp-relay.gmail.com:587/';
+  // console.log(process.env);
   if (process.env.METEOR_SETTINGS) {
     try {
       Meteor.settings = JSON.parse(process.env.METEOR_SETTINGS);

@@ -54,7 +54,9 @@ class ConCompletedJobsPage extends React.Component {
     this.setState({index:index});
   }
 
-
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
 render() {
 
 
@@ -108,6 +110,7 @@ export default ConCompleted = withTracker(props => {
   jobPost = Job.find({}).fetch();
 
   return {
+    handle:handle,
     user: user,
     loading: loading,
     job: jobPost

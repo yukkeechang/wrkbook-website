@@ -19,7 +19,9 @@ class ProCurrentPage extends React.Component {
   }
 
 
-
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
 render() {
   let jobz = this.props.job;
   if(!this.props.loading) {
@@ -68,6 +70,7 @@ export default ProCurrent = withTracker(props => {
     console.log(jobPost);
 
   return {
+    handle:handle,
     userId: user._id,
     loading: loading,
     job: jobPost

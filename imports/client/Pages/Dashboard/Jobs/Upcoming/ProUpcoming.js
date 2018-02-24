@@ -16,7 +16,9 @@ class ProUpcomingJobsPage extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
 render() {
   let jobz = this.props.job;
   console.log(this.props);
@@ -81,6 +83,7 @@ export default ProUpcoming = withTracker(props => {
   jobPost = Job.find({}).fetch();
 
   return {
+    handle:handle,
     userId: user,
     ready: ready,
     job: jobPost,

@@ -2,8 +2,11 @@ import React, {Component}  from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../Shared/Button';
 import { CSSTransitionGroup } from 'react-transition-group';
+import { hotjar } from 'react-hotjar';
 
+hotjar.initialize(790931, 6);
 export default class Hero extends Component {
+
     pro(){
         window.localStorage.isPro = true;
     }
@@ -11,6 +14,7 @@ export default class Hero extends Component {
         window.localStorage.isPro = false;
     }
     render(){
+      hotjar.initialize(790931, 6);
         return (
             <div id="hero" className="valign-wrapper">
                 <div className="container">
