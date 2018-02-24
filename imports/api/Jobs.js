@@ -421,17 +421,21 @@ const updateEmployeeWorkHistory = ()=>{
 Meteor.methods({
 
   validateJob(jobObject){
-    let  validations = JobSchema.namedContext('JOB');
+    let  validations = JobSchema.newContext('JOB');
     let proValidation = ProfessionalSchema.namedContext('PRO');
     let eventValidation = EventSchema.namedContext('EVE');
-
-    let visorNumb = !validations.validate(jobObject,{keys:['supervisor.phone']});
+    console.log(jobObject);
+    console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+    console.log(validations.validate(jobObject));
+    console.log(validations.validationErrors());
+  console.log(validations.isValid());
+    let visorNumb = !validations.validate(jobObject,{upsert:true,keys:['supervisor.phone']});
     let visorName = !validations.validate(jobObject,{keys:['supervisor.name']});
     let jobTypes = !validations.validate(jobObject,{keys:['jobTypes.texts']});
     let jobTitle = !validations.validate(jobObject,{keys:['jobTitle.text']});
     let tools = !validations.validate(jobObject,{keys:['tools.toolsRequired']});
     let toolsname = !validations.validate(jobObject,{keys:['tools.toolsName']});
-    let locationName = !validations.validate(jobObject,{keys:['location.locationName']});
+    let locationName = !validations.validate(jobObject,{keys:['location']});
     let locLat = !validations.validate(jobObject,{keys:['location.latitude']});
     let locLng = !validations.validate(jobObject,{keys:['location.longitude']});
     let reqLicense = !validations.validate(jobObject,{keys:['requirements.driverLicense']});
@@ -546,6 +550,7 @@ Meteor.methods({
         details : eventdetails,
       }
     };
+    console.log(Errors);
 
 
 
@@ -1078,5 +1083,83 @@ Meteor.methods({
         if(err)console.log(err);
       })
     }
+  },
+  checkNewJob(){
+    if(!this.userId && Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
+
+    let employee = Meteor.users.findOne({_id: this.userId}).profile.employeeData;
+    let bearing = 45;
+    const meterDegrees = 111111;
+    const mileToMeters= 1609.34;
+
+    let jobTitle = employee.jobTitle;
+    let lat = employee.location.latitude;
+    let lng = employee.location.longitude;
+    let distance = employee.maxDistance * mileToMeters/2;
+
+    let cos_degg = Math.cos(bearing* Math.PI/180);
+    let sin_degg = Math.sin(bearing* Math.PI/180);
+
+    let lat_rad = Math.cos(lat * Math.PI/180);
+
+    let eastDisplacement = distance * sin_degg / lat_rad / meterDegrees;
+    let northDisplacement = distance * cos_degg / meterDegrees;
+    let westDisplacement = - eastDisplacement;
+    let southDisplacement = - northDisplacement;
+    let currentDate = new Date();
+
+    let lat_top = lat + northDisplacement;
+    let lat_bot = lat + southDisplacement;
+    let lng_top = lng + eastDisplacement;
+    let lng_bot = lng + westDisplacement;
+    let hackIdThing =[];
+    hackIdThing[0] = this.userId;
+
+
+      let results =  Job.find({
+          $and: [
+            {
+           'generalStart':{$gt: currentDate},
+            'jobTypes.texts' : {$in : jobTitle},
+            'declineemployeeIds' :{$nin : hackIdThing},
+            'applyemployeeIds' :{$nin : hackIdThing},
+            'admitemployeeIds' :{$nin : hackIdThing},
+            'generalStart':{$gt: currentDate},
+            'isOpen':true,
+            'location.latitude': {$gte: lat_bot, $lt: lat_top},
+            'location.longitude': {$gte: lng_bot , $lt: lng_top}}
+            ,
+              {$or:[ {'requirements.driverLicense':{$ne : true}},
+              {'requirements.driverLicense':true,'requirements.driverLicense':employee.driverLicense}]}
+            ,
+              {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
+              {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employee.osha.osha30},
+              {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employee.osha.osha10},{'requirements.osha.osha10':employee.osha.osha30}] },
+              ]}
+            ,
+              {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
+              {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employee.socialPref.social},
+              {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employee.socialPref.taxID},{'requirements.socialPref.social':employee.socialPref.social}] },
+              ]}
+
+          ]
+      });
+
+    results.forEach((job)=>{
+      let prev = Notification.find({toWhomst: this.userId,typeNotifi:"MATCH",jobId:job._id}).count() > 0 ? true: false;
+
+      if(!prev){
+        let notify = NotificationSchema.clean({},{mutate:true});
+        notify.description = "There is a potential Job Match at "+ job.location.locationName;
+        notify.jobId = job._id;
+        notify.typeNotifi = "MATCH";
+        notify.href = "job/"+ job._id;
+        notify.toWhomst = this.userId;
+        Meteor.call('createNotification',notify);
+
+      }
+    });
+
+
   }
 });

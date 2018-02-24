@@ -1,8 +1,7 @@
 import SimpleSchema from 'simpl-schema';
  export default MessagesSchema = new SimpleSchema({
-  channel: {
+  channelId: {
     type: String,
-
     optional: true
   },
   to: {
@@ -11,7 +10,6 @@ import SimpleSchema from 'simpl-schema';
   },
   owner: {
     type: String,
-
   },
   timestamp: {
     type: Date,
@@ -19,6 +17,17 @@ import SimpleSchema from 'simpl-schema';
   },
   message: {
     type: String,
-
+    min:1,
+    max:250,
+  },
+  seen:{
+    type: Boolean,
+    defaultValue:false
+  },
+  jobId:{
+    type:String,
+    defaultValue:''
   }
+
+
 });

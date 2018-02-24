@@ -128,11 +128,16 @@ class ConComponentPage extends React.Component{
             {!this.props.isCompleted ?
               <div className="col m2  s2">
                 <div className="row center-align">
-                  <a  style={{padding:'10px'}} onClick={this.deleteModal} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" style={{ fontSize:'30px', color:'red'}}><div style={{height:'40px',width:'40px'}} className="circle blue-grey lighten-5"><i className="material-icons">delete_forever</i></div></a>
+                  <a  style={{padding:'0px',fontSize:'30px', color:'red'}} onClick={this.deleteModal} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey    lighten-5"><i className="material-icons">delete_forever</i></div></a>
                 </div>
                 <div className="row center-align">
                   <Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
-                    <a style={{padding:'0px',fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Edit Job Info" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey center-align lighten-5"> <i className="material-icons">edit</i></div></a>
+                    <a style={{padding:'0px',fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Edit Job Info" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey  center-align lighten-5"> <i style={{paddingRight:'5px',paddingTop:'8px'}} className="material-icons">edit</i></div></a>
+                  </Link>
+                </div>
+                <div className="row center-align">
+                  <Link style={{padding:'0px'}} to={"/message/"+ this.state.job._id}>
+                    <a style={{padding:'0px',fontSize:'30px', color:'#8bc34a'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Open Messaging for this Job"><div style={{height:'40px',width:'40px'}} className="circle blue-grey  center-align  lighten-5"> <i style={{paddingRight:'5px',paddingTop:'10px'}} className="material-icons ">message</i></div></a>
                   </Link>
                 </div>
               </div>
