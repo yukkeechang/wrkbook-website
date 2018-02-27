@@ -44,6 +44,9 @@ import CreateReviewForCon from './Dashboard/Reviews/CreateReviewForCon.js';
 
 import MessageDummy from './Dashboard/Messages/DummyHome.js'
 
+import NotificationDummy from './Dashboard/Notifications/DummyHome.js'
+
+
 class Dash extends Component{
     constructor(props){
         super(props);
@@ -74,6 +77,8 @@ class Dash extends Component{
                 <Route exact path="/editjob/:value" component={EditJobs}/>
                 <Route exact path="/job/:value" component={DetailView}/>
                 <Route exact path="/message/:value" component={MessageDummy}/>
+                <Route exact path="/messages" component={MessageDummy}/>
+                <Route exact path="/notifications" component={NotificationDummy}/>
                 <Route exact path="/applied" component={AppliedJobs} />
 
                 <Route exact path="/edit" component={Edit}/>

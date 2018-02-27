@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 
 import {ServerSession } from 'meteor/matteodem:server-session';
 
-import dotenv from 'dotenv'
 
 Meteor.startup(()=>{
 

@@ -38,7 +38,7 @@ export default ReferenceSchema = new SimpleSchema({
     type: String,
     defaultValue: '',
     min: 1,
-    regEx : SimpleSchema.RegEx.Email
+    regEx : SimpleSchema.RegEx.EmailWithTLD
   },
   phone:{
     type: String,

@@ -7,14 +7,22 @@ import EmployerSchema  from './Schemas/employerSchema'
 import EmployeeSchema  from './Schemas/employeeSchema';
 import EventSchema from './Schemas/eventSchema';
 import OshaSchema from './Schemas/oshaSchema';
+import SupervisorSchema from './Schemas/supervisorSchema';
+import LocationSchema  from './Schemas/locationSchema';
+import  RequirementSchema  from './Schemas/requirementSchema';
 import SocialSchema from './Schemas/socialSchema';
 import IdSchema from './Schemas/specificId';
+import ToolSchema from './Schemas/toolSchema';
+import  TextList from './Schemas/textListSchema';
+import  BasicText  from './Schemas/basicTextSchema';
 import ProfessionalSchema from './Schemas/professionalSchema'
 import NotificationSchema from './Schemas/notificationSchema';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
 import { Roles } from 'meteor/alanning:roles';
+
+import SimpleSchema from 'simpl-schema';
 
 export const  NOTMADE ={
   jobNotMade : true
@@ -421,34 +429,39 @@ const updateEmployeeWorkHistory = ()=>{
 Meteor.methods({
 
   validateJob(jobObject){
-    let  validations = JobSchema.newContext('JOB');
+    let  validations = JobSchema.newContext();
+    let supervisorValidation1 = SupervisorSchema.namedContext('SUP');
+    let supervisorValidation2 = SupervisorSchema.namedContext('SUP2');
     let proValidation = ProfessionalSchema.namedContext('PRO');
     let eventValidation = EventSchema.namedContext('EVE');
-    console.log(jobObject);
-    console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-    console.log(validations.validate(jobObject));
-    console.log(validations.validationErrors());
-  console.log(validations.isValid());
-    let visorNumb = !validations.validate(jobObject,{upsert:true,keys:['supervisor.phone']});
-    let visorName = !validations.validate(jobObject,{keys:['supervisor.name']});
+    let locationValidation = LocationSchema.namedContext('Location');
+    let oshaValidation = OshaSchema.namedContext('osha');
+    let socialValidation = SocialSchema.namedContext('social');
+    let toolValidation  = ToolSchema.namedContext('tool');
+    let reqValidation = RequirementSchema.namedContext('req');
+    let basicValidation = BasicText.namedContext('basic');
+    let listValidation = TextList.namedContext('text');
+
+
+    let visorNumb = !supervisorValidation1.validate(jobObject.supervisor,{keys:['phone']});
+    let visorName = !supervisorValidation2.validate(jobObject.supervisor,{keys:['name']});
     let jobTypes = !validations.validate(jobObject,{keys:['jobTypes.texts']});
     let jobTitle = !validations.validate(jobObject,{keys:['jobTitle.text']});
-    let tools = !validations.validate(jobObject,{keys:['tools.toolsRequired']});
-    let toolsname = !validations.validate(jobObject,{keys:['tools.toolsName']});
-    let locationName = !validations.validate(jobObject,{keys:['location']});
-    let locLat = !validations.validate(jobObject,{keys:['location.latitude']});
-    let locLng = !validations.validate(jobObject,{keys:['location.longitude']});
-    let reqLicense = !validations.validate(jobObject,{keys:['requirements.driverLicense']});
-    let excWeekends = !validations.validate(jobObject, {keys:['requirements.weekendExcluded']})
-    let reqBackground = !validations.validate(jobObject,{keys:['requirements.backgroundCheck']});
-    let reqLanguages = !validations.validate(jobObject,{keys:['requirements.languages']});
-    let oshaCheck = !validations.validate(jobObject,{keys:['requirements.osha.osha10','requirements.osha.osha30']});
-    let socialCheck = !validations.validate(jobObject,{keys:['requirements.socialPref.taxID','requirements.socialPref.social']});
+    let tools = !toolValidation.validate(jobObject.tools,{keys:['toolsRequired']});
+    let toolsname = !toolValidation.validate(jobObject.tools,{keys:['toolsName']});
+    let locationName = !locationValidation.validate(jobObject.location,{keys:['locationName']});
+    let locLat = !locationValidation.validate(jobObject.location,{keys:['latitude']});
+    let locLng = !locationValidation.validate(jobObject.location,{keys:['longitude']});
+    let reqLicense = !reqValidation.validate(jobObject.requirements,{keys:['driverLicense']});
+    let excWeekends = !reqValidation.validate(jobObject.requirements, {keys:['weekendExcluded']})
+    let reqBackground = !reqValidation.validate(jobObject.requirements,{keys:['backgroundCheck']});
+    let reqLanguages = !reqValidation.validate(jobObject.requirements,{keys:['languages']});
+    let oshaCheck = !oshaValidation.validate(jobObject.requirements.osha,{keys:['osha10','osha30']});
+    let socialCheck = !socialValidation.validate(jobObject.requirements.socialPref,{keys:['taxID','social']});
 
     let lengthToCheck = jobObject.professionals.length;
     let events = [];
-    console.log(SocialSchema.clean({}));
-    console.log(jobObject.requirements.socialPref);
+
 
 
     for(let i =0;i<lengthToCheck;++i){
@@ -501,8 +514,8 @@ Meteor.methods({
       let propay = !proValidation.validate(jobObject.professionals[i],{keys:['pay']});
       let proworker = !proValidation.validate(jobObject.professionals[i],{keys:['numWorkers']});
 
-      let eventTitle = !eventValidation.validate(events[i],{keys:['title.text']});
-      let eventRes = !eventValidation.validate(events[i],{keys:['responsibilities.text']});
+      let eventTitle = !basicValidation.validate(events[i].title,{keys:['text']});
+      let eventRes = !basicValidation.validate(events[i].responsibilities,{keys:['text']});
       let eventStart = !eventValidation.validate(events[i],{keys:['startAt']});
       let eventEnd =  !eventValidation.validate(events[i],{keys:['endAt']});
 
@@ -550,10 +563,10 @@ Meteor.methods({
         details : eventdetails,
       }
     };
-    console.log(Errors);
 
 
 
+    //
     if( visorNumb||tools|| toolsname ||visorName || jobTypes || jobTitle || locationName ||
       locLat || locLng || reqLicense || reqBackground || reqLanguages ||
       oshaCheck  || socialCheck || proissue || eventissue
@@ -612,7 +625,7 @@ Meteor.methods({
          jobObject.location.latitude <=  lat_top &&
          jobObject.location.longitude >= lng_bot &&
          jobObject.location.longitude <= lng_top ){
-           console.log(user);
+
           let matched = Job.find({
              $and: [
                {_id:jobId},
@@ -645,7 +658,7 @@ Meteor.methods({
     notify.href = "job/"+jobId;
     for(let i =0 ;i < peoples.length;++i){
       notify.toWhomst = peoples[i];
-      console.log(notify);
+
       Meteor.call('createNotification',notify);
     }
 
@@ -1031,17 +1044,29 @@ Meteor.methods({
     let notify = NotificationSchema.clean({},{mutate:true});
 
     let jobRemove = Job.findOne({_id:jobId,employerId:this.userId});
-    // notify.description = 'The Job located at '+  jobRemove.location.locationName+
-    // ' has been deleted';
-    // notify.typeNotifi="REMOVE"
+    notify.description = 'The Job located at '+  jobRemove.location.locationName+
+    ' has been deleted';
+    notify.typeNotifi="REMOVE";
     let peopleApplied = jobRemove.applyemployeeIds;
     let peopleMatch = jobRemove.admitemployeeIds;
     let totalPeople = peopleApplied.concat(peopleMatch);
-    // for (let i = 0; i < totalPeople.length; i++){
-    //   notify.toWhomst = totalPeople[i];
-    //   Meteor.call('createNotification',notify);
-    //   // Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName);
-    // }
+    notify.jobId = JSON.stringify(jobRemove);
+    for (let i = 0; i < totalPeople.length; i++){
+      notify.toWhomst = totalPeople[i];
+      Meteor.call('createNotification',notify,(err)=>{
+        if(err)console.log(err);
+      });
+      // Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName);
+    }
+    let notifyEmployer = NotificationSchema.clean({});
+    notifyEmployer.description = 'Yoou deleted Job located at '+  jobRemove.location.locationName+
+    ' has been deleted';
+    notifyEmployer.typeNotifi="REMOVE";
+    notifyEmployer.toWhomst = this.userId;
+    Meteor.call('createNotification',notifyEmployer,(err)=>{
+      if(err)console.log(err);
+    });
+
     Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName,(err)=>{
       if(err)console.log(err);
     });
