@@ -20,7 +20,7 @@ let styles = {
     links:{
         color: 'white',
         padding: '17px 0',
-        fontSize:'20px',
+        fontSize:'18px',
         textAlign:'left'
     },
     account:{
