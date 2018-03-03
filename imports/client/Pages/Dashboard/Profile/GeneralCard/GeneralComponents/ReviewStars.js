@@ -14,6 +14,8 @@ class ReviewS extends React.Component{
       }
       else if (this.props.reviewAverage>0) {
         return(
+        <div className="row">
+          <div className="column s1">
           <Rating
            initialRate={this.props.reviewAverage}
            readonly={true}
@@ -21,6 +23,11 @@ class ReviewS extends React.Component{
            full={<i className="material-icons" style={{fontSize: "25px", color: "#26a69a"}}>star</i>}
            fractions={2}
          />
+         </div>
+         <div className="column s1">
+          {this.props.avg}
+         </div>
+        </div>
         )
       }else{
         return(
