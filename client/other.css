@@ -36,9 +36,18 @@ Table of Contents End
 -------------------------------------------------*/
 html {
   height: 100%;
+  margin: 0;
 }
-body {
+.wrapper {
   min-height: 100%;
+
+  /* Equal to height of footer */
+  /* But also accounting for potential margin-bottom of last child */
+  margin-bottom: -300px;
+}
+.footer,
+.push {
+  height: 300px;
 }
 #render-target{
       height: 100vmin;

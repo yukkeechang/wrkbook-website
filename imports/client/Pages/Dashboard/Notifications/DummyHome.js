@@ -14,7 +14,8 @@ export default class Home extends React.Component {
   render(){
 
       return(
-        <h1> LOL Not Done Yet</h1>
+
+          <h2>LOL STILL NOT DONe</h2>
       )
   }
 
