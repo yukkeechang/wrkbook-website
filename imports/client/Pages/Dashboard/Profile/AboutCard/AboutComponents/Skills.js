@@ -10,7 +10,7 @@ export default Skills = (props)=>{
         </h5>
       </div>
       <div className="center-align row">
-        <h6 className="flow-text" style={{overflowWrap:'break-word'}}>{props.skills}</h6>
+        <p className="flow-text" style={{overflowWrap:'break-word', fontSize:'14px'}}>{props.skills}</p>
       </div>
 
 

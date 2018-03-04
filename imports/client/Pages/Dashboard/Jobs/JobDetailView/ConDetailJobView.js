@@ -127,13 +127,32 @@ class ConComponentPage extends React.Component{
               <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
             </div>
             {!this.props.isCompleted ?
-              <div className="col m2  s2">
+              <div className="col m2 s2 offset-s2 fixed-action-btn horizontal hide-on-med-and-up" style={{position:'static', zIndex:'997'}}>
+                <a className="btn-floating red waves-effect  center-align"><i className="material-icons">menu</i></a>
+                <ul>
+                  <li style={{margin:'25px 5px 0px 5px'}}><Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
+                    <a className="btn-floating blue-grey lighten-5"><i style={{color:'black'}} className="material-icons">edit</i></a>
+                  </Link></li>
+                  <li style={{margin:'25px 5px 0px 0px'}}>
+                    <a className="btn-floating blue-grey lighten-5" onClick={this.deleteModal}><i style={{color:'red'}} className="material-icons">delete_forever</i></a>
+                  </li>
+                </ul>
+              </div>
+              :
+              null
+            }
+            {!this.props.isCompleted ?
+              <div className="col m2 s2 hide-on-small-only">
                 <div className="row center-align">
-                  <a  style={{padding:'10px'}} onClick={this.deleteModal} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" style={{ fontSize:'30px', color:'red'}}><div style={{height:'40px',width:'40px'}} className="circle blue-grey lighten-5"><i className="material-icons">delete_forever</i></div></a>
+                  <a className="btn-floating blue-grey lighten-5 tooltipped waves-effect" data-position="right" data-tooltip="Delete Job" onClick={this.deleteModal}>
+                    <i style={{color:'red'}} className="material-icons">delete_forever</i>
+                  </a>
                 </div>
                 <div className="row center-align">
                   <Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
-                    <a style={{padding:'0px',fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Edit Job Info" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey center-align lighten-5"> <i className="material-icons">edit</i></div></a>
+                    <a className="btn-floating blue-grey lighten-5 waves-effect tooltipped" data-position="right" data-tooltip="Edit Job Info">
+                      <i style={{color:'black'}} className="material-icons">edit</i>
+                    </a>
                   </Link>
                 </div>
               </div>
