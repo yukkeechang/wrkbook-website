@@ -3,9 +3,28 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { withTracker } from 'meteor/react-meteor-data';
 import About from './AboutCardComponent';
+import ReactGA from 'react-ga';
+
+/*Adding Google Analytics*/
+export const initGA = () => {
+  console.log("GA initialized ABOUT")
+  ReactGA.initialize('UA-102580306-1')
+}
+
+export const logPageView = () => {
+  ReactGA.set({page:window.location.pathname});
+  ReactGA.pageview(window.location.pathname)
+}
+
+
 export default class AboutPage extends React.Component{
   constructor(props){
     super(props);
+  }
+  componentDidMount () {
+    initGA()
+    logPageView()
+
   }
   render(){
 
