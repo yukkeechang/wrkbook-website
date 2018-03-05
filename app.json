@@ -4,28 +4,28 @@
   },
   "env": {
     "HEROKU_URL": {
-      "required": true
+      "required": false
     },
     "MAIL_URL": {
-      "required": true
+      "required": false
     },
     "METEOR_SETTINGS": {
-      "required": true
+      "required": false
    },
     "MONGO_URL": {
-      "required": true
+      "required": false
     },
     "MONGODB_URI": {
-      "required": true
+      "required": false
     },
     "MONGOLAB_IVORY_URI": {
-      "required": true
+      "required": false
     },
     "MONGOLAB_ROSE_URI": {
-      "required": true
+      "required": false
     },
     "ROOT_URL": {
-      "required": true
+      "required": false
     }
   },
   "formation": {
