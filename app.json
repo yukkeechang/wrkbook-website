@@ -4,36 +4,28 @@
   },
   "env": {
     "HEROKU_URL": {
-      "required": true,
-      "value": "https://wrkbook-website-pr-12.herokuapp.com/"
+      "required": true
     },
     "MAIL_URL": {
-      "required": true,
-      "value": "smtp://info%40wrkbook.com:ruXm2cVJqSMF5Pd5@smtp-relay.gmail.com:587"
+      "required": true
     },
     "METEOR_SETTINGS": {
-      "required": true,
-      "value":"{"public": {"stripe": "pk_test_5dSCaOoH3XsTfw9UsGJGvXi1"},"private": {"stripe": "sk_test_gLcbKsmO18UFX1F0CDycn5AZ"}}"
-    },
+      "required": true
+   },
     "MONGO_URL": {
-      "required": true,
-      "value":"mongodb://heroku_p75ss59p:tggmei1iduiu356pg0kffflrr3@ds151508.mlab.com:51508/heroku_p75ss59p"
+      "required": true
     },
     "MONGODB_URI": {
-      "required": true,
-      "value":"mongodb://heroku_p75ss59p:tggmei1iduiu356pg0kffflrr3@ds151508.mlab.com:51508/heroku_p75ss59p"
+      "required": true
     },
     "MONGOLAB_IVORY_URI": {
-      "required": true,
-      "value":"mongodb://heroku_p75ss59p:tggmei1iduiu356pg0kffflrr3@ds151508.mlab.com:51508/heroku_p75ss59p"
+      "required": true
     },
     "MONGOLAB_ROSE_URI": {
-      "required": true,
-      "value":"mongodb://heroku_p75ss59p:tggmei1iduiu356pg0kffflrr3@ds151508.mlab.com:51508/heroku_p75ss59p"
+      "required": true
     },
     "ROOT_URL": {
-      "required": true,
-      "value":"https://wrkbook-website-pr-12.herokuapp.com"
+      "required": true
     }
   },
   "formation": {
