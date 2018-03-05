@@ -1,7 +1,7 @@
 import React , { Component } from 'react';
 import Avatar from '../Shared/Avatar';
 import ReCAPTCHA from "react-google-recaptcha";
-
+import {initGA, logPageView} from  '../Shared/GoogleAnalytics';
 
 export default class stepThree extends Component{
   constructor(props){
@@ -32,8 +32,8 @@ export default class stepThree extends Component{
 
 
     componentDidMount() {
-
-
+      initGA()
+      logPageView()
       $('#fileInput').on('click',function(e){
         if(e.type === 'click'){
           this.setState({pesonalPic:true});

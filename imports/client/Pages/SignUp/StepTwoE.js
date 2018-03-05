@@ -3,6 +3,7 @@ import MTextField from '../Shared/MTextField';
 import ReactDOM from 'react-dom';
 import Location from '../Shared/Location';
 import { CSSTransitionGroup } from 'react-transition-group';
+import {initGA, logPageView} from  '../Shared/GoogleAnalytics';
 
 export default class StepTwoE extends Component{
     constructor(props){
@@ -94,6 +95,8 @@ export default class StepTwoE extends Component{
         }
     }
     componentDidMount(){
+        initGA()
+        logPageView()
         let title = ReactDOM.findDOMNode(this.refs.titles);
         $(title).material_select();
         let langs = ReactDOM.findDOMNode(this.refs.langs);

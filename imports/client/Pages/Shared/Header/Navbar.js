@@ -52,7 +52,7 @@ export class NavBarPage extends Component{
     constructor(props){
         super(props);
 
-
+        //delete?
           if(this.props.user.roles[0]==="CON"){
             this.state={isPro: false,switchNav:false}
           } else if (this.props.user.roles[0]==="PRO") {
