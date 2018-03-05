@@ -8,9 +8,15 @@ import JobSchema from '../../../../api/Schemas/jobSchema';
 import EventSchema from '../../../../api/Schemas/eventSchema';
 import { DEFAULT } from '../../../../api/Schemas/basicTextSchema';
 import LocationSchema from '../../../../api/Schemas/locationSchema';
+import {initGA, logPageView} from  '../../Shared/GoogleAnalytics';
+
 
 export default class CreateJobs extends Component {
   componentDidMount(){
+    //---Google Analytics
+    initGA()
+    logPageView()
+
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
       $('.modal').modal();

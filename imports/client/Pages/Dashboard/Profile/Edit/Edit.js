@@ -4,8 +4,15 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import ContractorEdit from './ContractorEdit';
 import ProfessionalEdit from './ProfessionalEdit';
+import {initGA, logPageView} from  '../../../Shared/GoogleAnalytics';
 
 class EditPage extends React.Component{
+
+  componentDidMount() {
+    initGA()
+    logPageView()
+  }
+
   render(){
     if(this.props.user){
       if(Roles.userIsInRole(this.props.user._id,"PRO")) {

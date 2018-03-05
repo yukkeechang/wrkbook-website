@@ -6,12 +6,15 @@ import Price from './LandingPageComponents/PricingPage'
 import ReactDOM from 'react-dom';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
+import {initGA, logPageView} from  './Shared/GoogleAnalytics';
 
 export default class LandingPage extends React.Component{
   constructor(props){
     super(props);
   }
   componentDidMount(){
+    initGA()
+    logPageView()
     console.log(this.props);
   }
   handleClick=(words)=>{
