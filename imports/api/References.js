@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check'
 import ReferenceSchema  from './Schemas/referenceSchema';
+import  BasicText  from './Schemas/basicTextSchema';
 import {DEFAULT} from './Schemas/basicTextSchema';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
@@ -54,9 +55,10 @@ Meteor.methods({
    */
   validateReference(refObject){
     let validateReference  = ReferenceSchema.namedContext('REF');
-    let nameErr = !validateReference.validate(refObject,{keys:['name.text']});
-    let posErr = !validateReference.validate(refObject,{keys:['position.text']});
-    let compErr = !validateReference.validate(refObject,{keys:['companyName.text']});
+    let basicValidation = BasicText.namedContext('basic1');
+    let nameErr = !basicValidation.validate(refObject.name,{keys:['text']});
+    let posErr = !basicValidation.validate(refObject.position,{keys:['text']});
+    let compErr = !basicValidation.validate(refObject.companyName,{keys:['text']});
     let emailErr = !validateReference.validate(refObject,{keys:['email']});
     let phoneErr = !validateReference.validate(refObject,{keys:['phone']});
 

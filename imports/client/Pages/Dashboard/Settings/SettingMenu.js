@@ -19,7 +19,9 @@ export default class  SettingMenu extends Component{
   render(){
     let url = 'settings';
       return(
-              <div>
+              <div style={{height:'100vmin'}} >
+              <div className="wrapper">
+
               <div className="container" >
                 <div className="row" >
                   <div className="col s12 m6" >
@@ -72,9 +74,12 @@ export default class  SettingMenu extends Component{
                 </div>
 
               </div>
+              <div className="push"></div>
 
-                <Footer/>
 
+
+              </div>
+              <Footer/>
               </div>
             )
           }

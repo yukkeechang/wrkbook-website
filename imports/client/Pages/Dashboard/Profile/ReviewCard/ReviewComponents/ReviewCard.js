@@ -6,17 +6,15 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import Rating from 'react-rating';
 
+
 import ReactDOM from 'react-dom';
 
 class ReviewComp extends React.Component {
 constructor(props) {
   super(props);
-  this.state={
-
   }
 
-
-}
+  
 
 render() {
   //console.log(this.props);

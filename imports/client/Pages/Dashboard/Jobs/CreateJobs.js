@@ -8,9 +8,16 @@ import JobSchema from '../../../../api/Schemas/jobSchema';
 import EventSchema from '../../../../api/Schemas/eventSchema';
 import { DEFAULT } from '../../../../api/Schemas/basicTextSchema';
 import LocationSchema from '../../../../api/Schemas/locationSchema';
+import { CSSTransitionGroup } from 'react-transition-group';
+import {initGA, logPageView} from  '../../Shared/GoogleAnalytics';
+
 
 export default class CreateJobs extends Component {
   componentDidMount(){
+    //---Google Analytics
+    initGA()
+    logPageView()
+
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
       $('.modal').modal();
@@ -53,6 +60,7 @@ export default class CreateJobs extends Component {
       oshaCheck: true,
       socialCheck: true,
       locErr: false,
+      err: false,
       titles: [],
       osha10: false,
       osha30: false,
@@ -94,29 +102,23 @@ export default class CreateJobs extends Component {
       job.requirements.osha.osha30 = this.state.osha30;
       job.requirements.weekendExcluded = this.refs.eweekend.checked;
     console.log(job);
-      Meteor.call('validateJob', job, (err)=>{
-          if(err){
-            console.log(err);
-            this.setState(err.reason);
-            $('#validationModal').modal('open');
-          }else{
-            Meteor.call('createJob', job, (err, res)=>{
-              if(err){
-                console.log(err);
-                console.log(err.reason);
-                $('#creationModal').modal('open');
-              }
-              else{
-                console.log(res);
-                $('#createModal').modal('open');
-              }
-            });
-          }
-      });
+
+          Meteor.call('createJob', job, (err, res)=>{
+            if(err){
+              console.log(err);
+              console.log(err.reason);
+              $('#creationModal').modal('open');
+              this.setState({err: true});
+            }
+            else{
+              console.log(res);
+              $('#createModal').modal('open');
+            }
+          });
+
     }
     else{
       this.setState({locErr:true});
-        $('#validationModal').modal('open');
     }
   }
   handleSelect(){
@@ -279,8 +281,28 @@ export default class CreateJobs extends Component {
             <MTextField ref="at" id="additionalText" label="Additional Information"/>
           </div>
 
-          <div style={{display:'flex', justifyContent:'center'}}>
-            <a className="waves-effect waves-teal btn" onClick={this.handleCreate.bind(this)}>Create job</a>
+          <div className="row">
+              <a onClick={this.handleCreate.bind(this)} className="btn-flat teal lighten-5 col s12 m6" style={{color: 'black',textAlign:'center',marginTop: '8px'}}type="submit">Create Job</a>
+              {this.state.err ? (
+                  <CSSTransitionGroup
+                      transitionName="err"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1500}
+                      transitionEnter={false}
+                      transitionLeave={false}>
+                  <p className="col s12 m6" style={{textAlign: 'center',lineHeight: '36px', marginTop: '8px',borderRadius: '2px'}}>There are errors with your form</p>
+                  </CSSTransitionGroup>
+              ):''}
+              {this.state.locErr ? (
+                  <CSSTransitionGroup
+                      transitionName="err"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1500}
+                      transitionEnter={false}
+                      transitionLeave={false}>
+                  <p className="col s12 m6" style={{textAlign: 'center',lineHeight: '36px', marginTop: '8px',borderRadius: '2px'}}>You need to verify your address</p>
+                  </CSSTransitionGroup>
+              ):''}
           </div>
           <div id="createModal" className="modal">
             <div className="modal-content">
@@ -298,14 +320,7 @@ export default class CreateJobs extends Component {
               <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
           </div>
-          <div id="creationModal" className="modal">
-            <div className="modal-content">
-              <h5 style={{color:'red'}}>To create more than one job post you must subscribe to our payment plan.</h5>
-            </div>
-            <div className="modal-footer">
-              <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-            </div>
-          </div>
+
         </div>
         </div>
       </div>

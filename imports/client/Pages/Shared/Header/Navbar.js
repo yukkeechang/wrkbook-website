@@ -20,7 +20,7 @@ let styles = {
     links:{
         color: 'white',
         padding: '17px 0',
-        fontSize:'20px',
+        fontSize:'18px',
         textAlign:'left'
     },
     account:{
@@ -52,7 +52,7 @@ export class NavBarPage extends Component{
     constructor(props){
         super(props);
 
-
+        //delete?
           if(this.props.user.roles[0]==="CON"){
             this.state={isPro: false,switchNav:false}
           } else if (this.props.user.roles[0]==="PRO") {
@@ -225,6 +225,12 @@ export class NavBarPage extends Component{
                     <ul ref="collapsibleref" className="collapsible" data-collapsible="accordion" onClick={this.arrow.bind(this)}>
                         {jobDropDownLinksSideNav}
                     </ul>
+                </li>
+                <li>
+                    <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
+                </li>
+                <li>
+                    <Link onClick={this.sideClick.bind(this)} to = "/notifications">Notifications</Link>
                 </li>
 
             </ul>

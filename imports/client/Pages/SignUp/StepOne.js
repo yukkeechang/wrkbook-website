@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import MTextField from '../Shared/MTextField';
+import {initGA, logPageView} from  '../Shared/GoogleAnalytics';
 export default class StepOne extends Component{
     constructor(props){
 
@@ -20,11 +21,17 @@ export default class StepOne extends Component{
       };
     }
     componentDidMount(){
+        initGA()
+        logPageView()
         let tooltip = ReactDOM.findDOMNode(this.refs.tool);
         $(tooltip).tooltip({delay: 50});
     }
-    handleNext(){
+    handleNext(e){
         // this.props.next(2, {}, this.state.pro);
+        //
+        // console.log(e);
+
+        e.preventDefault();
         let fn = this.refs.fn.value();
         let ln = this.refs.ln.value();
         let em = this.refs.em.value();
@@ -100,7 +107,7 @@ export default class StepOne extends Component{
                         </div>
                     </div>
 
-                    <a onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5" style={{color: 'black'}}type="submit">Next</a>
+                    <button onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5" style={{color: 'black'}}>Next</button>
                     </form>
                 </div>
 

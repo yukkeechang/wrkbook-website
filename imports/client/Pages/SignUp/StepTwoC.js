@@ -3,6 +3,7 @@ import MTextField from '../Shared/MTextField';
 import ReactDOM from 'react-dom';
 import Location from '../Shared/Location';
 import { CSSTransitionGroup } from 'react-transition-group';
+import {initGA, logPageView} from  '../Shared/GoogleAnalytics';
 
 export default class StepTwoC extends Component{
     constructor(props){
@@ -25,7 +26,7 @@ export default class StepTwoC extends Component{
                 companyName: {
                     text: this.refs.cn.value()
                 },
-                
+
                 webPage: this.refs.wp.value(),
                 location: loc.location,
                 about: {
@@ -51,6 +52,8 @@ export default class StepTwoC extends Component{
         }
     }
     componentDidMount(){
+      initGA()
+      logPageView()
         let el = ReactDOM.findDOMNode(this.refs.ca);
         $(el).characterCounter();
     }
