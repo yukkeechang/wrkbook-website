@@ -5,7 +5,7 @@
     "start": "meteor --settings settings-development.json"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.39",
+    "@babel/runtime": "^7.0.0-beta.40",
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
@@ -32,7 +32,7 @@
     "react-rating": "^0.9.1",
     "react-router-dom": "^4.1.1",
     "react-transition-group": "^1.2.1",
-    "simpl-schema": "^1.4.1",
+    "simpl-schema": "^1.4.2",
     "stripe": "^4.24.1",
     "webpack": "^3.10.0"
   },

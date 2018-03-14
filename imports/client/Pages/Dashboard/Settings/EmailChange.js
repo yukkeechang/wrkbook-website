@@ -42,9 +42,12 @@ export default class EmailChange extends Component {
         // Check if the email entered into the new email field matches our format
         const emailIsValid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.refs.newEmail.value());
         let oldEmailMatch = user.emails[0].address == this.refs.oldEmail.value();
-
+        let Emails = {
+          email1 : this.refs.newEmail.value(),
+          email2 : user.emails[0].address
+        }
         if (emailIsValid && oldEmailMatch) {
-          Meteor.call('updateEmail', user.emails[0].address, this.refs.newEmail.value(), function(err, res){
+          Meteor.call('updateEmail', Emails, function(err, res){
             if(err) {
               console.log(err.reason)
               if(err.reason == "Email already exists.") {

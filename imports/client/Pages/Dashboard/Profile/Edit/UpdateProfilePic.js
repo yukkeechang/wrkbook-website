@@ -82,16 +82,25 @@ export default class UpdateProfilePic extends React.Component{
         <div className="row">
           <div className="file-field input-field col s8">
             <div className="btn">
-              <span>Upload Image</span>
+              <span>Upload</span>
               <input id="fileInput" onChange={this.onFileInputChange.bind(this)} type="file" accept="image/*"/>
             </div>
             <div className="file-path-wrapper">
               <input id='fileName' ref='fileName' className={"file-path  "+ this.state.validImage} type="text"/>
             </div>
           </div>
-          <div className="col s2" style={{margin:"17px"}}>
+          <div className="col s2 hide-on-med-and-up" style={{margin:"17px"}}>
             {this.state.picked ?
-              <a className="waves-effect green lighten-3 btn-flat" onClick={this.updateImage.bind(this)}>
+              <a className="btn-floating center-align" style={{color:'#1BAA6E'}} onClick={this.updateImage.bind(this)}>
+                <i className="material-icons">file_upload</i>
+              </a>
+              :
+              null
+            }
+          </div>
+          <div className="col s2 hide-on-small-only" style={{margin:"17px"}}>
+            {this.state.picked ?
+              <a className="waves-effect btn" onClick={this.updateImage.bind(this)}>
                 Update
               </a>
               :
