@@ -12,7 +12,7 @@ export default About = (props)=>{
         </h5>
       </div>
       <div className="row center-align">
-        <h6 className="flow-text" style={{overflowWrap:'break-word'}}>{props.aboutText}</h6>
+        <p className="flow-text" style={{overflowWrap:'break-word', fontSize:'14px'}}>{props.aboutText}</p>
       </div>
       {props.isPro&&
         <div>
