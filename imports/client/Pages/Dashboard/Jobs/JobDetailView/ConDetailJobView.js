@@ -137,9 +137,10 @@ class ConComponentPage extends React.Component{
                   </Link>
                 </div>
                 <div className="row center-align">
-                  <Link style={{padding:'0px'}} to={"/message/"+ this.state.job._id}>
+                  {/* Comment out untill messenger works 
+                    <Link style={{padding:'0px'}} to={"/message/"+ this.state.job._id}>
                     <a style={{padding:'0px',fontSize:'30px', color:'#03a9f4'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Open Messaging for this Job"><div style={{height:'40px',width:'40px'}} className="circle blue-grey  center-align  lighten-5"> <i style={{paddingRight:'5px',paddingTop:'10px'}} className="material-icons ">message</i></div></a>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               :
