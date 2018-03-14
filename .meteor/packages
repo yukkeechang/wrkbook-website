@@ -20,7 +20,7 @@ check@1.3.0
 aldeed:collection2@3.0.0
 alanning:roles
 static-html
-email@1.2.3
+email
 session@1.1.7
 matteodem:server-session
 percolate:synced-cron

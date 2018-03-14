@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import MTextField from '../Shared/MTextField';
+import {initGA, logPageView} from  '../Shared/GoogleAnalytics';
 export default class StepOne extends Component{
     constructor(props){
 
@@ -20,6 +21,8 @@ export default class StepOne extends Component{
       };
     }
     componentDidMount(){
+        initGA()
+        logPageView()
         let tooltip = ReactDOM.findDOMNode(this.refs.tool);
         $(tooltip).tooltip({delay: 50});
     }

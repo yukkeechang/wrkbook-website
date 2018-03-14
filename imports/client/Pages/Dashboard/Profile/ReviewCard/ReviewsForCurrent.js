@@ -6,11 +6,18 @@ import MSpinner from '../../../Shared/MSpinner';
 import ReviewCard from './ReviewComponents/ReviewCard';
 import Rating from 'react-rating';
 import References from '../../References/References';
+import {initGA, logPageView} from  '../../../Shared/GoogleAnalytics';
 
 class ReviewCompU extends React.Component{
   constructor(props){
     super(props);
   }
+
+  componentDidMount() {
+    initGA()
+    logPageView()
+  }
+
   render(){
 
     if(!this.props.ready){

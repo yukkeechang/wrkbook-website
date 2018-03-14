@@ -3,10 +3,20 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { withTracker } from 'meteor/react-meteor-data';
 import Contact from './ContactCardComponent';
+import ReactGA from 'react-ga';
+import {initGA, logPageView} from  '../../../Shared/GoogleAnalytics';
+
+
 export default class CurrentPage extends React.Component{
   constructor(props){
     super(props);
   }
+
+  componentDidMount() {
+    initGA()
+    logPageView()
+  }
+
   render(){
     // Roles.userIsInRole(this.props.user._id,"PRO")
     let tthings = true;
