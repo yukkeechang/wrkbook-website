@@ -47,7 +47,11 @@ Meteor.methods({
   deleteNotificationsForJob(jobId){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(jobId,String);
-    Notification.remove({jobId:jobId});
+    Notification.remove({jobId:jobId,typeNotifi:"APPLIED"});
+    Notification.remove({jobId:jobId,typeNotifi:"HIRED"});
+    Notification.remove({jobId:jobId,typeNotifi:"MATCH"});
+
+
   }
 
 });

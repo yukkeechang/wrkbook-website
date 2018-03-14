@@ -22,7 +22,6 @@ import Settings from './Dashboard/Settings/Settings';
 
 
 
-
 // For testing
 
 import CreateJobs from './Dashboard/Jobs/CreateJobs';
@@ -42,6 +41,11 @@ import CreateReviewForCon from './Dashboard/Reviews/CreateReviewForCon.js';
 
 
 //import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
+
+import MessageDummy from './Dashboard/Messages/DummyHome.js'
+
+import NotificationDummy from './Dashboard/Notifications/DummyHome.js'
+
 
 class Dash extends Component{
     constructor(props){
@@ -72,6 +76,9 @@ class Dash extends Component{
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob/:value" component={EditJobs}/>
                 <Route exact path="/job/:value" component={DetailView}/>
+                <Route exact path="/message/:value" component={MessageDummy}/>
+                <Route exact path="/messages" component={MessageDummy}/>
+                <Route exact path="/notifications" component={NotificationDummy}/>
                 <Route exact path="/applied" component={AppliedJobs} />
 
                 <Route exact path="/edit" component={Edit}/>
@@ -84,6 +91,8 @@ class Dash extends Component{
                 <Route path="/upcoming" component={Upcoming}/>
                 <Route path="/procompleted" component={ProCompleted}/>
                 <Route path="/concompleted" component={ConCompleted}/>
+
+
 
                 <Route path="/concompleted" component={ConCompleted}/>
                 <Route path="/empcompleted" component={ProCompleted}/>

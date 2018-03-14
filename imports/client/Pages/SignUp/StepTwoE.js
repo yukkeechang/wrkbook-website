@@ -95,6 +95,7 @@ export default class StepTwoE extends Component{
     }
     componentDidMount(){
         let title = ReactDOM.findDOMNode(this.refs.titles);
+        console.log(title);
         $(title).material_select();
         let langs = ReactDOM.findDOMNode(this.refs.langs);
         $(langs).material_select();
@@ -129,7 +130,8 @@ export default class StepTwoE extends Component{
                     <form className="col s12">
                         <div className="row">
                             <div className="input-field col s12">
-                                <select className={this.state.validJobTitles? '':"invalid"} multiple ref="titles" defaultValue={["0"]}>
+                                <select
+                                 size="2" className={this.state.validJobTitles? '':"invalid"} multiple ref="titles" defaultValue={["0"]}>
                                 <option value="0" disabled>Choose one or more</option>
                                 <option value="Painter">Painter</option>
                                 <option value="Demolititoner">Demolititoner</option>
@@ -142,21 +144,22 @@ export default class StepTwoE extends Component{
                                 <label>Job Titles *</label>
                             </div>
                             <div className="input-field col s12">
-                                <select className={this.state.validLang ? '':"invalid"} multiple ref="langs" defaultValue={["0"]}>
-                                <option value="0" disabled>Choose one or more</option>
-                                <option value="English">English</option>
-                                <option value="Spanish">Spanish</option>
-                                <option value="Chinese">Chinese</option>
-                                <option value="French">French</option>
-                                <option value="Tagalog">Tagalog</option>
-                                <option value="Vietnamese">Vietnamese</option>
-                                <option value="Arabic">Arabic</option>
-                                <option value="Korean">Korean</option>
-                                <option value="German">German</option>
-                                <option value="Russian">Russian</option>
-                                <option value="Portuguese">Portuguese</option>
-                                <option value="Italian">Italian</option>
-                                <option value="Polish">Polish</option>
+                                <select
+                                size="2" className={this.state.validLang ? '':"invalid"} multiple ref="langs" defaultValue={["0"]}>
+                                  <option value="0" disabled>Choose one or more</option>
+                                  <option value="English">English</option>
+                                  <option value="Spanish">Spanish</option>
+                                  <option value="Chinese">Chinese</option>
+                                  <option value="French">French</option>
+                                  <option value="Tagalog">Tagalog</option>
+                                  <option value="Vietnamese">Vietnamese</option>
+                                  <option value="Arabic">Arabic</option>
+                                  <option value="Korean">Korean</option>
+                                  <option value="German">German</option>
+                                  <option value="Russian">Russian</option>
+                                  <option value="Portuguese">Portuguese</option>
+                                  <option value="Italian">Italian</option>
+                                  <option value="Polish">Polish</option>
                                 </select>
                                 <label>Languages I Speak *</label>
                             </div>

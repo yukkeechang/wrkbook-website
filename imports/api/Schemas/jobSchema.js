@@ -18,17 +18,17 @@ export default JobSchema = new SimpleSchema({
     type: Array,
     defaultValue: [],
   },
-  'applyemployeeIds.$':{type:String},
+  'applyemployeeIds.$':String,
   admitemployeeIds:{
     type: Array,
     defaultValue: [],
   },
-  'admitemployeeIds.$':{type:String},
+  'admitemployeeIds.$':String,
   declineemployeeIds:{
     type: Array,
     defaultValue: [],
   },
-  'declineemployeeIds.$':{type:String},
+  'declineemployeeIds.$':String,
   applyAsIDs:{
     type:Array,
     defaultValue: [],
@@ -59,7 +59,7 @@ export default JobSchema = new SimpleSchema({
     type: Array,
     defaultValue: [],
   },
-  'eventInfo.$':{type:String},
+  'eventInfo.$':String,
   location:{
     type: LocationSchema,
     defaultValue:LocationSchema.clean({})

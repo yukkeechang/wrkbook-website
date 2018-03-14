@@ -1,0 +1,47 @@
+{
+  "name": "wrkbook-website",
+  "scripts": {
+  },
+  "env": {
+    "HEROKU_URL": {
+      "required": false
+    },
+    "MAIL_URL": {
+      "required": false
+    },
+    "METEOR_SETTINGS": {
+      "required": false
+    },
+    "MONGO_URL": {
+      "required": false
+    },
+    "MONGODB_URI": {
+      "required": false
+    },
+    "MONGOLAB_IVORY_URI": {
+      "required": false
+    },
+    "MONGOLAB_ROSE_URI": {
+      "required": false
+    },
+    "ROOT_URL": {
+      "required": false
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "mongolab"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/AdmitHub/meteor-buildpack-horse.git"
+    }
+  ]
+}

@@ -85,21 +85,16 @@ Meteor.methods({
     console.log("removing job email")
     for (let i = 0; i < totalPeople.length; i++){
       //send email out for everyone in the array
-      console.log("function email for removing job")
+      console.log("function email for removing job");
+      let person=  Meteor.users.findOne({_id:totalPeople[i]},{fields: { emails: 1} });
       Email.send({
-        to: totalPeople.emails[0].address,
+        to: person.emails[0].address,
         from: "info@wrkbook.com",
         subject: `You have been removed from a matched job at ${jobLocation}`,
         text: "The contractor who created this job that you were matched to has deleted the job post."
       });
     }
-    //TODO: get names of users for professional
-    Email.send({
-      to: conId.emails[0].address,
-      from: "info@wrkbook.com",
-      subject: `You have deleted a professional at  ${jobLocation}`
 
-    });
   },
 
 
@@ -108,7 +103,7 @@ Meteor.methods({
    let conUser = Meteor.users.findOne({_id:conId},{fields: { emails: 1} });
     var emailData = {
       location: `${jobLocation}`,
-      name: `${user.profile.firstName}`,
+      name: `${conUser.profile.firstName}`,
     };
 
     Email.send({

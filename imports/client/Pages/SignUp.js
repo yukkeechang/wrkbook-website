@@ -40,19 +40,23 @@ export default class SignUp extends Component{
                 break;
         }
         return(
-            <div>
+            <div style={{height:'100vmin'}}>
                 <Header/>
-                <div style={{height:'64px'}}></div>
-                <div className="container"style={{paddingTop:'50px'}}>
-                    <div className="progress">
-                        <div className="determinate red accent-2" style={{width: this.state.step*25+'%'}}></div>
+                <div style={{height:'100px'}}></div>
+                  <div className="wrapper">
+                    <div className="container">
+                        <div className="progress">
+                            <div className="determinate red accent-2" style={{width: this.state.step*25+'%'}}></div>
+                        </div>
                     </div>
-                </div>
-                {step}
 
-                <div>
-                  <Footer/>
+                  {step}
+                  <div className="push"></div>
                 </div>
+
+                <Footer/>
+
+
 
 
             </div>

@@ -7,7 +7,7 @@ import { Meteor } from 'meteor/meteor';
     constructor(props){
         super(props);
         let width = this.props.size;
-        let textsize = width * 0.75;
+        let textsize = width * 0.70;
         width = width.toString() +'px';
         textsize = textsize.toString() +'px';
         this.state={
@@ -22,7 +22,14 @@ import { Meteor } from 'meteor/meteor';
           <h1>loading</h1>
         )
 
-      }else{
+      }else if (!this.props.imageId) {
+        return(
+          <div className="circle valign-wrapper center-align" style={{display:'flex',flexDirection:'column',justifyContent:'center',width: this.state.width, height: this.state.width, backgroundColor:'#f5f5f5'}}>
+              <h1 style={{color:'#bdbdbd',paddingTop:'30px',fontSize:this.state.textSize}}>{this.props.letter.toUpperCase()}</h1>
+          </div>
+        )
+      }
+      else{
         return(
         <div>
                 <img className="circle" style={{width: this.state.width, height: this.state.width}} src={this.props.link} alt=""/>

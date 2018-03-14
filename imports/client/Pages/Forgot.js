@@ -37,33 +37,39 @@ export default class Forgot extends Component{
   }
   render(){
     return(
-        <div>
+        <div style={{height:'100vmin'}}>
           <Header/>
-          <div style={{height: '64px' }}></div>
-            <div style={{zIndex:'-1',}} className="container">
-              <div className="card">
-                <div className="row card-content">
-                  <form className="col s12">
-                    <br/>
-                    { !this.state.showEmail ?
-                      <div className="row">
-                        <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
-                      </div>
-                      :
-                      <h1> Check Your Email</h1>
-                    }
+          <div style={{height: '65px' }}></div>
+            <div className="wrapper">
+              <div style={{zIndex:'-1',}} className="container">
+                <div className="card">
+                  <div className="row card-content">
+                    <form className="col s12">
+                      <br/>
+                      { !this.state.showEmail ?
+                        <div className="row">
+                          <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
+                        </div>
+                        :
+                        <h1> Check Your Email</h1>
+                      }
 
-                    {
-                      !this.state.showEmail &&
-                    <a className="btn-flat teal lighten-4" onClick={this.resetPasswordEmail.bind(this)} style={{color: '#555',textTransform: 'none'}} type="submit">Reset Password Email</a>
-                    }
-                  </form>
+                      {
+                        !this.state.showEmail &&
+                      <a className="btn-flat teal lighten-4" onClick={this.resetPasswordEmail.bind(this)} style={{color: '#555',textTransform: 'none'}} type="submit">Reset Password Email</a>
+                      }
+                    </form>
+                  </div>
+
                 </div>
-
               </div>
+              <div className="push"></div>
             </div>
 
               <Footer/>
+        
+
+
 
         </div>
     );

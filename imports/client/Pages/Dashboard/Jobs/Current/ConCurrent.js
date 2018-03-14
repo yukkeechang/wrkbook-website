@@ -76,7 +76,6 @@ export default ConCurrent = withTracker(props => {
 
   return {
     handle:handle,
-    user: user,
     loading: loading,
     jobPost: jobPost
   };
