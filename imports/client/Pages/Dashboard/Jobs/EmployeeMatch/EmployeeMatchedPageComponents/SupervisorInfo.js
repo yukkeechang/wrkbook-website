@@ -11,7 +11,8 @@ export default SuperVisor= (props)=>{
               </div>
               <div style={{height:'100%'}}className="col l2 m2 s2">
                 <div className="valign-wrapper">
-                  {/*<Link style={{padding:'0px'}} to={"/message/"+ props.jobId}>
+                  {/*Comment out untill messenger works 
+                    <Link style={{padding:'0px'}} to={"/message/"+ props.jobId}>
                     <a style={{padding:'0px', color:'#03a9f4'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Open Messaging for this Job"><div style={{height:'50px',width:'50px'}} className="circle blue-grey  center-align  lighten-5"> <i style={{paddingRight:'5px',fontSize:'35px',paddingTop:'10px'}} className="material-icons ">message</i></div></a>
                   </Link>*/}
                 </div>
