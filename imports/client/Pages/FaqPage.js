@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
+import {initGA, logPageView} from  './Shared/GoogleAnalytics';
+
 export default class FaqPage  extends React.Component {
   constructor(props) {
     super(props)
@@ -11,6 +13,11 @@ export default class FaqPage  extends React.Component {
   }
   con=()=>{
       window.localStorage.isPro = false;
+  }
+
+  componentDidMount() {
+    initGA()
+    logPageView()
   }
   render(){
     return(

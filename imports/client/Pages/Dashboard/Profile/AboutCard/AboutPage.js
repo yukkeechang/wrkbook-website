@@ -3,9 +3,19 @@ import React from 'react';
 import { Roles } from 'meteor/alanning:roles';
 import { withTracker } from 'meteor/react-meteor-data';
 import About from './AboutCardComponent';
+import ReactGA from 'react-ga';
+import {initGA, logPageView} from  '../../../Shared/GoogleAnalytics';
+
+
+
 export default class AboutPage extends React.Component{
   constructor(props){
     super(props);
+  }
+  componentDidMount () {
+    initGA()
+    logPageView()
+
   }
   render(){
 
