@@ -5,7 +5,11 @@
     "start": "meteor --settings settings-development.json"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@babel/runtime": "^7.0.0-beta.40",
+=======
+    "@babel/runtime": "^7.0.0-beta.39",
+>>>>>>> c46ed5c7cf42ddb873f83727cb1b82cb4490dc67
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",

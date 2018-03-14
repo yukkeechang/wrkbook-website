@@ -57,7 +57,7 @@ class ReviewC extends Component{
                     <h6>${this.props.dayPay}/day</h6>
                   </div>
                   <div className= "row">
-                      <Link to={"/user/"+ this.props.proId}><a className="waves-effect waves-teal teal accent-1 btn-flat">View Profile</a></Link>
+                      <Link to={"/user/"+ this.props.proId}><a className="waves-effect waves-teal teal lighten-1 btn-flat">View Profile</a></Link>
                   </div>
 
                 </div>
