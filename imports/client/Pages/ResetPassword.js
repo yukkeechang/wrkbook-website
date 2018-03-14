@@ -49,31 +49,34 @@ export default class ResetPassword extends Component{
     let pequ = 'Passwords do not match';
     let empty = 'This cannot be empty';
     return(
-        <div>
+        <div style={{height:'100vmin'}}>
           <Header/>
           <div style={{height:'64px'}}></div>
-            <div style={{zIndex:'-1'}} className="container">
-              <div className="card">
-                <div className="row card-content">
-                  <form className="col s12">
+            <div className="wrapper">
+              <div style={{zIndex:'-1'}} className="container">
+                <div className="card">
+                  <div className="row card-content">
+                    <form className="col s12">
 
-                      <div className="row">
-                        <MTextField ref="pass1" id="pass1"   error={this.state.p1Empty? empty : (!this.state.pValid ? pass : '')} type="password" label="Enter Password *"/>
-                        <MTextField ref="pass2" id="pass2"     error={this.state.nEqual ? pequ: ''} type="password" label="Confirm Password *"/>
+                        <div className="row">
+                          <MTextField ref="pass1" id="pass1"   error={this.state.p1Empty? empty : (!this.state.pValid ? pass : '')} type="password" label="Enter Password *"/>
+                          <MTextField ref="pass2" id="pass2"     error={this.state.nEqual ? pequ: ''} type="password" label="Confirm Password *"/>
 
-                      </div>
+                        </div>
 
 
-                    <a className="btn-flat teal lighten-4" onClick={this.resetPassword.bind(this)} style={{color: '#555',textTransform: 'none'}} type="submit">Reset Password</a>
+                      <a className="btn-flat teal lighten-4" onClick={this.resetPassword.bind(this)} style={{color: '#555',textTransform: 'none'}} type="submit">Reset Password</a>
 
-                  </form>
+                    </form>
+                  </div>
+
                 </div>
-
               </div>
+              <div className="push"></div>
             </div>
-            <div>
-              <Footer/>
-            </div>
+            
+            <Footer/>
+
         </div>
     );
   }

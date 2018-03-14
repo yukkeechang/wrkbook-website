@@ -116,14 +116,27 @@ Meteor.methods({
   validateReview(reviewObject) {
     let  validations = ReviewSchema.namedContext('REVIEW');
 
+    let proCheck =ProReviewSchema.namedContext('procheck');
+    let conCheck = ConReviewSchema.namedContext('conCheck');
+
+
+
     let reviewerId = !validations.validate(reviewObject,{keys:['reviewerId']});
     let revieweeId = !validations.validate(reviewObject,{keys:['revieweeId']});
     let jobId = !validations.validate(reviewObject,{keys:['jobId']});
     let rating = !validations.validate(reviewObject,{keys:['rating']} );
 
     // let review = !validations.validateOne(reviewObject, 'review.text');
-    let conReview = !validations.validate(reviewObject,{keys:['conReview']} );
-    let proReview = !validations.validate(reviewObject,{keys:['proReview']} );
+    //
+
+    let conReview = false;
+    let proReview = false;
+    if(!!reviewObject.conReview){
+      conReview =  !conCheck.validate(reviewObject.conReview );
+    }
+    if(!!reviewObject.proReview){
+      proReview = !proCheck.validate(reviewObject.proReview );
+    }
     let Errors = {
       reviewerId: reviewerId,
       revieweeId: revieweeId,
@@ -141,7 +154,7 @@ Meteor.methods({
          proReview || conReview)
         throw new Meteor.Error('403',Errors);
     }else{
-      let review = !validations.validate(reviewObject, {keys:['review.text']});
+      let review = !validations.validate(reviewObject, {keys:['review']});
       Errors.review = review;
       if( revieweeId ||reviewerId || jobId|| rating  ||review||
          proReview || conReview)

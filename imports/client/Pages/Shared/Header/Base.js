@@ -17,7 +17,7 @@ let styles = {
     links:{
         color: 'white',
         fontSize:'18px',
-        top: '17px',
+        top: '22px',
         textAlign:'left',
         position: 'relative'
     },

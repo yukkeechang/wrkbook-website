@@ -72,7 +72,8 @@ export default class EmpJobPostComponent extends React.Component{
 
 
   render(){
-    let isApplied = this.props.jobinfo.applyemployeeIds.includes(this.props.userId)|| this.props.jobinfo.admitemployeeIds.includes(this.props.userId);
+    let isAdmitted = this.props.jobinfo.admitemployeeIds.includes(this.props.userId);
+    let isApplied = this.props.jobinfo.applyemployeeIds.includes(this.props.userId)|| isAdmitted;
     let isDecline = this.props.jobinfo.declineemployeeIds.includes(this.props.userId);
     console.log(isApplied);
     let addArr = this.props.location.split(",");
@@ -86,6 +87,7 @@ export default class EmpJobPostComponent extends React.Component{
             <div className="col l12 m12 s12">
 
               <SuperVisor jobTitle={this.props.jobinfo.jobTitle.text}
+                        jobId= {this.props.jobinfo._id}
                         isAdmitted={this.props.jobinfo.admitemployeeIds.includes(Meteor.userId())}
                         supervisorName={this.props.jobinfo.supervisor.name}
                         supervisorPhone={this.props.jobinfo.supervisor.phone}/>

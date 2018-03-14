@@ -1,4 +1,4 @@
 node_modules/
 bower-components/
 npm-debug.*
-client/general.css
+settings-development.json

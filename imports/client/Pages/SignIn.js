@@ -46,34 +46,38 @@ export default class SignIn extends Component{
 
   render(){
     return(
-      <div style={{height:'100vmin'}}>
+      <div style={{  height: '100vmin'}}>
 
         <Header/>
 
         <div style={{height:'70px'}}></div>
-          <div style={{zIndex:'-1'}}  className="container">
-            <div className="card">
-              <div className="row card-content">
-              <form className="col s12">
-                <div className="row">
-                  <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
-                  <MTextField ref="p1" id="pass1"     error={this.state.pValid} type="password" label="Password *"/>
+          <div className="wrapper">
+            <div style={{zIndex:'-1'}}  className="container">
+              <div className="card">
+                <div className="row card-content">
+                <form className="col s12">
+                  <div className="row">
+                    <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
+                    <MTextField ref="p1" id="pass1"     error={this.state.pValid} type="password" label="Password *"/>
+                  </div>
+                  <button id="but" ref="butt" className="btn-flat teal lighten-4" onClick={this.login.bind(this)} style={{color: '#555',textTransform: 'none'}}>Log In</button>
+                  <br/>
+                  <br/>
+                  <Link to="/register">Don't have an account? Click here to register</Link>
+                  <br/>
+                  <br/>
+                  <Link to="/forgot">Forget your password?</Link>
+                </form>
                 </div>
-                <button id="but" ref="butt" className="btn-flat teal lighten-4" onClick={this.login.bind(this)} style={{color: '#555',textTransform: 'none'}}>Log In</button>
-                <br/>
-                <br/>
-                <Link to="/register">Don't have an account? Click here to register</Link>
-                <br/>
-                <br/>
-                <Link to="/forgot">Forget your password?</Link>
-              </form>
-              </div>
 
+              </div>
             </div>
+            <div className="push"></div>
           </div>
-          <div >
+
             <Footer/>
-          </div>
+
+
       </div>
 
     )
