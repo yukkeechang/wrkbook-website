@@ -101,18 +101,25 @@ Meteor.methods({
     if the fields are incorrect an Error object will be thrown.
     */
     validateEmployee(employee){
-      const validationz = EmployeeSchema.namedContext('Employees');
+      let validationz = EmployeeSchema.namedContext('Employees');
+      let locationValidation = LocationSchema.namedContext('Location');
+      let educationValidation = EducationSchema.namedContext('edu');
+      let oshaValidation = OshaSchema.namedContext('osha');
+      let socialValidation = SocialSchema.namedContext('social');
       const employ = employee;
       let jobs = validationz.validate(employ,{keys:['jobTitle']});
-      let edu =  validationz.validate(employ,{keys:['education']});
+      let edu =  educationValidation.validate(employ.education,{keys:['highGED','tradeSchool','higherEdu']});
       let languages = validationz.validate(employ,{keys:['languages']});
-      let osha =  validationz.validate(employ,{keys:['osha']});
-      let location = validationz.validate(employ,{keys:['location']});
+      let osha =  oshaValidation.validate(employ.osha,{keys:['osha10','osha30']});
+      let locationName = locationValidation.validate(employ.location,{keys:['locationName']});
+      let locLat = locationValidation.validate(employ.location,{keys:['latitude']});
+      let locLng = locationValidation.validate(employ.location,{keys:['longitude']});
       let car = validationz.validate(employ,{keys:['hasCar']});
       let driver = validationz.validate(employ,{keys:['driverLicense']});
       let tools = validationz.validate(employ,{keys:['bringTools']});
       let distance = validationz.validate(employ,{keys:['maxDistance']});
-      let socialThings = validationz.validate(employ,{keys:['socialPref.taxID','socialPref.social']});
+      let socialThings = socialValidation.validate(employ.socialPref,{keys:['taxID','social']});
+      let location = locationName&&locLat&&locLng;
       let Errors ={
         validJobTitles: jobs,
         validEdu: edu,
@@ -140,9 +147,14 @@ Meteor.methods({
     */
     validateEmployer(employer){
       const validation = EmployerSchema.namedContext('Employeer');
-      let company = validation.validate(employer,{keys:['companyName']});
-      let about = validation.validate(employer,{keys:['about']});
-      let location = validation.validate(employer,{keys:['location']});
+      let basicValidation = BasicText.namedContext('basic');
+      let locationValidation = LocationSchema.namedContext('Location');
+
+      let company = basicValidation.validate(employer.companyName,{keys:['text']});
+      let locationName = locationValidation.validate(employer.location,{keys:['locationName']});
+      let locLat = locationValidation.validate(employer.location,{keys:['latitude']});
+      let locLng = locationValidation.validate(employer.location,{keys:['longitude']});
+      let location = locationName&&locLat&&locLng;
       let web = true;
       let licenseNumber = true;
       if(!('undefined' === typeof(employer.webPage))){
@@ -385,23 +397,6 @@ Meteor.methods({
           Meteor.users.update({_id: this.userId},{$set: prevUser});
     },
     /**
-      Remove a user from the database given an Id for the user.
-      This is an administrative function if any whose not an admin tries to use
-      it an error will be thrown.
-      @param {String} userId is the Id of the user
-      @throws {Meteor.Error} If the person calling the function is not an admin
-      or signed in.
-    */
-    deleteUser(userId){
-      if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-      if(Roles.userIsInRole(this.userId,'admin')){
-        Meteor.users.remove({_id: userId});
-      }else{
-        throw new Meteor.Error('401',NOTAUTH);
-      }
-
-    },
-    /**
       Assigns a imageId to the user calling the function.
       @deprecated Not Really Used and all Images function will move into Images.API
       @param {String} imageId is the is id of the Image store in the database
@@ -455,9 +450,9 @@ Meteor.methods({
     },
 
     /**
-     * Udates the email of the currently logged in user. The user must pass to
-     * email addresses( one is for conformation) of the emails match and
-     * are valid email strings the email for the user will be updated and a new
+     * Updates the email of the currently logged in user. The user must pass to
+     * email addresses (one is for confirmation). The emails must match and
+     * are valid email strings the email.The user email address will be updated and a new
      * Verification email will be sent.
      * @param  {Object} Emails the object that contains two email addresses
      * @throw {Meteor.Error} if the emails dont match or if the fields are empty.
