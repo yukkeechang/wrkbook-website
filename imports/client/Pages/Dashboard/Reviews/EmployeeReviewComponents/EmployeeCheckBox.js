@@ -51,7 +51,7 @@ export default class EmployeeCheckBoxs extends Component{
           </div>
 
           <div className="col s12 m4 ">
-            <input type="checkbox" className="filled-in" id="recommend" value={this.state.recommend} onChange={this.handleRecommend.bind(this)}/>
+            <input type="checkbox" className="filled-in" id="recommend" value={this.state.wouldRecommend} onChange={this.handleRecommend.bind(this)}/>
             <label htmlFor="recommend">Recommended</label>
           </div>
 

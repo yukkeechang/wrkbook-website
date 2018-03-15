@@ -278,12 +278,12 @@ export default class EditJob extends Component {
             <MTextField ref="at" id="additionalText" value={this.props.jobPost.additionText} label="Additional Information"/>
           </div>
           <div className="row">
-            <Link to={"/job/"+this.props.jobPost._id}><div className="col m6 s12 center-align">
-              <a className="waves-effect red lighten-1 waves-red btn">Cancel</a>
-            </div></Link>
             <div className="col m6 s12 center-align">
-              <a className="waves-effect waves-teal btn" onClick={this.handleUpdate.bind(this)}>Update job</a>
+              <a style={{margin:'3px'}} className="waves-effect waves-teal btn" onClick={this.handleUpdate.bind(this)}>Update job</a>
             </div>
+            <Link to={"/job/"+this.props.jobPost._id}><div className="col m6 s12 center-align">
+              <a style={{margin:'3px'}} className="waves-effect red lighten-1 waves-red btn">Cancel</a>
+            </div></Link>
           </div>
           <div id="updateModal" className="modal">
             <div className="modal-content">
