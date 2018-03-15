@@ -317,7 +317,8 @@ export default class ProfessionalEdit extends Component{
             </div>
             <div className="row">
               <div className="input-field col l12 m12 s12">
-                <MTextField ref="ua" id="userAbout" value={employeeData.about.text} label="About yourself"/>
+                <textarea ref="ua" id="userAbout" className="materialize-textarea" value={employeeData.about.text}></textarea>
+                <label htmlFor="userAbout">About Yourself</label>
               </div>
             </div>
             <div style={{display:'flex', justifyContent:'center'}}>
