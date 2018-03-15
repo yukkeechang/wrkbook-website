@@ -57,7 +57,7 @@ class Subscription extends Component {
                                 this.props.user ?
                                   <button className="btn waves-effect waves-light red lighten-1 lowercase">Cancel Membership</button>
                                   :
-                                  <button className="btn waves-effect waves-light green lighten-1 lowercase">Resume Membership</button>
+                                  <button className="btn waves-effect waves-light teal teal lighten-1-1 lowercase">Resume Membership</button>
                               }
 
                         </div>
