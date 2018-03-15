@@ -220,12 +220,14 @@ export class NavBarPage extends Component{
                         {jobDropDownLinksSideNav}
                     </ul>
                 </li>
+                {/*
                 <li>
                     <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
                 </li>
                 <li>
                     <Link onClick={this.sideClick.bind(this)} to = "/notifications">Notifications</Link>
                 </li>
+                */}
 
             </ul>
             </div>
