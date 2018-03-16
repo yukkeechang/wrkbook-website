@@ -13,7 +13,7 @@ export default class NotificationCard extends React.Component {
 
   }
   render(){
-      
+
       return(
           <div style={{width:'450px'}}>
           <div  style={{margin:'0px'}} className="row">

@@ -13,6 +13,9 @@ class Notis extends Component{
       //
       // }
     }
+    componentWillUnmount(){
+      this.prop.handle.stop();
+    }
     render(){
       let onlyThree = this.props.notifications.slice(0,3);
         return(
@@ -20,8 +23,9 @@ class Notis extends Component{
               {
                 !this.props.ready ? <div className="row"><div className="col s4 offset-s4"style={{textAlign: 'center'}}><MSpinner /></div></div> :
 
-                  <ul className="collection">
-                    {onlyThree.map((notification,index)=>{
+                  <ul style={{marginTop:'0px',marginBottom:'0px'}} className="collection">
+                    {onlyThree.length >0 ?
+                      onlyThree.map((notification,index)=>{
 
                     return(
 
@@ -32,7 +36,13 @@ class Notis extends Component{
                       </li>
 
                     )
-                    })}
+                    })
+                    :
+
+                    null
+
+
+                  }
                   </ul>
 
               }
@@ -46,6 +56,7 @@ export default NavBarNotfications = withTracker(({params})  => {
     console.log(params);
     return {
         ready: ready,
+        handle:handle,
         notifications: Notification.find({}).fetch()
     };
 })(Notis);

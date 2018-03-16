@@ -15,7 +15,7 @@ export default class Home extends React.Component {
 
       return(
 
-          <Things/>
+          <h1> WORK IN PROGRESS</h1>
       )
   }
 
