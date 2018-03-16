@@ -100,7 +100,7 @@ Meteor.methods({
 
   removeJobCon(conId, jobLocation) {
    SSR.compileTemplate('htmlEmail', Assets.getText('EmailTemplates/RemoveJobCon.html'));
-   let conUser = Meteor.users.findOne({_id:conId},{fields: { emails: 1} });
+   let conUser = Meteor.users.findOne({_id:conId});
     var emailData = {
       location: `${jobLocation}`,
       name: `${conUser.profile.firstName}`,

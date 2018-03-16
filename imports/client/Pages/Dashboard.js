@@ -16,6 +16,7 @@ import Completed from './Dashboard/Jobs/Completed/Completed';
 import Upcoming from './Dashboard/Jobs/Upcoming/Upcoming';
 import Current from './Dashboard/Jobs/Current/Current';
 import DetailView from './Dashboard/Jobs/DetailJobView';
+import DeletedView from './Dashboard/Jobs/DeletedJob';
 
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';
@@ -76,6 +77,7 @@ class Dash extends Component{
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/editjob/:value" component={EditJobs}/>
                 <Route exact path="/job/:value" component={DetailView}/>
+                <Route exact path="/deleted-job/:value" component={DeletedView}/>
                 <Route exact path="/message/:value" component={MessageDummy}/>
                 <Route exact path="/messages" component={MessageDummy}/>
                 <Route exact path="/notifications" component={NotificationDummy}/>

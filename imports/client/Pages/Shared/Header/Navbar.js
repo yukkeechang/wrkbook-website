@@ -219,9 +219,10 @@ export class NavBarPage extends Component{
               <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
             </ul>
 
-            <ul id='notification' className='dropdown-content'>
-              <NavBarNotfications/>
-            </ul>
+              <ul id='notification' className='dropdown-content'>
+                <NavBarNotfications/>
+              </ul>
+
 
             <div>{jobDropDownLinks}</div>
 
@@ -270,10 +271,11 @@ export class NavBarPage extends Component{
 export default NavBar = withTracker( params => {
   let handle = Meteor.subscribe('notifications-for-user');
   let ready = handle.ready();
-  let general = Notification.find({}).count();
+  let general = Notification.find({seen:false}).count();
   let match = Notification.find({typeNotifi:'MATCH'}).count();
   let appliedEmployer = Notification.find({typeNotifi:'APPLIED'}).count();
   let employeeHired = Notification.find({typeNotifi:'HIRED'}).count();
+  console.log(params);
     return {
         ready: ready,
         notifications: Notification.find({}).fetch(),

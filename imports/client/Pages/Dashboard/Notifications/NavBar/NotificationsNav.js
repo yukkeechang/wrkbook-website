@@ -3,9 +3,15 @@ import { Meteor } from 'meteor/meteor';
 import NotificationCard from './Components/NotificationCard';
 import MSpinner from '../../../Shared/MSpinner';
 import { withTracker } from 'meteor/react-meteor-data';
+import { Link } from 'react-router-dom';
 class Notis extends Component{
     lol(e){
       console.log(e);
+      // if(notification.typeNotifi == "REMOVE"){
+      //
+      // }else{
+      //
+      // }
     }
     render(){
       let onlyThree = this.props.notifications.slice(0,3);
@@ -18,8 +24,11 @@ class Notis extends Component{
                     {onlyThree.map((notification,index)=>{
 
                     return(
-                       <li  onClick={this.lol.bind(this,notification._id)} key={notification._id} className="collection-item">
-                          <NotificationCard notification={notification}/>
+
+                       <li key={notification._id} className="collection-item">
+                          <Link onClick={this.lol.bind(this,notification)} to={notification.href}>
+                           <NotificationCard notification={notification}/>
+                         </Link>
                       </li>
 
                     )
@@ -31,9 +40,10 @@ class Notis extends Component{
         )
     }
 }
-export default NavBarNotfications = withTracker(params  => {
+export default NavBarNotfications = withTracker(({params})  => {
     let handle = Meteor.subscribe('notifications-for-user');
     let ready = handle.ready();
+    console.log(params);
     return {
         ready: ready,
         notifications: Notification.find({}).fetch()
