@@ -25,7 +25,7 @@ import { Meteor } from 'meteor/meteor';
       }else if (!this.props.imageId) {
         return(
           <div className="circle valign-wrapper center-align" style={{display:'flex',flexDirection:'column',justifyContent:'center',width: this.state.width, height: this.state.width, backgroundColor:'#f5f5f5'}}>
-              <h1 style={{color:'#bdbdbd',paddingTop:'30px',fontSize:this.state.textSize}}>{this.props.letter.toUpperCase()}</h1>
+              <h1 style={{color:'#bdbdbd',fontSize:this.state.textSize}}>{this.props.letter.toUpperCase()}</h1>
           </div>
         )
       }

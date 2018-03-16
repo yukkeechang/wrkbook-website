@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-
+import Things from './NavBar/NotificationsNav'
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ export default class Home extends React.Component {
 
       return(
 
-          <h2>LOL STILL NOT DONe</h2>
+          <Things/>
       )
   }
 

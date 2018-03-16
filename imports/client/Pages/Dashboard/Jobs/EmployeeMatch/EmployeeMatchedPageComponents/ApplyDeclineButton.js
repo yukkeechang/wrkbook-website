@@ -67,7 +67,7 @@ export default class ApplyDeclineButton extends React.Component{
     return(
   <div className="col s12">
     <div className="row">
-          <a id="applydButton" className={this.props.isDecline|| this.props.isApplied ? "waves-effect teal teal lighten-1-3 btn-flat disabled" :"waves-effect teal teal lighten-1-3 btn-flat"}  onClick={this.openApplyModal}>
+          <a id="applydButton" className={this.props.isDecline|| this.props.isApplied ? "waves-effect teal lighten-3 btn-flat disabled" :"waves-effect teal lighten-3 btn-flat"}  onClick={this.openApplyModal}>
             {this.props.isApplied ? 'Applied': 'Apply'}
           </a>
           <a id="disabledButton" className={this.props.isDecline ? "waves-effect red lighten-3 btn-flat disabled": "waves-effect red lighten-3 btn-flat "} onClick={this.openDeclineModal}>
@@ -94,7 +94,7 @@ export default class ApplyDeclineButton extends React.Component{
               </div>
 
               <div className="modal-footer">
-                <button className="waves-effect waves-green teal teal lighten-1-3 btn-flat" onClick={this.handleApply}>
+                <button className="waves-effect waves-green teal lighten-3 btn-flat" onClick={this.handleApply}>
                   Confirm apply.
                 </button>
               </div>
