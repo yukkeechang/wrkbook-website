@@ -110,3 +110,15 @@ Table of Contents End
 .no-margin {
   margin-bottom: 0px;
 }
+
+#no-margin{
+  margin-bottom: 0px;
+}
+
+#dark-gray{
+  color: "#4A4A4A"
+}
+
+#cap {
+  text-transform: capitalize;
+}

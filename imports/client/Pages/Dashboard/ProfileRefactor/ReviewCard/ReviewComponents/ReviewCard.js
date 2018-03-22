@@ -14,14 +14,14 @@ constructor(props) {
   super(props);
   }
 
-  
 
 render() {
   //console.log(this.props);
     return(
-      <div className="card-panel">
+      <div>
+        <div className="divider"></div>
         {this.props.ready?
-        <div className="row">
+        <div className="row" style={{paddingTop: '18px'}}>
           <div className="col center-align s12 m4">
             {Roles.userIsInRole(this.props.review.reviewerId,"PRO") ?
 
@@ -44,7 +44,7 @@ render() {
             </div>
 
             <div className="row">
-              <h6 className="flow-text" style={{overflowWrap:'break-word'}}>{this.props.review.review}</h6>
+              <h6 style={{overflowWrap:'break-word'}}>{this.props.review.review}</h6>
               <Rating
                 initialRate={this.props.review.rating}
                 readonly={true}
@@ -60,6 +60,7 @@ render() {
         <MSpinner/>
 
       }
+      <div className="divider"></div>
       </div>
     )
   }

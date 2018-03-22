@@ -26,10 +26,10 @@ export default class InfoCard extends React.Component{
         <div className="row" style={{marginBottom: '5px'}}>
           <div className="center-align">
             <div  className="col s12 ">
-              <h5 style={{textTransform: "capitalize" }}>{this.props.name}</h5>
+              <h5 style={{textTransform: "capitalize"}}>{this.props.name}</h5>
             </div>
           </div>
-          <div  className="col s12 center-align" style={{marginBottom: 'none'}}>
+          <div  className="col s12 center-align" id="no-margin">
           {this.props.subTopic.constructor === Array ?
             <h7>{this.props.subTopic
               .map(i => <span key={i}>{i}</span>)
@@ -40,7 +40,7 @@ export default class InfoCard extends React.Component{
           }
           </div>
         </div>
-        <div className="row"  style={{marginBottom: '0px'}}>
+        <div className="row" id="no-margin">
             <div className="col s12 center-align">
                  {this.props.isUser ?
 
@@ -56,7 +56,7 @@ export default class InfoCard extends React.Component{
         </div>
         <div className="row" style={{marginBottom: '10px'}}>
           <div  className="col s12 center-align">
-            <h6>{parsedAddress}</h6>
+            <h6 style={{color: '#686868'}}>{parsedAddress}</h6>
           </div>
         </div>
         <div className="divider" style={{marginBottom: '10px'}}> </div>
