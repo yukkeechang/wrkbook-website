@@ -19,6 +19,7 @@ import DetailView from './Dashboard/Jobs/DetailJobView';
 
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';
+import analytics from './analytics';
 
 
 
