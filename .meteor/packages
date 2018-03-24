@@ -27,3 +27,4 @@ percolate:synced-cron
 
 ecmascript@0.10.0
 meteorhacks:ssr
+meteortesting:mocha

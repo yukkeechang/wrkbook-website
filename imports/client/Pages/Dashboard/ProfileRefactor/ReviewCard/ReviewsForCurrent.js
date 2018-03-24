@@ -30,8 +30,8 @@ class ReviewCompU extends React.Component{
         <div >
           <div className="card-panel">
 
-            <div className="right-align row">
-            <div className="center-align s12">
+            <div className="right-align row" style={{marginBottom: '0px'}}>
+            <div className="center-align s12" style={{marginBottom: '0px'}}>
                   <Rating
                     initialRate={this.props.reviewAverage}
                     readonly={true}
@@ -42,9 +42,10 @@ class ReviewCompU extends React.Component{
               </div>
             </div>
             <div className="row center-align">
-              <h5>
+              <h5 style={{margin: '0px'}}>
                   Reviews
               </h5>
+              <div className="divider" style={{marginTop: '7px'}}></div>
             </div>
             {this.props.reviews.map((reviews,index)=>{
               return(

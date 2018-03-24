@@ -31,10 +31,10 @@ export default class Hero extends Component {
                         transitionLeaveTimeout={0}>
                         <div className="row" style={{position: 'relative'}}>
                             <div className="col s12 m6 l4">
-                                <Button onClick={this.con} to="/register">Sign up as a contractor</Button>
+                                <Button onClick={this.con} to="/register">Find Workers</Button>
                             </div>
                             <div className="col s12 m6 l4">
-                                <Button onClick={this.pro} to="/register">Sign up as a professional</Button>
+                                <Button onClick={this.pro} to="/register">Find Work</Button>
                             </div>
                         </div>
                     </CSSTransitionGroup>
