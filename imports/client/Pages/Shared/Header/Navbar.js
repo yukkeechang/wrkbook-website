@@ -140,11 +140,10 @@ export class NavBarPage extends Component{
 
       let jobDropDownLinksSideNav = this.state.isPro ?
         <li>
-        <div  className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs {this.state.switchNav  ?
+        <div  className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs{this.state.switchNav  ?
         <i className="large material-icons">arrow_drop_up</i> :
         <i className="large material-icons">arrow_drop_down</i>
-      }{this.props.general > 0 ?
-        <span className="new badge">{this.props.general}</span> : null}</div>
+      }</div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobmatches'>Job Matches</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/applied'>Applied Jobs</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
@@ -199,7 +198,7 @@ export class NavBarPage extends Component{
             }
             <div ref="dropdownnotes" data-activates='notification' style={styles.links} className="col m3 hide-on-small-only genText">
               <div className="valign-wrapper">
-                <Link style={{color:'white'}} to="/">Notifications{this.props.general > 0 ?
+                <Link style={{color:'white'}} to="/notifications">Notifications{this.props.general > 0 ?
                     <span className="new badge">{this.props.general}</span> : null}
                 </Link>
               </div>
@@ -247,7 +246,7 @@ export class NavBarPage extends Component{
                     </ul>
                 </li>
                 <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/">Notifications{this.props.general > 0 ?
+                    <Link onClick={this.sideClick.bind(this)} to = "/notifications">Notifications{this.props.general > 0 ?
                         <span className="new badge">{this.props.general}</span> : null}</Link>
                 </li>
                 {

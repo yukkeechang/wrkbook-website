@@ -1,5 +1,4 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
 import Avatar from '../../../../Shared/Avatar'
 
 export default class NotificationCard extends React.Component {

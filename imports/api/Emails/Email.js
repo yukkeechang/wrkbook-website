@@ -73,7 +73,7 @@ Meteor.methods({
 
     Email.send({
       to: userMyGuy.emails[0].address,
-      from: "info@wrkbook.com",
+      from: "WRKBOOK <info@wrkbook.com>",
       subject: "Your Password Has Been Changed",
       //***---Use text if you don't want to use an HTML file
       //text: "Your password has been changed. If you didn't do this, please disregard this email.",
@@ -89,7 +89,7 @@ Meteor.methods({
       let person=  Meteor.users.findOne({_id:totalPeople[i]},{fields: { emails: 1} });
       Email.send({
         to: person.emails[0].address,
-        from: "info@wrkbook.com",
+        from: "WRKBOOK <info@wrkbook.com>",
         subject: `You have been removed from a matched job at ${jobLocation}`,
         text: "The contractor who created this job that you were matched to has deleted the job post."
       });
@@ -108,7 +108,7 @@ Meteor.methods({
 
     Email.send({
       to: conUser.emails[0].address,
-      from: "info@wrkbook.com",
+      from: "WRKBOOK <info@wrkbook.com>",
       subject: `You have deleted a job at  ${jobLocation}`,
       html: SSR.render('htmlEmail', emailData)
     });

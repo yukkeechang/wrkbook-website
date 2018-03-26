@@ -24,14 +24,14 @@ import { Meteor } from 'meteor/meteor';
 
       }else if (!this.props.imageId) {
         return(
-          <div className="circle valign-wrapper center-align" style={{display:'flex',flexDirection:'column',justifyContent:'center',width: this.state.width, height: this.state.width, backgroundColor:'#f5f5f5'}}>
+          <div className="circle center-align" style={{display:'flex',flexDirection:'column',justifyContent:'center',width: this.state.width, height: this.state.width, backgroundColor:'#f5f5f5',margin:'0px'}}>
               <h1 style={{color:'#bdbdbd',fontSize:this.state.textSize}}>{this.props.letter.toUpperCase()}</h1>
           </div>
         )
       }
       else{
         return(
-        <div>
+        <div style={{width:'100%',height:'100%',margin:'0px'}}>
                 <img className="circle" style={{width: this.state.width, height: this.state.width}} src={this.props.link} alt=""/>
         </div>
         );

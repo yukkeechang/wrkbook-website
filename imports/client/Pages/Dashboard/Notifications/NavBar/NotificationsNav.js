@@ -14,7 +14,7 @@ class Notis extends Component{
       // }
     }
     componentWillUnmount(){
-      this.prop.handle.stop();
+      //this.prop.handle.stop();
     }
     render(){
       let onlyThree = this.props.notifications.slice(0,3);
@@ -57,6 +57,6 @@ export default NavBarNotfications = withTracker(({params})  => {
     return {
         ready: ready,
         handle:handle,
-        notifications: Notification.find({}).fetch()
+        notifications: Notification.find({seen:false}).fetch()
     };
 })(Notis);
