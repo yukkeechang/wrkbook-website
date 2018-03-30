@@ -6,7 +6,7 @@ import {ServerSession } from 'meteor/matteodem:server-session';
 Meteor.startup(()=>{
 
 
-  
+
   if (process.env.METEOR_SETTINGS) {
     try {
       Meteor.settings = JSON.parse(process.env.METEOR_SETTINGS);
