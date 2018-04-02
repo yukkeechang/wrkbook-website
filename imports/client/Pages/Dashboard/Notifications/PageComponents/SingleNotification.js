@@ -1,5 +1,6 @@
 import React from 'react';
 import Avatar from '../../../Shared/Avatar';
+import { Link } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 
 class NotificationCard extends React.Component {
@@ -76,7 +77,9 @@ class NotificationCard extends React.Component {
 
                       </div>
                       <div style={{height:'100px'}}className="col m4 s6 valign-wrapper">
-                        <a style={{width:'100%',borderRadius:'20px', backgroundColor:'#7ED0B0',color:'white'}} className="btn-flat center-align">Apply Now</a>
+                        <Link to={this.props.notification.href}>
+                          <a style={{width:'100%',borderRadius:'20px', backgroundColor:'#7ED0B0',color:'white'}} className="btn-flat center-align">Apply Now</a>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -92,13 +95,19 @@ class NotificationCard extends React.Component {
                   <div className="col m4 s6 valign-wrapper">
                   {
                     (this.props.notification.typeNotifi == "APPLIED" ?
-                        <a style={{width:'100%',borderRadius:'20px', backgroundColor:'#93BDED',color:'white'}} className="btn-flat center-align">View Job</a>
+                        <Link to={this.props.notification.href}>
+                          <a style={{width:'100%',borderRadius:'20px', backgroundColor:'#93BDED',color:'white'}} className="btn-flat center-align">View Job</a>
+                        </Link>
                         :
                         (this.props.notification.typeNotifi == "HIRED" ?
-                          <a style={{width:'100%',borderRadius:'20px', backgroundColor:'#9ccc65',color:'white'}} className="btn-flat center-align">Apply Now</a>
+                          <Link to={this.props.notification.href}>
+                            <a style={{width:'100%',borderRadius:'20px', backgroundColor:'#9ccc65',color:'white'}} className="btn-flat center-align">Apply Now</a>
+                          </Link>
                           :
                           (this.props.notification.typeNotifi == "REMOVE" ?
-                            <a style={{width:'100%',borderRadius:'20px', backgroundColor:'#FF919F',color:'white'}} className="btn-flat center-align">View Now</a>
+                            <Link to={this.props.notification.href}>
+                              <a style={{width:'100%',borderRadius:'20px', backgroundColor:'#FF919F',color:'white'}} className="btn-flat center-align">View Now</a>
+                            </Link>
                             :
                             null
                           )
@@ -130,10 +139,10 @@ export default SingleNotification = withTracker(params =>{
   let handle = Meteor.subscribe('one-job',params.notification.jobId);
   let ready = handle.ready();
   console.log(params);
-  console.log(Job.find({}).fetch()[0]);
+  // console.log(Job.find({}).fetch()[0]);
   return{
     ready: ready,
-    job: Job.find({}).fetch()[0]
+    job: Job.find({_id:params.notification.jobId}).fetch()[0]
   }
 
 })(NotificationCard)
