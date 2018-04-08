@@ -13,6 +13,9 @@ class NotificationCard extends React.Component {
     // console.log(this.props);
     console.log(this.props);
   }
+  componentWillUnmount(){
+    this.props.handle.stop();
+  }
   render(){
 
       let green = '#7ED0B0'
@@ -142,6 +145,7 @@ export default SingleNotification = withTracker(params =>{
   // console.log(Job.find({}).fetch()[0]);
   return{
     ready: ready,
+    handle:handle,
     job: Job.find({_id:params.notification.jobId}).fetch()[0]
   }
 
