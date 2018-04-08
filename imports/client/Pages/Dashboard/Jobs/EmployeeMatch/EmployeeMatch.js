@@ -4,6 +4,7 @@ import ApplyDeclineButton from './EmployeeMatchedPageComponents/ApplyDeclineButt
 import Requirements from './EmployeeMatchedPageComponents/JobRequirments';
 import SuperVisor from  './EmployeeMatchedPageComponents/SupervisorInfo';
 import { withTracker } from 'meteor/react-meteor-data';
+import JobLocation from './EmployeeMatchedPageComponents/JobLocation';
 
 class EmpJobPost extends React.Component{
   componentDidMount(){
@@ -39,22 +40,6 @@ class EmpJobPost extends React.Component{
       }
     });
 
-    let geoThings ={lat:this.props.jobinfo.location.latitude,lng:this.props.jobinfo.location.longitude};
-    let mapGoogle = new google.maps.Map(document.getElementById('map'),{
-      zoom: 12,
-      center:geoThings,
-    });
-
-    let cityCircle = new google.maps.Circle({
-      strokeColor: '#80cbc4',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#80cbc4',
-      fillOpacity: 0.35,
-      map: mapGoogle,
-      center: geoThings,
-      radius: 2500
-});
 
   }
   degreesToRadians(degrees) {
@@ -201,14 +186,9 @@ class EmpJobPost extends React.Component{
 
 
                 </div>
-                <div className="col l7 m6 s12 ">
-                  <div id="map" style={{width:'100%',height:'350px'}}>
+                <JobLocation latitude={this.props.jobinfo.location.latitude} longitude={this.props.jobinfo.location.longitude}/>
 
-                  </div>
-                  <br/>
-                   <p> Exact address and contact number is given after employer accepts your application to the job</p>
 
-                </div>
               </div>
 
               {!this.props.isCompleted ?

@@ -169,7 +169,7 @@ export default class stepThree extends Component{
     render(){
 
         return (
-            <div style={{display:'flex', justifyContent:'center',alignItems:'center'}}>
+            <div className="valign-wrapper" style={{display:'flex', justifyContent:'center',alignItems:'center'}}>
 
 
                 <div className="row">

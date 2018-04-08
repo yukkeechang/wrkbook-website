@@ -24,6 +24,7 @@ Table of Contents End
 body{
     font-family: "Avenir";
     min-width: 275px;
+    background-color:#ffffff;
 }
 
 html::-webkit-scrollbar {
