@@ -11,7 +11,7 @@ export default class GeneralInfo extends React.Component{
 
   Contact(){
     return (
-      <ContactInfo user={this.props.user} test={"heh"}/>
+      <ContactInfo user={this.props.user}/>
     )
   }
   render(){

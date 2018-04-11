@@ -23,7 +23,7 @@ handleClick(e){
 
 componentDidMount(){
 
-  let arrayofPaths=['about','certificates','reviews'];
+  let arrayofPaths=['about','certificates','reviews','contact'];
 
   let about = ReactDOM.findDOMNode(this.refs.about);
   let restoreHeight=$(about).height();
@@ -65,11 +65,11 @@ changingText=()=>{
 
 
 render() {
-  //console.log(this.props);
+  console.log(this.props);
   return (
     <div className="container">
 
-      <div style={{height:'25%',backgroundColor: '#F0F0F0'}}>
+      <div style={{height:'25%',backgroundColor: '#D3D3D3'}}>
         <div className="row">
             <div className="col s2">
             {this.props.isUser&&
@@ -80,9 +80,8 @@ render() {
               </Link>
             }
             </div>
-
         </div>
-          <div style={{height:'20vh'}} className="row ">
+          <div style={{height:'15vh'}} className="row ">
                 <div className="col center-align s12 m4 l4 ">
                     <img
                     className="circle"
@@ -105,13 +104,13 @@ render() {
 
               </div>
 
-          {/*  <div style={{paddingRight:'3px',paddingLeft:'3px'}} className="col center-align s3 m3 l3">
+              <div style={{paddingRight:'3px',paddingLeft:'3px'}} className="col center-align s3 m3 l3">
                 <Link style={{backgroundColor:'white',height:'100%',width:'100%'}} to={this.state.defaultRoute ? this.props.url+"/contact": this.state.link+"contact"} onClick={this.handleClick.bind(this,'contact')}>
                   <div style={{backgroundColor:'white',height:'100%',width:'100%'}}>
                     <a style={{padding:'0px',fontSize:this.state.textSize}}  id="contact" ref="contact"  className="waves-effect  white waves-light btn-flat" onClick={this.handleClick.bind(this,'contact')}>Contact</a>
                   </div>
                 </Link>
-              </div>   */}
+              </div>
 
               <div style={{paddingRight:'3px',paddingLeft:'3px'}} className="col center-align s3 m3 l3">
                 <Link style={{backgroundColor:'white',height:'100%',width:'100%'}} to={this.state.defaultRoute ? this.props.url+"/certificates":  this.state.link+"certificates"} onClick={this.handleClick.bind(this,'certificates')}>
