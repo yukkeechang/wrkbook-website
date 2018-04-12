@@ -15,7 +15,7 @@ export default class LandingPage extends React.Component{
   componentDidMount(){
     initGA()
     logPageView()
-    console.log(this.props);
+    //console.log(this.props);
   }
   handleClick=(words)=>{
     let node = ReactDOM.findDOMNode(this.refs.HowTo);
