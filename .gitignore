@@ -2,3 +2,4 @@ node_modules/
 bower-components/
 npm-debug.*
 settings-development.json
+server/startup.js

@@ -20,6 +20,7 @@ import DeletedView from './Dashboard/Jobs/DeletedJob';
 
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';
+import analytics from './analytics';
 
 
 
@@ -37,8 +38,8 @@ import ProCompleted from './Dashboard/Jobs/Completed/ProCompleted';
 import ConCompleted from './Dashboard/Jobs/Completed/ConCompleted';
 import CreateReviewForPro from './Dashboard/Reviews/CreateReviewForPro.js';
 import CreateReviewForCon from './Dashboard/Reviews/CreateReviewForCon.js';
-//import ConProfile from './Dashboard/Profile/ConProfile/ConProfile';
-//import ProProfile from './Dashboard/Profile/ProProfile/ProProfile';
+
+import ProfileRefactor from './Dashboard/ProfileRefactor/CurrentUserProfile';
 
 
 //import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
@@ -70,6 +71,7 @@ class Dash extends Component{
                 <Route exact path="/" render={()=> (<Upcoming/> )}/>
                 <Route exact path="/jobmatches" component={EmpJobPosts}/>
                 <Route  path="/profile" component={Profile}/>
+                <Route  path="/profilerefactor" component={ProfileRefactor}/>
                 <Route  path="/user/:value" component={OtherUser}/>
 
                 <Route exact path="/references" component={References}/>
