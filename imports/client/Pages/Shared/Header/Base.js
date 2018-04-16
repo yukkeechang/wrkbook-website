@@ -25,7 +25,7 @@ export default class Base extends Component{
   }
 
   /*links for full nav bar */
-  links(to, bind, linkName) {
+  links = (to, bind, linkName) => {
     if (to === "questions") {
       return (
         <Link to={to}>
@@ -44,6 +44,7 @@ export default class Base extends Component{
     render(){
       return(
           <div className="row">
+
           {/*Menu bar/Small screen links */}
           <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
               <i style={{fontSize:'30px',padding: '17px 0 17px 10px'}}className="material-icons">menu</i>
@@ -51,6 +52,7 @@ export default class Base extends Component{
               <Link to="/#" onClick={this.things.bind(this,"home")}>
                   <div className="col m4 hide-on-small-only">
                       <div style={{height: '54px',position:'relative',top:'5px', paddingLeft:'50px'}}>
+                      <WrkBookIcon/>
                   </div>
 
                   </div>
@@ -65,18 +67,14 @@ export default class Base extends Component{
                 {this.links("/#HowTo", "HowTo", "HowTo")}
                 {this.links("/questions", "", "FAQ")}
 
-
               <Link to="/login">
-                  <div style={styles.heading} className="col m3  hide-on-small-only">
-                      <span className="genText">Login</span>
-                  </div>
-                  <div  style={styles.headIcon} className="col s3 hide-on-med-and-up">
-                      <i style={styles.icon} className="genText material-icons">account_circle</i>
+                  <div style={styles.heading} className="col m2  hide-on-small-only">
+                      <div className="genText">Login</div>
                   </div>
               </Link>
-
-              <Link to="/signup">
-                <div>
+              <Link to="/register">
+                <div id="rec-but" style={styles.heading} className="col m2  hide-on-small-only">
+                <div className="genText">Sign Up</div>
                 </div>
               </Link>
 
@@ -127,8 +125,10 @@ let styles = {
     heading : {
         position: 'relative',
         top: '9px',
-        fontSize:'30px',
-        textAlign:'center'
+        fontSize:'25px',
+        textAlign:'center',
+        padding: 'none',
+
     },
     headIcon: {
         position: 'relative',

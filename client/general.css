@@ -10,6 +10,7 @@ Table of Contents
 * 4.0 - Other Components
 *   4.1 - Modal size styles
 *   4.2 - Settings page styles
+*   4.3 - Button
 ------------------------------------------------------------------------ /
 Table of Contents End
 ------------------------------------------------------------------------*/
@@ -194,4 +195,32 @@ input[type="password"]:focus+label[data-error]:after{
     color: #888888;
 }
 /* 4.2 - End of Settings page styles
+-------------------------------------------------*/
+/* 4.3 - Button
+-------------------------------------------------*/
+.button {
+	height: 76px;
+	width: 396px;
+	border: 3px;
+	border-radius: 15px;
+}
+.fill-white {
+  background-color:  white;
+}
+.fill-green {
+  background-color: #10a96d;
+}
+.txt {
+  text-align: center;
+  padding: 12px 50px 12px 0;
+}
+.txt-white {
+  color: white;
+}
+
+.txt-green {
+  color: #10a96d;
+}
+
+/* 4.3 - Button
 -------------------------------------------------*/

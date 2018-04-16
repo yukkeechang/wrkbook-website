@@ -29,9 +29,7 @@ Table of Contents End
 /* 1.2 - Buttons
 -------------------------------------------------*/
 .hBut{
-    color: white;
     text-align: center;
-    border: 3px solid white;
     padding: 12px 0 12px 0;
 }
 .hBut:visited{

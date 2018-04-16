@@ -24,7 +24,6 @@
 
 .titles{
     color: white;
-    font: normal normal normal 40px/1.4em spinnaker,sans-serif;
     margin: 0;
 }
 .heading{
@@ -32,13 +31,11 @@
 
 }
 .hBut{
-    color: white;
     text-align: center;
-    border: 3px solid white;
     padding: 12px 0 12px 0;
 }
 .hBut:visited{
-    color: white;
+    
 }
 .hBut:hover{
     border-color: burlywood;
