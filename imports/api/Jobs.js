@@ -409,6 +409,8 @@ Meteor.publish('admit-employee-job',function(jobId){
   }
 });
 
+
+
 export const changeIsOpen = () =>{
 
   let currentDate = new Date();
@@ -655,7 +657,7 @@ Meteor.methods({
     notify.description = "There is a potential Job Match at "+ jobObject.location.locationName;
     notify.jobId = jobId;
     notify.typeNotifi = "MATCH";
-    notify.href = "job/"+jobId;
+    notify.href = "/job/"+jobId;
     for(let i =0 ;i < peoples.length;++i){
       notify.toWhomst = peoples[i];
 
@@ -864,7 +866,7 @@ Meteor.methods({
     notify.typeNotifi="APPLIED";
     notify.description = "Someone applied for the job you posted at "+ job.location.locationName;
     notify.jobId = jobId;
-    notify.href = "job/"+jobId;
+    notify.href = "/job/"+jobId;
 
     Meteor.call('createNotification',notify);
 
@@ -1020,7 +1022,7 @@ Meteor.methods({
     notify.description = "You have been admitted to the job at "+ job.location.locationName;
     notify.typeNotifi="HIRED"
     notify.jobId =jobId;
-    notify.href = "job/"+jobId;
+    notify.href = "/job/"+jobId;
 
     Meteor.call('createNotification',notify);
 
@@ -1051,6 +1053,7 @@ Meteor.methods({
     let peopleMatch = jobRemove.admitemployeeIds;
     let totalPeople = peopleApplied.concat(peopleMatch);
     notify.jobId = JSON.stringify(jobRemove);
+    notify.href = "/deleted-job/"+jobId;
     for (let i = 0; i < totalPeople.length; i++){
       notify.toWhomst = totalPeople[i];
       Meteor.call('createNotification',notify,(err)=>{
@@ -1059,10 +1062,12 @@ Meteor.methods({
       // Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName);
     }
     let notifyEmployer = NotificationSchema.clean({});
-    notifyEmployer.description = 'Yoou deleted Job located at '+  jobRemove.location.locationName+
+    notifyEmployer.description = 'You deleted Job located at '+  jobRemove.location.locationName+
     ' has been deleted';
     notifyEmployer.typeNotifi="REMOVE";
+    notifyEmployer.jobId = JSON.stringify(jobRemove);
     notifyEmployer.toWhomst = this.userId;
+    notifyEmployer.href = "/deleted-job/"+jobId;
     Meteor.call('createNotification',notifyEmployer,(err)=>{
       if(err)console.log(err);
     });
@@ -1178,7 +1183,7 @@ Meteor.methods({
         notify.description = "There is a potential Job Match at "+ job.location.locationName;
         notify.jobId = job._id;
         notify.typeNotifi = "MATCH";
-        notify.href = "job/"+ job._id;
+        notify.href = "/job/"+ job._id;
         notify.toWhomst = this.userId;
         Meteor.call('createNotification',notify);
 

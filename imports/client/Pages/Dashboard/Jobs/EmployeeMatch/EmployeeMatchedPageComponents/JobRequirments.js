@@ -2,26 +2,30 @@ import React from 'react';
 
 export default Requirements = (props) =>{
   return(
-    <div className="col l6 m6 s12">
-
+    <div>
+        <ul>
         {
             !props.osha10 && !props.osha30 ?
-              <p><b>OSHA: </b>No preference</p>
+              <li>No OSHA preference</li>
               :
               props.osha30 ?
-                  <p><b>OSHA: </b>OSHA 30</p>
+                  <li>OSHA 30</li>
                   :
-                  <p><b>OSHA: </b>OSHA 10</p>
+                  <li>OSHA 10</li>
 
         }
-
+        </ul>
+        <ul>
 
       {
         props.license ?
-        <p><b>Driver license: </b>Yes</p>
+
+          <li>Driver license</li>
+
         :
-        <p><b>Driver license: </b>None</p>
+        null
       }
+      </ul>
 
     </div>
   )
