@@ -191,11 +191,6 @@ export class NavBarPage extends Component{
 
 
 
-            {
-              /*
-              <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
-              */
-            }
             <div ref="dropdownnotes" data-activates='notification' style={styles.links} className="col m3 hide-on-small-only genText">
               <div className="valign-wrapper">
                 <Link style={{color:'white'}} to="/notifications">Notifications{this.props.general > 0 ?
@@ -212,6 +207,7 @@ export class NavBarPage extends Component{
             </div>
 
             <ul id='account' className='dropdown-content'>
+              <li><Link to="/profile">Profile</Link></li>
               <li><Link to="/settings">Account Settings</Link></li>
               <li><Link to='/settings/password'>Change Password</Link></li>
               <div>{subscription}</div>
