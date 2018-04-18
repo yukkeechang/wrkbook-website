@@ -3,10 +3,11 @@ Table of Contents
 ------------------------------------------------------------------------ /
 * 1.0 - Nav Bar Styles
 * 	1.1 - Buttons
-* 2.0 -
-* 	2.1 - Step
+* 2.0 - Testimonial
+* 	2.1 - Card Content
 * 	2.2 - Step Img
 * 	2.3 - Step Text
+
 ------------------------------------------------------------------------ /
 Table of Contents End
 ------------------------------------------------------------------------*/
@@ -16,9 +17,9 @@ Table of Contents End
 /* 1.1 - Buttons
 -------------------------------------------------*/
 #rec-but{
-	height: 50px;
-  width: 150px;
-  border: 3px solid white;
+	height:  47px;
+  width: 130px;
+  border: 2px solid white;
   border-radius: 15px;
 	position: absolute;
 	right: 15px;
@@ -41,12 +42,11 @@ Table of Contents End
 /* 1.0 - Buttond
 -------------------------------------------------*/
 
-#heading {
-		position: absolute;
-		top: 9px;
-		right: 15px;
-		fontSize:25px;
-		textAlign: center;
-		padding: none;
 
+/* 2.0 - Card Content
+------------------------------------------------------------------------*/
+/* 1.1 - Card Content
+-------------------------------------------------*/
+.card-center {
+	align-content: center;
 }
