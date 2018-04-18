@@ -5,10 +5,16 @@ import { Link } from 'react-router-dom';
 export default Button = (props)=> {
     return(
 
-            <Link onClick={props.onClick} to={props.to} >
-                <h5 className="txt" style={{color: props.text}}>{props.children}</h5>
-            </Link>
 
-
+          <Link onClick={props.onClick} to={props.to} >
+              <h5 className="txt" style={{color: props.text}}>{props.children}</h5>
+          </Link>
     )
 }
+
+
+{/* <div className={props.style}>
+        <Link onClick={props.onClick} to={props.to} >
+            <h5 className="txt" style={{color: props.text}}>{props.children}</h5>
+        </Link>
+      </div> */}

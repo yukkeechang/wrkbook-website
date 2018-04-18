@@ -17,11 +17,13 @@ export default class Hero extends Component {
       hotjar.initialize(790931, 6);
         return (
             <div id="hero" className="valign-wrapper">
+
                 <div className="container">
+                <div className="center-align">
                     <div className="row">
-                        <div className="col s12">
-                            <h1 className="titles">Linking professionals<br/>and contractors</h1>
-                        </div>
+
+                            <h1 className="titles">Linking professionals and contractors</h1>
+
                     </div>
                     <CSSTransitionGroup
                         transitionName="hBut"
@@ -29,21 +31,28 @@ export default class Hero extends Component {
                         transitionAppearTimeout={700}
                         transitionEnterTimeout={0}
                         transitionLeaveTimeout={0}>
-                        <div className="row" style={{position: 'center'}}>
-                            <div className="col s12 m6 l4">
-                              <div className="button fill-white">
-                                <Button onClick={this.con} text={"black"} to="/register">Find Workers</Button>
-                              </div>
-                            </div>
-                            <div className="col s12 m6 l4">
+                        <div className="row" style={{position:'relative'}}>
+                          <div className="col s12" >
+                            <div className="col l6 xl6">
                               <div className="button fill-green">
-                                <Button onClick={this.pro} text={"white"}to="/register">Find Work</Button>
+                                <Button onClick={this.pro} text={"white"}to="/register"style={"button fill-green"}>Find Work</Button>
                               </div>
                             </div>
+                            <div className="col l6 xl6">
+                              <div className="button fill-white">
+                                <Button onClick={this.con} text={"black"} to="/register" style={"button fill-white"}>Find Workers</Button>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+
                         </div>
                     </CSSTransitionGroup>
 
                 </div>
+            </div>
             </div>
         )
     }

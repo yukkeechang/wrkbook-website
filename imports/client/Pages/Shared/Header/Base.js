@@ -73,7 +73,7 @@ export default class Base extends Component{
                   </div>
               </Link>
               <Link to="/register">
-                <div id="rec-but" style={styles.heading} className="col m2  hide-on-small-only">
+                <div id="rec-but" style={styles.butText} className="col m2  hide-on-small-only">
                 <div className="genText">Sign Up</div>
                 </div>
               </Link>
@@ -144,5 +144,13 @@ let styles = {
     },
     icon : {
         fontSize: '30px'
+    },
+    butText: {
+    		top: '9px',
+    		right: '15px',
+    		fontSize:'25px',
+    		textAlign: 'center',
+    		padding: 'none'
+
     }
 }

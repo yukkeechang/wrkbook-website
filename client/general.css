@@ -200,9 +200,11 @@ input[type="password"]:focus+label[data-error]:after{
 -------------------------------------------------*/
 .button {
 	height: 76px;
-	width: 396px;
+	width: 340px;
 	border: 3px;
 	border-radius: 15px;
+  padding: 12px 0 12px 0;
+
 }
 .fill-white {
   background-color:  white;
@@ -212,7 +214,6 @@ input[type="password"]:focus+label[data-error]:after{
 }
 .txt {
   text-align: center;
-  padding: 12px 50px 12px 0;
 }
 .txt-white {
   color: white;

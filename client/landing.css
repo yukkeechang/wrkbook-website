@@ -20,6 +20,8 @@ Table of Contents End
   width: 150px;
   border: 3px solid white;
   border-radius: 15px;
+	position: absolute;
+	right: 15px;
 }
       #rec-but__full {
         background-color: white;
@@ -38,3 +40,13 @@ Table of Contents End
 }
 /* 1.0 - Buttond
 -------------------------------------------------*/
+
+#heading {
+		position: absolute;
+		top: 9px;
+		right: 15px;
+		fontSize:25px;
+		textAlign: center;
+		padding: none;
+
+}

@@ -1,8 +1,11 @@
 import React from 'react';
 import Hero from './LandingPageComponents/Hero';
 import HowTo from './LandingPageComponents/HowTo';
+import HowTos from './LandingPageComponents/HowTos';
+import Testimonial from './LandingPageComponents/Testimonial';
 import About from './LandingPageComponents/About';
-import Price from './LandingPageComponents/PricingPage'
+import Price from './LandingPageComponents/PricingPage';
+import Services from './LandingPageComponents/Services';
 import ReactDOM from 'react-dom';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
@@ -35,14 +38,17 @@ export default class LandingPage extends React.Component{
   render(){
     return(
 
-        <div>
+        <div style={{backgroundColor: "#f1f1f1"}}>
 
         <Header handleClick={this.handleClick}/>
 
         <Hero ref="home"/>
-        <HowTo ref="HowTo"/>
-        <Price history={this.props.history} ref="price"/>
-        <About/>
+        <Services ref="services"/>
+        <HowTos ref="HowTos"/>
+        {/*<HowTo ref="HowTo"/>*/}
+        {/*<Price history={this.props.history} ref="price"/>*/}
+        {/*<About/> */}
+        <Testimonial/>
         <Footer/>
 
         </div>
