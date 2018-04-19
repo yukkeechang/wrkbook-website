@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import UserIcon from '../UserIcon';
 import ReactDOM from 'react-dom';
+import NavBarNotfications from '../../Dashboard/Notifications/NavBar/NotificationsNav';
 import WrkBookIcon from '../WrkBookIcon';
 import { withTracker } from 'meteor/react-meteor-data';
 
@@ -82,6 +83,14 @@ export class NavBarPage extends Component{
             alignment: 'left',
             constrainWidth: false
         });
+        let notificationDrop = ReactDOM.findDOMNode(this.refs.dropdownnotes);
+        $(notificationDrop).dropdown({
+            hover:true,
+            belowOrigin:true,
+            alignment:'left',
+            constrainWidth:false,
+            gutter: 0
+        })
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
         $(sn).sideNav();
         let collapse = ReactDOM.findDOMNode(this.refs.collapsibleref);
@@ -113,21 +122,16 @@ export class NavBarPage extends Component{
 
       let jobDropDownLinks = this.state.isPro ?
       <ul id='jobs' className='dropdown-content'>
-        <li><Link to='/jobmatches'>Job Matches{this.props.match > 0 ?
-      <span className="new badge left-align">{this.props.match}</span> : null}</Link></li>
+        <li><Link to='/jobmatches'>Job Matches</Link></li>
         <li><Link to='/applied'>Applied Jobs</Link></li>
         <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
-        <li><Link to='/upcoming'>Upcoming{this.props.employeeHired > 0 ?
-      <span className="new badge left-align">{this.props.employeeHired}</span> : null}</Link></li>
+        <li><Link to='/upcoming'>Upcoming</Link></li>
 
       </ul>
       :
       <ul id='jobs' className='dropdown-content'>
-
-        <li style={{display:'none'}}><Link to='/conjobcurrent'>Current</Link></li>
-        <li><Link to='/upcoming'>Upcoming{this.props.appliedEmployer > 0 ?
-      <span className="new badge left-align">{this.props.appliedEmployer}</span> : null}</Link></li>
+        <li><Link to='/upcoming'>Upcoming</Link></li>
         <li><Link to='/current'>Current</Link></li>
         <li><Link to='/completed'>Completed</Link></li>
         <li><Link to='/createjob'>Create Job</Link></li>
@@ -136,18 +140,15 @@ export class NavBarPage extends Component{
 
       let jobDropDownLinksSideNav = this.state.isPro ?
         <li>
-        <div  className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs {this.state.switchNav  ?
+        <div  className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs{this.state.switchNav  ?
         <i className="large material-icons">arrow_drop_up</i> :
         <i className="large material-icons">arrow_drop_down</i>
-      }{this.props.general > 0 ?
-        <span className="new badge">{this.props.general}</span> : null}</div>
-        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobmatches'>Job Matches{this.props.match > 0 ?
-      <span className="new badge left-align">{this.props.match}</span> : null}</Link></div>
+      }</div>
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobmatches'>Job Matches</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/applied'>Applied Jobs</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
         <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
-        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming{this.props.employeeHired > 0 ?
-      <span className="new badge left-align">{this.props.employeeHired}</span> : null}</Link></div>
+        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming</Link></div>
         </li>
 
       :
@@ -156,13 +157,11 @@ export class NavBarPage extends Component{
           <div ref="jobsthingz" className="collapsible-header" style={{paddingLeft:'30px'}}>Jobs {this.state.switchNav ?
           <i className="large material-icons">arrow_drop_up</i> :
           <i className="large material-icons">arrow_drop_down</i>
-          }{this.props.general > 0 ?
-            <span className="new badge">{this.props.general}</span> : null}</div>
+          }</div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
           <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/createjob'>Create Job</Link></div>
-          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming{this.props.appliedEmployer > 0 ?
-        <span className="new badge left-align">{this.props.appliedEmployer}</span> : null}</Link></div>
+          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming</Link></div>
 
 
         </li>
@@ -184,26 +183,44 @@ export class NavBarPage extends Component{
 
             <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText">
                 <div className="valign-wrapper">
-                  <Link style={{color:'white'}} to="/upcoming">Jobs {this.props.general > 0 ?
-                      <span className="new badge">{this.props.general}</span> : null}
+                  <Link style={{color:'white'}} to="/upcoming">Jobs
                   </Link>
                   <i className="material-icons">arrow_drop_down</i>
                 </div>
             </div>
 
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
-            <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m1 push-s1">
+
+          {/*uncomment for notificiation link*/}
+          {/*  <div ref="dropdownnotes" data-activates='notification' style={styles.links} className="col m3 hide-on-small-only genText">
+              <div className="valign-wrapper">
+
+              <Link style={{color:'white'}} to="/notifications">Notifications{this.props.general > 0 ?
+                    <span className="new badge">{this.props.general}</span> : null}
+                </Link>
+              </div>
+            </div> */}
+
+            <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m2 push-s1">
                 <div style={styles.firstName} className="hide-on-small-only">{this.props.user.profile.firstName}</div>
                 <div style={styles.profile}>
                     <UserIcon imageId={this.props.image}/>
                 </div>
             </div>
+
             <ul id='account' className='dropdown-content'>
+              <li><Link to="/profile">Profile</Link></li>
               <li><Link to="/settings">Account Settings</Link></li>
-                <li><Link to='/settings/password'>Change Password</Link></li>
-                <div>{subscription}</div>
+              <li><Link to='/settings/password'>Change Password</Link></li>
+              <div>{subscription}</div>
               <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
             </ul>
+
+              <ul id='notification' className='dropdown-content'>
+                <NavBarNotfications/>
+              </ul>
+
+
             <div>{jobDropDownLinks}</div>
 
             <ul id="sideNav" className="side-nav">
@@ -228,12 +245,20 @@ export class NavBarPage extends Component{
                 </li>
                 {/*
                 <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
+                    <Link onClick={this.sideClick.bind(this)} to = "/notifications">Notifications{this.props.general > 0 ?
+                        <span className="new badge">{this.props.general}</span> : null}</Link>
                 </li>
-                <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/notifications">Notifications</Link>
-                </li>
-                */}
+                {
+                  /*
+                  <li>
+                      <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
+                  </li>
+
+
+                   */
+                }
+
+
             </ul>
             </div>
 
@@ -244,12 +269,14 @@ export class NavBarPage extends Component{
 export default NavBar = withTracker( params => {
   let handle = Meteor.subscribe('notifications-for-user');
   let ready = handle.ready();
-  let general = Notification.find({}).count();
+  let general = Notification.find({seen:false}).count();
   let match = Notification.find({typeNotifi:'MATCH'}).count();
   let appliedEmployer = Notification.find({typeNotifi:'APPLIED'}).count();
   let employeeHired = Notification.find({typeNotifi:'HIRED'}).count();
+  console.log(params);
     return {
         ready: ready,
+        notifications: Notification.find({}).fetch(),
         general: general,
         match:match,
         appliedEmployer:appliedEmployer,

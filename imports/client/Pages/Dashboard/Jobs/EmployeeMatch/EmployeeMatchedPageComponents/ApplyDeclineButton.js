@@ -39,47 +39,39 @@ export default class ApplyDeclineButton extends React.Component{
       });
 
   }
-  handleDecline=()=>{
 
-    Meteor.call('declineJob', this.props.jobID, (err)=>{
-    if(err){
-      console.log(err);
-    }
-    else{
-          $(this.refs.declineModal).modal('close');
-          // $('#declineModal').modal('close');
-    }
-    });
-  }
   openApplyModal=()=>{
 
     $(this.refs.applyModal).modal('open');
   }
-  openDeclineModal=()=>{
-    $(this.refs.declineModal).modal('open');
-  }
+
   componentWillUnmount(){
 
           $(this.refs.declineModal).modal('close');
-            $(this.refs.applyModal).modal('close');
+          $(this.refs.applyModal).modal('close');
   }
   render(){
     return(
-  <div className="col s12">
-    <div className="row">
-          <a id="applydButton" className={this.props.isDecline|| this.props.isApplied ? "waves-effect teal teal lighten-1-3 btn-flat disabled" :"waves-effect teal teal lighten-1-3 btn-flat"}  onClick={this.openApplyModal}>
-            {this.props.isApplied ? 'Applied': 'Apply'}
-          </a>
-          <a id="disabledButton" className={this.props.isDecline ? "waves-effect red lighten-3 btn-flat disabled": "waves-effect red lighten-3 btn-flat "} onClick={this.openDeclineModal}>
-            Decline
-          </a>
 
+    <div className="row center-align">
+        <br/>
+          <div  className="col s6 center-align offset-s3">
+            <a style={{color:'white',width:'100%',paddingTop:'5px',
+                        textTransform:'none',height:'45px',fontSize:'18px',
+                        borderRadius:'20px',border:'2px solid #a7ffeb'}}
+                        id="applydButton"
+                        className={this.props.isDecline|| this.props.isApplied ?
+                                  "waves-effect teal lighten-1 btn-flat disabled"
+                                  : "waves-effect teal lighten-1 btn-flat"}
+                                  onClick={this.openApplyModal}>
+              {this.props.isApplied ? 'Applied': 'Apply!'}
+            </a>
+          </div>
           <div>
             <div ref="applyModal" id="applyModal" className="modal">
               <div className="modal-content" style={{ overflowY: 'scroll'}}>
                 <div className="col s12">
                   <div className="row">
-
                       <select ref="titles" id="jobTitles">
                         <option value="" disabled selected>Choose employee type to apply as</option>
                         {this.props.jobTitles.map((title, index)=>{
@@ -88,34 +80,19 @@ export default class ApplyDeclineButton extends React.Component{
                           )
                         })}
                       </select>
-
                   </div>
                 </div>
               </div>
 
               <div className="modal-footer">
-                <button className="waves-effect waves-green teal teal lighten-1-3 btn-flat" onClick={this.handleApply}>
+                <button className="waves-effect waves-green teal lighten-3 btn-flat" onClick={this.handleApply}>
                   Confirm apply.
                 </button>
               </div>
             </div>
-
-            <div ref="declineModal" id="declineModal" className="modal">
-              <div className="modal-content">
-                <h4>Are you sure you want to decline this job? <br/>Once deleted you can not get this job back.</h4>
-              </div>
-              <div className="modal-footer">
-                <Link to={"/"} onClick={this.handleDecline}>
-                  <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline}>
-                    I am sure.
-                  </button>
-                </Link>
-              </div>
-            </div>
-
           </div>
       </div>
-    </div>
+
   );
   }
 }

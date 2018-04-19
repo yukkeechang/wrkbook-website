@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Accounts } from 'meteor/accounts-base';
 import MTextField from '../../Shared/MTextField';
 import ReactDOM from 'react-dom';
+import { CSSTransitionGroup } from 'react-transition-group';
 import { Link } from 'react-router-dom';
 
 export default class EmailChange extends Component {
@@ -9,130 +10,83 @@ export default class EmailChange extends Component {
         super(props);
 
         this.state = {
-            oeError: '',
-            neError: ''
+          isEmail:true,
+          eEmpty :false,
+          nEqual :false,
+          sameEmail:false,
+          existAlready:false
         };
     }
 
     componentDidMount(){
-      let dropdowns = ReactDOM.findDOMNode();
-      // $(dropdowns).ready(()=>{
-      //
-      //   $('.modal').modal({
-      //      complete: function() { this.props.history.push('/') }.bind(this)
-      //   });
-      // });
+
     }
-
-    closeModal() {
-      $('#modal1').modal('close');
-      $('#modal2').modal('close');
-      $('#modal3').modal('close');
-    }
-
-
-
     handleSubmit(event) {
         event.preventDefault();
-        let user = Meteor.user();
-        // Clear the error messages of each field
-        Object.keys(this.state).map((key) => {
-            this.setState({[key]: ''});
-        });
-        // Check if the email entered into the new email field matches our format
-        const emailIsValid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.refs.newEmail.value());
-        let oldEmailMatch = user.emails[0].address == this.refs.oldEmail.value();
         let Emails = {
-          email1 : this.refs.newEmail.value(),
-          email2 : user.emails[0].address
-        }
-        if (emailIsValid && oldEmailMatch) {
-          Meteor.call('updateEmail', Emails, function(err, res){
-            if(err) {
-              console.log(err.reason)
-              if(err.reason == "Email already exists.") {
-                $('#modal2').modal('open');
-              } else {
-                $('#modal3').modal('open');
-              }
-            } else {
-              $('#modal1').modal('open');
-            }
-          })
-        } else {
-          if(!emailIsValid) {
-            this.setState({neError: "Wrong email format"})
-          }
-          else if(!oldEmailMatch) {
-            this.setState({neError: "Email does not match old email"})
-          }
-
-        }
-        let empty = 'This cannot be empty';
-        // Set the error messages to be "this cannot be empty" if they are empty
-        if (!this.refs.oldEmail.value()) {
-            this.setState({oeError: empty});
-        }
-        if (!this.refs.newEmail.value()) {
-            this.setState({neError: empty});
+          email1 : this.refs.newEmail1.value(),
+          email2 :  this.refs.newEmail2.value()
         }
 
+        Meteor.call('updateEmail', Emails, (err, res)=>{
+          if(err){
+            console.log(err);
+            this.setState(err.reason);
+          }else{
+            this.setState({
+              isEmail:true,
+              eEmpty :false,
+              nEqual :false,
+              sameEmail:false,
+              existAlready:false
+            });
+            Materialize.toast('Your Email has been Updated',4000);
+          }
+
+        });
     }
 
+
+
     render() {
-      let user = Meteor.user()
+        let empty = 'This cannot be empty';
+        let notEmail = 'This is not a valid email';
+        let emailneq = 'Emails do not match';
         return (
 
                 <div className="card">
                     <div className="card-content center-align" style={{paddingTop: '-10px'}}>
                         <h5>Change email</h5>
                         <form onSubmit={this.handleSubmit.bind(this)}>
-                            <div className="input-field">
-                                <MTextField id="oldEmail" ref="oldEmail" type="email" error={this.state.oeError} label="Old email" required />
-                            </div>
-                            <div className="input-field">
-                                <MTextField id="newEmail" ref="newEmail" type="email" error={this.state.neError} label="New email" required />
-                            </div>
-                            <div className="input-field">
-                                <input type="submit" className="waves-effect waves-light btn" />
-                            </div>
+                          <MTextField id="newEmail1" ref="newEmail1" type="email" error={this.state.eEmpty ? empty: (!this.state.isEmail ? notEmail : '')} label="New Email *" required />
+                          <MTextField id="newEmail2" ref="newEmail2" type="email" error={this.state.nEqual ? emailneq: ''} label="Confirm Email *" required />
+                          <button onClick={this.handleSubmit.bind(this)} className="btn-flat teal lighten-5" style={{color: 'black'}}>Update</button>
                         </form>
+
+                        <div className="row">
+                            {this.state.sameEmail ? (
+                                <CSSTransitionGroup
+                                    transitionName="err"
+                                    transitionAppear={true}
+                                    transitionAppearTimeout={1500}
+                                    transitionEnter={false}
+                                    transitionLeave={false}>
+                                <p className="col s12 m6" style={{textAlign: 'center',lineHeight: '36px', marginTop: '8px',borderRadius: '2px'}}>The new email is the same you registered with</p>
+                                </CSSTransitionGroup>
+                            ):''}
+                            {this.state.existAlready ? (
+                                <CSSTransitionGroup
+                                    transitionName="err"
+                                    transitionAppear={true}
+                                    transitionAppearTimeout={1500}
+                                    transitionEnter={false}
+                                    transitionLeave={false}>
+                                <p className="col s12 m6" style={{textAlign: 'center',lineHeight: '36px', marginTop: '8px',borderRadius: '2px'}}>This email address has already been taken</p>
+                                </CSSTransitionGroup>
+                            ):''}
+                        </div>
                     </div>
-
-
-                <div id="modal1" className="modal">
-                  <div className="modal-content">
-                    <h5>Your email has been sucessfully changed!</h5>
-                  </div>
-                  <div className="modal-footer">
-                  <Link style={{padding:'0px'}} to={"/profile"}>
-                   <a className="modal-action modal-close waves-effect waves-gray btn-flat" onClick={this.closeModal.bind(this)}>Close</a>
-                  </Link>
-                  </div>
                 </div>
-                <div id="modal2" className="modal">
-                  <div className="modal-content">
-                    <h5>This email already exists!</h5>
-                  </div>
-                  <div className="modal-footer">
-                    <Link style={{padding:'0px'}} to={"/settings/password"}>
-                      <a className="modal-action modal-close waves-effect waves-gray btn-flat" onClick={this.closeModal.bind(this)}>Close</a>
-                    </Link>
-                  </div>
-                </div>
-                <div id="modal3" className="modal">
-                  <div className="modal-content">
-                    <h5>Error updating email. Please try again later or contact info@wrkbook.com</h5>
-                  </div>
-                  <div className="modal-footer">
-                    <Link style={{padding:'0px'}} to={"/settings/password"}>
-                      <a className="modal-action modal-close waves-effect waves-gray btn-flat" onClick={this.closeModal.bind(this)}>Close</a>
-                    </Link>
-                  </div>
-                </div>
-
-
-            </div>
         )
     }
 }

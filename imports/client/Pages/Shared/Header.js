@@ -44,7 +44,7 @@ class Head extends Component {
 }
 
 export default Header = withTracker( params  => {
-
+  console.log(params);
     return {
         loggingIn: Meteor.loggingIn(),
         user: Meteor.user(),
