@@ -19,7 +19,7 @@ export default class stepThree extends Component{
         width:350,
         basic: {},
         captchaSolved: false,
-      captchaWarningOn: false,
+        captchaWarningOn: false,
       }
     }
 
@@ -63,6 +63,10 @@ export default class stepThree extends Component{
               width: 350,
               height: 350,
               type: 'circle'
+            },
+            boundary: {
+                width: 400,
+                height: 400
             }
           });
           this.setState({onc3:true,
@@ -163,15 +167,24 @@ export default class stepThree extends Component{
       captchaWarningOn: false,
     });
   }
+  handlePrev(){
+    let thin = window.sessionStorage.getItem('reg');
+
+    UserObjectArray = JSON.parse(thin);
+    this.props.next(2,UserObjectArray[0],UserObjectArray[0].profile.isPro)
+  }
 
 
 
     render(){
 
         return (
-            <div className="valign-wrapper" style={{display:'flex', justifyContent:'center',alignItems:'center'}}>
+            <div className="container">
+            <div className="card">
+            <div className="row card-content">
+                <span className="col s12 card-title">Step 3 of 3</span>
 
-
+            <div className="col s12">
                 <div className="row">
                     <div id="imageContain" style={{display:'flex', justifyContent:'center',alignItems:'center'}}className="col s12">
                     {this.state.pesonalPic ?
@@ -193,9 +206,11 @@ export default class stepThree extends Component{
 
 
                     </div>
+                  </div>
 
 
                     {!this.state.confirmed &&
+                    <div className="row">
                       <div  style={{display:'flex', justifyContent:'center',alignItems:'center'}}  className="col s12">
                         <div >
                           <div className="file-field input-field">
@@ -209,6 +224,7 @@ export default class stepThree extends Component{
                           </div>
                         </div>
                       </div>
+                    </div>
                     }
                 <div className="row">
                     <div
@@ -240,13 +256,19 @@ export default class stepThree extends Component{
                     </div>
                    </div>
 
-                    <div style ={{display:'flex',justifyContent:'center',alignItems:'center'}} className="col s12">
-                      <a className={'btn ' + this.state.stopclicks } onClick={this.submit.bind(this)}>{this.state.submit}</a>
-                    </div>
+                </div>
+                <div className="row">
+                  <a onClick={this.handlePrev.bind(this)} className="btn-flat blue-grey lighten-4 col s5 m3" style={{color: 'black',textAlign:'center',marginTop: '8px'}}>Back</a>
+                  <a onClick={this.submit.bind(this)} className={"btn-flat teal lighten-4 " + this.state.stopclicks  +" col s5 offset-s2 m3 offset-m6"} style={{color: 'black',textAlign:'center',marginTop: '8px'}}type="submit">{this.state.submit}</a>
                 </div>
               </div>
+            </div>
+            </div>
+            </div>
 
-          </div>
+
+
+
         );
     }
 }

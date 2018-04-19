@@ -13,6 +13,7 @@
     "bcrypt": "^1.0.3",
     "bson": "^1.0.4",
     "core-js": "^2.5.3",
+    "croppie": "^2.6.2",
     "dotenv": "^5.0.0",
     "hammerjs": "^2.0.8",
     "indexof": "0.0.1",

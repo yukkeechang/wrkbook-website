@@ -275,7 +275,15 @@ export default class StepTwoE extends Component{
                         </div>
                         <Location ref="loc"/>
                         <div className="row">
-                            <a onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5 col s12 m6" style={{color: 'black',textAlign:'center',marginTop: '8px'}}type="submit">Next</a>
+
+
+                            <div className="col s2">
+                              <button onClick={this.handleNext.bind(this)} className="btn-flat blue-grey lighten-4" style={{color: 'black',textAlign:'center',marginTop: '8px'}}>Back</button>
+                            </div>
+                            <div className="col s2 offset-s8">
+                                <a onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5" style={{color: 'black',textAlign:'center',marginTop: '8px'}}type="submit">Next</a>
+                            </div>
+
                             {this.state.err ? (
                                 <CSSTransitionGroup
                                     transitionName="err"
