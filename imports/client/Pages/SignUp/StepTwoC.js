@@ -7,16 +7,16 @@ import {initGA, logPageView} from  '../Shared/GoogleAnalytics';
 
 export default class StepTwoC extends Component{
     constructor(props){
+        super(props);
+
+
         let savedObject = window.sessionStorage.getItem('reg');
 
         let firstTime  = !savedObject;
         let UserObjectArray = JSON.parse(savedObject);
-        let firstTimeSecondPage = firstTime || !UserObjectArray[1];
-        console.log(firstTimeSecondPage);
-        console.log(UserObjectArray);
+        let firstTimeSecondPage = firstTime || !UserObjectArray[1]||
+                                UserObjectArray[1].maxDistance;
 
-        super(props);
-        console.log(props.user);
         this.state = {
         validCompany: true,
         validLocation : true,
