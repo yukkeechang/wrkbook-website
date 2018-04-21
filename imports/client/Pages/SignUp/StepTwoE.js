@@ -9,6 +9,13 @@ export default class StepTwoE extends Component{
     constructor(props){
 
         super(props);
+        let savedObject = window.sessionStorage.getItem('reg');
+
+        let firstTime  = !savedObject;
+        let UserObjectArray = JSON.parse(savedObject);
+        let firstTimeSecondPage = firstTime || !UserObjectArray[1] ||
+                                  !UserObjectArray[1].maxDistance;
+
         this.state = {
             validJobTitles: true,
             validEdu: true,
@@ -22,7 +29,9 @@ export default class StepTwoE extends Component{
             locErr: false,
             err: false,
             dist: 20,
-            showTrade: false
+            showTrade: false,
+            skills: firstTimeSecondPage ? '': UserObjectArray[1].skills.text,
+            about: firstTimeSecondPage ? '': UserObjectArray[1].about.text
         };
     }
     handlesscYesClick(){
@@ -31,6 +40,12 @@ export default class StepTwoE extends Component{
     }
     handlesscNoClick(){
       $("#taxDisplay").css("display","block");  //shows tax display on no click for ssc
+    }
+    handlePrev(){
+      let thin = window.sessionStorage.getItem('reg');
+
+      UserObjectArray = JSON.parse(thin);
+      this.props.next(1,UserObjectArray[0],true)
     }
     handleNext(){
         let loc = this.refs.loc.getAddress();
@@ -88,6 +103,12 @@ export default class StepTwoE extends Component{
                     let user = this.props.user;
                     user.profile.employeeData = employeeData;
                     this.props.next(3, user, false);
+                    let savedObject = window.sessionStorage.getItem('reg');
+
+                    let UserObjectArray = JSON.parse(savedObject);
+                    UserObjectArray[1] = employeeData;
+                    window.sessionStorage.setItem('reg',JSON.stringify(UserObjectArray))
+
                 }
             });
         }else{
@@ -119,8 +140,14 @@ export default class StepTwoE extends Component{
         dist.noUiSlider.on('change',(value, handle)=>{
             this.setState({dist: parseInt(value[0])});
         })
-        let el = ReactDOM.findDOMNode(this.refs.ca);
-        $(el).characterCounter();
+        let ea = ReactDOM.findDOMNode(this.refs.ea);
+        $(ea).characterCounter();
+        let sk = ReactDOM.findDOMNode(this.refs.sk);
+        $(sk).characterCounter();
+        $(ea).val(this.state.about);
+        $(ea).trigger('autoresize');
+        $(sk).val(this.state.skills);
+        $(sk).trigger('autoresize');
     }
     render(){
         let empty = 'This cannot be empty';
@@ -275,7 +302,11 @@ export default class StepTwoE extends Component{
                         </div>
                         <Location ref="loc"/>
                         <div className="row">
-                            <a onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5 col s12 m6" style={{color: 'black',textAlign:'center',marginTop: '8px'}}type="submit">Next</a>
+
+
+                        <a onClick={this.handlePrev.bind(this)} className="btn-flat blue-grey lighten-4 col s5 m3" style={{color: 'black',textAlign:'center',marginTop: '8px'}}>Back</a>
+                        <a onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5 col s5 offset-s2 m3 offset-m6" style={{color: 'black',textAlign:'center',marginTop: '8px'}}type="submit">Next</a>
+
                             {this.state.err ? (
                                 <CSSTransitionGroup
                                     transitionName="err"

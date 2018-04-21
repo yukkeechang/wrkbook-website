@@ -6,6 +6,10 @@ export default class StepOne extends Component{
     constructor(props){
 
         super(props);
+       let savedObject = window.sessionStorage.getItem('reg');
+
+       let firstTime  = !savedObject;
+        let UserObjectArray = JSON.parse(savedObject);
         this.state = {
           fEmpty : false,
           lEmpty : false,
@@ -17,14 +21,26 @@ export default class StepOne extends Component{
           nEqual : false,
           p1Empty: false,
           accountExists: false,
+          firstName : firstTime ? '': UserObjectArray[0].profile.firstName,
+          lastName: firstTime ? '': UserObjectArray[0].profile.lastName,
+          phone:  firstTime ? '': UserObjectArray[0].profile.phone,
+          email:  firstTime ? '': UserObjectArray[0].email,
           pro: props.isPro
       };
+      // let thin = window.sessionStorage.getItem('reg');
+
+
+
     }
     componentDidMount(){
         initGA()
         logPageView()
         let tooltip = ReactDOM.findDOMNode(this.refs.tool);
         $(tooltip).tooltip({delay: 50});
+        $(ReactDOM.findDOMNode(this)).ready(function() {
+          Materialize.updateTextFields();
+        });
+
     }
     handleNext(e){
         // this.props.next(2, {}, this.state.pro);
@@ -55,6 +71,18 @@ export default class StepOne extends Component{
                 this.setState(err.reason);
             }else{
 
+
+                let savedObject = window.sessionStorage.getItem('reg');
+                let UserObjectArray = JSON.parse(savedObject);
+                console.log(UserObjectArray);
+                if(!UserObjectArray || UserObjectArray.length < 1){
+                    UserObjectArray = []
+                    UserObjectArray[0] = User;
+                }else{
+                    UserObjectArray[0] = User;
+                }
+
+                window.sessionStorage.setItem('reg',JSON.stringify(UserObjectArray));
                 this.props.next(2, User, this.state.pro);
 
             }
@@ -87,10 +115,10 @@ export default class StepOne extends Component{
                     <form className="col s12">
                     <div className="row">
                         <div className="col s12 m6">
-                            <MTextField ref="fn" id="firstName" error={this.state.fEmpty ? empty : ''} label="First Name *"/>
-                            <MTextField ref="ln" id="lastName"  error={this.state.lEmpty ? empty : ''} label="Last Name *"/>
-                            <MTextField ref="em" id="email"     error={this.state.eEmpty ? empty : (!this.state.isEmail ? notEmail : (this.state.accountExists ? uExists : ''))} label="Email Address *"/>
-                            <MTextField ref="ph" id="phone"     error={this.state.phoneE ? empty : (!this.state.gPhone? phErr:'')} label="Phone Number *"/>
+                            <MTextField ref="fn" id="firstName" error={this.state.fEmpty ? empty : ''} label="First Name *" value={this.state.firstName}/>
+                            <MTextField ref="ln" id="lastName"  error={this.state.lEmpty ? empty : ''} label="Last Name *"  value={this.state.lastName}/>
+                            <MTextField ref="em" id="email"     error={this.state.eEmpty ? empty : (!this.state.isEmail ? notEmail : (this.state.accountExists ? uExists : ''))} label="Email Address *" value={this.state.email}/>
+                            <MTextField ref="ph" id="phone"     error={this.state.phoneE ? empty : (!this.state.gPhone? phErr:'')} label="Phone Number *" value={this.state.phone}/>
                         </div>
                         <div className="col s12 m6">
                             <MTextField style={{display:'inline-block',width:'90%'}}ref="p1" id="pass1"     error={this.state.p1Empty? empty : (!this.state.pValid ? pass : '')} type="password" label="Password *"/><i ref="tool" style={{whiteSpace:'pre',color:'#888'}}className="material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Password must contain at least 8 characters,</br> a capital letter and a number.">info</i>
@@ -106,7 +134,6 @@ export default class StepOne extends Component{
                             </p>
                         </div>
                     </div>
-
                     <button onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5" style={{color: 'black'}}>Next</button>
                     </form>
                 </div>
