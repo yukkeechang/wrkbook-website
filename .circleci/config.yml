@@ -26,10 +26,10 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run:
-        - curl https://install.meteor.com | /bin/sh
-        - npm install
+      - run: npm install
 
+      - run: meteor || curl https://install.meteor.com | /bin/sh
+      
       - save_cache:
           paths:
             - node_modules
