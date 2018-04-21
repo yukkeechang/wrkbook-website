@@ -2,7 +2,8 @@
   "name": "wrkbook-web",
   "private": true,
   "scripts": {
-    "start": "meteor --settings settings-development.json"
+    "start": "meteor --settings settings-development.json",
+    "test": "meteor test --once --driver-package meteortesting:mocha"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.44",

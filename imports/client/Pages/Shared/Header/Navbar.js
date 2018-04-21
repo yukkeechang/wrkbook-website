@@ -200,7 +200,9 @@ export class NavBarPage extends Component{
             </div>
 
             <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m2 push-s1">
-                <div style={styles.firstName} className="hide-on-small-only">{this.props.user.profile.firstName}</div>
+                <div style={styles.firstName} className="hide-on-small-only">
+                  <Link style={{color:'black'}}to="/profile">{this.props.user.profile.firstName}</Link>
+                </div>
                 <div style={styles.profile}>
                     <UserIcon imageId={this.props.image}/>
                 </div>

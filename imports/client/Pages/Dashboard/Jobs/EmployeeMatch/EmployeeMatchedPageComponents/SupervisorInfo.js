@@ -45,7 +45,7 @@ export default class SuperVisorDecline extends React.Component{
                 <div className="col l3 m5 hide-on-small-only  center-align">
 
                   <a style={{paddingTop:'5px',
-                          borderRadius:'20px',border:'1px solid #ef9a9a',
+                          borderRadius:'12px',border:'1px solid #ef9a9a',
                           textTransform:'none',paddingBottom:'5px',width:'100%',
                           height:'45px',fontSize:'17px'}}
 

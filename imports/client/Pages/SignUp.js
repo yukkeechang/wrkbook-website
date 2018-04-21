@@ -23,6 +23,7 @@ export default class SignUp extends Component{
 
     }
     componentWillUnmount(){
+      
       window.sessionStorage.clear();
     }
     render(){

@@ -23,24 +23,27 @@ class Home extends React.Component {
         <div className="row">
             <div className="container">
             <h1 className="center-align">Notifications</h1>
-            <div className="divider"/>
-          </div>
+            </div>
         </div>
         {!this.props.ready ? <div className="row"><div className="col s4 offset-s4"style={{textAlign: 'center'}}><MSpinner /></div></div> :
-          <div>
+        <div className="container">
+          <div style={{borderRadius:'10px'}} className="card-panel">
+
             {
+
               this.props.notifications.length>0 ?
               this.props.notifications.map((notification,index)=>{
                 return(
-                  <div className="container" style={{padding:'15px'}} key={notification._id}>
+                  <div  key={notification._id}>
                     <NotificationCard notification={notification}/>
-                    <div className="divider"/>
+
                   </div>
                 )
             }):
             <h1 className="center-align">No Notifications</h1>
             }
           </div>
+        </div>
         }
         </div>
       )

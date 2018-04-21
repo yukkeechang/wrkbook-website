@@ -23,7 +23,7 @@ class NotificationCard extends React.Component {
       let red = '#FF919F';
       return(
 
-
+        <div>
           <div className="row">
 
               <div style={{height: '100%'}} className="col m3 offset-m1 s12 center-align">
@@ -104,7 +104,7 @@ class NotificationCard extends React.Component {
                         :
                         (this.props.notification.typeNotifi == "HIRED" ?
                           <Link to={this.props.notification.href}>
-                            <a style={{width:'100%',borderRadius:'20px', backgroundColor:'#9ccc65',color:'white'}} className="btn-flat center-align">Apply Now</a>
+                            <a style={{width:'100%',borderRadius:'20px', backgroundColor:'#9ccc65',color:'white'}} className="btn-flat center-align">View Job</a>
                           </Link>
                           :
                           (this.props.notification.typeNotifi == "REMOVE" ?
@@ -126,8 +126,9 @@ class NotificationCard extends React.Component {
 
             </div>
 
-
           </div>
+          <div style={{marginBottom:'10px'}} className="divider"></div>
+        </div>
 
 
 

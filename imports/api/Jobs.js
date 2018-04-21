@@ -972,7 +972,8 @@ Meteor.methods({
       }
 
       let selector = {_id: jobId};
-
+      Notification.remove({toWhomst:employeeId,jobId:jobId,typeNotifi:"MATCH"});
+      Notification.remove({toWhomst:employeeId,jobId:jobId,typeNotifi:"HIRED"});
       Job.update(selector,{$set: job});
   },
   admiteEmployee(jobId,employeeId){
@@ -1026,6 +1027,7 @@ Meteor.methods({
 
     Meteor.call('createNotification',notify);
 
+    Notification.remove({toWhomst:employeeId,jobId:jobId,typeNotifi:"MATCH"});
 
     let selector = {_id: jobId, employerId:this.userId};
 

@@ -8,12 +8,7 @@ import Avatar from '../../../../Shared/Avatar';
 import { withTracker } from 'meteor/react-meteor-data';
 
  export default  class EmployeeComponent extends React.Component{
-  componentDidMount(){
-    let dropdowns = ReactDOM.findDOMNode();
-    $(dropdowns).ready(()=>{
-      $('.modal').modal();
-    });
-  }
+
   constructor(props){
     super(props);
     this.state={
@@ -21,7 +16,14 @@ import { withTracker } from 'meteor/react-meteor-data';
       employeeId: this.props.employeeId
     }
   }
-  handleDecline(){
+  componentDidMount(){
+    let dropdowns = ReactDOM.findDOMNode(this.refs.declineModal);
+    console.log(dropdowns);
+    $(dropdowns).ready(()=>{
+      $('.modal').modal();
+    });
+  }
+  handleDecline=()=>{
     let employeeId = this.state.employeeId;
     let jobId = this.state.jobId;
 
@@ -47,8 +49,17 @@ import { withTracker } from 'meteor/react-meteor-data';
       }
     });
   }
-  openModal(){
-    $('#declineModal').modal('open');
+
+  openDeclineModal=()=>{
+    console.log("things");
+    console.log(this.refs.declineModal);
+    $(this.refs.declineModal).modal('open');
+  }
+  doNothing=()=>{
+    $(this.refs.declineModal).modal('close');
+  }
+  componentWillUnmount=()=>{
+    $(this.refs.declineModal).modal('close');
   }
 
   render(){
@@ -60,7 +71,7 @@ import { withTracker } from 'meteor/react-meteor-data';
           {!this.props.isCompleted ?
             <div className="row" style={{height: '10px', padding: 'none', margin: '0px'}}>
               <div className="col s1 offset-s11" style={{textAlign:'right'}}>
-                  <a onClick={this.openModal.bind(this)} className="waves-effect" style={{height: '25px', width:'25px',textAlign: 'center', fontSize: '30px', color: 'red'}}><i className="material-icons">delete_forever</i></a>
+                  <a onClick={this.openDeclineModal} className="waves-effect" style={{height: '25px', width:'25px',textAlign: 'center', fontSize: '30px', color: 'red'}}><i className="material-icons">delete_forever</i></a>
               </div>
             </div>
             :
@@ -97,14 +108,30 @@ import { withTracker } from 'meteor/react-meteor-data';
                 </button>
               </div>
             }
-            <div id="declineModal" className="modal">
+            <div ref="declineModal" className="modal">
               <div className="modal-content">
-                <h4>Are you sure you want to delete this employee? Once deleted you can not get this employee back.</h4>
+                <div className="row center-align">
+                  <i style={{fontSize:'100px',color:'#ffe57f '}}className="material-icons">error_outline</i>
+                </div>
+                <div className="row center-align">
+                  <h3>Are you sure?</h3>
+                  <h5>Once deleted you can not get this employee back.</h5>
+                </div>
               </div>
+
               <div className="modal-footer">
-                <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline.bind(this)}>
-                  I am sure.
-                </button>
+                  <div className="col s6">
+                    <button style={{width:'100%'}} className="waves-effect blue-grey lighten-5 btn-flat" onClick={this.doNothing}>
+                      Cancel
+                    </button>
+                  </div>
+                  <div className="col s6">
+
+                    <button style={{width:'100%'}} className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline}>
+                      Yes
+                    </button>
+
+                  </div>
               </div>
             </div>
           </div>
