@@ -7,15 +7,7 @@ import {Roles} from 'meteor/alanning:roles';
 import Base from './Header/Base';
 import Navbar from './Header/Navbar';
 import MSpinner from './MSpinner';
-// let user;
-// if(this.props.user){
-//     let image = Roles.userIsInRole(this.props.user._id,'PRO') ? this.props.user.profile.employeeData.image : this.props.user.profile.employerData.image;
-//     user = (
-//         <div style={{display:'flex',justifyContent:'flex-end'}} className="col s2 m4 offset-m4">
-//             <span style={{color: 'white',paddingRight: '10px'}}className="flow-text hide-on-small-only">{this.props.user.profile.firstName}</span>
-//                 <UserIcon imageId={image}/>
-//         </div>
-// );}
+
 
 class Head extends Component {
     render(){

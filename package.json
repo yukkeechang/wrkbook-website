@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor --settings settings-development.json",
-    "test": "meteor test --once --driver-package meteortesting:mocha"
+    "test": "TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.44",
@@ -39,6 +39,11 @@
     "webpack": "^3.10.0"
   },
   "devDependencies": {
-    "jsdoc": "^3.5.5"
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-15": "^1.0.5",
+    "jsdoc": "^3.5.5",
+    "nightmare": "^3.0.1",
+    "react-test-renderer": "^15.6.2",
+    "sinon": "^4.5.0"
   }
 }

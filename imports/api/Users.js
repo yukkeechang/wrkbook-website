@@ -19,20 +19,20 @@ import {ServerSession } from 'meteor/matteodem:server-session';
 export const NOTAUTH = {
     notAuthorized: true
 };
+if ( Meteor.isServer ) {
+  Meteor.publish(null, function() {
+      return Meteor.users.find({_id: this.userId}, {fields: { emails: 1, profile: 1,roles: 1 } });
+  });
 
-Meteor.publish(null, function() {
-    return Meteor.users.find({_id: this.userId}, {fields: { emails: 1, profile: 1,roles: 1 } });
-});
-
-Meteor.publish('other-user',function(id){
-    if (!this.userId) {
-      this.stop();
-      throw new Meteor.Error('401',NOTAUTH);
-    }else{
-      return Meteor.users.find({_id: id}, {fields: { emails: 1, profile: 1,roles: 1 } });
-    }
-})
-
+  Meteor.publish('other-user',function(id){
+      if (!this.userId) {
+        this.stop();
+        throw new Meteor.Error('401',NOTAUTH);
+      }else{
+        return Meteor.users.find({_id: id}, {fields: { emails: 1, profile: 1,roles: 1 } });
+      }
+  });
+}
 Meteor.methods({
   /*
     Checks if the new password of the user are the same, and if they meet the requirments

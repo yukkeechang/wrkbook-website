@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 import Profile from './Dashboard/Profile/CurrentUserProfile';
 import OtherUser from './Dashboard/Profile/OtherUserProfile'
-import Home from './Dashboard/Home/Home';
+
 import NotFound from '../Pages/NotFound';
 import Payment from './Dashboard/Settings/Payment';
 
