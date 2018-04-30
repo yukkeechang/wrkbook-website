@@ -76,7 +76,7 @@ export default class ApplyDeclineButton extends React.Component{
           <div style={{marginBottom:'10px'}} className="col s6 center-align offset-s3">
             <a style={{color:'white',width:'100%',paddingTop:'5px',
                         textTransform:'none',height:'45px',fontSize:'18px',
-                        borderRadius:'12px',border:'2px solid #a7ffeb'}}
+                        borderRadius:'12px',border:'1px solid #009688'}}
                         id="applydButton"
                         className={this.props.isDecline|| this.props.isApplied ?
                                   "waves-effect teal lighten-1 btn-flat disabled"

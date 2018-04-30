@@ -139,6 +139,7 @@ export default class stepThree extends Component{
                     }else{
                       this.setState({stopclicks: 'disabled'});
                       this.props.next(4, user, false);
+                      window.sessionStorage.clear();
                     }
                   });
                 }else{
@@ -149,6 +150,7 @@ export default class stepThree extends Component{
                     }else{
                       this.setState({stopclicks: 'disabled'});
                       this.props.next(4, user, false);
+                      window.sessionStorage.clear();
                     }
                   });
                 }

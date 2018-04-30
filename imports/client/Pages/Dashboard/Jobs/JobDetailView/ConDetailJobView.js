@@ -47,7 +47,7 @@ class ConComponentPage extends React.Component{
     });
   }
   doNothing=()=>{
-    $(this.refs.declineModal).modal('close');
+    $(this.refs.deleteModal).modal('close');
   }
   constructor(props){
   super(props);
@@ -249,7 +249,7 @@ class ConComponentPage extends React.Component{
               </div>
               <div className="col s6">
                 <Link to={"/"} onClick={this.deleteJob}>
-                  <button style={{width:'100%',border:'1px solid #dd2c00'}} className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline}>
+                  <button style={{width:'100%'}} className="waves-effect waves-red red lighten-3 btn-flat">
                     Yes
                   </button>
                 </Link>

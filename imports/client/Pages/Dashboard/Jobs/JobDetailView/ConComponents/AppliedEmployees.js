@@ -9,6 +9,8 @@ class AppiedEmployee extends React.Component{
     this.setState({
       isCompleted: this.props.isCompleted
     });
+
+
   }
   constructor(props){
     super(props);
@@ -34,12 +36,12 @@ class AppiedEmployee extends React.Component{
           }
         </div>
 
-        <div style={{height:'250px',overflow:'auto'}}>
-          <ul className="collection">
+        <div style={{height:'350px',overflow:'auto'}}>
+          <ul ref="listedItem"  className="collection">
             {
-              this.props.employees.map(function(user,index){
+              this.props.employees.map((user,index)=>{
                 return(
-                  <li   key = {user._id} className="collection-item">
+                  <li  key = {user._id} className="collection-item">
                     <EmployeeComponent
                       isCompleted={this.state.isCompleted}
                       jobInfo = {this.props.job}
@@ -49,7 +51,7 @@ class AppiedEmployee extends React.Component{
                     />
                   </li>
                 )
-              }.bind(this))
+              })
             }
           </ul>
         </div>

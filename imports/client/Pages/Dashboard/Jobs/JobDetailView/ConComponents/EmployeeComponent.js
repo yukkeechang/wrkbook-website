@@ -18,7 +18,6 @@ import { withTracker } from 'meteor/react-meteor-data';
   }
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode(this.refs.declineModal);
-    console.log(dropdowns);
     $(dropdowns).ready(()=>{
       $('.modal').modal();
     });
@@ -64,9 +63,9 @@ import { withTracker } from 'meteor/react-meteor-data';
 
   render(){
     console.log(this.props);
-    let imageId=this.props.profile.employeeData.image
+    let imageId=this.props.profile.employeeData.image;
     return(
-      <div className="card z-depth-0">
+      <div ref="employeeCard" className="card z-depth-0">
         <div className="card-content">
           {!this.props.isCompleted ?
             <div className="row" style={{height: '10px', padding: 'none', margin: '0px'}}>
@@ -77,12 +76,12 @@ import { withTracker } from 'meteor/react-meteor-data';
             :
             null
           }
-          <div className="row valign-wrapper ec" style={{width:'100%'}}>
-            <div className="col m4 s12" style={{display:'flex', justifyContent:'center'}}>
+          <div className="row center-align">
+            <div className="col m2 s12" style={{display:'flex', justifyContent:'center'}}>
 
               <Avatar size={100} imageId={imageId}/>
             </div>
-            <div className="col m8 s12">
+            <div className="col m8 s12 offset-m1">
               <div className="row">
                 <div className="col s12">
                   <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
@@ -100,7 +99,7 @@ import { withTracker } from 'meteor/react-meteor-data';
           <div className="row">
             {
               !this.props.isAdmitted &&
-              <div className="col m6 s12 offset-m4 offset-s2">
+              <div className="col m6 s12 offset-m5 offset-s3">
                 <button className="waves-effect teal btn-flat" onClick={this.handleAdmit.bind(this)}>
                   <div className="white-text">
                   Hire

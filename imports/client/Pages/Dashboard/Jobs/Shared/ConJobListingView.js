@@ -35,20 +35,22 @@ class ConView extends React.Component{
       return(
         <div className="container">
           <div className="card">
-            <div className="row card grey lighten-1">
-              <div className="row">
-                <div className="col s12 center-align">
-                  <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'2em', margin:'0px'}}>Job Title: {this.props.job.jobTitle.text}</p></Link>
+            <div style={{paddingLeft:'10px',paddingRight:'10px'}} className="row">
+              <div className=" card grey lighten-1">
+                <div style={{marginLeft:'-10px',marginRight:'-10px'}}  className="row">
+                  <div className="col s12 center-align">
+                    <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p className="truncate" style={{fontSize:'2em', margin:'0px'}}>Job Title: {this.props.job.jobTitle.text}</p></Link>
+                  </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col s12 center-align">
-                  <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'1.5em', margin:'0px'}} >Location: <u>{this.props.job.location.locationName}</u></p> <p>{this.props.notifications.length >0 ?
-                    <span className="new badge">{this.props.notifications.length}</span> : null}</p></Link>
+                <div style={{marginLeft:'-10px',marginRight:'-10px'}}  className="row">
+                  <div className="col s12 center-align">
+                    <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}><p style={{fontSize:'1.5em', margin:'0px'}} >Location: <u>{this.props.job.location.locationName}</u>{this.props.notifications.length >0 ?
+                      <span style={{marginRight:'10px'}}className="new badge">{this.props.notifications.length}</span> : null}</p></Link>
+                  </div>
                 </div>
               </div>
             </div>
-            <div style={{height:'200px',overflow: 'auto'}}>
+            <div style={{height:'250px',overflow: 'auto'}}>
 
               {
                 employeesBoi.map((employeeInfo,index)=>{
@@ -79,17 +81,19 @@ class ConView extends React.Component{
       return(
         <div className="container">
           <div className="card">
-            <div className="row card grey lighten-1">
-              <div className="col s12 center-align">
-                  <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}>
-                  <p style={{fontSize:'2em', margin:'0px'}} className="flow-text">Job Title: {this.props.job.jobTitle.text}</p>
-                  </Link>
-              </div>
-              <div className="col s12 center-align">
-                   <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}>
-                   <p style={{fontSize:'1.5em', margin:'0px'}} className="flow-text">Location: <u>{this.props.job.location.locationName}</u>
-                   {this.props.notifications.length >0 ? <span className="new badge">{this.props.notifications.length}</span> : null}</p>
-                   </Link>
+            <div style={{paddingLeft:'10px',paddingRight:'10px'}} className="row">
+              <div className=" card grey lighten-1">
+                <div style={{marginLeft:'-10px',marginRight:'-10px'}}  className="row">
+                  <div className="col s12 center-align">
+                    <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p className="truncate" style={{fontSize:'2em', margin:'0px'}}>Job Title: {this.props.job.jobTitle.text}</p></Link>
+                  </div>
+                </div>
+                <div style={{marginLeft:'-10px',marginRight:'-10px'}}  className="row">
+                  <div className="col s12 center-align">
+                    <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'1.5em', margin:'0px'}} >Location: <u>{this.props.job.location.locationName}</u>{this.props.notifications.length >0 ?
+                      <span style={{marginRight:'10px'}}className="new badge">{this.props.notifications.length}</span> : null}</p></Link>
+                  </div>
+                </div>
               </div>
             </div>
 
