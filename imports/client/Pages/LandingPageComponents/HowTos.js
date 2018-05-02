@@ -1,14 +1,21 @@
 import React from 'react';
 import Step from './HowTo/Step';
+import Button from '../Shared/Button';
 
 export default class HowTo extends React.Component{
     constructor(props){
       super(props);
     }
+    pro(){
+        window.localStorage.isPro = true;
+    }
+    con(){
+        window.localStorage.isPro = false;
+    }
     render(){
       return(
           <div id="HowTo" style={{backgroundColor: 'white'}} >
-              <h3 style={{fontFamily:'avenir-lt-w01_35-light1475496',textAlign: 'center',margin:'0',paddingBottom:'20px'}}>Made for construction professionals and contractors </h3>
+              <h4 style={{fontFamily:'avenir-lt-w01_35-light1475496',textAlign: 'center',margin:'0',paddingBottom:'20px'}}>Made for skilled trade professionals and construction contractors </h4>
 
               {/*Professional Section*/}
               <div className="container">
@@ -111,7 +118,12 @@ export default class HowTo extends React.Component{
                       </div>
                   </div>
               </div>
+            {/*
+              <div >
+                  <button onClick={this.pro} to={"/register"} children={"Sign Up Today!"}></button>
+              </div>
 
+            */}
           </div>
       )
     }
