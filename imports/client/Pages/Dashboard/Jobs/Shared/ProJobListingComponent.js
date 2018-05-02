@@ -68,11 +68,11 @@ export default class ProJobListingPage extends React.Component {
             </div>
           </div>
 
-          <div className="row">
+          <div className="row card-content">
               <UserInfoComp
                 size={100}
                 isPro={true}
-                name={this.props.employerInfo.profile.firstName+" "+this.props.employerInfo.profile.lastName}
+                name={this.props.employerInfo.profile.employerData.companyName.text}
                 ratingValue={this.props.employerRating}
                 imageId={this.props.employerInfo.profile.employerData.image}
               />
