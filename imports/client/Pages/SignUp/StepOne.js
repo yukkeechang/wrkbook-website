@@ -134,7 +134,7 @@ export default class StepOne extends Component{
                             </p>
                         </div>
                     </div>
-                    <button onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5" style={{color: 'black'}}>Next</button>
+                    <button onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5 col s5 m3" style={{color: 'black'}}>Next</button>
                     </form>
                 </div>
 

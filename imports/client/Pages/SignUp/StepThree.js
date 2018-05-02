@@ -139,6 +139,7 @@ export default class stepThree extends Component{
                     }else{
                       this.setState({stopclicks: 'disabled'});
                       this.props.next(4, user, false);
+                      window.sessionStorage.clear();
                     }
                   });
                 }else{
@@ -149,6 +150,7 @@ export default class stepThree extends Component{
                     }else{
                       this.setState({stopclicks: 'disabled'});
                       this.props.next(4, user, false);
+                      window.sessionStorage.clear();
                     }
                   });
                 }
@@ -186,9 +188,9 @@ export default class stepThree extends Component{
 
             <div className="col s12">
                 <div className="row">
-                    <div id="imageContain" style={{display:'flex', justifyContent:'center',alignItems:'center'}}className="col s12">
+                    <div id="imageContain" style={{display:'flex', justifyContent:'center',alignItems:'center'}} className="col s12">
                     {this.state.pesonalPic ?
-                      <div className="circle" id="page">
+                      <div id="page">
                         <div id="demo-basic">
 
                         </div>

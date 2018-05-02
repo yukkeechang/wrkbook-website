@@ -47,7 +47,7 @@ class ConComponentPage extends React.Component{
     });
   }
   doNothing=()=>{
-    $(this.refs.declineModal).modal('close');
+    $(this.refs.deleteModal).modal('close');
   }
   constructor(props){
   super(props);
@@ -132,14 +132,16 @@ class ConComponentPage extends React.Component{
 
             </div>
             {!this.props.isCompleted ?
-              <div className="col m2 s2 offset-s2 fixed-action-btn horizontal hide-on-med-and-up" style={{position:'static', zIndex:'997'}}>
-                <a className="btn-floating red waves-effect  center-align"><i className="material-icons">menu</i></a>
+              <div className="col s1  offset-s2 fixed-action-btn horizontal click-to-toggle hide-on-med-and-up" style={{position:'static'}}>
+                <a className="btn-floating red waves-effect">
+                  <i className="material-icons">menu</i>
+                </a>
                 <ul>
-                  <li style={{margin:'25px 5px 0px 5px'}}><Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
+                  <li style={{paddingTop:'10px'}}><Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
                     <a className="btn-floating blue-grey lighten-5"><i style={{color:'black'}} className="material-icons">edit</i></a>
                   </Link></li>
-                  <li style={{margin:'25px 5px 0px 0px'}}>
-                    <a className="btn-floating blue-grey lighten-5" onClick={this.deleteModal}><i style={{color:'red'}} className="material-icons">delete_forever</i></a>
+                  <li style={{paddingTop:'10px'}} >
+                    <a className="btn-floating red lighten-5" onClick={this.deleteModal}><i style={{color:'red'}} className="material-icons">delete_forever</i></a>
                   </li>
                 </ul>
               </div>
@@ -247,7 +249,7 @@ class ConComponentPage extends React.Component{
               </div>
               <div className="col s6">
                 <Link to={"/"} onClick={this.deleteJob}>
-                  <button style={{width:'100%',border:'1px solid #dd2c00'}} className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline}>
+                  <button style={{width:'100%'}} className="waves-effect waves-red red lighten-3 btn-flat">
                     Yes
                   </button>
                 </Link>

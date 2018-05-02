@@ -24,6 +24,11 @@ email@1.2.3
 session@1.1.7
 matteodem:server-session
 percolate:synced-cron
-
+practicalmeteor:chai
+xolvio:cleaner
 ecmascript@0.10.6
 meteorhacks:ssr
+cultofcoders:mocha
+meteortesting:mocha
+random
+johanbrook:publication-collector
