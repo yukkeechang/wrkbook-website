@@ -50,7 +50,6 @@ export default class SuperVisorDecline extends React.Component{
                           height:'45px',fontSize:'17px'}}
 
                            id="disabledButton" className={this.props.isDecline ? "waves-effect red lighten-5 btn-flat disabled": "waves-effect red lighten-5 btn-flat "} onClick={this.openDeclineModal} >Decline</a>
-
                 </div>
             </div>
             <div className="row">

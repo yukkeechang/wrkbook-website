@@ -24,7 +24,7 @@ Table of Contents End
 body{
     font-family: "Avenir";
     min-width: 275px;
-    background-color:#fff2ff;
+    background-color:#ffffff;
 }
 
 html::-webkit-scrollbar {
@@ -89,6 +89,9 @@ label[data-error]:after{
 .toBold {
     font-weight: bold;
 }
+.size-13 {
+  font-size: 18px;
+}
 input[type="text"]+label[data-error]:after
  {
     display:inline-block !important;
@@ -151,6 +154,10 @@ input[type="password"]:focus+label[data-error]:after{
 #demo-basic {
   width: 400px;
   height: 400px;
+}
+
+.dark-gray {
+  color: "6A6A6A"
 }
 
 

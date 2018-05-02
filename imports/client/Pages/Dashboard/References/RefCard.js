@@ -30,7 +30,7 @@ export default class RefCard extends Component{
       let ref = this.props.reference;
       return(
 
-                <div className="card">
+                <div className="section">
                   <div className="card-content">
                     <div className="row">
                       <div className="col s6">
@@ -44,7 +44,9 @@ export default class RefCard extends Component{
                     </div>
                     <p>{ref.position.text}</p>
                   </div>
+                <div className="divider"></div>
                 </div>
+
 
 
 
