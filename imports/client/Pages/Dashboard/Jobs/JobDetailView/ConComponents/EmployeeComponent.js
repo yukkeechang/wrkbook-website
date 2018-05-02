@@ -8,12 +8,7 @@ import Avatar from '../../../../Shared/Avatar';
 import { withTracker } from 'meteor/react-meteor-data';
 
  export default  class EmployeeComponent extends React.Component{
-  componentDidMount(){
-    let dropdowns = ReactDOM.findDOMNode();
-    $(dropdowns).ready(()=>{
-      $('.modal').modal();
-    });
-  }
+
   constructor(props){
     super(props);
     this.state={
@@ -21,7 +16,13 @@ import { withTracker } from 'meteor/react-meteor-data';
       employeeId: this.props.employeeId
     }
   }
-  handleDecline(){
+  componentDidMount(){
+    let dropdowns = ReactDOM.findDOMNode(this.refs.declineModal);
+    $(dropdowns).ready(()=>{
+      $('.modal').modal();
+    });
+  }
+  handleDecline=()=>{
     let employeeId = this.state.employeeId;
     let jobId = this.state.jobId;
 
@@ -47,31 +48,40 @@ import { withTracker } from 'meteor/react-meteor-data';
       }
     });
   }
-  openModal(){
-    $('#declineModal').modal('open');
+
+  openDeclineModal=()=>{
+    console.log("things");
+    console.log(this.refs.declineModal);
+    $(this.refs.declineModal).modal('open');
+  }
+  doNothing=()=>{
+    $(this.refs.declineModal).modal('close');
+  }
+  componentWillUnmount=()=>{
+    $(this.refs.declineModal).modal('close');
   }
 
   render(){
     console.log(this.props);
-    let imageId=this.props.profile.employeeData.image
+    let imageId=this.props.profile.employeeData.image;
     return(
-      <div className="card z-depth-0">
+      <div ref="employeeCard" className="card z-depth-0">
         <div className="card-content">
           {!this.props.isCompleted ?
             <div className="row" style={{height: '10px', padding: 'none', margin: '0px'}}>
               <div className="col s1 offset-s11" style={{textAlign:'right'}}>
-                  <a onClick={this.openModal.bind(this)} className="waves-effect" style={{height: '25px', width:'25px',textAlign: 'center', fontSize: '30px', color: 'red'}}><i className="material-icons">delete_forever</i></a>
+                  <a onClick={this.openDeclineModal} className="waves-effect" style={{height: '25px', width:'25px',textAlign: 'center', fontSize: '30px', color: 'red'}}><i className="material-icons">delete_forever</i></a>
               </div>
             </div>
             :
             null
           }
-          <div className="row valign-wrapper ec" style={{width:'100%'}}>
-            <div className="col m4 s12" style={{display:'flex', justifyContent:'center'}}>
+          <div className="row center-align">
+            <div className="col m2 s12" style={{display:'flex', justifyContent:'center'}}>
 
               <Avatar size={100} imageId={imageId}/>
             </div>
-            <div className="col m8 s12">
+            <div className="col m8 s12 offset-m1">
               <div className="row">
                 <div className="col s12">
                   <h4>{this.props.profile.firstName + " " + this.props.profile.lastName}</h4>
@@ -89,7 +99,7 @@ import { withTracker } from 'meteor/react-meteor-data';
           <div className="row">
             {
               !this.props.isAdmitted &&
-              <div className="col m6 s12 offset-m4 offset-s2">
+              <div className="col m6 s12 offset-m5 offset-s3">
                 <button className="waves-effect teal btn-flat" onClick={this.handleAdmit.bind(this)}>
                   <div className="white-text">
                   Hire
@@ -97,14 +107,30 @@ import { withTracker } from 'meteor/react-meteor-data';
                 </button>
               </div>
             }
-            <div id="declineModal" className="modal">
+            <div ref="declineModal" className="modal">
               <div className="modal-content">
-                <h4>Are you sure you want to delete this employee? Once deleted you can not get this employee back.</h4>
+                <div className="row center-align">
+                  <i style={{fontSize:'100px',color:'#ffe57f '}}className="material-icons">error_outline</i>
+                </div>
+                <div className="row center-align">
+                  <h3>Are you sure?</h3>
+                  <h5>Once deleted you can not get this employee back.</h5>
+                </div>
               </div>
+
               <div className="modal-footer">
-                <button className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline.bind(this)}>
-                  I am sure.
-                </button>
+                  <div className="col s6">
+                    <button style={{width:'100%'}} className="waves-effect blue-grey lighten-5 btn-flat" onClick={this.doNothing}>
+                      Cancel
+                    </button>
+                  </div>
+                  <div className="col s6">
+
+                    <button style={{width:'100%'}} className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline}>
+                      Yes
+                    </button>
+
+                  </div>
               </div>
             </div>
           </div>

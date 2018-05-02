@@ -22,6 +22,9 @@ export default class SignUp extends Component{
         this.setState({step: step,User:User,pro:pro});
 
     }
+    componentWillUnmount(){
+      window.sessionStorage.clear();
+    }
     render(){
         let step;
         switch(this.state.step){
