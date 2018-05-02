@@ -12,10 +12,3 @@ export default Button = (props)=> {
 
     )
 }
-
-
-{/* <div className={props.style}>
-        <Link onClick={props.onClick} to={props.to} >
-            <h5 className="txt" style={{color: props.text}}>{props.children}</h5>
-        </Link>
-      </div> */}

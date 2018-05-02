@@ -18,12 +18,11 @@ export default Services = ()=> {
                         <div className="col s4 m1 l1"><Step img="images/services/wheel_barrow.png" text="Concrete"/></div>
                         <div className="col s4 m1 l1"><Step img="images/services/roofing.png" text="Masonry"/></div>
                         <div className="col s4 m1 l1"><Step img="images/services/paint_roller.png" text="Glazing"/></div>
-                        <div className="col s4 m1 l1"><Step img="images/services/roofing.png" text="Mechanic"/></div>
+                        <div className="col s4 m1 l1"><Step img="images/services/roofing.png" text="Carpentry"/></div>
                         <div className="col s4 m1 l1"><Step img="images/services/house.png" text="Remodeling"/></div>
-                        <div className="col s4 m1 l1"><Step img="images/services/house.png" text="Heat / Cooling"/></div>
+                        <div className="col s4 m1 l1"><Step img="images/services/house.png" text="HVAC"/></div>
                         </div>
                       </div>
-
                 </div>
             </div>
          <div className="divider"></div>
