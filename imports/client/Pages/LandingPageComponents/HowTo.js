@@ -22,7 +22,7 @@ export default class HowTo extends React.Component{
                   <h3 style={{width:'166px',fontFamily:'avenir-lt-w01_35-light1475496',fontStyle:'italic',fontSize:'28px',margin:'0',backgroundColor:'#1BAB6E',padding:'2px 5px 2px 5px'}}>Professional</h3>
                   <div style={{marginTop:'40px'}}className="row">
                       <div className="col s12 m2 offset-m3">
-                          <Step img="/images/profile.png" title="Make a profile" text="List down your skills and certifications"/>
+                          <Step className={"step"}img="/images/profile.png" title="Make a profile" text="List down your skills and certifications"/>
                       </div>
                       <div style={{textAlign:'center',marginTop:'60px'}} className="col s12 m2 hide-on-small-only">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="9.800000190734863 1.3999998569488525 32.29999923706055 57.19999694824219" preserveAspectRatio="xMidYMid meet" style={{fill:'#a9a9a9', height: '65px',width:'65px',margin:'auto',transform:'scaleX(-1)'}}>
@@ -39,7 +39,7 @@ export default class HowTo extends React.Component{
                           </svg>
                       </div>
                       <div className="col s12 m2">
-                          <Step img="/images/tools.png" title="Get hired" text="Get hired based on your skills and availability"/>
+                          <Step  className={"step"} img="/images/tools.png" title="Get hired" text="Get hired based on your skills and availability"/>
                       </div>
                   </div>
               </div>
@@ -47,7 +47,7 @@ export default class HowTo extends React.Component{
                   <h3 style={{width:'166px',fontFamily:'avenir-lt-w01_35-light1475496',fontStyle:'italic',fontSize:'28px',margin:'0',backgroundColor:'#1BAB6E',padding:'2px 5px 2px 5px'}}>Contractor</h3>
                   <div style={{marginTop:'40px'}}className="row">
                       <div className="col s12 m2 offset-m1">
-                          <Step img="/images/jobpost.png" title="Make a job post" text="List down the dates, required skills, and location"/>
+                          <Step  className={"step"} img="/images/jobpost.png" title="Make a job post" text="List down the dates, required skills, and location"/>
                       </div>
                       <div style={{textAlign:'center',marginTop:'60px'}} className="col s12 m2 hide-on-small-only">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="9.800000190734863 1.3999998569488525 32.29999923706055 57.19999694824219" preserveAspectRatio="xMidYMid meet" style={{fill:'#a9a9a9', height: '65px',width:'65px',margin:'auto',transform:'scaleX(-1)'}}>
@@ -64,7 +64,7 @@ export default class HowTo extends React.Component{
                           </svg>
                       </div>
                       <div className="col s12 m2">
-                          <Step img="/images/worker.png" title="Find workers" text="Get workers matched to your job post based on your qualifications"/>
+                          <Step   className={"step"}img="/images/worker.png" title="Find workers" text="Get workers matched to your job post based on your qualifications"/>
                       </div>
                       <div style={{textAlign:'center',marginTop:'60px'}} className="col s12 m2 hide-on-small-only">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="9.800000190734863 1.3999998569488525 32.29999923706055 57.19999694824219" preserveAspectRatio="xMidYMid meet" style={{fill:'#a9a9a9', height: '65px',width:'65px',margin:'auto',transform:'scaleX(-1)'}}>
@@ -81,7 +81,7 @@ export default class HowTo extends React.Component{
                           </svg>
                       </div>
                       <div className="col s12 m2">
-                          <Step img="/images/network.png" title="Network" text="Continuously meet and work with professionals"/>
+                          <Step   className={"step"}img="/images/network.png" title="Network" text="Continuously meet and work with professionals"/>
                       </div>
                   </div>
               </div>

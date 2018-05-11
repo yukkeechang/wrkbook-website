@@ -12,6 +12,7 @@ import { Roles } from 'meteor/alanning:roles';
 import NotFound from '../../../Pages/NotFound';
 import { withTracker } from 'meteor/react-meteor-data';
 
+
 class ProFileDash extends React.Component {
 constructor(props) {
   super(props);
@@ -22,7 +23,7 @@ constructor(props) {
 
 }
 componentDidMount(){
-  console.log(this.refs.things);
+  console.log("things: "+this.refs.things);
   let switchRouter =this.refs.things.context.router.route.location.pathname;
   this.setState({routeName:switchRouter});
   console.log(switchRouter);
@@ -57,7 +58,7 @@ render() {
     console.log(url);
 
   return (
-    <div>
+    <div style={{backgroundColor: "#F5F5F5"}} >
       <Header  isUser={true} user={this.props.user} url={this.state.routeName}/>
       <div className="row"></div>
       <div className="container">

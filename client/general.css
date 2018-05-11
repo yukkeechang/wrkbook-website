@@ -10,6 +10,7 @@ Table of Contents
 * 4.0 - Other Components
 *   4.1 - Modal size styles
 *   4.2 - Settings page styles
+*   4.3 - Button
 ------------------------------------------------------------------------ /
 Table of Contents End
 ------------------------------------------------------------------------*/
@@ -24,7 +25,7 @@ Table of Contents End
 body{
     font-family: "Avenir";
     min-width: 275px;
-    background-color:#ffffff;
+    background-color: #d0d0d0;
 }
 
 html::-webkit-scrollbar {
@@ -35,14 +36,17 @@ html::-webkit-scrollbar {
 
 /* 2.0 - Header
 ------------------------------------------------------------------------*/
+
+
 #header{
     z-index: 4000;
     position: fixed;
-    height: 64px;
+    height: 75px;
     width: 100%;
-    background-color: rgba(0,0,0,0.4);
-    /* box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.4); */
+    background-color: rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.4);
 }
+
 
 .sub-menu a {
     margin-left: 4px;
@@ -68,6 +72,7 @@ html::-webkit-scrollbar {
     color: white;
     font: normal normal normal 40px/1.4em spinnaker,sans-serif;
     margin: 0;
+    text-align: left;
 }
 /* 3.2 - End Title styles
 -------------------------------------------------*/
@@ -195,4 +200,32 @@ input[type="password"]:focus+label[data-error]:after{
     color: #888888;
 }
 /* 4.2 - End of Settings page styles
+-------------------------------------------------*/
+/* 4.3 - Button
+-------------------------------------------------*/
+.button {
+	height: 76px;
+	border: 3px;
+	border-radius: 10px;
+  padding: 12px 0 12px 0;
+
+}
+.fill-white {
+  background-color:  white;
+}
+.fill-green {
+  background-color: #10a96d;
+}
+.txt {
+  text-align: center;
+}
+.txt-white {
+  color: white;
+}
+
+.txt-green {
+  color: #10a96d;
+}
+
+/* 4.3 - Button
 -------------------------------------------------*/

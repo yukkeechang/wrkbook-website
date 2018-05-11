@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 
 export default Button = (props)=> {
     return(
-        
-            <Link onClick={props.onClick} to={props.to} >
-                <h5 className="heading hBut">{props.children}</h5>
-            </Link>
 
+
+          <Link onClick={props.onClick} className={props.className} style={props.stylez} to={props.to} >
+              <h5 className="txt hBut" style={{color: props.text, paddingTop: props.paddingTop}}>{props.children}</h5>
+          </Link>
 
     )
 }

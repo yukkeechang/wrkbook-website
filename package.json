@@ -26,6 +26,7 @@
     "rc-calendar": "^9.4.0",
     "rc-select": "^6.9.7",
     "react": "^15.6.2",
+    "react-addons-css-transition-group": "^15.6.2",
     "react-async-script": "^0.9.1",
     "react-dom": "^15.6.2",
     "react-ga": "^2.4.1",

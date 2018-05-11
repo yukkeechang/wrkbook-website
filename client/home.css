@@ -29,19 +29,19 @@ Table of Contents End
 /* 1.2 - Buttons
 -------------------------------------------------*/
 .hBut{
-    color: white;
     text-align: center;
-    border: 3px solid white;
     padding: 12px 0 12px 0;
 }
 .hBut:visited{
     color: white;
 }
+/*
 .hBut:hover{
     border-color: burlywood;
     background-color: burlywood;
     transition: all 200ms ease-in;
 }
+*/
 /* 1.2 - End Buttons
 -------------------------------------------------*/
 /* 1.0 - End Hero Section
