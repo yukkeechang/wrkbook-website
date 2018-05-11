@@ -22,17 +22,13 @@ export default class LandingPage extends React.Component{
   }
   handleClick=(words)=>{
     let node = ReactDOM.findDOMNode(this.refs.HowTo);
-    let node2 = ReactDOM.findDOMNode(this.refs.price);
     let node3 = ReactDOM.findDOMNode(this.refs.home);
 
     if(words === "HowTo"){
-      node.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-    }
-    if (words === "price") {
-      node2.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+      node.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
     }
     if (words === "home") {
-      node3.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+      node3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
     }
   }
   render(){
@@ -43,11 +39,8 @@ export default class LandingPage extends React.Component{
         <Header handleClick={this.handleClick}/>
 
         <Hero ref="home"/>
-        <Services ref="services"/>
-        <HowTos ref="HowTos"/>
-        {/*<HowTo ref="HowTo"/>*/}
-        {/*<Price history={this.props.history} ref="price"/>*/}
-        {/*<About/> */}
+        <Services/>
+        <HowTos ref="HowTo"/>
         <Testimonial/>
         <Footer/>
 

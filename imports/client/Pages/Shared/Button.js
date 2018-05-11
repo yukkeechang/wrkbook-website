@@ -6,7 +6,7 @@ export default Button = (props)=> {
     return(
 
 
-          <Link onClick={props.onClick} to={props.to} >
+          <Link onClick={props.onClick} className={props.className} style={props.stylez} to={props.to} >
               <h5 className="txt hBut" style={{color: props.text, paddingTop: props.paddingTop}}>{props.children}</h5>
           </Link>
 

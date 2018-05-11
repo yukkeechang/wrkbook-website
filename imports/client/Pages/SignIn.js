@@ -50,7 +50,7 @@ export default class SignIn extends Component{
 
         <Header/>
 
-        <div style={{height:'70px'}}></div>
+        <div style={{height:'100px'}}></div>
           <div className="wrapper">
             <div style={{zIndex:'-1'}}  className="container">
               <div className="card">

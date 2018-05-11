@@ -35,11 +35,13 @@ Table of Contents End
 .hBut:visited{
     color: white;
 }
+/*
 .hBut:hover{
     border-color: burlywood;
     background-color: burlywood;
     transition: all 200ms ease-in;
 }
+*/
 /* 1.2 - End Buttons
 -------------------------------------------------*/
 /* 1.0 - End Hero Section

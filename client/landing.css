@@ -17,16 +17,13 @@ Table of Contents End
 /* 1.1 - Buttons
 -------------------------------------------------*/
 #rec-but{
-	height:  47px;
-  width: 130px;
   border: 2px solid white;
   border-radius: 15px;
-	position: absolute;
-	right: 15px;
+	margin-left: 5px;
 }
-      #rec-but__full {
-        background-color: white;
-      }
+#rec-but__full {
+  background-color: white;
+}
 
 /* 1.0 - Buttond
 -------------------------------------------------*/
@@ -49,4 +46,48 @@ Table of Contents End
 -------------------------------------------------*/
 .card-center {
 	align-content: center;
+}
+.nav-bar-text{
+	font-size: 1em;
+}
+.nav-bar-heading{
+	font-size: 1em;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	.nav-bar-text{
+		font-size: .9em;
+	}
+	.nav-bar-heading{
+		font-size: 1em;
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	.nav-bar-text{
+		font-size: 1.0em;
+	}
+	.nav-bar-heading{
+		font-size: 1.1em;
+	}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	.nav-bar-text{
+		font-size: 1.1em;
+	}
+	.nav-bar-heading{
+		font-size: 1.4em;
+	}
+}
+@media only screen and (min-width: 992px) {
+	.nav-bar-text{
+		font-size: 1.2em;
+	}
+	.nav-bar-heading{
+		font-size: 1.7em;
+	}
 }

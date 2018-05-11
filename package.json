@@ -5,9 +5,7 @@
     "start": "meteor --settings settings-development.json"
   },
   "dependencies": {
-
     "@babel/runtime": "^7.0.0-beta.39",
-
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
@@ -25,6 +23,7 @@
     "rc-calendar": "^9.4.0",
     "rc-select": "^6.9.7",
     "react": "^15.6.2",
+    "react-addons-css-transition-group": "^15.6.2",
     "react-async-script": "^0.9.1",
     "react-dom": "^15.6.2",
     "react-ga": "^2.4.1",
