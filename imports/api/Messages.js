@@ -15,8 +15,8 @@ if ( Meteor.isServer ) {
   Meteor.publish('channels-for-job',function(jobId){
     return Channel.find({jobId:jobId});
   });
-  Meteor.publish('messages-for-channel',function(jobId,channel){
-    let channel  = Channel.findOne({jobId:jobId,channel:channel});
+  Meteor.publish('messages-for-channel',function(jobId,channell){
+    let channel  = Channel.findOne({jobId:jobId,channel:channell});
     return Message.find({channelId:channel._id ,jobId:jobId,to:{$exists:false}});
   });
   Meteor.publish('messages-from-user',function(userId,jobId){
@@ -35,7 +35,7 @@ Meteor.methods({
     let validation = MessagesSchema.namedContext('Message');
     if(!validation.validate(newMessage))throw new Meteor.Error('403','THINGS');
     Message.insert(newMessage);
-  }
+  },
   createChannel(newChannel){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     let validation = ChannelSchema.namedContext('Channel');

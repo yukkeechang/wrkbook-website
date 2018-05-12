@@ -10,7 +10,7 @@ SyncedCron.add({
   },
   job(){
     let num = changeIsOpen();
-    return num + " jobs closed";
+    return `${num} jobs closed`;
   },
 
 });
