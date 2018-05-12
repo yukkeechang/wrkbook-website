@@ -77,6 +77,9 @@ export default class Base extends Component{
                   <div style={styles.heading} className="col m1 offset-m1 valign-wrapper hide-on-small-only nav-bar-heading">
                       <div className="genText">Login</div>
                   </div>
+                  <div  style={styles.headIcon} className="col s3 hide-on-med-and-up">
+                      <i style={styles.icon} className="genText material-icons">account_circle</i>
+                  </div>
               </Link>
               <Link to="/register">
                 <div id="rec-but" style={styles.heading} className="col m1  hide-on-small-only nav-bar-heading ">
