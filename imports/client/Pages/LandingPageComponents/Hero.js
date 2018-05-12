@@ -2,6 +2,7 @@ import React, {Component}  from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../Shared/Button';
 import { CSSTransitionGroup } from 'react-transition-group';
+import ReactDOM from 'react-dom';
 import { hotjar } from 'react-hotjar';
 
 hotjar.initialize(790931, 6);
@@ -13,11 +14,17 @@ export default class Hero extends Component {
     con(){
         window.localStorage.isPro = false;
     }
+    componentDidMount(){
+      let things = ReactDOM.findDOMNode(this.refs.hero);
+
+      const observer = lozad(things);
+      observer.observe();
+    }
     render(){
 
       hotjar.initialize(790931, 6);
         return (
-            <div id="hero" className="valign-wrapper">
+            <div id="hero" ref="hero" className="valign-wrapper lozad"  data-background-image="/images/heroBG.jpg">
                 <div className="container">
                   <div className="center-align">
                     <div className="row">
