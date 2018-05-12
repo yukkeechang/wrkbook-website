@@ -67,7 +67,7 @@ export default class Base extends Component{
                 {this.links("/#HowTo", "HowTo", "How It Works")}
 
               <Link to="/login">
-                  <div style={styles.heading} className="col m1 offset-m1 valign-wrapper hide-on-small-only nav-bar-heading">
+                  <div style={styles.heading} className="col m1 offset-m2 valign-wrapper hide-on-small-only nav-bar-heading">
                       <div className="genText">Login</div>
                   </div>
               </Link>
