@@ -35,7 +35,7 @@ Accounts.emailTemplates.resetPassword = {
   },
   html(user,url){
     SSR.compileTemplate('htmlEmail', Assets.getText('EmailTemplates/ResetPassword.html'));
-    var emailData = {
+    let emailData = {
       name: `${user.profile.firstName}` ,
       url: `${url}`
     };
@@ -82,10 +82,10 @@ Meteor.methods({
   },
 
   removeJobPro(totalPeople,jobLocation) {
-    console.log("removing job email")
+
     for (let i = 0; i < totalPeople.length; i++){
       //send email out for everyone in the array
-      console.log("function email for removing job");
+
       let person=  Meteor.users.findOne({_id:totalPeople[i]},{fields: { emails: 1} });
       Email.send({
         to: person.emails[0].address,
@@ -101,7 +101,7 @@ Meteor.methods({
   removeJobCon(conId, jobLocation) {
    SSR.compileTemplate('htmlEmail', Assets.getText('EmailTemplates/RemoveJobCon.html'));
    let conUser = Meteor.users.findOne({_id:conId});
-    var emailData = {
+    let emailData = {
       location: `${jobLocation}`,
       name: `${conUser.profile.firstName}`,
     };
