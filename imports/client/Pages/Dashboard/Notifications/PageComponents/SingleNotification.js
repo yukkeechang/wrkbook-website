@@ -46,7 +46,7 @@ class NotificationCard extends React.Component {
                             <h5> <b>You're Hired </b>  {!this.props.notification.seen&&<span style={{fontSize:'larger',color:'#FF919F'}}> <i> New </i> </span>}</h5>
                             :
                             (this.props.notification.typeNotifi == "REMOVE" ?
-                              <h5> <b>Job Deleted </b>  {!this.props.notification.seen&&<span style={{fontSize:'larger',color:'#FF919F'}}> <i> New </i> </span>}</h5>
+                              <h5> <b>Job Cancelled </b>  {!this.props.notification.seen&&<span style={{fontSize:'larger',color:'#FF919F'}}> <i> New </i> </span>}</h5>
                               :
                               null
                             )
