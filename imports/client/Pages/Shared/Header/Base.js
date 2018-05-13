@@ -33,6 +33,13 @@ export default class Base extends Component{
         </Link>
       )
     }
+    if (bind === "HowTo") {
+      return (
+       <Link to={to}  onClick={this.things.bind(this, bind)}>
+          <div style={styles.links} className="col  m2 hide-on-small-only nav-bar-text">{linkName}</div>
+        </Link>
+      )
+    }
     return (
       <Link to={to}  onClick={this.things.bind(this, bind)}>
         <div style={styles.links} className="col  m1 hide-on-small-only nav-bar-text">{linkName}</div>
@@ -67,8 +74,11 @@ export default class Base extends Component{
                 {this.links("/#HowTo", "HowTo", "How It Works")}
 
               <Link to="/login">
-                  <div style={styles.heading} className="col m1 offset-m2 valign-wrapper hide-on-small-only nav-bar-heading">
+                  <div style={styles.heading} className="col m1 offset-m1 valign-wrapper hide-on-small-only nav-bar-heading">
                       <div className="genText">Login</div>
+                  </div>
+                  <div  style={styles.headIcon} className="col s3 hide-on-med-and-up">
+                      <i style={styles.icon} className="genText material-icons">account_circle</i>
                   </div>
               </Link>
               <Link to="/register">
