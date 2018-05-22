@@ -431,25 +431,6 @@ Meteor.methods({
       Meteor.users.remove({_id:this.userId});
     },
     /**
-     * Once a job is completed the employee that is associated with the id,(userId)
-     * the field prevjob will be updated with the id of the completed job
-     * @param  {string} userId  the id of the employee
-     * @param  {string} jobId  the id of the job
-     * @todo check if job exists and if employer is owner of that job
-     */
-    updateEmployeeJobHistory(userId,jobId){
-      if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-      let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
-      if(!isCON ) throw new Meteor.Error('401',NOTAUTH);
-      let user = Meteor.user.findOne({_id:userId});
-      let prevJob = user.profile.employeeData.prevjobs;
-      prevJob[prevJob.length] = jobId;
-      Meteor.users.update({_id: userId},{$set: user});
-
-
-    },
-
-    /**
      * Updates the email of the currently logged in user. The user must pass to
      * email addresses (one is for confirmation). The emails must match and
      * are valid email strings the email.The user email address will be updated and a new

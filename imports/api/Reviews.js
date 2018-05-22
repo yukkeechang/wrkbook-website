@@ -41,12 +41,6 @@ if ( Meteor.isServer ) {
 
     return Review.find({ revieweeId: revieweeId});
   });
-  /**
-  FIND a thing for this function
-  **/
-  Meteor.publish('employee-reviews-for-a-job', function( employeeId,employerId,jobId) {
-    return Review.find({revieweeId: employeeId, reviewerId:employerId, jobId:jobId});
-  });
 
   Meteor.publish('reviews-for-job',function(jobID){
       let job = Job.findOne({_id: jobID},{fields: {employerId:1}});
