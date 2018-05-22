@@ -85,6 +85,84 @@ if ( Meteor.isServer ) {
       expect(Reference.find({ _id: refObject._id }).count()).to.equal(0);
     })
 
+    after(function() {
+      resetDatabase();
+    })
+
+
+  });
+  describe('References Pub/Sub API',function(){
+    before(function(){
+      resetDatabase();
+    });
+
+    it('can get references for logged-in user ', function(done) {
+      const adminUserId = Accounts.createUser({
+        email: 'test@test.com',
+        password: 'testAdmin',
+        username: 'testAdmin'
+      });
+
+      Roles.addUsersToRoles(adminUserId, 'PRO');
+      const collector = new PublicationCollector({userId: adminUserId });
+
+      let refObject ={
+        owner:adminUserId,
+        name:{
+          text: 'DummyName'
+        },
+        position :{
+          text: 'DID A THING'
+        },
+        companyName:{
+          text: 'ISSA companyName'
+        },
+        createdAt: new Date(),
+        updateAt:new Date(),
+        email: 'test@mail.com',
+        phone: '123-123-1234'
+      };
+
+      Reference.insert(refObject);
+
+      collector.collect('your-references',function(collections){
+        expect(collections.references.length).to.equal(1);
+        assert.typeOf(collections.references,'array');
+      });
+      done();
+
+
+    });
+    it('can get references for a PROFESSIONAL (not current user)',function(done){
+      let user = Meteor.users.findOne();
+      let randomUserId = Random.id();
+      let refObject ={
+        owner: randomUserId,
+        name:{
+          text: 'DummyName'
+        },
+        position :{
+          text: 'DID A THING'
+        },
+        companyName:{
+          text: 'ISSA companyName'
+        },
+        createdAt: new Date(),
+        updateAt:new Date(),
+        email: 'test@mail.com',
+        phone: '123-123-1234'
+      };
+
+      Reference.insert(refObject);
+
+      const collector = new PublicationCollector({id:randomUserId});
+      collector.collect('references-for-user',function(collections){
+        expect(collections.references.length).to.equal(1);
+        assert.typeOf(collections.references,'array');
+      });
+      done();
+    })
+
 
   })
 }
