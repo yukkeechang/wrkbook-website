@@ -414,18 +414,45 @@ if ( Meteor.isServer ) {
 export const changeIsOpen = () =>{
 
   let currentDate = new Date();
-
+  let changedJobArray=[];
   let things = Job.find({'generalEnd': {$lt : currentDate},'isOpen':true});
   things.forEach((job)=>{
     job.isOpen = false;
+    changedJobArray.push(job._id);
     Job.update({_id:job._id},{$set:job});
   });
-  updateEmployeeWorkHistory()
+  updateEmployeeWorkHistory(changedJobArray)
   return things.count();
 };
 
-const updateEmployeeWorkHistory = ()=>{
-    console.log("Need to Implement");
+const updateEmployeeWorkHistory = (arrayOfIds)=>{
+
+    jobAndEmployeeIDS = []
+    for (let key in arrayOfIds) {
+        let id =  arrayOfIds[key]
+        let admitemployeeIds = Job.findOne({_id:id},{fields:{admitemployeeIds:1}}).admitemployeeIds;
+
+        console.log(admitemployeeIds);
+        let jobEmployeeObject = {
+          employeeIds: admitemployeeIds,
+          jobId: id
+        }
+        jobAndEmployeeIDS.push(jobEmployeeObject)
+    }
+
+    //SHOULD UNROLL THIS
+    for (let indx in jobAndEmployeeIDS) {
+      for( let employeeIndex in jobAndEmployeeIDS[indx].employeeIds){
+
+        let user = Meteor.users.findOne({_id:jobAndEmployeeIDS[indx].employeeIds[employeeIndex]});
+        console.log(user);
+        let prevJob = user.profile.employeeData.prevJobs;
+        prevJob[prevJob.length] = jobAndEmployeeIDS[indx].jobId;
+        Meteor.users.update({_id: jobAndEmployeeIDS[indx].employeeIds[employeeIndex] },{$set: user});
+      }
+
+    }
+
 };
 
 Meteor.methods({
@@ -1108,11 +1135,31 @@ Meteor.methods({
     Job.update(selector,{$set: job});
     let admitemployeeIds= job.admitemployeeIds;
 
-    for (var variable in admitemployeeIds) {
+    for (let variable in admitemployeeIds) {
       Meteor.call('updateEmployeeJobHistory',admitemployeeIds[variable],jobId,(err)=>{
         if(err)console.log(err);
       })
     }
+  },
+  /**
+   * Once a job is completed the employee that is associated with the id,(userId)
+   * the field prevjob will be updated with the id of the completed job
+   * @param  {string} userId  the id of the employee
+   * @param  {string} jobId  the id of the job
+   * @todo check if job exists and if employer is owner of that job
+   */
+  updateEmployeeJobHistory(userId,jobId){
+    if(!this.userId|| !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+    const jobNotCompleted = Job.findOne({_id:jobId},{fields:{isOpen: 1}});
+    const jobNotExist = Job.find({_id:jobId}).count() < 1;
+    if(jobNotCompleted||jobNotExist) throw new Meteor.Error('401',NOTAUTH);
+
+    let user = Meteor.user.findOne({_id:userId});
+    let prevJob = user.profile.employeeData.prevJobs;
+    prevJob[prevJob.length] = jobId;
+    Meteor.users.update({_id: userId},{$set: user});
+
+
   },
   checkNewJob(){
     if(!this.userId && Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);

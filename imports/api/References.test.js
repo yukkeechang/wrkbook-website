@@ -7,6 +7,7 @@ import {PublicationCollector} from 'meteor/johanbrook:publication-collector';
 import './References';
 
 if ( Meteor.isServer ) {
+
   describe('References Meteor Methods API',function(){
 
 

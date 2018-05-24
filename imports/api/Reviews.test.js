@@ -56,6 +56,6 @@ if ( Meteor.isServer ) {
 
     expect(Review.find({_id:reviewId}).count()).to.equal(0);
 
-  })
+  });
  });
 }
