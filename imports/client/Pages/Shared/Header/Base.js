@@ -72,7 +72,7 @@ export default class Base extends Component{
                   </div>
               </Link>
               <Link to="/register">
-                <div id="rec-but" style={styles.heading} className="col m1  hide-on-small-only nav-bar-heading ">
+                <div id="rec-but" style={styles.heading} className="col m2  hide-on-small-only nav-bar-heading ">
                 <div className="genText">Sign Up</div>
                 </div>
               </Link>
@@ -124,7 +124,7 @@ let styles = {
         position: 'relative',
         top: '12px',
         textAlign:'center',
-        padding: 'none',
+        padding: '0px',
 
     },
     headIcon: {
