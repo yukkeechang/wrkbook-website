@@ -14,7 +14,7 @@ export default class HowTo extends React.Component{
               {/*Pro Testimonial*/}
               <div className="col s12 m5 l5">
                 <br/> <br/>
-                <p style={{fontStyle:'italic',fontSize:'25px'}}>“Working with John was great! He told us exactly what to do and we were paid on time” -  William </p>
+                <p style={{fontStyle:'italic',fontSize:'25px'}}>“Working with John was great! He told us exactly what to do and we were paid on time” -  Michael </p>
               </div>
               <div className="col m1 l1 hide-on-small-only"/>
               <div className="col s12 m6 l6" >
@@ -33,7 +33,7 @@ export default class HowTo extends React.Component{
               <div className="col s12 m6 l6" >
                 <div className="card">
                   <div className="card-content center-align">
-                    <img className="circle" src="images/contractor-landing.jpg" height="266" width="266"/>
+                    <img className="circle" src="images/william-pro.png" height="266" width="266"/>
                     <p style={{fontStyle: 'bold',fontSize:'20px'}}>John G.</p>
                     <img src="images/Rating-4.png"/>
                     <p style={{fontStyle: 'bold',fontSize:'15px'}}>Ziggy Painting Corp.</p>
@@ -46,7 +46,7 @@ export default class HowTo extends React.Component{
               <div className="col m1 l1 hide-on-small-only"/>
               <div className="col s12 m5 l5" >
                 <br/> <br/>
-                <p style={{fontStyle:'italic',fontSize:'25px'}}>“William was well skilled and very flexible. His work was done with care and quality in mind” -  John</p>
+                <p style={{fontStyle:'italic',fontSize:'25px'}}>“Michael was well skilled and very flexible. His work was done with care and quality in mind” -  John</p>
               </div>
             </div>
           </div>

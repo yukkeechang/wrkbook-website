@@ -21,12 +21,12 @@ export default class HowTo extends React.Component{
               <div className="container">
                   <div style={{marginTop:'40px',paddingLeft:'15px',paddingRight:'15px',marginLeft:'-15px',marginRight:'-15px'}}className="row">
 
-                      <div style={{width:'5%'}} className="col m1 show-on-med-and-up"/>
+                      
                       <div className="col s12 m2">
                          <Step className={"step"}img="/images/how-it-works/pro.png" title="Professional"/>
                       </div>
-                      <div className="col m1 show-on-med-and-up"/>
                       {/*padding*/}
+                      <div className="col m2 show-on-med-and-up"/>
                       <div className="col s12 m2">
                           <Step className={"step"}img="/images/how-it-works/pro-profile.png" title="Make a profile"/>
                       </div>
@@ -76,22 +76,19 @@ export default class HowTo extends React.Component{
 
             <div className="divider"></div>
 
+
               {/*Employer Section*/}
               <div className="container">
-                  <div style={{marginTop:'40px',paddingLeft:'15px',paddingRight:'15px',marginLeft:'-15px',marginRight:'-15px'}}className="row">
-                      <div className="col s12 m2  hide-on-med-and-up">
+                  <div style={{marginTop:'40px'}}className="row">
+                      <div className="col s12 m2">
                           <Step  className={"step"} img="/images/how-it-works/employer.png" title="Employer"/>
                       </div>
-                      <div style={{width:'5%'}} className="col m1 show-on-med-and-up"/>
-
-                      <div className="col s12 m2 hide-on-small-only">
-                          <Step   className={"step"} img="/images/how-it-works/rating.png" title="Leave Rating" />
-                      </div>
-                      <div className="col s12 m2 hide-on-med-and-up">
-                          <Step   className={"step"} img="/images/how-it-works/job-post.png" title="Make a job post"/>
+                      <div className="col m2 show-on-med-and-up"/>
+                      <div className="col s12 m2">
+                          <Step  className={"step"} img="/images/how-it-works/job-post.png" title="Make a job post"/>
                       </div>
                       <div style={{textAlign:'center',marginTop:'60px'}} className="col s12 m1 l1 hide-on-small-only">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9.800000190734863 1.3999998569488525 32.29999923706055 57.19999694824219" preserveAspectRatio="xMidYMid meet" style={{fill:'#a9a9a9', height: '65px',width:'65px',margin:'auto',transform:'scaleX(1)'}}>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9.800000190734863 1.3999998569488525 32.29999923706055 57.19999694824219" preserveAspectRatio="xMidYMid meet" style={{fill:'#a9a9a9', height: '65px',width:'65px',margin:'auto',transform:'scaleX(-1)'}}>
                               <g>
                                   <path d="M40.8 52.5L18.3 30 40.8 7.5c1.3-1.3 1.3-3.5 0-4.8-1.3-1.3-3.5-1.3-4.8 0L11.1 27.6c-1.3 1.3-1.3 3.5 0 4.8L36 57.3c1.3 1.3 3.5 1.3 4.8 0 1.3-1.3 1.3-3.4 0-4.8z"></path>
                               </g>
@@ -108,7 +105,7 @@ export default class HowTo extends React.Component{
                           <Step   className={"step"}img="/images/how-it-works/hire-workers.png" title="Hire Workers"/>
                       </div>
                       <div style={{textAlign:'center',marginTop:'60px'}} className="col s12 m1 l1 hide-on-small-only">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9.800000190734863 1.3999998569488525 32.29999923706055 57.19999694824219" preserveAspectRatio="xMidYMid meet" style={{fill:'#a9a9a9', height: '65px',width:'65px',margin:'auto',transform:'scaleX(1)'}}>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9.800000190734863 1.3999998569488525 32.29999923706055 57.19999694824219" preserveAspectRatio="xMidYMid meet" style={{fill:'#a9a9a9', height: '65px',width:'65px',margin:'auto',transform:'scaleX(-1)'}}>
                               <g>
                                   <path d="M40.8 52.5L18.3 30 40.8 7.5c1.3-1.3 1.3-3.5 0-4.8-1.3-1.3-3.5-1.3-4.8 0L11.1 27.6c-1.3 1.3-1.3 3.5 0 4.8L36 57.3c1.3 1.3 3.5 1.3 4.8 0 1.3-1.3 1.3-3.4 0-4.8z"></path>
                               </g>
@@ -121,20 +118,12 @@ export default class HowTo extends React.Component{
                               </g>
                           </svg>
                       </div>
-                      <div className="col s12 m2 hide-on-med-and-up">
-                          <Step   className={"step"} img="/images/how-it-works/rating.png" title="Leave Rating" />
+                      <div className="col s12 m2">
+                          <Step   className={"step"}img="/images/how-it-works/rating.png" title="Leave Rating" />
                       </div>
-                      <div className="col s12 m2 hide-on-small-only">
-                          <Step   className={"step"} img="/images/how-it-works/job-post.png" title="Make a job post"/>
-                      </div>
-
-                      <div className="col s12 m2 offset-m1 hide-on-small-only">
-                          <Step  className={"step"} img="/images/how-it-works/employer.png" title="Employer"/>
-                      </div>
-
                   </div>
               </div>
-                
+
             {/*
               <div >
                   <button onClick={this.pro} to={"/register"} children={"Sign Up Today!"}></button>
