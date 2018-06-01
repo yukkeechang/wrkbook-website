@@ -74,7 +74,7 @@ export default class HowTo extends React.Component{
 
               </div>
 
-              <div className="hide-on-med-and-up"><div className="divider"></div></div>
+            <div className="divider"></div>
 
               {/*Employer Section*/}
               <div className="container">
@@ -134,6 +134,7 @@ export default class HowTo extends React.Component{
 
                   </div>
               </div>
+                
             {/*
               <div >
                   <button onClick={this.pro} to={"/register"} children={"Sign Up Today!"}></button>
@@ -141,6 +142,7 @@ export default class HowTo extends React.Component{
 
             */}
           </div>
+
       )
     }
 }

@@ -82,6 +82,7 @@ export default class Services extends React.Component{
                 </div>
             </div>
          <div className="divider"></div>
+          <div className="section"></div>
 
         </div>
     )
