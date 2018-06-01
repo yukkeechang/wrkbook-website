@@ -7,11 +7,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
 
 
 const imageText = [{ img: "/images/services/plumb.png",text: "Plumbing"},
+                    {img:"/images/services/workman.png",text:"General Labor"},
                    {img:"/images/services/digger.png",text:"Demolition"},
                    {img:"/images/services/paint_brush.png",text:"Painting"},
                    {img:"/images/services/plug.png",text:"Electrician"},
                    {img: "/images/services/paint_roller.png",text: "Glazing"},
-                   {img:"/images/services/workman.png",text:"General Labor"},
                    {img:"/images/services/wheel_barrow.png",text:"Concrete"},
                    {img: "/images/services/mechanic.png",text: "Mechanic"},
                    {img:"/images/services/roofing.png",text:"Masonry"},
@@ -23,7 +23,7 @@ const imageText = [{ img: "/images/services/plumb.png",text: "Plumbing"},
 export default class Services extends React.Component{
   constructor(props){
     super(props);
-    items = imageText.slice(0,4).map(i=>{
+    items = imageText.slice(0,6).map(i=>{
           return i;
     });
 
@@ -39,16 +39,15 @@ export default class Services extends React.Component{
   }
   changeIcons=()=>{
     let count = this.state.count;
-    if(count >= 8){
+    if(count >= 6){
       count = 0;
     }else{
-        count = count + 4;
+      count = count + 6;
     }
-    items = imageText.slice(count,count+4).map(i=>{
+    items = imageText.slice(count,count+6).map(i=>{
           return i;
     });
     this.setState({count,items});
-    console.log(this.state);
   }
   componentWillUnmount(){
     clearInterval(this.state.interval)
@@ -57,10 +56,10 @@ export default class Services extends React.Component{
   render(){
     const items = this.state.items.map((item,i) =>{
       return(
-      <div style={{padding:'0px',margin:'0px'}}className="col s6 m3  center-align" key={item.text}>
-        <Step img={item.img} text={item.text}/>
-      </div>
-    );
+        <div style={{padding:'0px',margin:'0px'}}className="col s6 m2  center-align" key={item.text}>
+          <Step img={item.img} text={item.text}/>
+        </div>
+      );
     })
     return(
         <div style={{ backgroundColor: 'white'}}>
@@ -83,7 +82,7 @@ export default class Services extends React.Component{
                 </div>
             </div>
          <div className="divider"></div>
-         <div className="section"></div>
+        
         </div>
     )
   }
