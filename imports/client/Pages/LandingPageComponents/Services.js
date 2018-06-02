@@ -65,7 +65,8 @@ export default class Services extends React.Component{
         <div style={{ backgroundColor: 'white'}}>
             <div >
                 <div>
-                    <h6 style={{fontStyle:'bold',fontSize:'30px', fontColor: 'gray', paddingBottom: '20px', paddingTop: '20px'}} className="center-align">Jobs and Services</h6>
+                    <h6 style={{fontStyle:'bold',fontSize:'30px', fontColor: 'gray', paddingBottom: '20px', paddingTop: '20px'}} className="center-align">Find jobs in or skilled trade professionals in</h6>
+                  
                       <div className="row">
 
                       <ReactCSSTransitionGroup
@@ -82,7 +83,7 @@ export default class Services extends React.Component{
                 </div>
             </div>
          <div className="divider"></div>
-          <div className="section"></div>
+         <div className="section"></div>
 
         </div>
     )
