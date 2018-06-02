@@ -19,20 +19,20 @@ import {ServerSession } from 'meteor/matteodem:server-session';
 export const NOTAUTH = {
     notAuthorized: true
 };
+if ( Meteor.isServer ) {
+  Meteor.publish(null, function() {
+      return Meteor.users.find({_id: this.userId}, {fields: { emails: 1, profile: 1,roles: 1 } });
+  });
 
-Meteor.publish(null, function() {
-    return Meteor.users.find({_id: this.userId}, {fields: { emails: 1, profile: 1,roles: 1 } });
-});
-
-Meteor.publish('other-user',function(id){
-    if (!this.userId) {
-      this.stop();
-      throw new Meteor.Error('401',NOTAUTH);
-    }else{
-      return Meteor.users.find({_id: id}, {fields: { emails: 1, profile: 1,roles: 1 } });
-    }
-})
-
+  Meteor.publish('other-user',function(id){
+      if (!this.userId) {
+        this.stop();
+        throw new Meteor.Error('401',NOTAUTH);
+      }else{
+        return Meteor.users.find({_id: id}, {fields: { emails: 1, profile: 1,roles: 1 } });
+      }
+  });
+}
 Meteor.methods({
   /*
     Checks if the new password of the user are the same, and if they meet the requirments
@@ -458,24 +458,43 @@ Meteor.methods({
      * @throw {Meteor.Error} if the emails dont match or if the fields are empty.
      */
     updateEmail(Emails){
-      console.log(Emails);
+
       if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
       let isEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(Emails.email1);
       let eEmpty = Emails.email1.length > 0 ? false : true;
       let nEqual = Emails.email1 !== Emails.email2 ? true : false;
 
+      let oldEmail = Meteor.users.findOne({_id: this.userId}).emails[0].address;
+      let sameEmail = oldEmail == Emails.email1 ? true:false;
+      let arrayEmail = [];
+      arrayEmail[0] = Emails.email1;
+      let existAlready = Meteor.users.find({'emails':{ $elemMatch: { address:  Emails.email1 } } }).count() > 0  && !sameEmail? true:false;
+
       let Errors ={
         isEmail : isEmail,
         eEmpty : eEmpty,
-        nEqual : nEqual
+        nEqual : nEqual,
+        sameEmail:sameEmail,
+        existAlready:existAlready
       };
-      if(!isEmail|| eEmpty|| !nEqual) throw new Meteor.Error('403',Errors);
-      let oldEmail = Meteor.users.findOne({_id: this.userId}).emails[0].address;
-      Accounts.addEmail(this.userId,Emails.email1)
-      Accounts.removeEmail(this.userId,oldEmail);
-      Meteor.call('sendVerificationEmail',(err)=>{
-        if(err)console.log(err);
-      });
+      if(!isEmail|| eEmpty|| nEqual || sameEmail || existAlready) throw new Meteor.Error('403',Errors);
+
+      let addSucceed =  false;
+      try{
+          Accounts.addEmail(this.userId,Emails.email1);
+        addSucceed = true;
+      }catch(err){}
+
+      if(addSucceed){
+        Accounts.removeEmail(this.userId,oldEmail);
+        Meteor.call('sendVerificationEmail',(err)=>{
+          if(err)console.log(err);
+        });
+        console.log(Emails.email1);
+        console.log('was added');
+      }
+
+
 
 
     }

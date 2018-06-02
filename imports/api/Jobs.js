@@ -32,382 +32,384 @@ Defines a collection named jobs
 **/
 Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
+if ( Meteor.isServer ) {
+  /**
+  *
+  * Publishes all Jobs that matchs the jobTitles of a  employee, and
+  * within a range of the employee location, the range is  defined by the employee
+  * @param {Object} employee is an object that should match EmployeeSchema
+  * @returns {Array} that contains all jobs mataching a several job titles and are
+  * within a specific range of the employee location
+  *
+  */
 
-/**
-*
-* Publishes all Jobs that matchs the jobTitles of a  employee, and
-* within a range of the employee location, the range is  defined by the employee
-* @param {Object} employee is an object that should match EmployeeSchema
-* @returns {Array} that contains all jobs mataching a several job titles and are
-* within a specific range of the employee location
-*
-*/
+  Meteor.publish('job-post', function(employee){
 
-Meteor.publish('job-post', function(employee){
+    if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
 
-  if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
+      let bearing = 45;
+      const meterDegrees = 111111;
+      const mileToMeters= 1609.34;
 
-    let bearing = 45;
-    const meterDegrees = 111111;
-    const mileToMeters= 1609.34;
+      let jobTitle = employee.jobTitle;
+      let lat = employee.location.latitude;
+      let lng = employee.location.longitude;
+      let distance = employee.maxDistance * mileToMeters/2;
 
-    let jobTitle = employee.jobTitle;
-    let lat = employee.location.latitude;
-    let lng = employee.location.longitude;
-    let distance = employee.maxDistance * mileToMeters/2;
+      let cos_degg = Math.cos(bearing* Math.PI/180);
+      let sin_degg = Math.sin(bearing* Math.PI/180);
 
-    let cos_degg = Math.cos(bearing* Math.PI/180);
-    let sin_degg = Math.sin(bearing* Math.PI/180);
+      let lat_rad = Math.cos(lat * Math.PI/180);
 
-    let lat_rad = Math.cos(lat * Math.PI/180);
+      let eastDisplacement = distance * sin_degg / lat_rad / meterDegrees;
+      let northDisplacement = distance * cos_degg / meterDegrees;
+      let westDisplacement = - eastDisplacement;
+      let southDisplacement = - northDisplacement;
+      let currentDate = new Date();
 
-    let eastDisplacement = distance * sin_degg / lat_rad / meterDegrees;
-    let northDisplacement = distance * cos_degg / meterDegrees;
-    let westDisplacement = - eastDisplacement;
-    let southDisplacement = - northDisplacement;
+
+
+
+
+      let lat_top = lat + northDisplacement;
+      let lat_bot = lat + southDisplacement;
+      let lng_top = lng + eastDisplacement;
+      let lng_bot = lng + westDisplacement;
+      let hackIdThing =[];
+      hackIdThing[0] = this.userId;
+
+
+        let results =  Job.find({
+            $and: [
+              {
+             'generalStart':{$gt: currentDate},
+              'jobTypes.texts' : {$in : jobTitle},
+              'declineemployeeIds' :{$nin : hackIdThing},
+              'applyemployeeIds' :{$nin : hackIdThing},
+              'admitemployeeIds' :{$nin : hackIdThing},
+              'generalStart':{$gt: currentDate},
+              'isOpen':true,
+              'location.latitude': {$gte: lat_bot, $lt: lat_top},
+              'location.longitude': {$gte: lng_bot , $lt: lng_top}}
+              ,
+                {$or:[ {'requirements.driverLicense':{$ne : true}},
+                {'requirements.driverLicense':true,'requirements.driverLicense':employee.driverLicense}]}
+              ,
+                {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
+                {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employee.osha.osha30},
+                {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employee.osha.osha10},{'requirements.osha.osha10':employee.osha.osha30}] },
+                ]}
+              ,
+                {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
+                {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employee.socialPref.social},
+                {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employee.socialPref.taxID},{'requirements.socialPref.social':employee.socialPref.social}] },
+                ]}
+
+            ]
+
+
+        });
+
+        return results;
+
+
+    }else{
+      this.stop();
+      return ;
+    }
+
+
+
+
+
+
+
+  });
+  /**
+  *
+  * Publishes all Jobs that was made by a employer
+  * ONLY an employer use this function
+  * @returns {Array} that contains all jobs made by a specific user.
+  */
+  Meteor.publish('job-post-employer',function(){
+
+    if(Roles.userIsInRole(this.userId,CONTRACTOR)){
+      return Job.find({employerId: this.userId},{sort: {generalStart: 1}});
+    }else{
+      this.stop();
+      return ;
+    }
+
+  });
+  Meteor.publish('job-post-employer-edit',function(jobId){
+    if(Roles.userIsInRole(this.userId,CONTRACTOR)){
+      return Job.find({_id: jobId,employerId:this.userId},{sort: {generalStart: 1}});
+    }else{
+      this.stop();
+      return;
+    }
+  });
+  /**
+  *
+  * Publishes all Jobs that a employee was matched with
+  * @returns {Array} that contains all jobs made by a specific user.
+  */
+
+  Meteor.publish('job-post-admitted',function(){
+
+    if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
+      let hackIdThing = [];
+      hackIdThing[0] = this.userId;
+      return Job.find({admitemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});;
+    }else{
+      this.stop();
+      return ;
+    }
+
+  });
+  Meteor.publish('one-job',function(jobID){
+
+    if(Roles.userIsInRole(this.userId,PROFESSIONAL) ||
+     Roles.userIsInRole(this.userId,CONTRACTOR)){
+       let things= Job.find({_id: jobID});
+       return things;
+     }else{
+       this.stop();
+       return;
+     }
+  });
+  Meteor.publish('job-post-applied',function(){
+
+    if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
+      let hackIdThing = [];
+      hackIdThing[0] = this.userId;
+      return Job.find({applyemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});;
+    }else{
+      this.stop();
+      return ;
+    }
+
+  });
+  Meteor.publish('active-jobs-admin',function(){
+    if(Roles.userIsInRole(this.userId,'admin')){
+      return Job.find({isOpen: true});
+    }else{
+      this.stop();
+      return ;
+    }
+
+  });
+
+
+  Meteor.publish('all-jobs',function(){
+    if (Roles.userIsInRole(this.userId,'admin')) {
+      return Job.find({});
+    }else{
+      this.stop();
+      return;
+    }
+  });
+
+  Meteor.publish('upcoming-job-con',function(){
     let currentDate = new Date();
+    if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+
+     return Job.find({employerId:this.userId,
+                      generalStart:{$gt: currentDate},
+                      isOpen:true},{sort: {generalStart: 1}});
+    }else {
+      this.stop();
+      return;
+    }
+  });
+
+  //Find current job for professionals
+  // These dont need to paramter to be passed since we know who is calling this function
+  Meteor.publish('current-job-pro',function(){
+    if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
+      let hackIdThing =[];
+      hackIdThing[0] = this.userId;
+      let currentDate = new Date()
+      let job = Job.find({
+            'admitemployeeIds' :{$in : hackIdThing},
+            'generalStart':{$lte: currentDate},
+            'generalEnd':{$gt: currentDate},
+            'isOpen':true
+      });
+      let jobIds = [];
+      job.forEach((job) =>{
+        //Index of the smaller array inside AdmitAsIDs array
+        let idxx = -1;
+        //Index for AdmitAsIDs (bigger array), index used for jobTypes array
+        let idxx2 = -1;
+        for (let indx in job.admitAsIDs) /*indx is indexing through admitAsIDs*/ {
+          //if empId is not in the array in array admitAsIDS, move to next array in admitAsIDs array
+          if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
+            idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
+            idxx2 = indx;
+          }
+        }
+        let eventId = job.eventInfo[idxx2]
+        //Find event with event Id
+        hackIdThing = [];
+        hackIdThing[0] = eventId
+        let eventObj = Event.findOne({_id: {$in: hackIdThing},
+          'startAt': {$lte: currentDate},
+          'endAt': {$gt: currentDate}
+        })
+        if(!!eventObj)jobIds[jobIds.length] = eventObj.jobId;
+
+      });
+      let cursor = Job.find({_id:{$in:  jobIds}});
+
+      return  cursor;
+    } else {
+      this.stop();
+      return;
+    }
+  });
+
+  //Find completed job for professionals
+  // These dont need to paramter to be passed since we know who is calling this function
+  Meteor.publish('completed-job-pro',function(){
+    if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
+      let hackIdThing =[];
+      hackIdThing[0] = this.userId;
+      let currentDate = new Date()
 
 
 
+      let job = Job.find({'admitemployeeIds' :{$in : hackIdThing},
+                          'generalEnd':{$lt: currentDate},
+                          'isOpen':false});
+      // return job;
+      let jobIds = [];
+        job.forEach((job) =>{
+        let idxx = -1;
+        let idxx2 = -1;
 
+        for (let indx in job.admitAsIDs)  {
+          if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
+            idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
+            idxx2 = indx;
+          }
+        }
+        let eventId = job.eventInfo[idxx2];
 
-    let lat_top = lat + northDisplacement;
-    let lat_bot = lat + southDisplacement;
-    let lng_top = lng + eastDisplacement;
-    let lng_bot = lng + westDisplacement;
-    let hackIdThing =[];
-    hackIdThing[0] = this.userId;
-
-
-      let results =  Job.find({
-          $and: [
-            {
-           'generalStart':{$gt: currentDate},
-            'jobTypes.texts' : {$in : jobTitle},
-            'declineemployeeIds' :{$nin : hackIdThing},
-            'applyemployeeIds' :{$nin : hackIdThing},
-            'admitemployeeIds' :{$nin : hackIdThing},
-            'generalStart':{$gt: currentDate},
-            'isOpen':true,
-            'location.latitude': {$gte: lat_bot, $lt: lat_top},
-            'location.longitude': {$gte: lng_bot , $lt: lng_top}}
-            ,
-              {$or:[ {'requirements.driverLicense':{$ne : true}},
-              {'requirements.driverLicense':true,'requirements.driverLicense':employee.driverLicense}]}
-            ,
-              {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
-              {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employee.osha.osha30},
-              {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employee.osha.osha10},{'requirements.osha.osha10':employee.osha.osha30}] },
-              ]}
-            ,
-              {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
-              {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employee.socialPref.social},
-              {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employee.socialPref.taxID},{'requirements.socialPref.social':employee.socialPref.social}] },
-              ]}
-
-          ]
+        hackIdThing = [];
+        hackIdThing[0] = eventId;
+        let eventObj = Event.findOne({_id: {$in: hackIdThing},'endAt': {$lt: currentDate}});
+        if(!!eventObj)jobIds[jobIds.length] = eventObj.jobId;
 
 
       });
+      let cursor = Job.find({_id:{$in:  jobIds}});
 
-      return results;
+      return  cursor;
 
+    } else {
+      this.stop();
+      return;
+    }
+  });
 
-  }else{
-    this.stop();
-    return ;
-  }
-
-
-
-
-
-
-
-});
-/**
-*
-* Publishes all Jobs that was made by a employer
-* ONLY an employer use this function
-* @returns {Array} that contains all jobs made by a specific user.
-*/
-Meteor.publish('job-post-employer',function(){
-
-  if(Roles.userIsInRole(this.userId,CONTRACTOR)){
-    return Job.find({employerId: this.userId},{sort: {generalStart: 1}});
-  }else{
-    this.stop();
-    return ;
-  }
-
-});
-Meteor.publish('job-post-employer-edit',function(jobId){
-  if(Roles.userIsInRole(this.userId,CONTRACTOR)){
-    return Job.find({_id: jobId,employerId:this.userId},{sort: {generalStart: 1}});
-  }else{
-    this.stop();
-    return;
-  }
-});
-/**
-*
-* Publishes all Jobs that a employee was matched with
-* @returns {Array} that contains all jobs made by a specific user.
-*/
-
-Meteor.publish('job-post-admitted',function(){
-
-  if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
-    let hackIdThing = [];
-    hackIdThing[0] = this.userId;
-    return Job.find({admitemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});;
-  }else{
-    this.stop();
-    return ;
-  }
-
-});
-Meteor.publish('one-job',function(jobID){
-
-  if(Roles.userIsInRole(this.userId,PROFESSIONAL) ||
-   Roles.userIsInRole(this.userId,CONTRACTOR)){
-     let things= Job.find({_id: jobID});
-     return things;
-   }else{
-     this.stop();
-     return;
-   }
-});
-Meteor.publish('job-post-applied',function(){
-
-  if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
-    let hackIdThing = [];
-    hackIdThing[0] = this.userId;
-    return Job.find({applyemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});;
-  }else{
-    this.stop();
-    return ;
-  }
-
-});
-Meteor.publish('active-jobs-admin',function(){
-  if(Roles.userIsInRole(this.userId,'admin')){
-    return Job.find({isOpen: true});
-  }else{
-    this.stop();
-    return ;
-  }
-
-});
-
-
-Meteor.publish('all-jobs',function(){
-  if (Roles.userIsInRole(this.userId,'admin')) {
-    return Job.find({});
-  }else{
-    this.stop();
-    return;
-  }
-});
-
-Meteor.publish('upcoming-job-con',function(){
-  let currentDate = new Date();
-  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-
-   return Job.find({employerId:this.userId,
-                    generalStart:{$gt: currentDate},
-                    isOpen:true},{sort: {generalStart: 1}});
-  }else {
-    this.stop();
-    return;
-  }
-});
-
-//Find current job for professionals
-// These dont need to paramter to be passed since we know who is calling this function
-Meteor.publish('current-job-pro',function(){
-  if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
-    let hackIdThing =[];
-    hackIdThing[0] = this.userId;
-    let currentDate = new Date()
-    let job = Job.find({
-          'admitemployeeIds' :{$in : hackIdThing},
-          'generalStart':{$lte: currentDate},
-          'generalEnd':{$gt: currentDate},
-          'isOpen':true
-    });
-    let jobIds = [];
-    job.forEach((job) =>{
-      //Index of the smaller array inside AdmitAsIDs array
-      let idxx = -1;
-      //Index for AdmitAsIDs (bigger array), index used for jobTypes array
-      let idxx2 = -1;
-      for (let indx in job.admitAsIDs) /*indx is indexing through admitAsIDs*/ {
-        //if empId is not in the array in array admitAsIDS, move to next array in admitAsIDs array
-        if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
-          idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
-          idxx2 = indx;
-        }
-      }
-      let eventId = job.eventInfo[idxx2]
-      //Find event with event Id
-      hackIdThing = [];
-      hackIdThing[0] = eventId
-      let eventObj = Event.findOne({_id: {$in: hackIdThing},
-        'startAt': {$lte: currentDate},
-        'endAt': {$gt: currentDate}
+  //Find upcoming job for professionals
+  // These dont need to paramter to be passed since we know who is calling this function
+  Meteor.publish('upcoming-job-pro',function(){
+    if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
+      let hackIdThing =[];
+      hackIdThing[0] = this.userId;
+      let currentDate = new Date()
+      let job = Job.find({$and:
+        [
+          {
+            'admitemployeeIds' :{$in : hackIdThing}
+          }, {
+            'generalStart':{$gt: currentDate}
+          }, {
+            'isOpen':true
+          }
+        ]
       })
-      if(!!eventObj)jobIds[jobIds.length] = eventObj.jobId;
+      if(!job)throw new Meteor.Error('403','Job was not found');
 
-    });
-    let cursor = Job.find({_id:{$in:  jobIds}});
+      return job;
 
-    return  cursor;
-  } else {
-    this.stop();
-    return;
-  }
-});
-
-//Find completed job for professionals
-// These dont need to paramter to be passed since we know who is calling this function
-Meteor.publish('completed-job-pro',function(){
-  if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
-    let hackIdThing =[];
-    hackIdThing[0] = this.userId;
-    let currentDate = new Date()
+    } else {
+      this.stop();
+      return;
+    }
+  });
 
 
 
-    let job = Job.find({'admitemployeeIds' :{$in : hackIdThing},
-                        'generalEnd':{$lt: currentDate},
-                        'isOpen':false});
-    // return job;
-    let jobIds = [];
-      job.forEach((job) =>{
-      let idxx = -1;
-      let idxx2 = -1;
+  Meteor.publish('current-job-con',function(){
+    let currentDate = new Date();
+    if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
 
-      for (let indx in job.admitAsIDs)  {
-        if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
-          idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
-          idxx2 = indx;
-        }
+        let things = Job.find({'generalEnd': {$lt : currentDate},
+                               'isOpen':true,
+                               'employerId':this.userId});
+       things.forEach((job)=>{
+         job.isOpen = false;
+         Job.update({_id:job._id},{$set:job});
+       });
+
+      return Job.find(
+        { employerId:this.userId,
+          generalStart:{$lt: currentDate},
+          isOpen:true
+        },
+          {sort: {generalStart: 1}}
+       );
+    }else {
+      this.stop();
+      return;
+    }
+  });
+
+  Meteor.publish('closed-job-con',function(){
+    if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+      return Job.find({employerId:this.userId,isOpen: false},{sort: {generalStart: 1}});
+    }else {
+      this.stop();
+      return;
+    }
+  });
+  Meteor.publish('apply-employee-job',function(jobId){
+    if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+
+      let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
+
+      if(!!jobInfo.applyemployeeIds){
+
+        return  Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+
+      }else{
+        return ;
       }
-      let eventId = job.eventInfo[idxx2];
+    }else{
+      this.stop();
+      throw new Meteor.Error('403',NOTAUTH);
+    }
+  });
+  Meteor.publish('admit-employee-job',function(jobId){
+    if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
 
-      hackIdThing = [];
-      hackIdThing[0] = eventId;
-      let eventObj = Event.findOne({_id: {$in: hackIdThing},'endAt': {$lt: currentDate}});
-      if(!!eventObj)jobIds[jobIds.length] = eventObj.jobId;
-
-
-    });
-    let cursor = Job.find({_id:{$in:  jobIds}});
-
-    return  cursor;
-
-  } else {
-    this.stop();
-    return;
-  }
-});
-
-//Find upcoming job for professionals
-// These dont need to paramter to be passed since we know who is calling this function
-Meteor.publish('upcoming-job-pro',function(){
-  if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
-    let hackIdThing =[];
-    hackIdThing[0] = this.userId;
-    let currentDate = new Date()
-    let job = Job.find({$and:
-      [
-        {
-          'admitemployeeIds' :{$in : hackIdThing}
-        }, {
-          'generalStart':{$gt: currentDate}
-        }, {
-          'isOpen':true
-        }
-      ]
-    })
-    if(!job)throw new Meteor.Error('403','Job was not found');
-
-    return job;
-
-  } else {
-    this.stop();
-    return;
-  }
-});
-
-
-
-Meteor.publish('current-job-con',function(){
-  let currentDate = new Date();
-  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-
-      let things = Job.find({'generalEnd': {$lt : currentDate},
-                             'isOpen':true,
-                             'employerId':this.userId});
-     things.forEach((job)=>{
-       job.isOpen = false;
-       Job.update({_id:job._id},{$set:job});
-     });
-
-    return Job.find(
-      { employerId:this.userId,
-        generalStart:{$lt: currentDate},
-        isOpen:true
-      },
-        {sort: {generalStart: 1}}
-     );
-  }else {
-    this.stop();
-    return;
-  }
-});
-
-Meteor.publish('closed-job-con',function(){
-  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-    return Job.find({employerId:this.userId,isOpen: false},{sort: {generalStart: 1}});
-  }else {
-    this.stop();
-    return;
-  }
-});
-Meteor.publish('apply-employee-job',function(jobId){
-  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-
-    let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
-
-    if(!!jobInfo.applyemployeeIds){
-
-      return  Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+      let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
+      if(!!jobInfo.admitemployeeIds){
+        return Meteor.users.find({_id: {$in: jobInfo.admitemployeeIds}}, {fields: { emails: 1, profile: 1 } });
+      }else{
+        return ;
+      }
 
     }else{
-      return ;
+      this.stop();
+      throw new Meteor.Error('403',NOTAUTH);
     }
-  }else{
-    this.stop();
-    throw new Meteor.Error('403',NOTAUTH);
-  }
-});
-Meteor.publish('admit-employee-job',function(jobId){
-  if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+  });
+}
 
-    let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
-    if(!!jobInfo.admitemployeeIds){
-      return Meteor.users.find({_id: {$in: jobInfo.admitemployeeIds}}, {fields: { emails: 1, profile: 1 } });
-    }else{
-      return ;
-    }
-
-  }else{
-    this.stop();
-    throw new Meteor.Error('403',NOTAUTH);
-  }
-});
 
 export const changeIsOpen = () =>{
 
@@ -655,7 +657,7 @@ Meteor.methods({
     notify.description = "There is a potential Job Match at "+ jobObject.location.locationName;
     notify.jobId = jobId;
     notify.typeNotifi = "MATCH";
-    notify.href = "job/"+jobId;
+    notify.href = "/job/"+jobId;
     for(let i =0 ;i < peoples.length;++i){
       notify.toWhomst = peoples[i];
 
@@ -864,7 +866,7 @@ Meteor.methods({
     notify.typeNotifi="APPLIED";
     notify.description = "Someone applied for the job you posted at "+ job.location.locationName;
     notify.jobId = jobId;
-    notify.href = "job/"+jobId;
+    notify.href = "/job/"+jobId;
 
     Meteor.call('createNotification',notify);
 
@@ -970,7 +972,8 @@ Meteor.methods({
       }
 
       let selector = {_id: jobId};
-
+      Notification.remove({toWhomst:employeeId,jobId:jobId,typeNotifi:"MATCH"});
+      Notification.remove({toWhomst:employeeId,jobId:jobId,typeNotifi:"HIRED"});
       Job.update(selector,{$set: job});
   },
   admiteEmployee(jobId,employeeId){
@@ -1020,10 +1023,11 @@ Meteor.methods({
     notify.description = "You have been admitted to the job at "+ job.location.locationName;
     notify.typeNotifi="HIRED"
     notify.jobId =jobId;
-    notify.href = "job/"+jobId;
+    notify.href = "/job/"+jobId;
 
     Meteor.call('createNotification',notify);
 
+    Notification.remove({toWhomst:employeeId,jobId:jobId,typeNotifi:"MATCH"});
 
     let selector = {_id: jobId, employerId:this.userId};
 
@@ -1051,6 +1055,7 @@ Meteor.methods({
     let peopleMatch = jobRemove.admitemployeeIds;
     let totalPeople = peopleApplied.concat(peopleMatch);
     notify.jobId = JSON.stringify(jobRemove);
+    notify.href = "/deleted-job/"+jobId;
     for (let i = 0; i < totalPeople.length; i++){
       notify.toWhomst = totalPeople[i];
       Meteor.call('createNotification',notify,(err)=>{
@@ -1059,10 +1064,12 @@ Meteor.methods({
       // Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName);
     }
     let notifyEmployer = NotificationSchema.clean({});
-    notifyEmployer.description = 'Yoou deleted Job located at '+  jobRemove.location.locationName+
+    notifyEmployer.description = 'You deleted Job located at '+  jobRemove.location.locationName+
     ' has been deleted';
     notifyEmployer.typeNotifi="REMOVE";
+    notifyEmployer.jobId = JSON.stringify(jobRemove);
     notifyEmployer.toWhomst = this.userId;
+    notifyEmployer.href = "/deleted-job/"+jobId;
     Meteor.call('createNotification',notifyEmployer,(err)=>{
       if(err)console.log(err);
     });
@@ -1178,7 +1185,7 @@ Meteor.methods({
         notify.description = "There is a potential Job Match at "+ job.location.locationName;
         notify.jobId = job._id;
         notify.typeNotifi = "MATCH";
-        notify.href = "job/"+ job._id;
+        notify.href = "/job/"+ job._id;
         notify.toWhomst = this.userId;
         Meteor.call('createNotification',notify);
 

@@ -13,45 +13,46 @@ Event.attachSchema(EventSchema);
 const WTFUDOING ={
   didnotRemove : true,
 };
-Meteor.publish('today-events',function(currentDate) {
-  if (Roles.userIsInRole(this.userId,CONTRACTOR)
+if ( Meteor.isServer ) {
+  Meteor.publish('today-events',function(currentDate) {
+    if (Roles.userIsInRole(this.userId,CONTRACTOR)
+      ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
+
+      // currentDate.setHours(0,0,0,0);
+
+      return Event.find(
+        {$and:[
+          {$or : [{startAt:{$lte: currentDate}},{endAt:{$gte:currentDate}}]},
+          {owner:this.userId}
+      ]});
+
+    }else{
+      this.stop();
+      return;
+    }
+  });
+  Meteor.publish('your-events-this-month',function(currentDate){
+    if (Roles.userIsInRole(this.userId,CONTRACTOR)
     ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
-
-    // currentDate.setHours(0,0,0,0);
-
-    return Event.find(
-      {$and:[
-        {$or : [{startAt:{$lte: currentDate}},{endAt:{$gte:currentDate}}]},
+      let futureDate = currentDate;
+      let lastMonth= futureDate.getMonth() - 1 < 0 ? 11 : futureDate.getMonth() - 1;
+      let nextMonth = futureDate.getMonth() + 1 >11 ? 0 : futureDate.getMonth() + 1;
+      futureDate.setMonth(nextMonth);
+      pastDate.setMonth(lastMonth);
+      return Event.find({$and:[
+        {$or : [{startAt:{$lte: nextMonth}},{endAt:{$gte:lastMonth}}]},
         {owner:this.userId}
-    ]});
-
-  }else{
-    this.stop();
-    return;
-  }
-});
-Meteor.publish('your-events-this-month',function(currentDate){
-  if (Roles.userIsInRole(this.userId,CONTRACTOR)
-  ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
-    let futureDate = currentDate;
-    let lastMonth= futureDate.getMonth() - 1 < 0 ? 11 : futureDate.getMonth() - 1;
-    let nextMonth = futureDate.getMonth() + 1 >11 ? 0 : futureDate.getMonth() + 1;
-    futureDate.setMonth(nextMonth);
-    pastDate.setMonth(lastMonth);
-    return Event.find({$and:[
-      {$or : [{startAt:{$lte: nextMonth}},{endAt:{$gte:lastMonth}}]},
-      {owner:this.userId}
-    ]});
-  }else{
-    this.stop();
-    return;
-  }
-});
-Meteor.publish('get-event', function(jobId) {
-  if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-  return Event.find({'jobId': jobId});
-})
-
+      ]});
+    }else{
+      this.stop();
+      return;
+    }
+  });
+  Meteor.publish('get-event', function(jobId) {
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+    return Event.find({'jobId': jobId});
+  });
+}
 Meteor.methods({
   validateEvent(eventToValidate){
     let validations = EventSchema.namedContext('EVE');

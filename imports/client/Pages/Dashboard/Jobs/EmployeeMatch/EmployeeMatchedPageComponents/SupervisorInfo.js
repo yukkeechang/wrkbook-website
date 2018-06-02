@@ -1,35 +1,96 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 
-export default SuperVisor= (props)=>{
-  return(
-      <div className="row">
+export default class SuperVisorDecline extends React.Component{
 
-          <div className="row">
-              <div className="col l9 m9 s9">
-                <h4 style={{margin:'0px'}} >{props.jobTitle}</h4>
+  constructor(props){
+    super(props);
+
+  }
+  componentDidMount(){
+    let select = ReactDOM.findDOMNode();
+    $(select).ready(()=>{
+      $('select').material_select();
+    })
+  }
+  handleDecline=()=>{
+
+    Meteor.call('declineJob', this.props.jobID, (err)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+          $(this.refs.declineModal).modal('close');
+          // $('#declineModal').modal('close');
+    }
+    });
+  }
+  openDeclineModal=()=>{
+    $(this.refs.declineModal).modal('open');
+  }
+  componentWillUnmount(){
+    $(this.refs.declineModal).modal('close');
+  }
+  doNothing=()=>{
+    $(this.refs.declineModal).modal('close');
+  }
+  render(){
+    return(
+        <div className="row">
+            <div className="row">
+                <div className="col l9 m7 s12">
+                  <h1 style={{margin:'0px'}} className="truncate" >{this.props.jobTitle}</h1>
+                </div>
+                <div className="col l3 m5 hide-on-small-only  center-align">
+
+                  <a style={{paddingTop:'5px',
+                          borderRadius:'12px',border:'1px solid #ef9a9a',
+                          textTransform:'none',paddingBottom:'5px',width:'100%',
+                          height:'45px',fontSize:'17px'}}
+
+                           id="disabledButton" className={this.props.isDecline ? "waves-effect red lighten-5 btn-flat disabled": "waves-effect red lighten-5 btn-flat "} onClick={this.openDeclineModal} >Decline</a>
+                </div>
+            </div>
+            <div className="row">
+              <div className="col l8 m8 s8">
+                <p>Supervisor: {this.props.supervisorName}</p>
+                {
+                  this.props.isAdmitted?
+                    <p>Phone: {this.props.supervisorPhone}</p>
+                    :
+                    null
+                }
               </div>
-              <div style={{height:'100%'}}className="col l2 m2 s2">
-                <div className="valign-wrapper">
-                  {/*Comment out untill messenger works
-                    <Link style={{padding:'0px'}} to={"/message/"+ props.jobId}>
-                    <a style={{padding:'0px', color:'#03a9f4'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Open Messaging for this Job"><div style={{height:'50px',width:'50px'}} className="circle blue-grey  center-align  lighten-5"> <i style={{paddingRight:'5px',fontSize:'35px',paddingTop:'10px'}} className="material-icons ">message</i></div></a>
-                  </Link>*/}
+          </div>
+
+          <div ref="declineModal" id="declineModal" className="modal">
+            <div className="modal-content">
+              <div className="row center-align">
+                <i style={{fontSize:'100px',color:'#ffe57f '}}className="material-icons">error_outline</i>
+              </div>
+              <div className="row center-align">
+                <h3>Are you sure?</h3>
+                <h5>Once you decline, you cannot get this job back. </h5>
+              </div>
+            </div>
+
+            <div className="modal-footer">
+                <div className="col s6">
+                  <button style={{width:'100%'}} className="waves-effect blue-grey lighten-5 btn-flat" onClick={this.doNothing}>
+                    Cancel
+                  </button>
+                </div>
+                <div className="col s6">
+                  <Link to={"/"} onClick={this.handleDecline}>
+                    <button style={{width:'100%',border:'1px solid #dd2c00'}} className="waves-effect waves-red red lighten-3 btn-flat" onClick={this.handleDecline}>
+                      Yes
+                    </button>
+                  </Link>
                 </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col l8 m8 s8">
-              <p>Supervisor: {props.supervisorName}</p>
-              {
-                props.isAdmitted?
-                  <p>Phone: {props.supervisorPhone}</p>
-                  :
-                  null
-              }
-            </div>
-
         </div>
-      </div>
-    )
+      )
+    }
   }

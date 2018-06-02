@@ -46,6 +46,9 @@ class ConComponentPage extends React.Component{
       }
     });
   }
+  doNothing=()=>{
+    $(this.refs.deleteModal).modal('close');
+  }
   constructor(props){
   super(props);
   let job = this.props.jobinfo;
@@ -121,20 +124,24 @@ class ConComponentPage extends React.Component{
         <div className="card-content">
           <div className="row">
             <div className="col m10 s8">
-              <span className="card-title">{this.props.jobinfo.jobTitle.text}</span>
-              <p>{this.props.description}</p>
-              <p>Supervisor: {this.props.jobinfo.supervisor.name}</p>
-              <p>Phone: {this.props.jobinfo.supervisor.phone}</p>
+              <span style={{ fontSize: '250%'}} className="card-title">{this.props.jobinfo.jobTitle.text}</span>
+              <p><b>Supervisor:</b> {this.props.jobinfo.supervisor.name}</p>
+              <p><b>Phone:</b> {this.props.jobinfo.supervisor.phone}</p>
+              <br/>
+              <span><b>Description:</b> {this.props.description}</span>
+
             </div>
             {!this.props.isCompleted ?
-              <div className="col m2 s2 offset-s2 fixed-action-btn horizontal hide-on-med-and-up" style={{position:'static', zIndex:'997'}}>
-                <a className="btn-floating red waves-effect  center-align"><i className="material-icons">menu</i></a>
+              <div className="col s1  offset-s2 fixed-action-btn horizontal click-to-toggle hide-on-med-and-up" style={{position:'static'}}>
+                <a className="btn-floating red waves-effect">
+                  <i className="material-icons">menu</i>
+                </a>
                 <ul>
-                  <li style={{margin:'25px 5px 0px 5px'}}><Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
+                  <li style={{paddingTop:'10px'}}><Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
                     <a className="btn-floating blue-grey lighten-5"><i style={{color:'black'}} className="material-icons">edit</i></a>
                   </Link></li>
-                  <li style={{margin:'25px 5px 0px 0px'}}>
-                    <a className="btn-floating blue-grey lighten-5" onClick={this.deleteModal}><i style={{color:'red'}} className="material-icons">delete_forever</i></a>
+                  <li style={{paddingTop:'10px'}} >
+                    <a className="btn-floating red lighten-5" onClick={this.deleteModal}><i style={{color:'red'}} className="material-icons">delete_forever</i></a>
                   </li>
                 </ul>
               </div>
@@ -184,7 +191,7 @@ class ConComponentPage extends React.Component{
             <div className="col m8 s12">
               <div className="input-field col s12">
                 <div className="row">
-                  <span></span>
+
                   <select  id="jobTitles" ref="titles" value={this.state.value} onChange={this.handleProChange.bind(this)}>
                     {this.props.jobinfo.jobTypes.texts.map((title,i)=>{
                       return(
@@ -225,14 +232,30 @@ class ConComponentPage extends React.Component{
         </div>
         <div ref="deleteModal" className="modal">
           <div className="modal-content">
-            <h4>Are you sure you want to delete this job? Once deleted you can not get this job back.</h4>
+            <div className="row center-align">
+              <i style={{fontSize:'100px',color:'#ffe57f '}}className="material-icons">error_outline</i>
+            </div>
+            <div className="row center-align">
+              <h3>Are you sure?</h3>
+              <h5>Once you decline, you cannot get this job back. </h5>
+            </div>
           </div>
-          <div className="modal-footer">
-            <Link to={"/"} onClick={this.deleteJob}>
-              <button className="waves-effect waves-red red lighten-3 btn-flat" >
-                I am sure.
-              </button>
-            </Link>
+          <div style={{margin:'0px'}} className="modal-footer row">
+            <div>
+              <div className="col s6">
+                <button style={{width:'100%'}} className="waves-effect blue-grey lighten-5 btn-flat" onClick={this.doNothing}>
+                  Cancel
+                </button>
+              </div>
+              <div className="col s6">
+                <Link to={"/"} onClick={this.deleteJob}>
+                  <button style={{width:'100%'}} className="waves-effect waves-red red lighten-3 btn-flat">
+                    Yes
+                  </button>
+                </Link>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

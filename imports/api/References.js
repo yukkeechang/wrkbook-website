@@ -16,36 +16,36 @@ import { Roles } from 'meteor/alanning:roles';
  */
 Reference = new Mongo.Collection('references');
 Reference.attachSchema(ReferenceSchema);
+if ( Meteor.isServer ) {
+  /**
+   * Pushes all References objects that belong to the currently logged on user.
+   * @param {void} nothing should passed in
+   * @return {cursor} points the references objects on minimongo
+   * @throws {Meteor.Error} will not push any data to client if the currently loggen in user is not an Professional
+   * @example Meteor.subscribe('your-references')
+   *
+   */
+  Meteor.publish('your-references',function(){
+    if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
 
-/**
- * Pushes all References objects that belong to the currently logged on user.
- * @param {void} nothing should passed in
- * @return {cursor} points the references objects on minimongo
- * @throws {Meteor.Error} will not push any data to client if the currently loggen in user is not an Professional
- * @example Meteor.subscribe('your-references')
- *
- */
-Meteor.publish('your-references',function(){
-  if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
+       return Reference.find({owner: this.userId}, {sort: {updateAt: -1}});
+    }else{
+      this.stop();
+      return ;
+    }
+  });
 
-     return Reference.find({owner: this.userId}, {sort: {updateAt: -1}});
-  }else{
-    this.stop();
-    return ;
-  }
-});
-
-Meteor.publish('references-for-user', function(id){
-  if(Roles.userIsInRole(id,PROFESSIONAL)){
-    //console.log("user is pro!")
-     return Reference.find({owner: id}, {sort: {updateAt: -1}});
-  }else{
-  //console.log("STOP----")
-    this.stop();
-    return ;
-  }
-});
-
+  Meteor.publish('references-for-user', function(id){
+    if(Roles.userIsInRole(id,PROFESSIONAL)){
+      //console.log("user is pro!")
+       return Reference.find({owner: id}, {sort: {updateAt: -1}});
+    }else{
+    //console.log("STOP----")
+      this.stop();
+      return ;
+    }
+  });
+}
 
 Meteor.methods({
   /**

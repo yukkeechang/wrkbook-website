@@ -58,6 +58,9 @@ html {
       height: 100vmin;
       min-height: 50%;
 }
+.no-uppercase {
+     text-transform: none;
+}
 /*
 custom scrollbar
 */
