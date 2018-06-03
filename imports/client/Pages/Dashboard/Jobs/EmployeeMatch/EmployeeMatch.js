@@ -186,7 +186,9 @@ class EmpJobPost extends React.Component{
 
 
                 </div>
-                <JobLocation latitude={this.props.jobinfo.location.latitude} longitude={this.props.jobinfo.location.longitude}/>
+                <div className="col l7 m6 s12 ">
+                  <JobLocation latitude={this.props.jobinfo.location.latitude} longitude={this.props.jobinfo.location.longitude} height={'350px'}/>
+                </div>
 
 
               </div>

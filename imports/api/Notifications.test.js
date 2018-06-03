@@ -15,7 +15,7 @@ if ( Meteor.isServer ) {
        resetDatabase();
       });
 
-      it('can create a new Notification',function(){
+      it('can create a new Notification',function(done){
         let newNotify ={
           toWhomst:userId,
           seen:false,
@@ -31,6 +31,7 @@ if ( Meteor.isServer ) {
         newNotification.apply(invocation,[newNotify]);
 
         expect(Notification.find().count()).to.equal(1);
+        done();
       });
 
       it('can edit a Notification',function(){

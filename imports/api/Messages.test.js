@@ -15,7 +15,7 @@ if ( Meteor.isServer ) {
       resetDatabase();
     });
 
-    it('can create a new Message',function(){
+    it('can create a new Message',function(done){
       const touserId = Random.id();
       const userId = Accounts.createUser({
         email: 'test@test.com',
@@ -37,8 +37,9 @@ if ( Meteor.isServer ) {
       const invocation = {userId};
       createMessage.apply(invocation,[newMessage]);
       expect(Message.find().count()).to.equal(1);
+      done();
     });
-    it('can create a new Channel',function(){
+    it('can create a new Channel',function(done){
       let usrPro = Meteor.users.findOne();
       const userId = usrPro._id;
 
@@ -50,6 +51,7 @@ if ( Meteor.isServer ) {
       const invocation = {userId};
       createChannel.apply(invocation,[newChannel]);
       expect(Channel.find().count()).to.equal(1);
+      done();
     });
     after(function(){
       resetDatabase();

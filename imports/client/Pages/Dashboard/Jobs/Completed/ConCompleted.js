@@ -59,7 +59,7 @@ class ConCompletedJobsPage extends React.Component {
   }
 render() {
 
-
+  console.log(this.props);
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -69,6 +69,7 @@ render() {
   }
   else if(!(isEmpty(this.props.job))) {
     let jobz = this.props.job;
+    console.log("NUTTT");
     return (
       <div>
         <div className="row" style={{paddingTop: '10px'}}>
@@ -102,7 +103,7 @@ render() {
 
 
 export default ConCompleted = withTracker(props => {
-  let user = Meteor.user();
+
   let jobPost=[]
   let loading = false
   let handle = Meteor.subscribe('closed-job-con');
@@ -111,7 +112,6 @@ export default ConCompleted = withTracker(props => {
 
   return {
     handle:handle,
-    user: user,
     loading: loading,
     job: jobPost
   };

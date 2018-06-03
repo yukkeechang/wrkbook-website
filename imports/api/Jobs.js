@@ -141,6 +141,25 @@ if ( Meteor.isServer ) {
     }
 
   });
+  Meteor.publish('active-jobs',function () {
+    if( Roles.userIsInRole(this.userId,PROFESSIONAL)){
+      let currentJobs = Meteor.call('findActiveJobsEmployee');
+      return Job.find({
+        _id:{$in: currentJobs},
+      });
+    }
+    else if( Roles.userIsInRole(this.userId,CONTRACTOR)){
+      let currentJobs = Meteor.call('findActiveJobsEmployer');
+      return Job.find({
+        _id:{$in: currentJobs},
+
+      });
+    }
+    else{
+      this.stop();
+      return null;
+    }
+  })
   Meteor.publish('job-post-employer-edit',function(jobId){
     if(Roles.userIsInRole(this.userId,CONTRACTOR)){
       return Job.find({_id: jobId,employerId:this.userId},{sort: {generalStart: 1}});
@@ -273,8 +292,8 @@ if ( Meteor.isServer ) {
   // These dont need to paramter to be passed since we know who is calling this function
   Meteor.publish('completed-job-pro',function(){
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
-      let hackIdThing =[];
-      hackIdThing[0] = this.userId;
+      let hackIdThing =[this.userId];
+
       let currentDate = new Date()
 
 
@@ -283,6 +302,7 @@ if ( Meteor.isServer ) {
                           'generalEnd':{$lt: currentDate},
                           'isOpen':false});
       // return job;
+      // WHY IS THIS HERE
       let jobIds = [];
         job.forEach((job) =>{
         let idxx = -1;
@@ -305,7 +325,7 @@ if ( Meteor.isServer ) {
       });
       let cursor = Job.find({_id:{$in:  jobIds}});
 
-      return  cursor;
+      return  job;
 
     } else {
       this.stop();
@@ -377,9 +397,9 @@ if ( Meteor.isServer ) {
     }
   });
   Meteor.publish('apply-employee-job',function(jobId){
-    if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+    if (Roles.userIsInRole(this.userId,CONTRACTOR)|| Roles.userIsInRole(this.userId,PROFESSIONAL)) {
 
-      let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
+      let jobInfo = Job.findOne({_id: jobId});
 
       if(!!jobInfo.applyemployeeIds){
 
@@ -394,9 +414,9 @@ if ( Meteor.isServer ) {
     }
   });
   Meteor.publish('admit-employee-job',function(jobId){
-    if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
+    if (Roles.userIsInRole(this.userId,CONTRACTOR)|| Roles.userIsInRole(this.userId,PROFESSIONAL)) {
 
-      let jobInfo = Job.findOne({_id: jobId, employerId: this.userId});
+      let jobInfo = Job.findOne({_id: jobId});
       if(!!jobInfo.admitemployeeIds){
         return Meteor.users.find({_id: {$in: jobInfo.admitemployeeIds}}, {fields: { emails: 1, profile: 1 } });
       }else{
@@ -1161,6 +1181,31 @@ Meteor.methods({
 
 
   },
+  findActiveJobsEmployee(){
+    if(!this.userId|| !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
+    let jobIdArray = [];
+    let hackIdThing  = [this.userId];
+    let currentDate = new Date();
+    let jobCursor = Job.find({ 'admitemployeeIds' :{$in : hackIdThing}});
+
+    jobCursor.forEach((job)=>{
+      jobIdArray.push(job._id);
+    })
+
+    return jobIdArray;
+  },
+  findActiveJobsEmployer(){
+    if(!this.userId|| !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
+    let jobIdArray = [];
+    let currentDate = new Date();
+    let jobCursor = Job.find({ employerId :this.userId});
+
+    jobCursor.forEach((job)=>{
+      jobIdArray.push(job._id);
+    })
+    return jobIdArray;
+  },
+
   checkNewJob(){
     if(!this.userId && Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
 

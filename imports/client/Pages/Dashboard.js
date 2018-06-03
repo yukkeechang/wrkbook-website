@@ -21,6 +21,7 @@ import DeletedView from './Dashboard/Jobs/DeletedJob';
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';
 import analytics from './analytics';
+import JobChat from './Dashboard/Messages/JobChat/JobChat';
 
 
 
@@ -102,6 +103,7 @@ class Dash extends Component{
                 <Route path="/empcompleted" component={ProCompleted}/>
                 <Route path="/createreviewforprofessional" component={CreateReviewForPro}/>
                 <Route path="/createreviewforcontractor" component={CreateReviewForCon}/>
+                <Route path="/job-chat/:value" component={JobChat}/>
 
 
                 <Route path="*" component={NotFound}/>

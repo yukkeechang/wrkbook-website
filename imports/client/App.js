@@ -52,6 +52,21 @@ class Application extends Component {
             </BrowserRouter>
         );
     }
+    componentDidMount(){
+      // const message ={
+      //   to:Meteor.userId(),
+      //   owner: Meteor.userId(),
+      //   timestamp: new Date(),
+      //   message: "afiulsdfjkdsahfjkladshlfkjhsadkg",
+      //   seen: false,
+      //   jobId: 'dhdshh'
+      // }
+      // Meteor.call('createMessage',message,(err)=>{
+      //   console.log('halp');
+      //   console.log(err);
+      //
+      // })
+    }
 }
 const App = withTracker(props => {
     return {

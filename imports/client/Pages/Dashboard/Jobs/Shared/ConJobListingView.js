@@ -26,7 +26,7 @@ class ConView extends React.Component{
   render(){
 
     let employeesBoi = this.props.employees;
-    //console.log(employeesBoi.length);
+    console.log(this.props);
     if (!this.props.ready) {
       return(
         <MSpinner/>

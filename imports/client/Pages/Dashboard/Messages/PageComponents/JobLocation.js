@@ -13,7 +13,7 @@ import ReactDOM from 'react-dom';
 
     let geoThings ={lat:this.props.latitude,lng:this.props.longitude};
     let mapGoogle = new google.maps.Map(ReactDOM.findDOMNode(this.refs.map),{
-      zoom: 12,
+      zoom: 11,
       center:geoThings,
     });
 
@@ -40,8 +40,6 @@ import ReactDOM from 'react-dom';
 
           </div>
           <br/>
-           <p> Exact address and contact number is given after employer accepts your application to the job</p>
-
         </div>
       )
   }
