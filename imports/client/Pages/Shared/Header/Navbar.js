@@ -192,14 +192,14 @@ export class NavBarPage extends Component{
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
 
 
-            <div ref="dropdownnotes" data-activates='notification' style={styles.links} className="col m3 hide-on-small-only genText">
+            <div ref="dropdownnotes" data-activates='notification' style={styles.links} className="col m2 hide-on-small-only genText">
               <div className="valign-wrapper">
 
               <Link style={{color:'white'}} to="/notifications">Notifications{this.props.general > 0 ?
                     <span className="new badge">{this.props.general}</span> : null}
                 </Link>
               </div>
-            </div> */}
+            </div>
 
             <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m2 push-s1">
                 <div style={styles.firstName} className="hide-on-small-only">
