@@ -20,7 +20,7 @@ export default class HowTo extends React.Component{
               <div className="col s12 m6 l6" >
                 <div className="card">
                   <div className="card-content center-align">
-                    <img className="circle" src="images/worker-landing.jpg" height="266" width="266"/>
+                    <img className="circle" src="images/michael-pro.png" height="266" width="266"/>
                     <p style={{fontStyle: 'bold',fontSize:'20px'}}>Michael S.</p>
                     <img src="images/Rating-4.png"/>
                     <p style={{fontStyle: 'bold',fontSize:'15px'}}>Painter, General Laborer</p>
@@ -33,7 +33,7 @@ export default class HowTo extends React.Component{
               <div className="col s12 m6 l6" >
                 <div className="card">
                   <div className="card-content center-align">
-                    <img className="circle" src="images/william-pro.png" height="266" width="266"/>
+                    <img className="circle" src="images/ziggy-con.png" height="266" width="266"/>
                     <p style={{fontStyle: 'bold',fontSize:'20px'}}>John G.</p>
                     <img src="images/Rating-4.png"/>
                     <p style={{fontStyle: 'bold',fontSize:'15px'}}>Ziggy Painting Corp.</p>
