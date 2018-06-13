@@ -24,7 +24,7 @@ export default class FaqPage  extends React.Component {
         <div>
             <Header/>
             <div id="herofaq">
-            <div style={{height:'64px'}}></div>
+            <div style={{height:'100px'}}></div>
                 <div className="container">
                   <div className="card blue-grey darken-3">
                     <div className="card-content">

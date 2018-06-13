@@ -21,27 +21,27 @@ Table of Contents End
     background-image: url('/images/heroBG.jpg');
     background-size: cover;
     background-position: center center;
-    height: 100vmin;
-    min-height: 528px;
+    height: 50vmin;
+    min-height: 500px;
 }
 /* 1.1 - End Hero
 -------------------------------------------------*/
 /* 1.2 - Buttons
 -------------------------------------------------*/
 .hBut{
-    color: white;
     text-align: center;
-    border: 3px solid white;
     padding: 12px 0 12px 0;
 }
 .hBut:visited{
     color: white;
 }
+/*
 .hBut:hover{
     border-color: burlywood;
     background-color: burlywood;
     transition: all 200ms ease-in;
 }
+*/
 /* 1.2 - End Buttons
 -------------------------------------------------*/
 /* 1.0 - End Hero Section

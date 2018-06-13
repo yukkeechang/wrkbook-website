@@ -3,6 +3,106 @@ import { Link } from 'react-router-dom';
 import WrkBookIcon from '../WrkBookIcon';
 import ReactDOM from 'react-dom';
 
+
+
+export default class Base extends Component{
+  constructor(props){
+      super(props);
+
+  }
+  componentDidMount(){
+    //console.log(this.props);
+    let sn = ReactDOM.findDOMNode(this.refs.sideNav);
+    $(sn).sideNav();
+  }
+  sideClick(){
+      let sn = ReactDOM.findDOMNode(this.refs.sideNav);
+      $(sn).sideNav('hide');
+
+  }
+  things(event){
+    this.props.handleClick(event);
+  }
+
+  /*links for full nav bar */
+  links = (to, bind, linkName) => {
+    if (to === "questions") {
+      return (
+        <Link to={to}>
+          <div style={styles.links} className="col  m1 hide-on-small-only nav-bar-text">{linkName}</div>
+        </Link>
+      )
+    }
+    return (
+      <Link to={to}  onClick={this.things.bind(this, bind)}>
+        <div style={styles.links} className="col  m1 hide-on-small-only nav-bar-text">{linkName}</div>
+      </Link>
+    )
+  }
+
+
+    render(){
+      return(
+          <div className="row">
+
+          {/*Menu bar/Small screen links */}
+          <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
+              <i style={{fontSize:'30px',padding: '17px 0 17px 10px'}}className="material-icons">menu</i>
+          </div>
+              <Link to="/#" onClick={this.things.bind(this,"home")}>
+                  <div className="col m4 hide-on-small-only">
+                      <div style={{height: '54px',position:'relative',top:'5px', paddingLeft:'50px'}}>
+                      <WrkBookIcon/>
+                  </div>
+
+                  </div>
+                  <div  style={{textAlign:'center'}} className="col s4 center-align  hide-on-med-and-up">
+                      <img style={styles.logo} src="/images/circle-logo.svg"/>
+                  </div>
+              </Link>
+
+              {/*Full Nav bar & Medium/Large  screen links */}
+                {this.links("/#", "home", "Home")}
+                {this.links("/questions", "", "FAQ")}
+                {this.links("/#HowTo", "HowTo", "How It Works")}
+
+              <Link to="/login">
+                  <div style={styles.heading} className="col m1 offset-m1 valign-wrapper hide-on-small-only nav-bar-heading">
+                      <div className="genText">Login</div>
+                  </div>
+              </Link>
+              <Link to="/register">
+                <div id="rec-but" style={styles.heading} className="col m2  hide-on-small-only nav-bar-heading ">
+                <div className="genText">Sign Up</div>
+                </div>
+              </Link>
+
+              <ul id="sideNav" className="side-nav">
+                  <li>
+                      <div style={styles.wrkbook}>
+                          <WrkBookIcon/>
+                      </div>
+                  </li>
+                  <li>
+                      <div className="divider"> </div>
+                  </li>
+                  <li>
+                      <Link onClick={this.sideClick.bind(this)} to = "/">Home</Link>
+                  </li>
+                  <li>
+                      <Link onClick={this.sideClick.bind(this)} to = "/#price">Pricing</Link>
+                  </li>
+                  <li>
+                      <Link onClick={this.sideClick.bind(this)} to = "/questions">FAQs</Link>
+                  </li>
+
+
+              </ul>
+          </div>
+      )
+  }
+}
+
 let styles = {
     logofull : {
         position: 'relative',
@@ -16,16 +116,16 @@ let styles = {
     },
     links:{
         color: 'white',
-        fontSize:'18px',
         top: '22px',
         textAlign:'left',
         position: 'relative'
     },
     heading : {
         position: 'relative',
-        top: '9px',
-        fontSize:'30px',
-        textAlign:'center'
+        top: '12px',
+        textAlign:'center',
+        padding: '0px',
+
     },
     headIcon: {
         position: 'relative',
@@ -41,91 +141,13 @@ let styles = {
     },
     icon : {
         fontSize: '30px'
+    },
+    butText: {
+    		top: '9px',
+    		right: '15px',
+    		fontSize:'25px',
+    		textAlign: 'center',
+    		padding: 'none'
+
     }
-}
-
-export default class Base extends Component{
-  constructor(props){
-      super(props);
-
-  }
-  componentDidMount(){
-    console.log(this.props);
-    let sn = ReactDOM.findDOMNode(this.refs.sideNav);
-    $(sn).sideNav();
-  }
-  sideClick(){
-      let sn = ReactDOM.findDOMNode(this.refs.sideNav);
-      $(sn).sideNav('hide');
-
-
-  }
-  things(event){
-
-    this.props.handleClick(event);
-  }
-    render(){
-      return(
-          <div className="row">
-
-          <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
-              <i style={{fontSize:'30px',padding: '17px 0 17px 10px'}}className="material-icons">menu</i>
-          </div>
-              <Link to="/#" onClick={this.things.bind(this,"home")}>
-                  <div className="col m4 hide-on-small-only">
-                      <div style={{height: '54px',position:'relative',top:'5px', paddingLeft:'50px'}}>
-                          <WrkBookIcon/>
-                      </div>
-
-                  </div>
-                  <div  style={{textAlign:'center'}} className="col s4 center-align  hide-on-med-and-up">
-                      <img style={styles.logo} src="/images/circle-logo.svg"/>
-                  </div>
-              </Link>
-              <Link to="/#" onClick={this.things.bind(this,"home")}>
-                <div  style={styles.links} className="col  m1 hide-on-small-only">Home</div>
-              </Link>
-              <Link to="/#price"  onClick={this.things.bind(this,"price")}>
-                <div  style={styles.links} className="col  m1 hide-on-small-only">Pricing</div>
-              </Link>
-              <Link  to="/questions">
-                <div  style={styles.links} className="col  m1 hide-on-small-only">FAQs</div>
-              </Link>
-              <Link to="/#HowTo"  onClick={this.things.bind(this,"HowTo")}>
-                <div  style={styles.links} className="col  m2 hide-on-small-only">How it Works</div>
-              </Link>
-              <Link to="/login">
-                  <div style={styles.heading} className="col m3  hide-on-small-only">
-                      <span className="genText">Login</span>
-                  </div>
-                  <div  style={styles.headIcon} className="col s3 hide-on-med-and-up">
-                      <i style={styles.icon} className="genText material-icons">account_circle</i>
-                  </div>
-              </Link>
-
-
-              <ul id="sideNav" className="side-nav">
-                  <li>
-                      <div style={styles.wrkbook}>
-                          <WrkBookIcon/>
-                      </div>
-                  </li>
-                  <li>
-                      <div className="divider"> </div>
-                  </li>
-                  <li>
-                      <Link onClick={this.sideClick.bind(this)} to = "/">Home</Link>
-                  </li>
-                  <li>
-                      <Link onClick={this.sideClick.bind(this)} to = "/price">Pricing</Link>
-                  </li>
-                  <li>
-                      <Link onClick={this.sideClick.bind(this)} to = "/questions">FAQs</Link>
-                  </li>
-
-
-              </ul>
-          </div>
-      )
-  }
 }

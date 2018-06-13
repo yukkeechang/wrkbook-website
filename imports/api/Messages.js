@@ -11,20 +11,20 @@ Channel = new Mongo.Collection('channels');
 
 Message.attachSchema(MessagesSchema);
 Channel.attachSchema(ChannelSchema);
-
-Meteor.publish('channels-for-job',function(jobId){
-  return Channel.find({jobId:jobId});
-});
-Meteor.publish('messages-for-channel',function(jobId,channel){
-  let channel  = Channel.findOne({jobId:jobId,channel:channel});
-  return Message.find({channelId:channel._id ,jobId:jobId,to:{$exists:false}});
-});
-Meteor.publish('messages-from-user',function(userId,jobId){
-  return Message.find({
-    $or:[{channel:{$exists:false},jobId:jobId,owner:this.userId,to:userId},
-          {channel:{$exists:false},jobId:jobId,owner:userId,to:this.userId}]});
-});
-
+if ( Meteor.isServer ) {
+  Meteor.publish('channels-for-job',function(jobId){
+    return Channel.find({jobId:jobId});
+  });
+  Meteor.publish('messages-for-channel',function(jobId,channel){
+    let channel  = Channel.findOne({jobId:jobId,channel:channel});
+    return Message.find({channelId:channel._id ,jobId:jobId,to:{$exists:false}});
+  });
+  Meteor.publish('messages-from-user',function(userId,jobId){
+    return Message.find({
+      $or:[{channel:{$exists:false},jobId:jobId,owner:this.userId,to:userId},
+            {channel:{$exists:false},jobId:jobId,owner:userId,to:this.userId}]});
+  });
+}
 
 Meteor.methods({
 

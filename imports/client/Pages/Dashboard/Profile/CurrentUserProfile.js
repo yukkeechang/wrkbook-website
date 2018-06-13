@@ -22,14 +22,12 @@ constructor(props) {
 
 }
 componentDidMount(){
-  console.log(this.refs.things);
+  console.log("things "+this.refs.things);
   let switchRouter =this.refs.things.context.router.route.location.pathname;
   this.setState({routeName:switchRouter});
   console.log(switchRouter);
 }
-things(){
-  console.log("hahah");
-}
+
 
 render() {
     let url = this.props.match.url;
@@ -67,7 +65,7 @@ render() {
           </div>
 
             <div className="col m8 s12">
-                <Switch onChange={this.things.bind(this)} ref="things">
+                <Switch ref="things">
                   <Route exact path={url+"/"} component={AboutPage}/>
                     <Route exact path={url+"/about"} component={AboutPage}/>
                     <Route exact path={url+"/contact" } component={ContactPage}/>

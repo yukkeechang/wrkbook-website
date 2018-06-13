@@ -14,37 +14,37 @@ import {CONTRACTOR} from './Schemas/employerSchema';
 **/
 Notification = new Mongo.Collection('notifications');
 Notification.attachSchema(NotificationSchema);
+if ( Meteor.isServer ) {
+  Meteor.publish('notifications-for-user',function(){
+    if(Roles.userIsInRole(this.userId,CONTRACTOR)||
+    Roles.userIsInRole(this.userId,PROFESSIONAL)){
+      return Notification.find({toWhomst: this.userId,seen:false});
+    }else{
+      this.stop();
+      return;
+    }
+  });
+  Meteor.publish('all-notifications-for-user',function(){
+    if(Roles.userIsInRole(this.userId,CONTRACTOR)||
+    Roles.userIsInRole(this.userId,PROFESSIONAL)){
+      return Notification.find({toWhomst: this.userId});
+    }else{
+      this.stop();
+      return;
+    }
+  });
 
-Meteor.publish('notifications-for-user',function(){
-  if(Roles.userIsInRole(this.userId,CONTRACTOR)||
-  Roles.userIsInRole(this.userId,PROFESSIONAL)){
-    return Notification.find({toWhomst: this.userId,seen:false});
-  }else{
-    this.stop();
-    return;
-  }
-});
-Meteor.publish('all-notifications-for-user',function(){
-  if(Roles.userIsInRole(this.userId,CONTRACTOR)||
-  Roles.userIsInRole(this.userId,PROFESSIONAL)){
-    return Notification.find({toWhomst: this.userId});
-  }else{
-    this.stop();
-    return;
-  }
-});
-
-Meteor.publish('view-deleted-job',function(jobId){
-  if(Roles.userIsInRole(this.userId,CONTRACTOR)||
-  Roles.userIsInRole(this.userId,PROFESSIONAL)){
-    let hrefLink = "/deleted-job/"+jobId;
-    return Notification.find({toWhomst:this.userId,href:hrefLink});
-  }else{
-    this.stop();
-    return;
-  }
-});
-
+  Meteor.publish('view-deleted-job',function(jobId){
+    if(Roles.userIsInRole(this.userId,CONTRACTOR)||
+    Roles.userIsInRole(this.userId,PROFESSIONAL)){
+      let hrefLink = "/deleted-job/"+jobId;
+      return Notification.find({toWhomst:this.userId,href:hrefLink});
+    }else{
+      this.stop();
+      return;
+    }
+  });
+}
 
 Meteor.methods({
 

@@ -23,90 +23,90 @@ const REVIEWERR ={
 */
 Review  = new Mongo.Collection('reviews');
 Review.attachSchema(ReviewSchema);
+if ( Meteor.isServer ) {
+  /**
+  *
+  * Publishes all Reviews written for a user with an String ID
+  * @param {String} The Id of the user
+  * @returns {Array} that contains all the review of that reviewee
+  *
+  */
+  Meteor.publish('reviews-for-user',function (revieweeId) {
+    check(revieweeId,String)
+    if(this.userId === revieweeId){
+      this.stop();
+      throw new Meteor.Error('403',WRONGMET)
+    }
 
-/**
-*
-* Publishes all Reviews written for a user with an String ID
-* @param {String} The Id of the user
-* @returns {Array} that contains all the review of that reviewee
-*
-*/
-Meteor.publish('reviews-for-user',function (revieweeId) {
-  check(revieweeId,String)
-  if(this.userId === revieweeId){
-    this.stop();
-    throw new Meteor.Error('403',WRONGMET)
-  }
+    return Review.find({ revieweeId: revieweeId});
+  });
+  /**
+  FIND a thing for this function
+  **/
+  Meteor.publish('employee-reviews-for-a-job', function( employeeId,employerId,jobId) {
+    return Review.find({revieweeId: employeeId, reviewerId:employerId, jobId:jobId});
+  });
 
-  return Review.find({ revieweeId: revieweeId});
-});
-/**
-FIND a thing for this function
-**/
-Meteor.publish('employee-reviews-for-a-job', function( employeeId,employerId,jobId) {
-  return Review.find({revieweeId: employeeId, reviewerId:employerId, jobId:jobId});
-});
+  Meteor.publish('reviews-for-job',function(jobID){
+      let job = Job.findOne({_id: jobID},{fields: {employerId:1}});
+      if(!job)throw new Meteor.Error('401','JOB NOT FOUND');
 
-Meteor.publish('reviews-for-job',function(jobID){
-    let job = Job.findOne({_id: jobID},{fields: {employerId:1}});
-    if(!job)throw new Meteor.Error('401','JOB NOT FOUND');
+      return Review.find({reviewerId:this.userId,jobId:jobID,revieweeId:job.employerId});
+  });
 
-    return Review.find({reviewerId:this.userId,jobId:jobID,revieweeId:job.employerId});
-});
-
-Meteor.publish('reviews-for-employee',function(jobID,employeeID){
-    return Review.find({reviewerId:this.userId,revieweeId:employeeID,jobId:jobID});
-});
-
-
+  Meteor.publish('reviews-for-employee',function(jobID,employeeID){
+      return Review.find({reviewerId:this.userId,revieweeId:employeeID,jobId:jobID});
+  });
 
 
-/**
-*
-* Publishes all Reviews written by a user with ID
-* @param {String} The Id of user
-* @returns {Array} that contains all the review of that reviewer
-*
-*/
-Meteor.publish('reviews-by-user',function (reviewerId) {
-  check(reviewerId,String);
-  if(!this.userId){
-    this.stop();
-    throw new Meteor.Error('401',NOTAUTH);
-  }
-  this.ready();
-  return Review.find({ reviewerId: reviewerId});
-});
-/**
-*
-* Publishes all Reviews written for the current user
-* @returns {Array} that contains all the review of that reviewee
-*
-*/
-Meteor.publish('reviews-for-you',function(){
-
-  if(!this.userId){
-    this.stop();
-    throw new Meteor.Error('401',NOTAUTH);
-  }
 
 
-  return Review.find({revieweeId:this.userId});;
-});
-/**
-*
-* Publishes all Reviews written by the current user
-* @returns {Array} that contains all the review of that reviewer
-*
-*/
-Meteor.publish('reviews-by-you',function(){
-  if(!this.userId){
-    this.stop();
-    throw new Meteor.Error('401',NOTAUTH);
-  }
-  return Review.find({reviewerId:this.userId});
-})
+  /**
+  *
+  * Publishes all Reviews written by a user with ID
+  * @param {String} The Id of user
+  * @returns {Array} that contains all the review of that reviewer
+  *
+  */
+  Meteor.publish('reviews-by-user',function (reviewerId) {
+    check(reviewerId,String);
+    if(!this.userId){
+      this.stop();
+      throw new Meteor.Error('401',NOTAUTH);
+    }
+    this.ready();
+    return Review.find({ reviewerId: reviewerId});
+  });
+  /**
+  *
+  * Publishes all Reviews written for the current user
+  * @returns {Array} that contains all the review of that reviewee
+  *
+  */
+  Meteor.publish('reviews-for-you',function(){
 
+    if(!this.userId){
+      this.stop();
+      throw new Meteor.Error('401',NOTAUTH);
+    }
+
+
+    return Review.find({revieweeId:this.userId});;
+  });
+  /**
+  *
+  * Publishes all Reviews written by the current user
+  * @returns {Array} that contains all the review of that reviewer
+  *
+  */
+  Meteor.publish('reviews-by-you',function(){
+    if(!this.userId){
+      this.stop();
+      throw new Meteor.Error('401',NOTAUTH);
+    }
+    return Review.find({reviewerId:this.userId});
+  });
+}
 Meteor.methods({
 /**
  * Check if the Review Object follows the Schema

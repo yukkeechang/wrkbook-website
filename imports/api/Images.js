@@ -120,7 +120,7 @@ Meteor.methods({
       let oldImageId =prevUser.profile.employeeData.image;
 
       prevUser.profile.employeeData.image = imageId;
-      
+
       Meteor.users.update({_id: this.userId},{$set: prevUser});
       if(!(oldImageId === defaultImage))Images.remove({_id:oldImageId});
 

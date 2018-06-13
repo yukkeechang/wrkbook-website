@@ -51,7 +51,7 @@ export default class ResetPassword extends Component{
     return(
         <div style={{height:'100vmin'}}>
           <Header/>
-          <div style={{height:'64px'}}></div>
+          <div style={{height:'100px'}}></div>
             <div className="wrapper">
               <div style={{zIndex:'-1'}} className="container">
                 <div className="card">
@@ -74,7 +74,7 @@ export default class ResetPassword extends Component{
               </div>
               <div className="push"></div>
             </div>
-            
+
             <Footer/>
 
         </div>
