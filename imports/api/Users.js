@@ -228,6 +228,9 @@ Meteor.methods({
       let id = Accounts.createUser(User);
       if(User.profile.isPro){
         Roles.addUsersToRoles(id, PROFESSIONAL );
+        Meteor.call('matchNewEmployeeAgainstOldJobs',id,(err)=>{
+          if(err)console.log(err);
+        })
       }else{
         Roles.addUsersToRoles(id,CONTRACTOR);
         Roles.addUsersToRoles(id,'free-job');

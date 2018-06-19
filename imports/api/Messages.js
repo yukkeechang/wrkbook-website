@@ -15,30 +15,33 @@ Message.attachSchema(MessagesSchema);
 Channel.attachSchema(ChannelSchema);
 if ( Meteor.isServer ) {
   Meteor.publish('channels-for-job',function(jobId){
-    return Channel.find({jobId:jobId});
+    if(typeof jobId != 'undefined'){
+      return Channel.find({jobId:jobId});
+    }
   });
 
   //Hange function
   Meteor.publish('messages-for-channel',function(jobId,channell){
-    console.log(channell);
     let channel  = Channel.findOne({jobId:jobId,name:channell});
-    return Message.find({channelId:channel._id ,jobId:jobId,to:{$exists:false}});
+    if(!!channel){
+      return Message.find({channelId:channel._id ,jobId:jobId,to:{$exists:false}});
+    }
   });
   Meteor.publish('all-messages-for-job',function (jobId) {
-    return Message.find({$or:[{jobId:jobId,seen: false,to:this.userId},
-        {jobId:jobId,seen: false,channel:{$exists:true} }]},{limit:1});
+    return Message.find({$or:[{jobId:jobId,to:this.userId},
+        {jobId:jobId,channelId:{$exists:true} }]});
   });
   Meteor.publish('messages-conversation',function(userId,jobId){
     return Message.find({
-      $or:[{channel:{$exists:false},jobId:jobId,owner:this.userId,to:userId},
-            {channel:{$exists:false},jobId:jobId,owner:userId,to:this.userId}]});
+      $or:[{channelId:{$exists:false},jobId:jobId,owner:this.userId,to:userId},
+            {channelId:{$exists:false},jobId:jobId,owner:userId,to:this.userId}]});
   });
   Meteor.publish('unread-messages',function () {
     if( Roles.userIsInRole(this.userId,PROFESSIONAL)){
       let currentJobs = Meteor.call('findActiveJobsEmployee');
       return Message.find({
         $or:[{jobId:{$in: currentJobs},seen: false,to:this.userId},
-            {jobId:{$in: currentJobs},seen: false,channel:{$exists:true} }]
+            {jobId:{$in: currentJobs},seen: false,channelId:{$exists:true} }]
 
       });
     }
@@ -46,7 +49,7 @@ if ( Meteor.isServer ) {
       let currentJobs = Meteor.call('findActiveJobsEmployer');
       return Message.find({
         $or:[{jobId:{$in: currentJobs},seen: false,to:this.userId},
-            {jobId:{$in: currentJobs},seen: false,channel:{$exists:true} }]
+            {jobId:{$in: currentJobs},seen: false,channelId:{$exists:true} }]
       });
     }
     else{

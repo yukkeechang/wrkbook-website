@@ -42,6 +42,6 @@ export default ChannelCard = withTracker(params => {
     return {
         ready: ready,
         handle:handle,
-        messageCount: Message.find({seen:false,channel:params.channelId}).count()
+        messageCount: Message.find({seen:false,channelId:params.channelId}).count()
     };
 })(ChannelC);

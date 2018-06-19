@@ -23,7 +23,7 @@ const imageText = [{ img: "/images/services/plumb.png",text: "Plumbing"},
 export default class Services extends React.Component{
   constructor(props){
     super(props);
-    items = imageText.slice(0,6).map(i=>{
+    let items = imageText.slice(0,6).map(i=>{
           return i;
     });
 
@@ -44,7 +44,7 @@ export default class Services extends React.Component{
     }else{
       count = count + 6;
     }
-    items = imageText.slice(count,count+6).map(i=>{
+    let items = imageText.slice(count,count+6).map(i=>{
           return i;
     });
     this.setState({count,items});

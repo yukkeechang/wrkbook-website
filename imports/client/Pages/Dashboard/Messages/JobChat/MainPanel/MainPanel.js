@@ -79,8 +79,8 @@ export default MainPanel = withTracker(params => {
     if(!!params.userId){
       handle = Meteor.subscribe('messages-conversation',params.userId,params.jobId);
       messages = Message.find({
-        $or:[{channel:{$exists:false},jobId:params.jobId,owner:currentUserID,to:params.userId},
-              {channel:{$exists:false},jobId:params.jobId,owner:params.userId,to:currentUserID}]}).fetch();
+        $or:[{channelId:{$exists:false},jobId:params.jobId,owner:currentUserID,to:params.userId},
+              {channelId:{$exists:false},jobId:params.jobId,owner:params.userId,to:currentUserID}]}).fetch();
       ready =   handle.ready();
     }
     if(!!params.channelId){

@@ -32,7 +32,95 @@ Defines a collection named jobs
 **/
 Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
+
+//maxDistance is in miles
+const calculateJobArea = (lat,lng,maxDistance)=>{
+  const bearing = 45;
+  const meterDegrees = 111111;
+  const mileToMeters= 1609.34;
+
+  let distance = maxDistance* mileToMeters/2;
+  let cos_degg = Math.cos(bearing* Math.PI/180);
+  let sin_degg = Math.sin(bearing* Math.PI/180);
+
+  let lat_rad = Math.cos(lat * Math.PI/180);
+
+  let eastDisplacement = distance * sin_degg / lat_rad / meterDegrees;
+  let northDisplacement = distance * cos_degg / meterDegrees;
+  let westDisplacement = - eastDisplacement;
+  let southDisplacement = - northDisplacement;
+
+  return{
+    latTop: lat + northDisplacement,
+    latBottom: lat + southDisplacement,
+    lngTop: lng + eastDisplacement,
+    lngBottom: lng + westDisplacement
+  }
+};
+export const changeIsOpen = () =>{
+
+  let currentDate = new Date();
+  let changedJobArray=[];
+  let things = Job.find({'generalEnd': {$lt : currentDate},'isOpen':true});
+  things.forEach((job)=>{
+    job.isOpen = false;
+    changedJobArray.push(job._id);
+    Job.update({_id:job._id},{$set:job});
+  });
+  updateEmployeeWorkHistory(changedJobArray)
+  return things.count();
+};
+
+
+
+const updateEmployeeWorkHistory = (arrayOfIds)=>{
+
+    jobAndEmployeeIDS = []
+    for (let key in arrayOfIds) {
+        let id =  arrayOfIds[key]
+        let admitemployeeIds = Job.findOne({_id:id},{fields:{admitemployeeIds:1}}).admitemployeeIds;
+
+        console.log(admitemployeeIds);
+        let jobEmployeeObject = {
+          employeeIds: admitemployeeIds,
+          jobId: id
+        }
+        jobAndEmployeeIDS.push(jobEmployeeObject)
+    }
+    //SHOULD UNROLL THIS
+    for (let indx in jobAndEmployeeIDS) {
+      for( let employeeIndex in jobAndEmployeeIDS[indx].employeeIds){
+
+        let user = Meteor.users.findOne({_id:jobAndEmployeeIDS[indx].employeeIds[employeeIndex]});
+        console.log(user);
+        let prevJob = user.profile.employeeData.prevJobs;
+        prevJob[prevJob.length] = jobAndEmployeeIDS[indx].jobId;
+        Meteor.users.update({_id: jobAndEmployeeIDS[indx].employeeIds[employeeIndex] },{$set: user});
+      }
+    }
+};
+const jobRequirementAgainstEmployeeQuery =(employeeData) =>{
+  return{
+     $and: [
+       {$or:[ {'requirements.driverLicense':{$ne : true}},
+       {'requirements.driverLicense':true,'requirements.driverLicense':employeeData.driverLicense }]}
+     ,
+       {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
+       {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employeeData.osha.osha30},
+       {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employeeData.osha.osha10},{'requirements.osha.osha10':employeeData.osha.osha30}] },
+       ]}
+     ,
+       {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
+       {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employeeData.socialPref.social},
+       {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employeeData.socialPref.taxID},{'requirements.socialPref.social':employeeData.socialPref.social}] },
+       ]}
+     ]
+   }
+
+}
+
 if ( Meteor.isServer ) {
+
   /**
   *
   * Publishes all Jobs that matchs the jobTitles of a  employee, and
@@ -47,70 +135,29 @@ if ( Meteor.isServer ) {
 
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
 
-      let bearing = 45;
-      const meterDegrees = 111111;
-      const mileToMeters= 1609.34;
-
       let jobTitle = employee.jobTitle;
-      let lat = employee.location.latitude;
-      let lng = employee.location.longitude;
-      let distance = employee.maxDistance * mileToMeters/2;
 
-      let cos_degg = Math.cos(bearing* Math.PI/180);
-      let sin_degg = Math.sin(bearing* Math.PI/180);
-
-      let lat_rad = Math.cos(lat * Math.PI/180);
-
-      let eastDisplacement = distance * sin_degg / lat_rad / meterDegrees;
-      let northDisplacement = distance * cos_degg / meterDegrees;
-      let westDisplacement = - eastDisplacement;
-      let southDisplacement = - northDisplacement;
+      let coor = calculateJobArea(employee.location.latitude,
+                                  employee.location.longitude,
+                                  employee.maxDistance);
+      let hackIdThing =[this.userId];
       let currentDate = new Date();
 
 
-
-
-
-      let lat_top = lat + northDisplacement;
-      let lat_bot = lat + southDisplacement;
-      let lng_top = lng + eastDisplacement;
-      let lng_bot = lng + westDisplacement;
-      let hackIdThing =[];
-      hackIdThing[0] = this.userId;
-
-
-        let results =  Job.find({
-            $and: [
-              {
-             'generalStart':{$gt: currentDate},
-              'jobTypes.texts' : {$in : jobTitle},
-              'declineemployeeIds' :{$nin : hackIdThing},
-              'applyemployeeIds' :{$nin : hackIdThing},
-              'admitemployeeIds' :{$nin : hackIdThing},
-              'generalStart':{$gt: currentDate},
-              'isOpen':true,
-              'location.latitude': {$gte: lat_bot, $lt: lat_top},
-              'location.longitude': {$gte: lng_bot , $lt: lng_top}}
-              ,
-                {$or:[ {'requirements.driverLicense':{$ne : true}},
-                {'requirements.driverLicense':true,'requirements.driverLicense':employee.driverLicense}]}
-              ,
-                {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
-                {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employee.osha.osha30},
-                {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employee.osha.osha10},{'requirements.osha.osha10':employee.osha.osha30}] },
-                ]}
-              ,
-                {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
-                {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employee.socialPref.social},
-                {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employee.socialPref.taxID},{'requirements.socialPref.social':employee.socialPref.social}] },
-                ]}
-
-            ]
-
-
+      const newQuery ={}
+      newQuery['$and'] = Object.assign(jobRequirementAgainstEmployeeQuery(employee)['$and'],{
+          'generalStart':{$gt: currentDate},
+           'jobTypes.texts' : {$in : jobTitle},
+           'declineemployeeIds' :{$nin : hackIdThing},
+           'applyemployeeIds' :{$nin : hackIdThing},
+           'admitemployeeIds' :{$nin : hackIdThing},
+           'generalStart':{$gt: currentDate},
+           'isOpen':true,
+           'location.latitude': {$gte: coor.latBottom, $lt: coor.latTop},
+           'location.longitude': {$gte: coor.lngBottom, $lt: coor.lngTop}
         });
 
-        return results;
+      return  Job.find(newQuery);
 
 
     }else{
@@ -431,49 +478,7 @@ if ( Meteor.isServer ) {
 }
 
 
-export const changeIsOpen = () =>{
 
-  let currentDate = new Date();
-  let changedJobArray=[];
-  let things = Job.find({'generalEnd': {$lt : currentDate},'isOpen':true});
-  things.forEach((job)=>{
-    job.isOpen = false;
-    changedJobArray.push(job._id);
-    Job.update({_id:job._id},{$set:job});
-  });
-  updateEmployeeWorkHistory(changedJobArray)
-  return things.count();
-};
-
-const updateEmployeeWorkHistory = (arrayOfIds)=>{
-
-    jobAndEmployeeIDS = []
-    for (let key in arrayOfIds) {
-        let id =  arrayOfIds[key]
-        let admitemployeeIds = Job.findOne({_id:id},{fields:{admitemployeeIds:1}}).admitemployeeIds;
-
-        console.log(admitemployeeIds);
-        let jobEmployeeObject = {
-          employeeIds: admitemployeeIds,
-          jobId: id
-        }
-        jobAndEmployeeIDS.push(jobEmployeeObject)
-    }
-
-    //SHOULD UNROLL THIS
-    for (let indx in jobAndEmployeeIDS) {
-      for( let employeeIndex in jobAndEmployeeIDS[indx].employeeIds){
-
-        let user = Meteor.users.findOne({_id:jobAndEmployeeIDS[indx].employeeIds[employeeIndex]});
-        console.log(user);
-        let prevJob = user.profile.employeeData.prevJobs;
-        prevJob[prevJob.length] = jobAndEmployeeIDS[indx].jobId;
-        Meteor.users.update({_id: jobAndEmployeeIDS[indx].employeeIds[employeeIndex] },{$set: user});
-      }
-
-    }
-
-};
 
 Meteor.methods({
 
@@ -531,19 +536,15 @@ Meteor.methods({
     let largeTime = new Date();
 
     for (let idx in events) {
-
       if (largeTime < events[idx].endAt) {
         largeTime =  events[idx].endAt;
       }
-
     }
 
-    let smallTime =largeTime;
+    let smallTime = largeTime;
     for (let idx in events) {
-
         if (smallTime > events[idx].startAt) {
           smallTime = events[idx].startAt;
-
         }
     }
 
@@ -558,6 +559,7 @@ Meteor.methods({
       proissue = true;
       eventissue=true;
     }
+
     for(let i =0;i<lengthToCheck;++i){
       let protitle = !proValidation.validate(jobObject.professionals[i],{keys:['responsibilities']});
       let propay = !proValidation.validate(jobObject.professionals[i],{keys:['pay']});
@@ -633,66 +635,40 @@ Meteor.methods({
 
   },
 /**
- * Base upon the jobObject,notifications will be sent to the employees how are
+ * Base upon the jobObject,notifications will be sent to the employees how are qualified
  * in the area of the location of the job.
  * @todo Need to filter employees by the requirements of the job
  * @param  {Object} jobObject the object of the job that contains info such location
  * @param  {string} jobId     the id of the job
  */
   sendNotificationsToPotential(jobObject,jobId){
-
-
-    let bearing = 45;
-    const meterDegrees = 111111;
-    const mileToMeters= 1609.34;
-
+    let maxTravel = calculateJobArea(jobObject.location.latitude,
+                                      jobObject.location.longitude,100);
+    //Gets all professional that have the job role in the job posting and are within 100 miles
     let potentialUser = Meteor.users.find({
-          'profile.employeeData.jobTitle' : {$in : jobObject.jobTypes.texts}
+          'profile.employeeData.jobTitle' : {$in : jobObject.jobTypes.texts},
+          'profile.employeeData.location.latitude': {$gte: maxTravel.latBottom, $lt: maxTravel.latTop},
+          'profile.employeeData.location.longitude': {$gte: maxTravel.lngBottom, $lt: maxTravel.lngTop}
     });
+
     let peoples = [];
     potentialUser.forEach((user)=>{
       let lat= user.profile.employeeData.location.latitude;
       let lng = user.profile.employeeData.location.longitude;
-      let distance = user.profile.employeeData.maxDistance*(mileToMeters/2);
-      // ranges[ranges.length] = user.profile.employeeData.maxDistance;
-      let cos_degg = Math.cos(bearing* Math.PI/180);
-      let sin_degg = Math.sin(bearing* Math.PI/180);
+      let distance = user.profile.employeeData.maxDistance;
 
-      let lat_rad = Math.cos(lat * Math.PI/180);
+      const { latTop,latBottom,lngTop,lngBottom }  = calculateJobArea(lat,lng,distance);
 
-      let eastDisplacement = distance * sin_degg / lat_rad / meterDegrees;
-      let northDisplacement = distance * cos_degg / meterDegrees;
-      let westDisplacement = - eastDisplacement;
-      let southDisplacement = - northDisplacement;
+      if(jobObject.location.latitude >= latBottom &&
+         jobObject.location.latitude <=  latTop &&
+         jobObject.location.longitude >= lngBottom &&
+         jobObject.location.longitude <= lngTop ){
 
-      let lat_top = lat + northDisplacement;
-      let lat_bot = lat + southDisplacement;
-      let lng_top = lng + eastDisplacement;
-      let lng_bot = lng + westDisplacement;
-
-      if(jobObject.location.latitude >= lat_bot &&
-         jobObject.location.latitude <=  lat_top &&
-         jobObject.location.longitude >= lng_bot &&
-         jobObject.location.longitude <= lng_top ){
-
-          let matched = Job.find({
-             $and: [
-               {_id:jobId},
-               {$or:[ {'requirements.driverLicense':{$ne : true}},
-               {'requirements.driverLicense':true,'requirements.driverLicense': user.profile.employeeData.driverLicense }]}
-             ,
-               {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
-               {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':user.profile.employeeData.osha.osha30},
-               {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':user.profile.employeeData.osha.osha10},{'requirements.osha.osha10':user.profile.employeeData.osha.osha30}] },
-               ]}
-             ,
-               {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
-               {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':user.profile.employeeData.socialPref.social},
-               {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':user.profile.employeeData.socialPref.taxID},{'requirements.socialPref.social':user.profile.employeeData.socialPref.social}] },
-               ]}
-             ]
-           }).count() >0 ? true:false;
-           if(matched) peoples[peoples.length] = user._id;
+          const newQuery = {};
+          newQuery['$and'] = Object.assign(jobRequirementAgainstEmployeeQuery(user.profile.employeeData)['$and'],
+                              {_id:jobId});
+          let matched = Job.find(newQuery).count() >0 ? true:false;
+          if(matched) peoples[peoples.length] = user._id;
 
        }
 
@@ -896,9 +872,6 @@ Meteor.methods({
       let noCopies = new Set(job.applyemployeeIds);
       job.applyemployeeIds = Array.from(noCopies);
 
-
-
-
       job.applyAsIDs[idx].ids.push(this.userId);
       let nonCopies = new Set(job.applyAsIDs[idx].ids);
       job.applyAsIDs[idx].ids = Array.from(nonCopies);
@@ -962,11 +935,10 @@ Meteor.methods({
     }
     if (job.declineemployeeIds.includes(this.userId)) {
       return;
-    }else{
-      job.declineemployeeIds.push(this.userId);
-      let noCopies = new Set(job.declineemployeeIds);
-      job.declineemployeeIds = Array.from(noCopies);
     }
+    job.declineemployeeIds.push(this.userId);
+    let noCopies = new Set(job.declineemployeeIds);
+    job.declineemployeeIds = Array.from(noCopies);
 
     let selector = {_id: jobId};
 
@@ -1012,11 +984,11 @@ Meteor.methods({
       }
       if (job.declineemployeeIds.includes(employeeId)) {
         return;
-      }else{
-        job.declineemployeeIds.push(employeeId);
-        let noCopies = new Set(job.declineemployeeIds);
-        job.declineemployeeIds = Array.from(noCopies);
       }
+      job.declineemployeeIds.push(employeeId);
+      let noCopies = new Set(job.declineemployeeIds);
+      job.declineemployeeIds = Array.from(noCopies);
+
 
       let selector = {_id: jobId};
       Notification.remove({toWhomst:employeeId,jobId:jobId,typeNotifi:"MATCH"});
@@ -1054,16 +1026,16 @@ Meteor.methods({
     }
     if (job.admitemployeeIds.includes(employeeId)) {
       return;
-    }else{
-      if(job.admitAsIDs[idxx2].ids.length >= job.professionals[idxx2].numWorkers)return;
-      job.admitemployeeIds.push(employeeId);
-      let noCopies = new Set(job.admitemployeeIds);
-      job.admitemployeeIds = Array.from(noCopies);
-
-      job.admitAsIDs[idxx2].ids.push(employeeId);
-      let nonCopies = new Set(job.admitAsIDs[idxx2].ids);
-      job.admitAsIDs[idxx2].ids = Array.from(nonCopies);
     }
+    if(job.admitAsIDs[idxx2].ids.length >= job.professionals[idxx2].numWorkers)return;
+    job.admitemployeeIds.push(employeeId);
+    let noCopies = new Set(job.admitemployeeIds);
+    job.admitemployeeIds = Array.from(noCopies);
+
+    job.admitAsIDs[idxx2].ids.push(employeeId);
+    let nonCopies = new Set(job.admitAsIDs[idxx2].ids);
+    job.admitAsIDs[idxx2].ids = Array.from(nonCopies);
+
 
     let notify = NotificationSchema.clean({},{mutate:true});
     notify.toWhomst = employeeId;
@@ -1094,7 +1066,12 @@ Meteor.methods({
     if(!Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
     let notify = NotificationSchema.clean({},{mutate:true});
 
-    let jobRemove = Job.findOne({_id:jobId,employerId:this.userId});
+    let jobRemove = Job.findOne({_id:jobId,employerId:this.userId},
+                                {fields:
+                                    {'location.locationName':1,
+                                    applyemployeeIds:1,
+                                    admitemployeeIds:1
+                                  }});
     notify.description = `The Job located at ${jobRemove.location.locationName} has been cancelled`;
     notify.typeNotifi="REMOVE";
     let peopleApplied = jobRemove.applyemployeeIds;
@@ -1147,7 +1124,7 @@ Meteor.methods({
   closeJob(jobId){
     check(jobId,String);
     if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
-    let job = Job.findOne({_id:jobId});
+    let job = Job.findOne({_id:jobId},{fields:{admitemployeeIds:1}});
     if(!job) throw new Meteor.Error('403','Job Not Found');
     job.isOpen=false;
     let selector = {_id: jobId, employerId:this.userId};
@@ -1186,7 +1163,7 @@ Meteor.methods({
     let jobIdArray = [];
     let hackIdThing  = [this.userId];
     let currentDate = new Date();
-    let jobCursor = Job.find({ 'admitemployeeIds' :{$in : hackIdThing}});
+    let jobCursor = Job.find({ 'admitemployeeIds' :{$in : hackIdThing}},{fields:{_id:1}});
 
     jobCursor.forEach((job)=>{
       jobIdArray.push(job._id);
@@ -1198,7 +1175,7 @@ Meteor.methods({
     if(!this.userId|| !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
     let jobIdArray = [];
     let currentDate = new Date();
-    let jobCursor = Job.find({ employerId :this.userId});
+    let jobCursor = Job.find({ employerId :this.userId},{fields:{_id:1}});
 
     jobCursor.forEach((job)=>{
       jobIdArray.push(job._id);
@@ -1206,69 +1183,36 @@ Meteor.methods({
     return jobIdArray;
   },
 
-  checkNewJob(){
-    if(!this.userId && Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
-
-    let employee = Meteor.users.findOne({_id: this.userId}).profile.employeeData;
-    let bearing = 45;
-    const meterDegrees = 111111;
-    const mileToMeters= 1609.34;
-
+  matchNewEmployeeAgainstOldJobs(id){
+    if(!Roles.userIsInRole(id,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
+    let employee = Meteor.users.findOne({_id: id}).profile.employeeData;
+    if(!employee) return;
     let jobTitle = employee.jobTitle;
-    let lat = employee.location.latitude;
-    let lng = employee.location.longitude;
-    let distance = employee.maxDistance * mileToMeters/2;
 
-    let cos_degg = Math.cos(bearing* Math.PI/180);
-    let sin_degg = Math.sin(bearing* Math.PI/180);
-
-    let lat_rad = Math.cos(lat * Math.PI/180);
-
-    let eastDisplacement = distance * sin_degg / lat_rad / meterDegrees;
-    let northDisplacement = distance * cos_degg / meterDegrees;
-    let westDisplacement = - eastDisplacement;
-    let southDisplacement = - northDisplacement;
+    let coor = calculateJobArea(employee.location.latitude,
+                                employee.location.longitude,
+                                employee.maxDistance);
+    let hackIdThing =[id];
     let currentDate = new Date();
 
-    let lat_top = lat + northDisplacement;
-    let lat_bot = lat + southDisplacement;
-    let lng_top = lng + eastDisplacement;
-    let lng_bot = lng + westDisplacement;
-    let hackIdThing =[];
-    hackIdThing[0] = this.userId;
 
-
-      let results =  Job.find({
-          $and: [
-            {
-           'generalStart':{$gt: currentDate},
-            'jobTypes.texts' : {$in : jobTitle},
-            'declineemployeeIds' :{$nin : hackIdThing},
-            'applyemployeeIds' :{$nin : hackIdThing},
-            'admitemployeeIds' :{$nin : hackIdThing},
-            'generalStart':{$gt: currentDate},
-            'isOpen':true,
-            'location.latitude': {$gte: lat_bot, $lt: lat_top},
-            'location.longitude': {$gte: lng_bot , $lt: lng_top}}
-            ,
-              {$or:[ {'requirements.driverLicense':{$ne : true}},
-              {'requirements.driverLicense':true,'requirements.driverLicense':employee.driverLicense}]}
-            ,
-              {$or:[ {'requirements.osha.osha10': false, 'requirements.osha.osha30':false},
-              {'requirements.osha.osha10':false,'requirements.osha.osha30':true,'requirements.osha.osha30':employee.osha.osha30},
-              {'requirements.osha.osha10':true, $or :[{'requirements.osha.osha10':employee.osha.osha10},{'requirements.osha.osha10':employee.osha.osha30}] },
-              ]}
-            ,
-              {$or:[ {'requirements.socialPref.taxID': false, 'requirements.socialPref.social':false},
-              {'requirements.socialPref.taxID':false,'requirements.socialPref.social':true,'requirements.socialPref.social':employee.socialPref.social},
-              {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employee.socialPref.taxID},{'requirements.socialPref.social':employee.socialPref.social}] },
-              ]}
-
-          ]
+    const newQuery ={}
+    newQuery['$and'] = Object.assign(jobRequirementAgainstEmployeeQuery(employee)['$and'],{
+        'generalStart':{$gt: currentDate},
+         'jobTypes.texts' : {$in : jobTitle},
+         'declineemployeeIds' :{$nin : hackIdThing},
+         'applyemployeeIds' :{$nin : hackIdThing},
+         'admitemployeeIds' :{$nin : hackIdThing},
+         'generalStart':{$gt: currentDate},
+         'isOpen':true,
+         'location.latitude': {$gte: coor.latBottom, $lt: coor.latTop},
+         'location.longitude': {$gte: coor.lngBottom, $lt: coor.lngTop}
       });
 
+    let results =  Job.find(newQuery,{fields:{_id:1,'location.locationName':1}});
+
     results.forEach((job)=>{
-      let prev = Notification.find({toWhomst: this.userId,typeNotifi:"MATCH",jobId:job._id}).count() > 0 ? true: false;
+      let prev = Notification.find({toWhomst: id,typeNotifi:"MATCH",jobId:job._id}).count() > 0 ? true: false;
 
       if(!prev){
         let notify = NotificationSchema.clean({},{mutate:true});
@@ -1276,8 +1220,10 @@ Meteor.methods({
         notify.jobId = job._id;
         notify.typeNotifi = "MATCH";
         notify.href = `/job/${job._id}`;
-        notify.toWhomst = this.userId;
-        Meteor.call('createNotification',notify);
+        notify.toWhomst = id;
+        Meteor.call('createNotification',notify,(err)=>{
+          if(err)console.log(err);
+        });
 
       }
     });

@@ -33,12 +33,16 @@ class PersonCard extends React.Component {
           <div  onClick={this.personClicked}style={{margin:'0px',cursor:'pointer'}} className="row">
             <div className="col s12">
               <div style={{marginBottom:'10px'}}className="row center-align">
-                <div style={{marginTop:'15px'}} className="col s3">
+                <div style={{marginTop:'15px'}} className="col s2">
                   <Avatar size={25} imageId={this.props.imageId}/>
                 </div>
-                <div className="col s9 left-align">
+                <div style={{marginTop:'15px'}}  className="col s2">
+                  {this.props.icon}
+                </div>
+                <div className="col s7 left-align">
                   <p style={{fontSize:'20px',marginBottom:'0px'}}className="truncate" >{this.props.name}</p>
                 </div>
+
               </div>
               <div className="row">
                   <h6 className="truncate">{this.props.message.message}</h6>

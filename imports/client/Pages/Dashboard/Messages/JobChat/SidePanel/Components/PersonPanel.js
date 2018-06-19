@@ -8,17 +8,23 @@ class PeopleList extends React.Component {
   constructor(props) {
     super(props);
     this.state={
+      employer : {}
     }
 
   }
   componentWillMount(){
-
+    Meteor.call('findUserbyId',this.props.job.employerId,(err,res)=>{
+      console.log(res);
+      this.setState({
+        employer: res
+      });
+    });
   }
   componentDidMount(){
     // console.log(this.props);
 
   }
-  componentWillMount(){
+  componentWillUnmount(){
     this.props.handle.stop();
   }
   handleClick =(e)=>{
@@ -28,11 +34,24 @@ class PeopleList extends React.Component {
       return(
 
         <div>
-          <div className="row">
+          <div style={{marginBottom:'0px'}}className="row">
             <div className="col center-align s12">
               <h5>Direct Message</h5>
             </div>
           </div>
+          {
+            !!this.state.employer._id&&
+            <div>
+                <ul className="collection">
+                   <li style={{backgroundColor:'transparent'}} className="collection-item">
+                   <PersonCard jobId={this.props.job._id} handleParentClick={this.handleClick} userId={this.state.employer._id} imageId={this.state.employer.profile.employerData.image}
+                     name={`${this.state.employer.profile.firstName} ${this.state.employer.profile.lastName}`} icon={<i style={{color:'#00bcd4'}} className="material-icons">security</i>}/>
+                   </li>
+                </ul>
+          </div>
+
+          }
+
 
             <ul className="collection">
           {
