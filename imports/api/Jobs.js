@@ -57,6 +57,29 @@ const calculateJobArea = (lat,lng,maxDistance)=>{
     lngBottom: lng + westDisplacement
   }
 };
+const removeEmployeeSingleDimArray =(userId,array)=>{
+  const idx = array.indexOf(userId);
+  if(idx == -1) throw "Not Found in Array";
+  array.splice(idx,1);
+  return array;
+};
+const removeEmployeeTwoDimArray = (userId,twoDimArray) =>{
+  if(twoDimArray[0].constructor === Array) throw "Not a Two Dimensional Array";
+  let outIndx = -1;
+  let inIndx = -1;
+  for (let i in twoDimArray) {
+    let foundUserIndex = twoDimArray[i].ids.indexOf(userId);
+    if(foundUserIndex != -1) {
+      inIndx = foundUserIndex;
+      outIndx = i;
+    }
+  }
+  twoDimArray[outIndx].ids.splice(inIndx,1);
+  return {
+    twoDArray:twoDimArray,
+    outterIndex: outIndx
+  }
+};
 export const changeIsOpen = () =>{
 
   let currentDate = new Date();
@@ -70,7 +93,6 @@ export const changeIsOpen = () =>{
   updateEmployeeWorkHistory(changedJobArray)
   return things.count();
 };
-
 
 
 const updateEmployeeWorkHistory = (arrayOfIds)=>{
@@ -100,8 +122,7 @@ const updateEmployeeWorkHistory = (arrayOfIds)=>{
     }
 };
 const jobRequirementAgainstEmployeeQuery =(employeeData) =>{
-  return{
-     $and: [
+  return[
        {$or:[ {'requirements.driverLicense':{$ne : true}},
        {'requirements.driverLicense':true,'requirements.driverLicense':employeeData.driverLicense }]}
      ,
@@ -115,7 +136,7 @@ const jobRequirementAgainstEmployeeQuery =(employeeData) =>{
        {'requirements.socialPref.taxID':true, $or :[{'requirements.socialPref.taxID':employeeData.socialPref.taxID},{'requirements.socialPref.social':employeeData.socialPref.social}] },
        ]}
      ]
-   }
+
 
 }
 
@@ -144,9 +165,9 @@ if ( Meteor.isServer ) {
       let currentDate = new Date();
 
 
-      const newQuery ={}
-      newQuery['$and'] = Object.assign(jobRequirementAgainstEmployeeQuery(employee)['$and'],{
-          'generalStart':{$gt: currentDate},
+
+      let queryArray = jobRequirementAgainstEmployeeQuery(employee);
+      queryArray.push({
            'jobTypes.texts' : {$in : jobTitle},
            'declineemployeeIds' :{$nin : hackIdThing},
            'applyemployeeIds' :{$nin : hackIdThing},
@@ -157,7 +178,9 @@ if ( Meteor.isServer ) {
            'location.longitude': {$gte: coor.lngBottom, $lt: coor.lngTop}
         });
 
-      return  Job.find(newQuery);
+      return  Job.find({
+         $and: queryArray
+       });
 
 
     }else{
@@ -165,48 +188,25 @@ if ( Meteor.isServer ) {
       return ;
     }
 
-
-
-
-
-
-
   });
-  /**
-  *
-  * Publishes all Jobs that was made by a employer
-  * ONLY an employer use this function
-  * @returns {Array} that contains all jobs made by a specific user.
-  */
-  Meteor.publish('job-post-employer',function(){
 
-    if(Roles.userIsInRole(this.userId,CONTRACTOR)){
-      return Job.find({employerId: this.userId},{sort: {generalStart: 1}});
-    }else{
-      this.stop();
-      return ;
-    }
-
-  });
   Meteor.publish('active-jobs',function () {
     if( Roles.userIsInRole(this.userId,PROFESSIONAL)){
       let currentJobs = Meteor.call('findActiveJobsEmployee');
-      return Job.find({
-        _id:{$in: currentJobs},
-      });
+      return Job.find({ _id:{$in: currentJobs} });
     }
     else if( Roles.userIsInRole(this.userId,CONTRACTOR)){
       let currentJobs = Meteor.call('findActiveJobsEmployer');
-      return Job.find({
-        _id:{$in: currentJobs},
-
-      });
+      return Job.find({ _id:{$in: currentJobs} });
     }
     else{
       this.stop();
       return null;
     }
   })
+  /**
+    MAYBE MERGE WITH ONE-JOB PUBLICATION
+   */
   Meteor.publish('job-post-employer-edit',function(jobId){
     if(Roles.userIsInRole(this.userId,CONTRACTOR)){
       return Job.find({_id: jobId,employerId:this.userId},{sort: {generalStart: 1}});
@@ -214,6 +214,20 @@ if ( Meteor.isServer ) {
       this.stop();
       return;
     }
+  });
+  /**
+    MAYBE MERGE WITH job-post-employer-edit PUBLICATION
+   */
+  Meteor.publish('one-job',function(jobID){
+
+    if(Roles.userIsInRole(this.userId,PROFESSIONAL) ||
+     Roles.userIsInRole(this.userId,CONTRACTOR)){
+       let things= Job.find({_id: jobID});
+       return things;
+     }else{
+       this.stop();
+       return;
+     }
   });
   /**
   *
@@ -233,17 +247,7 @@ if ( Meteor.isServer ) {
     }
 
   });
-  Meteor.publish('one-job',function(jobID){
 
-    if(Roles.userIsInRole(this.userId,PROFESSIONAL) ||
-     Roles.userIsInRole(this.userId,CONTRACTOR)){
-       let things= Job.find({_id: jobID});
-       return things;
-     }else{
-       this.stop();
-       return;
-     }
-  });
   Meteor.publish('job-post-applied',function(){
 
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
@@ -255,25 +259,6 @@ if ( Meteor.isServer ) {
       return ;
     }
 
-  });
-  Meteor.publish('active-jobs-admin',function(){
-    if(Roles.userIsInRole(this.userId,'admin')){
-      return Job.find({isOpen: true});
-    }else{
-      this.stop();
-      return ;
-    }
-
-  });
-
-
-  Meteor.publish('all-jobs',function(){
-    if (Roles.userIsInRole(this.userId,'admin')) {
-      return Job.find({});
-    }else{
-      this.stop();
-      return;
-    }
   });
 
   Meteor.publish('upcoming-job-con',function(){
@@ -446,15 +431,13 @@ if ( Meteor.isServer ) {
   Meteor.publish('apply-employee-job',function(jobId){
     if (Roles.userIsInRole(this.userId,CONTRACTOR)|| Roles.userIsInRole(this.userId,PROFESSIONAL)) {
 
-      let jobInfo = Job.findOne({_id: jobId});
+      let jobInfo = Job.findOne({_id: jobId},{fields:{applyemployeeIds: 1}});
 
       if(!!jobInfo.applyemployeeIds){
-
         return  Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
-
-      }else{
-        return ;
       }
+      return ;
+
     }else{
       this.stop();
       throw new Meteor.Error('403',NOTAUTH);
@@ -463,12 +446,11 @@ if ( Meteor.isServer ) {
   Meteor.publish('admit-employee-job',function(jobId){
     if (Roles.userIsInRole(this.userId,CONTRACTOR)|| Roles.userIsInRole(this.userId,PROFESSIONAL)) {
 
-      let jobInfo = Job.findOne({_id: jobId});
+      let jobInfo = Job.findOne({_id: jobId},{fields:{admitemployeeIds:1}});
       if(!!jobInfo.admitemployeeIds){
         return Meteor.users.find({_id: {$in: jobInfo.admitemployeeIds}}, {fields: { emails: 1, profile: 1 } });
-      }else{
-        return ;
       }
+      return ;
 
     }else{
       this.stop();
@@ -627,12 +609,6 @@ Meteor.methods({
       job : jobObject,
       events :  events
     };
-
-
-
-
-
-
   },
 /**
  * Base upon the jobObject,notifications will be sent to the employees how are qualified
@@ -664,10 +640,12 @@ Meteor.methods({
          jobObject.location.longitude >= lngBottom &&
          jobObject.location.longitude <= lngTop ){
 
-          const newQuery = {};
-          newQuery['$and'] = Object.assign(jobRequirementAgainstEmployeeQuery(user.profile.employeeData)['$and'],
-                              {_id:jobId});
-          let matched = Job.find(newQuery).count() >0 ? true:false;
+
+           let queryArray = jobRequirementAgainstEmployeeQuery(user.profile.employeeData);
+           queryArray.push({
+                _id:jobId
+             });
+          let matched = Job.find({ $and: queryArray}).count() >0 ? true:false;
           if(matched) peoples[peoples.length] = user._id;
 
        }
@@ -747,11 +725,6 @@ Meteor.methods({
     }else{
       throw new Meteor.Error('401',NOTAUTH);
     }
-
-
-
-
-
   },
   /**
   ------------------------------------------------------------------------------
@@ -890,8 +863,6 @@ Meteor.methods({
 
     Meteor.call('createNotification',notify);
 
-
-
   },
   declineJob(jobId){
     if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
@@ -900,38 +871,14 @@ Meteor.methods({
     if(!job)throw new Meteor.Error('403','Job was not found');
 
     if(job.applyemployeeIds.includes(this.userId)){
-      let idx = job.applyemployeeIds.indexOf(this.userId);
-      if (idx != -1) { //Should always be true
-          job.applyemployeeIds.splice(idx,1);
-      }
-      let idxx = -1;
-      let idxx2 = -1;
-      for (let indx in job.applyAsIDs) {
-        if (job.applyAsIDs[indx].ids.indexOf(this.userId) != -1) {
-          idxx = job.applyAsIDs[indx].ids.indexOf(this.userId);
-          idxx2 = indx;
-        }
-      }
-      job.applyAsIDs[idxx2].ids.splice(idxx,1);
-
-
+      job.applyemployeeIds = removeEmployeeSingleDimArray(this.userId,job.applyemployeeIds);
+      job.applyAsIDs = removeEmployeeTwoDimArray(this.userId,job.applyAsIDs).twoDArray;
 
     }
     if (job.admitemployeeIds.includes(this.userId)) {
-      let idx = job.admitemployeeIds.indexOf(this.userId);
-      if (idx != -1) { //Should always be true
-          job.admitemployeeIds.splice(idx,1);
-      }
+      job.admitemployeeIds = removeEmployeeSingleDimArray(this.userId,job.admitemployeeIds);
+      job.admitAsIDs = removeEmployeeTwoDimArray(this.userId,job.admitAsIDs).twoDArray;
 
-      let idxx = -1;
-      let idxx2 = -1;
-      for (let indx in job.admitAsIDs) /*indexing through admitAsIDs*/ {
-        if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
-          idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
-          idxx2 = indx;
-        }
-      }
-      job.admitAsIDs[idxx2].ids.splice(idxx,1);
     }
     if (job.declineemployeeIds.includes(this.userId)) {
       return;
@@ -951,36 +898,13 @@ Meteor.methods({
       if(!job)throw new Meteor.Error('403','Job was not found');
 
       if(job.applyemployeeIds.includes(employeeId)){
-        let idx = job.applyemployeeIds.indexOf(employeeId);
-        if (idx != -1) { //Should always be true
-            job.applyemployeeIds.splice(idx,1);
-        }
-        let idxx = -1;
-        let idxx2 = -1;
-        for (let indx in job.applyAsIDs) {
-          if (job.applyAsIDs[indx].ids.indexOf(employeeId) != -1) {
-            idxx = job.applyAsIDs[indx].ids.indexOf(employeeId);
-            idxx2 = indx;
-          }
-        }
-        job.applyAsIDs[idxx2].ids.splice(idxx,1);
+        job.applyemployeeIds = removeEmployeeSingleDimArray(employeeId,job.applyemployeeIds);
+        job.applyAsIDs = removeEmployeeTwoDimArray(employeeId,job.applyAsIDs).twoDArray;
 
       }
       if (job.admitemployeeIds.includes(employeeId)) {
-        let idx = job.admitemployeeIds.indexOf(employeeId);
-        if (idx != -1) { //Should always be true
-            job.admitemployeeIds.splice(idx,1);
-        }
-
-        let idxx = -1;
-        let idxx2 = -1;
-        for (let indx in job.admitAsIDs) {
-          if (job.admitAsIDs[indx].ids.indexOf(employeeId) != -1) {
-            idxx = job.admitAsIDs[indx].ids.indexOf(employeeId);
-            idxx2 = indx;
-          }
-        }
-        job.admitAsIDs[idxx2].ids.splice(idxx,1);
+        job.admitemployeeIds = removeEmployeeSingleDimArray(employeeId,job.admitemployeeIds);
+        job.admitAsIDs = removeEmployeeTwoDimArray(employeeId,job.admitAsIDs).twoDArray;
       }
       if (job.declineemployeeIds.includes(employeeId)) {
         return;
@@ -1004,19 +928,10 @@ Meteor.methods({
     let idxx2 = -1;
 
     if(job.applyemployeeIds.includes(employeeId)){
-      let idx = job.applyemployeeIds.indexOf(employeeId);
-      if (idx != -1) { //Should always be true
-          job.applyemployeeIds.splice(idx,1);
-      }
-
-      let idxx = -1;
-      for (let indx in job.applyAsIDs) {
-        if (job.applyAsIDs[indx].ids.indexOf(employeeId) != -1) {
-          idxx = job.applyAsIDs[indx].ids.indexOf(employeeId);
-          idxx2 = indx;
-        }
-      }
-      job.applyAsIDs[idxx2].ids.splice(idxx,1);
+      job.applyemployeeIds = removeEmployeeSingleDimArray(employeeId,job.applyemployeeIds);
+      const result =  removeEmployeeTwoDimArray(employeeId,job.applyAsIDs);
+      job.applyAsIDs = result.twoDArray;
+      idxx2 = result.outterIndex;
     }
     if(job.declineemployeeIds.includes(employeeId)){ //Shouldn't happen but incase
       let idx = job.declineemployeeIds.indexOf(employeeId);
@@ -1196,9 +1111,8 @@ Meteor.methods({
     let currentDate = new Date();
 
 
-    const newQuery ={}
-    newQuery['$and'] = Object.assign(jobRequirementAgainstEmployeeQuery(employee)['$and'],{
-        'generalStart':{$gt: currentDate},
+    let queryArray = jobRequirementAgainstEmployeeQuery(employee);
+    queryArray.push({
          'jobTypes.texts' : {$in : jobTitle},
          'declineemployeeIds' :{$nin : hackIdThing},
          'applyemployeeIds' :{$nin : hackIdThing},
@@ -1209,7 +1123,7 @@ Meteor.methods({
          'location.longitude': {$gte: coor.lngBottom, $lt: coor.lngTop}
       });
 
-    let results =  Job.find(newQuery,{fields:{_id:1,'location.locationName':1}});
+    let results =  Job.find({$and: queryArray},{fields:{_id:1,'location.locationName':1}});
 
     results.forEach((job)=>{
       let prev = Notification.find({toWhomst: id,typeNotifi:"MATCH",jobId:job._id}).count() > 0 ? true: false;
