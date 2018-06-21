@@ -76,7 +76,6 @@ export default class Base extends Component{
                 <div className="genText">Sign Up</div>
                 </div>
               </Link>
-
               <ul id="sideNav" className="side-nav">
                   <li>
                       <div style={styles.wrkbook}>

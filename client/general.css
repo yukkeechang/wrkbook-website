@@ -22,6 +22,14 @@ Table of Contents End
     src: url('../public/fonts/Avenir/AvenirNextLTPro-Regular.woff2')
 }*/
 
+@font-face {
+    font-family: "Montserrat";
+    src:
+    url('../public/fonts/Montserrat/montserrat.regular.ttf'),
+    url('../public/fonts/Montserrat/montserrat.regular-webfont.woff');
+}
+
+
 body{
     font-family: "Avenir";
     min-width: 275px;
@@ -60,15 +68,19 @@ html::-webkit-scrollbar {
 ------------------------------------------------------------------------*/
 /* 3.1 - General text styles
 -------------------------------------------------*/
-.genText{
+.genText {
     font-family:avenir-lt-w01_35-light1475496;
     color: white;
+}
+.montText {
+  font-family:'Montserrat';
+  color: white;
 }
 /* 3.1 - End General text styles
 -------------------------------------------------*/
 /* 3.2 - Title styles
 -------------------------------------------------*/
-.titles{
+.titles {
     color: white;
     font: normal normal normal 40px/1.4em spinnaker,sans-serif;
     margin: 0;

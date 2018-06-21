@@ -8,6 +8,7 @@ import Services from './LandingPageComponents/Services';
 import ReactDOM from 'react-dom';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
+import Banner from './LandingPageComponents/VersionTwoPrelaunch/betaAnnouncement';
 import {initGA, logPageView} from  './Shared/GoogleAnalytics';
 
 export default class LandingPage extends React.Component{
@@ -36,8 +37,10 @@ export default class LandingPage extends React.Component{
         <div style={{backgroundColor: "#f1f1f1"}}>
 
         <Header handleClick={this.handleClick}/>
-
+        <Banner/>
         <Hero ref="home"/>
+        <Banner/>
+
         <Services/>
         <HowTos ref="HowTo"/>
         <Testimonial/>
