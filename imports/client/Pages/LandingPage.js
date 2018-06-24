@@ -34,7 +34,7 @@ export default class LandingPage extends React.Component{
   render(){
     return(
 
-        <div style={{backgroundColor: "#f1f1f1"}}>
+        <div>
 
         <Header handleClick={this.handleClick}/>
 

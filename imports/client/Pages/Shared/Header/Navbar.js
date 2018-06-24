@@ -293,7 +293,6 @@ export default NavBar = withTracker( params => {
   let match = Notification.find({typeNotifi:'MATCH'}).count();
   let appliedEmployer = Notification.find({typeNotifi:'APPLIED'}).count();
   let employeeHired = Notification.find({typeNotifi:'HIRED'}).count();
-  console.log(params);
     return {
         ready: ready,
         general: notifications+messages,

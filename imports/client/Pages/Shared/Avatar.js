@@ -44,7 +44,6 @@ import MSpinner from './MSpinner';
 
 
 export default Avatar =  withTracker(props=>{
-  console.log(props);
   const handle = Meteor.subscribe('images-id',props.imageId);
   const ready = handle.ready();
   things = Images.find({}).fetch()

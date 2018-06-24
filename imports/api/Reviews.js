@@ -18,8 +18,9 @@ const REVIEWERR ={
 
 
 };
-/*
-  Defines a collection with the name "reviews"
+/** @module Review */
+/**
+  @summary Defines a collection with the name "reviews"
   This also needs to be defined on the client side
 */
 Review  = new Mongo.Collection('reviews');

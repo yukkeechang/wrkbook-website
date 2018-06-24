@@ -13,11 +13,15 @@
     ],
     "includePattern": ".+\\.js(x|doc)?$"
   },
-  "plugins": ["plugins/markdown"],
+  "plugins": ["plugins/markdown", "node_modules/jsdoc-babel"],
+  "babel": {
+    "extensions": ["js", "es6", "jsx"],
+    "presets": ["es2015", "es2015-loose", "stage-1"]
+  },
   "opts": {
     "encoding": "utf8",
     "template": "templates/default",
-    "destination": "../docs/app4/",
+    "destination": "../docs",
     "recurse": true,
     "verbose": true
   },
@@ -34,4 +38,3 @@
     }
   }
 }
-

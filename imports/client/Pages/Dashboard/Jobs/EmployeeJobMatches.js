@@ -4,20 +4,13 @@ import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../Shared/MSpinner';
 import EmployeeMatch from './EmployeeMatch/EmployeeMatch';
 import EmployeeNoJobs from './Shared/EmployeeNoJobs';
-function isEmpty(obj) {
-  for (var x in obj) { return false; }
-  return true;
-}
-// Job = new Mongo.Collection('jobs');
 
 class EmployeeJobPosts extends React.Component{
   constructor(props){
     super(props);
   }
   render(){
-    let jobObj =  JSON.stringify(this.props.jobPost)
-    console.log("job obj in job matches: "+ jobObj)
-    if(!isEmpty(this.props.jobPost)){
+    if(this.props.jobPost.length > 0){
       let notifications = this.props.notifications;
       notifications.map(function(notify,index){
         Meteor.call('updateNotification',notify._id,(err)=>{
@@ -57,7 +50,7 @@ class EmployeeJobPosts extends React.Component{
 
       return(
           <EmployeeNoJobs
-          message={"upcoming"}/>
+          message={"matches"}/>
       );
     }
   }

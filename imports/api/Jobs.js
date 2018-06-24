@@ -23,17 +23,32 @@ import {NOTAUTH} from './Users'
 import { Roles } from 'meteor/alanning:roles';
 
 import SimpleSchema from 'simpl-schema';
+/** @module Job */
 
 export const  NOTMADE ={
   jobNotMade : true
 };
 /**
-Defines a collection named jobs
-**/
+* @summary Defines the Job collection,
+* has the basic MongoBD functions(insert,update,remove,etc)'
+* @example
+* //inserts a object into the Job Collection
+* Job.insert(object)
+*/
 Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
 
-//maxDistance is in miles
+/**
+ * Calculates the longitude and latitude coordinates around a given width of
+ * a location
+ * @param  {Double} lat         the latitude of the center point
+ * @param  {Double} lng         the longitude of the center point
+ * @param  {Double} maxDistance the distance in miles from the center point
+ * @return {Object}             contains the top and bottom latitude coordinates and left and right longitude coordinates
+ * @example
+ * //calculate the coordinates for a 20 miles distance around the coordinates (40.0,73.1)
+ * 
+ */
 const calculateJobArea = (lat,lng,maxDistance)=>{
   const bearing = 45;
   const meterDegrees = 111111;
@@ -613,7 +628,7 @@ Meteor.methods({
 /**
  * Base upon the jobObject,notifications will be sent to the employees how are qualified
  * in the area of the location of the job.
- * @todo Need to filter employees by the requirements of the job
+ * @public
  * @param  {Object} jobObject the object of the job that contains info such location
  * @param  {string} jobId     the id of the job
  */
@@ -981,12 +996,7 @@ Meteor.methods({
     if(!Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
     let notify = NotificationSchema.clean({},{mutate:true});
 
-    let jobRemove = Job.findOne({_id:jobId,employerId:this.userId},
-                                {fields:
-                                    {'location.locationName':1,
-                                    applyemployeeIds:1,
-                                    admitemployeeIds:1
-                                  }});
+    let jobRemove = Job.findOne({_id:jobId,employerId:this.userId});
     notify.description = `The Job located at ${jobRemove.location.locationName} has been cancelled`;
     notify.typeNotifi="REMOVE";
     let peopleApplied = jobRemove.applyemployeeIds;
@@ -1064,7 +1074,7 @@ Meteor.methods({
     if(!this.userId|| !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
     const jobNotCompleted = Job.findOne({_id:jobId},{fields:{isOpen: 1}});
     const jobNotExist = Job.find({_id:jobId}).count() < 1;
-    if(jobNotCompleted||jobNotExist) throw new Meteor.Error('401',NOTAUTH);
+    if(!!jobNotCompleted||jobNotExist) throw new Meteor.Error('401',NOTAUTH);
 
     let user = Meteor.user.findOne({_id:userId});
     let prevJob = user.profile.employeeData.prevJobs;

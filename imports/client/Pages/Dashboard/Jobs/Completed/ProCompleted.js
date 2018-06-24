@@ -5,10 +5,6 @@ import MSpinner from '../../../Shared/MSpinner';
 import ListingView from '../Shared/ProJobListingView';
 import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
 
-function isEmpty(obj) {
-    for (var x in obj) { return false; }
-    return true;
-}
 
 class ProCompletedJobsPage extends React.Component {
   constructor(props) {
@@ -19,39 +15,39 @@ class ProCompletedJobsPage extends React.Component {
   componentWillUnmount(){
     this.props.handle.stop();
   }
-render() {
-  let jobz = this.props.job;
-  if(!this.props.loading) {
-    return (
-      <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
-        <MSpinner />
-      </div>
-    )
-  }
-
-  else if(!(isEmpty(jobz))) {
-    return (
-      <div>
-      <h3 className="center-align">Completed Jobs</h3>
-      {jobz.map(function(job, index){
-        return(
-          <ListingView
-            userId={this.props.userId}
-            key={job._id}
-            job = {job}
-            isCompeleted = {true}
-          />
-        )
-      }.bind(this))}
-      </div>
-    )
-  }
-  else {
-    return (
-      <EmployeeNoJobs
-      message={"completed"}/>
+  render() {
+    let jobz = this.props.job;
+    if(!this.props.loading) {
+      return (
+        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+          <MSpinner />
+        </div>
       )
     }
+
+    else if(jobz.length > 0) {
+      return (
+        <div>
+        <h3 className="center-align">Completed Jobs</h3>
+        {jobz.map((job, index)=>{
+          return(
+            <ListingView
+              userId={this.props.userId}
+              key={job._id}
+              job = {job}
+              isCompeleted = {true}
+            />
+          )
+        })}
+        </div>
+      )
+    }
+    else {
+      return (
+        <EmployeeNoJobs
+        message={"completed"}/>
+        )
+      }
   }
 }
 

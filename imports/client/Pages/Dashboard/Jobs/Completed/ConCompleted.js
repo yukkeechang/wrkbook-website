@@ -14,14 +14,6 @@ import { Link } from 'react-router-dom';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 import JobButton from '../Shared/ConJobListingComponents/CreateJobButton';
 
-
-
-
-function isEmpty(obj) {
-    for (var x in obj) { return false; }
-    return true;
-}
-
 class ConCompletedJobsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -57,9 +49,8 @@ class ConCompletedJobsPage extends React.Component {
   componentWillUnmount(){
     this.props.handle.stop();
   }
-render() {
+  render() {
 
-  console.log(this.props);
   if(!this.props.loading) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -67,9 +58,8 @@ render() {
       </div>
     )
   }
-  else if(!(isEmpty(this.props.job))) {
+  else if(this.props.job.length > 0) {
     let jobz = this.props.job;
-    console.log("NUTTT");
     return (
       <div>
         <div className="row" style={{paddingTop: '10px'}}>

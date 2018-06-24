@@ -28,8 +28,6 @@ class EmpJobPost extends React.Component{
         let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
         let startAt = startdate+','+starttime;
         let endAt = enddate+','+endtime;
-        console.log(res.endAt.getDate());
-        console.log(res.startAt.getDate());
         let duration = Math.round(Math.abs((res.endAt.getTime() - res.startAt.getTime())/(oneDay))) + ' days, '+
         (res.endAt.getHours()-res.startAt.getHours()) + ' hours';
         this.setState({

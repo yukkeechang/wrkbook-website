@@ -5,14 +5,7 @@ import MSpinner from '../../../Shared/MSpinner';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 class Notis extends Component{
-    lol(e){
-      console.log(e);
-      // if(notification.typeNotifi == "REMOVE"){
-      //
-      // }else{
-      //
-      // }
-    }
+
     componentWillUnmount(){
       //this.prop.handle.stop();
     }
@@ -30,7 +23,7 @@ class Notis extends Component{
                     return(
 
                        <li key={notification._id} className="collection-item">
-                          <Link onClick={this.lol.bind(this,notification)} to={notification.href}>
+                          <Link to={notification.href}>
                            <NotificationCard notification={notification}/>
                          </Link>
                       </li>
@@ -53,7 +46,6 @@ class Notis extends Component{
 export default NavBarNotfications = withTracker(({params})  => {
     let handle = Meteor.subscribe('notifications-for-user');
     let ready = handle.ready();
-    console.log(params);
     return {
         ready: ready,
         handle:handle,

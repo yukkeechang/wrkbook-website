@@ -9,7 +9,10 @@ import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
 import { Roles } from 'meteor/alanning:roles';
 
+/** @module Reference */
+
 /**
+ * @summary Defines the Reference collection
  * The References Collection has data about who was the previous employer
  * has the basic MongoBD functions(insert,update,remove,etc)
  *

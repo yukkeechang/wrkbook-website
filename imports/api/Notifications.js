@@ -7,8 +7,9 @@ import NotificationSchema from './Schemas/notificationSchema';
 import { PROFESSIONAL } from './Schemas/employeeSchema';
 import { CONTRACTOR } from './Schemas/employerSchema';
 
+/** @module Notification */
 /**
-  * @description Defines the notifications collection,
+  * @summary Defines the notifications collection,
   * has the basic MongoBD functions(insert,update,remove,etc)
   */
 Notification = new Mongo.Collection('notifications');

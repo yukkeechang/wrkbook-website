@@ -4,11 +4,6 @@ import { withTracker } from 'meteor/react-meteor-data';
 import MSpinner from '../../Shared/MSpinner';
 import EmployeeMatch from './EmployeeMatch/EmployeeMatch';
 import EmployeeNoJobs from './Shared/EmployeeNoJobs';
-function isEmpty(obj) {
-  for (var x in obj) { return false; }
-  return true;
-}
-// Job = new Mongo.Collection('jobs');
 
 class EmployeeJob extends React.Component{
   constructor(props){
@@ -19,7 +14,7 @@ class EmployeeJob extends React.Component{
   }
   render(){
 
-    if(!isEmpty(this.props.jobPost)){
+    if(this.props.jobPost.length > 0){
       let jobz = this.props.jobPost;
       return(
         <div>

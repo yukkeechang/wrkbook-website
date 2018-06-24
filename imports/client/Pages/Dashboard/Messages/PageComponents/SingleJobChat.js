@@ -13,7 +13,6 @@ class JobChatCard extends React.Component {
   }
   componentDidMount(){
     // console.log(this.props);
-    console.log(this.props);
   }
   componentWillUnmount(){
     this.props.handle.stop();
@@ -64,7 +63,7 @@ class JobChatCard extends React.Component {
 export default SingleJobChat = withTracker(params =>{
   let handle = Meteor.subscribe('all-messages-for-job',params.job._id);
   let ready = handle.ready();
-  console.log(params);
+
   // console.log(Job.find({}).fetch()[0]);
   return{
     ready: ready,

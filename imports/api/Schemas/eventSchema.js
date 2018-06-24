@@ -3,7 +3,6 @@ import ImportantSchema from './importanceSchema'
 import SimpleSchema from 'simpl-schema';
 //https://wiki.mozilla.org/Calendar:Sql_Calendar_Schema
 
-
 export default  EventSchema = new SimpleSchema({
   owner:{
     type:String
