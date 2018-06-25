@@ -1,0 +1,49 @@
+import React, {Component} from 'react';
+
+const ConHowTo = () => {
+  return (
+    <div style={{backgroundColor: '#8DC1FD'}}>
+      <h4 className="center-align" style={{fontFamily: 'Montserrat-Medium', color: 'white', padding: '30px' }}>Are you a general or sub contractor? Do you own a small skilled trade or construction company?</h4>
+      <div className='row'>
+        <div className="col m4 l4">
+          <img src='/images/Contractor-tag.png'/>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col m8 l8">
+          <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/job-post-mockup.png'/>
+        </div>
+        <div className="col m4 l4">
+          <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/one.png'/>
+          <span style={styles.ConHeading}>Make a job post and list down: </span>
+            <div className="container">
+             <ul style={{color: 'white'}}>
+                <li>{`\u2022`} Certifications</li>
+                <li>{`\u2022`} Specific Skills and Responsibilities</li>
+                <li>{`\u2022`} Profession or Skilled Trade</li>
+             </ul>
+            </div>
+          <div className="row">
+            <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/two.png'/>
+            <span style={styles.ConHeading}>Get matched to qualified professionals who applied to your job post  </span>
+          </div>
+          <div className="row">
+            <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/three.png'/>
+            <span style={styles.ConHeading}>Look through their profile and decide who you want to hire</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+let styles = {
+  ConHeading: {
+    fontSize: '20px',
+    fontFamily: 'Montserrat-Medium',
+    paddingLeft: '10px',
+    color: 'white'
+  }
+}
+
+export default ConHowTo;

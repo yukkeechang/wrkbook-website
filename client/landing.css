@@ -64,6 +64,12 @@ Table of Contents End
 	}
 }
 
+.imgscale {
+    max-width: 50%;
+    height: auto;
+
+}
+
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
 	.nav-bar-text{
@@ -72,6 +78,7 @@ Table of Contents End
 	.nav-bar-heading{
 		font-size: 1.1em;
 	}
+
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -82,6 +89,10 @@ Table of Contents End
 	.nav-bar-heading{
 		font-size: 1.4em;
 	}
+
+  .container-space {
+    padding-left: 10px;
+  }
 }
 @media only screen and (min-width: 992px) {
 	.nav-bar-text{
@@ -90,4 +101,8 @@ Table of Contents End
 	.nav-bar-heading{
 		font-size: 1.7em;
 	}
+  .container-space {
+    padding-left: 10px;
+  }
+
 }

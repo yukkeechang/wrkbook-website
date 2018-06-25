@@ -28,6 +28,21 @@ Table of Contents End
     url('../public/fonts/Montserrat/montserrat.regular.ttf'),
     url('../public/fonts/Montserrat/montserrat.regular-webfont.woff');
 }
+@font-face {
+    font-family: "Montserrat-Bold";
+    src:
+    url('../public/fonts/Montserrat/montserrat.bold.ttf'),
+}
+@font-face {
+    font-family: "Montserrat-SemiBold";
+    src:
+    url('../public/fonts/Montserrat/Montserrat-SemiBold.otf')
+}
+@font-face {
+    font-family: "Montserrat-Medium";
+    src:
+    url('../public/fonts/Montserrat/Montserrat-Medium.otf')
+}
 
 
 body{
@@ -72,10 +87,11 @@ html::-webkit-scrollbar {
     font-family:avenir-lt-w01_35-light1475496;
     color: white;
 }
-.montText {
+.montserrat-reg {
   font-family:'Montserrat';
   color: white;
 }
+
 /* 3.1 - End General text styles
 -------------------------------------------------*/
 /* 3.2 - Title styles
