@@ -17,13 +17,7 @@ Table of Contents End
 ------------------------------------------------------------------------*/
 /* 1.1 - Hero
 -------------------------------------------------*/
-#hero{
-    background-image: url('/images/heroBG.jpg');
-    background-size: cover;
-    background-position: center center;
-    height: 50vmin;
-    min-height: 500px;
-}
+
 /* 1.1 - End Hero
 -------------------------------------------------*/
 /* 1.2 - Buttons
