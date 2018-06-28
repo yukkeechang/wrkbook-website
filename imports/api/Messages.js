@@ -7,20 +7,36 @@ import ChannelSchema from './Schemas/channelSchema';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 
-
+/** @module Message */
+/**
+  * @summary Defines the Message collection,
+  * has the basic MongoBD functions(insert,update,remove,etc)
+  */
 Message = new Mongo.Collection('messages');
+/**
+  * @summary Defines the Channel collection,
+  * has the basic MongoBD functions(insert,update,remove,etc)
+  */
 Channel = new Mongo.Collection('channels');
 
 Message.attachSchema(MessagesSchema);
 Channel.attachSchema(ChannelSchema);
 if ( Meteor.isServer ) {
+  /**
+  *
+  * @summary Publishes all new notifications for a user
+  * @publication {Notification} notifications-for-user User
+  * @function
+  * @name notifications-for-user
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid notifications objects. Null if not a signed in user
+  *
+  */
   Meteor.publish('channels-for-job',function(jobId){
     if(typeof jobId != 'undefined'){
       return Channel.find({jobId:jobId});
     }
   });
 
-  //Hange function
   Meteor.publish('messages-for-channel',function(jobId,channell){
     let channel  = Channel.findOne({jobId:jobId,name:channell});
     if(!!channel){

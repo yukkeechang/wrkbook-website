@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor --settings settings-development.json",
-    "always":"meteor test --driver-package cultofcoders:mocha --port 5000",
+    "always": "meteor test --driver-package cultofcoders:mocha --port 5000",
     "test": "TEST_BROWSER_DRIVER=phantomjs meteor test --once --driver-package meteortesting:mocha"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "enzyme-adapter-react-15": "^1.0.5",
     "hammerjs": "^2.0.8",
     "indexof": "0.0.1",
+    "ink-docstrap": "^1.3.2",
     "meteor-node-stubs": "~0.2.4",
     "moment": "^2.22.1",
     "node-legacy-versions": "^1.0.6",

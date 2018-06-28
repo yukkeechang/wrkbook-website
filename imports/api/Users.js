@@ -25,11 +25,19 @@ if ( Meteor.isServer ) {
   Meteor.publish(null, function() {
       return Meteor.users.find({_id: this.userId}, {fields: { emails: 1, profile: 1,roles: 1 } });
   });
-
+  /**
+  * @summary Publishes Information about a speific user with an id
+  * @publication {Meteor.users} other-user User
+  * @function
+  * @name other-user
+  * @param {String} id the id of the user
+  * @returns {MongoBD.cursor|NULL} cursor point to user object; Null if user calling function is not signed in
+  *
+  */
   Meteor.publish('other-user',function(id){
       if (!this.userId) {
         this.stop();
-        throw new Meteor.Error('401',NOTAUTH);
+        return null;
       }else{
         return Meteor.users.find({_id: id}, {fields: { emails: 1, profile: 1,roles: 1 } });
       }
@@ -37,8 +45,8 @@ if ( Meteor.isServer ) {
 }
 Meteor.methods({
   /*
-    Checks if the new password of the user are the same, and if they meet the requirments
-    @param {Object} password Object
+    @summary Checks if the new password of the user are the same, and if they meet the requirments
+    @param {Object} password Object should contain keys password1,password2; password2 will be used to confirm the first password
     @throws {Meteor.Error} If the passwords don't match eachother or if the
     passwords dont match the requirments of 8 min length,one character,one number
    */
@@ -97,7 +105,7 @@ Meteor.methods({
          || pEmpty || phoneE || nEqual || accountExists) throw new Meteor.Error('403',Errors);
     },
     /**
-    Validates the User Employee Information such as Location, osha, etc .
+    @summary Validates the User Employee Information such as Location, osha, etc .
     @param {Object} User object
     @throws {Meteor.Error} If the the user object passed is missing fields or
     if the fields are incorrect an Error object will be thrown.
@@ -142,7 +150,7 @@ Meteor.methods({
 
     },
     /**
-    Validates the User Employer Information such as Location, company name.
+    @summary Validates the User Employer Information such as Location, company name.
     @param {Object} User object
     @throws {Meteor.Error} If the the user object passed is missing fields or
     if the fields are incorrect an Error object will be thrown.
@@ -193,7 +201,7 @@ Meteor.methods({
       Accounts.sendVerificationEmail(this.userId);
     },
     /**
-      Inserts the User into the database, but first validates the user using
+      Inserts the User into the database. first validates the user using
       the validateBasicUserData and either the validateEmployer or the
       validateEmployer depending on if the user claim he/she is a contractor or
       professional. Also assigns a role to the user depending on if he/she
@@ -244,7 +252,7 @@ Meteor.methods({
     },
 
     /**
-      Returns the user stored in the database by given Id
+      @summary Returns the user stored in the database by given Id
       @param{String} userId is the Id of the user
       @returns {UserObject|Null} if the user exists or null if the user was not found
       @throws {Meteor.Error} If the the user object passed is missing fields or
@@ -373,7 +381,7 @@ Meteor.methods({
 
 
     /**
-      Updates the user Information stored in the database
+      @summary Updates the user Information stored in the database
       @param {Object} User is the object that should contain the updated fields
       @throws {Meteor.Error} If the user is signed in or if the user is not
       a professional or a constructor
@@ -400,23 +408,6 @@ Meteor.methods({
           prevUser.profile.phone = User.profile.phone;
 
           Meteor.users.update({_id: this.userId},{$set: prevUser});
-    },
-    /**
-      Assigns a imageId to the user calling the function.
-      @deprecated Not Really Used and all Images function will move into Images.API
-      @param {String} imageId is the is id of the Image store in the database
-      @throws {Meteor.Error} If the user is not a professional or a contractor
-      or not signed in
-    */
-    uploadPic(imageId){
-      if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-      let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
-      let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
-      if(!isPRO && !isCON ) throw new Meteor.Error('401',NOTAUTH);
-      let user = Meteor.user.findOne({_id:this.userId});
-      check(imageId,String);
-      user.image = imageId;
-      Meteor.users.update({_id: this.userId},{$set: user});
     },
     /**
       Allows the user to delete himself or herself. If the User is a contractor
@@ -476,8 +467,7 @@ Meteor.methods({
         Meteor.call('sendVerificationEmail',(err)=>{
           if(err)console.log(err);
         });
-        console.log(Emails.email1);
-        console.log('was added');
+
       }
 
 

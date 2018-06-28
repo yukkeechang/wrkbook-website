@@ -7,19 +7,30 @@ import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users';
 
-
+/** @module Event */
+/**
+  * @summary Defines the events collection,
+  * has the basic MongoBD functions(insert,update,remove,etc)
+  */
 Event = new Mongo.Collection('events');
 Event.attachSchema(EventSchema);
 const WTFUDOING ={
   didnotRemove : true,
 };
 if ( Meteor.isServer ) {
+  /**
+  *
+  * @summary Publishes all events for the current date
+  * @publication {Event} today-events User
+  * @function
+  * @param {Date} currentDate date
+  * @name today-events
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid event objects. Null if not a signed in user
+  *
+  */
   Meteor.publish('today-events',function(currentDate) {
     if (Roles.userIsInRole(this.userId,CONTRACTOR)
       ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
-
-      // currentDate.setHours(0,0,0,0);
-
       return Event.find(
         {$and:[
           {$or : [{startAt:{$lte: currentDate}},{endAt:{$gte:currentDate}}]},
@@ -31,6 +42,16 @@ if ( Meteor.isServer ) {
       return;
     }
   });
+  /**
+  *
+  * @summary Publishes all events within a month-span of the current date
+  * @publication {Event} today-events User
+  * @function
+  * @param {Date} currentDate date
+  * @name today-events
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid event objects. Null if not a signed in user
+  *
+  */
   Meteor.publish('your-events-this-month',function(currentDate){
     if (Roles.userIsInRole(this.userId,CONTRACTOR)
     ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
@@ -48,17 +69,39 @@ if ( Meteor.isServer ) {
       return;
     }
   });
+  /**
+  *
+  * @summary Publishes all events associated with an jobId
+  * @publication {Event} get-event User
+  * @function
+  * @param {String} jobid id an job
+  * @name get-event
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid event objects. Null if not a signed in user
+  *
+  */
   Meteor.publish('get-event', function(jobId) {
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     return Event.find({'jobId': jobId});
   });
 }
 Meteor.methods({
+  /**
+   * [validateEvent description]
+   * @mmethod
+   * @param  {[type]} eventToValidate [description]
+   * @return {[type]}                 [description]
+   */
   validateEvent(eventToValidate){
     let validations = EventSchema.namedContext('EVE');
 
 
   },
+  /**
+   * @mmethod
+   * [createEvent description]
+   * @param  {[type]} newEvent [description]
+   * @return {[type]}          [description]
+   */
   createEvent(newEvent){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     newEvent.owner = this.userId;
@@ -68,6 +111,13 @@ Meteor.methods({
     if(!validation.validate(newEvent))throw new Meteor.Error('403','THINGS');
     Event.insert(newEvent);
   },
+  /**
+   * [updateEvent description]
+   * @mmethod
+   * @param  {[type]} eventId   [description]
+   * @param  {[type]} editEvent [description]
+   * @return {[type]}           [description]
+   */
   updateEvent(eventId, editEvent){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(eventId,String);
@@ -81,17 +131,23 @@ Meteor.methods({
     }
     Event.update({_id: eventId,owner:this.userId},{$set:eventData});
   },
+  /**
+   * [removeEvent description]
+   * @mmethod
+   * @param  {[type]} eventId [description]
+   * @return {[type]}         [description]
+   */
   removeEvent(eventId){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(eventId,String);
-    let eventInfomation = Event.findOne({_id: eventId});
-    if(!!eventInfomation.jobId && Roles.userIsInRole(this.userId,CONTRACTOR)){
-      throw new Meteor.Error('403',WTFUDOING);
-    }else{
-        Event.remove({_id:eventId,owner:this.userId});
-    }
-
+    Event.remove({_id:eventId,owner:this.userId});
   },
+  /**
+   * [getEventInfo description]
+   * @mmethod
+   * @param  {[type]} eventId [description]
+   * @return {[type]}         [description]
+   */
   getEventInfo(eventId){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(eventId,String);

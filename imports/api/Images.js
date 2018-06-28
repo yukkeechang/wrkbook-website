@@ -6,23 +6,20 @@ import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
 import {ServerSession } from 'meteor/matteodem:server-session';
-// FS.debug = true;
-
-// let createThumb = function(fileObj, readStream, writeStream) {
-//   // Transform the image into a 50x50px thumbnail
-//   gm(readStream, fileObj.name()).resize('50', '50').stream().pipe(writeStream);
-// };
-// let createProfilePic = function(fileObj, readStream, writeStream) {
-//   // Transform the image into a 350x350px thumbnail
-//   gm(readStream, fileObj.name()).resize('350', '350').stream().pipe(writeStream);
-// };
-// FS.debug = true;
+/** @module Images */
 const imageStore = new FS.Store.GridFS('images');
 const pdfStore = new FS.Store.GridFS('pdfs');
-
+/**
+  * @summary Defines the Images collection,
+  * has the basic MongoBD functions(insert,update,remove,etc)
+  */
 Images = new FS.Collection('images',{
   stores: [imageStore]
 });
+/**
+  * @summary Defines the PDFs collection,
+  * has the basic MongoBD functions(insert,update,remove,etc)
+  */
 PDFs = new FS.Collection('pdfs',{
   stores: [pdfStore]
 });
@@ -89,24 +86,68 @@ PDFs.deny({
  });
 
 
-//publish all images from the database the limit is 20
-Meteor.publish('images', function(){
+ /**
+ *
+ * @summary Publishes all images stored on the database
+ * @publication {Images} images User
+ * @function
+ * @todo add validations
+ * @name images
+ * @returns {MongoBD.cursor|NULL} cursor point to all valid images objects.
+ *
+ */
+ Meteor.publish('images', function(){
   return Images.find({});
  });
- //publish a image with the specific id
+ /**
+ *
+ * @summary Publishes  images with a specific id
+ * @publication {Images} images-id User
+ * @function
+ * @todo add validations
+ * @param {String} imageId id of image to be publish to client
+ * @name images-id
+ * @returns {MongoBD.cursor|NULL} cursor point to  valid image object.
+ *
+ */
 Meteor.publish('images-id',function(imageId){
   return Images.find({_id: imageId});
 });
+/**
+* @summary Publishes  images within the specified array of ids
+* @publication {Images} cert-images User
+* @function
+* @todo add validations
+* @param {Array} arrayofId array containing all ids of images to be publish to client
+* @name images
+* @returns {MongoBD.cursor|NULL} cursor point to all valid images objects.
+*
+*/
 Meteor.publish('cert-images',function(arrayofId){
 
   return Images.find({_id: {$in : arrayofId} });
 });
+/**
+* @summary Publishes  pdfs  within the specified array of ids
+* @publication {PDFs} cert-pdfs User
+* @function
+* @todo add validations
+* @param {Array} arrayofId array containing all ids of images to be publish to client
+* @name images
+* @returns {MongoBD.cursor|NULL} cursor point to all valid images objects.
+*
+*/
 Meteor.publish('cert-pdfs',function(arrayofId){
 
   return PDFs.find({_id: {$in : arrayofId} });
 });
 
 Meteor.methods({
+  /**
+   * [updateImage description]
+   * @param  {String} imageId [description]
+   * throws {Meteor.Error}
+   */
   updateImage(imageId){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(imageId,String);
@@ -135,6 +176,11 @@ Meteor.methods({
       throw new Meteor.Error('401','NOT AUTHORIZED');
     }
   },
+  /**
+   * [uploadCertificate description]
+   * @param  {String} imageId [description]
+   * @throws {Meteor.Error}
+   */
   uploadCertificate(imageId){
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     check(imageId,String);

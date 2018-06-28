@@ -29,6 +29,10 @@ export const  NOTMADE ={
   jobNotMade : true
 };
 /**
+ * Refers to both Professional and CONTRACTOR
+ * @typedef {(Professional|Contractor)} User
+ */
+/**
 * @summary Defines the Job collection,
 * has the basic MongoBD functions(insert,update,remove,etc)'
 * @example
@@ -39,7 +43,7 @@ Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
 
 /**
- * Calculates the longitude and latitude coordinates around a given width of
+ * @summary Calculates the longitude and latitude coordinates around a given width of
  * a location
  * @param  {Double} lat         the latitude of the center point
  * @param  {Double} lng         the longitude of the center point
@@ -47,7 +51,14 @@ Job.attachSchema(JobSchema);
  * @return {Object}             contains the top and bottom latitude coordinates and left and right longitude coordinates
  * @example
  * //calculate the coordinates for a 20 miles distance around the coordinates (40.0,73.1)
- * 
+ *   let result = calculateJobArea(40.0,73.1,20);
+ *   result =
+ *   {
+ *    latTop: 40.5
+ *    latBottom: 39.5,
+ *    lngTop: 73.6,
+ *    lngBottom: 72.6
+ *   }
  */
 const calculateJobArea = (lat,lng,maxDistance)=>{
   const bearing = 45;
@@ -72,12 +83,26 @@ const calculateJobArea = (lat,lng,maxDistance)=>{
     lngBottom: lng + westDisplacement
   }
 };
-const removeEmployeeSingleDimArray =(userId,array)=>{
+/**
+ * @summary removes element from a single dimensional array, and resizes array
+ * @param  {String} userId the userID you want to find in the array
+ * @param  {Array} array  array containing several ids
+ * @return {Array}       array without userId
+ * @throws {NotFound} if the userId wasnt fouund in the array
+ */
+ const removeEmployeeSingleDimArray =(userId,array)=>{
   const idx = array.indexOf(userId);
   if(idx == -1) throw "Not Found in Array";
   array.splice(idx,1);
   return array;
 };
+/**
+ * @summary removes element from a two dimensional array and then resizes the array
+ * @param  {String} userId     element that is going to be searched
+ * @param  {Array} twoDimArray two-dimensional array
+ * @return {Object}             conatins the two-dimensional array and the outter index which the element was found
+ * @throws {Exception} if the array passed is not a two-dimensional array
+ */
 const removeEmployeeTwoDimArray = (userId,twoDimArray) =>{
   if(twoDimArray[0].constructor === Array) throw "Not a Two Dimensional Array";
   let outIndx = -1;
@@ -95,7 +120,11 @@ const removeEmployeeTwoDimArray = (userId,twoDimArray) =>{
     outterIndex: outIndx
   }
 };
-export const changeIsOpen = () =>{
+/**
+ * @summary changes any job that is currently open to close if the current date is past the end date of the job
+ * @return {Integer} the number of jobs that were closed
+ */
+const changeIsOpen = () =>{
 
   let currentDate = new Date();
   let changedJobArray=[];
@@ -108,34 +137,39 @@ export const changeIsOpen = () =>{
   updateEmployeeWorkHistory(changedJobArray)
   return things.count();
 };
-
-
+/**
+ * @summary given an array of closed job ids, it will go each job and update the work history of each employee
+ * @param  {Array} arrayOfIds  array of closed job ids
+ * @todo unroll the nested loop
+ */
 const updateEmployeeWorkHistory = (arrayOfIds)=>{
 
     jobAndEmployeeIDS = []
     for (let key in arrayOfIds) {
         let id =  arrayOfIds[key]
         let admitemployeeIds = Job.findOne({_id:id},{fields:{admitemployeeIds:1}}).admitemployeeIds;
-
-        console.log(admitemployeeIds);
         let jobEmployeeObject = {
           employeeIds: admitemployeeIds,
           jobId: id
-        }
-        jobAndEmployeeIDS.push(jobEmployeeObject)
+        };
+        jobAndEmployeeIDS.push(jobEmployeeObject);
     }
     //SHOULD UNROLL THIS
     for (let indx in jobAndEmployeeIDS) {
       for( let employeeIndex in jobAndEmployeeIDS[indx].employeeIds){
-
         let user = Meteor.users.findOne({_id:jobAndEmployeeIDS[indx].employeeIds[employeeIndex]});
-        console.log(user);
         let prevJob = user.profile.employeeData.prevJobs;
         prevJob[prevJob.length] = jobAndEmployeeIDS[indx].jobId;
         Meteor.users.update({_id: jobAndEmployeeIDS[indx].employeeIds[employeeIndex] },{$set: user});
       }
     }
 };
+/**
+ * @summary  format queries based upon the employee qualifications, the queries will be used to search for jobs for the employee
+ * @todo add validations
+ * @param  {Object} employeeData object containing info such as osha and driver-license should follow the format of employeeSchema
+ * @return {Array}   conatining queries that will return jobs that the employee is qualified for
+ */
 const jobRequirementAgainstEmployeeQuery =(employeeData) =>{
   return[
        {$or:[ {'requirements.driverLicense':{$ne : true}},
@@ -159,14 +193,15 @@ if ( Meteor.isServer ) {
 
   /**
   *
-  * Publishes all Jobs that matchs the jobTitles of a  employee, and
-  * within a range of the employee location, the range is  defined by the employee
-  * @param {Object} employee is an object that should match EmployeeSchema
-  * @returns {Array} that contains all jobs mataching a several job titles and are
-  * within a specific range of the employee location
+  * @summary Publishes all Jobs that matchs the jobTitles of a  employee, and
+  * within a range defined by the employee
+  * @publication {Job}  job-post User
+  * @function
+  * @name job-post
+  * @param {Object} employee object containing info such as osha and driver-license should follow the format of employeeSchema
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job objects (cursor may not point to any job objects if the employee is not qualified for any jobs); Null if user calling function is not a PROFESSIONAL
   *
   */
-
   Meteor.publish('job-post', function(employee){
 
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
@@ -204,7 +239,17 @@ if ( Meteor.isServer ) {
     }
 
   });
-
+  /**
+  *
+  * @summary Publishes all active jobs for either contractor or professional
+  * @publication {Job} active-jobs User
+  * @see findActiveJobsEmployee
+  * @see findActiveJobsEmployer
+  * @function
+  * @name active-jobs
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job objects (cursor may not point to any job objects); Null if user calling function is not a User
+  *
+  */
   Meteor.publish('active-jobs',function () {
     if( Roles.userIsInRole(this.userId,PROFESSIONAL)){
       let currentJobs = Meteor.call('findActiveJobsEmployee');
@@ -219,8 +264,16 @@ if ( Meteor.isServer ) {
       return null;
     }
   })
-  /**
-    MAYBE MERGE WITH ONE-JOB PUBLICATION
+
+   /**
+   *
+   * @summary Publishes Only one job with the given jobId (has to be a job the contractor made)
+   * @publication {Job}  job-post-employer-edit Contractor
+   * @function
+   * @name job-post-employer-edit
+   * @param {String} jobId string which would hold id of job object
+   * @returns {MongoBD.cursor|NULL} cursor point to all valid job objects (cursor may not point to any job objects if jobId is not associated with a vaild job); Null if user calling function is not a CONTRACTOR
+   *
    */
   Meteor.publish('job-post-employer-edit',function(jobId){
     if(Roles.userIsInRole(this.userId,CONTRACTOR)){
@@ -231,8 +284,14 @@ if ( Meteor.isServer ) {
     }
   });
   /**
-    MAYBE MERGE WITH job-post-employer-edit PUBLICATION
-   */
+  *
+  * @summary Publishes Only one job with the given jobId
+  * @publication {Job}  one-job User
+  * @function
+  * @name one-job
+  * @param {String} jobId string which would hold id of job object
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object (cursor may not point to any job objects jobId is not associated with a vaild job); Null if user calling function is not a User
+  */
   Meteor.publish('one-job',function(jobID){
 
     if(Roles.userIsInRole(this.userId,PROFESSIONAL) ||
@@ -245,11 +304,12 @@ if ( Meteor.isServer ) {
      }
   });
   /**
-  *
-  * Publishes all Jobs that a employee was matched with
-  * @returns {Array} that contains all jobs made by a specific user.
+  * @summary Publishes all Jobs that a employee was hired to
+  * @publication {Job}  job-post-admitted Professional
+  * @function
+  * @name job-post-admitted
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object; Null if user calling function is not a Professional
   */
-
   Meteor.publish('job-post-admitted',function(){
 
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
@@ -262,7 +322,13 @@ if ( Meteor.isServer ) {
     }
 
   });
-
+  /**
+  * @summary Publishes all Jobs that a employee applied to
+  * @publication {Job}  job-post-applied Professional
+  * @function
+  * @name job-post-applied
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object; Null if user calling function is not a Professional
+  */
   Meteor.publish('job-post-applied',function(){
 
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
@@ -275,7 +341,13 @@ if ( Meteor.isServer ) {
     }
 
   });
-
+  /**
+  * @summary Publishes all Jobs that a employer created and the jobs have not started yet
+  * @publication {Job}  upcoming-job-con Contractor
+  * @function
+  * @name upcoming-job-con
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object; Null if user calling function is not a Professional
+  */
   Meteor.publish('upcoming-job-con',function(){
     let currentDate = new Date();
     if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
@@ -288,9 +360,14 @@ if ( Meteor.isServer ) {
       return;
     }
   });
-
-  //Find current job for professionals
-  // These dont need to paramter to be passed since we know who is calling this function
+  /**
+  * @summary Publishes all Jobs that a employee was hired to and currently in progress
+  * @publication {Job}  current-job-pro Professional
+  * @function
+  * @name current-job-pro
+  * @todo remove section of code that is determining the order of the job objects
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object; Null if user calling function is not a Professional
+  */
   Meteor.publish('current-job-pro',function(){
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
       let hackIdThing =[];
@@ -334,9 +411,14 @@ if ( Meteor.isServer ) {
       return;
     }
   });
-
-  //Find completed job for professionals
-  // These dont need to paramter to be passed since we know who is calling this function
+  /**
+  * @summary Publishes all Jobs that a employee was hired to and currently is closed
+  * @publication {Job}  completed-job-pro Professional
+  * @function
+  * @name completed-job-pro
+  * @todo remove section of code that is determining the order of the job objects
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object; Null if user calling function is not a Professional
+  */
   Meteor.publish('completed-job-pro',function(){
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
       let hackIdThing =[this.userId];
@@ -379,15 +461,19 @@ if ( Meteor.isServer ) {
       return;
     }
   });
-
-  //Find upcoming job for professionals
-  // These dont need to paramter to be passed since we know who is calling this function
+  /**
+  * @summary Publishes all Jobs that a employee was hired to and has not started yet
+  * @publication {Job}  upcoming-job-pro Professional
+  * @function
+  * @name upcoming-job-pro
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object; Null if user calling function is not a Professional
+  */
   Meteor.publish('upcoming-job-pro',function(){
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
       let hackIdThing =[];
       hackIdThing[0] = this.userId;
       let currentDate = new Date()
-      let job = Job.find({$and:
+      return Job.find({$and:
         [
           {
             'admitemployeeIds' :{$in : hackIdThing}
@@ -397,31 +483,24 @@ if ( Meteor.isServer ) {
             'isOpen':true
           }
         ]
-      })
-      if(!job)throw new Meteor.Error('403','Job was not found');
+      });
 
-      return job;
 
     } else {
       this.stop();
       return;
     }
   });
-
-
-
+  /**
+  * @summary Publishes all Jobs that a employer created and the job is in progress
+  * @publication {Job}  upcoming-job-pro Contractor
+  * @function
+  * @name current-job-con
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object; Null if user calling function is not a CONTRACTOR
+  */
   Meteor.publish('current-job-con',function(){
     let currentDate = new Date();
     if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
-
-        let things = Job.find({'generalEnd': {$lt : currentDate},
-                               'isOpen':true,
-                               'employerId':this.userId});
-       things.forEach((job)=>{
-         job.isOpen = false;
-         Job.update({_id:job._id},{$set:job});
-       });
-
       return Job.find(
         { employerId:this.userId,
           generalStart:{$lt: currentDate},
@@ -434,7 +513,13 @@ if ( Meteor.isServer ) {
       return;
     }
   });
-
+  /**
+  * @summary Publishes all Jobs that a employer created and closed
+  * @publication {Job}  closed-job-con Contractor
+  * @function
+  * @name closed-job-con
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object; Null if user calling function is not a CONTRACTOR
+  */
   Meteor.publish('closed-job-con',function(){
     if (Roles.userIsInRole(this.userId,CONTRACTOR)) {
       return Job.find({employerId:this.userId,isOpen: false},{sort: {generalStart: 1}});
@@ -443,33 +528,40 @@ if ( Meteor.isServer ) {
       return;
     }
   });
+  /**
+  * @summary Publishes all Employees that applied but not hired and their info for a speific jobId
+  * @publication {Meter.users}  apply-employee-job User
+  * @function
+  * @name apply-employee-job
+  * @param {String} jobId id of a job
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object; Null if user calling function is not a User
+  */
   Meteor.publish('apply-employee-job',function(jobId){
     if (Roles.userIsInRole(this.userId,CONTRACTOR)|| Roles.userIsInRole(this.userId,PROFESSIONAL)) {
 
       let jobInfo = Job.findOne({_id: jobId},{fields:{applyemployeeIds: 1}});
-
-      if(!!jobInfo.applyemployeeIds){
-        return  Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
-      }
-      return ;
+      return  Meteor.users.find({_id: {$in: jobInfo.applyemployeeIds}}, {fields: { emails: 1, profile: 1 } });
 
     }else{
       this.stop();
-      throw new Meteor.Error('403',NOTAUTH);
+      return ;
     }
   });
+  /**
+  * @summary Publishes all Employees that were hired and their info for a speific job
+  * @publication {Meter.users}  admit-employee-job User
+  * @function
+  * @name admit-employee-job
+  * @param {String} jobId id of a job
+  * @returns {MongoBD.cursor|NULL} cursor point to all valid job object; Null if user calling function is not a User
+  */
   Meteor.publish('admit-employee-job',function(jobId){
     if (Roles.userIsInRole(this.userId,CONTRACTOR)|| Roles.userIsInRole(this.userId,PROFESSIONAL)) {
-
       let jobInfo = Job.findOne({_id: jobId},{fields:{admitemployeeIds:1}});
-      if(!!jobInfo.admitemployeeIds){
-        return Meteor.users.find({_id: {$in: jobInfo.admitemployeeIds}}, {fields: { emails: 1, profile: 1 } });
-      }
-      return ;
-
+      return Meteor.users.find({_id: {$in: jobInfo.admitemployeeIds}}, {fields: { emails: 1, profile: 1 } });
     }else{
       this.stop();
-      throw new Meteor.Error('403',NOTAUTH);
+      return ;
     }
   });
 }
@@ -478,7 +570,12 @@ if ( Meteor.isServer ) {
 
 
 Meteor.methods({
-
+/**
+ * @summary checks if the jobObject being sent to the server matches JobSchema
+ * @mmethod
+ * @param  {Object} jobObject object that will check to see if contains vaild infomation
+ * @return {Objct}           formatted job object and array of event objects
+ */
   validateJob(jobObject){
     let  validations = JobSchema.newContext();
     let supervisorValidation1 = SupervisorSchema.namedContext('SUP');
@@ -626,9 +723,9 @@ Meteor.methods({
     };
   },
 /**
- * Base upon the jobObject,notifications will be sent to the employees how are qualified
+ * @summary Base upon the jobObject,notifications will be sent to the employees how are qualified
  * in the area of the location of the job.
- * @public
+ * @mmethod
  * @param  {Object} jobObject the object of the job that contains info such location
  * @param  {string} jobId     the id of the job
  */
@@ -685,6 +782,7 @@ Meteor.methods({
   Inserts a Job and an Event into the database. That Job must follow the format of
   JobSchema and the Event must follow the format of EventSchema.
   Only a contractor can use this function
+  @mmethod
   @param {Object} newJobEvent that contains the job object and th event object
   @throws {Meteor.Error} if the object passed does not match the Schema you will
   get a match error or if the user calling the method is not signin a Meteor.Error
@@ -742,16 +840,13 @@ Meteor.methods({
     }
   },
   /**
-  ------------------------------------------------------------------------------
-  ------------------------------------------------------------------------------
-  THIS FUNCTION WILL HAVE TO BE CHANGE TO MAKE THE SCHEMA CHANGES
-  -----------------------------------------------------------------------------
-  -----------------------------------------------------------------------------
   Updates a JobPost that was already inserted into the database. If the JobPost
   object contains default values no reassignments will occur. If the jobId does
   not return a value object the function will exit. Only Contractors can call
   this function if an employee tries to use this function an
   unauthorize error will occur
+  @deprecated
+  @mmethod
   @param {String} jobId is the Id of the jobPost
   @param {Object} JobPost must match to the JobSchema
   @throws {Meteor.Error} if the object passed does not match the Schema you will
@@ -836,7 +931,12 @@ Meteor.methods({
   }
 
 },
-
+/**
+ * @summary alters an job with the jobId, that shows that an employee has applied for a position creates notification for the employer that someone has applied for the job
+ * @param  {String} jobId    id of job  that employee is applying to
+ * @param  {String} position role employee is applying for
+ * @throw {Meteor.Error} if the user calling the function is not an Professional if the jobId is not associated to a valid job
+ */
   applyForJob(jobId,position){
     if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
 
@@ -879,6 +979,12 @@ Meteor.methods({
     Meteor.call('createNotification',notify);
 
   },
+  /**
+   *
+   * @summary alters an job with the jobId, that shows that an employee has denied the job
+   * @param  {String} jobId    id of job that the employee is declining
+   * @throw {Meteor.Error} if the user calling the function is not an Professional if the jobId is not associated to a valid job
+   */
   declineJob(jobId){
     if(!this.userId || !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
 
@@ -906,6 +1012,12 @@ Meteor.methods({
 
     Job.update(selector,{$set: job});
   },
+  /**
+   * @summary alters an job with the jobId, that shows that an employee has been rejected for the job, removes all notifications about the job sent to the employee
+   * @param  {String} jobId    id of job
+   * @param  {String} employeeId id of the employee
+   * @throw {Meteor.Error} if the user calling the function is not an CONTRACTOR or if the jobId is not associated to a valid job
+   */
   declineEmployee(jobId,employeeId){
       if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
 
@@ -934,6 +1046,12 @@ Meteor.methods({
       Notification.remove({toWhomst:employeeId,jobId:jobId,typeNotifi:"HIRED"});
       Job.update(selector,{$set: job});
   },
+  /**
+  * @summary alters an job with the jobId, that shows that an employee has been accepted for the job, send a notification to the employee stating that he/he was hired to the job
+  * @param  {String} jobId    id of job
+  * @param  {String} employeeId id of the employee
+  * @throw {Meteor.Error} if the user calling the function is not an CONTRACTOR or if the jobId is not associated to a valid job
+   */
   admiteEmployee(jobId,employeeId){
     if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
 
@@ -985,10 +1103,11 @@ Meteor.methods({
 
   /**
   Deletes a jobPost and the events associated with it from the database using its ID. Only a contractor can
-  call this function
+  call this function. Creates a notifications to all employees and the employer that the job has been cancelled. Also removes previous notifications about the job
+  @mmethod
   @param {String} jobId is the Id of the jobPost
   @throws {Meteor.Error} if the jobId is not a string a match error will be
-  thrown Or if the user calling the function is not sign an 401 error will be thrown
+  thrown Or if the user calling the function is not CONTRACTOR an 401 error will be thrown
   */
   removeJob(jobId){
     check(jobId,String);
@@ -1035,6 +1154,11 @@ Meteor.methods({
     Job.remove({_id: jobId, employerId: this.userId});
     Event.remove({jobId: jobId,owner:this.userId});
   },
+  /**
+   * @summary Returns the job stored in the database by given Id
+   * @param  {String} jobId  is the id of the job
+    @returns {Object|Null} if the job exists or null if the job was not found
+   */
   getJobInfo(jobId){
     check(jobId,String);
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
@@ -1043,9 +1167,15 @@ Meteor.methods({
     let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
 
     if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
-    Job.findOne({_id:jobId,employerId:this.userId})
+    return Job.findOne({_id:jobId,employerId:this.userId})
 
   },
+  /**
+   * @summary closes the job with the associated id and updates the job history of all employess hired to the job
+   * @see {@link updateEmployeeJobHistory}
+   * @param  {String} jobId  jobId  is the id of the job
+   * @throw {Meteor.Error} if the user calling the function is not an CONTRACTOR or if the jobId is not associated to a valid job
+   */
   closeJob(jobId){
     check(jobId,String);
     if(!this.userId || !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
@@ -1064,11 +1194,13 @@ Meteor.methods({
     }
   },
   /**
-   * Once a job is completed the employee that is associated with the id,(userId)
-   * the field prevjob will be updated with the id of the completed job
+   * @summary Once a job is completed the employee that is associated with the id,(userId) the field prevjob will be updated with the id of the completed job
+   * @mmethod
+   * @function updateEmployeeJobHistory
    * @param  {string} userId  the id of the employee
    * @param  {string} jobId  the id of the job
    * @todo check if job exists and if employer is owner of that job
+   * @throw {Meteor.Error} if the user calling the function is not an CONTRACTOR or if the jobId is not associated to a valid job
    */
   updateEmployeeJobHistory(userId,jobId){
     if(!this.userId|| !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
@@ -1083,6 +1215,12 @@ Meteor.methods({
 
 
   },
+  /**
+   * @summary returns an array of job ids that the user (an employee) is hired to
+   * @return {Array} of job ids that the user was hired to
+   * @throw {Meteor.Error} if the user calling the function is not an PROFESSIONAL
+   * @todo add validation such as if the job is ongoing or not
+   */
   findActiveJobsEmployee(){
     if(!this.userId|| !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
     let jobIdArray = [];
@@ -1096,6 +1234,12 @@ Meteor.methods({
 
     return jobIdArray;
   },
+  /**
+  * @summary returns an array of job ids that the user (an employer) created
+  * @return {Array} of job ids that the user created
+  * @throw {Meteor.Error} if the user calling the function is not an CONTRACTOR
+  * @todo add validation such as if the job is ongoing or not
+   */
   findActiveJobsEmployer(){
     if(!this.userId|| !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
     let jobIdArray = [];
@@ -1107,7 +1251,11 @@ Meteor.methods({
     })
     return jobIdArray;
   },
-
+/**
+ * matchNewEmployeeAgainstOldJobs
+ * @todo add description
+ * @param  {String} id of employee
+ */
   matchNewEmployeeAgainstOldJobs(id){
     if(!Roles.userIsInRole(id,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
     let employee = Meteor.users.findOne({_id: id}).profile.employeeData;
@@ -1155,3 +1303,5 @@ Meteor.methods({
 
   }
 });
+
+export {changeIsOpen};

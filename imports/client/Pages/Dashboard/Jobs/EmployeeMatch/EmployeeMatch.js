@@ -119,7 +119,7 @@ class EmpJobPost extends React.Component{
     let distance = this.distanceInKmBetweenEarthCoordinates(userLocation.latitude,
                     userLocation.longitude,this.props.jobinfo.location.latitude,
                   this.props.jobinfo.location.longitude);
-    distance *= 0.62;
+    distance *= 0.62;//Convert km to miles
     let distanceFormat = Math.round(distance);
     return(
     <div ref={this.state.id+"11"}>

@@ -104,10 +104,7 @@ if ( Meteor.isServer) {
   });
 }
 Meteor.methods({
-/**
- * [validations description]
- * @type {[type]}
- */
+
 checkIfConandProWork(jobId,revieweeId,userId){
   if(!userId) throw new Meteor.Error('401',NOTAUTH);
   let hackIdThing = [revieweeId];
