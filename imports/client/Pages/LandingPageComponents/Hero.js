@@ -34,13 +34,9 @@ export default class Hero extends Component {
                       >
                         {/*button styles for med screen and up*/}
                         <div className="row valign-wrapper hide-on-small-only" style={{position: 'relative'}}>
-
                           <Button onClick={this.pro} stylez={{margin:'20px'}} className="button fill-green col s12 m6 l6" text={"white"} to="/register" >Find Work</Button>
-
-
                           <Button onClick={this.con} stylez={{margin:'20px'}} className="button fill-white col s12 m6 l6"  text={"black"} to="/register" >Find Workers</Button>
-
-                      </div>
+                       </div>
 
                       {/*button styles for small screen*/}
                       <div className="row hide-on-med-and-up" style={{position: 'relative'}}>

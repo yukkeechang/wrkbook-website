@@ -14,6 +14,7 @@ import EducationSchema from './Schemas/educationSchema';
 import OshaSchema from './Schemas/oshaSchema';
 import TextList from './Schemas/textListSchema';
 import SocialSchema from './Schemas/socialSchema';
+import leadSchema from './Schemas/leadSchema';
 import {ServerSession } from 'meteor/matteodem:server-session';
 
 export const NOTAUTH = {
@@ -33,7 +34,17 @@ if ( Meteor.isServer ) {
       }
   });
 }
+
+  Lead = new Mongo.Collection('leads');
+  Lead.attachSchema(leadSchema);
+
+
 Meteor.methods({
+  /*
+  */
+    createLead(newLead) {
+      Lead.insert(newLead)
+    },
   /*
     Checks if the new password of the user are the same, and if they meet the requirments
     @param {Object} password Object

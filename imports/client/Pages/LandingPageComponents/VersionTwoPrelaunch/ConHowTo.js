@@ -9,12 +9,12 @@ const ConHowTo = () => {
           <img src='/images/Contractor-tag.png'/>
         </div>
       </div>
-      <div className="row">
-        <div className="col m8 l8">
+      <div className="row" style={{marginBottom: '0px'}}>
+        <div className="col m6 l6 offset-l1 offset-m1">
           <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/job-post-mockup.png'/>
         </div>
         <div className="col m4 l4">
-          <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/one.png'/>
+          <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/con-how-to/one-c.png'/>
           <span style={styles.ConHeading}>Make a job post and list down: </span>
             <div className="container">
              <ul style={{color: 'white'}}>
@@ -24,15 +24,16 @@ const ConHowTo = () => {
              </ul>
             </div>
           <div className="row">
-            <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/two.png'/>
+            <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/con-how-to/two-c.png'/>
             <span style={styles.ConHeading}>Get matched to qualified professionals who applied to your job post  </span>
           </div>
           <div className="row">
-            <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/three.png'/>
+            <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/con-how-to/three-c.png'/>
             <span style={styles.ConHeading}>Look through their profile and decide who you want to hire</span>
           </div>
         </div>
       </div>
+      <div className="section"/>
     </div>
   )
 }

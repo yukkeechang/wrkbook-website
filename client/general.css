@@ -236,7 +236,15 @@ input[type="password"]:focus+label[data-error]:after{
 	border: 3px;
 	border-radius: 10px;
   padding: 12px 0 12px 0;
-
+}
+.button-sh {
+  height: 55px;
+	border: 3px;
+	border-radius: 10px;
+  padding: 12px 0 12px 0;
+}
+.fill-dark-gray {
+  background-color: #4A4A4A
 }
 .fill-white {
   background-color:  white;

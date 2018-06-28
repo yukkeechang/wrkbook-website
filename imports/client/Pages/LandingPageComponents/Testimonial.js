@@ -7,9 +7,11 @@ export default class HowTo extends React.Component{
     render(){
       return(
         <div>
+          <div className="section"/>
           <div className="container">
             <div className="row">
-              <h4 style={{fontFamily:'avenir-lt-w01_35-light1475496',textAlign: 'center',margin:'0',paddingBottom:'20px'}}>Our Customers </h4>
+              <h4 style={{fontFamily:'Montserrat-Medium',textAlign: 'center',margin:'0'}}>Our Customers </h4>
+              <div className="section"/>
               <br/>
               {/*Pro Testimonial*/}
               <div className="col s12 m5 l5">

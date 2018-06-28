@@ -2,7 +2,6 @@ import React from 'react';
 import Hero from './LandingPageComponents/Hero';
 import HowTos from './LandingPageComponents/HowTos';
 import Testimonial from './LandingPageComponents/Testimonial';
-import About from './LandingPageComponents/About';
 import Price from './LandingPageComponents/PricingPage';
 import Services from './LandingPageComponents/Services';
 import ReactDOM from 'react-dom';
@@ -11,6 +10,7 @@ import Footer from './Shared/Footer';
 import Banner from './LandingPageComponents/VersionTwoPrelaunch/betaAnnouncement';
 import ProHowTo from './LandingPageComponents/VersionTwoPrelaunch/ProHowTo';
 import ConHowTo from './LandingPageComponents/VersionTwoPrelaunch/ConHowTo';
+import CollectEmails from './LandingPageComponents/VersionTwoPrelaunch/CollectEmails'
 import {initGA, logPageView} from  './Shared/GoogleAnalytics';
 
 export default class LandingPage extends React.Component{
@@ -45,6 +45,7 @@ export default class LandingPage extends React.Component{
         <Services/>
         <ProHowTo/>
         <ConHowTo/>
+        <CollectEmails/>
         <Testimonial/>
         <Footer/>
 
