@@ -65,7 +65,7 @@ export default WrkBookIcon = () => {
                 <rect x="1138.8" y="399.2" style={{fill:'#FDFDFD'}} width="1" height="0.3"/>
             </g>
         </g>
-        <text transform="matrix(1 0 0 1 1400 758.7412)" style={{fill:'#1BAB6E',fontFamily:'Avenir',fontWeight:'bold',fontSize:'500px'}}>WrkBook</text>
+        <text transform="matrix(1 0 0 1 1400 758.7412)" style={{fill:'#1BAB6E',fontFamily:'Avenir',fontWeight:'bold',fontSize:'500px'}}>WRKBOOK</text>
     </svg>
     )
 }

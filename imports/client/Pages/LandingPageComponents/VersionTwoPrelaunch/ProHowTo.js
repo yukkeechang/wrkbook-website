@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 const ProHowTo = () => {
   return (
     <div>
-      <h4 className='center-align' style={{fontFamily: 'Montserrat-Medium', paddingBottom: '20px'}}>Are you a handy man, a skilled trade or construction worker?</h4>
+      <h4 className='center-align how-to-heading' style={{fontFamily: 'Montserrat-Medium', paddingBottom: '20px'}}>Are you a handy man, a skilled trade or construction worker?</h4>
       <div className="row">
         <div className="col m4 l4">
           <img  src="/images/Professionals-tag.png"/>

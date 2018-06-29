@@ -7,7 +7,7 @@ import Services from './LandingPageComponents/Services';
 import ReactDOM from 'react-dom';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
-import Banner from './LandingPageComponents/VersionTwoPrelaunch/betaAnnouncement';
+import Banner from './LandingPageComponents/VersionTwoPrelaunch/BetaAnnouncement';
 import ProHowTo from './LandingPageComponents/VersionTwoPrelaunch/ProHowTo';
 import ConHowTo from './LandingPageComponents/VersionTwoPrelaunch/ConHowTo';
 import CollectEmails from './LandingPageComponents/VersionTwoPrelaunch/CollectEmails'
@@ -23,13 +23,19 @@ export default class LandingPage extends React.Component{
     //console.log(this.props);
   }
   handleClick=(words)=>{
-    let node = ReactDOM.findDOMNode(this.refs.HowTo);
-    let node3 = ReactDOM.findDOMNode(this.refs.home);
+    let node1 = ReactDOM.findDOMNode(this.refs.home);
+    let node2 = ReactDOM.findDOMNode(this.refs.collectEmails);
+    let node3 = ReactDOM.findDOMNode(this.refs.howTo);
 
-    if(words === "HowTo"){
-      node.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+
+    if(words === "home"){
+      node1.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
     }
-    if (words === "home") {
+    if (words === "collectEmails") {
+      node2.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+    }
+    if (words === "howTo") {
+      console.log("made it this far- still an error")
       node3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
     }
   }
@@ -39,13 +45,12 @@ export default class LandingPage extends React.Component{
         <div style={{backgroundColor: "#f1f1f1"}}>
 
         <Header handleClick={this.handleClick}/>
-        <Hero ref="home"/>
-        <Banner/>
-
+        <Hero handleClick={this.handleClick} ref="home"/>
+        <Banner handleClick={this.handleClick}/>
         <Services/>
-        <ProHowTo/>
+        <ProHowTo ref="howTo"/>
         <ConHowTo/>
-        <CollectEmails/>
+        <CollectEmails ref="collectEmails"/>
         <Testimonial/>
         <Footer/>
 

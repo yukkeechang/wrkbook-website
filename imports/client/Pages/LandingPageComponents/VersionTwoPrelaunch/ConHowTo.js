@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 const ConHowTo = () => {
   return (
     <div style={{backgroundColor: '#8DC1FD'}}>
-      <h4 className="center-align" style={{fontFamily: 'Montserrat-Medium', color: 'white', padding: '30px' }}>Are you a general or sub contractor? Do you own a small skilled trade or construction company?</h4>
+      <h4 className="valign how-to-heading" style={{fontFamily: 'Montserrat-Medium', color: 'white', padding: '30px' }}>Are you a general or sub contractor? Do you own a small skilled trade company?</h4>
       <div className='row'>
         <div className="col m4 l4">
           <img src='/images/Contractor-tag.png'/>
@@ -11,7 +11,7 @@ const ConHowTo = () => {
       </div>
       <div className="row" style={{marginBottom: '0px'}}>
         <div className="col m6 l6 offset-l1 offset-m1">
-          <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/job-post-mockup.png'/>
+          <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/con-mockup-2.png'/>
         </div>
         <div className="col m4 l4">
           <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/con-how-to/one-c.png'/>

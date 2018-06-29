@@ -24,6 +24,14 @@ export default class Base extends Component{
     this.props.handleClick(event);
   }
 
+  handleClick = (e) => {
+    if (e === "How To") {
+      this.props.handleClick("howTo");
+    } else {
+      this.props.handleClick("collectEmails");
+    }
+
+  }
   /*links for full nav bar */
   links = (to, bind, linkName) => {
     if (to === "questions") {
@@ -66,16 +74,17 @@ export default class Base extends Component{
                 {this.links("/questions", "", "FAQ")}
                 {this.links("/#HowTo", "HowTo", "How It Works")}
 
-              <Link to="/login">
+              {/* UNCOMMENT AFTER BETA CAN BE RELEASED!!
+                 <Link to="/login">
                   <div style={styles.heading} className="col m1 offset-m1 valign-wrapper hide-on-small-only nav-bar-heading">
                       <div className="genText">Login</div>
                   </div>
               </Link>
-              <Link to="/register">
-                <div id="rec-but" style={styles.heading} className="col m2  hide-on-small-only nav-bar-heading ">
-                <div className="genText">Sign Up</div>
-                </div>
-              </Link>
+              */}
+                <button id="rec-but" style={styles.rounded} className="col m2  hide-on-small-only nav-bar-heading" onClick={this.handleClick}>
+                  <div className="genText">Sign Up</div>
+                </button>
+
               <ul id="sideNav" className="side-nav">
                   <li>
                       <div style={styles.wrkbook}>
@@ -88,11 +97,19 @@ export default class Base extends Component{
                   <li>
                       <Link onClick={this.sideClick.bind(this)} to = "/">Home</Link>
                   </li>
-                  <li>
-                      <Link onClick={this.sideClick.bind(this)} to = "/#price">Pricing</Link>
-                  </li>
+                  {/*
+                    <li>
+                        <Link onClick={this.sideClick.bind(this)} to = "/#price">Pricing</Link>
+                    </li>
+                  */}
                   <li>
                       <Link onClick={this.sideClick.bind(this)} to = "/questions">FAQs</Link>
+                  </li>
+                  <li>
+                      <a onClick={this.handleClick.bind(this, "How To")}>How it works</a>
+                  </li>
+                  <li>
+                      <Link onClick={this.handleClick.bind(this)} to = "/">Sign Up</Link>
                   </li>
 
 
@@ -123,9 +140,19 @@ let styles = {
         position: 'relative',
         top: '12px',
         textAlign:'center',
-        padding: '0px',
+        padding: '0px'
 
     },
+    rounded : {
+        position: 'relative',
+        top: '12px',
+        textAlign:'center',
+        padding: '0px',
+        backgroundColor: 'transparent',
+        border: '1px solid white'
+    },
+
+
     headIcon: {
         position: 'relative',
         textAlign: 'right',

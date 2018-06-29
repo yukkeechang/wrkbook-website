@@ -9,7 +9,7 @@ export default Footer = (props)=>{
                     <div className="col s12 m5">
                         <img style={{width: '193px'}}src="/images/wrkbookfooter.png" alt=""/>
                         <p style={{textAlign:'justify'}}className="genText">
-                            Wrkbook is a mobile app and web platform that connects the supply of workers with the demand for jobs. Opening doors to connections that otherwise would never happen.
+                            Wrkbook is a website and soon to be mobile application that connects the supply of workers with the demand for jobs. Opening doors to connections that otherwise would never happen.
                         </p>
                     </div>
                     <div className="col s12 m7">

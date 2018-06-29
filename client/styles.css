@@ -1,10 +1,10 @@
 #hero{
-    background-image: url('/images/hardhat-bg.png');
+    background-image: url('/images/hero-hardhat.png');
     background-size: auto 100vmax;
     background-position: center center;
     background-attachment: fixed;
-    height: 70vmin;
-    min-height: 528px;
+    height: 60vmin;
+    min-height: 500px;
 }
 #herofaq{
     background-image: url('/images/heroBG.jpg');
