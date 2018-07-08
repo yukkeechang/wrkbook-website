@@ -7,7 +7,7 @@ import { hotjar } from 'react-hotjar';
 hotjar.initialize(790931, 6);
 export default class Hero extends Component {
 
-    //Only when /register opens up
+    //UNCOMMENT AFTER V2 RELEASE
     // pro(){
     //     window.localStorage.isPro = true;
     // }

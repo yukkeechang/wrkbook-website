@@ -37,13 +37,20 @@ export default class Base extends Component{
     if (to === "questions") {
       return (
         <Link to={to}>
-          <div style={styles.links} className="col  m1 hide-on-small-only nav-bar-text">{linkName}</div>
+          <div style={styles.links} className="col  m1 l1 hide-on-small-only nav-bar-text">{linkName}</div>
+        </Link>
+      )
+    }
+    if (linkName === "How It Works") {
+      return (
+        <Link to={to}  onClick={this.things.bind(this, bind)}>
+          <div style={styles.links} className="col  m2 l2 hide-on-small-only nav-bar-text">{linkName}</div>
         </Link>
       )
     }
     return (
       <Link to={to}  onClick={this.things.bind(this, bind)}>
-        <div style={styles.links} className="col  m1 hide-on-small-only nav-bar-text">{linkName}</div>
+        <div style={styles.links} className="col  m1 l1 hide-on-small-only nav-bar-text">{linkName}</div>
       </Link>
     )
   }
@@ -74,6 +81,7 @@ export default class Base extends Component{
                 {this.links("/questions", "", "FAQ")}
                 {this.links("/#HowTo", "HowTo", "How It Works")}
 
+
               {/* UNCOMMENT AFTER BETA CAN BE RELEASED!!
                  <Link to="/login">
                   <div style={styles.heading} className="col m1 offset-m1 valign-wrapper hide-on-small-only nav-bar-heading">
@@ -81,9 +89,11 @@ export default class Base extends Component{
                   </div>
               </Link>
               */}
-                <button id="rec-but" style={styles.rounded} className="col m2  hide-on-small-only nav-bar-heading" onClick={this.handleClick}>
+
+                <button id="rec-but" style={styles.rounded} className="col m2 push-l1 push-m1 hide-on-small-only nav-bar-heading" onClick={this.handleClick}>
                   <div className="genText">Sign Up</div>
                 </button>
+
 
               <ul id="sideNav" className="side-nav">
                   <li>

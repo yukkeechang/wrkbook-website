@@ -63,7 +63,7 @@ Table of Contents End
 		font-size: 1em;
 	}
   .how-to-heading {
-    font-size: 1.7em
+    font-size: 1.4em
   }
 }
 
@@ -77,7 +77,7 @@ Table of Contents End
 		font-size: 1.1em;
 	}
   .how-to-heading {
-    font-size: 1.7em
+    font-size: 1.5em
   }
 
 }
@@ -95,7 +95,7 @@ Table of Contents End
     padding-left: 10px;
   }
   .how-to-heading {
-    font-size: 2em
+    font-size: 1.8em
   }
 }
 @media only screen and (min-width: 992px) {
@@ -109,7 +109,7 @@ Table of Contents End
     padding-left: 10px;
   }
   .how-to-heading {
-    font-size: 2.5em
+    font-size: 1.9em
   }
 
 }

@@ -32,11 +32,11 @@ export default class LandingPage extends React.Component{
       node1.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
     }
     if (words === "collectEmails") {
-      node2.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+      node2.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
     }
     if (words === "howTo") {
       console.log("made it this far- still an error")
-      node3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+      node3.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
     }
   }
   render(){
