@@ -33,7 +33,7 @@ There are currently two ways to run test for the project
   * this will rerun once you edit  and save any files within the project
 
 ## To Generate the Documents for the project
-<i> This is assuming have `jsdoc` installed globally</i>
-1. run ` jsdoc -c jsdoc.json ` in the parent folder
-2. Documentation will be genereted in the folder `../docs`
+To create the Documentation for this project
+1. run ` npm run make-docs ` in the parent folder
+2. Documentation will be generated in the folder `docs/` same level as `wrkbook-website/`
   * all files are static html files

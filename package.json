@@ -2,6 +2,7 @@
   "name": "wrkbook-web",
   "private": true,
   "scripts": {
+    "make-docs": "./node_modules/jsdoc/jsdoc.js -c jsdoc.json",
     "start": "meteor --settings settings-development.json",
     "always": "meteor test --driver-package cultofcoders:mocha --port 5000",
     "test": "TEST_BROWSER_DRIVER=phantomjs meteor test --once --driver-package meteortesting:mocha"
