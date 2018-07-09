@@ -25,7 +25,7 @@ export default class LandingPage extends React.Component{
   handleClick=(words)=>{
     let node1 = ReactDOM.findDOMNode(this.refs.home);
     let node2 = ReactDOM.findDOMNode(this.refs.collectEmails);
-    let node3 = ReactDOM.findDOMNode(this.refs.howTo);
+    let node3 = ReactDOM.findDOMNode(this.refs.HowTo);
 
 
     if(words === "home"){
@@ -34,7 +34,7 @@ export default class LandingPage extends React.Component{
     if (words === "collectEmails") {
       node2.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
     }
-    if (words === "howTo") {
+    if (words === "HowTo") {
       console.log("made it this far- still an error")
       node3.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
     }
@@ -48,7 +48,7 @@ export default class LandingPage extends React.Component{
         <Hero handleClick={this.handleClick} ref="home"/>
         <Banner handleClick={this.handleClick}/>
         <Services/>
-        <ProHowTo ref="howTo"/>
+        <ProHowTo ref="HowTo"/>
         <ConHowTo/>
         <CollectEmails ref="collectEmails"/>
         <Testimonial/>

@@ -9,27 +9,29 @@ export default class CollectEmails extends React.Component {
     this.state = {
       pro: true,
       buttonColor: 'fill-dark-gray',
-      buttonText: "Submit"
+      buttonText: 'Submit',
+      isEmail: true,
+      nameEmpty: false,
+      emailEmpty: false
     }
   }
 
   CreateLead(e) {
+    console.log(this.state.nameEmpty)
     e.preventDefault()
     let lead = {
       name: this.refs.name.value(),
       email: this.refs.email.value(),
       isPro: this.state.pro
-    }
-    console.log(lead.name)
-    console.log(lead.isPro)
+    };
+
     Meteor.call('createLead', lead, (err)=> {
       if(err) {
-        console.log("Error entering lead into DB: "+err)
+        this.setState(err.reason);
       } else {
-        console.log("successful lead into DB");
         this.setState({buttonColor: 'fill-green', buttonText: 'Submitted'})
       }
-    })
+    });
   }
   pro() {
     this.setState({pro: true})
@@ -40,7 +42,9 @@ export default class CollectEmails extends React.Component {
   }
 
   render() {
-    //console.log(this.state.pro)
+
+    let empty = "This cannot be empty";
+    let validState = this.state.isEmail ? '' : "This email must be valid"
     return (
       <div style={{backgroundColor: 'white'}}>
         <div className="section"/>
@@ -48,10 +52,10 @@ export default class CollectEmails extends React.Component {
         <div className="center-align container" style={{fontFamily: 'Montserrat-Italic', color:'#9B9B9B'}}>Sign up today for to get notified when our beta 2.0 comes out! </div>
         <div className="row container">
           <div className="col m4 l4">
-            <MTextField label="Name" ref="name" id="name"/>
+            <MTextField label="Name" ref="name" id="name" error={this.state.nameEmpty ? empty : ''}/>
           </div>
           <div className="col m4 l4">
-            <MTextField label="Email" ref="email" id="email"/>
+            <MTextField label="Email" ref="email" id="email" error={this.state.emailEmpty ? empty : validState }/>
           </div>
           <div className="col m4 l4">
             <div className="section"/>

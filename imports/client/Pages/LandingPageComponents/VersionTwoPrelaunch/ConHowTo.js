@@ -6,7 +6,7 @@ const ConHowTo = () => {
       <h4 className="valign how-to-heading" style={{fontFamily: 'Montserrat-Medium', color: 'white', padding: '30px' }}>Are you a general or sub contractor? Do you own a small skilled trade company?</h4>
       <div className='row'>
         <div className="col m4 l4">
-          <img src='/images/Contractor-tag.png'/>
+          <img style={{maxWidth: '100%',maxHeight: '100%'}} src='/images/Contractor-tag.png'/>
         </div>
       </div>
       <div className="row" style={{marginBottom: '0px'}}>

@@ -17,6 +17,14 @@ import SocialSchema from './Schemas/socialSchema';
 import leadSchema from './Schemas/leadSchema';
 import {ServerSession } from 'meteor/matteodem:server-session';
 
+
+const isEmail = () => {
+  let email = true;
+  let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if()
+  return email;
+}
+
 export const NOTAUTH = {
     notAuthorized: true
 };
@@ -35,16 +43,37 @@ if ( Meteor.isServer ) {
   });
 }
 
-  Lead = new Mongo.Collection('leads');
+  const Lead = new Mongo.Collection('leads');
   Lead.attachSchema(leadSchema);
 
 
 Meteor.methods({
   /*
   */
+
+
+    validateLead(newLead) {
+        let isEmail = emailRegex.test(newLead.email);
+        //let isEmail = true;
+        let emailEmpty = newLead.email.length > 0 ? false : true;
+        let nameEmpty = newLead.name.length > 0 ? false : true;
+
+        let Errors = {
+          isEmail: isEmail,
+          emailEmpty: emailEmpty,
+          nameEmpty: nameEmpty
+        }
+
+        if(nameEmpty || emailEmpty || !isEmail) {
+
+          throw new Meteor.Error('403', Errors)
+        }
+    },
     createLead(newLead) {
+      Meteor.call('validateLead', newLead)
       Lead.insert(newLead)
     },
+
   /*
     Checks if the new password of the user are the same, and if they meet the requirments
     @param {Object} password Object

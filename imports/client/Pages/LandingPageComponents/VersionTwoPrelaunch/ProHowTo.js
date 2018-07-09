@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
 
-const ProHowTo = () => {
+export default class ProHowTo extends React.Component {
+
+
+render () {
+
+
   return (
     <div>
       <h4 className='center-align how-to-heading' style={{fontFamily: 'Montserrat-Medium', paddingBottom: '20px'}}>Are you a handy man, a skilled trade or construction worker?</h4>
       <div className="row">
-        <div className="col m4 l3">
-          <img  src="/images/Professionals-tag.png"/>
+        <div className="col m4 l3" >
+          <img style={{maxWidth: '100%',maxHeight: '100%'}} src="/images/Professionals-tag.png"/>
           <div className="container-space">
             <img  src="/images/one.png"/>
             <span style={{fontSize: '20px', fontFamily: 'Montserrat-Medium', paddingLeft: '10px'}}>Make a profile with:</span>
@@ -50,9 +55,11 @@ const ProHowTo = () => {
       </div>
     </div>
   )
+  }
+
 }
 
-export default ProHowTo;
+
 
 
 // <div className="col s2 m2 l2">
