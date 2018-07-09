@@ -88,7 +88,7 @@ Meteor.methods({
   /**
    * [validateEvent description]
    * @mmethod
-   * @param  {[type]} eventToValidate [description]
+   * @param  {Object} eventToValidate [description]
    * @return {[type]}                 [description]
    */
   validateEvent(eventToValidate){

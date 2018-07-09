@@ -9,6 +9,7 @@ import Services from './LandingPageComponents/Services';
 import ReactDOM from 'react-dom';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
+
 import {initGA, logPageView} from  './Shared/GoogleAnalytics';
 
 export default class LandingPage extends React.Component{
@@ -43,7 +44,6 @@ export default class LandingPage extends React.Component{
         <HowTos ref="HowTo"/>
         <Testimonial/>
         <Footer/>
-
         </div>
 
     )

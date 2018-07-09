@@ -1,5 +1,6 @@
 import React from 'react';
 import MSpinner from '../../../Shared/MSpinner';
+import NotFound from '../../../Shared/ItemNotFound';
 import ProJobListingComp from './ProJobListingComponent';
 import { withTracker } from 'meteor/react-meteor-data';
 class ProView extends React.Component{
@@ -31,7 +32,7 @@ class ProView extends React.Component{
       )
     }else{
       return(
-        <h1> HALP</h1>
+        <NotFound/>
       )
     }
   }

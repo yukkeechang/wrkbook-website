@@ -1,6 +1,6 @@
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
-
+import NotFound from '../../Shared/ItemNotFound';
 import MSpinner from '../../Shared/MSpinner';
 import EmployeeMatch from './EmployeeMatch/EmployeeMatch';
 import DeleteView from './Shared/DeletedJobView';
@@ -38,7 +38,7 @@ class DeletedJ extends React.Component{
     }
     else{
       return(
-          <h1>NAH</h1>
+          <NotFound/>
       );
     }
   }

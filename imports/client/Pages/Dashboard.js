@@ -43,9 +43,9 @@ import ProfileRefactor from './Dashboard/ProfileRefactor/CurrentUserProfile';
 
 //import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
 
-import MessageDummy from './Dashboard/Messages/DummyHome.js'
+import MessageDummy from './Dashboard/Messages/Messages.js'
 
-import NotificationDummy from './Dashboard/Notifications/DummyHome.js'
+import NotificationDummy from './Dashboard/Notifications/Notifications.js'
 
 
 class Dash extends Component{
