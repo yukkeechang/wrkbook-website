@@ -3,8 +3,6 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check'
 import JobSchema  from './Schemas/jobSchema';
 import {DEFAULT} from './Schemas/basicTextSchema';
-import EmployerSchema  from './Schemas/employerSchema'
-import EmployeeSchema  from './Schemas/employeeSchema';
 import EventSchema from './Schemas/eventSchema';
 import OshaSchema from './Schemas/oshaSchema';
 import SupervisorSchema from './Schemas/supervisorSchema';
@@ -13,7 +11,6 @@ import  RequirementSchema  from './Schemas/requirementSchema';
 import SocialSchema from './Schemas/socialSchema';
 import IdSchema from './Schemas/specificId';
 import ToolSchema from './Schemas/toolSchema';
-import  TextList from './Schemas/textListSchema';
 import  BasicText  from './Schemas/basicTextSchema';
 import ProfessionalSchema from './Schemas/professionalSchema'
 import NotificationSchema from './Schemas/notificationSchema';
@@ -21,8 +18,8 @@ import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
 import { Roles } from 'meteor/alanning:roles';
+import {Notification} from './Notifications'
 
-import SimpleSchema from 'simpl-schema';
 /** @module Job */
 
 export const  NOTMADE ={
@@ -39,7 +36,7 @@ export const  NOTMADE ={
 * //inserts a object into the Job Collection
 * Job.insert(object)
 */
-Job = new Mongo.Collection('jobs');
+const Job = new Mongo.Collection('jobs');
 Job.attachSchema(JobSchema);
 
 /**
@@ -144,7 +141,7 @@ const changeIsOpen = () =>{
  */
 const updateEmployeeWorkHistory = (arrayOfIds)=>{
 
-    jobAndEmployeeIDS = []
+    let jobAndEmployeeIDS = []
     for (let key in arrayOfIds) {
         let id =  arrayOfIds[key]
         let admitemployeeIds = Job.findOne({_id:id},{fields:{admitemployeeIds:1}}).admitemployeeIds;
@@ -170,6 +167,7 @@ const updateEmployeeWorkHistory = (arrayOfIds)=>{
  * @param  {Object} employeeData object containing info such as osha and driver-license should follow the format of employeeSchema
  * @return {Array}   conatining queries that will return jobs that the employee is qualified for
  */
+/* eslint-disable no-dupe-keys */
 const jobRequirementAgainstEmployeeQuery =(employeeData) =>{
   return[
        {$or:[ {'requirements.driverLicense':{$ne : true}},
@@ -313,12 +311,11 @@ if ( Meteor.isServer ) {
   Meteor.publish('job-post-admitted',function(){
 
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
-      let hackIdThing = [];
-      hackIdThing[0] = this.userId;
-      return Job.find({admitemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});;
+      let hackIdThing = [this.userId];
+      return Job.find({admitemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});
     }else{
       this.stop();
-      return ;
+      return null;
     }
 
   });
@@ -332,12 +329,11 @@ if ( Meteor.isServer ) {
   Meteor.publish('job-post-applied',function(){
 
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
-      let hackIdThing = [];
-      hackIdThing[0] = this.userId;
-      return Job.find({applyemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});;
+      let hackIdThing = [this.userId];
+      return Job.find({applyemployeeIds: {$in: hackIdThing}},{sort: {generalStart: 1}});
     }else{
       this.stop();
-      return ;
+      return null;
     }
 
   });
@@ -370,42 +366,15 @@ if ( Meteor.isServer ) {
   */
   Meteor.publish('current-job-pro',function(){
     if(Roles.userIsInRole(this.userId,PROFESSIONAL)) {
-      let hackIdThing =[];
-      hackIdThing[0] = this.userId;
+      let hackIdThing =[this.userId];
       let currentDate = new Date()
-      let job = Job.find({
+      return Job.find({
             'admitemployeeIds' :{$in : hackIdThing},
             'generalStart':{$lte: currentDate},
             'generalEnd':{$gt: currentDate},
             'isOpen':true
       });
-      let jobIds = [];
-      job.forEach((job) =>{
-        //Index of the smaller array inside AdmitAsIDs array
-        let idxx = -1;
-        //Index for AdmitAsIDs (bigger array), index used for jobTypes array
-        let idxx2 = -1;
-        for (let indx in job.admitAsIDs) /*indx is indexing through admitAsIDs*/ {
-          //if empId is not in the array in array admitAsIDS, move to next array in admitAsIDs array
-          if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
-            idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
-            idxx2 = indx;
-          }
-        }
-        let eventId = job.eventInfo[idxx2]
-        //Find event with event Id
-        hackIdThing = [];
-        hackIdThing[0] = eventId
-        let eventObj = Event.findOne({_id: {$in: hackIdThing},
-          'startAt': {$lte: currentDate},
-          'endAt': {$gt: currentDate}
-        })
-        if(!!eventObj)jobIds[jobIds.length] = eventObj.jobId;
 
-      });
-      let cursor = Job.find({_id:{$in:  jobIds}});
-
-      return  cursor;
     } else {
       this.stop();
       return;
@@ -427,34 +396,9 @@ if ( Meteor.isServer ) {
 
 
 
-      let job = Job.find({'admitemployeeIds' :{$in : hackIdThing},
+      return Job.find({'admitemployeeIds' :{$in : hackIdThing},
                           'generalEnd':{$lt: currentDate},
                           'isOpen':false});
-      // return job;
-      // WHY IS THIS HERE
-      let jobIds = [];
-        job.forEach((job) =>{
-        let idxx = -1;
-        let idxx2 = -1;
-
-        for (let indx in job.admitAsIDs)  {
-          if (job.admitAsIDs[indx].ids.indexOf(this.userId) != -1) {
-            idxx = job.admitAsIDs[indx].ids.indexOf(this.userId);
-            idxx2 = indx;
-          }
-        }
-        let eventId = job.eventInfo[idxx2];
-
-        hackIdThing = [];
-        hackIdThing[0] = eventId;
-        let eventObj = Event.findOne({_id: {$in: hackIdThing},'endAt': {$lt: currentDate}});
-        if(!!eventObj)jobIds[jobIds.length] = eventObj.jobId;
-
-
-      });
-      let cursor = Job.find({_id:{$in:  jobIds}});
-
-      return  job;
 
     } else {
       this.stop();
@@ -588,7 +532,6 @@ Meteor.methods({
     let toolValidation  = ToolSchema.namedContext('tool');
     let reqValidation = RequirementSchema.namedContext('req');
     let basicValidation = BasicText.namedContext('basic');
-    let listValidation = TextList.namedContext('text');
 
 
     let visorNumb = !supervisorValidation1.validate(jobObject.supervisor,{keys:['phone']});
@@ -601,7 +544,7 @@ Meteor.methods({
     let locLat = !locationValidation.validate(jobObject.location,{keys:['latitude']});
     let locLng = !locationValidation.validate(jobObject.location,{keys:['longitude']});
     let reqLicense = !reqValidation.validate(jobObject.requirements,{keys:['driverLicense']});
-    let excWeekends = !reqValidation.validate(jobObject.requirements, {keys:['weekendExcluded']})
+    // let excWeekends = !reqValidation.validate(jobObject.requirements, {keys:['weekendExcluded']});
     let reqBackground = !reqValidation.validate(jobObject.requirements,{keys:['backgroundCheck']});
     let reqLanguages = !reqValidation.validate(jobObject.requirements,{keys:['languages']});
     let oshaCheck = !oshaValidation.validate(jobObject.requirements.osha,{keys:['osha10','osha30']});
@@ -793,7 +736,6 @@ Meteor.methods({
 
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     if(Roles.userIsInRole(this.userId,CONTRACTOR) ){
-      let person = Meteor.users.findOne({_id : this.userId},{fields: { profile: 1 } });
       // if(!Roles.userIsInRole(this.userId,'free-job') && !Roles.userIsInRole(this.userId,'subscribe'))throw new Meteor.Error('403',NOTMADE);
 
 
@@ -855,10 +797,9 @@ Meteor.methods({
   */
   updateJob(jobId,updateJ){
     check(jobId,String);
-    let optional = Match.Optional;
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
 
-    if( !(Roles.userIsInRole(this.userId,CONTRACTOR)) ) throw new Meteor.Error('401',NOTAUTH);;
+    if( !(Roles.userIsInRole(this.userId,CONTRACTOR)) ) throw new Meteor.Error('401',NOTAUTH);
 
   let things = Meteor.call('validateJob',updateJ);
 
@@ -1126,7 +1067,7 @@ Meteor.methods({
     for (let i = 0; i < totalPeople.length; i++){
       notify.toWhomst = totalPeople[i];
       Meteor.call('createNotification',notify,(err)=>{
-        if(err)console.log(err);
+        if(err)throw new Meteor.Error('403',err)
       });
       // Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName);
     }
@@ -1137,17 +1078,17 @@ Meteor.methods({
     notifyEmployer.toWhomst = this.userId;
     notifyEmployer.href = `/deleted-job/${jobId}`;
     Meteor.call('createNotification',notifyEmployer,(err)=>{
-      if(err)console.log(err);
+        if(err)throw new Meteor.Error('403',err);
     });
 
     Meteor.call('removeJobPro', totalPeople, jobRemove.location.locationName,(err)=>{
-      if(err)console.log(err);
+        if(err)throw new Meteor.Error('403',err);
     });
     Meteor.call('removeJobCon', this.userId, jobRemove.location.locationName,(err)=>{
-      if(err)console.log(err);
+              if(err)throw new Meteor.Error('403',err);
     });
     Meteor.call('deleteNotificationsForJob',jobId,(err)=>{
-      if(err)console.log(err);
+                if(err)throw new Meteor.Error('403',err);
     });
 
 
@@ -1189,7 +1130,7 @@ Meteor.methods({
 
     for (let variable in admitemployeeIds) {
       Meteor.call('updateEmployeeJobHistory',admitemployeeIds[variable],jobId,(err)=>{
-        if(err)console.log(err);
+                if(err)throw new Meteor.Error('403',err)
       })
     }
   },
@@ -1225,7 +1166,7 @@ Meteor.methods({
     if(!this.userId|| !Roles.userIsInRole(this.userId,PROFESSIONAL)) throw new Meteor.Error('401',NOTAUTH);
     let jobIdArray = [];
     let hackIdThing  = [this.userId];
-    let currentDate = new Date();
+    // let currentDate = new Date();
     let jobCursor = Job.find({ 'admitemployeeIds' :{$in : hackIdThing}},{fields:{_id:1}});
 
     jobCursor.forEach((job)=>{
@@ -1243,7 +1184,7 @@ Meteor.methods({
   findActiveJobsEmployer(){
     if(!this.userId|| !Roles.userIsInRole(this.userId,CONTRACTOR)) throw new Meteor.Error('401',NOTAUTH);
     let jobIdArray = [];
-    let currentDate = new Date();
+    // let currentDate = new Date();
     let jobCursor = Job.find({ employerId :this.userId},{fields:{_id:1}});
 
     jobCursor.forEach((job)=>{
@@ -1294,7 +1235,7 @@ Meteor.methods({
         notify.href = `/job/${job._id}`;
         notify.toWhomst = id;
         Meteor.call('createNotification',notify,(err)=>{
-          if(err)console.log(err);
+                  if(err)throw new Meteor.Error('403',err)
         });
 
       }
@@ -1304,4 +1245,4 @@ Meteor.methods({
   }
 });
 
-export {changeIsOpen};
+export {changeIsOpen, Job};

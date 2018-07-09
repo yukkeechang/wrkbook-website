@@ -1,9 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check'
 import ReferenceSchema  from './Schemas/referenceSchema';
 import  BasicText  from './Schemas/basicTextSchema';
-import {DEFAULT} from './Schemas/basicTextSchema';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
@@ -17,7 +15,7 @@ import { Roles } from 'meteor/alanning:roles';
  * has the basic MongoBD functions(insert,update,remove,etc)
  *
  */
-Reference = new Mongo.Collection('references');
+const Reference = new Mongo.Collection('references');
 Reference.attachSchema(ReferenceSchema);
 if ( Meteor.isServer ) {
   /**
@@ -151,3 +149,4 @@ Meteor.methods({
   }
 
 });
+export {Reference};

@@ -5,6 +5,7 @@ import { Random } from 'meteor/random';
 import { Accounts } from 'meteor/accounts-base';
 import {PublicationCollector} from 'meteor/johanbrook:publication-collector';
 import './References';
+import {Reference} from './References'; 
 
 if ( Meteor.isServer ) {
   describe('References API',function () {

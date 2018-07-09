@@ -12,7 +12,7 @@ import { CONTRACTOR } from './Schemas/employerSchema';
   * @summary Defines the notifications collection,
   * has the basic MongoBD functions(insert,update,remove,etc)
   */
-Notification = new Mongo.Collection('notifications');
+const Notification = new Mongo.Collection('notifications');
 Notification.attachSchema(NotificationSchema);
 if (Meteor.isServer) {
   /**
@@ -102,3 +102,5 @@ Meteor.methods({
     Notification.remove({ jobId:jobId, typeNotifi:"MATCH" });
   }
 });
+
+export {Notification};

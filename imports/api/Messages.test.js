@@ -5,6 +5,7 @@ import { Random } from 'meteor/random';
 import { Accounts } from 'meteor/accounts-base';
 import {PublicationCollector} from 'meteor/johanbrook:publication-collector';
 import './Messages';
+import {Message,Channel} from './Messages';
 
 if ( Meteor.isServer ) {
   describe('Messaging API ',function(){
@@ -159,7 +160,7 @@ if ( Meteor.isServer ) {
         const collector = new PublicationCollector({userId:user._id});
 
         collector.collect('messages-conversation',randomPersonId,jobId).then(collections =>{
-          
+
           expect(collections.messages.length).to.equal(2);
           done();
         }).catch(err =>{

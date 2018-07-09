@@ -6,6 +6,7 @@ import { Random } from 'meteor/random';
 import { Accounts } from 'meteor/accounts-base';
 import {PublicationCollector} from 'meteor/johanbrook:publication-collector';
 import './Jobs';
+import {Job} from './Jobs';
 
 export function inserJob(jobObject){
   return Job.insert(jobObject);

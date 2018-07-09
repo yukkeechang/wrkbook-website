@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check'
+import { Job } from './Jobs';
 import { Roles } from 'meteor/alanning:roles';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
@@ -18,12 +19,13 @@ const REVIEWERR ={
 
 
 };
+/* global _ */
 /** @module Review */
 /**
   @summary Defines a collection with the name "reviews"
   This also needs to be defined on the client side
 */
-Review  = new Mongo.Collection('reviews');
+const Review  = new Mongo.Collection('reviews');
 Review.attachSchema(ReviewSchema);
 if ( Meteor.isServer) {
   /**
@@ -85,9 +87,7 @@ if ( Meteor.isServer) {
       this.stop();
       throw new Meteor.Error('401',NOTAUTH);
     }
-
-
-    return Review.find({revieweeId:this.userId});;
+    return Review.find({revieweeId:this.userId});
   });
   /**
   *
@@ -163,10 +163,10 @@ checkIfReviewForJobExist(jobId,revieweeId,userId){
 
     let conReview = false;
     let proReview = false;
-    if(!!reviewObject.conReview){
+    if(reviewObject.conReview){
       conReview =  !conCheck.validate(reviewObject.conReview );
     }
-    if(!!reviewObject.proReview){
+    if(reviewObject.proReview){
       proReview = !proCheck.validate(reviewObject.proReview );
     }
     let Errors = {
@@ -183,14 +183,12 @@ checkIfReviewForJobExist(jobId,revieweeId,userId){
     if(nukeText){
       delete reviewObject.review
       if( revieweeId ||reviewerId || jobId|| rating  ||
-         proReview || conReview)
-        throw new Meteor.Error('403',Errors);
+         proReview || conReview) throw new Meteor.Error('403',Errors);
     }else{
       let review = !validations.validate(reviewObject, {keys:['review']});
       Errors.review = review;
       if( revieweeId ||reviewerId || jobId|| rating  ||review||
-         proReview || conReview)
-        throw new Meteor.Error('403',Errors);
+         proReview || conReview) throw new Meteor.Error('403',Errors);
     }
 
 
@@ -311,3 +309,5 @@ checkIfReviewForJobExist(jobId,revieweeId,userId){
     Review.remove({_id: reviewId, reviewerId: this.userId});
   }
 });
+
+export{ Review }

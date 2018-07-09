@@ -5,6 +5,7 @@ import { Random } from 'meteor/random';
 import { Accounts } from 'meteor/accounts-base';
 import {PublicationCollector} from 'meteor/johanbrook:publication-collector';
 import './Notifications';
+import {Notification} from './Notifications';
 
 if ( Meteor.isServer ) {
   describe('Notification API',function () {
@@ -136,7 +137,7 @@ if ( Meteor.isServer ) {
           done(err);
         });
       });
-      
+
       after(function(){
         resetDatabase();
       });

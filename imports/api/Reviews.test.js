@@ -8,6 +8,7 @@ import { Accounts } from 'meteor/accounts-base';
 import {PublicationCollector} from 'meteor/johanbrook:publication-collector';
 import {inserJob} from './Jobs.test';
 import './Reviews';
+import {Review} from './Reviews'; 
 
 if ( Meteor.isServer ) {
   describe('Reviews API',function () {

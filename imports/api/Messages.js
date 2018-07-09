@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check'
+import { Roles } from 'meteor/alanning:roles';
 import {NOTAUTH} from './Users';
 import MessagesSchema from './Schemas/messageSchema';
 import ChannelSchema from './Schemas/channelSchema';
@@ -12,12 +12,12 @@ import {CONTRACTOR} from './Schemas/employerSchema';
   * @summary Defines the Message collection,
   * has the basic MongoBD functions(insert,update,remove,etc)
   */
-Message = new Mongo.Collection('messages');
+const Message = new Mongo.Collection('messages');
 /**
   * @summary Defines the Channel collection,
   * has the basic MongoBD functions(insert,update,remove,etc)
   */
-Channel = new Mongo.Collection('channels');
+const Channel = new Mongo.Collection('channels');
 
 Message.attachSchema(MessagesSchema);
 Channel.attachSchema(ChannelSchema);
@@ -35,13 +35,14 @@ if ( Meteor.isServer ) {
     if(typeof jobId != 'undefined'){
       return Channel.find({jobId:jobId});
     }
+    return null;
   });
-
   Meteor.publish('messages-for-channel',function(jobId,channell){
     let channel  = Channel.findOne({jobId:jobId,name:channell});
-    if(!!channel){
+    if(channel){
       return Message.find({channelId:channel._id ,jobId:jobId,to:{$exists:false}});
     }
+    return null;
   });
   Meteor.publish('all-messages-for-job',function (jobId) {
     return Message.find({$or:[{jobId:jobId,to:this.userId},
@@ -98,3 +99,5 @@ Meteor.methods({
     Channel.insert(newChannel);
   }
 });
+
+export {Channel, Message};
