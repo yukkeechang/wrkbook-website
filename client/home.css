@@ -21,8 +21,8 @@ Table of Contents End
     /*background-image: url('/images/heroBG.jpg');*/
     background-size: cover;
     background-position: center center;
-    height: 100vmin;
-    min-height: 528px;
+    height: 50vmin;
+    min-height: 500px;
 }
 /* 1.1 - End Hero
 -------------------------------------------------*/

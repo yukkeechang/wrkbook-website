@@ -28,8 +28,8 @@ export default class Hero extends Component {
                 <div className="container">
                   <div className="center-align">
                     <div className="row">
-                      <div className="col s12 m5" >
-                        <h1 style={{margin:'50px'}} className="titles">Linking professionals and contractors</h1>
+                      <div className="col s12" >
+                        <h1 className="titles">Linking skilled trade workers and construction contractors</h1>
                       </div>
                     </div>
                     <CSSTransitionGroup
