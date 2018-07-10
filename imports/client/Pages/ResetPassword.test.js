@@ -22,5 +22,14 @@ if ( Meteor.isClient ) {
         expect(wrapper.find(MTextField)).to.have.length(2);
         expect(wrapper.find(Footer)).to.have.length(1);
       });
+      it('simulates click event',()=>{
+        const wrapper = shallow(<ResetPasswordComponent />);
+        const onButtonClick = sinon.spy();
+        const childThings = wrapper.find('a').get(0);
+        const childWrapper = shallow(childThings);
+        childWrapper.setProps({ onClick: onButtonClick });
+        childWrapper.find('a').simulate('click');
+        expect(onButtonClick.calledOnce).to.equal(true);
+      });
   });
 }

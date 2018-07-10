@@ -5,6 +5,7 @@
     "check-code": " ./node_modules/eslint/bin/eslint.js  imports/api/",
     "make-docs": "./node_modules/jsdoc/jsdoc.js -c jsdoc.json",
     "start": "meteor --settings settings-development.json",
+    "client-only": "TEST_SERVER=0 TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha",
     "always": "meteor test --driver-package cultofcoders:mocha --port 5000",
     "test": "TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha"
   },
@@ -25,7 +26,6 @@
     "indexof": "0.0.1",
     "ink-docstrap": "^1.3.2",
     "lodash": "^4.17.5",
-    "meteor-node-stubs": "~0.2.4",
     "moment": "^2.22.1",
     "node-legacy-versions": "^1.0.6",
     "rc-calendar": "^9.6.0",

@@ -21,5 +21,14 @@ if ( Meteor.isClient ) {
         expect(wrapper.find(Footer)).to.have.length(1);
         expect(wrapper.find(MTextField)).to.have.length(2);
       });
+      it('simulates click event',()=>{
+        const wrapper = shallow(<SigInComponent />);
+        const onButtonClick = sinon.spy();
+        const childThings = wrapper.find('button').get(0);
+        const childWrapper = shallow(childThings);
+        childWrapper.setProps({ onClick: onButtonClick });
+        childWrapper.find('button').simulate('click');
+        expect(onButtonClick.calledOnce).to.equal(true);
+      });
   });
 }
