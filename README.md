@@ -10,7 +10,7 @@ This project is using the following:
 
 ## How to get started
 1. clone the repo
-2. create a `settings-development.json` with valid api keys from Stripe in parent folder
+2. create a `settings-development.json` with valid public and private api keys received from one of the core members from Stripe in parent folder. The format of the file should be: {"public":{"stripe":"public_api_key"},"private":{"stripe":"private_api_key"}}
 3. run `npm install`
   * should install all necessary dependences for the project
 4. run `npm start`
