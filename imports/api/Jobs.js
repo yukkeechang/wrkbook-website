@@ -19,6 +19,7 @@ import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
 import { Roles } from 'meteor/alanning:roles';
 import {Notification} from './Notifications'
+import {Event} from './Events';
 
 /** @module Job */
 

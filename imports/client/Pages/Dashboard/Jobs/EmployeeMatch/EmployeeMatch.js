@@ -73,13 +73,14 @@ class EmpJobPost extends React.Component{
   }
   changeEventDate=()=>{
     let jobTitles = this.props.jobinfo.jobTypes.texts;
-    let index = jobTitles.indexOf(this.refs.jobEvent.value);
+    let index = jobTitles.indexOf(this.refs.jobEvent.value)|| 0;
     console.log(index);
     Meteor.call('getEventInfo',this.props.events[index],(err,res)=>{
       if(err){
         console.log(err);
       }else{
         console.log(index);
+
         const  oneDay = 24*60*60*1000;
         let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});

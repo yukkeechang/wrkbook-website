@@ -1,26 +1,26 @@
-
+import { Roles } from 'meteor/alanning:roles';
 import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import {PROFESSIONAL} from './Schemas/employeeSchema';
 import {CONTRACTOR} from './Schemas/employerSchema';
 import {NOTAUTH} from './Users'
 import {ServerSession } from 'meteor/matteodem:server-session';
 /** @module Images */
+/* global FS */
 const imageStore = new FS.Store.GridFS('images');
 const pdfStore = new FS.Store.GridFS('pdfs');
 /**
   * @summary Defines the Images collection,
   * has the basic MongoBD functions(insert,update,remove,etc)
   */
-Images = new FS.Collection('images',{
+const Images = new FS.Collection('images',{
   stores: [imageStore]
 });
 /**
   * @summary Defines the PDFs collection,
   * has the basic MongoBD functions(insert,update,remove,etc)
   */
-PDFs = new FS.Collection('pdfs',{
+const PDFs = new FS.Collection('pdfs',{
   stores: [pdfStore]
 });
 
@@ -194,3 +194,4 @@ Meteor.methods({
 
   },
 });
+export {Images,PDFs};

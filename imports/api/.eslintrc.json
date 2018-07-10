@@ -12,6 +12,7 @@
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
+    "parser": "babel-eslint",
     "plugins": [
         "react"
     ],
@@ -217,7 +218,7 @@
         "operator-linebreak": "error",
         "padded-blocks": "off",
         "padding-line-between-statements": "error",
-        "prefer-arrow-callback": "error",
+        "prefer-arrow-callback": "off",
         "prefer-const": "off",
         "prefer-destructuring": "off",
         "prefer-numeric-literals": "error",

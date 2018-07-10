@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema';
-
-export default ToolSchema = new SimpleSchema({
+/* eslint-disable no-lonely-if */
+const ToolSchema = new SimpleSchema({
   toolsRequired :{
     type: Boolean,
     defaultValue: false
@@ -35,3 +35,5 @@ ToolSchema.messageBox.messages({
   "long" : "This is greater than 250 characters",
   "noTools" : "you claimed that you don't require tools but you put a name for the tools"
 });
+
+export default ToolSchema;

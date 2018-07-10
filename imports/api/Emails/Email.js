@@ -1,6 +1,8 @@
 import {Email} from 'meteor/email';
-import { Roles } from 'meteor/alanning:roles';
-
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+import { SSR } from 'meteor/meteorhacks:ssr';
+/* global Assets*/
 export const NOTAUTH = {
     notAuthorized: true
 };
@@ -13,9 +15,7 @@ Accounts.emailTemplates.enrollAccount = {
     return `WRKBOOK , ${user.profile.firstName}`;
   },
   text(user, url) {
-    return 'You have been selected to participate in building a better future!'
-      + ' To activate your account, simply click the link below:\n\n'
-      + url;
+    return `You have been selected to participate in building a better future! To activate your account, simply click the link below:\n${url}`
   }
 }
 
@@ -67,9 +67,9 @@ Meteor.methods({
     let userMyGuy = Meteor.users.findOne({_id:this.userId},{fields: { emails: 1, profile: 1,roles: 1 } });
     SSR.compileTemplate('htmlEmail', Assets.getText('EmailTemplates/ResetPassword.html'));
 
-    // var emailData = {
-    //   name: `${userMyGuy.profile.firstName}`
-    // };
+    let emailData = {
+      name: `${userMyGuy.profile.firstName}`
+    };
 
     Email.send({
       to: userMyGuy.emails[0].address,

@@ -1,5 +1,5 @@
 import SimpleSchema from 'simpl-schema';
-export default  ImportantSchema = new SimpleSchema({
+const ImportantSchema = new SimpleSchema({
   High:{
     type:Boolean,
     defaultValue: true
@@ -14,3 +14,4 @@ export default  ImportantSchema = new SimpleSchema({
   }
 
 });
+export default  ImportantSchema;

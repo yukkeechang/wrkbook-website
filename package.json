@@ -2,10 +2,11 @@
   "name": "wrkbook-web",
   "private": true,
   "scripts": {
+    "check-code": " ./node_modules/eslint/bin/eslint.js  imports/api/",
     "make-docs": "./node_modules/jsdoc/jsdoc.js -c jsdoc.json",
     "start": "meteor --settings settings-development.json",
     "always": "meteor test --driver-package cultofcoders:mocha --port 5000",
-    "test": "TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha"
+    "test": "imports/api/Jobs.js && TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.46",
@@ -45,6 +46,7 @@
     "webpack": "^4.8.2"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.5",
     "buffer": "^5.1.0",
     "chromedriver": "^2.35.0",
     "enzyme": "^3.3.0",

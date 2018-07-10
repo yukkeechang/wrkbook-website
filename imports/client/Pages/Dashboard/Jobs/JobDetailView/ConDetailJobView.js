@@ -33,18 +33,19 @@ class ConComponentPage extends React.Component{
       if(err){
         console.log(err);
       }else{
-        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
-        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
-        let startAt = startdate+' - '+enddate;
-        let endAt = starttime+' - '+endtime;
-        this.setState({
-          endAt: endAt,
-          startAt: startAt
-        });
+
+        updateDateStates(res.startAt,res.endAt);
       }
     });
+  }
+  updateDateStates=(date1,date2)=>{
+    let jobDate = `${formatSingleDate(date2)}-${formatSingleDate(date1)}`;
+    let jobTime = `${formatSingleTime(date1)}-${formatSingleTime(date2)}`;
+    this.setState({
+      endAt: jobTime,
+      startAt: jobDate
+    });
+
   }
   doNothing=()=>{
     $(this.refs.deleteModal).modal('close');
@@ -76,16 +77,7 @@ class ConComponentPage extends React.Component{
       if(err){
         console.log(err);
       }else{
-        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
-        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
-        let startAt = startdate+' - '+enddate;
-        let endAt = starttime+' - '+endtime;
-        this.setState({
-          endAt: endAt,
-          startAt: startAt
-        });
+          updateDateStates(res.startAt,res.endAt);
       }
     });
   }

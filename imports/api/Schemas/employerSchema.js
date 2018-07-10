@@ -1,12 +1,10 @@
 import  BasicText from './basicTextSchema';
-
 import LocationSchema  from './locationSchema';
-import {DEFAULT} from './basicTextSchema';
 import {PICLINK} from './basicTextSchema';
 import SimpleSchema from 'simpl-schema';
 export const CONTRACTOR = 'CON';
 
-export default  EmployerSchema = new SimpleSchema({
+const  EmployerSchema = new SimpleSchema({
   companyName: {
     type: BasicText,
     defaultValue:BasicText.clean({})
@@ -35,3 +33,4 @@ export default  EmployerSchema = new SimpleSchema({
   }
 
 });
+export default  EmployerSchema ;

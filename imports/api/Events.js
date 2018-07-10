@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
+import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import EventSchema from './Schemas/eventSchema';
@@ -12,11 +12,9 @@ import {NOTAUTH} from './Users';
   * @summary Defines the events collection,
   * has the basic MongoBD functions(insert,update,remove,etc)
   */
-Event = new Mongo.Collection('events');
+const Event = new Mongo.Collection('events');
 Event.attachSchema(EventSchema);
-const WTFUDOING ={
-  didnotRemove : true,
-};
+
 if ( Meteor.isServer ) {
   /**
   *
@@ -29,8 +27,8 @@ if ( Meteor.isServer ) {
   *
   */
   Meteor.publish('today-events',function(currentDate) {
-    if (Roles.userIsInRole(this.userId,CONTRACTOR)
-      ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
+    if (Roles.userIsInRole(this.userId,CONTRACTOR) ||
+      Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
       return Event.find(
         {$and:[
           {$or : [{startAt:{$lte: currentDate}},{endAt:{$gte:currentDate}}]},
@@ -53,13 +51,12 @@ if ( Meteor.isServer ) {
   *
   */
   Meteor.publish('your-events-this-month',function(currentDate){
-    if (Roles.userIsInRole(this.userId,CONTRACTOR)
-    ||Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
+    if (Roles.userIsInRole(this.userId,CONTRACTOR)  ||
+    Roles.userIsInRole(this.userId,PROFESSIONAL) ) {
       let futureDate = currentDate;
       let lastMonth= futureDate.getMonth() - 1 < 0 ? 11 : futureDate.getMonth() - 1;
       let nextMonth = futureDate.getMonth() + 1 >11 ? 0 : futureDate.getMonth() + 1;
-      futureDate.setMonth(nextMonth);
-      pastDate.setMonth(lastMonth);
+
       return Event.find({$and:[
         {$or : [{startAt:{$lte: nextMonth}},{endAt:{$gte:lastMonth}}]},
         {owner:this.userId}
@@ -92,9 +89,7 @@ Meteor.methods({
    * @return {[type]}                 [description]
    */
   validateEvent(eventToValidate){
-    let validations = EventSchema.namedContext('EVE');
-
-
+    if(eventToValidate)return true;
   },
   /**
    * @mmethod
@@ -154,4 +149,6 @@ Meteor.methods({
     return Event.findOne({_id:eventId });
   }
 
-})
+});
+
+export {Event};
