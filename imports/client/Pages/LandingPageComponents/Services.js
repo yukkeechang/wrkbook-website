@@ -15,15 +15,19 @@ const imageText = [{ img: "/images/services/plumb.png",text: "Plumbing"},
                    {img:"/images/services/wheel_barrow.png",text:"Concrete"},
                    {img: "/images/services/mechanic.png",text: "Mechanic"},
                    {img:"/images/services/roofing.png",text:"Masonry"},
-                   {img:"/images/services/roofing.png",text:"Carpentry"},
+                   {img:"/images/services/carpentry.png",text:"Carpentry"},
                    {img:"/images/services/house.png",text:"Remodeling"},
-                   {img:"/images/services/house.png",text:"HVAC"}
+                   {img:"/images/services/HVAC.png",text:"HVAC"}
 
 ]
 export default class Services extends React.Component{
   constructor(props){
     super(props);
+<<<<<<< HEAD
     let items = imageText.slice(0,6).map(i=>{
+=======
+    items = imageText.slice(0,6).map(i=>{
+>>>>>>> 7a2faa51677a487b7a034245b7ecb08baa618f16
           return i;
     });
 
@@ -44,7 +48,11 @@ export default class Services extends React.Component{
     }else{
       count = count + 6;
     }
+<<<<<<< HEAD
     let items = imageText.slice(count,count+6).map(i=>{
+=======
+    items = imageText.slice(count,count+6).map(i=>{
+>>>>>>> 7a2faa51677a487b7a034245b7ecb08baa618f16
           return i;
     });
     this.setState({count,items});
@@ -65,7 +73,8 @@ export default class Services extends React.Component{
         <div style={{ backgroundColor: 'white'}}>
             <div >
                 <div>
-                    <h6 style={{fontStyle:'bold',fontSize:'30px', fontColor: 'gray', paddingBottom: '20px', paddingTop: '20px'}} className="center-align">Jobs and Services</h6>
+                    <h6 style={{fontStyle:'bold',fontSize:'30px', fontColor: 'gray', paddingBottom: '20px', paddingTop: '20px'}} className="center-align">Find jobs in or skilled trade professionals in</h6>
+                  
                       <div className="row">
 
                       <ReactCSSTransitionGroup
@@ -83,6 +92,7 @@ export default class Services extends React.Component{
             </div>
          <div className="divider"></div>
          <div className="section"></div>
+
         </div>
     )
   }

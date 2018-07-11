@@ -5,9 +5,13 @@
     "check-code": " ./node_modules/eslint/bin/eslint.js  imports/api/",
     "make-docs": "./node_modules/jsdoc/jsdoc.js -c jsdoc.json",
     "start": "meteor --settings settings-development.json",
+<<<<<<< HEAD
     "client-only": "TEST_SERVER=0 TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha",
     "always": "meteor test --driver-package cultofcoders:mocha --port 5000",
     "test": "TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha"
+=======
+    "test": "TEST_BROWSER_DRIVER=phantomjs meteor test --once --driver-package meteortesting:mocha"
+>>>>>>> 7a2faa51677a487b7a034245b7ecb08baa618f16
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.46",
@@ -15,7 +19,11 @@
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.20.0",
+<<<<<<< HEAD
     "bcrypt": "^3.0.0",
+=======
+    "bcrypt": "^2.0.1",
+>>>>>>> 7a2faa51677a487b7a034245b7ecb08baa618f16
     "bson": "^1.0.6",
     "core-js": "^2.5.6",
     "croppie": "^2.6.2",
@@ -24,9 +32,13 @@
     "enzyme-adapter-react-15": "^1.0.5",
     "hammerjs": "^2.0.8",
     "indexof": "0.0.1",
+<<<<<<< HEAD
     "ink-docstrap": "^1.3.2",
     "lodash": "^4.17.5",
     "meteor-node-stubs": "^0.4.1",
+=======
+    "meteor-node-stubs": "~0.2.4",
+>>>>>>> 7a2faa51677a487b7a034245b7ecb08baa618f16
     "moment": "^2.22.1",
     "node-legacy-versions": "^1.0.6",
     "rc-calendar": "^9.6.0",
@@ -51,8 +63,11 @@
     "buffer": "^5.1.0",
     "chromedriver": "^2.35.0",
     "enzyme": "^3.3.0",
+<<<<<<< HEAD
     "eslint": "^5.1.0",
     "eslint-plugin-react": "^7.10.0",
+=======
+>>>>>>> 7a2faa51677a487b7a034245b7ecb08baa618f16
     "jsdoc": "^3.5.5",
     "nightmare": "^3.0.1",
     "phantomjs-prebuilt": "^2.1.16",

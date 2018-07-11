@@ -191,7 +191,7 @@ export class NavBarPage extends Component{
             </div>
 
 
-            <div ref="dropdownnotes" data-activates='notification' style={styles.links} className="col m3 hide-on-small-only genText">
+            <div ref="dropdownnotes" data-activates='notification' style={styles.links} className="col m2 hide-on-small-only genText">
               <div className="valign-wrapper">
 
               <Link style={{color:'white'}} to="/notifications">Notifications{this.props.general > 0 ?

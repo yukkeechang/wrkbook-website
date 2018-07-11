@@ -1,6 +1,5 @@
 import React from 'react';
 import Hero from './LandingPageComponents/Hero';
-import HowTo from './LandingPageComponents/HowTo';
 import HowTos from './LandingPageComponents/HowTos';
 import Testimonial from './LandingPageComponents/Testimonial';
 import About from './LandingPageComponents/About';
