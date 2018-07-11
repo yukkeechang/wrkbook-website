@@ -27,6 +27,7 @@ export default class CollectEmails extends React.Component {
 
     Meteor.call('createLead', lead, (err)=> {
       if(err) {
+        console.log(err.reason)
         this.setState(err.reason);
       } else {
         this.setState({buttonColor: 'fill-green', buttonText: 'Submitted'})

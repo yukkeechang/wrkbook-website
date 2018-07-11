@@ -18,10 +18,10 @@ import leadSchema from './Schemas/leadSchema';
 import {ServerSession } from 'meteor/matteodem:server-session';
 
 
-const isEmail = () => {
+const isEmailCheck = (User) => {
   let email = true;
   let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if()
+  if(!emailRegex.test(User.email)) {email = false;}
   return email;
 }
 
@@ -49,12 +49,14 @@ if ( Meteor.isServer ) {
 
 Meteor.methods({
   /*
+    Validates a lead object information before it's submitted into the database.Checks for if name
+    and email exists and if the email is a valid email.
+    @param {Object} Lead Object
+    @throws {Meteor.Error} If the the lead object passed is missing fields or
+    if the fields are incorrect an Error object will be thrown.
   */
-
-
     validateLead(newLead) {
-        let isEmail = emailRegex.test(newLead.email);
-        //let isEmail = true;
+        let isEmail = isEmailCheck(newLead);
         let emailEmpty = newLead.email.length > 0 ? false : true;
         let nameEmpty = newLead.name.length > 0 ? false : true;
 
@@ -108,7 +110,7 @@ Meteor.methods({
       let gPhone = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/.test(User.profile.phone);
       let fEmpty = User.profile.firstName.length > 0 ? false : true;
       let lEmpty = User.profile.lastName.length > 0 ? false : true;
-      let isEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(User.email);
+      let isEmail = isEmailCheck(User);
       let eEmpty = User.email.length > 0 ? false : true;
       let nEqual = User.password !== User.password2 ? true : false;
       let gPass   = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d].{8,}$/.test(User.password);
