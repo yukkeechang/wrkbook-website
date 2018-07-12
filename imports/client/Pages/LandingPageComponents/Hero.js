@@ -29,7 +29,7 @@ export default class Hero extends Component {
                     <div className="row">
                       <div className="col s12" >
 
-                        <h4 className="valign" style={{fontFamily: 'Montserrat-Medium', color: 'white'}}>Linking skilled trade workers and construction contractors</h4>
+                        <h4 className="valign montserrat-med" style={{color:'white'}}>Linking skilled trade workers and construction contractors</h4>
                       </div>
                     </div>
                     <CSSTransitionGroup

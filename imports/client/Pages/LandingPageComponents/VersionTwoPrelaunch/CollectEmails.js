@@ -27,7 +27,6 @@ export default class CollectEmails extends React.Component {
 
     Meteor.call('createLead', lead, (err)=> {
       if(err) {
-        console.log(err.reason)
         this.setState(err.reason);
       } else {
         this.setState({buttonColor: 'fill-green', buttonText: 'Submitted'})
@@ -49,8 +48,8 @@ export default class CollectEmails extends React.Component {
     return (
       <div style={{backgroundColor: 'white'}}>
         <div className="section"/>
-        <h4 className="center-align container how-to-heading" style={{fontFamily: 'Montserrat-Medium'}}>Made for construction professionals and contractors</h4>
-        <div className="center-align container" style={{fontFamily: 'Montserrat-Italic', color:'#9B9B9B'}}>Sign up today for to get notified when our beta 2.0 comes out! </div>
+        <h4 className="center-align montserrat-reg container how-to-heading ">Made for construction professionals and contractors</h4>
+        <div className="center-align container montserrat-med-i" style={{ color:'#9B9B9B'}}>Sign up today for to get notified when our beta 2.0 comes out! </div>
         <div className="row container">
           <div className="col m4 l4">
             <MTextField label="Name" ref="name" id="name" error={this.state.nameEmpty ? empty : ''}/>
