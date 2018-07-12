@@ -1,5 +1,6 @@
 import React from 'react';
 import MSpinner from '../../Shared/MSpinner';
+import NotFound from '../../Shared/ItemNotFound';
 import { Roles } from 'meteor/alanning:roles';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
@@ -70,7 +71,7 @@ class ViewJob extends React.Component {
     }
     else{
       return(
-      <h1> JOB DONT EXIST </h1>
+          <NotFound/>
     );
     }
   }

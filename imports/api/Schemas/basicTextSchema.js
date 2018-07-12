@@ -2,7 +2,7 @@ export const DEFAULT = '';
 export const PICLINK = '';
 import SimpleSchema from 'simpl-schema';
 
-export default BasicText = new SimpleSchema({
+const BasicText = new SimpleSchema({
   text:{
     type:String,
     min:1,
@@ -10,3 +10,4 @@ export default BasicText = new SimpleSchema({
     defaultValue: DEFAULT,
   }
 });
+export default BasicText;

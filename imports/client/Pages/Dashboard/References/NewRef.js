@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+ import React, {Component} from 'react';
 import MTextField from '../../Shared/MTextField';
 export default class NewRef extends Component{
     constructor(props){
@@ -47,7 +47,7 @@ export default class NewRef extends Component{
         });
     }
     render(){
-        let tooLong = "must be between 1         and 250 characters";
+        let tooLong = "must be between 1 and 250 characters";
         let nameErr = this.state.nameErr ? 'Name '+ tooLong : '';
         let posErr = this.state.posErr ? 'Position ' + tooLong : '';
         let compErr = this.state.compErr ? 'Company name ' + tooLong: '';

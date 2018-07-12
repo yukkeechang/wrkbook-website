@@ -1,7 +1,5 @@
 import React , { Component } from 'react';
 import { Roles } from 'meteor/alanning:roles';
-// import {PROFESSIONAL} from '../../../../api/Schemas/employeeSchema';
-// import {CONTRACTOR} from '../../../../api/Schemas/employerSchema';
 import { withTracker } from 'meteor/react-meteor-data';
 import {initGA, logPageView} from  '../../../Shared/GoogleAnalytics';
 

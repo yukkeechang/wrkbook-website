@@ -32,7 +32,6 @@ export default class CreateReview extends Component {
 
     review.rating = this.state.rating;
     review.review = this.refs.reviewText.value();
-        console.log(review);
     return{
       review: review,
       valid: this.state.hasRated,

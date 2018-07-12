@@ -14,14 +14,6 @@ import { Link } from 'react-router-dom';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 import JobButton from '../Shared/ConJobListingComponents/CreateJobButton';
 
-
-
-
-function isEmpty(obj) {
-    for (var x in obj) { return false; }
-    return true;
-}
-
 class ConCompletedJobsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -57,8 +49,7 @@ class ConCompletedJobsPage extends React.Component {
   componentWillUnmount(){
     this.props.handle.stop();
   }
-render() {
-
+  render() {
 
   if(!this.props.loading) {
     return (
@@ -67,7 +58,7 @@ render() {
       </div>
     )
   }
-  else if(!(isEmpty(this.props.job))) {
+  else if(this.props.job.length > 0) {
     let jobz = this.props.job;
     return (
       <div>
@@ -102,7 +93,7 @@ render() {
 
 
 export default ConCompleted = withTracker(props => {
-  let user = Meteor.user();
+
   let jobPost=[]
   let loading = false
   let handle = Meteor.subscribe('closed-job-con');
@@ -111,7 +102,6 @@ export default ConCompleted = withTracker(props => {
 
   return {
     handle:handle,
-    user: user,
     loading: loading,
     job: jobPost
   };

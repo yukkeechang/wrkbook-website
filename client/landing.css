@@ -18,7 +18,7 @@ Table of Contents End
 -------------------------------------------------*/
 #rec-but{
   border: 2px solid white;
-  border-radius: 15px;
+  border-radius: 10px;
 	margin-left: 5px;
 }
 #rec-but__full {

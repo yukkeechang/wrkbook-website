@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema';
 
-export default SocialSchema = new SimpleSchema({
+const SocialSchema = new SimpleSchema({
   taxID: {
     type: Boolean,
     defaultValue:false
@@ -11,3 +11,4 @@ export default SocialSchema = new SimpleSchema({
     defaultValue:false
   }
 });
+export default SocialSchema;

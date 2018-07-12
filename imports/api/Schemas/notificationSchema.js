@@ -1,5 +1,5 @@
 import SimpleSchema from 'simpl-schema';
-export default NotificationSchema = new SimpleSchema({
+const NotificationSchema = new SimpleSchema({
   toWhomst:{
     type:String,
     defaultValue: ''
@@ -30,8 +30,9 @@ export default NotificationSchema = new SimpleSchema({
     type: Date,
     autoValue: function() {
       if ( this.isInsert ) {
-        return new Date;
+        return new Date();
       }
     }
   }
 });
+export default NotificationSchema

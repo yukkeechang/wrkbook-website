@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
+import stripeAPI from 'stripe';
 import { Meteor } from 'meteor/meteor';
 import {CONTRACTOR} from '../Schemas/employerSchema';
 import { Roles } from 'meteor/alanning:roles';
 
-const stripe = Stripe(Meteor.settings.private.stripe);
+const stripe = stripeAPI(Meteor.settings.private.stripe);
 const NOTVERIFIED ={
   emailNotVerified : true
 };
@@ -23,7 +23,6 @@ Meteor.methods({
             Meteor.users.update({_id: this.userId},{$set: newCustomer});
             Roles.addUsersToRoles(this.userId, 'subscribe' );
       }catch(error){
-        console.log(error);
         throw new Meteor.Error('403',error);
       }
 
@@ -32,7 +31,7 @@ Meteor.methods({
   getCustomer(){
     if(Roles.userIsInRole(this.userId,CONTRACTOR)){
       let customerInfo = Meteor.users.findOne({_id:this.userId});
-      if(!customerInfo.profile.customer) throw new Meteor.Error('403',NOTCUST);
+      if(!customerInfo.profile.customer) throw new Meteor.Error('403','Not Customer');
 
       let stripeRetrieveCustomer = Meteor.wrapAsync(stripe.customers.retrieve,
       stripe.customers);
@@ -42,16 +41,9 @@ Meteor.methods({
         );
         return result;
       } catch (e) {
-        console.log(error);
-        throw new Meteor.Error('403',error);
+        throw new Meteor.Error('403',e);
       }
     }
 
   },
-  updateCustomer(){
-
-  },
-  deleteCustomer(){
-
-  }
 });

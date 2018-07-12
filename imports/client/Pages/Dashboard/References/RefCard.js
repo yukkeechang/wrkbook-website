@@ -3,13 +3,6 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import NewRef from './NewRef';
-
-function isEmpty(obj) {
-  for (var x in obj) { return false; }
-  return true;
-}
-
 export default class RefCard extends Component{
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
@@ -17,7 +10,7 @@ export default class RefCard extends Component{
       $('.modal').modal();
       $('select').material_select();
     });
-    console.log(this.props);
+
   }
   constructor(props){
       super(props);
@@ -26,7 +19,6 @@ export default class RefCard extends Component{
     $('#tool').tooltip('remove');
   }
   render(){
-    if(!isEmpty(this.props.reference)){
       let ref = this.props.reference;
       return(
 
@@ -51,19 +43,5 @@ export default class RefCard extends Component{
 
 
       );
-    }
-    else{
-      return(
-        <NewRef/>
-      )
-    }
   }
 }
-// export default RefCard = withTracker( params  => {
-//     let handle = Meteor.subscribe('your-references');
-//     let ready = handle.ready();
-//     return {
-//         ready: ready,
-//         myRefs: Reference.find({}).fetch()
-//     };
-// })(Ref);

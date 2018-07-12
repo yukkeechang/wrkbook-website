@@ -4,7 +4,7 @@
   },
   "source": {
     "include": [
-      "imports/api"
+      "imports/api","README.md"
     ],
     "exclude": [
       ".git",
@@ -13,11 +13,15 @@
     ],
     "includePattern": ".+\\.js(x|doc)?$"
   },
-  "plugins": ["plugins/markdown"],
+  "plugins": ["plugins/markdown","jsdocs-plugins/publication","jsdocs-plugins/mmethod","plugins/summarize"],
+  "babel": {
+    "extensions": ["js", "es6", "jsx"],
+    "presets": ["es2015", "es2015-loose", "stage-1"]
+  },
   "opts": {
     "encoding": "utf8",
-    "template": "templates/default",
-    "destination": "../docs/app4/",
+    "template": "./node_modules/ink-docstrap/template",
+    "destination": "../docs",
     "recurse": true,
     "verbose": true
   },
@@ -34,4 +38,3 @@
     }
   }
 }
-

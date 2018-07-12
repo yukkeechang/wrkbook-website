@@ -1,8 +1,7 @@
 import  BasicText  from './basicTextSchema';
-import LocationSchema  from './locationSchema';
 import SimpleSchema from 'simpl-schema';
 
-export default ReferenceSchema = new SimpleSchema({
+const ReferenceSchema = new SimpleSchema({
   owner:{
     type: String
   },
@@ -22,7 +21,7 @@ export default ReferenceSchema = new SimpleSchema({
     type: Date,
     autoValue: function() {
       if ( this.isInsert ) {
-        return new Date;
+        return new Date();
       }
     }
   },
@@ -30,7 +29,7 @@ export default ReferenceSchema = new SimpleSchema({
     type:Date,
     autoValue: function() {
     if ( this.isUpdate ) {
-      return new Date;
+      return new Date();
       }
     }
   },
@@ -46,5 +45,5 @@ export default ReferenceSchema = new SimpleSchema({
     min: 1,
     regEx: SimpleSchema.RegEx.Phone
   }
-
 });
+export default ReferenceSchema ;

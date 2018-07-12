@@ -1,5 +1,5 @@
 import SimpleSchema from 'simpl-schema';
- export default MessagesSchema = new SimpleSchema({
+const  MessagesSchema = new SimpleSchema({
   channelId: {
     type: String,
     optional: true
@@ -28,6 +28,5 @@ import SimpleSchema from 'simpl-schema';
     type:String,
     defaultValue:''
   }
-
-
 });
+export default MessagesSchema;

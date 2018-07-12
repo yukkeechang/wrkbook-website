@@ -23,10 +23,8 @@ constructor(props) {
 
 }
 componentDidMount(){
-  console.log("things: "+this.refs.things);
   let switchRouter =this.refs.things.context.router.route.location.pathname;
   this.setState({routeName:switchRouter});
-  console.log(switchRouter);
 }
 things(){
   console.log("hahah");
@@ -55,7 +53,6 @@ render() {
       );
     }
 
-    console.log(url);
 
   return (
     <div style={{backgroundColor: "#F5F5F5"}} >

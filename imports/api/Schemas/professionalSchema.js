@@ -1,5 +1,5 @@
 import SimpleSchema from 'simpl-schema';
-export default ProfessionalSchema = new SimpleSchema({
+const ProfessionalSchema = new SimpleSchema({
   responsibilities :{
     type: String,
     defaultValue:''
@@ -15,3 +15,4 @@ export default ProfessionalSchema = new SimpleSchema({
     min:1
   },
 });
+export default ProfessionalSchema
