@@ -8,7 +8,7 @@ import DetailsComp from './ConJobListingComponents/EmployeeDetailComp';
 import DateComp from './ConJobListingComponents/DateComp';
 import ReviewComp from './ConJobListingComponents/ReviewComp';
 import { Link } from 'react-router-dom';
-
+import { formatSingleDate,formatSingleTime,getDurationDayHour} from './formatTime';
 class ConJobListingPageComp extends React.Component {
  constructor(props) {
    super(props);
@@ -49,20 +49,13 @@ class ConJobListingPageComp extends React.Component {
        <MSpinner/>
      )
    }else{
-   let hours = Math.abs(this.props.event.endAt.getHours() - this.props.event.startAt.getHours());
-   let timediff = Math.abs(this.props.event.endAt.getTime() - this.props.event.startAt.getTime());
-   let days = Math.ceil(timediff / (1000 * 3600 * 24));
+   const {hours,days} = getDurationDayHour(this.props.event.startAt,this.props.event.endAt);
    let totalPay = hours * days * this.props.job.professionals[this.props.jobTypesIndex].pay;
-   let endtime = this.props.event.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-   let starttime = this.props.event.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-   let enddate = (this.props.event.endAt.getMonth() + 1) + "/" + this.props.event.endAt.getDate()  + "/" + this.props.event.endAt.getFullYear();
-   let startdate = (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getDate()  + "/" + this.props.event.startAt.getFullYear();
-   let jobDate = startdate+" - "+ enddate ;
-   let jobTime = starttime+ " - "+endtime;
-   //console.log( this.props.job.jobTypes);
+   let jobDate = `${formatSingleDate(this.props.event.startAt)}-${formatSingleDate(this.props.event.endAt)}`;
+   let jobTime = `${formatSingleTime(this.props.event.startAt)}-${formatSingleTime(this.props.event.endAt)}`;
+
    let profession = this.props.job.jobTypes.texts[this.props.jobTypesIndex];
 
-   //console.log(this.props);
       return (
         <div className="card-content">
 

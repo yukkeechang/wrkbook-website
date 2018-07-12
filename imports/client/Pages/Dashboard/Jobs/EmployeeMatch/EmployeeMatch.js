@@ -28,8 +28,6 @@ class EmpJobPost extends React.Component{
         let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
         let startAt = startdate+','+starttime;
         let endAt = enddate+','+endtime;
-        console.log(res.endAt.getDate());
-        console.log(res.startAt.getDate());
         let duration = Math.round(Math.abs((res.endAt.getTime() - res.startAt.getTime())/(oneDay))) + ' days, '+
         (res.endAt.getHours()-res.startAt.getHours()) + ' hours';
         this.setState({
@@ -75,13 +73,14 @@ class EmpJobPost extends React.Component{
   }
   changeEventDate=()=>{
     let jobTitles = this.props.jobinfo.jobTypes.texts;
-    let index = jobTitles.indexOf(this.refs.jobEvent.value);
+    let index = jobTitles.indexOf(this.refs.jobEvent.value)|| 0;
     console.log(index);
     Meteor.call('getEventInfo',this.props.events[index],(err,res)=>{
       if(err){
         console.log(err);
       }else{
         console.log(index);
+
         const  oneDay = 24*60*60*1000;
         let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -121,7 +120,7 @@ class EmpJobPost extends React.Component{
     let distance = this.distanceInKmBetweenEarthCoordinates(userLocation.latitude,
                     userLocation.longitude,this.props.jobinfo.location.latitude,
                   this.props.jobinfo.location.longitude);
-    distance *= 0.62;
+    distance *= 0.62;//Convert km to miles
     let distanceFormat = Math.round(distance);
     return(
     <div ref={this.state.id+"11"}>
@@ -186,7 +185,9 @@ class EmpJobPost extends React.Component{
 
 
                 </div>
-                <JobLocation latitude={this.props.jobinfo.location.latitude} longitude={this.props.jobinfo.location.longitude}/>
+                <div className="col l7 m6 s12 ">
+                  <JobLocation latitude={this.props.jobinfo.location.latitude} longitude={this.props.jobinfo.location.longitude} height={'350px'}/>
+                </div>
 
 
               </div>

@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
+import stripeAPI from 'stripe';
 import { Meteor } from 'meteor/meteor';
 import {CONTRACTOR} from '../Schemas/employerSchema';
 import { Roles } from 'meteor/alanning:roles';
 
-const stripe = Stripe(Meteor.settings.private.stripe);
+const stripe = stripeAPI(Meteor.settings.private.stripe);
 export const NOTCUST = {
     noCustomerId: true
 };
@@ -23,22 +23,11 @@ Meteor.methods({
                 }
               ]
             });
-
+            return result;
       }catch(error){
-        console.log(error);
         throw new Meteor.Error('403',error);
       }
 
     }
   },
-  changeSubscription(){
-    // if(Roles.userIsInRole(this.userId,CONTRACTOR))
-
-  },
-  getSubscription(){
-
-  },
-  cancelSubscription(){
-
-  }
 });

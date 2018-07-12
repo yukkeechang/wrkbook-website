@@ -4,6 +4,7 @@ import ConJobListingPage from './ConJobListingComponent';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import CardHeader from './ConJobListingComponents/JobPostCardHeader';
 import EmployeeSelect from './ConJobListingComponents/ChangeEmployeeSelect';
 import PendingEmployees from './ConJobListingComponents/PendingEmployees';
 class ConView extends React.Component{
@@ -26,76 +27,51 @@ class ConView extends React.Component{
   render(){
 
     let employeesBoi = this.props.employees;
-    //console.log(employeesBoi.length);
+    console.log(this.props);
     if (!this.props.ready) {
       return(
         <MSpinner/>
       );
     }else if (employeesBoi.length>0) {
       return(
-        <div className="container">
-          <div className="card">
-            <div style={{paddingLeft:'10px',paddingRight:'10px'}} className="row">
-              <div className=" card grey lighten-1">
-                <div style={{marginLeft:'-10px',marginRight:'-10px'}}  className="row">
-                  <div className="col s12 center-align">
-                    <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p className="truncate" style={{fontSize:'2em', margin:'0px'}}>Job Title: {this.props.job.jobTitle.text}</p></Link>
-                  </div>
+            <CardHeader
+              jobId={this.props.job._id}
+              jobTitle={this.props.job.jobTitle.text}
+              locationName={this.props.job.location.locationName}
+              notificationsLen={this.props.notifications.length}>
+
+                <div style={{height:'250px',overflow: 'auto'}}>
+
+                  {
+                    employeesBoi.map((employeeInfo,index)=>{
+                      return(
+                      <ConJobListingPage
+                        key={employeeInfo._id}
+                        employeeInfo={employeeInfo}
+                        job={this.props.job}
+                        isCompeleted={this.props.isCompeleted}
+
+                      />
+                    );
+                    })
+                  }
                 </div>
-                <div style={{marginLeft:'-10px',marginRight:'-10px'}}  className="row">
-                  <div className="col s12 center-align">
-                    <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}><p style={{fontSize:'1.5em', margin:'0px'}} >Location: <u>{this.props.job.location.locationName}</u>{this.props.notifications.length >0 ?
-                      <span style={{marginRight:'10px'}}className="new badge">{this.props.notifications.length}</span> : null}</p></Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div style={{height:'250px',overflow: 'auto'}}>
+                {this.props.isUpcoming &&
+                  <PendingEmployees numberofEmployees={this.props.job.applyemployeeIds.length}
+                  jobId={this.props.job._id} />
+                }
 
-              {
-                employeesBoi.map((employeeInfo,index)=>{
-                  return(
-                  <ConJobListingPage
-                    key={employeeInfo._id}
-                    employeeInfo={employeeInfo}
-                    job={this.props.job}
-                    isCompeleted={this.props.isCompeleted}
-
-                  />
-                );
-                })
-              }
-            </div>
-            {this.props.isUpcoming &&
-              <PendingEmployees numberofEmployees={this.props.job.applyemployeeIds.length}
-              jobId={this.props.job._id} />
-            }
-
-            <EmployeeSelect  handleClick={this.changeIndex}
-            jobTypes={this.props.job.jobTypes.texts}/>
-          </div>
-
-        </div>
+                <EmployeeSelect  handleClick={this.changeIndex}
+                jobTypes={this.props.job.jobTypes.texts}/>
+          </CardHeader>
       )
     }else{
       return(
-        <div className="container">
-          <div className="card">
-            <div style={{paddingLeft:'10px',paddingRight:'10px'}} className="row">
-              <div className=" card grey lighten-1">
-                <div style={{marginLeft:'-10px',marginRight:'-10px'}}  className="row">
-                  <div className="col s12 center-align">
-                    <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p className="truncate" style={{fontSize:'2em', margin:'0px'}}>Job Title: {this.props.job.jobTitle.text}</p></Link>
-                  </div>
-                </div>
-                <div style={{marginLeft:'-10px',marginRight:'-10px'}}  className="row">
-                  <div className="col s12 center-align">
-                    <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'1.5em', margin:'0px'}} >Location: <u>{this.props.job.location.locationName}</u>{this.props.notifications.length >0 ?
-                      <span style={{marginRight:'10px'}}className="new badge">{this.props.notifications.length}</span> : null}</p></Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <CardHeader
+          jobId={this.props.job._id}
+          jobTitle={this.props.job.jobTitle.text}
+          locationName={this.props.job.location.locationName}
+          notificationsLen={this.props.notifications.length}>
 
             {this.props.isUpcoming &&
               <PendingEmployees numberofEmployees={this.props.job.applyemployeeIds.length}
@@ -104,8 +80,8 @@ class ConView extends React.Component{
 
             <EmployeeSelect  handleClick={this.changeIndex}
             jobTypes={this.props.job.jobTypes.texts}/>
-          </div>
-        </div>
+
+        </CardHeader>
       )
     }
   }

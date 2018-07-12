@@ -1,5 +1,5 @@
 import SimpleSchema from 'simpl-schema';
-export default OshaSchema = new SimpleSchema({
+const OshaSchema = new SimpleSchema({
   osha10: {
     type: Boolean,
     defaultValue:false
@@ -9,3 +9,4 @@ export default OshaSchema = new SimpleSchema({
     defaultValue: false
   }
 });
+export default OshaSchema;

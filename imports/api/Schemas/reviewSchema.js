@@ -3,7 +3,7 @@ import  conReviewSchema from './conReviewSchema';
 import  proReviewSchema from './proReviewSchema';
 import SimpleSchema from 'simpl-schema';
 
-export default ReviewSchema = new SimpleSchema({
+const ReviewSchema = new SimpleSchema({
   reviewerId:{
     type: String,
     defaultValue: ''
@@ -40,7 +40,7 @@ export default ReviewSchema = new SimpleSchema({
     type: Date,
     autoValue: function() {
       if ( this.isInsert ) {
-        return new Date;
+        return new Date();
       }
     }
   },
@@ -48,3 +48,4 @@ export default ReviewSchema = new SimpleSchema({
     type: String,
   }
 });
+export default ReviewSchema;

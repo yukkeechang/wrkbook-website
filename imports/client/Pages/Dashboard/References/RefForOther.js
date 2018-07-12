@@ -12,12 +12,10 @@ class RefOther extends React.Component{
 
 render(){
     if(!this.props.ready) {
-      console.log("not ready!")
       return(
         <MSpinner/>
       )
     } else if(this.props.references.length > 0) {
-      console.log("referneces!")
       return(
         <div className="card-panel">
           <div className="center-align"><h5>References</h5></div>

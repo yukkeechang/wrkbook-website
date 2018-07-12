@@ -1,6 +1,8 @@
 import {Email} from 'meteor/email';
-import { Roles } from 'meteor/alanning:roles';
-
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+import { SSR } from 'meteor/meteorhacks:ssr';
+/* global Assets*/
 export const NOTAUTH = {
     notAuthorized: true
 };
@@ -13,9 +15,7 @@ Accounts.emailTemplates.enrollAccount = {
     return `WRKBOOK , ${user.profile.firstName}`;
   },
   text(user, url) {
-    return 'You have been selected to participate in building a better future!'
-      + ' To activate your account, simply click the link below:\n\n'
-      + url;
+    return `You have been selected to participate in building a better future! To activate your account, simply click the link below:\n${url}`
   }
 }
 
@@ -35,7 +35,7 @@ Accounts.emailTemplates.resetPassword = {
   },
   html(user,url){
     SSR.compileTemplate('htmlEmail', Assets.getText('EmailTemplates/ResetPassword.html'));
-    var emailData = {
+    let emailData = {
       name: `${user.profile.firstName}` ,
       url: `${url}`
     };
@@ -67,9 +67,9 @@ Meteor.methods({
     let userMyGuy = Meteor.users.findOne({_id:this.userId},{fields: { emails: 1, profile: 1,roles: 1 } });
     SSR.compileTemplate('htmlEmail', Assets.getText('EmailTemplates/ResetPassword.html'));
 
-    // var emailData = {
-    //   name: `${userMyGuy.profile.firstName}`
-    // };
+    let emailData = {
+      name: `${userMyGuy.profile.firstName}`
+    };
 
     Email.send({
       to: userMyGuy.emails[0].address,
@@ -82,10 +82,10 @@ Meteor.methods({
   },
 
   removeJobPro(totalPeople,jobLocation) {
-    console.log("removing job email")
+
     for (let i = 0; i < totalPeople.length; i++){
       //send email out for everyone in the array
-      console.log("function email for removing job");
+
       let person=  Meteor.users.findOne({_id:totalPeople[i]},{fields: { emails: 1} });
       Email.send({
         to: person.emails[0].address,
@@ -101,7 +101,7 @@ Meteor.methods({
   removeJobCon(conId, jobLocation) {
    SSR.compileTemplate('htmlEmail', Assets.getText('EmailTemplates/RemoveJobCon.html'));
    let conUser = Meteor.users.findOne({_id:conId});
-    var emailData = {
+    let emailData = {
       location: `${jobLocation}`,
       name: `${conUser.profile.firstName}`,
     };

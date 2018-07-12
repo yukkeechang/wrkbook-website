@@ -3,8 +3,7 @@ import ImportantSchema from './importanceSchema'
 import SimpleSchema from 'simpl-schema';
 //https://wiki.mozilla.org/Calendar:Sql_Calendar_Schema
 
-
-export default  EventSchema = new SimpleSchema({
+const  EventSchema = new SimpleSchema({
   owner:{
     type:String
   },
@@ -55,7 +54,7 @@ export default  EventSchema = new SimpleSchema({
     type: Date,
     autoValue: function() {
       if ( this.isInsert ) {
-        return new Date;
+        return new Date();
       }
     }
   },
@@ -169,3 +168,5 @@ EventSchema.messageBox.messages({
   "endDATE" :"END DATE IS SET BEFORE BEGIN DATE",
   "interval": "The interval is not valid given the recurring type"
 });
+
+export default  EventSchema;

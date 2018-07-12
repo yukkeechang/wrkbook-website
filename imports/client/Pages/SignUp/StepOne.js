@@ -6,9 +6,9 @@ export default class StepOne extends Component{
     constructor(props){
 
         super(props);
-       let savedObject = window.sessionStorage.getItem('reg');
+        let savedObject = window.sessionStorage.getItem('reg');
 
-       let firstTime  = !savedObject;
+        let firstTime  = !savedObject;
         let UserObjectArray = JSON.parse(savedObject);
         this.state = {
           fEmpty : false,

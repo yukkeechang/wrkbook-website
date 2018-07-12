@@ -7,11 +7,6 @@ import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
 
 //---This page renders UPCOMING jobs for PROFESSIONALS
 
-function isEmpty(obj) {
-    for (var x in obj) { return false; }
-    return true;
-}
-
 class ProUpcomingJobsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -21,8 +16,6 @@ class ProUpcomingJobsPage extends React.Component {
   }
 render() {
   let jobz = this.props.job;
-  console.log(this.props);
-  console.log(this.props.job.length >1 );
   if(!this.props.ready) {
     return (
       <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
@@ -38,11 +31,11 @@ render() {
         console.log(err);
       });
     });
-    console.log("we in it boiii");
+
     return (
       <div>
       <h3 className="center-align">Upcoming Jobs</h3>
-      {jobz.map(function(job, index){
+      {jobz.map((job, index)=>{
         return(
           <ListingView
             key={job._id}
@@ -51,12 +44,11 @@ render() {
             isCompeleted = {false}
           />
         )
-      }.bind(this))}
+      })}
       </div>
     )
   }
   else {
-    console.log("in here");
     return (
         <EmployeeNoJobs
         message={"upcoming"}/>

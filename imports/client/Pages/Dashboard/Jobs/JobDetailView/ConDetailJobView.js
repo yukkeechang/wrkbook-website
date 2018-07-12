@@ -33,18 +33,19 @@ class ConComponentPage extends React.Component{
       if(err){
         console.log(err);
       }else{
-        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
-        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
-        let startAt = startdate+' - '+enddate;
-        let endAt = starttime+' - '+endtime;
-        this.setState({
-          endAt: endAt,
-          startAt: startAt
-        });
+
+        updateDateStates(res.startAt,res.endAt);
       }
     });
+  }
+  updateDateStates=(date1,date2)=>{
+    let jobDate = `${formatSingleDate(date2)}-${formatSingleDate(date1)}`;
+    let jobTime = `${formatSingleTime(date1)}-${formatSingleTime(date2)}`;
+    this.setState({
+      endAt: jobTime,
+      startAt: jobDate
+    });
+
   }
   doNothing=()=>{
     $(this.refs.deleteModal).modal('close');
@@ -76,16 +77,7 @@ class ConComponentPage extends React.Component{
       if(err){
         console.log(err);
       }else{
-        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
-        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
-        let startAt = startdate+' - '+enddate;
-        let endAt = starttime+' - '+endtime;
-        this.setState({
-          endAt: endAt,
-          startAt: startAt
-        });
+          updateDateStates(res.startAt,res.endAt);
       }
     });
   }
@@ -153,7 +145,7 @@ class ConComponentPage extends React.Component{
                 <div className="row center-align">
 
 
-                  {/*Buttons WITH the shadow */}
+                  {/*Buttons WITH the shadow
 
                   <a className="btn-floating blue-grey lighten-5 tooltipped waves-effect" data-position="right" data-tooltip="Delete Job" onClick={this.deleteModal}>
                     <i style={{color:'red'}} className="material-icons">delete_forever</i>
@@ -164,23 +156,21 @@ class ConComponentPage extends React.Component{
                     <a className="btn-floating blue-grey lighten-5 waves-effect tooltipped" data-position="right" data-tooltip="Edit Job Info">
                       <i style={{color:'black'}} className="material-icons">edit</i>
                     </a>
+                    */}
 
                   {/*Buttons WITHOUT the shadow */}
-                  {/*
+
                     <a  style={{padding:'0px',fontSize:'30px', color:'red'}} onClick={this.deleteModal} className="waves-effect tooltipped" data-position="right" data-tooltip="Delete Job" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey    lighten-5"><i className="material-icons">delete_forever</i></div></a>
                   </div>
                   <div className="row center-align">
                     <Link style={{padding:'0px'}} to={"/editjob/"+ this.state.job._id}>
                       <a style={{padding:'0px',fontSize:'30px', color:'black'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Edit Job Info" ><div style={{height:'40px',width:'40px'}} className="circle blue-grey  center-align lighten-5"> <i style={{paddingRight:'5px',paddingTop:'8px'}} className="material-icons">edit</i></div></a>
-                  */}
-
                   </Link>
                 </div>
                 <div className="row center-align">
-                  {/* Comment out untill messenger works
-                    <Link style={{padding:'0px'}} to={"/message/"+ this.state.job._id}>
+                    <Link style={{padding:'0px'}} to={`/job-chat/${this.state.job._id}`}>
                     <a style={{padding:'0px',fontSize:'30px', color:'#03a9f4'}} className="waves-effect tooltipped"  data-position="right" data-tooltip="Open Messaging for this Job"><div style={{height:'40px',width:'40px'}} className="circle blue-grey  center-align  lighten-5"> <i style={{paddingRight:'5px',paddingTop:'10px'}} className="material-icons ">message</i></div></a>
-                  </Link> */}
+                  </Link>
                 </div>
               </div>
               :
