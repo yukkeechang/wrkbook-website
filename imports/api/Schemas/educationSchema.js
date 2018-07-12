@@ -1,7 +1,7 @@
 import TradeSchoolSchema from './tradeSchoolSchema';
 import SimpleSchema from 'simpl-schema';
 
-export default EducationSchema = new SimpleSchema({
+const EducationSchema = new SimpleSchema({
   highGED :{
     type: Boolean,
     defaultValue: true
@@ -15,3 +15,4 @@ export default EducationSchema = new SimpleSchema({
     defaultValue: false
   }
 });
+export default EducationSchema;

@@ -6,12 +6,6 @@ import MSpinner from '../../../Shared/MSpinner';
 import ListingView from '../Shared/ProJobListingView';
 import EmployeeNoJobs from '../Shared/EmployeeNoJobs';
 
-// import ConProfile from './ConProfile/ConProfile';
-// import ProProfile from './ProProfile/ProProfile';
-function isEmpty(obj) {
-    for (var x in obj) { return false; }
-    return true;
-}
 
 class ProCurrentPage extends React.Component {
   constructor(props) {
@@ -22,38 +16,38 @@ class ProCurrentPage extends React.Component {
   componentWillUnmount(){
     this.props.handle.stop();
   }
-render() {
-  let jobz = this.props.job;
-  if(!this.props.loading) {
-    return (
-      <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
-        <MSpinner />
-      </div>
-    )
-  }
+  render() {
+    let jobz = this.props.job;
+    if(!this.props.loading) {
+      return (
+        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+          <MSpinner />
+        </div>
+      )
+    }
 
-  else if(!(isEmpty(this.props.job))) {
-    return (
-      <div>
-        <h3 className="center-align">Current Jobs</h3>
-      {jobz.map(function(job, index){
-        return(
-          <ListingView
-            key={job._id}
-            job = {job}
-            userId={this.props.userId}
-            isCompeleted = {false}
-          />
-        )
-      }.bind(this))}
-      </div>
-    )
-  }
-  else {
-    return (
-        <EmployeeNoJobs/>
-    )
-  }
+    else if(this.props.job.length > 0) {
+      return (
+        <div>
+          <h3 className="center-align">Current Jobs</h3>
+        {jobz.map((job, index)=>{
+          return(
+            <ListingView
+              key={job._id}
+              job = {job}
+              userId={this.props.userId}
+              isCompeleted = {false}
+            />
+          )
+        })}
+        </div>
+      )
+    }
+    else {
+      return (
+          <EmployeeNoJobs/>
+      )
+    }
  }
 }
 
@@ -67,7 +61,6 @@ export default ProCurrent = withTracker(props => {
     let handle = Meteor.subscribe('current-job-pro');
     loading = handle.ready();
     jobPost = Job.find({}).fetch();
-    console.log(jobPost);
 
   return {
     handle:handle,

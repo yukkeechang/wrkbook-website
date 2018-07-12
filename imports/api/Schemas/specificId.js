@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema';
 
-export default IdSchema = new SimpleSchema({
+const IdSchema = new SimpleSchema({
   ids:{
     type:Array,
     defaultValue: [],
@@ -9,3 +9,4 @@ export default IdSchema = new SimpleSchema({
     type: String
   },
 });
+export default IdSchema;

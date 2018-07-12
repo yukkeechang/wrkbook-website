@@ -2,7 +2,7 @@ import OshaSchema from './oshaSchema';
 import SocialSchema from './socialSchema';
 import SimpleSchema from 'simpl-schema';
 
-export default RequirementSchema = new SimpleSchema({
+const RequirementSchema = new SimpleSchema({
   osha:{
     type: OshaSchema,
     defaultValue:OshaSchema.clean({})
@@ -29,5 +29,6 @@ export default RequirementSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: false
   }
-
 });
+
+export default RequirementSchema;

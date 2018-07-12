@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema';
-
-export default TradeSchoolSchema = new SimpleSchema({
+/* eslint-disable no-lonely-if */
+const TradeSchoolSchema = new SimpleSchema({
   wentToSchool :{
     type: Boolean,
     defaultValue: false
@@ -37,3 +37,5 @@ TradeSchoolSchema.messageBox.messages({
     "noSchool" : "you claimed that you didn't go to trade school but you put a name for the trade school"
   },
 });
+
+export default TradeSchoolSchema

@@ -24,7 +24,7 @@ import CreateJob from './Dashboard/Jobs/CreateJob/CreateJob';
 
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';
-import analytics from './analytics';
+import JobChat from './Dashboard/Messages/JobChat/JobChat';
 
 
 
@@ -36,7 +36,6 @@ import AppliedJobs from './Dashboard/Jobs/EmployeeAppliedJobs';
 
 import EmpJobPosts from './Dashboard/Jobs/EmployeeJobMatches';
 
-import References from './Dashboard/References'
 import EditReferences from './Dashboard/References/EditReferences'
 import ProCompleted from './Dashboard/Jobs/Completed/ProCompleted';
 import ConCompleted from './Dashboard/Jobs/Completed/ConCompleted';
@@ -48,9 +47,9 @@ import ProfileRefactor from './Dashboard/ProfileRefactor/CurrentUserProfile';
 
 //import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
 
-import MessageDummy from './Dashboard/Messages/DummyHome.js'
+import MessageDummy from './Dashboard/Messages/Messages.js'
 
-import NotificationDummy from './Dashboard/Notifications/DummyHome.js'
+import NotificationDummy from './Dashboard/Notifications/Notifications.js'
 
 
 class Dash extends Component{
@@ -78,7 +77,6 @@ class Dash extends Component{
                 <Route  path="/profilerefactor" component={ProfileRefactor}/>
                 <Route  path="/user/:value" component={OtherUser}/>
 
-                <Route exact path="/references" component={References}/>
                 <Route exact path="/edit+references" component={EditReferences}/>
                 <Route exact path="/createjob" component={CreateJobs}/>
                 <Route exact path="/createjobone" component={One}/>
@@ -111,6 +109,7 @@ class Dash extends Component{
                 <Route path="/empcompleted" component={ProCompleted}/>
                 <Route path="/createreviewforprofessional" component={CreateReviewForPro}/>
                 <Route path="/createreviewforcontractor" component={CreateReviewForCon}/>
+                <Route path="/job-chat/:value" component={JobChat}/>
 
 
                 <Route path="*" component={NotFound}/>

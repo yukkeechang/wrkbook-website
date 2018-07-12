@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import UserIcon from '../UserIcon';
 import ReactDOM from 'react-dom';
 import NavBarNotfications from '../../Dashboard/Notifications/NavBar/NotificationsNav';
+import NavBarMessages from '../../Dashboard/Messages/NavBar/MessagesNav';
 import WrkBookIcon from '../WrkBookIcon';
 import { withTracker } from 'meteor/react-meteor-data';
 
@@ -189,8 +190,6 @@ export class NavBarPage extends Component{
                 </div>
             </div>
 
-            <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/profile">Profile</Link></div>
-
 
             <div ref="dropdownnotes" data-activates='notification' style={styles.links} className="col m2 hide-on-small-only genText">
               <div className="valign-wrapper">
@@ -218,8 +217,25 @@ export class NavBarPage extends Component{
               <li><Link to="/" onClick={this.logout.bind(this)}>Logout</Link></li>
             </ul>
 
-              <ul id='notification' className='dropdown-content'>
+              <ul id='notification' className='dropdown-content  blue-grey lighten-5'>
+                { this.props.notifications > 0 ?
+                  <Link  style={{color:'black'}}  to="/notifications">
+                  <h5 className="card-title center-align">Notifications{this.props.notifications > 0 ?
+                        <span> ({this.props.notifications})</span> : null}</h5>
+                    </Link>
+                    :
+                    null
+                }
                 <NavBarNotfications/>
+                {
+                  this.props.messages > 0 ?
+                    <Link style={{color:'black'}} to="/messages"><h5 className="card-title center-align">Messages{this.props.messages > 0 ?
+                      <span> ({this.props.messages})</span> : null}</h5>
+                    </Link>
+                    :
+                    null
+                }
+                <NavBarMessages/>
               </ul>
 
 
@@ -250,8 +266,7 @@ export class NavBarPage extends Component{
                     <Link onClick={this.sideClick.bind(this)} to = "/notifications">Notifications{this.props.general > 0 ?
                         <span className="new badge">{this.props.general}</span> : null}</Link>
                 </li>
-                {
-                  /*
+
                   <li>
                       <Link onClick={this.sideClick.bind(this)} to = "/messages">Messages</Link>
                   </li>
@@ -270,16 +285,19 @@ export class NavBarPage extends Component{
 
 export default NavBar = withTracker( params => {
   let handle = Meteor.subscribe('notifications-for-user');
+  let messageHandle = Meteor.subscribe('unread-messages');
   let ready = handle.ready();
-  let general = Notification.find({seen:false}).count();
+  let messageReady = messageHandle.ready();
+  let messages = Message.find({seen:false}).count();
+  let notifications = Notification.find({seen:false}).count();
   let match = Notification.find({typeNotifi:'MATCH'}).count();
   let appliedEmployer = Notification.find({typeNotifi:'APPLIED'}).count();
   let employeeHired = Notification.find({typeNotifi:'HIRED'}).count();
-  console.log(params);
     return {
         ready: ready,
-        notifications: Notification.find({}).fetch(),
-        general: general,
+        general: notifications+messages,
+        notifications:notifications,
+        messages:messages,
         match:match,
         appliedEmployer:appliedEmployer,
         employeeHired:employeeHired,

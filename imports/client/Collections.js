@@ -13,3 +13,5 @@ Review = new Mongo.Collection('reviews');
 Event = new Mongo.Collection('events');
 Reference = new Mongo.Collection('references');
 Notification = new Mongo.Collection('notifications');
+Message = new Mongo.Collection('messages');
+Channel = new Mongo.Collection('channels');

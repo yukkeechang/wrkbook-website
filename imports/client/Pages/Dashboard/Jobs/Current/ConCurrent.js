@@ -6,11 +6,6 @@ import SelectConJobList from '../Shared/SelectConJobListView';
 import { Link } from 'react-router-dom';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
-function isEmpty(obj) {
-    for (var x in obj) { return false; }
-    return true;
-}
-
 class ConCurrentPage extends React.Component {
   constructor(props) {
     super(props);
@@ -22,43 +17,42 @@ class ConCurrentPage extends React.Component {
   componentWillUnmount(){
     this.props.handle.stop();
   }
-render() {
-  console.log(this.props);
-  if(!this.props.loading) {
-    return (
-      <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
-        <MSpinner />
-      </div>
-    )
-  }
-  else if(!(isEmpty(this.props.jobPost))) {
-    return (
-      <div>
-        <div className="row">
-          <h1 className="center-align">Current Jobs</h1>
+  render() {
+    if(!this.props.loading) {
+      return (
+        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+          <MSpinner />
+        </div>
+      )
+    }
+    else if(this.props.jobPost.length > 0) {
+      return (
+        <div>
+          <div className="row">
+            <h1 className="center-align">Current Jobs</h1>
+          </div>
+
+          {this.props.jobPost.map((job, index)=>{
+            return(
+              <SelectConJobList
+                key={job._id}
+                job = {job}
+                isCompeleted={false}
+                isUpcoming={false}
+              />
+            )
+        })
+      }
+        <JobButton/>
         </div>
 
-        {this.props.jobPost.map((job, index)=>{
-          return(
-            <SelectConJobList
-              key={job._id}
-              job = {job}
-              isCompeleted={false}
-              isUpcoming={false}
-            />
-          )
-      })
+      )
     }
-      <JobButton/>
-      </div>
-
-    )
-  }
-  else {
-    return (
-        <EmployerNoJobs message={"current"}/>
-    )
-  }
+    else {
+      return (
+          <EmployerNoJobs message={"current"}/>
+      )
+    }
  }
 }
 

@@ -42,7 +42,7 @@ export default class LandingPage extends React.Component{
   render(){
     return(
 
-        <div style={{backgroundColor: "#f1f1f1"}}>
+        <div>
 
         <Header handleClick={this.handleClick}/>
         <Hero handleClick={this.handleClick} ref="home"/>
@@ -53,7 +53,6 @@ export default class LandingPage extends React.Component{
         <CollectEmails ref="collectEmails"/>
         <Testimonial/>
         <Footer/>
-
         </div>
 
     )

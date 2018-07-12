@@ -1,4 +1,6 @@
 import MSpinner from '../../../Shared/MSpinner';
+
+import NotFound from '../../../Shared/ItemNotFound';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import React, {Component} from 'react';
@@ -16,7 +18,7 @@ class EditJOB extends Component{
                       !!this.props.job ?
                       <EditJob key={this.props.job._id} jobPost={this.props.job}/>
                       :
-                      <h1>NANI </h1>
+                      <NotFound/>
               }
           </div>
       )

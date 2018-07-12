@@ -15,8 +15,7 @@ export default class Forgot extends Component{
     }
   }
   componentDidMount(){
-    let things = String( $(document).height()/10)+'px'
-    this.setState({windowHeight: things});
+
   }
   resetPasswordEmail(e){
     console.log(e);
@@ -67,7 +66,7 @@ export default class Forgot extends Component{
             </div>
 
               <Footer/>
-        
+
 
 
 

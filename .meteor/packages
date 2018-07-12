@@ -32,4 +32,4 @@ cultofcoders:mocha
 meteortesting:mocha
 random@1.1.0
 johanbrook:publication-collector
-underscore
+underscore@1.0.10

@@ -1,7 +1,7 @@
 import {DEFAULT} from './basicTextSchema';
 import SimpleSchema from 'simpl-schema';
 
-export default LocationSchema = new SimpleSchema({
+const  LocationSchema = new SimpleSchema({
   locationName: {
     type: String,
     min:1,
@@ -22,3 +22,4 @@ export default LocationSchema = new SimpleSchema({
    }
 
 });
+export default LocationSchema;

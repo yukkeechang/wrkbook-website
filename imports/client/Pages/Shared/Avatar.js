@@ -18,12 +18,13 @@ import MSpinner from './MSpinner';
 
     }
     render(){
+      console.log(this.props);
       if (!this.props.ready) {
         return(
           <MSpinner size={this.props.width}/>
         )
 
-      }else if (!this.props.imageId) {
+      }else if (!!this.props.letter) {
         return(
           <div className="circle center-align" style={{display:'flex',flexDirection:'column',justifyContent:'center',width: this.state.width, height: this.state.width, backgroundColor:'#f5f5f5',margin:'0px'}}>
               <h1 style={{color:'#bdbdbd',fontSize:this.state.textSize,padding:'0px',margin:'0px'}}>{this.props.letter.toUpperCase()}</h1>
