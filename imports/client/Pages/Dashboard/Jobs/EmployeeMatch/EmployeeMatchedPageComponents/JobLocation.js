@@ -35,8 +35,8 @@ import ReactDOM from 'react-dom';
   render(){
 
       return(
-        <div className="col l7 m6 s12 ">
-          <div ref="map" style={{width:'100%',height:'350px'}}>
+        <div>
+          <div ref="map" style={{width:'100%',height:this.props.height}}>
 
           </div>
           <br/>

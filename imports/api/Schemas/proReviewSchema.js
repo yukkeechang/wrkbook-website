@@ -2,7 +2,7 @@
 //Paid on time might be taken out
 
 import SimpleSchema from 'simpl-schema';
-export default proReviewSchema = new SimpleSchema({
+const proReviewSchema = new SimpleSchema({
   paidOnTime: {
     type: Boolean,
     defaultValue:false
@@ -13,3 +13,4 @@ export default proReviewSchema = new SimpleSchema({
   }
 
 });
+export default proReviewSchema

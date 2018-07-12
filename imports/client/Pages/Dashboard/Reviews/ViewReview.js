@@ -3,7 +3,6 @@ import Rating from 'react-rating';
 
 
 let ConComments =(props)=>{
-  console.log(props);
   if(!!props.review){
     return(
     <div>
@@ -20,7 +19,6 @@ let ConComments =(props)=>{
   }
 };
 let ProComments = (props)=>{
-  console.log(props);
   if(!!props.review){
     return (
       <div>

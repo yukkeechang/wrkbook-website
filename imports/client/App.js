@@ -52,6 +52,8 @@ class Application extends Component {
             </BrowserRouter>
         );
     }
+    componentDidMount(){
+    }
 }
 const App = withTracker(props => {
     return {

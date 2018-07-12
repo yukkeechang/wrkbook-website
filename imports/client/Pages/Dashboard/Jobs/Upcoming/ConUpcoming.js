@@ -7,12 +7,7 @@ import SelectConJobList from '../Shared/SelectConJobListView';
 import JobButton from '../Shared/ConJobListingComponents/CreateJobButton';
 import EmployerNoJobs from '../Shared/EmployerNoJobs';
 
-//---This page renders UPCOMING jobs for CONTRACTORS
 
-function isEmpty(obj) {
-  for (var x in obj) { return false; }
-  return true;
-}
 
 class ConUpcomingPage extends React.Component{
   constructor(props){
@@ -33,7 +28,7 @@ class ConUpcomingPage extends React.Component{
         </div>
       );
     }
-    else if(!isEmpty(this.props.jobPost)){
+    else if(this.props.jobPost.length > 0){
       let jobz = this.props.jobPost;
 
       return(
@@ -46,7 +41,7 @@ class ConUpcomingPage extends React.Component{
         </div>
         <div>
           <br/>
-          {jobz.map(function(job, index){
+          {jobz.map((job, index)=>{
 
             return(
             <SelectConJobList
@@ -57,8 +52,7 @@ class ConUpcomingPage extends React.Component{
             />
 
             )
-          }.bind(this))
-        }
+          })}
         </div>
         <JobButton/>
       </div>

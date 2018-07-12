@@ -7,5 +7,6 @@ import '../imports/api/Images';
 import '../imports/api/Notifications';
 import '../imports/api/Events';
 import '../imports/api/Reviews';
+import '../imports/api/Messages';
 import '../imports/api/Emails/Email';
 import '../imports/api/Cron';

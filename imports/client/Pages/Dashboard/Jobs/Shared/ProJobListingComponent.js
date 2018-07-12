@@ -2,7 +2,7 @@ import React from 'react';
 // import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-
+import { formatSingleDate,formatSingleTime,getDurationDayHour} from './formatTime';
 import UserInfoComp from './UserInfoComp';
 import DetailsComp from './ProJobListingComponents/DetailsComp';
 import ReviewComp from './ProJobListingComponents/ReviewComp';
@@ -39,16 +39,11 @@ export default class ProJobListingPage extends React.Component {
  }
 
  render() {
-   let hours = Math.abs(this.props.event.endAt.getHours() - this.props.event.startAt.getHours());
-   let timediff = Math.abs(this.props.event.endAt.getTime() - this.props.event.startAt.getTime());
-   let days = Math.ceil(timediff / (1000 * 3600 * 24));
+   const {hours,days} = getDurationDayHour(this.props.event.startAt,this.props.event.endAt);
    let totalPay = hours * days * this.props.job.professionals[this.props.jobTypesIndex].pay;
-   let endtime = this.props.event.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-   let starttime = this.props.event.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-   let enddate = (this.props.event.endAt.getMonth() + 1) + "/" + this.props.event.endAt.getDate()  + "/" + this.props.event.endAt.getFullYear();
-   let startdate = (this.props.event.startAt.getMonth() + 1) + "/" + this.props.event.startAt.getDate()  + "/" + this.props.event.startAt.getFullYear();
-   let jobDate = startdate+" - "+ enddate ;
-   let jobTime = starttime+ " - "+endtime;
+   let jobDate = `${formatSingleDate(this.props.event.startAt)}-${formatSingleDate(this.props.event.endAt)}`;
+   let jobTime = `${formatSingleTime(this.props.event.startAt)}-${formatSingleTime(this.props.event.endAt)}`;
+
    //console.log(hours);
       return (
         <div className="card">

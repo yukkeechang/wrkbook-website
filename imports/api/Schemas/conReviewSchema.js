@@ -1,7 +1,7 @@
 //For contractors to rate professionals
 import SimpleSchema from 'simpl-schema';
 
-export default conReviewSchema = new SimpleSchema({
+const conReviewSchema = new SimpleSchema({
   onTime: {
     type: Boolean,
     defaultValue:false
@@ -15,3 +15,5 @@ export default conReviewSchema = new SimpleSchema({
     defaultValue:false
   }
 });
+
+export default conReviewSchema;

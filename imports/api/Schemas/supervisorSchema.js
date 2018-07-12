@@ -1,5 +1,5 @@
 import SimpleSchema from 'simpl-schema';
-export default SupervisorSchema = new SimpleSchema({
+const SupervisorSchema = new SimpleSchema({
     name:{
       type: String,
       min:1,
@@ -13,3 +13,4 @@ export default SupervisorSchema = new SimpleSchema({
       regEx: SimpleSchema.RegEx.Phone
     }
 });
+export default SupervisorSchema;

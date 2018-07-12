@@ -1,8 +1,11 @@
 import { SyncedCron } from 'meteor/percolate:synced-cron';
 import {changeIsOpen} from './Jobs';
-
-SyncedCron.config({log: false,utc:true});
-
+/** @module Cron */
+SyncedCron.config({log: true,utc:true});
+/**
+ * [name description]
+ * @type {String}
+ */
 SyncedCron.add({
   name: "Setting the open date to false",
   schedule(parser){
@@ -10,7 +13,7 @@ SyncedCron.add({
   },
   job(){
     let num = changeIsOpen();
-    return num + " jobs closed";
+    return `${num} jobs closed`;
   },
 
 });

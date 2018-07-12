@@ -24,8 +24,7 @@ export default class SignIn extends Component{
     console.log('unmounting');
   }
 
-  login(e){
-    console.log(e);
+  login=(e)=>{
 
     e.preventDefault();
 
@@ -41,7 +40,6 @@ export default class SignIn extends Component{
         this.props.history.push('/');
       }
     });
-
   }
 
   render(){
@@ -60,7 +58,7 @@ export default class SignIn extends Component{
                     <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
                     <MTextField ref="p1" id="pass1"     error={this.state.pValid} type="password" label="Password *"/>
                   </div>
-                  <button id="but" ref="butt" className="btn-flat teal lighten-4" onClick={this.login.bind(this)} style={{color: '#555',textTransform: 'none'}}>Log In</button>
+                  <button id="but" ref="butt" className="btn-flat teal lighten-4" onClick={this.login} style={{color: '#555',textTransform: 'none'}}>Log In</button>
                   <br/>
                   <br/>
                   <Link to="/register">Don't have an account? Click here to register</Link>

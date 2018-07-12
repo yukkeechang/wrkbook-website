@@ -27,7 +27,7 @@ export default class HowTo extends React.Component{
                       </div>
                       {/*padding*/}
                       <div className="col m2 show-on-med-and-up"/>
-                      <div className="col s12 m2">
+                      <div className="col s12 m3">
                           <Step className={"step"}img="/images/how-it-works/pro-profile.png" title="Make a profile"/>
                           <h6>Upload your certifications, references, and resume</h6>
                       </div>
@@ -47,7 +47,7 @@ export default class HowTo extends React.Component{
                           </svg>
                       </div>
 
-                      <div className="col s12 m2">
+                      <div className="col s12 m3">
                           <Step  className={"step"} img="/images/how-it-works/hired.png" title="Get hired"/>
                           <h6>Get matched to jobs based on your certifications and skills</h6>
                       </div>

@@ -1,7 +1,3 @@
-import  TextList from './textListSchema';
-import  BasicText  from './basicTextSchema';
-import LocationSchema  from './locationSchema';
-import {DEFAULT} from './basicTextSchema';
 import OshaSchema from './oshaSchema';
 import {PICLINK} from './basicTextSchema';
 import EducationSchema from './educationSchema';
@@ -10,7 +6,7 @@ import SimpleSchema from 'simpl-schema';
 
 export const PROFESSIONAL = 'PRO';
 
-export default EmployeeSchema = new SimpleSchema({
+const EmployeeSchema = new SimpleSchema({
   jobTitle:{
     type: Array,
     minCount: 1,
@@ -30,18 +26,6 @@ export default EmployeeSchema = new SimpleSchema({
   osha:{
     type: OshaSchema,
     defaultValue:OshaSchema.clean({})
-  },
-  about:{
-    type: BasicText,
-    defaultValue:BasicText.clean({})
-  },
-  skills:{
-    type:BasicText,
-    defaultValue:BasicText.clean({})
-  },
-  location:{
-    type: LocationSchema,
-    defaultValue:LocationSchema.clean({})
   },
   hasCar :{
     type: Boolean
@@ -87,3 +71,5 @@ export default EmployeeSchema = new SimpleSchema({
     optional: true
   }
 });
+
+export default EmployeeSchema;

@@ -10,7 +10,7 @@ import ToolSchema from './toolSchema';
 import SimpleSchema from 'simpl-schema';
 //Make Jobtitle and are of objects where title corresponds to pay
 
-export default JobSchema = new SimpleSchema({
+const JobSchema = new SimpleSchema({
   employerId:{
     type:String
   },
@@ -68,7 +68,7 @@ export default JobSchema = new SimpleSchema({
     type: Date,
     autoValue: function() {
       if ( this.isInsert ) {
-        return new Date;
+        return new Date();
       }
     }
   },
@@ -85,7 +85,7 @@ export default JobSchema = new SimpleSchema({
     type:Date,
     autoValue: function() {
     if ( this.isUpdate ) {
-      return new Date;
+      return new Date();
       }
     }
   },
@@ -110,3 +110,4 @@ export default JobSchema = new SimpleSchema({
     defaultValue:RequirementSchema.clean({})
   }
 });
+export default JobSchema;

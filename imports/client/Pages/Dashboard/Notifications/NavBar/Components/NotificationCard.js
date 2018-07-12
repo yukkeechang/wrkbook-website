@@ -35,7 +35,7 @@ export default class NotificationCard extends React.Component {
                               <h5>Your're Hired!</h5>
                             :
                             (this.props.notification.typeNotifi == "REMOVE" ?
-                              <h5>Job Deleted</h5>
+                              <h5>Job Cancelled</h5>
                               :
                               null
                             )
