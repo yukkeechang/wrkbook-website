@@ -8,7 +8,6 @@
     "client-only": "TEST_SERVER=0 TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha",
     "always": "meteor test --driver-package cultofcoders:mocha --port 5000",
     "test": "TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha"
-
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.46",
