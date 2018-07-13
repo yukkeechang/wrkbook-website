@@ -11,7 +11,7 @@ const ConHowTo = () => {
       </div>
       <div className="row" style={{marginBottom: '0px'}}>
         <div className="col m6 l6 offset-l1 offset-m1">
-          <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/con-mockup-2.png'/>
+          <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/con-how-to/con-mockup.png'/>
         </div>
         <div className="col m4 l4">
           <img style={{paddingTop: '20px'}} className='responsive-img' src='/images/con-how-to/one-c.png'/>
