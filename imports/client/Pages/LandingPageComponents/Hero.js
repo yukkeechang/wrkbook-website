@@ -30,13 +30,13 @@ export default class Hero extends Component {
 
       hotjar.initialize(790931, 6);
         return (
-            <div id="hero" ref="hero" className="valign-wrapper lozad"  data-background-image="/images/hero-hardhat.png">
+            <div id="hero" ref="hero" className="valign-wrapper lozad"  data-background-image="/images/carpet.jpg">
                 <div className="container">
                   <div className="center-align">
                     <div className="row">
                       <div className="col s12" >
 
-                        <h4 className="valign" style={{fontFamily: 'Montserrat-Medium', color: 'white'}}>Linking skilled trade workers and construction contractors</h4>
+                        <h4 className="valign montserrat-med" style={{color:'white'}}>Linking skilled trade workers and construction contractors</h4>
                       </div>
                     </div>
                     <CSSTransitionGroup

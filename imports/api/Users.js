@@ -16,6 +16,8 @@ import leadSchema from './Schemas/leadSchema';
 import {Job} from './Jobs';
 import {ServerSession } from 'meteor/matteodem:server-session';
 
+const Lead = new Mongo.Collection('leads');
+Lead.attachSchema(leadSchema);
 
 const isEmailCheck = (User) => {
   let email = true;
@@ -50,9 +52,6 @@ if ( Meteor.isServer ) {
         return Meteor.users.find({_id: id}, {fields: { emails: 1, profile: 1,roles: 1 } });
   });
 }
-
-  const Lead = new Mongo.Collection('leads');
-  Lead.attachSchema(leadSchema);
 
 
 Meteor.methods({

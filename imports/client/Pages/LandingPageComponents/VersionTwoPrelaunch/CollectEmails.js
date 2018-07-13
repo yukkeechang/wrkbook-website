@@ -16,8 +16,7 @@ export default class CollectEmails extends React.Component {
     }
   }
 
-  CreateLead(e) {
-    console.log(this.state.nameEmpty)
+  createLead(e) {
     e.preventDefault()
     let lead = {
       name: this.refs.name.value(),
@@ -27,7 +26,6 @@ export default class CollectEmails extends React.Component {
 
     Meteor.call('createLead', lead, (err)=> {
       if(err) {
-        console.log(err.reason)
         this.setState(err.reason);
       } else {
         this.setState({buttonColor: 'fill-green', buttonText: 'Submitted'})
@@ -49,8 +47,8 @@ export default class CollectEmails extends React.Component {
     return (
       <div style={{backgroundColor: 'white'}}>
         <div className="section"/>
-        <h4 className="center-align container how-to-heading" style={{fontFamily: 'Montserrat-Medium'}}>Made for construction professionals and contractors</h4>
-        <div className="center-align container" style={{fontFamily: 'Montserrat-Italic', color:'#9B9B9B'}}>Sign up today for to get notified when our beta 2.0 comes out! </div>
+        <h4 className="center-align montserrat-reg container how-to-heading ">Made for construction professionals and contractors</h4>
+        <div className="center-align container montserrat-med-i" style={{ fontSize:'25px',color:'#9B9B9B'}}>Sign up today for to get notified when our beta 2.0 comes out! </div>
         <div className="row container">
           <div className="col m4 l4">
             <MTextField label="Name" ref="name" id="name" error={this.state.nameEmpty ? empty : ''}/>
@@ -71,7 +69,7 @@ export default class CollectEmails extends React.Component {
           </div>
         </div>
         <div className="row center-align " style={{position: 'relative'}}>
-          <Button className= {`button-sh col s12 m4 l4 offset-l4 offset-m4 ${this.state.buttonColor}`  }  paddingTop='5px' onClick={(e) => this.CreateLead(e)} text={"white"} to=''>{this.state.buttonText}</Button>
+          <Button className= {`button-sh col s12 m4 l4 offset-l4 offset-m4 ${this.state.buttonColor}`  }  paddingTop='5px' onClick={(e) => this.createLead(e)} text={"white"} to=''>{this.state.buttonText}</Button>
         </div>
       <div className="section"/>
     </div>

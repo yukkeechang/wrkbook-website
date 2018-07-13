@@ -10,13 +10,13 @@ export default class HowTo extends React.Component{
           <div className="section"/>
           <div className="container">
             <div className="row">
-              <h4 style={{fontFamily:'Montserrat-Medium',textAlign: 'center',margin:'0'}}>Our Customers </h4>
+              <h4 className="montserrat-med" style={{textAlign: 'center',margin:'0'}}>Our Customers </h4>
               <div className="section hide-on-small-only"/>
               <br/>
               {/*Pro Testimonial*/}
               <div className="col s12 m5 l5">
                 <br className="hide-on-small-only"/>
-                <br className="hide-on-small-only"/> 
+                <br className="hide-on-small-only"/>
                 <p style={{fontStyle:'italic',fontSize:'25px'}}>“Working with John was great! He told us exactly what to do and we were paid on time” -  Michael </p>
               </div>
               <div className="col m1 l1 hide-on-small-only"/>

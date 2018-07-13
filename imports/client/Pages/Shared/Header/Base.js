@@ -26,7 +26,7 @@ export default class Base extends Component{
 
   handleClick = (e) => {
     if (e === "How To") {
-      this.props.handleClick("howTo");
+      this.props.handleClick("HowTo");
     } else {
       this.props.handleClick("collectEmails");
     }
@@ -100,10 +100,11 @@ export default class Base extends Component{
               </Link>
 
               */}
-
+              <Link to="/#collectEmails">
                 <button id="rec-but" style={styles.rounded} className="col m2 push-l1 push-m1 hide-on-small-only nav-bar-heading" onClick={this.handleClick}>
                   <div className="genText">Sign Up</div>
                 </button>
+              </Link>
 
             {/* UNCOMMENT AFTER VERSION 2 LAUNCH
               <Link to="/register">

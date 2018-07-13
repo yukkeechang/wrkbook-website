@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i');
 /*---------------------------------------------------------------------- /
 Table of Contents
 ------------------------------------------------------------------------ /
@@ -22,26 +23,28 @@ Table of Contents End
     src: url('../public/fonts/Avenir/AvenirNextLTPro-Regular.woff2')
 }*/
 
+
+
 @font-face {
     font-family: "Montserrat";
     src:
-    url('../public/fonts/Montserrat/montserrat.regular.ttf'),
-    url('../public/fonts/Montserrat/montserrat.regular-webfont.woff');
+    url('../public/fonts/Montserrat/montserrat.regular.ttf') format("ttf"),
+    url('../public/fonts/Montserrat/montserrat.regular-webfont.woff')  format("woff2");
 }
 @font-face {
     font-family: "Montserrat-Bold";
     src:
-    url('../public/fonts/Montserrat/montserrat.bold.ttf'),
+    url('../public/fonts/Montserrat/montserrat.bold.ttf') format("ttf"),
 }
 @font-face {
     font-family: "Montserrat-SemiBold";
     src:
-    url('../public/fonts/Montserrat/Montserrat-SemiBold.otf')
+    url('../public/fonts/Montserrat/Montserrat-SemiBold.otf') format("otf")
 }
 @font-face {
     font-family: "Montserrat-Medium";
     src:
-    url('../public/fonts/Montserrat/Montserrat-Medium.otf')
+    url('../public/fonts/Montserrat/Montserrat-Medium.otf') format("otf")
 }
 
 
@@ -88,10 +91,24 @@ html::-webkit-scrollbar {
     color: white;
 }
 .montserrat-reg {
-  font-family:'Montserrat';
+  font-family:'Montserrat', sans-serif;
   color: white;
 }
-
+.montserrat-reg-i {
+  font-family:'Montserrat', sans-serif;
+  font-style: italic;
+  color: white;
+}
+.montserrat-med {
+  font-family:'Montserrat', sans-serif;
+  font-weight: 500;
+}
+.montserrat-med-i {
+  font-family:'Montserrat', sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  color: white;
+}
 /* 3.1 - End General text styles
 -------------------------------------------------*/
 /* 3.2 - Title styles

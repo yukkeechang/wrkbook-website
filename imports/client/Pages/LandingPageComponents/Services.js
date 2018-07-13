@@ -65,7 +65,7 @@ export default class Services extends React.Component{
         <div style={{ backgroundColor: 'white'}}>
             <div >
                 <div>
-                    <div className="how-to-heading center-align" style={{fontFamily: 'Montserrat-Medium', fontColor: 'gray', paddingBottom: '20px', paddingTop: '20px', marginTop: '0px'}}>Find jobs in or skilled trade professionals in</div>
+                    <div className="how-to-heading center-align montserrat-med" style={{ fontColor: 'gray', paddingBottom: '20px', paddingTop: '20px', marginTop: '0px'}}>Find jobs in or skilled trade professionals in</div>
 
                       <div className="row">
 
