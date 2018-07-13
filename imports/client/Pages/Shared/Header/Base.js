@@ -89,7 +89,7 @@ export default class Base extends Component{
                 {this.links("/#HowTo", "HowTo", "How It Works")}
 
 
-              {/* UNCOMMENT AFTER BETA CAN BE RELEASED!!
+        
                  <Link to="/login">
                   <div style={styles.heading} className="col m1 offset-m1 valign-wrapper hide-on-small-only nav-bar-heading">
                       <div className="genText">Login</div>
@@ -99,20 +99,20 @@ export default class Base extends Component{
                   </div>
               </Link>
 
-              */}
+
               <Link to="/#collectEmails">
                 <button id="rec-but" style={styles.rounded} className="col m2 push-l1 push-m1 hide-on-small-only nav-bar-heading" onClick={this.handleClick}>
                   <div className="genText">Sign Up</div>
                 </button>
               </Link>
 
-            {/* UNCOMMENT AFTER VERSION 2 LAUNCH
+
               <Link to="/register">
                 <div id="rec-but" style={styles.heading} className="col m1  hide-on-small-only nav-bar-heading ">
                 <div className="genText">Sign Up</div>
                 </div>
               </Link>
-            */}
+
 
 
 

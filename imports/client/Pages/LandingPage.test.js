@@ -12,7 +12,6 @@ import ProHowTo from './LandingPageComponents/VersionTwoPrelaunch/ProHowTo';
 import ConHowTo from './LandingPageComponents/VersionTwoPrelaunch/ConHowTo';
 import CollectEmails from './LandingPageComponents/VersionTwoPrelaunch/CollectEmails'
 import Adapter from 'enzyme-adapter-react-15';
-
 import Testimonial from './LandingPageComponents/Testimonial';
 import Services from './LandingPageComponents/Services';
 
