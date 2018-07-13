@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import One from './CreateJob/One';
 import Two from './CreateJob/Two';
-
+import Three from './CreateJob/Three'
 
 export default class CreateJob extends Component {
   constructor(props) {
@@ -21,12 +21,14 @@ export default class CreateJob extends Component {
     console.log(this.state.step);
     switch(this.state.step) {
       case 1:
-        console.log("case 1");
          step = <One next={this.next}/>
          break;
       case 2:
           step = <Two next={this.next} job={this.state.Job}/>
           break;
+      case 3:
+          step = <Three next={this.next} job={this.state.Job}/>
+        break;
       default:
           step = null;
           break;

@@ -23,9 +23,9 @@ export default class Tools extends Component {
   }
   render() {
     return (
-      <form>
-        <div className="row">
-          <div className="col s6">
+
+          <div>
+          <div className="col s4">
             <label>Is Social Security required?</label>
             <div>
               <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick}/>
@@ -36,7 +36,7 @@ export default class Tools extends Component {
               <label htmlFor="sscNo">No</label>
             </div>
           </div>
-          <div id="taxDisplay" style={{display:'none'}} className="col s6">
+          <div id="taxDisplay" style={{display:'none'}} className="col s4">
             <label>Is Tax Id required?</label>
             <div>
               <input name="group2" type="radio" id="taxYes"/>
@@ -47,8 +47,8 @@ export default class Tools extends Component {
               <label htmlFor="taxNo">No</label>
             </div>
           </div>
-        </div>
-      </form>
+          </div>
+
     );
   }
 }
