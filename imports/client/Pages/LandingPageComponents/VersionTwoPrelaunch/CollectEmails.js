@@ -31,11 +31,15 @@ export default class CollectEmails extends React.Component {
       }
     });
   }
-  pro() {
+  pro=()=>{
+    $('#pro').prop('checked',true);
+    $('#con').prop('checked',false);
     this.setState({ pro: true });
   }
 
-  con() {
+  con=()=> {
+    $('#con').prop('checked',true);
+    $('#pro').prop('checked',false);
     this.setState({ pro: false });
   }
 
@@ -54,7 +58,7 @@ export default class CollectEmails extends React.Component {
           Sign up today for to get notified when our beta 2.0 comes out!{" "}
         </div>
         <div className="row container">
-          <div className="col m4 l4">
+          <div className="col s12 m4 l4">
             <MTextField
               label="Name"
               ref="name"
@@ -62,7 +66,7 @@ export default class CollectEmails extends React.Component {
               error={this.state.nameEmpty ? empty : ""}
             />
           </div>
-          <div className="col m4 l4">
+          <div className="col s12 m4 l4">
             <MTextField
               label="Email"
               ref="email"
@@ -77,8 +81,7 @@ export default class CollectEmails extends React.Component {
                 type="radio"
                 id="pro"
                 ref="pro"
-                checked={this.state.pro ? this.state.pro : ""}
-                onClick={this.pro.bind(this)}
+                onClick={this.pro}
               />
               <label htmlFor="pro">Professional/Skilled trade worker</label>
             </div>
@@ -87,14 +90,13 @@ export default class CollectEmails extends React.Component {
                 type="radio"
                 id="con"
                 ref="con"
-                checked={this.state.pro ? "" : "checked"}
-                onClick={this.con.bind(this)}
+                onClick={this.con}
               />
               <label htmlFor="con">Contractor</label>
             </div>
           </div>
         </div>
-        <div className="row center-align " style={{ position: "relative" }}>
+        <div style={{paddingBottom:'15px',marginBottom:'0px'}} className="row center-align ">
           <Button
             className={`button-sh col s12 m4 l4 offset-l4 offset-m4 ${
               this.state.buttonColor
