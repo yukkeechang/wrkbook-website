@@ -24,12 +24,27 @@ export default class Base extends Component{
     this.props.handleClick(event);
   }
 
+  handleClick = (e) => {
+    if (e === "How To") {
+      this.props.handleClick("HowTo");
+    } else {
+      this.props.handleClick("collectEmails");
+    }
+
+  }
   /*links for full nav bar */
   links = (to, bind, linkName) => {
     if (to === "questions") {
       return (
         <Link to={to}>
-          <div style={styles.links} className="col  m1 hide-on-small-only nav-bar-text">{linkName}</div>
+          <div style={styles.links} className="col  m1 l1 hide-on-small-only nav-bar-text">{linkName}</div>
+        </Link>
+      )
+    }
+    if (linkName === "How It Works") {
+      return (
+        <Link to={to}  onClick={this.things.bind(this, bind)}>
+          <div style={styles.links} className="col  m2 l2 hide-on-small-only nav-bar-text">{linkName}</div>
         </Link>
       )
     }
@@ -42,7 +57,7 @@ export default class Base extends Component{
     }
     return (
       <Link to={to}  onClick={this.things.bind(this, bind)}>
-        <div style={styles.links} className="col  m1 hide-on-small-only nav-bar-text">{linkName}</div>
+        <div style={styles.links} className="col  m1 l1 hide-on-small-only nav-bar-text">{linkName}</div>
       </Link>
     )
   }
@@ -73,19 +88,40 @@ export default class Base extends Component{
                 {this.links("/questions", "", "FAQ")}
                 {this.links("/#HowTo", "HowTo", "How It Works")}
 
-              <Link to="/login">
-                  <div style={styles.heading} className="col m1 offset-m1 valign-wrapper hide-on-small-only nav-bar-heading">
-                      <div className="genText">Login</div>
-                  </div>
-                  <div  style={styles.headIcon} className="col s3 hide-on-med-and-up">
-                      <i style={styles.icon} className="genText material-icons">account_circle</i>
-                  </div>
+
+                {
+                  /*
+                  <Link to="/login">
+                   <div style={styles.heading} className="col m1 offset-m1 valign-wrapper hide-on-small-only nav-bar-heading">
+                       <div className="genText">Login</div>
+                   </div>
+                   <div  style={styles.headIcon} className="col s3 hide-on-med-and-up">
+                       <i style={styles.icon} className="genText material-icons">account_circle</i>
+                   </div>
+                 </Link>
+
+                   */
+                }
+
+
+
+              <Link to="/#collectEmails">
+                <button id="rec-but" style={styles.rounded} className="col m2 push-l1 push-m1 hide-on-small-only nav-bar-heading" onClick={this.handleClick}>
+                  <div className="genText">Sign Up</div>
+                </button>
               </Link>
+
+              {
+                /*
               <Link to="/register">
                 <div id="rec-but" style={styles.heading} className="col m1  hide-on-small-only nav-bar-heading ">
                 <div className="genText">Sign Up</div>
                 </div>
               </Link>
+              */
+           }
+
+
 
               <ul id="sideNav" className="side-nav">
                   <li>
@@ -99,11 +135,19 @@ export default class Base extends Component{
                   <li>
                       <Link onClick={this.sideClick.bind(this)} to = "/">Home</Link>
                   </li>
-                  <li>
-                      <Link onClick={this.sideClick.bind(this)} to = "/#price">Pricing</Link>
-                  </li>
+                  {/*
+                    <li>
+                        <Link onClick={this.sideClick.bind(this)} to = "/#price">Pricing</Link>
+                    </li>
+                  */}
                   <li>
                       <Link onClick={this.sideClick.bind(this)} to = "/questions">FAQs</Link>
+                  </li>
+                  <li>
+                      <a onClick={this.handleClick.bind(this, "How To")}>How it works</a>
+                  </li>
+                  <li>
+                      <Link onClick={this.handleClick.bind(this)} to = "/">Sign Up</Link>
                   </li>
 
 
@@ -134,9 +178,19 @@ let styles = {
         position: 'relative',
         top: '12px',
         textAlign:'center',
-        padding: '0px',
+        padding: '0px'
 
     },
+    rounded : {
+        position: 'relative',
+        top: '12px',
+        textAlign:'center',
+        padding: '0px',
+        backgroundColor: 'transparent',
+        border: '1px solid white'
+    },
+
+
     headIcon: {
         position: 'relative',
         textAlign: 'right',
