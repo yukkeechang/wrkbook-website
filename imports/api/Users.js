@@ -12,8 +12,19 @@ import LocationSchema from './Schemas/locationSchema';
 import EducationSchema from './Schemas/educationSchema';
 import OshaSchema from './Schemas/oshaSchema';
 import SocialSchema from './Schemas/socialSchema';
+import leadSchema from './Schemas/leadSchema';
 import {Job} from './Jobs';
 import {ServerSession } from 'meteor/matteodem:server-session';
+
+const Lead = new Mongo.Collection('leads');
+Lead.attachSchema(leadSchema);
+
+const isEmailCheck = (User) => {
+  let email = true;
+  let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if(!emailRegex.test(User.email)) {email = false;}
+  return email;
+}
 
 export const NOTAUTH = {
     notAuthorized: true
@@ -41,10 +52,40 @@ if ( Meteor.isServer ) {
         return Meteor.users.find({_id: id}, {fields: { emails: 1, profile: 1,roles: 1 } });
   });
 }
+
+
 Meteor.methods({
   /*
-    @summary Checks if the new password of the user are the same, and if they meet the requirments
-    @param {Object} password Object should contain keys password1,password2; password2 will be used to confirm the first password
+    Validates a lead object information before it's submitted into the database.Checks for if name
+    and email exists and if the email is a valid email.
+    @param {Object} Lead Object
+    @throws {Meteor.Error} If the the lead object passed is missing fields or
+    if the fields are incorrect an Error object will be thrown.
+  */
+    validateLead(newLead) {
+        let isEmail = isEmailCheck(newLead);
+        let emailEmpty = newLead.email.length > 0 ? false : true;
+        let nameEmpty = newLead.name.length > 0 ? false : true;
+
+        let Errors = {
+          isEmail: isEmail,
+          emailEmpty: emailEmpty,
+          nameEmpty: nameEmpty
+        }
+
+        if(nameEmpty || emailEmpty || !isEmail) {
+
+          throw new Meteor.Error('403', Errors)
+        }
+    },
+    createLead(newLead) {
+      Meteor.call('validateLead', newLead)
+      Lead.insert(newLead)
+    },
+
+  /*
+    Checks if the new password of the user are the same, and if they meet the requirments
+    @param {Object} password Object
     @throws {Meteor.Error} If the passwords don't match eachother or if the
     passwords dont match the requirments of 8 min length,one character,one number
    */
@@ -76,7 +117,7 @@ Meteor.methods({
       let gPhone = (/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/).test(User.profile.phone);
       let fEmpty = User.profile.firstName.length > 0 ? false : true;
       let lEmpty = User.profile.lastName.length > 0 ? false : true;
-      let isEmail = (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(User.email);
+      let isEmail = isEmailCheck(User);
       let eEmpty = User.email.length > 0 ? false : true;
       let nEqual = User.password == User.password2 ? false : true;
       let gPass   = (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d].{8,}$/).test(User.password);

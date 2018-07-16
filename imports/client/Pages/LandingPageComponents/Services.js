@@ -65,7 +65,7 @@ export default class Services extends React.Component{
         <div style={{ backgroundColor: 'white'}}>
             <div >
                 <div>
-                    <h6 style={{fontStyle:'bold',fontSize:'30px', fontColor: 'gray', paddingBottom: '20px', paddingTop: '20px'}} className="center-align">Find jobs in or skilled trade professionals in</h6>
+                    <div className="how-to-heading center-align montserrat-med" style={{ fontColor: 'gray', paddingBottom: '20px', paddingTop: '20px', marginTop: '0px'}}>Find jobs in or skilled trade professionals in</div>
 
                       <div className="row">
 
@@ -83,7 +83,6 @@ export default class Services extends React.Component{
                 </div>
             </div>
          <div className="divider"></div>
-         <div className="section"></div>
 
         </div>
     )

@@ -17,7 +17,7 @@ Table of Contents End
 /* 1.1 - Buttons
 -------------------------------------------------*/
 #rec-but{
-  border: 2px solid white;
+  border: 2px;
   border-radius: 10px;
 	margin-left: 5px;
 }
@@ -62,7 +62,11 @@ Table of Contents End
 	.nav-bar-heading{
 		font-size: 1em;
 	}
+  .how-to-heading {
+    font-size: 1.4em
+  }
 }
+
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
@@ -72,6 +76,10 @@ Table of Contents End
 	.nav-bar-heading{
 		font-size: 1.1em;
 	}
+  .how-to-heading {
+    font-size: 1.5em
+  }
+
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -82,6 +90,13 @@ Table of Contents End
 	.nav-bar-heading{
 		font-size: 1.4em;
 	}
+
+  .container-space {
+    padding-left: 10px;
+  }
+  .how-to-heading {
+    font-size: 1.8em
+  }
 }
 @media only screen and (min-width: 992px) {
 	.nav-bar-text{
@@ -90,4 +105,11 @@ Table of Contents End
 	.nav-bar-heading{
 		font-size: 1.7em;
 	}
+  .container-space {
+    padding-left: 10px;
+  }
+  .how-to-heading {
+    font-size: 1.9em
+  }
+
 }

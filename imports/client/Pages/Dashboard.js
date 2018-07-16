@@ -20,7 +20,7 @@ import DeletedView from './Dashboard/Jobs/DeletedJob';
 //JOB REFACTOR
 import One from './Dashboard/Jobs/CreateJob/One';
 import Two from './Dashboard/Jobs/CreateJob/Two';
-import CreateJob from './Dashboard/Jobs/CreateJob/CreateJob';
+import CreateJob from './Dashboard/Jobs/CreateJob';
 
 import Edit from './Dashboard/Profile/Edit/Edit';
 import Settings from './Dashboard/Settings/Settings';

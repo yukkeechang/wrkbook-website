@@ -11,7 +11,7 @@ import Dashboard from './Pages/Dashboard';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import Forgot from './Pages/Forgot';
-import Faq from './Pages/FaqPage';
+import Faq from './Pages/LandingPageComponents/FaqPage';
 import ResetPassword from './Pages/ResetPassword';
 import MSpinner from './Pages/Shared/MSpinner';
 
