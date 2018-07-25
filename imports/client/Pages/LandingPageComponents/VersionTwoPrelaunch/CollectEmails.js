@@ -7,7 +7,7 @@ export default class CollectEmails extends React.Component {
     super(props);
     this.state = {
       pro: true,
-      buttonColor: "fill-dark-gray",
+      buttonColor: "grey darken-3",
       buttonText: "Submit",
       isEmail: true,
       nameEmpty: false,
@@ -27,7 +27,10 @@ export default class CollectEmails extends React.Component {
       if (err) {
         this.setState(err.reason);
       } else {
-        this.setState({ buttonColor: "fill-green", buttonText: "Submitted" });
+        this.setState({ buttonColor: "green darken-4 ", buttonText: "Submitted" });
+        Materialize.toast('Email and name has been submitted', 3000, 'rounded');
+        this.refs.name.reset();
+        this.refs.email.reset();
       }
     });
   }
@@ -82,6 +85,7 @@ export default class CollectEmails extends React.Component {
                 id="pro"
                 ref="pro"
                 onClick={this.pro}
+                defaultChecked={(this.state.pro)? "checked" :''}
               />
               <label htmlFor="pro">Professional/Skilled trade worker</label>
             </div>
@@ -91,12 +95,13 @@ export default class CollectEmails extends React.Component {
                 id="con"
                 ref="con"
                 onClick={this.con}
+                defaultChecked={(this.state.pro)? '' :"checked"}
               />
               <label htmlFor="con">Contractor</label>
             </div>
           </div>
         </div>
-        <div style={{paddingBottom:'15px',marginBottom:'0px'}} className="row center-align ">
+        <div style={{paddingBottom:'15px',marginBottom:'0px'}} className="row">
           <Button
             className={`button-sh col s12 m4 l4 offset-l4 offset-m4 ${
               this.state.buttonColor
