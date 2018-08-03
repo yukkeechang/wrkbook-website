@@ -55,7 +55,7 @@ export default class Forgot extends Component{
 
                       {
                         !this.state.showEmail &&
-                      <button className="btn-flat pale-teal no-uppercase" onClick={this.resetPasswordEmail} >Reset Password Email</button>
+                      <a className="btn-flat pale-teal no-uppercase" onClick={this.resetPasswordEmail} >Reset Password Email</a>
                       }
                     </form>
                   </div>
