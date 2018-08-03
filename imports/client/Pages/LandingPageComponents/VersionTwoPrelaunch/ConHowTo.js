@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 
 const ConHowTo = () => {
   return (
-    <div style={{backgroundColor: '#8DC1FD'}}>
-      <h4 className="valign how-to-heading montserrat-med" style={{color: 'white', padding: '30px' }}>Are you a general or sub contractor? Do you own a small skilled trade company?</h4>
+    <div className="custom-blue">
+      <h4 className="valign how-to-heading montserrat-med" style={{color: 'white', padding: '30px',marginTop:'0px' }}>Are you a general or sub contractor? Do you own a small skilled trade company?</h4>
       <div className='row'>
         <div className="col m4 l4">
           <img style={{maxWidth: '100%',maxHeight: '100%'}} src='/images/Contractor-tag.png'/>

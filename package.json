@@ -1,13 +1,14 @@
 {
   "name": "wrkbook-web",
   "private": true,
-  "engines":{
+  "engines": {
     "node": "8.11.3",
     "npm": "6.2.0"
   },
   "scripts": {
     "check-code": " ./node_modules/eslint/bin/eslint.js  imports/api/",
     "make-docs": "./node_modules/jsdoc/jsdoc.js -c jsdoc.json",
+    "make-css" : "./node_modules/sass/sass.js client/materialize.scss client/materialize.css",
     "start": "meteor --settings settings-development.json",
     "client-only": "TEST_SERVER=0 TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha",
     "always": "meteor test --driver-package cultofcoders:mocha --port 5000",
@@ -46,6 +47,7 @@
     "react-rating": "^0.9.1",
     "react-router-dom": "^4.1.1",
     "react-transition-group": "^1.2.1",
+    "sass": "^1.10.0",
     "simpl-schema": "^1.5.0",
     "stripe": "^4.24.1",
     "webpack": "^4.8.2"

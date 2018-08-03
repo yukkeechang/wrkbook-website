@@ -79,9 +79,9 @@ class NotificationCard extends React.Component {
                         }
 
                       </div>
-                      <div style={{height:'100px'}}className="col m4 s6 valign-wrapper">
-                        <Link to={this.props.notification.href}>
-                          <a style={{width:'100%',borderRadius:'10px', backgroundColor:'#7ED0B0',color:'white'}} className="btn-flat center-align">Apply Now</a>
+                      <div style={{height:'100px'}}className="col m4 s6 valign-wrapper center-align">
+                        <Link to={this.props.notification.href}  style={{backgroundColor:'#7ED0B0',width:'80%'}} className="roundish-button-flat center-align">
+                          Apply Now
                         </Link>
                       </div>
                     </div>
@@ -92,24 +92,24 @@ class NotificationCard extends React.Component {
                 :
 
                 <div className="row">
-                  <div className="col m8 s6">
+                  <div className="col m8 s12">
                       <h6>{this.props.notification.description}</h6>
                   </div>
-                  <div className="col m4 s6 valign-wrapper">
+                  <div className="col m4 s10 offset-s2 valign-wrapper center-align">
                   {
                     (this.props.notification.typeNotifi == "APPLIED" ?
-                        <Link to={this.props.notification.href}>
-                          <a style={{width:'100%',borderRadius:'10px', backgroundColor:'#93BDED',color:'white'}} className="btn-flat center-align">View Job</a>
+                        <Link to={this.props.notification.href} style={{width:'80%', backgroundColor:'#93BDED'}} className="roundish-button-flat center-align">
+                          View Job
                         </Link>
                         :
                         (this.props.notification.typeNotifi == "HIRED" ?
-                          <Link to={this.props.notification.href}>
-                            <a style={{width:'100%',borderRadius:'10px', backgroundColor:'#9ccc65',color:'white'}} className="btn-flat center-align">View Job</a>
+                          <Link to={this.props.notification.href} style={{width:'80%', backgroundColor:'#9ccc65'}} className="roundish-button-flat center-align">
+                            View Job
                           </Link>
                           :
                           (this.props.notification.typeNotifi == "REMOVE" ?
-                            <Link to={this.props.notification.href}>
-                              <a style={{width:'100%',borderRadius:'10px', backgroundColor:'#FF919F',color:'white'}} className="btn-flat center-align">View Now</a>
+                            <Link to={this.props.notification.href} style={{width:'80%', backgroundColor:'#FF919F'}} className="roundish-button-flat center-align">
+                              View Job
                             </Link>
                             :
                             null

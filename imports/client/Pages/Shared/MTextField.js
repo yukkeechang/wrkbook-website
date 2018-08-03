@@ -13,7 +13,7 @@ export default class MTextField extends Component{
     }
     componentWillReceiveProps(nextProps){
         this.setState({error: nextProps.error});
-        
+
     }
     value(){
         return this.refs.tf.value;
@@ -23,7 +23,7 @@ export default class MTextField extends Component{
     }
     render(){
         return(
-            <div style={this.props.style}className="input-field">
+            <div style={this.props.style} className="input-field">
                 <input ref="tf" className={(this.state.error ? 'invalid':'')} id={this.props.id} defaultValue={this.props.value} type={this.state.type} />
                 <label ref="tl" data-error={this.state.error} htmlFor={this.props.id} >{this.props.label}</label>
             </div>

@@ -59,6 +59,7 @@ Meteor.methods({
     Validates a lead object information before it's submitted into the database.Checks for if name
     and email exists and if the email is a valid email.
     @param {Object} Lead Object
+    @mmethod
     @throws {Meteor.Error} If the the lead object passed is missing fields or
     if the fields are incorrect an Error object will be thrown.
   */
@@ -66,14 +67,16 @@ Meteor.methods({
         let isEmail = isEmailCheck(newLead);
         let emailEmpty = newLead.email.length > 0 ? false : true;
         let nameEmpty = newLead.name.length > 0 ? false : true;
-
+        let existAlready = Lead.find({email:newLead.email}).count() > 0;
+        console.log("the fuck");
         let Errors = {
           isEmail: isEmail,
           emailEmpty: emailEmpty,
-          nameEmpty: nameEmpty
+          nameEmpty: nameEmpty,
+          existAlready:existAlready
         }
 
-        if(nameEmpty || emailEmpty || !isEmail) {
+        if(nameEmpty || emailEmpty || !isEmail || existAlready) {
 
           throw new Meteor.Error('403', Errors)
         }
@@ -86,6 +89,7 @@ Meteor.methods({
   /*
     Checks if the new password of the user are the same, and if they meet the requirments
     @param {Object} password Object
+    @mmethod
     @throws {Meteor.Error} If the passwords don't match eachother or if the
     passwords dont match the requirments of 8 min length,one character,one number
    */
@@ -107,6 +111,7 @@ Meteor.methods({
     Validates the User Basic Information such as phone, email, etc. Also checks
     if there is an account already made with the same email address.
     @param {Object} User object
+    @mmethod
     @throws {Meteor.Error} If the the user object passed is missing fields or
     if the fields are incorrect an Error object will be thrown.
 
@@ -214,7 +219,7 @@ Meteor.methods({
     },
     /**
      * Sends a Email Verification Link the email adress associated with the ID
-     *
+     * @mmethod
      * @param  {string} Id The Id the user to send email link
      * @throws {Meteor.Error}  This function is only for users who are have not
      * made accounts yet
@@ -237,6 +242,7 @@ Meteor.methods({
       validateEmployer depending on if the user claim he/she is a contractor or
       professional. Also assigns a role to the user depending on if he/she
       is a professional or contractor.
+      @mmethod
       @param {Object} User object
       @throws {Meteor.Error} If the the user object passed is missing fields or
       if the fields are incorrect an Error object will be thrown.
@@ -284,6 +290,7 @@ Meteor.methods({
 
     /**
       @summary Returns the user stored in the database by given Id
+      @mmethod
       @param{String} userId is the Id of the user
       @returns {UserObject|Null} if the user exists or null if the user was not found
       @throws {Meteor.Error} If the the user object passed is missing fields or
@@ -293,8 +300,7 @@ Meteor.methods({
 
       if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
       check(userID,String);
-      let crap =Meteor.users.findOne({_id : userID},{fields: { emails: 1, profile: 1,roles: 1 } });
-      return crap;
+      return Meteor.users.findOne({_id : userID},{fields: { emails: 1, profile: 1,roles: 1 } });
     },
     updateEmployerData(employerData){
         let prevUser = Meteor.users.findOne({_id: this.userId});
@@ -413,6 +419,7 @@ Meteor.methods({
 
     /**
       @summary Updates the user Information stored in the database
+      @mmethod
       @param {Object} User is the object that should contain the updated fields
       @throws {Meteor.Error} If the user is signed in or if the user is not
       a professional or a constructor
@@ -443,6 +450,7 @@ Meteor.methods({
     /**
       Allows the user to delete himself or herself. If the User is a contractor
       all of the jobs he/she created will be removed from the database
+      @mmethod
       @throws {Meteor.Error} If the person calling the function is not sign or not
       a contractor or professional
     */
@@ -462,6 +470,7 @@ Meteor.methods({
      * email addresses (one is for confirmation). The emails must match and
      * are valid email strings the email.The user email address will be updated and a new
      * Verification email will be sent.
+     * @mmethod
      * @param  {Object} Emails the object that contains two email addresses
      * @throw {Meteor.Error} if the emails dont match or if the fields are empty.
      */
@@ -474,8 +483,7 @@ Meteor.methods({
 
       let oldEmail = Meteor.users.findOne({_id: this.userId}).emails[0].address;
       let sameEmail = oldEmail == Emails.email1 ? true:false;
-      let arrayEmail = [];
-      arrayEmail[0] = Emails.email1;
+      let arrayEmail = [Emails.email1];
       let existAlready = Meteor.users.find({'emails':{ $elemMatch: { address:  Emails.email1 } } }).count() > 0  && !sameEmail? true:false;
 
       let Errors ={

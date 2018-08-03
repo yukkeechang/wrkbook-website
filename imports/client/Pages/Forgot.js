@@ -17,8 +17,8 @@ export default class Forgot extends Component{
   componentDidMount(){
 
   }
-  resetPasswordEmail(e){
-    console.log(e);
+  resetPasswordEmail=(e)=>{
+    e.preventDefault();
     let email = this.refs.em.value();
     const options ={
       email : email
@@ -36,11 +36,11 @@ export default class Forgot extends Component{
   }
   render(){
     return(
-        <div style={{height:'100vmin'}}>
+        <div className="fill-height">
           <Header/>
-          <div style={{height: '65px' }}></div>
+          <div className="header-nav-bar-offset"></div>
             <div className="wrapper">
-              <div style={{zIndex:'-1',}} className="container">
+              <div  className="container">
                 <div className="card">
                   <div className="row card-content">
                     <form className="col s12">
@@ -55,7 +55,7 @@ export default class Forgot extends Component{
 
                       {
                         !this.state.showEmail &&
-                      <a className="btn-flat teal lighten-4" onClick={this.resetPasswordEmail.bind(this)} style={{color: '#555',textTransform: 'none'}} type="submit">Reset Password Email</a>
+                      <button className="btn-flat pale-teal no-uppercase" onClick={this.resetPasswordEmail} >Reset Password Email</button>
                       }
                     </form>
                   </div>

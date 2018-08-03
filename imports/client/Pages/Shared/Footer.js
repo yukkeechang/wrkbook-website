@@ -1,13 +1,13 @@
 
 import React from 'react';
-
+import WrkBookIcon from './WrkBookIcon';
 export default Footer = (props)=>{
     return(
-        <footer id="footer" className="page-footer" style={{backgroundColor:'#3e3e3e'}}>
+        <footer id="footer" className="page-footer dark-grey">
             <div className="container">
                 <div style={{paddingTop:'20px',marginBottom:'0'}} className="row">
                     <div className="col s12 m5">
-                        <img style={{width: '193px'}}src="/images/wrkbookfooter.png" alt=""/>
+                        <WrkBookIcon height={'100px'} />
                         <p style={{textAlign:'justify'}}className="genText">
                             Wrkbook is a website and soon to be mobile application that connects the supply of workers with the demand for jobs. Opening doors to connections that otherwise would never happen.
                         </p>
@@ -15,7 +15,7 @@ export default Footer = (props)=>{
                     <div className="col s12 m7">
                         <div className="row">
                             <p className="genText col s12" style={{fontSize:'1.3em'}}>
-                                Have any questions? Reach us at <a style={{color:'#26a69a'}}href="mailto:info@wrkbook.com?subject=[Information Inquiry]">info@wrkbook.com</a>
+                                Have any questions? Reach us at <a className="teal-text" href="mailto:info@wrkbook.com?subject=[Information Inquiry]">info@wrkbook.com</a>
                             </p>
                             <div className="col s12">
                                 <div className="row">
@@ -41,7 +41,7 @@ export default Footer = (props)=>{
                 </div>
                 <div style={{marginBottom:'0'}} className="row">
                     <div className="col s12">
-                        <p style={{padding:'0',marginTop:'0',textAlign:'center',color:'#26a69a'}}>© 2017 by WrkBook LLC.</p>
+                        <p className="teal-text" style={{padding:'0',marginTop:'0',textAlign:'center'}}>© 2017 by WrkBook LLC.</p>
                     </div>
                 </div>
 

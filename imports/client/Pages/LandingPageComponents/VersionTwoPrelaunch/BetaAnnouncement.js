@@ -8,9 +8,8 @@ export default class Banner extends React.Component {
   render() {
     return (
       <div
-        className="center-align montserrat-med"
+        className="center-align montserrat-med teal"
         style={{
-          backgroundColor: "#26a69a",
           fontSize: "25px",
           padding: "10px",
           color: "white"
@@ -18,7 +17,8 @@ export default class Banner extends React.Component {
       >
         <span> Our Beta Version 2.0 is coming out August 2018.</span>
         <button
-          style={{ border: "None", backgroundColor: "#26a69a" }}
+          className="teal"
+          style={{ border: "None"}}
           onClick={this.handleClick}
         >
           <span

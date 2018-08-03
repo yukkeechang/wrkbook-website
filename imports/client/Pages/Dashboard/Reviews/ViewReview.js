@@ -2,48 +2,47 @@ import React,  { Component } from 'react'
 import Rating from 'react-rating';
 
 
-let ConComments =(props)=>{
-  if(!!props.review){
-    return(
-    <div>
-      <div>Other Comments: </div>
-      <div>{props.review.conReview.wouldRecommend ? "- Would Recommend" : null}</div>
-      <div>{props.review.conReview.neatJob ? "- Neat Job" : ''}</div>
-      <div>{props.review.conReview.onTime ? "- On Time" : ''}</div>
-    </div>
-    );
-  }else{
-    return(
-      <div> </div>
-    )
-  }
-};
-let ProComments = (props)=>{
-  if(!!props.review){
-    return (
-      <div>
-        <div>Other Comments: </div>
-        <div>{props.review.proReview.safeWorkSpace ? "-Safe Workspace" : null}</div>
-        <div>{props.review.proReview.paidOnTime ? "- Paid on Time" : ''}</div>
-      </div>
-    )
-  }else{
-    return(
-      <div> </div>
-    )
-  }
-};
 
 
 export default class ViewReview extends React.Component {
-
   constructor(props) {
     super(props);
 
-}
-
+  }
 
 render() {
+  let ConComments =(props)=>{
+    if(!!props.review){
+      return(
+      <div>
+        <div>Other Comments: </div>
+        <div>{props.review.conReview.wouldRecommend ? "- Would Recommend" : null}</div>
+        <div>{props.review.conReview.neatJob ? "- Neat Job" : ''}</div>
+        <div>{props.review.conReview.onTime ? "- On Time" : ''}</div>
+      </div>
+      );
+    }else{
+      return(
+        <div> </div>
+      )
+    }
+  };
+  let ProComments = (props)=>{
+    if(!!props.review){
+      return (
+        <div>
+          <div>Other Comments: </div>
+          <div>{props.review.proReview.safeWorkSpace ? "-Safe Workspace" : null}</div>
+          <div>{props.review.proReview.paidOnTime ? "- Paid on Time" : ''}</div>
+        </div>
+      )
+    }else{
+      return(
+        <div> </div>
+      )
+    }
+  };
+
   return(
       <div>
         <div className="row">

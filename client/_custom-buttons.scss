@@ -1,0 +1,14 @@
+.roundish-button-flat{
+  border-radius: 10px;
+  color: white;
+  text-transform: none;
+  @extend .btn-flat;
+}
+.roundish-button-flat-full-width{
+  width: 100%;
+  @extend .roundish-button-flat;
+}
+.roundish-button-flat-large{
+    @extend .roundish-button-flat;
+    height: 70px;
+}

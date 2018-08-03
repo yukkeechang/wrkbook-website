@@ -1,0 +1,24 @@
+.banner{
+  background-size: auto 100vmax;
+  background-position: center center;
+  background-attachment: fixed;
+}
+.ban-small{
+  height: 25%;
+  min-height: 300px;
+  @extend  .banner;
+}
+.ban-med{
+  height: 60vmin;
+  min-height: 500px;
+  @extend .banner;
+}
+.ban-large{
+  height: 100%;
+  min-height: 550px;
+  @extend .banner;
+}
+.faq-background{
+  background-image: url('/images/heroBG.jpg');
+  @extend .ban-large;
+}

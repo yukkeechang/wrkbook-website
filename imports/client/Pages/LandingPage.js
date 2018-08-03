@@ -10,6 +10,7 @@ import Footer from "./Shared/Footer";
 import Banner from "./LandingPageComponents/VersionTwoPrelaunch/BetaAnnouncement";
 import ProHowTo from "./LandingPageComponents/VersionTwoPrelaunch/ProHowTo";
 import ConHowTo from "./LandingPageComponents/VersionTwoPrelaunch/ConHowTo";
+import SecondBanner from "./LandingPageComponents/VersionTwoPrelaunch/SecondBanner";
 import CollectEmails from "./LandingPageComponents/VersionTwoPrelaunch/CollectEmails";
 import { initGA, logPageView } from "./Shared/GoogleAnalytics";
 
@@ -58,6 +59,7 @@ export default class LandingPage extends React.Component {
         <Banner handleClick={this.handleClick} />
         <Services />
         <ProHowTo ref="HowTo" />
+        <SecondBanner handleClick={this.handleClick}/>
         <ConHowTo />
         <CollectEmails ref="collectEmails" />
         <Testimonial />

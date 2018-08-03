@@ -11,21 +11,10 @@ export default class SignIn extends Component{
     this.state = {
       noUser: '',
       pValid: '',
-      windowHeight: '1px'
     };
 
   }
-  componentDidMount(){
-    console.log($(window).height());
-
-  }
-
-  componentWillUnmount(){
-    console.log('unmounting');
-  }
-
   login=(e)=>{
-
     e.preventDefault();
 
     let email = this.refs.em.value();
@@ -44,13 +33,13 @@ export default class SignIn extends Component{
 
   render(){
     return(
-      <div style={{  height: '100vmin'}}>
+      <div className="fill-height">
 
         <Header/>
 
-        <div style={{height:'100px'}}></div>
+        <div className="header-nav-bar-offset"></div>
           <div className="wrapper">
-            <div style={{zIndex:'-1'}}  className="container">
+            <div className="container">
               <div className="card">
                 <div className="row card-content">
                 <form className="col s12">
@@ -58,7 +47,7 @@ export default class SignIn extends Component{
                     <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
                     <MTextField ref="p1" id="pass1"     error={this.state.pValid} type="password" label="Password *"/>
                   </div>
-                  <button id="but" ref="butt" className="btn-flat teal lighten-4" onClick={this.login} style={{color: '#555',textTransform: 'none'}}>Log In</button>
+                  <button id="but" ref="butt" className="btn-flat pale-teal no-uppercase" onClick={this.login}>Log In</button>
                   <br/>
                   <br/>
                   <Link to="/register">Don't have an account? Click here to register</Link>

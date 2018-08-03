@@ -52,8 +52,7 @@ class Application extends Component {
             </BrowserRouter>
         );
     }
-    componentDidMount(){
-    }
+
 }
 const App = withTracker(props => {
     return {
@@ -62,7 +61,4 @@ const App = withTracker(props => {
         user: Meteor.user()
     }
 }) (Application);
-
-Meteor.startup(() => {
-    render(<App/>, document.getElementById('render-target'));
-});
+export default App;

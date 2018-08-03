@@ -9,8 +9,7 @@ import { Link } from 'react-router-dom';
 import Profile from './Dashboard/Profile/CurrentUserProfile';
 import OtherUser from './Dashboard/Profile/OtherUserProfile'
 
-import NotFound from '../Pages/NotFound';
-import Payment from './Dashboard/Settings/Payment';
+import NotFound from '../Pages/Shared/ItemNotFound';
 
 import Completed from './Dashboard/Jobs/Completed/Completed';
 import Upcoming from './Dashboard/Jobs/Upcoming/Upcoming';

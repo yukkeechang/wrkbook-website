@@ -43,9 +43,9 @@ export default class SignUp extends Component{
                 break;
         }
         return(
-            <div style={{height:'100vmin'}}>
+            <div className="fill-height">
                 <Header/>
-                <div style={{height:'100px'}}></div>
+                <div className="header-nav-bar-offset"></div>
                   <div className="wrapper">
                     <div className="container">
                         <div className="progress">

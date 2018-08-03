@@ -26,7 +26,7 @@ export default class FaqPage  extends React.Component {
     return(
         <div>
             <Header/>
-            <div id="herofaq">
+            <div className="faq-background">
 
             <div style={{height:'100px'}}></div>
               <div>

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component }  from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Shared/Header';
 import Step from './HowTo/Step';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
+import { CSSTransitionGroup } from 'react-transition-group';
 
 
 
@@ -17,10 +17,9 @@ const imageText = [{ img: "/images/services/plumb.png",text: "Plumbing"},
                    {img:"/images/services/roofing.png",text:"Masonry"},
                    {img:"/images/services/carpentry.png",text:"Carpentry"},
                    {img:"/images/services/house.png",text:"Remodeling"},
-                   {img:"/images/services/HVAC.png",text:"HVAC"}
+                   {img:"/images/services/HVAC.png",text:"HVAC"}];
 
-]
-export default class Services extends React.Component{
+export default class Services extends Component{
   constructor(props){
     super(props);
     let items = imageText.slice(0,6).map(i=>{
@@ -31,7 +30,7 @@ export default class Services extends React.Component{
       count:0,
       interval: {},
       items: items
-    }
+    };
   }
   componentDidMount(){
     let interval = setInterval(this.changeIcons,3500)
@@ -62,20 +61,20 @@ export default class Services extends React.Component{
       );
     })
     return(
-        <div style={{ backgroundColor: 'white'}}>
+        <div className="white">
             <div >
                 <div>
-                    <div className="how-to-heading center-align montserrat-med" style={{ fontColor: 'gray', paddingBottom: '20px', paddingTop: '20px', marginTop: '0px'}}>Find jobs in or skilled trade professionals in</div>
+                    <div className="how-to-heading center-align montserrat-med dark-grey-text" style={{ paddingBottom: '20px', paddingTop: '20px', marginTop: '0px'}}>Find jobs in or skilled trade professionals in</div>
 
                       <div className="row">
 
-                      <ReactCSSTransitionGroup
+                      <CSSTransitionGroup
                         transitionName="fade"
                         transitionEnterTimeout={500}
                         transitionLeave={false}
                         transitionLeaveTimeout={300}>
                           {items}
-                        </ReactCSSTransitionGroup>
+                        </CSSTransitionGroup>
 
 
 

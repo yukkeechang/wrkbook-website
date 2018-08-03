@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i');
+
+
+@font-face {
+    font-family: "Montserrat";
+    src:
+    url('../public/fonts/Montserrat/montserrat.regular.ttf') format("ttf"),
+    url('../public/fonts/Montserrat/montserrat.regular-webfont.woff')  format("woff2");
+}
+@font-face {
+    font-family: "Montserrat-Bold";
+    src:
+    url('../public/fonts/Montserrat/montserrat.bold.ttf') format("ttf"),
+}
+@font-face {
+    font-family: "Montserrat-SemiBold";
+    src:
+    url('../public/fonts/Montserrat/Montserrat-SemiBold.otf') format("otf")
+}
+@font-face {
+    font-family: "Montserrat-Medium";
+    src:
+    url('../public/fonts/Montserrat/Montserrat-Medium.otf') format("otf")
+}
+@font-face {
+    font-family: 'Avenir';
+    src: url("/fonts/Avenir/AvenirNextLTPro-Regular.woff2") format("woff2");
+}
+@font-face {
+    font-family: 'Avenir';
+    src: url("/fonts/Avenir/AvenirNextLTPro-Regular.woff2") format("woff2");
+}
+.genText {
+    font-family:avenir-lt-w01_35-light1475496;
+    color: white;
+}
+.montserrat-reg {
+  font-family:'Montserrat', sans-serif;
+  color: white;
+}
+.montserrat-reg-i {
+  font-family:'Montserrat', sans-serif;
+  font-style: italic;
+  color: white;
+}
+.montserrat-med {
+  font-family:'Montserrat', sans-serif;
+  font-weight: 500;
+}
+.montserrat-med-i {
+  font-family:'Montserrat', sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  color: white;
+}
+
+.no-uppercase {
+     text-transform: none !important;
+}
+.to-bold{
+  font-weight: bold;
+}
+.to-italic{
+  font-style: italic;
+}
+
+.nav-bar-text{
+	font-size: 1em;
+}
+.nav-bar-heading{
+	font-size: 1.1em;
+}
+.heading{
+    font: normal normal normal 1.4em spinnaker,sans-serif;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	.nav-bar-text{
+		font-size: .9em;
+	}
+	.nav-bar-heading{
+		font-size: 1.1em;
+	}
+  .how-to-heading {
+    font-size: 1.4em
+  }
+}
+
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	.nav-bar-text{
+		font-size: 1.0em;
+	}
+	.nav-bar-heading{
+		font-size: 1.2em;
+	}
+  .how-to-heading {
+    font-size: 1.5em
+  }
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	.nav-bar-text{
+		font-size: 1.1em;
+	}
+	.nav-bar-heading{
+		font-size: 1.4em;
+	}
+  .how-to-heading {
+    font-size: 1.8em
+  }
+}
+@media only screen and (min-width: 992px) {
+	.nav-bar-text{
+		font-size: 1.2em;
+	}
+	.nav-bar-heading{
+		font-size: 1.7em;
+	}
+  .how-to-heading {
+    font-size: 1.9em
+  }
+
+}

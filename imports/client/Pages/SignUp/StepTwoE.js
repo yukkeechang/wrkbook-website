@@ -44,7 +44,7 @@ export default class StepTwoE extends Component{
     handlePrev(){
       let thin = window.sessionStorage.getItem('reg');
 
-      UserObjectArray = JSON.parse(thin);
+      let UserObjectArray = JSON.parse(thin);
       this.props.next(1,UserObjectArray[0],true)
     }
     handleNext(){
@@ -304,8 +304,8 @@ export default class StepTwoE extends Component{
                         <div className="row">
 
 
-                        <a onClick={this.handlePrev.bind(this)} className="btn-flat blue-grey lighten-4 col s5 m3" style={{color: 'black',textAlign:'center',marginTop: '8px'}}>Back</a>
-                        <a onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5 col s5 offset-s2 m3 offset-m6" style={{color: 'black',textAlign:'center',marginTop: '8px'}}type="submit">Next</a>
+                        <a onClick={this.handlePrev.bind(this)} className="btn-flat muted-blue-grey col s5 m3" style={{color: 'black',textAlign:'center',marginTop: '8px'}}>Back</a>
+                        <a onClick={this.handleNext.bind(this)} className="btn-flat pale-teal col s5 m3  offset-s2 offset-m6" style={{color: 'black',textAlign:'center',marginTop: '8px'}}>Next</a>
 
                             {this.state.err ? (
                                 <CSSTransitionGroup

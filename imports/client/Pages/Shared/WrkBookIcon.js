@@ -1,8 +1,9 @@
 import React from 'react';
 
-export default WrkBookIcon = () => {
+export default WrkBookIcon = (props) => {
+    let size = props.height ? props.height : '54px';
     return (
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/1999/xlink" height="54px" x="0px" y="0px"
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/1999/xlink" height={size} x="0px" y="0px"
         viewBox="0 0 4000 1204" style={{enableBackground:'new 0 0 4000 1204'}}>
             <g>
             <defs>

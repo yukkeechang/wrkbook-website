@@ -14,7 +14,7 @@ export default class HowTo extends React.Component{
     }
     render(){
       return(
-          <div id="HowTo" style={{backgroundColor: 'white'}} >
+          <div id="HowTo" className="white">
               <h4 style={{fontFamily:'avenir-lt-w01_35-light1475496',textAlign: 'center',margin:'0',paddingBottom:'20px'}}>Made for skilled trade professionals and construction contractors </h4>
 
               {/*Professional Section*/}

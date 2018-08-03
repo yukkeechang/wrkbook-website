@@ -1,9 +1,9 @@
 import { SyncedCron } from 'meteor/percolate:synced-cron';
 import {changeIsOpen} from './Jobs';
 /** @module Cron */
-SyncedCron.config({log: true,utc:true});
+SyncedCron.config({log: false,utc:true});
 /**
- * [name description]
+ * @summary scheduler function--runs changeIsOpen
  * @type {String}
  */
 SyncedCron.add({

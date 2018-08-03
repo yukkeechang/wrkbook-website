@@ -101,17 +101,16 @@ if (Meteor.isServer) {
 }
 Meteor.methods({
   /**
-   * [validateEvent description]
+   * @summary used to validate objects against EventSchema
    * @mmethod
-   * @param  {Object} eventToValidate [description]
-   * @return {[type]}                 [description]
+   * @param  {Object} eventToValidate event object to check
    */
   validateEvent(eventToValidate) {
     if (eventToValidate) return true;
   },
   /**
    * @mmethod
-   * [createEvent description]
+   * @summary insert 
    * @param  {[type]} newEvent [description]
    * @return {[type]}          [description]
    */

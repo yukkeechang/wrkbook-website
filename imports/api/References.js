@@ -1,11 +1,11 @@
-import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
-import ReferenceSchema  from './Schemas/referenceSchema';
-import  BasicText  from './Schemas/basicTextSchema';
-import {PROFESSIONAL} from './Schemas/employeeSchema';
-import {CONTRACTOR} from './Schemas/employerSchema';
-import {NOTAUTH} from './Users'
-import { Roles } from 'meteor/alanning:roles';
+import { Meteor } from "meteor/meteor";
+import { Mongo } from "meteor/mongo";
+import ReferenceSchema from "./Schemas/referenceSchema";
+import BasicText from "./Schemas/basicTextSchema";
+import { PROFESSIONAL } from "./Schemas/employeeSchema";
+import { CONTRACTOR } from "./Schemas/employerSchema";
+import { NOTAUTH } from "./Users";
+import { Roles } from "meteor/alanning:roles";
 
 /** @module Reference */
 
@@ -15,9 +15,9 @@ import { Roles } from 'meteor/alanning:roles';
  * has the basic MongoBD functions(insert,update,remove,etc)
  *
  */
-const Reference = new Mongo.Collection('references');
+const Reference = new Mongo.Collection("references");
 Reference.attachSchema(ReferenceSchema);
-if ( Meteor.isServer ) {
+if (Meteor.isServer) {
   /**
    * @summary Pushes all References objects that belong to the currently logged on user.
    * @publication {References}  your-references Professional
@@ -27,13 +27,12 @@ if ( Meteor.isServer ) {
    * @throws {Meteor.Error} will not push any data to client if the currently loggen in user or is not an Professional
    *
    */
-  Meteor.publish('your-references',function(){
-    if(Roles.userIsInRole(this.userId,PROFESSIONAL)){
-       return Reference.find({owner: this.userId}, {sort: {updateAt: -1}});
+  Meteor.publish("your-references", function() {
+    if (Roles.userIsInRole(this.userId, PROFESSIONAL)) {
+      return Reference.find({ owner: this.userId }, { sort: { updateAt: -1 } });
     }
     this.stop();
-    return ;
-
+    return;
   });
   /**
    * @summary Pushes all References objects that belong to the user with an id
@@ -45,12 +44,12 @@ if ( Meteor.isServer ) {
    * @throws {Meteor.Error} will not push any data to client if the currently loggen in user or is not an Professional
    *
    */
-  Meteor.publish('references-for-user', function(id){
-    if(Roles.userIsInRole(id,PROFESSIONAL)){
-       return Reference.find({owner: id}, {sort: {updateAt: -1}});
-    }else{
+  Meteor.publish("references-for-user", function(id) {
+    if (Roles.userIsInRole(id, PROFESSIONAL)) {
+      return Reference.find({ owner: id }, { sort: { updateAt: -1 } });
+    } else {
       this.stop();
-      return ;
+      return;
     }
   });
 }
@@ -61,24 +60,29 @@ Meteor.methods({
    * @param  {Reference} refObject the reference object to be stored in the database
    * @throws {Meteor.Error} If the object being validated violates the ReferenceSchema
    */
-  validateReference(refObject){
-    let validateReference  = ReferenceSchema.namedContext('REF');
-    let basicValidation = BasicText.namedContext('basic1');
-    let nameErr = !basicValidation.validate(refObject.name,{keys:['text']});
-    let posErr = !basicValidation.validate(refObject.position,{keys:['text']});
-    let compErr = !basicValidation.validate(refObject.companyName,{keys:['text']});
-    let emailErr = !validateReference.validate(refObject,{keys:['email']});
-    let phoneErr = !validateReference.validate(refObject,{keys:['phone']});
+  validateReference(refObject) {
+    let validateReference = ReferenceSchema.namedContext("REF");
+    let basicValidation = BasicText.namedContext("basic1");
+    let nameErr = !basicValidation.validate(refObject.name, { keys: ["text"] });
+    let posErr = !basicValidation.validate(refObject.position, {
+      keys: ["text"]
+    });
+    let compErr = !basicValidation.validate(refObject.companyName, {
+      keys: ["text"]
+    });
+    let emailErr = !validateReference.validate(refObject, { keys: ["email"] });
+    let phoneErr = !validateReference.validate(refObject, { keys: ["phone"] });
 
     let Errors = {
-      nameErr   : nameErr,
-      posErr    :posErr,
-      compErr   :compErr,
-      emailErr  :emailErr,
-      phoneErr  :phoneErr
+      nameErr: nameErr,
+      posErr: posErr,
+      compErr: compErr,
+      emailErr: emailErr,
+      phoneErr: phoneErr
     };
 
-    if(nameErr ||posErr  ||compErr ||emailErr ||phoneErr)throw new Meteor.Error('403',Errors);
+    if (nameErr || posErr || compErr || emailErr || phoneErr)
+      throw new Meteor.Error("403", Errors);
   },
   /**
    * Will Insert a refObject into the database. first validates the object
@@ -89,17 +93,16 @@ Meteor.methods({
    * @throws {Meteor.Error} '403' If the refObject violates the ReferenceSchema
    * or if the user is not logged in or the user is not a PROFESSIONAL or a CONTRACTOR
    */
-  createReference(refObject){
-    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-    let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
-    let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
-    if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
-    Meteor.call('validateReference',refObject);
+  createReference(refObject) {
+    if (!this.userId) throw new Meteor.Error("401", NOTAUTH);
+    let isPRO = Roles.userIsInRole(this.userId, PROFESSIONAL);
+    let isCON = Roles.userIsInRole(this.userId, CONTRACTOR);
+    if (!isPRO && !isCON) throw new Meteor.Error("401", NOTAUTH);
+    Meteor.call("validateReference", refObject);
     refObject.owner = this.userId;
     refObject.createdAt = new Date();
     refObject.updateAt = new Date();
     Reference.insert(refObject);
-
   },
   /**
    * Will Update a Reference with an the id,refId. The Will be updated based upon
@@ -109,14 +112,14 @@ Meteor.methods({
    * @throws {Meteor.Error} '403' If the refObject violates the ReferenceSchema
    * or '401' if the user is not logged in or the user is not a PROFESSIONAL or a CONTRACTOR
    */
-  updateReference(refId,refObject){
-    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-    let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
-    let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
-    if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
-    Meteor.call('validateReference',refObject);
+  updateReference(refId, refObject) {
+    if (!this.userId) throw new Meteor.Error("401", NOTAUTH);
+    let isPRO = Roles.userIsInRole(this.userId, PROFESSIONAL);
+    let isCON = Roles.userIsInRole(this.userId, CONTRACTOR);
+    if (!isPRO && !isCON) throw new Meteor.Error("401", NOTAUTH);
+    Meteor.call("validateReference", refObject);
     refObject.updateAt = new Date();
-    Reference.update({_id:refId,owner:this.userId},{$set: refObject});
+    Reference.update({ _id: refId, owner: this.userId }, { $set: refObject });
   },
   /**
    * @summary Will delete the reference object the specific id, refId.
@@ -124,13 +127,12 @@ Meteor.methods({
    * @throws {Meteor.Error} '401' If the user is not logged in or
    * the user is not a PROFESSIONAL or a CONTRACTOR
    */
-  deleteReference(refId){
-    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-    let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
-    let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
-    if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
-    Reference.remove({_id:refId,owner:this.userId})
-
+  deleteReference(refId) {
+    if (!this.userId) throw new Meteor.Error("401", NOTAUTH);
+    let isPRO = Roles.userIsInRole(this.userId, PROFESSIONAL);
+    let isCON = Roles.userIsInRole(this.userId, CONTRACTOR);
+    if (!isPRO && !isCON) throw new Meteor.Error("401", NOTAUTH);
+    Reference.remove({ _id: refId, owner: this.userId });
   },
   /**
    * @summary Will return a refObject with the assiocated id,refId
@@ -140,13 +142,12 @@ Meteor.methods({
    * @throws {Meteor.Error} '401' If the user is not logged in or
    * the user is not a PROFESSIONAL or a CONTRACTOR
    */
-  getReference(refId){
-    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
-    let isPRO = Roles.userIsInRole(this.userId,PROFESSIONAL);
-    let isCON = Roles.userIsInRole(this.userId,CONTRACTOR);
-    if(!isPRO && !isCON) throw new Meteor.Error('401',NOTAUTH);
-    return Reference.findOne({_id: refId});
+  getReference(refId) {
+    if (!this.userId) throw new Meteor.Error("401", NOTAUTH);
+    let isPRO = Roles.userIsInRole(this.userId, PROFESSIONAL);
+    let isCON = Roles.userIsInRole(this.userId, CONTRACTOR);
+    if (!isPRO && !isCON) throw new Meteor.Error("401", NOTAUTH);
+    return Reference.findOne({ _id: refId });
   }
-
 });
-export {Reference};
+export { Reference };

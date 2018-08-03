@@ -1,0 +1,37 @@
+
+$font-stack:    "Avenir", sans-serif;
+$primary-color: #eceff1;
+$footer-height: 300px;
+
+body {
+  font-family: $font-stack;
+  background-color: $primary-color;
+  min-width: 275px;
+}
+
+.fill-height{
+  height: 100vmin;
+}
+
+html {
+  height: 100%;
+  margin: 0;
+}
+.wrapper {
+  min-height: 100%;
+  /* Equal to height of footer */
+  /* But also accounting for potential margin-bottom of last child */
+  margin-bottom: -1*$footer-height;
+}
+.footer,
+.push {
+  height: $footer-height;
+}
+#render-target{
+      height: 100vmin;
+      min-height: 50%;
+}
+#demo-basic {
+  width: 400px;
+  height: 400px;
+}

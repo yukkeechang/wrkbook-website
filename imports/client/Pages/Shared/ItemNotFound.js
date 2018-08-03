@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default class NotFound extends React.Component{
     render(){
     return(
-      <div style={{paddingTop:'50px'}} className="container">
+      <div className="container">
           <div className="row">
               <div className="col s12 center-align">
                       <svg width="375px" height="438px" viewBox="0 0 375 438" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/1999/xlink" >
@@ -62,16 +62,10 @@ export default class NotFound extends React.Component{
                   </div>
                   <div className="row ">
                   <div className="col s12 center-align ">
-                    <Link to={"/"} style={{color:'white',width:'25%',
-                                textTransform:'none',height:'50px',fontSize:'20px',
-                                borderRadius:'12px'}}
-
-                                className="waves-effect red accent-3 btn-flat"
-                                        >
-                                        <div style={{marginTop:'10px'}}>
-
-                    Back to Home
-                    </div>
+                    <Link to={"/"} style={{ width:'25%'}} className="waves-effect red accent-3 roundish-button-flat-large">
+                      <div style={{marginTop:'15px',fontSize:'25px'}}>
+                        Back to Home
+                      </div>
                     </Link>
                   </div>
 

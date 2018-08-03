@@ -16,12 +16,6 @@ export default class PendingEmployees extends React.Component {
 
   }
 
-  componentDidMount(){
-
-
-  }
-
-
   render(){
     //console.log(this.props);
     return(

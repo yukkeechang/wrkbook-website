@@ -1,0 +1,69 @@
+label[data-error]:after{
+  white-space: nowrap;
+}
+
+input[type="text"]+label[data-error]:after
+ {
+    display:inline-block !important;
+    white-space: nowrap;
+    font-size: 13px;
+    top: 1.7rem !important;
+    transition: none !important;
+}
+input[type="text"].invalid+label[data-error].active:after,
+input[type="text"]:focus+label[data-error]:after{
+    display:inline-block !important;
+    white-space: nowrap;
+    font-size: 16.2px;
+    top: 4.4rem !important;
+    transition: none !important;
+}
+input[type="password"]+label[data-error]:after
+ {
+    display:inline-block !important;
+    white-space: nowrap;
+    font-size: 13px;
+    top: 1.7rem !important;
+    transition: none !important;
+}
+input[type="password"].invalid+label[data-error].active:after,
+input[type="password"]:focus+label[data-error]:after{
+    display:inline-block !important;
+    white-space: nowrap;
+    font-size: 16.2px;
+    top: 4.4rem !important;
+    transition: none !important;
+}
+[data-tooltip]{
+    white-space: pre;
+}
+
+
+[data-tooltip]{
+    white-space: pre;
+}
+
+
+@media only screen and (max-width:600px) {
+  .ec{
+    flex-direction: column !important;
+  }
+}
+
+
+
+/* 4.0 - Other Components
+------------------------------------------------------------------------*/
+
+/* 4.2 - Settings page styles
+-------------------------------------------------*/
+
+
+/* 4.2 - End of Settings page styles
+-------------------------------------------------*/
+/* 4.3 - Button
+-------------------------------------------------*/
+
+
+/* 4.3 - Button
+-------------------------------------------------*/

@@ -19,7 +19,7 @@ export default class ResetPassword extends Component{
 
   }
 
-  resetPassword(){
+  resetPassword=()=>{
     let pass1 = this.refs.pass1.value();
     let pass2 = this.refs.pass2.value();
     let istoken = Session.get('token');
@@ -30,7 +30,6 @@ export default class ResetPassword extends Component{
 
     Meteor.call('checkPasswords',passwords,(err)=>{
       if(err){
-          console.log(err);
           this.setState(err.reason);
       }else{
         Accounts.resetPassword(this.props.match.params.value, pass1, (err)=>{
@@ -49,11 +48,11 @@ export default class ResetPassword extends Component{
     let pequ = 'Passwords do not match';
     let empty = 'This cannot be empty';
     return(
-        <div style={{height:'100vmin'}}>
+        <div className="fill-height">
           <Header/>
-          <div style={{height:'100px'}}></div>
+          <div className="header-nav-bar-offset"></div>
             <div className="wrapper">
-              <div style={{zIndex:'-1'}} className="container">
+              <div className="container">
                 <div className="card">
                   <div className="row card-content">
                     <form className="col s12">
@@ -65,7 +64,7 @@ export default class ResetPassword extends Component{
                         </div>
 
 
-                      <a className="btn-flat teal lighten-4" onClick={this.resetPassword.bind(this)} style={{color: '#555',textTransform: 'none'}} type="submit">Reset Password</a>
+                      <a className="btn-flat pale-teal no-uppercase" onClick={this.resetPassword}>Reset Password</a>
 
                     </form>
                   </div>

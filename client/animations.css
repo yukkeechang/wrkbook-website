@@ -1,29 +1,19 @@
-/*---------------------------------------------------------------------- /
-Table of Contents
------------------------------------------------------------------------- /
-* 1.0 - Home Button Transitions
-* 2.0 - Page Transitions
------------------------------------------------------------------------- /
-Table of Contents End
-------------------------------------------------------------------------*/
-
-/* 1.0 - Home Button Transitions
-------------------------------------------------------------------------*/
+.hBut{
+    text-align: center;
+    padding: 12px 0 12px 0;
+}
 .hBut-appear {
     left: -100px;
     opacity: 0;
+}
+.hBut:hover{
+    transition: all 200ms ease-in;
 }
 .hBut-appear-active {
     left: 0;
     opacity: 1;
     transition: all 700ms ease-out;
 }
-/* 1.0 - End Home Button Transitions
-------------------------------------------------------------------------*/
-
-
-/* 2.0 - Page Transitions
-------------------------------------------------------------------------*/
 .page-appear{
     opacity: 0;
 }
@@ -36,10 +26,10 @@ Table of Contents End
     width: 100vw;
     top: 0;
     left: 0;
-    opacity: 0; 
+    opacity: 0;
 }
 .page-enter-active{
-    opacity: 1; 
+    opacity: 1;
     transition: opacity 300ms linear;
 }
 .page-leave{
@@ -47,16 +37,14 @@ Table of Contents End
     width: 100vw;
     top: 0;
     left: 0;
-    opacity: 1; 
+    opacity: 1;
 }
 .page-leave-active{
-    opacity: 0; 
+    opacity: 0;
     top: 0;
     transition: opacity 300ms linear;
 }
 
-/* 2.0 - End Page Transitions
-------------------------------------------------------------------------*/
 .err-appear{
     background-color: #e54053;
 }
@@ -69,7 +57,7 @@ Table of Contents End
   10%, 90% {
     transform: translate3d(-1px, 0, 0);
   }
-  
+
   20%, 80% {
     transform: translate3d(2px, 0, 0);
   }

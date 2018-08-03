@@ -1,0 +1,10 @@
+// custom colors that we use that are based off of materialize
+// there are other custom colors but there in the file 'componets/color-variables'
+.pale-teal{
+  @extend .teal;
+  @extend .lighten-4;
+}
+.muted-blue-grey{
+  @extend  .blue-grey;
+  @extend .lighten-4;
+}

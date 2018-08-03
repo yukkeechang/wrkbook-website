@@ -18,7 +18,7 @@ class Head extends Component {
         // console.log(image);
         let header = this.props.loggingIn ? <div className="row"><div className="col s2 push-s5"><MSpinner /></div></div> : (this.props.user ? <Navbar firstName={this.props.user.profile.firstName} image={image}/> : <Base handleClick={this.props.handleClick}/>);
         return(
-            <div id="header">
+            <div className="header-nav-bar">
                 { !!this.props.user ?
                   <div className="container">
                       {header}

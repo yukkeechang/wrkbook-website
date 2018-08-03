@@ -69,7 +69,7 @@ export default class Base extends Component{
 
           {/*Menu bar/Small screen links */}
           <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
-              <i style={{fontSize:'30px',padding: '17px 0 17px 10px'}}className="material-icons">menu</i>
+              <i style={{fontSize:'30px',color:'white',padding: '17px 0 17px 10px'}}className="material-icons">menu</i>
           </div>
               <Link to="/#" onClick={this.things.bind(this,"home")}>
                   <div className="col m4 hide-on-small-only">
@@ -106,7 +106,7 @@ export default class Base extends Component{
 
 
               <Link to="/#collectEmails">
-                <button id="rec-but" style={styles.rounded} className="col m2 push-l1 push-m1 hide-on-small-only nav-bar-heading" onClick={this.handleClick}>
+                <button style={styles.rounded} className="col m2 push-l1 push-m1 hide-on-small-only nav-bar-heading" onClick={this.handleClick}>
                   <div className="genText">Sign Up</div>
                 </button>
               </Link>
@@ -114,7 +114,7 @@ export default class Base extends Component{
               {
                 /*
               <Link to="/register">
-                <div id="rec-but" style={styles.heading} className="col m1  hide-on-small-only nav-bar-heading ">
+                <div  style={styles.heading} className="col m1  hide-on-small-only nav-bar-heading ">
                 <div className="genText">Sign Up</div>
                 </div>
               </Link>
@@ -183,11 +183,13 @@ let styles = {
     },
     rounded : {
         position: 'relative',
-        top: '12px',
+        top: '15px',
         textAlign:'center',
         padding: '0px',
         backgroundColor: 'transparent',
-        border: '1px solid white'
+        border: '1px solid #1BAA6E',
+        borderRadius: '8px',
+        marginLeft: '5px'
     },
 
 

@@ -260,8 +260,8 @@ export default class stepThree extends Component{
 
                 </div>
                 <div className="row">
-                  <a onClick={this.handlePrev.bind(this)} className="btn-flat blue-grey lighten-4 col s5 m3" style={{color: 'black',textAlign:'center',marginTop: '8px'}}>Back</a>
-                  <a onClick={this.submit.bind(this)} className={"btn-flat teal lighten-4 " + this.state.stopclicks  +" col s5 offset-s2 m3 offset-m6"} style={{color: 'black',textAlign:'center',marginTop: '8px'}}type="submit">{this.state.submit}</a>
+                  <a onClick={this.handlePrev.bind(this)} className="btn-flat muted-blue-grey col s5 m3" style={{color: 'black',textAlign:'center',marginTop: '8px'}}>Back</a>
+                  <a onClick={this.submit.bind(this)} className={`btn-flat pale-teal ${this.state.stopclicks} col s5 offset-s2 m3 offset-m6`} style={{color: 'black',textAlign:'center',marginTop: '8px'}}>{this.state.submit}</a>
                 </div>
               </div>
             </div>

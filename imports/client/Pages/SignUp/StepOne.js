@@ -27,10 +27,6 @@ export default class StepOne extends Component{
           email:  firstTime ? '': UserObjectArray[0].email,
           pro: props.isPro
       };
-      // let thin = window.sessionStorage.getItem('reg');
-
-
-
     }
     componentDidMount(){
         initGA()
@@ -43,9 +39,6 @@ export default class StepOne extends Component{
 
     }
     handleNext(e){
-        // this.props.next(2, {}, this.state.pro);
-        //
-        // console.log(e);
 
         e.preventDefault();
         let fn = this.refs.fn.value();
@@ -67,17 +60,13 @@ export default class StepOne extends Component{
         }
         Meteor.call('validateBasicUserData', User, (err)=>{
             if(err){
-                console.log(err);
                 this.setState(err.reason);
             }else{
-
-
                 let savedObject = window.sessionStorage.getItem('reg');
                 let UserObjectArray = JSON.parse(savedObject);
                 console.log(UserObjectArray);
                 if(!UserObjectArray || UserObjectArray.length < 1){
-                    UserObjectArray = []
-                    UserObjectArray[0] = User;
+                    UserObjectArray = [User];
                 }else{
                     UserObjectArray[0] = User;
                 }
@@ -88,9 +77,6 @@ export default class StepOne extends Component{
             }
 
         });
-        // this.props.next(2, {}, this.state.pro);
-
-
     }
     con(){
         this.setState({pro : false});
@@ -121,7 +107,7 @@ export default class StepOne extends Component{
                             <MTextField ref="ph" id="phone"     error={this.state.phoneE ? empty : (!this.state.gPhone? phErr:'')} label="Phone Number *" value={this.state.phone}/>
                         </div>
                         <div className="col s12 m6">
-                            <MTextField style={{display:'inline-block',width:'90%'}}ref="p1" id="pass1"     error={this.state.p1Empty? empty : (!this.state.pValid ? pass : '')} type="password" label="Password *"/><i ref="tool" style={{whiteSpace:'pre',color:'#888'}}className="material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Password must contain at least 8 characters,</br> a capital letter and a number.">info</i>
+                            <MTextField style={{display:'inline-block',width:'90%'}} ref="p1" id="pass1"     error={this.state.p1Empty? empty : (!this.state.pValid ? pass : '')} type="password" label="Password *"/><i ref="tool" style={{whiteSpace:'pre',color:'#888'}}className="material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Password must contain at least 8 characters,</br> a capital letter and a number.">info</i>
                             <MTextField ref="p2" id="pass2"     error={this.state.nEqual ? pequ: ''} type="password" label="Confirm Password *"/>
 
                             <p>
@@ -134,7 +120,7 @@ export default class StepOne extends Component{
                             </p>
                         </div>
                     </div>
-                    <button onClick={this.handleNext.bind(this)} className="btn-flat teal lighten-5 col s5 m3" style={{color: 'black'}}>Next</button>
+                    <button onClick={this.handleNext.bind(this)} className="btn-flat pale-teal col s5 m3" style={{color: 'black'}}>Next</button>
                     </form>
                 </div>
 

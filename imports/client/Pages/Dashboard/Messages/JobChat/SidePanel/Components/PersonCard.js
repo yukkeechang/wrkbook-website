@@ -45,7 +45,7 @@ class PersonCard extends React.Component {
 
               </div>
               <div className="row">
-                  <h6 className="truncate">{this.props.message.message}</h6>
+                  <h6 className="truncate">{!this.props.message ? "" : this.props.message.message}</h6>
               </div>
             </div>
           </div>
