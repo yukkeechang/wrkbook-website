@@ -67,6 +67,18 @@
   transition: opacity 300ms ease-in;
 }
 
+@media only screen and (min-width: 600px) {
+	.containeranimation{
+    min-height: 480px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .containeranimation{
+    min-height: 225px;
+  }
+}
 
 .err-appear{
     background-color: #e54053;

@@ -61,7 +61,7 @@ export default class Services extends Component{
       );
     })
     return(
-        <div className="white">
+        <div className="white containeranimation">
             <div >
                 <div>
                     <div className="how-to-heading center-align montserrat-med dark-grey-text" style={{ paddingBottom: '20px', paddingTop: '20px', marginTop: '0px'}}>Find jobs in or skilled trade professionals in</div>
@@ -69,7 +69,6 @@ export default class Services extends Component{
                       <div className="row">
 
                       <CSSTransitionGroup
-                        className="containeranimation"
                         transitionName="example"
                         transitionEnterTimeout={500}
                         transitionLeave={false}
