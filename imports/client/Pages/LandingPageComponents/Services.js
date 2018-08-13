@@ -69,7 +69,8 @@ export default class Services extends Component{
                       <div className="row">
 
                       <CSSTransitionGroup
-                        transitionName="fade"
+                        className="containeranimation"
+                        transitionName="example"
                         transitionEnterTimeout={500}
                         transitionLeave={false}
                         transitionLeaveTimeout={300}>

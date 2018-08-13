@@ -27,7 +27,7 @@ export const  NOTMADE ={
   jobNotMade : true
 };
 /**
- * Refers to both Professional and CONTRACTOR
+ * @summary Refers to both Professional and CONTRACTOR
  * @typedef {(Professional|Contractor)} User
  */
 /**
