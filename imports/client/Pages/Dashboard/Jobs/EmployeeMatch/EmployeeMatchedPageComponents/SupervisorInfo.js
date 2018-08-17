@@ -22,8 +22,7 @@ export default class SuperVisorDecline extends React.Component{
     }
     else{
           $(this.refs.declineModal).modal('close');
-          // $('#declineModal').modal('close');
-    }
+      }
     });
   }
   openDeclineModal=()=>{
@@ -45,11 +44,9 @@ export default class SuperVisorDecline extends React.Component{
                 <div className="col l3 m5 hide-on-small-only  center-align">
 
                   <a style={{paddingTop:'5px',
-                          borderRadius:'12px',border:'1px solid #ef9a9a',
-                          textTransform:'none',paddingBottom:'5px',width:'100%',
+                        paddingBottom:'5px',width:'100%',
                           height:'45px',fontSize:'17px'}}
-
-                           id="disabledButton" className={this.props.isDecline ? "waves-effect red lighten-5 btn-flat disabled": "waves-effect red lighten-5 btn-flat "} onClick={this.openDeclineModal} >Decline</a>
+                           id="disabledButton" className={this.props.isDecline ? "waves-effect red lighten-5  thin-border red-border border-darken-2  roundish-button-flat no-uppercase disabled": "waves-effect red lighten-4 black-text thin-border border-red border-darken-2  roundish-button-flat no-uppercase "} onClick={this.openDeclineModal} >Decline</a>
                 </div>
             </div>
             <div className="row">

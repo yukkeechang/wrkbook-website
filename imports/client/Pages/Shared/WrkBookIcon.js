@@ -3,8 +3,8 @@ import React from 'react';
 export default WrkBookIcon = (props) => {
     let size = props.height ? props.height : '54px';
     return (
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/1999/xlink" height={size} x="0px" y="0px"
-        viewBox="0 0 4000 1204" style={{enableBackground:'new 0 0 4000 1204'}}>
+        <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/1999/xlink" height={size} x="0px" y="0px"
+        viewBox="0 0 4000 1204" style={{enableBackground:'new 0 0 4000 1204'}} xmlSpace="preserve">
             <g>
             <defs>
                 <circle id="SVGID_1_" cx="696.8" cy="602" r="512"/>

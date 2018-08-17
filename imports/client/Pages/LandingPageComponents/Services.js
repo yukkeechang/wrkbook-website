@@ -62,27 +62,20 @@ export default class Services extends Component{
     })
     return(
         <div className="white containeranimation">
-            <div >
+            <div>
                 <div>
                     <div className="how-to-heading center-align montserrat-med dark-grey-text" style={{ paddingBottom: '20px', paddingTop: '20px', marginTop: '0px'}}>Find jobs in or skilled trade professionals in</div>
-
                       <div className="row">
-
-                      <CSSTransitionGroup
-                        transitionName="example"
-                        transitionEnterTimeout={500}
-                        transitionLeave={false}
-                        transitionLeaveTimeout={300}>
-                          {items}
+                        <CSSTransitionGroup
+                          transitionName="example"
+                          transitionEnterTimeout={500}
+                          transitionLeave={false}
+                          transitionLeaveTimeout={300}>
+                            {items}
                         </CSSTransitionGroup>
-
-
-
-                      </div>
+                    </div>
                 </div>
             </div>
-         <div className="divider"></div>
-
         </div>
     )
   }

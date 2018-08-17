@@ -15,7 +15,6 @@ class Head extends Component {
         if(this.props.user){
             image = Roles.userIsInRole(this.props.user._id,'PRO') ? this.props.user.profile.employeeData.image : this.props.user.profile.employerData.image;
         }
-        // console.log(image);
         let header = this.props.loggingIn ? <div className="row"><div className="col s2 push-s5"><MSpinner /></div></div> : (this.props.user ? <Navbar firstName={this.props.user.profile.firstName} image={image}/> : <Base handleClick={this.props.handleClick}/>);
         return(
             <div className="header-nav-bar">
@@ -36,7 +35,6 @@ class Head extends Component {
 }
 
 export default Header = withTracker( params  => {
-  console.log(params);
     return {
         loggingIn: Meteor.loggingIn(),
         user: Meteor.user(),

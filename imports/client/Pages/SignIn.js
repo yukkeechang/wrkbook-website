@@ -22,7 +22,6 @@ export default class SignIn extends Component{
 
     Meteor.loginWithPassword(email,passw,(err)=>{
       if(err){
-        console.log(err);
         if(err.reason == "Incorrect password") this.setState({pValid:err.reason, noUser: ''});
         if(err.reason == "User not found") this.setState({noUser: err.reason,pValid:''});
       }else{

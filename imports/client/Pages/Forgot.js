@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
 import { Link } from 'react-router-dom';
-
 import MTextField from './Shared/MTextField';
 
 export default class Forgot extends Component{
@@ -12,6 +11,7 @@ export default class Forgot extends Component{
     this.state = {
       noUser: '',
       showEmail: false,
+      badToken: false
     }
   }
   componentDidMount(){

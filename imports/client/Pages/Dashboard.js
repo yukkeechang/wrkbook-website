@@ -68,7 +68,7 @@ class Dash extends Component{
         return(
             <div>
                 <Header full={false}/>
-                <div style={{height:'100px'}}></div>
+                <div className="header-nav-bar-offset"></div>
                 <Switch>
                 <Route exact path="/" render={()=> (<Upcoming/> )}/>
                 <Route exact path="/jobmatches" component={EmpJobPosts}/>

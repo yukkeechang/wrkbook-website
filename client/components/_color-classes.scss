@@ -9,6 +9,9 @@
       .#{$color_name}-text {
         color: $color_value !important;
       }
+      .#{$color_name}-border{
+        border-color: $color_value !important;
+      }
     }
     @else if $color_name != "shades" {
       .#{$color_name}.#{$color_type} {
@@ -17,6 +20,10 @@
       .#{$color_name}-text.text-#{$color_type} {
         color: $color_value !important;
       }
+      .#{$color_name}-border.border-#{$color_type} {
+          border-color: $color_value !important;
+      }
+
     }
   }
 }
@@ -28,5 +35,8 @@
   }
   .#{$color}-text {
     color: $color_value !important;
+  }
+  .#{$color}-border{
+    border-color: $color_value !important;
   }
 }

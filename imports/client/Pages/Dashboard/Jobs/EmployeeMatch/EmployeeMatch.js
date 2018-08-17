@@ -4,9 +4,23 @@ import ApplyDeclineButton from './EmployeeMatchedPageComponents/ApplyDeclineButt
 import Requirements from './EmployeeMatchedPageComponents/JobRequirments';
 import SuperVisor from  './EmployeeMatchedPageComponents/SupervisorInfo';
 import { withTracker } from 'meteor/react-meteor-data';
+import {formatSingleDate, formatSingleTime,getDurationDayHour} from '../Shared/formatTime';
 import JobLocation from './EmployeeMatchedPageComponents/JobLocation';
 
 class EmpJobPost extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+      id: this.props.jobinfo._id,
+      index: 0,
+      endAt: '',
+      startAt: '',
+      osha10: this.props.jobinfo.requirements.osha.osha10,
+      osha30: this.props.jobinfo.requirements.osha.osha30,
+      license: this.props.jobinfo.requirements.driverLicense,
+    };
+
+  }
   componentDidMount(){
 
     let select = ReactDOM.findDOMNode(this.refs.jobEvent);
@@ -16,29 +30,7 @@ class EmpJobPost extends React.Component{
     $(this.refs.jobEvent).on('change',(e)=>{
       this.changeEventDate(e);
     });
-
-    Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
-      if(err){
-        console.log(err);
-      }else{
-        const  oneDay = 24*60*60*1000;
-        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
-        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
-        let startAt = startdate+','+starttime;
-        let endAt = enddate+','+endtime;
-        let duration = Math.round(Math.abs((res.endAt.getTime() - res.startAt.getTime())/(oneDay))) + ' days, '+
-        (res.endAt.getHours()-res.startAt.getHours()) + ' hours';
-        this.setState({
-          endAt: endAt,
-          startAt: startAt,
-          duration:duration
-        });
-      }
-    });
-
-
+    this.changeEventDate();
   }
   degreesToRadians(degrees) {
     return degrees * Math.PI / 180;
@@ -58,41 +50,22 @@ class EmpJobPost extends React.Component{
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return earthRadiusKm * c;
   }
-  constructor(props){
-    super(props);
-    this.state={
-      id: this.props.jobinfo._id,
-      index: 0,
-      endAt: '',
-      startAt: '',
-      osha10: this.props.jobinfo.requirements.osha.osha10,
-      osha30: this.props.jobinfo.requirements.osha.osha30,
-      license: this.props.jobinfo.requirements.driverLicense,
-    };
 
-  }
   changeEventDate=()=>{
     let jobTitles = this.props.jobinfo.jobTypes.texts;
-    let index = jobTitles.indexOf(this.refs.jobEvent.value)|| 0;
-    console.log(index);
+    let index = jobTitles.indexOf(this.refs.jobEvent.value) == -1 ? 0: jobTitles.indexOf(this.refs.jobEvent.value);
     Meteor.call('getEventInfo',this.props.events[index],(err,res)=>{
       if(err){
         console.log(err);
       }else{
-        console.log(index);
+        const {hours,days} = getDurationDayHour(res.startAt,res.endAt);
+        let jobDate = `${formatSingleDate(res.startAt)}-${formatSingleDate(res.endAt)}`;
+        let jobTime = `${formatSingleTime(res.startAt)}-${formatSingleTime(res.endAt)}`;
+        let duration = `${days} days, ${hours} hr`;
 
-        const  oneDay = 24*60*60*1000;
-        let endtime = res.endAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let starttime = res.startAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        let enddate = (res.endAt.getMonth() + 1) + "/" + res.endAt.getDate()  + "/" + res.endAt.getFullYear();
-        let startdate = (res.startAt.getMonth() + 1) + "/" + res.startAt.getDate()  + "/" + res.startAt.getFullYear();
-        let startAt = startdate+','+starttime;
-        let endAt = enddate+','+endtime;
-        let duration = Math.round(Math.abs((res.endAt.getTime() - res.startAt.getTime())/(oneDay))) + ' days, '+
-        (res.endAt.getHours()-res.startAt.getHours()) + ' hours';
         this.setState({
-          endAt: endAt,
-          startAt: startAt,
+          endAt: jobTime,
+          startAt: jobDate,
           index:index,
           duration:duration
 
@@ -100,28 +73,25 @@ class EmpJobPost extends React.Component{
       }
     });
   }
-
-
   render(){
     let isAdmitted = this.props.jobinfo.admitemployeeIds.includes(this.props.userId);
     let isApplied = this.props.jobinfo.applyemployeeIds.includes(this.props.userId)|| isAdmitted;
     let isDecline = this.props.jobinfo.declineemployeeIds.includes(this.props.userId);
-    console.log(isApplied);
     let addArr = this.props.location.split(",");
 
-    let parsedAddress = addArr[1]+","+addArr[2]+","+addArr[4];
-    this.props.notifications.map(function(notify,index){
+    let parsedAddress = `${addArr[1]}, ${addArr[2]}, ${addArr[3]}`;
+    this.props.notifications.map((notify,index)=>{
       Meteor.call('updateNotification',notify._id,(err)=>{
         console.log(err);
       });
     });
     let userLocation = Meteor.user().profile.employeeData.location;
-    console.log(userLocation);
     let distance = this.distanceInKmBetweenEarthCoordinates(userLocation.latitude,
                     userLocation.longitude,this.props.jobinfo.location.latitude,
                   this.props.jobinfo.location.longitude);
-    distance *= 0.62;//Convert km to miles
-    let distanceFormat = Math.round(distance);
+    distance *= 0.62;//change km to miles
+    let distanceFormat = distance.toFixed(2);// Math.round(distance);
+
     return(
     <div ref={this.state.id+"11"}>
 
@@ -133,7 +103,7 @@ class EmpJobPost extends React.Component{
               <SuperVisor jobTitle={this.props.jobinfo.jobTitle.text}
                         jobID= {this.props.jobinfo._id}
                         isAdmitted={this.props.jobinfo.admitemployeeIds.includes(Meteor.userId())}
-                        isDecline={isDecline}
+                        isDecline={isDecline ||this.props.isCompleted}
                         supervisorName={this.props.jobinfo.supervisor.name}
                         supervisorPhone={this.props.jobinfo.supervisor.phone}/>
 
@@ -201,7 +171,11 @@ class EmpJobPost extends React.Component{
               />
               :
               <div className="center-align">
-                <a className="btn disabled">Job Completed</a>
+                <a style={{width:'50%',fontSize:'18px'}} className="waves-effect grey lighten-3 black-text roundish-button-flat-large disabled">
+                <div style={{lineHeight:'70px',height:'70px'}} className="valign-wrapper flex-center">
+                  Job Completed
+                  </div>
+                </a>
               </div>
               }
             </div>

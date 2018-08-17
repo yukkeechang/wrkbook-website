@@ -69,15 +69,9 @@
 
  @media only screen and (max-width: 600px) {
 	.containeranimation{
-    min-height: 490px;
+    min-height: 495px;
   }
 }
-/*
-@media only screen and (min-width: 768px) {
-  .containeranimation{
-    min-height: 225px;
-  }
-} */
 
 .err-appear{
     background-color: #e54053;

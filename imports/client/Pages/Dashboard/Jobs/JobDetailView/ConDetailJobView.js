@@ -8,12 +8,26 @@ import Employees from './ConComponents/AppliedEmployees';
 import ApplyAndHired from './ConComponents/ApplyAndHiredEmployees';
 import JobInfo from './ConComponents/JobInfo';
 import MSpinner from '../../../Shared/MSpinner';
-
+import {formatSingleDate, formatSingleTime} from '../Shared/formatTime';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 //detailed job view with professionals that applied and admitted professionals
 
 class ConComponentPage extends React.Component{
+    constructor(props){
+    super(props);
+    let job = this.props.jobinfo;
+
+    this.state={
+      job: job,
+      startAt: '',
+      endAt: '',
+      osha10: this.props.jobinfo.requirements.osha.osha10,
+      osha30: this.props.jobinfo.requirements.osha.osha30,
+      license: this.props.jobinfo.requirements.driverLicense,
+      value: "0"
+    };
+  }
   componentDidMount(){
     let page = ReactDOM.findDOMNode(this.refs.detailedView);
 
@@ -25,7 +39,6 @@ class ConComponentPage extends React.Component{
     $(this.refs.titles).on('change',(e)=>{
       this.handleProChange(e);
     });
-    console.log(this.props);
 
 
     Meteor.call('getEventInfo',this.props.events[0],(err,res)=>{
@@ -34,7 +47,7 @@ class ConComponentPage extends React.Component{
         console.log(err);
       }else{
 
-        updateDateStates(res.startAt,res.endAt);
+        this.updateDateStates(res.startAt,res.endAt);
       }
     });
   }
@@ -50,23 +63,12 @@ class ConComponentPage extends React.Component{
   doNothing=()=>{
     $(this.refs.deleteModal).modal('close');
   }
-  constructor(props){
-  super(props);
-  let job = this.props.jobinfo;
 
-  this.state={
-    job: job,
-    startAt: '',
-    endAt: '',
-    osha10: this.props.jobinfo.requirements.osha.osha10,
-    osha30: this.props.jobinfo.requirements.osha.osha30,
-    license: this.props.jobinfo.requirements.driverLicense,
-    value: "0"
-  };
   // console.log(this.props.handleChildLoad)
 
-  }
+
   handleProChange(e){
+    console.log("toggle click");
     let jobTitles = this.props.jobinfo.jobTypes.texts;
     let index = jobTitles.indexOf(this.refs.titles.value);
     this.setState({
@@ -77,7 +79,7 @@ class ConComponentPage extends React.Component{
       if(err){
         console.log(err);
       }else{
-          updateDateStates(res.startAt,res.endAt);
+          this.updateDateStates(res.startAt,res.endAt);
       }
     });
   }

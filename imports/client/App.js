@@ -1,4 +1,3 @@
-
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import React, {Component} from 'react';
@@ -20,8 +19,8 @@ import MSpinner from './Pages/Shared/MSpinner';
 class Application extends Component {
     render(){
         let spinner  = (
-            <div style={{display:"flex", alignItems:'center',justifyContent:'center',height: '100vh',width: '100vw'}}>
-                <MSpinner/>
+            <div className="flex-center fill-height fill-width">
+                <MSpinner size={"150px"}/>
             </div>
         );
         let page = this.props.loggingIn && !!this.props.userId ? spinner : this.props.user ?  (

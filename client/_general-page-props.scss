@@ -12,7 +12,14 @@ body {
 .fill-height{
   height: 100vmin;
 }
-
+.fill-width{
+  width: 100vmin;
+}
+.flex-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 html {
   height: 100%;
   margin: 0;

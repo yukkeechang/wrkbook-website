@@ -74,13 +74,11 @@ export default class ApplyDeclineButton extends React.Component{
     <div className="row center-align">
         <br/>
           <div style={{marginBottom:'10px'}} className="col s6 center-align offset-s3">
-            <a style={{color:'white',width:'100%',paddingTop:'5px',
-                        textTransform:'none',height:'45px',fontSize:'18px',
-                        borderRadius:'12px',border:'1px solid #009688'}}
+            <a style={{width:'100%',height:'45px',fontSize:'18px',border:'1px solid #009688'}}
                         id="applydButton"
                         className={this.props.isDecline|| this.props.isApplied ?
-                                  "waves-effect teal lighten-1 btn-flat disabled"
-                                  : "waves-effect teal lighten-1 btn-flat"}
+                                  "waves-effect teal lighten-1 roundish-button-flat no-uppercase disabled"
+                                  :"waves-effect teal lighten-1 roundish-button-flat no-uppercase"}
                                   onClick={this.openApplyModal}>
               {this.props.isApplied ? 'Applied': 'Apply!'}
             </a>
@@ -88,12 +86,10 @@ export default class ApplyDeclineButton extends React.Component{
 
           <div className="col s6 center-align offset-s3 show-on-small hide-on-med-and-up">
 
-            <a style={{paddingTop:'5px',
-                    borderRadius:'12px',border:'1px solid #ef9a9a',
-                    textTransform:'none',paddingBottom:'5px',width:'100%',
+            <a style={{paddingTop:'5px',paddingBottom:'5px',width:'100%',
                     height:'45px',fontSize:'17px'}}
 
-                     id="disabledButton" className={this.props.isDecline ? "waves-effect red lighten-5 btn-flat disabled": "waves-effect red lighten-5 btn-flat "} onClick={this.openDeclineModal}  >Decline</a>
+                     id="disabledButton" className={this.props.isDecline ? "waves-effect red lighten-5 thin-border border-red border-darken-2 roundish-button-flat no-uppercase disabled": "waves-effect red lighten-5  thin-border border-red border-darken-2 roundish-button-flat no-uppercase"} onClick={this.openDeclineModal}  >Decline</a>
 
 
           </div>

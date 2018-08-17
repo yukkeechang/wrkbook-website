@@ -11,14 +11,12 @@ export default class Base extends Component{
 
   }
   componentDidMount(){
-    //console.log(this.props);
     let sn = ReactDOM.findDOMNode(this.refs.sideNav);
     $(sn).sideNav();
   }
   sideClick(){
       let sn = ReactDOM.findDOMNode(this.refs.sideNav);
       $(sn).sideNav('hide');
-
   }
   things(event){
     this.props.handleClick(event);
