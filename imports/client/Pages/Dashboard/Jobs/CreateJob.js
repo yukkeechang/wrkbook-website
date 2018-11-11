@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import One from './CreateJob/One';
 import Two from './CreateJob/Two';
-import Three from './CreateJob/Three'
+import Three from './CreateJob/Three';
+import Four from './CreateJob/Submit';
 
 export default class CreateJob extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        step: 1,
+        step:1,
         Job: {}
       }
   }
@@ -29,6 +30,9 @@ export default class CreateJob extends Component {
       case 3:
           step = <Three next={this.next} job={this.state.Job}/>
         break;
+      case 4:
+          step = <Four next={this.next} job={this.state.Job}/>
+          break;
       default:
           step = null;
           break;
@@ -37,9 +41,7 @@ export default class CreateJob extends Component {
       <div style={{height:'100vmin'}}>
         <div className="container">
           <div className="progress">
-            <div className="determinate red accent-2" style={{width:`${this.state.step*25}%`}}>
-
-            </div>
+            <div className="determinate red accent-2" style={{width:`${this.state.step*25}%`}}></div>
           </div>
         </div>
           {step}

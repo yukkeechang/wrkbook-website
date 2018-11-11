@@ -2,6 +2,7 @@ import React , { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import Header from './Shared/Header';
+import Footer from './Shared/Footer';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -42,7 +43,7 @@ import CreateReviewForPro from './Dashboard/Reviews/CreateReviewForPro.js';
 import CreateReviewForCon from './Dashboard/Reviews/CreateReviewForCon.js';
 
 import ProfileRefactor from './Dashboard/ProfileRefactor/CurrentUserProfile';
-
+import DisplayCard from './Dashboard/ProfileNew/ProfilePage';
 
 //import ContractorJobPosts from './Dashboard/Jobs/ConJobPosts';
 
@@ -69,50 +70,53 @@ class Dash extends Component{
             <div>
                 <Header full={false}/>
                 <div className="header-nav-bar-offset"></div>
-                <Switch>
-                <Route exact path="/" render={()=> (<Upcoming/> )}/>
-                <Route exact path="/jobmatches" component={EmpJobPosts}/>
-                <Route  path="/profile" component={Profile}/>
-                <Route  path="/profilerefactor" component={ProfileRefactor}/>
-                <Route  path="/user/:value" component={OtherUser}/>
 
-                <Route exact path="/edit+references" component={EditReferences}/>
-                <Route exact path="/createjob" component={CreateJobs}/>
-                <Route exact path="/createjobone" component={One}/>
-                <Route exact path="/createjobrefactor" component={CreateJob}/>
+                  <Switch>
+                  <Route exact path="/" render={()=> (<Upcoming/> )}/>
+                  <Route exact path="/jobmatches" component={EmpJobPosts}/>
+                  <Route  path="/profile" component={Profile}/>
+                  <Route  path="/profilerefactor" component={ProfileRefactor}/>
+                  <Route  path="/user/:value" component={OtherUser}/>
 
-
-
-                <Route exact path="/editjob/:value" component={EditJobs}/>
-                <Route exact path="/job/:value" component={DetailView}/>
-                <Route exact path="/deleted-job/:value" component={DeletedView}/>
-                <Route exact path="/message/:value" component={MessageDummy}/>
-                <Route exact path="/messages" component={MessageDummy}/>
-                <Route exact path="/notifications" component={NotificationDummy}/>
-                <Route exact path="/applied" component={AppliedJobs} />
-
-                <Route exact path="/edit" component={Edit}/>
-                <Route path="/settings" component={Settings}/>
-                <Route path="/proprofile" component={Edit}/>
-                <Route path="/conprofile" component={Edit}/>
-
-                <Route path="/completed" component={Completed}/>
-                <Route path="/current" component={Current}/>
-                <Route path="/upcoming" component={Upcoming}/>
-                <Route path="/procompleted" component={ProCompleted}/>
-                <Route path="/concompleted" component={ConCompleted}/>
+                  <Route exact path="/edit+references" component={EditReferences}/>
+                  <Route exact path="/createjob" component={CreateJob}/>
+                  <Route exact path="/createjobone" component={One}/>
+                  <Route exact path="/createjobrefactor" component={CreateJob}/>
 
 
 
-                <Route path="/concompleted" component={ConCompleted}/>
-                <Route path="/empcompleted" component={ProCompleted}/>
-                <Route path="/createreviewforprofessional" component={CreateReviewForPro}/>
-                <Route path="/createreviewforcontractor" component={CreateReviewForCon}/>
-                <Route path="/job-chat/:value" component={JobChat}/>
+                  <Route exact path="/editjob/:value" component={EditJobs}/>
+                  <Route exact path="/job/:value" component={DetailView}/>
+                  <Route exact path="/deleted-job/:value" component={DeletedView}/>
+                  <Route exact path="/message/:value" component={MessageDummy}/>
+                  <Route exact path="/messages" component={MessageDummy}/>
+                  <Route exact path="/notifications" component={NotificationDummy}/>
+                  <Route exact path="/applied" component={AppliedJobs} />
+
+                  <Route exact path="/edit" component={Edit}/>
+                  <Route path="/settings" component={Settings}/>
+                  <Route path="/proprofile" component={Edit}/>
+                  <Route path="/conprofile" component={Edit}/>
+
+                  <Route path="/completed" component={Completed}/>
+                  <Route path="/current" component={Current}/>
+                  <Route path="/upcoming" component={Upcoming}/>
+                  <Route path="/procompleted" component={ProCompleted}/>
+                  <Route path="/concompleted" component={ConCompleted}/>
 
 
-                <Route path="*" component={NotFound}/>
-                </Switch>
+
+                  <Route path="/concompleted" component={ConCompleted}/>
+                  <Route path="/empcompleted" component={ProCompleted}/>
+                  <Route path="/createreviewforprofessional" component={CreateReviewForPro}/>
+                  <Route path="/createreviewforcontractor" component={CreateReviewForCon}/>
+                  <Route path="/job-chat/:value" component={JobChat}/>
+                  <Route path="/dummy" render={()=> (<DisplayCard />)} />
+
+                  <Route path="*" component={NotFound}/>
+                  </Switch>
+
+
 
 
                     {/*

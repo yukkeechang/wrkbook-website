@@ -11,10 +11,6 @@ export default class UserInfoComp extends React.Component {
 
 
   }
-  componentDidMount(){
-    // console.log(this.props);
-  //  console.log(this.props);
-  }
   render(){
 
     // console. log(this.props.imageId);

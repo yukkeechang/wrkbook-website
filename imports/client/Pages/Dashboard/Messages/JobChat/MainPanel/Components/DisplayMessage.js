@@ -7,16 +7,7 @@ export default class DisplayMessage extends React.Component {
 
 
   }
-  componentWillMount(){
 
-  }
-  componentDidMount(){
-    // console.log(this.props);
-
-  }
-  componentWillMount(){
-
-  }
   render(){
 
       return(

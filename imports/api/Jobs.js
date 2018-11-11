@@ -522,42 +522,23 @@ Meteor.methods({
  * @return {Objct}           formatted job object and array of event objects
  */
   validateJob(jobObject){
-    let  validations = JobSchema.newContext();
-    let supervisorValidation1 = SupervisorSchema.namedContext('SUP');
-    let supervisorValidation2 = SupervisorSchema.namedContext('SUP2');
-    let proValidation = ProfessionalSchema.namedContext('PRO');
-    let eventValidation = EventSchema.namedContext('EVE');
-    let locationValidation = LocationSchema.namedContext('Location');
-    let oshaValidation = OshaSchema.namedContext('osha');
-    let socialValidation = SocialSchema.namedContext('social');
-    let toolValidation  = ToolSchema.namedContext('tool');
-    let reqValidation = RequirementSchema.namedContext('req');
-    let basicValidation = BasicText.namedContext('basic');
+    Meteor.call('validateJobTitleSupervisor',jobObject);
+    Meteor.call('validateRequirementsLocationTools',jobObject);
+    return Meteor.call('validateEmployees',jobObject);
 
-
-    let visorNumb = !supervisorValidation1.validate(jobObject.supervisor,{keys:['phone']});
-    let visorName = !supervisorValidation2.validate(jobObject.supervisor,{keys:['name']});
-    let jobTypes = !validations.validate(jobObject,{keys:['jobTypes.texts']});
-    let jobTitle = !validations.validate(jobObject,{keys:['jobTitle.text']});
-    let tools = !toolValidation.validate(jobObject.tools,{keys:['toolsRequired']});
-    let toolsname = !toolValidation.validate(jobObject.tools,{keys:['toolsName']});
-    let locationName = !locationValidation.validate(jobObject.location,{keys:['locationName']});
-    let locLat = !locationValidation.validate(jobObject.location,{keys:['latitude']});
-    let locLng = !locationValidation.validate(jobObject.location,{keys:['longitude']});
-    let reqLicense = !reqValidation.validate(jobObject.requirements,{keys:['driverLicense']});
-    // let excWeekends = !reqValidation.validate(jobObject.requirements, {keys:['weekendExcluded']});
-    let reqBackground = !reqValidation.validate(jobObject.requirements,{keys:['backgroundCheck']});
-    let reqLanguages = !reqValidation.validate(jobObject.requirements,{keys:['languages']});
-    let oshaCheck = !oshaValidation.validate(jobObject.requirements.osha,{keys:['osha10','osha30']});
-    let socialCheck = !socialValidation.validate(jobObject.requirements.socialPref,{keys:['taxID','social']});
+  },
+  validateEmployees(jobObject){
 
     let lengthToCheck = jobObject.professionals.length;
+    let basicValidation = BasicText.namedContext('basic');
+    let proValidation = ProfessionalSchema.namedContext('PRO');
+    let eventValidation = EventSchema.namedContext('EVE');
     let events = [];
 
 
 
     for(let i =0;i<lengthToCheck;++i){
-        let eventtoMake= EventSchema.clean({},{mutate:true});
+        let eventtoMake= EventSchema.clean({});
         eventtoMake.title.text = jobObject.professionals[i].title;
         eventtoMake.responsibilities.text = jobObject.professionals[i].responsibilities;
         eventtoMake.startAt = jobObject.professionals[i].startAt;
@@ -627,22 +608,7 @@ Meteor.methods({
       eventdetails[i] = EventError;
 
     }
-
     let Errors ={
-      visorNumb : visorNumb,
-      visorName : visorName,
-      jobTypes : jobTypes,
-      jobTitle : jobTitle,
-      tools : tools,
-      toolsname: toolsname,
-      locationName :  locationName,
-      locLat : locLat,
-      locLng :  locLng,
-      reqLicense : reqLicense,
-      reqBackground : reqBackground,
-      reqLanguages : reqLanguages,
-      oshaCheck : oshaCheck,
-      socialCheck : socialCheck,
       professionalIssue :{
         isIssue : proissue,
         details : prodetails
@@ -653,18 +619,79 @@ Meteor.methods({
       }
     };
 
-
-
-    //
-    if( visorNumb||tools|| toolsname ||visorName || jobTypes || jobTitle || locationName ||
-      locLat || locLng || reqLicense || reqBackground || reqLanguages ||
-      oshaCheck  || socialCheck || proissue || eventissue
-    ) throw new Meteor.Error('403',Errors);
+    if(proissue || eventissue) throw new Meteor.Error('403',Errors);
 
     return{
-      job : jobObject,
+      job : {...JobSchema.clean({}),...jobObject},
       events :  events
     };
+
+
+
+  },
+  validateJobTitleSupervisor(jobStepOneInfo){
+    let supervisorValidation1 = SupervisorSchema.namedContext('SUP');
+    let supervisorValidation2 = SupervisorSchema.namedContext('SUP2');
+    let basicTextValidation = BasicText.namedContext('basic');
+
+    let jobTitle = !basicTextValidation.validate(jobStepOneInfo.jobTitle,{keys:['text']});
+    let jobDesc = !basicTextValidation.validate(jobStepOneInfo.description,{keys:['text']});
+
+    let visorNumb = !supervisorValidation1.validate(jobStepOneInfo.supervisor,{keys:['phone']});
+    let visorName = !supervisorValidation2.validate(jobStepOneInfo.supervisor,{keys:['name']});
+
+
+    let Errors ={
+      visorName: visorName,
+      visorNumb: visorNumb,
+      jobTitle: jobTitle,
+      jobDesc : jobDesc
+    }
+    if (visorName || visorNumb || jobTitle || jobDesc ) {
+      throw new Meteor.Error('403',Errors);
+    }
+
+  },
+  validateRequirementsLocationTools(jobStepTwoInfo){
+    let oshaValidation = OshaSchema.namedContext('osha');
+    let socialValidation = SocialSchema.namedContext('social');
+    let toolValidation  = ToolSchema.namedContext('tool');
+    let reqValidation = RequirementSchema.namedContext('req');
+    let locationValidation = LocationSchema.namedContext('Location');
+
+
+    let tools = !toolValidation.validate(jobStepTwoInfo.tools,{keys:['toolsRequired']});
+    let toolsname = !toolValidation.validate(jobStepTwoInfo.tools,{keys:['toolsName']});
+    let locationName = !locationValidation.validate(jobStepTwoInfo.location,{keys:['locationName']});
+    let locLat = !locationValidation.validate(jobStepTwoInfo.location,{keys:['latitude']});
+    let locLng = !locationValidation.validate(jobStepTwoInfo.location,{keys:['longitude']});
+    let reqLicense = !reqValidation.validate(jobStepTwoInfo.requirements,{keys:['driverLicense']});
+    // let excWeekends = !reqValidation.validate(jobObject.requirements, {keys:['weekendExcluded']});
+    let reqBackground = !reqValidation.validate(jobStepTwoInfo.requirements,{keys:['backgroundCheck']});
+    let reqLanguages = !reqValidation.validate(jobStepTwoInfo.requirements,{keys:['languages']});
+    let oshaCheck = !oshaValidation.validate(jobStepTwoInfo.requirements.osha,{keys:['osha10','osha30']});
+    let socialCheck = !socialValidation.validate(jobStepTwoInfo.requirements.socialPref,{keys:['taxID','social']});
+
+
+    let Errors ={
+      tools : tools,
+      toolsname: toolsname,
+      locationName :  locationName,
+      locLat : locLat,
+      locLng :  locLng,
+      reqLicense : reqLicense,
+      reqBackground : reqBackground,
+      reqLanguages : reqLanguages,
+      oshaCheck : oshaCheck,
+      socialCheck : socialCheck,
+
+    };
+
+    if( tools|| toolsname || locationName ||
+      locLat || locLng || reqLicense || reqBackground || reqLanguages ||
+      oshaCheck  || socialCheck
+    ) throw new Meteor.Error('403',Errors);
+
   },
 /**
  * @summary Base upon the jobObject,notifications will be sent to the employees how are qualified
@@ -741,6 +768,7 @@ Meteor.methods({
 
 
       let things = Meteor.call('validateJob',newJobEvent);
+      console.log(things);
       let job = things.job;
       let eventz = things.events;
       job.employerId = this.userId;

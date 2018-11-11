@@ -7,6 +7,7 @@ import NotificationSchema from "./Schemas/notificationSchema";
 import { PROFESSIONAL } from "./Schemas/employeeSchema";
 import { CONTRACTOR } from "./Schemas/employerSchema";
 
+const MAX_TODOS = 1000;
 /** @module Notification */
 /**
  * @summary Defines the notifications collection,
@@ -17,7 +18,8 @@ Notification.attachSchema(NotificationSchema);
 if (Meteor.isServer) {
   /**
    *
-   * @summary Publishes all new notifications for a user
+   * Publishes all new notifications for a user.
+   * This subscription does not have any parameters.
    * @publication {Notification} notifications-for-user User
    * @function
    * @name notifications-for-user
@@ -37,7 +39,9 @@ if (Meteor.isServer) {
   });
   /**
    *
-   * @summary Publishes all  notifications for a user regaurdless if the notification has been seen
+   * Publishes all  notifications for a user regardless if the notification has been seen.
+   * The notifications will be pulled in no particular order. It will just notifications for the specific user.
+   * The user has to fall into one of the two roles (CON/PRO) to be authorized to use this function.
    * @publication {Notification} all-notifications-for-user User
    * @function
    * @name all-notifications-for-user
@@ -49,13 +53,24 @@ if (Meteor.isServer) {
       Roles.userIsInRole(this.userId, CONTRACTOR) ||
       Roles.userIsInRole(this.userId, PROFESSIONAL)
     ) {
-      return Notification.find({ toWhomst: this.userId });
+      const options = {
+        sort: {createdAt: -1}
+      };
+      return Notification.find({ toWhomst: this.userId },options);
     } else {
       this.stop();
       return;
     }
   });
-
+  /**
+   *  This will publish a notification with the job info for a deleted job.
+   *  Before we remove a job from the database we store a portion of the info in a notification.
+   *  This is done so that a user can see the basic info of the deleted job.
+   * @publication {Notification} all-notifications-for-user User
+   * @function
+   * @name view-deleted-job
+   * @returns {MongoBD.cursor|NULL} cursor point to all valid notifications objects. Null if not a signed in user
+   */
   Meteor.publish("view-deleted-job", function(jobId) {
     if (
       Roles.userIsInRole(this.userId, CONTRACTOR) ||
@@ -72,21 +87,29 @@ if (Meteor.isServer) {
 
 Meteor.methods({
   /**
-   * [createNotification description]
-   * @param  {[type]} newNotify [description]
-   * @return {[type]}           [description]
+   * Inserts a notification object into the database.
+   * The object being sent up will be first validated.
+   * If the object passes validation it will be inserted into the database with a timestamp.
+   * @mmethod
+   * @throws {Meteor.Error} will throw error if the user calling the function is not a valid user
+   * @param  {Object} newNotify the notification object to be inserted. see NotificationSchema
+   * @return {String} if successful will return the string id of the notification recently inserted in database
    */
   createNotification(newNotify) {
     newNotify.createdAt = new Date();
     let validation = NotificationSchema.namedContext("Notification");
     if (!validation.validate(newNotify))
       throw new Meteor.Error("403", "THINGS");
-    Notification.insert(newNotify);
+    return Notification.insert(newNotify);
   },
   /**
-   * [updateNotification description]
-   * @param  {[type]} notifyId [description]
-   * @return {[type]}          [description]
+  * Will try to update 'seen' value of  the notification with the associated id(notifyId).
+  * First will try to pull stored copy of the object associated with notifyId (if it doesnt exist function will stop and gives no error/warning).
+  * Will only change seen value from false to true.
+  * @mmethod
+  * @param  {String} notifyId   String Id of the notification object stored in the database
+  * @throws {Meteor.Error} will throw error if the user calling the function is not a valid user
+  * @return {Boolean}           will return true if the document has been updated
    */
   updateNotification(notifyId) {
     if (!this.userId) throw new Meteor.Error("401", NOTAUTH);
@@ -97,12 +120,17 @@ Meteor.methods({
     });
     if (!notification) return;
     notification.seen = true;
-    Notification.update({ _id: notifyId }, { $set: notification });
+    return Notification.update({ _id: notifyId }, { $set: notification }) == 1
+      ? true
+      : false;
   },
   /**
-   * [deleteNotificationsForJob description]
-   * @param  {[type]} jobId [description]
-   * @return {[type]}       [description]
+   * Deletes all notifications that are associated with a jobId.
+   * Will only remove notification of the following types: applied/hired/match.
+   * @mmethod
+   * @param  {String} jobId   String Id of the job that will determine which notifications to delete
+   * @throws {Meteor.Error} will throw error if the user calling the function is not a valid user
+   * @return {Boolean}           will return true if the documents has been removed
    */
   deleteNotificationsForJob(jobId) {
     if (!this.userId) throw new Meteor.Error("401", NOTAUTH);
@@ -110,6 +138,8 @@ Meteor.methods({
     Notification.remove({ jobId: jobId, typeNotifi: "APPLIED" });
     Notification.remove({ jobId: jobId, typeNotifi: "HIRED" });
     Notification.remove({ jobId: jobId, typeNotifi: "MATCH" });
+
+    return Notification.find({jobId:jobId}).count() == 0;
   }
 });
 

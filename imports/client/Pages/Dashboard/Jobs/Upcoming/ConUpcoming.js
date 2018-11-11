@@ -23,7 +23,7 @@ class ConUpcomingPage extends React.Component{
   render(){
     if(!this.props.loading){
       return (
-        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+        <div className="flex-center" >
           <MSpinner />
         </div>
       );

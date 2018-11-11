@@ -5,12 +5,8 @@ import ReactDOM from 'react-dom';
  export default class JobLocation extends React.Component {
   constructor(props) {
     super(props);
-
-
   }
   componentDidMount(){
-    // console.log(this.props);
-
     let geoThings ={lat:this.props.latitude,lng:this.props.longitude};
     let mapGoogle = new google.maps.Map(ReactDOM.findDOMNode(this.refs.map),{
       zoom: 12,
@@ -27,9 +23,6 @@ import ReactDOM from 'react-dom';
       center: geoThings,
       radius: 2500
     });
-
-  }
-  componentWillUnmount(){
 
   }
   render(){

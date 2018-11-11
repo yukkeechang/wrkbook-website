@@ -33,7 +33,6 @@ export default class NewRef extends Component{
                 console.log(err);
             }else{
                 Meteor.call('createReference',Reference,(err)=>{
-                  console.log("things things");
                     if(err) console.log(err);
                     else{
                         this.refs.employerName.reset();

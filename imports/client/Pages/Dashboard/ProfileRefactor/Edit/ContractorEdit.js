@@ -13,7 +13,7 @@ export default class ContractorEdit extends Component{
   componentDidMount(){
     let page = ReactDOM.findDOMNode(this.refs.editPage);
     $(page).ready(()=>{
-      $('select').material_select();
+      $('select').formSelect();
       $('.modal').modal();
       $('.tooltipped').tooltip({delay: 50});
     });

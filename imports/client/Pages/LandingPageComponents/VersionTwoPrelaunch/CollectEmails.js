@@ -27,7 +27,7 @@ export default class CollectEmails extends React.Component {
         console.log(err.reason);
         this.setState(err.reason);
       } else {
-        Materialize.toast('Email and name has been submitted', 6000, 'rounded');
+        M.toast({html:'Email and name has been submitted', displayLength:6000, classes:'rounded'});
         this.setState({
               pro: true,
               isEmail: true,
@@ -56,7 +56,7 @@ export default class CollectEmails extends React.Component {
     let empty = "This cannot be empty";
     let validState = this.state.isEmail ? (this.state.existAlready ? "You have already submitted" : "") : "This email must be valid";
     return (
-      <div style={{ backgroundColor: "white" }}>
+      <div className="white">
         <h4 className="center-align montserrat-reg container how-to-heading ">
           Made for construction professionals and contractors
         </h4>
@@ -64,7 +64,7 @@ export default class CollectEmails extends React.Component {
           className="center-align container montserrat-med-i"
           style={{ fontSize: "25px", color: "#9B9B9B" }}
         >
-          Sign up today for to get notified when our beta 2.0 comes out!{" "}
+          Sign up today for to get notified!
         </div>
         <div className="row container">
           <div className="col s12 m4 l4">
@@ -86,6 +86,7 @@ export default class CollectEmails extends React.Component {
           <div className="col m4 l4">
             <div className="section" />
             <div>
+            <label>
               <input
                 type="radio"
                 id="pro"
@@ -93,9 +94,12 @@ export default class CollectEmails extends React.Component {
                 onClick={this.pro}
                 defaultChecked={(this.state.pro)? "checked" :''}
               />
-              <label htmlFor="pro">Professional/Skilled trade worker</label>
+              <span>Professional/Skilled trade worker</span>
+            </label>
+
             </div>
             <div>
+              <label>
               <input
                 type="radio"
                 id="con"
@@ -103,15 +107,15 @@ export default class CollectEmails extends React.Component {
                 onClick={this.con}
                 defaultChecked={(this.state.pro)? '' :"checked"}
               />
-              <label htmlFor="con">Contractor</label>
+              <span>Contractor</span>
+              </label>
             </div>
           </div>
         </div>
         <div style={{paddingBottom:'15px',marginBottom:'0px'}} className="row">
           <div className="center-align col s12 m6 l6 offset-l3 offset-m3">
             <a
-              style={{width:'100%'}}
-              className="roundish-button-flat-large grey darken-2 "
+              className=" take-up-width roundish-button-flat-large grey darken-2 "
               onClick={e => this.createLead(e)}
             >
               <h4>Submit</h4>

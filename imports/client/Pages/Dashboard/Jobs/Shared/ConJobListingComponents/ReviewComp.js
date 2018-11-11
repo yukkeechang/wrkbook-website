@@ -5,6 +5,8 @@ import MSpinner from '../../../../Shared/MSpinner';
 import ReviewModal from '../../../Reviews/ReviewModal';
 import EditReviewForCon from '../../../Reviews/EditReviewForCon';
 import ViewReview from '../../../Reviews/ViewReview';
+import EditReviewModal from '../../../Reviews/EditReviewModal';
+
 import Rating from 'react-rating';
 
 class ReviewC extends Component{
@@ -33,11 +35,9 @@ class ReviewC extends Component{
                     review={this.props.reviews[0]}
                     isProReview={true}
                     />
-                    <EditReviewForCon
-                    review={this.props.reviews[0]}
-                    conId={this.props.conId}
-                    proId={this.props.proId}
-                    jobId={this.props.jobId}
+                    <EditReviewModal
+                    oldReview={this.props.reviews[0]}
+                    isProReview={false}
                     />
                   </div>
 
@@ -57,7 +57,7 @@ class ReviewC extends Component{
                     <h6>${this.props.dayPay}/day</h6>
                   </div>
                   <div className= "row">
-                      <Link to={"/user/"+ this.props.proId}><a className="waves-effect waves-teal teal lighten-1 btn-flat">View Profile</a></Link>
+                      <Link to={`/user/${this.props.proId}`}><a style={{width:'50%'}} className="waves-effect waves-teal teal lighten-1 roundish-button-flat">View Profile</a></Link>
                   </div>
 
                 </div>

@@ -33,8 +33,8 @@ class ConComponentPage extends React.Component{
 
     $(page).ready(()=>{
       $('.modal').modal();
-      $('select').material_select();
-      $('.tooltipped').tooltip({delay: 50});
+      $('select').formSelect();
+      $('.tooltipped').tooltip();
     });
     $(this.refs.titles).on('change',(e)=>{
       this.handleProChange(e);
@@ -99,7 +99,7 @@ class ConComponentPage extends React.Component{
   componentWillUnmount(){
     this.props.handleApply.stop();
     this.props.handleAdmit.stop();
-    $('.tooltipped').tooltip('remove');
+    $('.tooltipped').tooltip('destroy');
     $(this.refs.deleteModal).modal('close');
   }
 

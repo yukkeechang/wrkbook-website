@@ -32,9 +32,9 @@ export default class StepOne extends Component{
         initGA()
         logPageView()
         let tooltip = ReactDOM.findDOMNode(this.refs.tool);
-        $(tooltip).tooltip({delay: 50});
+        $(tooltip).tooltip();
         $(ReactDOM.findDOMNode(this)).ready(function() {
-          Materialize.updateTextFields();
+          M.updateTextFields();
         });
 
     }
@@ -107,16 +107,20 @@ export default class StepOne extends Component{
                             <MTextField ref="ph" id="phone"     error={this.state.phoneE ? empty : (!this.state.gPhone? phErr:'')} label="Phone Number *" value={this.state.phone}/>
                         </div>
                         <div className="col s12 m6">
-                            <MTextField style={{display:'inline-block',width:'90%'}} ref="p1" id="pass1"     error={this.state.p1Empty? empty : (!this.state.pValid ? pass : '')} type="password" label="Password *"/><i ref="tool" style={{whiteSpace:'pre',color:'#888'}}className="material-icons tooltipped" data-html="true" data-background-color="#888"data-tooltip="Password must contain at least 8 characters,</br> a capital letter and a number.">info</i>
+                            <MTextField style={{display:'inline-block',width:'90%'}} ref="p1" id="pass1"     error={this.state.p1Empty? empty : (!this.state.pValid ? pass : '')} type="password" label="Password *"/><i ref="tool" style={{whiteSpace:'pre',color:'#888'}}className="material-icons tooltipped" data-html="true" data-background-color="#888" data-tooltip="Password must contain at least 8 characters,</br> a capital letter and a number.">info</i>
                             <MTextField ref="p2" id="pass2"     error={this.state.nEqual ? pequ: ''} type="password" label="Confirm Password *"/>
 
                             <p>
-                            <input ref="con"name="group1" type="radio" id="test1" onClick={this.con.bind(this)} defaultChecked={(this.props.isPro)? '' :"checked"}/>
-                            <label htmlFor="test1">Contractor</label>
+                            <label>
+                              <input ref="con"name="group1" type="radio" id="test1" onClick={this.con.bind(this)} defaultChecked={(this.props.isPro)? '' :"checked"}/>
+                              <span>Contractor</span>
+                            </label>
                             </p>
                             <p>
-                            <input ref="pro"name="group1" type="radio" id="test2" onClick={this.pro.bind(this)} defaultChecked={(this.props.isPro)? "checked" :''}/>
-                            <label htmlFor="test2">Professional</label>
+                              <label>
+                              <input ref="pro"name="group1" type="radio" id="test2" onClick={this.pro.bind(this)} defaultChecked={(this.props.isPro)? "checked" :''}/>
+                              <span>Professional</span>
+                            </label>
                             </p>
                         </div>
                     </div>

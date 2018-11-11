@@ -17,7 +17,7 @@ exports.defineTags = function(dictionary) {
         doclet.mmethod = [];
       }
       doclet.mmethod.push({
-        scope: 'Meteor Method',
+        scope: 'meteor method',
       });
     },
 

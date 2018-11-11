@@ -1,6 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import PersonCard from './PersonCard';
+import PersonalHeader from './PersonHeader';
 import { withTracker } from 'meteor/react-meteor-data';
 
 
@@ -20,10 +21,6 @@ class PeopleList extends React.Component {
       });
     });
   }
-  componentDidMount(){
-    // console.log(this.props);
-
-  }
   componentWillUnmount(){
     this.props.handle.stop();
   }
@@ -34,11 +31,7 @@ class PeopleList extends React.Component {
       return(
 
         <div>
-          <div style={{marginBottom:'0px'}}className="row">
-            <div className="col center-align s12">
-              <h5>Direct Message</h5>
-            </div>
-          </div>
+            <PersonalHeader jobId={this.props.job._id}/>
           {
             !!this.state.employer._id&&
             <div>
@@ -52,20 +45,22 @@ class PeopleList extends React.Component {
 
           }
 
-
-            <ul className="collection">
           {
-            this.props.people.map((person,index)=>{
-              return(
-                 <li style={{backgroundColor:'transparent'}} className="collection-item">
-                  <PersonCard jobId={this.props.job._id} handleParentClick={this.handleClick} userId={person._id} imageId={person.profile.employeeData.image}
-                    name={`${person.profile.firstName} ${person.profile.lastName}`} />
-                 </li>
+            this.props.people.length>0 &&
+              <ul className="collection">
+            {
+              this.props.people.map((person,index)=>{
+                return(
+                   <li style={{backgroundColor:'transparent'}} key={person._id} className="collection-item">
+                    <PersonCard jobId={this.props.job._id} handleParentClick={this.handleClick} userId={person._id} imageId={person.profile.employeeData.image}
+                      name={`${person.profile.firstName} ${person.profile.lastName}`} />
+                   </li>
 
-              )
-            })
-          }
-          </ul>
+                )
+              })
+            }
+            </ul>
+        }
 
         </div>
 

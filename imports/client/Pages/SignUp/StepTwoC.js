@@ -87,7 +87,8 @@ export default class StepTwoC extends Component{
         let el = ReactDOM.findDOMNode(this.refs.ca);
         $(el).characterCounter();
         $(el).val(this.state.about);
-        $(el).trigger('autoresize');
+        M.textareaAutoResize($(el));
+        
 
     }
     render(){

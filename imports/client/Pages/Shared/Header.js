@@ -27,7 +27,6 @@ class Head extends Component {
                       {header}
                   </div>
                 }
-
             </div>
         )
     }

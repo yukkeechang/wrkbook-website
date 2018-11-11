@@ -12,19 +12,11 @@ import { formatSingleDate,formatSingleTime,getDurationDayHour} from './formatTim
 class ConJobListingPageComp extends React.Component {
  constructor(props) {
    super(props);
-   this.state = {
-
-
-   }
 
   }
   componentWillUnmount(){
     this.props.handle.stop();
   }
-  componentDidMount(){
-
-  }
-
  textSize() {
   let width = document.body.scrollWidth;
   if (width >= 600) {

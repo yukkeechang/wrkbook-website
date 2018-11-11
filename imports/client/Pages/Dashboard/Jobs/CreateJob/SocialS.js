@@ -28,23 +28,31 @@ export default class Tools extends Component {
           <div className="col s4">
             <label>Is Social Security required?</label>
             <div>
+              <label>
               <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick}/>
-              <label htmlFor="sscYes">Yes</label>
+              <span>Yes</span>
+              </label>
             </div>
             <div>
+            <label>
               <input name="group1" type="radio" id="sscNo" onClick={this.handlesscNoClick}/>
-              <label htmlFor="sscNo">No</label>
+              <span>No</span>
+              </label>
             </div>
           </div>
           <div id="taxDisplay" style={{display:'none'}} className="col s4">
             <label>Is Tax Id required?</label>
             <div>
+              <label>
               <input name="group2" type="radio" id="taxYes"/>
-              <label htmlFor="taxYes">Yes</label>
+              <span>Yes</span>
+              </label>
             </div>
             <div>
+              <label>
               <input name="group2" type="radio" id="taxNo"/>
-              <label htmlFor="taxNo">No</label>
+              <span>No</span>
+              </label>
             </div>
           </div>
           </div>

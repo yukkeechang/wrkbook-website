@@ -40,19 +40,24 @@ export default class EmployeeCheckBoxs extends Component{
         </div>
         <div className="row">
           <div className="col s12 m4 ">
-
+              <label>
               <input type="checkbox" className="filled-in" id="onTime"  value={this.state.onTime} onChange={this.handleOnTime.bind(this)}/>
-              <label htmlFor="onTime">Shows up on time</label>
+              <span>Shows up on time</span>
+              </label>
           </div>
 
           <div className="col s12 m4 ">
+          <label>
             <input type="checkbox" className="filled-in" id="neatJob" value={this.state.neatJob} onChange={this.handleNeatJob.bind(this)} />
-            <label htmlFor="neatJob">Neat Job</label>
+            <span>Neat Job</span>
+            </label>
           </div>
 
           <div className="col s12 m4 ">
+            <label>
             <input type="checkbox" className="filled-in" id="recommend" value={this.state.wouldRecommend} onChange={this.handleRecommend.bind(this)}/>
-            <label htmlFor="recommend">Recommended</label>
+            <span>Recommended</span>
+            </label>
           </div>
 
         </div>

@@ -18,9 +18,9 @@ exports.defineTags = function(dictionary) {
         doclet.publication = [];
       }
       doclet.publication.push({
-        name: tag.value.name,
+        name: tag.value.name ? tag.value.name: '',
         type: tag.value.type ? (tag.value.type.names.length === 1 ? tag.value.type.names[0] : tag.value.type.names) : '',
-        scope: tag.title,
+        scope: 'publication',
         description: tag.value.description ?  tag.value.description: ''
       });
     },
@@ -36,18 +36,6 @@ exports.handlers = {
 
       let publication = e.doclet.publication[0];
       e.doclet.scope = publication.scope;
-      e.doclet.type = publication.type;
-      e.doclet.name = publication.name;
-      e.doclet.description = `<h5>Publication:</h5>
-                              <table class="params">
-                              <thead><tr><th>Collection</th><th>Name </th><th class="last">Authorized to Use</th></tr></thead>
-                              <tr>
-                              <td class="type">${e.doclet.type}</td>
-                              <td class="name">${e.doclet.name}</td>
-                              <td class="name last">${publication.description}</td>
-                              </tr>
-                              </table>
-                              `;
     }
   }
 };

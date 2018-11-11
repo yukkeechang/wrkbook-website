@@ -2,9 +2,6 @@ import React from 'react';
 import Employees from './AppliedEmployees'
 
 export default class ApplyAndHired extends React.Component{
-  componentDidMount(){
-
-  }
   constructor(props){
     super(props);
   }

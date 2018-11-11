@@ -21,29 +21,10 @@ export default class CreateJobs extends Component {
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
       $('.modal').modal();
-      $('select').material_select();
+      $('select').formSelect();
     });
     $(this.refs.titles).change(()=>{
       this.setState({titles:$(this.refs.titles).val()})
-    });
-    $('.datepicker').pickadate({
-      selectMonths: true, // Creates a dropdown to control month
-      selectYears: 15, // Creates a dropdown of 15 years to control year,
-      today: 'Today',
-      clear: 'Clear',
-      close: 'Ok',
-      closeOnSelect: false // Close upon selecting a date,
-    });
-    $('.timepicker').pickatime({
-      default: 'now', // Set default time: 'now', '1:30AM', '16:30'
-      fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
-      twelvehour: true, // Use AM/PM or 24-hour format
-      donetext: 'OK', // text for done-button
-      cleartext: 'Clear', // text for clear-button
-      canceltext: 'Cancel', // Text for cancel-button
-      autoclose: false, // automatic close timepicker
-      ampmclickable: true, // make AM PM clickable
-      aftershow: function(){} //Function for after opening timepicker
     });
     $(this.refs.osha).on('change',(e)=>{
       this.handleSelect(e);
@@ -101,20 +82,19 @@ export default class CreateJobs extends Component {
       job.requirements.osha.osha10 = this.state.osha10;
       job.requirements.osha.osha30 = this.state.osha30;
       job.requirements.weekendExcluded = this.refs.eweekend.checked;
-    console.log(job);
 
-          Meteor.call('createJob', job, (err, res)=>{
-            if(err){
-              console.log(err);
-              console.log(err.reason);
-              $('#creationModal').modal('open');
-              this.setState({err: true});
-            }
-            else{
-              console.log(res);
-              $('#createModal').modal('open');
-            }
-          });
+        Meteor.call('createJob', job, (err, res)=>{
+          if(err){
+            console.log(err);
+            console.log(err.reason);
+            $('#creationModal').modal('open');
+            this.setState({err: true});
+          }
+          else{
+            console.log(res);
+            $('#createModal').modal('open');
+          }
+        });
 
     }
     else{
@@ -196,17 +176,23 @@ export default class CreateJobs extends Component {
             <div className="col m2 s4">
               <label>Are tools required?</label>
               <div>
+                <label>
                 <input name="group1" type="radio" id="toolYes"  onClick={this.handletoolYesClick.bind(this)} />
-                <label htmlFor="toolYes">Yes</label>
+                <span>Yes</span>
+                </label>
               </div>
               <div>
+                <label>
                 <input name="group1" type="radio" id="toolNo" onClick={this.handletoolNoClick.bind(this)} />
-                <label htmlFor="toolNo">No</label>
+                <span>No</span>
+                </label>
               </div>
             </div>
             <div id="toolDisplay" style={{display:'none'}} className="input-field col m10 s8">
+              <label>
               <input id="tools" ref="tools" type="text"/>
-              <label htmlFor="tools">Required tools:</label>
+              <span>Required tools:</span>
+              </label>
             </div>
           </div>
         </form>
@@ -226,23 +212,31 @@ export default class CreateJobs extends Component {
             <div className="col m4 s6">
               <label>Is Social Security required?</label>
               <div>
+              <label>
                 <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick.bind(this)}/>
-                <label htmlFor="sscYes">Yes</label>
+                <span>Yes</span>
+              </label>
               </div>
               <div>
+              <label>
                 <input name="group1" type="radio" id="sscNo" onClick={this.handlesscNoClick.bind(this)}/>
-                <label htmlFor="sscNo">No</label>
+                <span>No</span>
+                </label>
               </div>
             </div>
             <div id="taxDisplay" style={{display:'none'}} className="col m4 s6">
               <label>Is Tax Id required?</label>
               <div>
+                <label>
                 <input name="group2" type="radio" id="taxYes"/>
-                <label htmlFor="taxYes">Yes</label>
+                <span>Yes</span>
+                </label>
               </div>
               <div>
+                <label>
                 <input name="group2" type="radio" id="taxNo"/>
-                <label htmlFor="taxNo">No</label>
+                <span>No</span>
+                </label>
               </div>
             </div>
           </div>
@@ -250,12 +244,16 @@ export default class CreateJobs extends Component {
         <div>
           <label htmlFor="weekend">Exclude Weekends? Only applies if dates selected include weekends. (This means that professionals will not work on weekends)</label>
           <div>
+            <label>
             <input  ref="eweekend" name="eweekend" type="radio" id="excludeYes"/>
-            <label htmlFor="excludeYes" >Yes</label>
+            <span>Yes</span>
+            </label>
           </div>
           <div>
+            <label>
             <input  ref="iweekend"  name="eweekend" type="radio" id="excludeNo" defaultChecked={true}/>
-            <label htmlFor="excludeNo" >No</label>
+            <span>No</span>
+            </label>
           </div>
         </div>
         <div className="input-field col s12">
@@ -282,7 +280,7 @@ export default class CreateJobs extends Component {
           </div>
 
           <div className="row">
-              <a onClick={this.handleCreate.bind(this)} className="btn-flat teal lighten-5 col s12 m6" style={{color: 'black',textAlign:'center',marginTop: '8px'}}type="submit">Create Job</a>
+              <a onClick={this.handleCreate.bind(this)} className="btn-flat teal lighten-5 col s12 m6" style={{color: 'black',textAlign:'center',marginTop: '8px'}} >Create Job</a>
               {this.state.err ? (
                   <CSSTransitionGroup
                       transitionName="err"

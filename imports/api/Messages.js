@@ -37,6 +37,12 @@ if ( Meteor.isServer ) {
     }
     return null;
   });
+  Meteor.publish('unread-channels',function(jobId){
+    return Message.find({channelId:{$exists:true} ,jobId:jobId,to:{$exists:false},seen:{$nin:[this.userId]}},{fields:{channelId:1}});
+  });
+  Meteor.publish('unread-messages-job',function(jobId){
+    return Message.find({channelId:{$exists:false} ,jobId:jobId,to:{$exists:true},seen:false});
+  });
   Meteor.publish('messages-for-channel',function(jobId,channell){
     let channel  = Channel.findOne({jobId:jobId,name:channell});
     if(channel){
@@ -53,12 +59,13 @@ if ( Meteor.isServer ) {
       $or:[{channelId:{$exists:false},jobId:jobId,owner:this.userId,to:userId},
             {channelId:{$exists:false},jobId:jobId,owner:userId,to:this.userId}]});
   });
+
   Meteor.publish('unread-messages',function () {
     if( Roles.userIsInRole(this.userId,PROFESSIONAL)){
       let currentJobs = Meteor.call('findActiveJobsEmployee');
       return Message.find({
         $or:[{jobId:{$in: currentJobs},seen: false,to:this.userId},
-            {jobId:{$in: currentJobs},seen: false,channelId:{$exists:true} }]
+            {jobId:{$in: currentJobs},seen: {$nin:[this.userId]},channelId:{$exists:true} }]
 
       });
     }
@@ -66,7 +73,7 @@ if ( Meteor.isServer ) {
       let currentJobs = Meteor.call('findActiveJobsEmployer');
       return Message.find({
         $or:[{jobId:{$in: currentJobs},seen: false,to:this.userId},
-            {jobId:{$in: currentJobs},seen: false,channelId:{$exists:true} }]
+            {jobId:{$in: currentJobs},seen: {$nin:[this.userId]},channelId:{$exists:true} }]
       });
     }
     else{
@@ -83,10 +90,33 @@ Meteor.methods({
     if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
     newMessage.owner= this.userId;
     newMessage.timestamp = new Date();
-    newMessage.seen= false;
+    console.log(newMessage);
+    if (!!newMessage.to) {
+      newMessage.seen = false;
+    }else{
+      newMessage.seenGroup=[this.userId];
+    }
     let validation = MessagesSchema.namedContext('Message');
     if(!validation.validate(newMessage))throw new Meteor.Error('403','THINGS');
     Message.insert(newMessage);
+  },
+  getMessage(messageId){
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+    return Message.findOne({_id:messageId});
+
+  },
+  updateSeenStatus(messageId){
+    if(!this.userId) throw new Meteor.Error('401',NOTAUTH);
+    check(messageId,String);
+    let message = Message.findOne({_id:messageId});
+    if(!message)return;
+    if (!!message.to) {
+      message.seen = message.to === this.userId ? false: message.seen;
+    }else{
+      message.seenGroup.push(this.userId);
+      let noCopies = new Set(message.seenGroup);
+      message.seenGroup= Array.from(noCopies);
+    }
   },
   getChannel(channelId){
       if(!this.userId) throw new Meteor.Error('401',NOTAUTH);

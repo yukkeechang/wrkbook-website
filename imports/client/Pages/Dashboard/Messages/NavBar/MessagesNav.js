@@ -5,11 +5,8 @@ import MSpinner from '../../../Shared/MSpinner';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 class Notis extends Component{
-    lol(e){
-      console.log(e);
-    }
     componentWillUnmount(){
-      //this.prop.handle.stop();
+      // this.prop.handle.stop();
     }
     render(){
       let onlyTwo = this.props.messages.slice(0,2);
@@ -25,12 +22,12 @@ class Notis extends Component{
                     return(
 
                        <li key={message._id} className="collection-item">
-                          <Link onClick={this.lol.bind(this,message)} to={'/'}>
+                          <Link to={'/'}>
                            <MessageCard message={message}/>
                          </Link>
                       </li>
 
-                    )
+                    );
                     })
                     :
 
@@ -48,9 +45,13 @@ class Notis extends Component{
 export default NavBarMessages = withTracker(({params})  => {
     let handle = Meteor.subscribe('unread-messages');
     let ready = handle.ready();
+    let currentUser = Meteor.userId();
     return {
         ready: ready,
         handle:handle,
-        messages: Message.find({seen:false}).fetch()
+        messages: Message.find({
+          $or:[{channelId:{$exists:false},to:currentUser,seen:false},
+                {channelId:{$exists:true},seenGroup:{$nin:[currentUser]},owner:{$ne:currentUser}}]
+        },{sort:{timestamp:-1}}).fetch()
     };
 })(Notis);

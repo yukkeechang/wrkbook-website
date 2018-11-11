@@ -43,19 +43,17 @@ export default class ProJobListingPage extends React.Component {
    let totalPay = hours * days * this.props.job.professionals[this.props.jobTypesIndex].pay;
    let jobDate = `${formatSingleDate(this.props.event.startAt)}-${formatSingleDate(this.props.event.endAt)}`;
    let jobTime = `${formatSingleTime(this.props.event.startAt)}-${formatSingleTime(this.props.event.endAt)}`;
-
-   //console.log(hours);
       return (
         <div className="card">
 
-          <div style={{paddingLeft:'10px',paddingRight:'10px'}} className="row">
+          <div className="row">
             <div className="card grey lighten-1">
-              <div style={{marginLeft:'-10px',marginRight:'-10px'}} className="row">
+              <div  className="row">
                 <div className="col s12 center-align">
                   <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'2em', margin:'0px'}}>Job Title: {this.props.job.jobTitle.text}</p></Link>
                 </div>
               </div>
-              <div style={{marginLeft:'-10px',marginRight:'-10px'}} className="row">
+              <div className="row">
                 <div className="col s12 center-align">
                   <Link style={{color: 'black'}} to={"/job/"+ this.props.job._id}> <p style={{fontSize:'1.5em', margin:'0px'}} >Location: <u>{this.props.job.location.locationName}</u></p></Link>
                 </div>

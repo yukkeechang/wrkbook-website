@@ -43,15 +43,10 @@ import { withTracker } from 'meteor/react-meteor-data';
       if(err){
         console.log(err);
       }
-      else{
-
-      }
     });
   }
 
   openDeclineModal=()=>{
-    console.log("things");
-    console.log(this.refs.declineModal);
     $(this.refs.declineModal).modal('open');
   }
   doNothing=()=>{

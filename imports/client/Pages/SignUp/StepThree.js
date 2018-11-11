@@ -7,7 +7,6 @@ export default class stepThree extends Component{
   constructor(props){
       super(props);
 
-      console.log(props.user);
 
       this.state={
         shownlink:'',
@@ -34,11 +33,11 @@ export default class stepThree extends Component{
     componentDidMount() {
       initGA()
       logPageView()
-      $('#fileInput').on('click',function(e){
+      $('#fileInput').on('click',(e)=>{
         if(e.type === 'click'){
           this.setState({pesonalPic:true});
         }
-      }.bind(this));
+      });
 
 
     }
@@ -47,8 +46,6 @@ export default class stepThree extends Component{
       let inputField =document.getElementById('fileInput');
       inputField.click();
       this.setState({pesonalPic:true});
-
-
     }
 
 
@@ -107,12 +104,6 @@ export default class stepThree extends Component{
     submit(e){
 
       let basic = this.state.basic;
-      // if(!this.state.captchaSolved){
-      //   this.setState({
-      //     captchaWarningOn:true
-      //   });
-      //   return;
-      // }
       this.setState({stopclicks: 'disabled'});
       if(this.isEmpty(this.state.basic)){
           Meteor.call('register',this.props.user,(err)=>{
@@ -172,7 +163,7 @@ export default class stepThree extends Component{
   handlePrev(){
     let thin = window.sessionStorage.getItem('reg');
 
-    UserObjectArray = JSON.parse(thin);
+    let UserObjectArray = JSON.parse(thin);
     this.props.next(2,UserObjectArray[0],UserObjectArray[0].profile.isPro)
   }
 
@@ -188,7 +179,7 @@ export default class stepThree extends Component{
 
             <div className="col s12">
                 <div className="row">
-                    <div id="imageContain" style={{display:'flex', justifyContent:'center',alignItems:'center'}} className="col s12">
+                    <div id="imageContain" className="col s12 flex-center">
                     {this.state.pesonalPic ?
                       <div id="page">
                         <div id="demo-basic">
@@ -213,12 +204,12 @@ export default class stepThree extends Component{
 
                     {!this.state.confirmed &&
                     <div className="row">
-                      <div  style={{display:'flex', justifyContent:'center',alignItems:'center'}}  className="col s12">
-                        <div >
+                      <div>
+                        <div className="flex-center">
                           <div className="file-field input-field">
-                            <div className="btn">
-                              <span>Select Image</span>
-                              <input  id="fileInput"   onChange={this.onFileInputChange.bind(this)} type="file" accept="image/*"/>
+                            <div className="teal btn">
+                              <span>Image</span>
+                              <input   id="fileInput"   onChange={this.onFileInputChange.bind(this)} type="file" accept="image/*"/>
                             </div>
                             <div className="file-path-wrapper">
                               <input id='fileName 'className={"file-path  "+ this.state.validImage} type="text"/>

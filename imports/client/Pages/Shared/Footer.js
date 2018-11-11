@@ -41,7 +41,7 @@ export default Footer = (props)=>{
                 </div>
                 <div style={{marginBottom:'0'}} className="row">
                     <div className="col s12">
-                        <p className="teal-text" style={{padding:'0',marginTop:'0',textAlign:'center'}}>© 2017 by WrkBook LLC.</p>
+                        <p className="teal-text" style={{padding:'0',marginTop:'0',textAlign:'center'}}>© 2018 by WrkBook LLC.</p>
                     </div>
                 </div>
 

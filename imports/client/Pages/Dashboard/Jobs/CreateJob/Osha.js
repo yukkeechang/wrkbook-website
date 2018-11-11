@@ -21,7 +21,7 @@ export default class Osha extends Component {
   componentDidMount(){
     let dropdowns = ReactDOM.findDOMNode();
     $(dropdowns).ready(()=>{
-      $('select').material_select();
+      $('select').formSelect();
     });
     $(this.refs.osha).on('change',(e)=>{
       this.handleSelect(e);

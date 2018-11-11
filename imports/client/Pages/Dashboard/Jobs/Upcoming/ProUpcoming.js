@@ -18,7 +18,7 @@ render() {
   let jobz = this.props.job;
   if(!this.props.ready) {
     return (
-      <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+      <div className="flex-center" >
         <MSpinner />
       </div>
     )
@@ -26,9 +26,9 @@ render() {
 
   else if(this.props.job.length >0 ) {
     let notifications = this.props.notifications;
-    notifications.map(function(notify,index){
+    notifications.map((notify,index)=>{
       Meteor.call('updateNotification',notify._id,(err)=>{
-        console.log(err);
+        if(err)console.log(err);
       });
     });
 

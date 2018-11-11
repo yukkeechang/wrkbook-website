@@ -16,7 +16,7 @@ class UpcomingJobs extends React.Component {
       this.state={isPro: false}
     } else if (Roles.userIsInRole(this.props.user._id,"PRO")) {
       this.state={isPro: true}
-  }
+    }
   }
 
   componentDidMount() {
@@ -24,7 +24,7 @@ class UpcomingJobs extends React.Component {
     logPageView()
   }
 
-render() {
+  render() {
   // console.log(this.state.upcoming);
   return (
     this.state.isPro ? <ProUpcoming/> : <ConUpcoming/>

@@ -94,9 +94,9 @@ export default class StepTwoE extends Component{
 
                     this.setState(err.reason,()=>{
                         let title = ReactDOM.findDOMNode(this.refs.titles);
-                        $(title).material_select();
+                        $(title).formSelect();
                         let langs = ReactDOM.findDOMNode(this.refs.langs);
-                        $(langs).material_select();
+                        $(langs).formSelect();
                     });
                     this.setState({err: true});
                 }else{
@@ -120,9 +120,9 @@ export default class StepTwoE extends Component{
         logPageView()
         let title = ReactDOM.findDOMNode(this.refs.titles);
         console.log(title);
-        $(title).material_select();
+        $(title).formSelect();
         let langs = ReactDOM.findDOMNode(this.refs.langs);
-        $(langs).material_select();
+        $(langs).formSelect();
         let dist = ReactDOM.findDOMNode(this.refs.dist);
         noUiSlider.create(dist, {
             start: [20],
@@ -145,9 +145,9 @@ export default class StepTwoE extends Component{
         let sk = ReactDOM.findDOMNode(this.refs.sk);
         $(sk).characterCounter();
         $(ea).val(this.state.about);
-        $(ea).trigger('autoresize');
+        M.textareaAutoResize($(ea))
         $(sk).val(this.state.skills);
-        $(sk).trigger('autoresize');
+        M.textareaAutoResize($(sk))
     }
     render(){
         let empty = 'This cannot be empty';
@@ -212,23 +212,32 @@ export default class StepTwoE extends Component{
                             <div className="col s6">
                                 <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Can you bring your own tools?</p>
                                 <p>
-                                <input ref="ty"name="tools" type="radio" id="ty" defaultChecked=''/>
-                                <label htmlFor="ty">Yes</label>
+                                <label>
+                                  <input ref="ty"name="tools" type="radio" id="ty" defaultChecked=''/>
+                                  <span>Yes</span>
+                                </label>
                                 </p>
                                 <p>
-                                <input ref="tn"name="tools" type="radio" id="tn" defaultChecked="checked"/>
-                                <label htmlFor="tn">No</label>
+                                <label>
+                                  <input ref="tn"name="tools" type="radio" id="tn" defaultChecked="checked"/>
+                                  <span>No</span>
+                                </label>
+
                                 </p>
                             </div>
                             <div className="col s6">
                                 <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Do you have a driver's license</p>
                                 <p>
+                                <label>
                                 <input ref="dy"name="driver" type="radio" id="dy" defaultChecked=''/>
-                                <label htmlFor="dy">Yes</label>
+                                <span>Yes</span>
+                                </label>
                                 </p>
                                 <p>
+                                <label>
                                 <input ref="dn"name="driver" type="radio" id="dn" defaultChecked="checked"/>
-                                <label htmlFor="dn">No</label>
+                                <span>No</span>
+                                </label>
                                 </p>
                             </div>
                         </div>
@@ -236,67 +245,92 @@ export default class StepTwoE extends Component{
                             <div className="col s6">
                                 <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Do you have a car?</p>
                                 <p>
+                                <label>
                                 <input ref="cy"name="car" type="radio" id="cy" defaultChecked=''/>
-                                <label htmlFor="cy">Yes</label>
+                                <span>Yes</span>
+                                </label>
                                 </p>
                                 <p>
+                                <label>
                                 <input ref="cn"name="car" type="radio" id="cn" defaultChecked="checked"/>
-                                <label htmlFor="cn">No</label>
+                                <span>No</span>
+                                </label>
                                 </p>
                             </div>
                             <div className="col s6">
                                 <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>What is your osha certification level</p>
                                 <p>
+                                <label>
                                 <input ref="on"name="osha" type="radio" id="on" defaultChecked='checked'/>
-                                <label htmlFor="on">None</label>
+                                <span>None</span>
+                                </label>
                                 </p>
                                 <p>
+                                <label>
                                 <input ref="o1"name="osha" type="radio" id="o1"/>
-                                <label htmlFor="o1">Osha 10</label>
+                                <span>Osha 10</span>
+                                </label>
+                                </p>
+                                <p>
+                                <label>
                                 <input ref="o3"name="osha" type="radio" id="o3"/>
-                                <label htmlFor="o3">Osha 30</label>
+                                <span>Osha 30</span>
+                                </label>
                                 </p>
                             </div>
                             <div className="col s12">
                                 <p className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Education</p>
                                 <p>
+                                <label>
                                 <input ref="hs" type="checkbox" id="hs" defaultChecked="checked"/>
-                                <label htmlFor="hs">HighSchool/GED</label>
+                                <span>HighSchool/GED</span>
+                                </label>
                                 </p>
                                 <p>
+                                <label>
                                 <input onChange={()=>{this.setState({showTrade:!this.state.showTrade})}} ref="ts" type="checkbox" id="ts"/>
-                                <label htmlFor="ts">Trade Shool</label>
+                                <span>Trade Shool</span>
                                 {this.state.showTrade ? <MTextField ref="tradeS" label="Trade School" /> : null}
-
+                                </label>
                                 </p>
                                 <p>
+                                <label>
                                 <input ref="he" type="checkbox" id="he"/>
-                                <label htmlFor="he">Higher Education</label>
+                                <span>Higher Education</span>
+                                </label>
                                 </p>
                             </div>
 
 
                             <div className="col m4 s6">
-                              <label>Do you have a SSN?</label>
-                              <div>
+                              <p  className="gen-text" style={{color:'#9e9e9e',marginBottom:'8px'}}>Do you have a SSN?</p>
+                              <p>
+                                <label>
                                 <input name="group1" type="radio" id="sscYes" onClick={this.handlesscYesClick.bind(this)}/>
-                                <label htmlFor="sscYes">Yes</label>
-                              </div>
-                              <div>
+                                <span>Yes</span>
+                                </label>
+                              </p>
+                              <p>
+                              <label>
                                 <input name="group1" type="radio" id="sscNo" onClick={this.handlesscNoClick.bind(this)}/>
-                                <label htmlFor="sscNo">No</label>
-                              </div>
+                                <span>No</span>
+                              </label>
+                              </p>
                             </div>
                             <div id="taxDisplay" style={{display:'none'}} className="col m4 s6">
-                              <label>Do you have a Tax Id Number ?</label>
-                              <div>
+                              <p>Do you have a Tax Id Number ?</p>
+                              <p>
+                                <label>
                                 <input name="group2" type="radio" id="taxYes"/>
-                                <label htmlFor="taxYes">Yes</label>
-                              </div>
-                              <div>
+                                <span>Yes</span>
+                                </label>
+                              </p>
+                              <p>
+                                <label>
                                 <input name="group2" type="radio" id="taxNo"/>
-                                <label htmlFor="taxNo">No</label>
-                              </div>
+                                <span>No</span>
+                                </label>
+                              </p>
                             </div>
 
                         </div>

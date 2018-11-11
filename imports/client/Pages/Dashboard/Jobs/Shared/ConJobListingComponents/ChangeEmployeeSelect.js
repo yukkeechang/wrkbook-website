@@ -2,7 +2,6 @@ import React from 'react';
 // import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-
 import { Link } from 'react-router-dom';
 
 export default class EmployeeSelect extends React.Component {
@@ -19,7 +18,7 @@ export default class EmployeeSelect extends React.Component {
   componentDidMount(){
     let select = ReactDOM.findDOMNode(this.refs.employeeType);
     $(select).ready(()=>{
-      $('select').material_select();
+      $('select').formSelect();
     });
     $(this.refs.employeeType).on('change',(e)=>{
       this.handleProChange(e);
@@ -32,9 +31,7 @@ export default class EmployeeSelect extends React.Component {
     let index = jobTitles.indexOf(this.refs.employeeType.value);
     this.props.handleClick(index)
   }
-
   render(){
-    console.log(this.props);
     return(
     <div className="row">
       <div className="col s10 m6 center-align offset-s1">

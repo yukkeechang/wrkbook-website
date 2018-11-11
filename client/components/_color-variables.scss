@@ -330,13 +330,18 @@ $shades: (
   "transparent":  transparent
 );
 $wrkbook-green:(
-  "base": #10a96d
+  "base": #10a96d,
+  "lighten-1": #7ED0B0
 );
 $dark-grey:(
 "base":#3e3e3e
 );
 $custom-blue:(
 "base": #8DC1FD
+);
+$notification-red-alert:(
+  "base":#FF919F,
+  "darken-1":#ff4159
 );
 
 
@@ -363,6 +368,7 @@ $colors: (
   "deep-orange": $deep-orange,
   "brown": $brown,
   "blue-grey": $blue-grey,
+  "notification-red-alert":$notification-red-alert,
   "grey": $grey,
   "shades": $shades
 ) !default;

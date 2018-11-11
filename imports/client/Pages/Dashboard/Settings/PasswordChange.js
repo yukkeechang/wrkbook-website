@@ -42,7 +42,7 @@ export default class PasswordChange extends Component {
                 if (err && err.reason === "Incorrect password") {
                     this.setState({oldValid: false});
                 }else {
-                  Materialize.toast('Your Password has been changed',4000);
+                  M.toast({html:'Your Password has been changed'});
                   this.setState({
                     nEqual:false,
                     pValid :true,

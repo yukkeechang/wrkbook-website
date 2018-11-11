@@ -16,14 +16,15 @@ export default class SignIn extends Component{
   }
   login=(e)=>{
     e.preventDefault();
-
+    console.log("clicked");
     let email = this.refs.em.value();
     let passw = this.refs.p1.value();
-
     Meteor.loginWithPassword(email,passw,(err)=>{
       if(err){
+
         if(err.reason == "Incorrect password") this.setState({pValid:err.reason, noUser: ''});
         if(err.reason == "User not found") this.setState({noUser: err.reason,pValid:''});
+        if(email.length < 1) this.setState({noUser:'Field is empty ',pValid:''});
       }else{
         this.props.history.push('/');
       }
@@ -33,9 +34,7 @@ export default class SignIn extends Component{
   render(){
     return(
       <div className="fill-height">
-
         <Header/>
-
         <div className="header-nav-bar-offset"></div>
           <div className="wrapper">
             <div className="container">

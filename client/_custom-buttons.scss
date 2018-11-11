@@ -15,3 +15,8 @@
 .thin-border{
   border:1px solid;
 }
+.decline-roundish-button-flat{
+  @extend .roundish-button-flat;
+  @extend .red;
+  @extend .lighten-4;
+}

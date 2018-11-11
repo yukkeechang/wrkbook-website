@@ -19,14 +19,19 @@ class JobChatPage extends React.Component {
 
   }
   componentWillMount(){
-
+    this.props.handle.stop();
   }
   componentDidMount(){
-    // console.log(this.props);
+    // let employer = this.props.job.employerId;
+    // console.log(employer);
 
-  }
-  componentWillMount(){
-    this.props.handle.stop();
+    Meteor.call('findUserbyId',Meteor.userId(),(err,res)=>{
+      if(err)console.log(err);
+      if(res){
+        this.setState({messageName:res.profile.firstName,
+        whichPerson:Meteor.userId(),whichChannel:''});
+      }
+    });
   }
   handleWhichChannel=(e)=>{
     this.setState({whichChannel:e,
@@ -55,9 +60,9 @@ class JobChatPage extends React.Component {
       console.log(this.props);
       return(
           <div className="container">
-            <div style={{borderRadius:'10px'}} className="card-panel">
+            <div className="card-panel">
               <div className="row">
-                <div style={{borderRight:'1px solid #eeeeee',height:'80vh'}} className="col s3 ">
+                <div style={{borderRight:'1px solid #eeeeee',height:'80vh'}} className="col l4 m4">
                 {this.props.ready ?
                     <SidePanel
                       handleGreatGPClickPerson={this.handleWhichPeople}
@@ -68,7 +73,7 @@ class JobChatPage extends React.Component {
                 }
 
                 </div>
-                <div className="col s9">
+                <div className="col l8 m8">
                   {this.props.ready ?
                       <MainPanel
                       name={this.state.messageName}
@@ -76,7 +81,10 @@ class JobChatPage extends React.Component {
                       userId={this.state.whichPerson}
                       jobId={this.props.job._id}/>
                       :
-                      <MSpinner/>
+                      <div className="flex-center">
+
+                        <MSpinner size={"150px"}/>
+                      </div>
                   }
                 </div>
 
@@ -93,6 +101,8 @@ export default JobChat = withTracker(params  => {
   const handle = Meteor.subscribe('one-job',params.match.params.value);
   const ready  = handle.ready();
   let job = Job.find({}).fetch()[0];
+  console.log(params.match.params.value);
+
     return {
         ready: ready,
         handle:handle,

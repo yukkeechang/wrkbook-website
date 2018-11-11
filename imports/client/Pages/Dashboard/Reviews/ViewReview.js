@@ -1,9 +1,5 @@
 import React,  { Component } from 'react'
 import Rating from 'react-rating';
-
-
-
-
 export default class ViewReview extends React.Component {
   constructor(props) {
     super(props);
@@ -16,9 +12,9 @@ render() {
       return(
       <div>
         <div>Other Comments: </div>
-        <div>{props.review.conReview.wouldRecommend ? "- Would Recommend" : null}</div>
-        <div>{props.review.conReview.neatJob ? "- Neat Job" : ''}</div>
-        <div>{props.review.conReview.onTime ? "- On Time" : ''}</div>
+        <div>{props.review.conReview.wouldRecommend ? <span>Would Recommend<i className="tiny material-icons">check</i></span> : null}</div>
+        <div>{props.review.conReview.neatJob ?  <span>Neat Job<i className="tiny material-icons">check</i></span>: null}</div>
+        <div>{props.review.conReview.onTime ?  <span>On Time<i className="tiny material-icons">check</i></span> : null}</div>
       </div>
       );
     }else{
@@ -32,8 +28,8 @@ render() {
       return (
         <div>
           <div>Other Comments: </div>
-          <div>{props.review.proReview.safeWorkSpace ? "-Safe Workspace" : null}</div>
-          <div>{props.review.proReview.paidOnTime ? "- Paid on Time" : ''}</div>
+          <div>{props.review.proReview.safeWorkSpace ?  <span>Safe Workspace<i className="tiny material-icons">check</i></span> : null}</div>
+          <div>{props.review.proReview.paidOnTime ? <span>Paid on Time<i className="tiny material-icons">check</i></span> : null }</div>
         </div>
       )
     }else{

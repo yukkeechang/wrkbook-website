@@ -12,11 +12,11 @@ class Refs extends Component{
       let page = ReactDOM.findDOMNode(this.refs.referencePage);
       $(page).ready(()=>{
         $('.modal').modal();
-        $('.tooltipped').tooltip({delay: 25});
+        $('.tooltipped').tooltip();
       });
     }
     componentWillUnmount(){
-      $('#editref').tooltip('remove');
+      $('#editref').tooltip('destroy');
     }
     openModal(){
       $('#addRefModal').modal('open');
@@ -42,7 +42,7 @@ class Refs extends Component{
                   )
                 })}
                 <div style={{display:'flex', justifyContent:'center'}}>
-                  <a className="waves-effect waves-teal btn" onClick={this.openModal.bind(this)}>Add Reference</a>
+                  <a className="waves-effect waves-teal teal roundish-button-flat" onClick={this.openModal.bind(this)}>Add Reference</a>
                 </div>
               </div>
               <div id="addRefModal" className="modal">

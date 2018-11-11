@@ -7,11 +7,7 @@ export default class WkEnd extends Component {
     super(props);
   }
   value(){
-    return {
-      weekendExcluded: this.refs.eweekend.checked,
-
-
-    };
+    return  this.refs.eweekend.checked;
 
   }
   render() {
@@ -20,12 +16,16 @@ export default class WkEnd extends Component {
       <div className="col s4">
         <label htmlFor="weekend">Exclude Weekends?</label>
         <div>
+          <label>
           <input  ref="eweekend" name="eweekend" type="radio" id="excludeYes"/>
-          <label htmlFor="excludeYes" >Yes</label>
+          <span >Yes</span>
+          </label>
         </div>
         <div>
+          <label>
           <input  ref="iweekend"  name="eweekend" type="radio" id="excludeNo" defaultChecked={true}/>
-          <label htmlFor="excludeNo" >No</label>
+          <span >No</span>
+          </label>
         </div>
       </div>
     );

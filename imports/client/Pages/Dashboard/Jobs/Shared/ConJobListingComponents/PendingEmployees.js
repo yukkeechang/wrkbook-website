@@ -22,7 +22,7 @@ export default class PendingEmployees extends React.Component {
     <div className="row center-align">
       {this.props.numberofEmployees > 0 ?
         <h6 style={{fontSize:'1.5em'}}>{this.props.numberofEmployees} Professional have applied to this job to
-          hire these professionals <Link to={"/job/"+this.props.jobId}>Click Here</Link>
+          hire these professionals <Link to={`/job/${this.props.jobId}`}>Click Here</Link>
         </h6>
         :
         <h5>

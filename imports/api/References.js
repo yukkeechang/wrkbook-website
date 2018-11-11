@@ -10,7 +10,7 @@ import { Roles } from "meteor/alanning:roles";
 /** @module Reference */
 
 /**
- * @summary Defines the Reference collection
+ * @summary Defines the Reference collection.
  * The References Collection has data about who was the previous employer
  * has the basic MongoBD functions(insert,update,remove,etc)
  *
@@ -19,12 +19,13 @@ const Reference = new Mongo.Collection("references");
 Reference.attachSchema(ReferenceSchema);
 if (Meteor.isServer) {
   /**
-   * @summary Pushes all References objects that belong to the currently logged on user.
+   * Pushes all References objects that belong to the currently logged on user (that he/she created).
+   * The references will be return from most recent to least recent created.
+   * If the user is not a Professional, the cursor will be null.
    * @publication {References}  your-references Professional
    * @function
    * @name your-references
    * @return {MongoBD.cursor} points the references objects on minimongo
-   * @throws {Meteor.Error} will not push any data to client if the currently loggen in user or is not an Professional
    *
    */
   Meteor.publish("your-references", function() {
@@ -35,7 +36,8 @@ if (Meteor.isServer) {
     return;
   });
   /**
-   * @summary Pushes all References objects that belong to the user with an id
+   * Pushes all References objects that belong to the user with an userID.
+   * if the user that is assiocated with the userID is not a Professional, the cursor will be null.
    * @publication {References}  references-for-user Professional
    * @function
    * @name references-for-user
@@ -56,7 +58,14 @@ if (Meteor.isServer) {
 
 Meteor.methods({
   /**
-   * @summary Validates the references object against the ReferenceSchema
+   * Validates the references object against the ReferenceSchema.
+   * If the object violates any of the rules, and error object contain the info about the failures will be sent.
+   * The error object will return any of the properties,if the object violates the schema.
+   * @prop {Boolean} nameErr -True if the name is less than 1 chars and larger than 250 chars.
+   * @prop {Boolean} postErr -True if the position description is less than 1 chars and larger than 250 chars.
+   * @prop {Boolean} compErr -True if the companyName is less than 1 chars and larger than 250 chars.
+   * @prop {Boolean} emailErr -True if the email does not follow the pattern of an email
+   * @prop {Boolean} phoneErr -True if the phone number does not follow the pattern of an phone number
    * @param  {Reference} refObject the reference object to be stored in the database
    * @throws {Meteor.Error} If the object being validated violates the ReferenceSchema
    */

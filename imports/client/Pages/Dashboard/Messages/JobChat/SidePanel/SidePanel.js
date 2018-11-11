@@ -11,16 +11,6 @@ export default class SidePanel extends React.Component {
 
 
   }
-  componentWillMount(){
-
-  }
-  componentDidMount(){
-    // console.log(this.props);
-
-  }
-  componentWillMount(){
-
-  }
   handleParentClickBack=(e)=>{
     this.props.handleGreatGParentClick(e);
   }

@@ -19,7 +19,7 @@ class EmployeeJob extends React.Component{
       return(
         <div>
           <br/>
-          {jobz.map(function(job, index){
+          {jobz.map((job, index)=>{
             return(
               <EmployeeMatch
                 userId={this.props.userId}
@@ -31,13 +31,13 @@ class EmployeeJob extends React.Component{
                 location={job.location.locationName}
               />
             )
-          }.bind(this))}
+          })}
         </div>
       );
     }
     else if(!this.props.loading){
       return (
-        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+        <div className="flex-center">
           <MSpinner />
         </div>
       );

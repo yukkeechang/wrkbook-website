@@ -14,9 +14,6 @@ export default class Forgot extends Component{
       badToken: false
     }
   }
-  componentDidMount(){
-
-  }
   resetPasswordEmail=(e)=>{
     e.preventDefault();
     let email = this.refs.em.value();
@@ -50,7 +47,7 @@ export default class Forgot extends Component{
                           <MTextField ref="em" id="email"     error={this.state.noUser} label="Email Address *"/>
                         </div>
                         :
-                        <h1> Check Your Email</h1>
+                        <h3 className="flex-center">Please check your email. A message was sent with instructions to reset your password</h3>
                       }
 
                       {

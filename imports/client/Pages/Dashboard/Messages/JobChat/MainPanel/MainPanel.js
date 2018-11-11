@@ -1,8 +1,9 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import DisplayMessage from './Components/DisplayMessage'
+import DisplayMessage from './Components/DisplayMessage';
+import MSpinner from '../../../../Shared/MSpinner';
 import { withTracker } from 'meteor/react-meteor-data';
-
+import ReactDOM from 'react-dom';
 
 class MainList extends React.Component {
   constructor(props) {
@@ -11,24 +12,58 @@ class MainList extends React.Component {
     }
 
   }
-  componentWillMount(){
 
-  }
-  componentDidMount(){
-    // console.log(this.props);
-
-  }
   componentWillMount(){
     if(!!this.props.handle){
       this.props.handle.stop();
     }
   }
-  render(){
+  componentDidMount(){
+      let dropdowns = ReactDOM.findDOMNode();
+      $(dropdowns).ready(()=>{
+          $('input#input_text, textarea#icon_prefix2').characterCounter();
+      });
+  }
+  handleKeyPress = (e)=>{
+    if(e.charCode === 13){
+      let messageToSend = {
+        jobId: this.props.jobId,
+        message: this.refs.messageBox.value
+      }
+      if(!!this.props.userId){
+        messageToSend.to = this.props.userId;
+      }else{
+        messageToSend.channelId = this.props.channelId;
+      }
+      console.log(messageToSend);
+      Meteor.call('createMessage',messageToSend,(err)=>{
+        if(err)console.log(err);
+        else{
+          this.refs.messageBox.value='';
+        }
+      });
+    }
 
-    if(this.props.messages.length > 1){
+
+  };
+  render(){
+    let MainHeader =(props)=>{
+      return(
+        <div className="row grey lighten-2">
+          <div className="col center-align s12">
+            <h5 className="card-title montserrat-med ">
+              {props.children}
+            </h5>
+          </div>
+        </div>
+      )
+    }
+    if(this.props.messages.length > 0){
       return(
         <div>
-          <h3 className="card-title center-align">{this.props.name}</h3>
+        <MainHeader>
+          {this.props.name}
+        </MainHeader>
 
           <div style={{height:'60vh'}}>
           {
@@ -40,29 +75,41 @@ class MainList extends React.Component {
           }
           </div>
           <div className="row">
-            <form className=" input-field  col s12">
-
-              <textarea style={{marginBottom:'0px'}} id="icon_prefix2" className="materialize-textarea"></textarea>
-              <label htmlFor="icon_prefix2">Message</label>
-
-
-            </form>
+            <div className="input-field col s12">
+              <i className="material-icons prefix">send</i>
+              <textarea id="icon_prefix2" ref="messageBox" onKeyPress={this.handleKeyPress} className="materialize-textarea"></textarea>
+              <label htmlFor="icon_prefix2">Type a message</label>
+            </div>
           </div>
         </div>
       );
     }
     else if(!this.props.ready&&!this.props.readyChannel){
       return (
-        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
-          LOADNG
+        <div className="flex-center" >
+          <MSpinner/>
         </div>
       );
     }
     else{
       return(
-          <div>
-          NOTHING
+        <div>
+          <MainHeader>
+            {this.props.name}
+          </MainHeader>
+          <div style={{height:'70vh'}}>
+
           </div>
+
+          <div className="row">
+            <div className="input-field col s12">
+              <i className="material-icons prefix">send</i>
+              <textarea id="icon_prefix2" ref="messageBox" onKeyPress={this.handleKeyPress} className="materialize-textarea"></textarea>
+              <label htmlFor="icon_prefix2">Type a message</label>
+            </div>
+          </div>
+
+        </div>
       );
     }
   }
@@ -88,9 +135,6 @@ export default MainPanel = withTracker(params => {
       messages =  Message.find({channelId:params.channelId ,jobId:params.jobId,to:{$exists:false}}).fetch();
       readyChannel = channelHandle.ready();
     }
-
-
-
     return {
         ready: ready,
         readyChannel:readyChannel,

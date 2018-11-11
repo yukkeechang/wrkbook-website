@@ -43,7 +43,7 @@ export default class CreateReview extends Component {
   };
 
   componentDidMount(){
-      Materialize.updateTextFields();
+      M.updateTextFields();
   }
   returnReview(e) {
 

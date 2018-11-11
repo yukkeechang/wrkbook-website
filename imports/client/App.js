@@ -14,16 +14,15 @@ import Faq from './Pages/LandingPageComponents/FaqPage';
 import ResetPassword from './Pages/ResetPassword';
 import MSpinner from './Pages/Shared/MSpinner';
 
-
-
 class Application extends Component {
+
     render(){
         let spinner  = (
-            <div className="flex-center fill-height fill-width">
+            <div className="flex-center fill-height">
                 <MSpinner size={"150px"}/>
             </div>
         );
-        let page = this.props.loggingIn && !!this.props.userId ? spinner : this.props.user ?  (
+        let page = this.props.loggingIn && !!this.props.userId  ? spinner : this.props.user ?  (
             <Route path="/" component={Dashboard}/>
         ) : (
             <Route render={({location})=>(
@@ -60,4 +59,5 @@ const App = withTracker(props => {
         user: Meteor.user()
     }
 }) (Application);
+
 export default App;

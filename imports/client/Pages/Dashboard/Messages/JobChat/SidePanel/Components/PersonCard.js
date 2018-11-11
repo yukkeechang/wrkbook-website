@@ -9,17 +9,8 @@ import { withTracker } from 'meteor/react-meteor-data';
 class PersonCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
-    }
-
   }
-  componentWillMount(){
 
-  }
-  componentDidMount(){
-    // console.log(this.props);
-
-  }
   componentWillMount(){
     this.props.handle.stop();
   }
@@ -33,8 +24,8 @@ class PersonCard extends React.Component {
           <div  onClick={this.personClicked}style={{margin:'0px',cursor:'pointer'}} className="row">
             <div className="col s12">
               <div style={{marginBottom:'10px'}}className="row center-align">
-                <div style={{marginTop:'15px'}} className="col s2">
-                  <Avatar size={25} imageId={this.props.imageId}/>
+                <div style={{marginTop:'15px'}} className="col s3">
+                  <Avatar size={50} imageId={this.props.imageId}/>
                 </div>
                 <div style={{marginTop:'15px'}}  className="col s2">
                   {this.props.icon}
@@ -45,7 +36,28 @@ class PersonCard extends React.Component {
 
               </div>
               <div className="row">
-                  <h6 className="truncate">{!this.props.message ? "" : this.props.message.message}</h6>
+                {
+                  !this.props.message ?
+                  ""
+                  :
+                  (this.props.currentUser == this.props.message.owner?
+                      <h6 className="truncate">{this.props.message.message}</h6>
+                      :
+                      (!this.props.message.seen ?
+                        <div>
+                          <div className="col s10">
+                            <h6 className="truncate">{this.props.message.message}</h6>
+                          </div>
+                          <div className="col s2">
+                              <div className="notification-circle red"/>
+                          </div>
+                        </div>
+                        :
+                        <h6 className="truncate">{this.props.message.message}</h6>
+                      )
+                  )
+                }
+
               </div>
             </div>
           </div>
@@ -57,10 +69,12 @@ class PersonCard extends React.Component {
 export default PersonChat = withTracker(params  => {
     let handle = Meteor.subscribe('messages-conversation',params.userId,params.jobId);
     let ready = handle.ready();
-    console.log(Message.find({},{sort:{timestamp:-1},limit:1}).fetch());
+    let currentUser = Meteor.userId();
     return {
         ready: ready,
         handle:handle,
-        message: Message.find({},{sort:{timestamp:-1},limit:1}).fetch()[0]
+        currentUser:currentUser,
+        message: Message.find({  $or:[{channelId:{$exists:false},jobId:params.jobId,owner:currentUser,to:params.userId},
+                {channelId:{$exists:false},jobId:params.jobId,owner:params.userId,to:currentUser}]},{sort:{timestamp:-1},limit:1}).fetch()[0]
     };
 })(PersonCard);

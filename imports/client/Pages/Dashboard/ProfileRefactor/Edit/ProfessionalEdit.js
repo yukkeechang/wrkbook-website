@@ -13,9 +13,9 @@ export default class ProfessionalEdit extends Component{
   componentDidMount(){
     let page = ReactDOM.findDOMNode(this.refs.editPage);
     $(page).ready(()=>{
-      $('select').material_select();
+      $('select').formSelect();
       $('.modal').modal();
-      $('.tooltipped').tooltip({delay: 50});
+      $('.tooltipped').tooltip();
     });
     this.setState({
       prevTitles: this.props.user.profile.employeeData.jobTitle,

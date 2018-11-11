@@ -27,7 +27,9 @@ export default class Banner extends Component{
              </h4>
            </div>
            <div className="row container">
-             <Button onClick={this.onclicky} to="/#collectEmails" style={{margin:'20px'}} className="roundish-button-flat-large wrkbook-green col s12 m6 l6 offset-l3 offset-m3 " text={"white"}  >Find Work</Button>
+            <div className=" col s12 m6 l6 offset-l3 offset-m3 ">
+             <Button onClick={this.onclicky} to="/#collectEmails" style={{margin:'20px',width:'90%'}} className="roundish-button-flat-large wrkbook-green" text={"white"}  >Find Work</Button>
+             </div>
            </div>
        </div>
       )

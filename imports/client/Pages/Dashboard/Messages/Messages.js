@@ -9,10 +9,6 @@ class Home extends React.Component {
 
 
   }
-  componentDidMount(){
-    // console.log(this.props);
-
-  }
   componentWillUnmount(){
     this.props.handle.stop();
   }

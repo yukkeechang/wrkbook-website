@@ -17,27 +17,12 @@ export default class EmployeeCheckBoxs extends Component{
     };
 
   }
-  handlePaidOnTime() {
-    //----this is to handle check box changes in edit review
-    //when it's not checked, set it to true now because now it's changing from unchecked to checked
-    if(this.state.paidOnTime == false) {
-      this.setState({paidOnTime: true})
-    }
-    //when it's checked, set it to false now because now it's changing from checked to unchecked
-    if(this.state.paidOnTime == true) {
-      this.setState({paidOnTime: false})
-    }
+  handlePaidOnTime=()=> {
+    this.state.paidOnTime ? this.setState({paidOnTime:false}):  this.setState({paidOnTime:true});
   };
 
-  handlesafeWorkSpace(){
-    //when it's not checked, set it to true now because now it's changing from unchecked to checked
-    if(this.state.safeWorkSpace == false) {
-      this.setState({safeWorkSpace: true})
-    }
-    //when it's checked, set it to false now because now it's changing from checked to unchecked
-    if(this.state.safeWorkSpace == true) {
-      this.setState({safeWorkSpace: false})
-    }
+  handlesafeWorkSpace=()=>{
+    this.state.safeWorkSpace ? this.setState({safeWorkSpace:false}):this.setState({safeWorkSpace:true});
   };
 
 
@@ -53,13 +38,17 @@ export default class EmployeeCheckBoxs extends Component{
         <div className="row">
 
           <div className="col s12 m6 ">
-          <input type="checkbox" className="filled-in" id="paid-on-time" value={this.state.paidOnTime} onChange={this.handlePaidOnTime.bind(this)}/>
-             <label htmlFor="paid-on-time">Paid on time</label>
+            <label>
+              <input type="checkbox" className="filled-in" id="paid-on-time" value={this.state.paidOnTime} onChange={this.handlePaidOnTime}/>
+               <span>Paid on time</span>
+             </label>
           </div>
 
           <div className="col s12 m6 ">
-          <input type="checkbox" className="filled-in" id="safe-workspace" value={this.state.safeWorkSpace} onChange={this.handlesafeWorkSpace.bind(this)}/>
-          <label htmlFor="safe-workspace">Safe workspace</label>
+          <label>
+            <input type="checkbox" className="filled-in" id="safe-workspace" value={this.state.safeWorkSpace} onChange={this.handlesafeWorkSpace}/>
+            <span>Safe workspace</span>
+          </label>
           </div>
 
         </div>

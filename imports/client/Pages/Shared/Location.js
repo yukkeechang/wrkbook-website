@@ -41,7 +41,7 @@ export default class Location extends Component{
   componentDidMount(){
     this.initAutocomplete()
     $(document).ready(function() {
-    Materialize.updateTextFields();
+    M.updateTextFields();
     });
 
   }
@@ -69,7 +69,7 @@ export default class Location extends Component{
     // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
     $('#modal1').modal('open');
-    Materialize.updateTextFields();
+    M.updateTextFields();
     });
     for (let component in componentForm) {
       document.getElementById(component).value = '';
@@ -138,6 +138,7 @@ export default class Location extends Component{
   //sent to GOOGLE GEOCODE API if there is an OK status return from the API
   // there is a valid address we will save the name and coordinates of the location typed
   // The next button becomes clickable once we get a valid address
+
   checkAddress(e){
     let inputtedAddress ='';
     let isEmpty =[];
@@ -236,7 +237,7 @@ export default class Location extends Component{
           }
         }
         $(document).ready(function() {
-        Materialize.updateTextFields();
+        M.updateTextFields();
         });
         this.setState({
           addressNumErr: '',
@@ -359,7 +360,7 @@ export default class Location extends Component{
            </div>
            <div className="modal-footer">
               <div className="col s12">
-                  <a style={{width:'100%'}} className="waves-effect waves-light btn red lighten-2" onClick={this.checkAddress.bind(this)}>Verify Address</a>
+                  <a style={{width:'100%'}} className="waves-effect waves-light btn-flat red lighten-2 center-align" onClick={this.checkAddress.bind(this)}>Verify Address</a>
               </div>
            </div>
          </div>

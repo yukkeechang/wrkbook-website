@@ -6,6 +6,7 @@ import ReviewModal from '../../../Reviews/ReviewModal';
 import ViewReview from '../../../Reviews/ViewReview';
 import Rating from 'react-rating';
 import EditReviewForPro from '../../../Reviews/EditReviewForPro';
+import EditReviewModal from '../../../Reviews/EditReviewModal';
 
 class ReviewC extends Component{
    constructor(props){
@@ -33,11 +34,9 @@ class ReviewC extends Component{
                       review={this.props.reviews[0]}
                       isProReview={false}
                       />
-                      <EditReviewForPro
-                      review={this.props.reviews[0]}
-                      conId={this.props.conId}
-                      proId={this.props.proId}
-                      jobId={this.props.jobId}
+                      <EditReviewModal
+                      oldReview={this.props.reviews[0]}
+                      isProReview={true}
                       />
                     </div>
                     :
@@ -56,7 +55,7 @@ class ReviewC extends Component{
                     <h6>${this.props.dayPay}/day</h6>
                   </div>
                   <div className= "row">
-                      <Link to={"/job/"+ this.props.jobId}><a className="waves-effect waves-teal teal lighten-1 btn-flat">View Job</a></Link>
+                      <Link to={"/job/"+ this.props.jobId}><a style={{width:'50%'}} className="waves-effect waves-teal teal lighten-1 roundish-button-flat">View Job</a></Link>
                   </div>
 
                 </div>

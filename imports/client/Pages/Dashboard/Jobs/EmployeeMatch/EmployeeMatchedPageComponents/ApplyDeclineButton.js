@@ -8,7 +8,7 @@ export default class ApplyDeclineButton extends React.Component{
     let select = ReactDOM.findDOMNode();
     $(select).ready(()=>{
       $('.modal').modal();
-      $('select').material_select();
+      $('select').formSelect();
     });
     $(this.refs.titles).on('change',(e)=>{
       this.selectedApply(e);
@@ -22,7 +22,6 @@ export default class ApplyDeclineButton extends React.Component{
     };
   }
   handleApply=()=>{
-    console.log(this.props.jobID);
     Meteor.call('applyForJob',this.props.jobID, this.state.selectedApply,(err)=>{
       if(err){
         console.log(err);
@@ -64,9 +63,8 @@ export default class ApplyDeclineButton extends React.Component{
   }
 
   componentWillUnmount(){
-
-          $(this.refs.declineModal).modal('close');
-          $(this.refs.applyModal).modal('close');
+    $(this.refs.declineModal).modal('close');
+    $(this.refs.applyModal).modal('close');
   }
   render(){
     return(
@@ -74,11 +72,11 @@ export default class ApplyDeclineButton extends React.Component{
     <div className="row center-align">
         <br/>
           <div style={{marginBottom:'10px'}} className="col s6 center-align offset-s3">
-            <a style={{width:'100%',height:'45px',fontSize:'18px',border:'1px solid #009688'}}
+            <a style={{paddingTop:'5px',paddingBottom:'5px',width:'100%',height:'45px',fontSize:'18px'}}
                         id="applydButton"
                         className={this.props.isDecline|| this.props.isApplied ?
-                                  "waves-effect teal lighten-1 roundish-button-flat no-uppercase disabled"
-                                  :"waves-effect teal lighten-1 roundish-button-flat no-uppercase"}
+                                  "waves-effect teal lighten-3 roundish-button-flat disabled"
+                                  :"waves-effect teal lighten-3 roundish-button-flat"}
                                   onClick={this.openApplyModal}>
               {this.props.isApplied ? 'Applied': 'Apply!'}
             </a>
@@ -89,7 +87,7 @@ export default class ApplyDeclineButton extends React.Component{
             <a style={{paddingTop:'5px',paddingBottom:'5px',width:'100%',
                     height:'45px',fontSize:'17px'}}
 
-                     id="disabledButton" className={this.props.isDecline ? "waves-effect red lighten-5 thin-border border-red border-darken-2 roundish-button-flat no-uppercase disabled": "waves-effect red lighten-5  thin-border border-red border-darken-2 roundish-button-flat no-uppercase"} onClick={this.openDeclineModal}  >Decline</a>
+                     id="disabledButton" className={this.props.isDecline ? "waves-effect red-border thin-border decline-roundish-button-flat  disabled": "waves-effect decline-roundish-button-flat  black-text"} onClick={this.openDeclineModal}  >Decline</a>
 
 
           </div>

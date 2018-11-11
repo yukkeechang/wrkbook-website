@@ -8,7 +8,7 @@ import MSpinner from './MSpinner';
     constructor(props){
         super(props);
         let width = this.props.size;
-        let textsize = width * 0.70;
+        let textsize = Math.round(width * 0.75);
         width = width.toString() +'px';
         textsize = textsize.toString() +'px';
         this.state={
@@ -18,7 +18,6 @@ import MSpinner from './MSpinner';
 
     }
     render(){
-      console.log(this.props);
       if (!this.props.ready) {
         return(
           <MSpinner size={this.props.width}/>
@@ -26,8 +25,8 @@ import MSpinner from './MSpinner';
 
       }else if (!!this.props.letter) {
         return(
-          <div className="circle center-align" style={{display:'flex',flexDirection:'column',justifyContent:'center',width: this.state.width, height: this.state.width, backgroundColor:'#f5f5f5',margin:'0px'}}>
-              <h1 style={{color:'#bdbdbd',fontSize:this.state.textSize,padding:'0px',margin:'0px'}}>{this.props.letter.toUpperCase()}</h1>
+          <div className="circle flex-center" style={{lineHight:this.state.width ,width: this.state.width, height: this.state.width, backgroundColor:'#f5f5f5'}}>
+              <h1 className="center-text" style={{color:'#bdbdbd',fontSize:this.state.textSize}}>{this.props.letter.toUpperCase()}</h1>
           </div>
         )
       }

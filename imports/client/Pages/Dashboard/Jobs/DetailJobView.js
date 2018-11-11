@@ -16,15 +16,11 @@ class ViewJob extends React.Component {
   componentWillUnmount(){
     this.props.handle.stop();
   }
-  componentDidMount(){
-    // console.log(this.props);
-    console.log(this.props);
-  }
   render(){
 
     if(!this.props.ready){
       return(
-        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+        <div className="flex-center" >
           <MSpinner />
         </div>
       )

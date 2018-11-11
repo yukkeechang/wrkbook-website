@@ -8,7 +8,8 @@ export default class SingleMessage extends React.Component {
     super(props);
     this.state={
       senderName : '',
-      imageId: ''
+      imageId: '',
+      channelName:''
     }
 
   }
@@ -18,30 +19,38 @@ export default class SingleMessage extends React.Component {
       if(err){
         console.log(err);
       }else{
-        console.log(res);
-        let image = Roles.userIsInRole(res._id,'PRO') ? res.profile.employeeData.image : res.profile.employerData.image;
-        console.log(image);
+        let image = res.roles.includes('PRO') ? res.profile.employeeData.image : res.profile.employerData.image;
         this.setState({senderName:res.profile.firstName,imageId:image});
       }
-    })
-  }
-  componentDidMount(){
+    });
 
+    if(!!this.props.message.channelId){
+      Meteor.call('getChannel',this.props.message.channelId,(err,res)=>{
+        if(err)console.log(err);
+        else{
+          this.setState({channelName:res.name});
+        }
+      });
   }
-  componentWillUnmount(){
+}
 
-  }
   render(){
       return(
 
           <div className="row">
-            <div className="col s11">
+            <div className="col s10">
                 <h5>{this.state.senderName}</h5>
-                <h6 className="truncate">{this.props.message.message}</h6>
+                <h6 className="truncate">{this.props.message.message}
+                  {this.state.channelName.length>0 ?
+                    <span> @ {this.state.channelName} </span>
+                    :
+                    null
+                  }
+                </h6>
             </div>
-            <div style={{marginTop:'25px'}} className="col s1">
+            <div style={{marginTop:'25px'}} className="col s2">
 
-                <Avatar size={30} imageId={this.state.imageId}/>
+                <Avatar size={50} imageId={this.state.imageId}/>
 
             </div>
           </div>

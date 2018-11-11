@@ -81,7 +81,11 @@ export default class ResetPassword extends Component{
                       transitionAppearTimeout={1500}
                       transitionEnter={false}
                       transitionLeave={false}>
-                        <Link to={"/forgot"}><p className="col s12 m6 offset-m3 red lighten-2 white-text" style={{textAlign: 'center',lineHeight: '36px', marginTop: '8px',borderRadius: '2px'}}>This URL is expired. Click Here to re-submit</p></Link>
+                        <Link to={"/forgot"}>
+                          <p className="col s12 m6 offset-m3 red lighten-2 white-text flex-center" style={{lineHeight: '36px'}}>
+                              This URL is expired. Click Here to re-submit
+                          </p>
+                        </Link>
                       </CSSTransitionGroup>
                     ):''}
                   </div>

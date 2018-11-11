@@ -40,7 +40,7 @@ export default class EmailChange extends Component {
               sameEmail:false,
               existAlready:false
             });
-            Materialize.toast('Your Email has been Updated',4000);
+            M.toast({html:'Your Email has been Updated'});
           }
 
         });

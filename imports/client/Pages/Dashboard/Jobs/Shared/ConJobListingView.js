@@ -12,12 +12,7 @@ class ConView extends React.Component{
     super(props);
 
   }
-  componentDidMount(){
-
-
-  }
   changeIndex=(e)=>{
-    //console.log(e);
     this.props.handleChangeIndex(e);
   }
   componentWillUnmount(){
@@ -25,9 +20,7 @@ class ConView extends React.Component{
   }
 
   render(){
-
     let employeesBoi = this.props.employees;
-    console.log(this.props);
     if (!this.props.ready) {
       return(
         <MSpinner/>

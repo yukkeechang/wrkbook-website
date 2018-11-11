@@ -11,7 +11,7 @@ export default class SuperVisorDecline extends React.Component{
   componentDidMount(){
     let select = ReactDOM.findDOMNode();
     $(select).ready(()=>{
-      $('select').material_select();
+      $('select').formSelect();
     })
   }
   handleDecline=()=>{
@@ -46,7 +46,7 @@ export default class SuperVisorDecline extends React.Component{
                   <a style={{paddingTop:'5px',
                         paddingBottom:'5px',width:'100%',
                           height:'45px',fontSize:'17px'}}
-                           id="disabledButton" className={this.props.isDecline ? "waves-effect red lighten-5  thin-border red-border border-darken-2  roundish-button-flat no-uppercase disabled": "waves-effect red lighten-4 black-text thin-border border-red border-darken-2  roundish-button-flat no-uppercase "} onClick={this.openDeclineModal} >Decline</a>
+                           id="disabledButton" className={this.props.isDecline ? "waves-effect red-border thin-border decline-roundish-button-flat  disabled": "waves-effect  black-text decline-roundish-button-flat "} onClick={this.openDeclineModal} >Decline</a>
                 </div>
             </div>
             <div className="row">

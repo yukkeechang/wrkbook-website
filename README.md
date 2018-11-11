@@ -1,6 +1,8 @@
 # WrkBook Website
 ---------------
 A web-application that is designed to connect workers and contractors together.
+An (incomplete) example on how we tried to make a scalable web application.
+
 ===============================
 This project is using the following:
 

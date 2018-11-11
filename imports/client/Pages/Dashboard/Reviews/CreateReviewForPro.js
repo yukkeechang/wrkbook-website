@@ -4,6 +4,7 @@ import EmployeeTitle from './EmployeeReviewComponents/EmployeeTitle';
 import EmployeeCheckBoxs from './EmployeeReviewComponents/EmployeeCheckBox';
 import ReviewSchema from '../../../../api/Schemas/reviewSchema';
 import MTextField from '../../Shared/MTextField';
+//contractor is calling this
 export default class CreateReview extends Component {
   constructor(props) {
       super(props);
@@ -13,8 +14,6 @@ export default class CreateReview extends Component {
       }
 
   }
-
-  // Callback after rating the employer. rate is the star value out of 5 stars
   handleRate(rate) {
     this.setState({
       hasRated: true,
@@ -40,7 +39,7 @@ export default class CreateReview extends Component {
   }
 
   componentDidMount(){
-      Materialize.updateTextFields();
+      M.updateTextFields();
   }
 
 

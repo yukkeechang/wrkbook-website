@@ -12,11 +12,8 @@ export default class Base extends Component{
   }
   componentDidMount(){
     let sn = ReactDOM.findDOMNode(this.refs.sideNav);
-    $(sn).sideNav();
-  }
-  sideClick(){
-      let sn = ReactDOM.findDOMNode(this.refs.sideNav);
-      $(sn).sideNav('hide');
+
+    $(sn).sidenav();
   }
   things(event){
     this.props.handleClick(event);
@@ -66,7 +63,7 @@ export default class Base extends Component{
           <div className="row">
 
           {/*Menu bar/Small screen links */}
-          <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
+          <div data-target="sideNav" className="col s4 sidenav-trigger hide-on-med-and-up">
               <i style={{fontSize:'30px',color:'white',padding: '17px 0 17px 10px'}}className="material-icons">menu</i>
           </div>
               <Link to="/#" onClick={this.things.bind(this,"home")}>
@@ -87,8 +84,8 @@ export default class Base extends Component{
                 {this.links("/#HowTo", "HowTo", "How It Works")}
 
 
-                {
-                  /*
+
+
                   <Link to="/login">
                    <div style={styles.heading} className="col m1 offset-m1 valign-wrapper hide-on-small-only nav-bar-heading">
                        <div className="genText">Login</div>
@@ -98,30 +95,18 @@ export default class Base extends Component{
                    </div>
                  </Link>
 
-                   */
-                }
 
 
-
-              <Link to="/#collectEmails">
-                <button style={styles.rounded} className="col m2 push-l1 push-m1 hide-on-small-only nav-bar-heading" onClick={this.handleClick}>
-                  <div className="genText">Sign Up</div>
-                </button>
-              </Link>
-
-              {
-                /*
-              <Link to="/register">
-                <div  style={styles.heading} className="col m1  hide-on-small-only nav-bar-heading ">
-                <div className="genText">Sign Up</div>
+              <Link to="/register" >
+                <div style={styles.rounded} className="col m1  hide-on-small-only nav-bar-heading">
+                  <div className="genText teal-text">Sign Up</div>
                 </div>
               </Link>
-              */
-           }
 
 
 
-              <ul id="sideNav" className="side-nav">
+
+              <ul id="sideNav"ref="sideNav"  className="sidenav">
                   <li>
                       <div style={styles.wrkbook}>
                           <WrkBookIcon/>
@@ -131,21 +116,16 @@ export default class Base extends Component{
                       <div className="divider"> </div>
                   </li>
                   <li>
-                      <Link onClick={this.sideClick.bind(this)} to = "/">Home</Link>
-                  </li>
-                  {/*
-                    <li>
-                        <Link onClick={this.sideClick.bind(this)} to = "/#price">Pricing</Link>
-                    </li>
-                  */}
-                  <li>
-                      <Link onClick={this.sideClick.bind(this)} to = "/questions">FAQs</Link>
+                      <Link className="sidenav-close"  to = "/">Home</Link>
                   </li>
                   <li>
-                      <a onClick={this.handleClick.bind(this, "How To")}>How it works</a>
+                      <Link className="sidenav-close" to = "/questions">FAQs</Link>
                   </li>
                   <li>
-                      <Link onClick={this.handleClick.bind(this)} to = "/">Sign Up</Link>
+                      <a className="sidenav-close" onClick={this.handleClick.bind(this, "How To")}>How it works</a>
+                  </li>
+                  <li>
+                      <Link className="sidenav-close"  to = "/register">Sign Up</Link>
                   </li>
 
 
@@ -174,7 +154,7 @@ let styles = {
     },
     heading : {
         position: 'relative',
-        top: '12px',
+        top: '15px',
         textAlign:'center',
         padding: '0px'
 
@@ -184,10 +164,9 @@ let styles = {
         top: '15px',
         textAlign:'center',
         padding: '0px',
-        backgroundColor: 'transparent',
-        border: '1px solid #1BAA6E',
         borderRadius: '8px',
-        marginLeft: '5px'
+        marginLeft: '5px',
+        cursor:'pointer'
     },
 
 

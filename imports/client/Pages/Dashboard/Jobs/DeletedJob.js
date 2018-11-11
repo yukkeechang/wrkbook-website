@@ -19,8 +19,8 @@ class DeletedJ extends React.Component{
     if(!!this.props.notification){
       console.log(this.props.notification);
         Meteor.call('updateNotification',this.props.notification._id,(err)=>{
-          console.log(err);
-        })
+          if(err)console.log(err);
+        });
       return(
         <div>
           <DeleteView
@@ -31,7 +31,7 @@ class DeletedJ extends React.Component{
     }
     else if(!this.props.loading){
       return (
-        <div style={{display:'flex',justifyContent:'center',alignItem:'center'}} >
+        <div className="flex-center">
           <MSpinner />
         </div>
       );

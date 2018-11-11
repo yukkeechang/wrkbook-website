@@ -22,7 +22,15 @@ const  MessagesSchema = new SimpleSchema({
   },
   seen:{
     type: Boolean,
-    defaultValue:false
+    optional:true
+  },
+  seenGroup:{
+    type: Array,
+    optional:true
+  },
+  'seenGroup.$':{
+    type:String,
+    optional:true
   },
   jobId:{
     type:String,

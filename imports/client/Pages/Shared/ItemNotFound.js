@@ -63,7 +63,7 @@ export default class NotFound extends React.Component{
                   <div className="row ">
                   <div className="col s12 center-align ">
                     <Link to={"/"} style={{ width:'25%'}} className="waves-effect red accent-3 roundish-button-flat-large">
-                      <div style={{marginTop:'15px',fontSize:'25px'}}>
+                      <div style={{marginTop:'15px',fontSize:'20px'}}>
                         Back to Home
                       </div>
                     </Link>

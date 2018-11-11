@@ -66,34 +66,27 @@ export class NavBarPage extends Component{
         let el = ReactDOM.findDOMNode(this.refs.dropdown);
         $(el).dropdown({
             hover: true,
-            belowOrigin: true,
+            coverTrigger: false,
             alignment: 'right',
             constrainWidth: false
         });
         let jobDropDown = ReactDOM.findDOMNode(this.refs.jobdropdown);
         $(jobDropDown).dropdown({
             hover: true,
-            belowOrigin: true,
-            alignment: 'left',
-            constrainWidth: false
-        });
-        let jobDropDownSideNav = ReactDOM.findDOMNode(this.refs.jobdropdownSideNav);
-        $(jobDropDownSideNav).dropdown({
-            hover: true,
-            belowOrigin: true,
+            coverTrigger: false,
             alignment: 'left',
             constrainWidth: false
         });
         let notificationDrop = ReactDOM.findDOMNode(this.refs.dropdownnotes);
         $(notificationDrop).dropdown({
             hover:true,
-            belowOrigin:true,
+            coverTrigger: false,
             alignment:'left',
             constrainWidth:false,
             gutter: 0
         })
         let sn = ReactDOM.findDOMNode(this.refs.sideNav);
-        $(sn).sideNav();
+        $(sn).sidenav();
         let collapse = ReactDOM.findDOMNode(this.refs.collapsibleref);
          $(collapse).collapsible();
 
@@ -107,11 +100,14 @@ export class NavBarPage extends Component{
     arrow(){
       this.setState({switchNav:!this.state.switchNav});
     }
+    openAccoutDrop=()=>{
+      $(ReactDOM.findDOMNode(this.refs.dropdown)).dropdown('open');
+    }
 
 
     sideClick(){
-        let sn = ReactDOM.findDOMNode(this.refs.sideNav);
-        $(sn).sideNav('hide');
+        // let sn = ReactDOM.findDOMNode(this.refs.sideNav);
+        // $(sn).sideNav('hide');
         let collapse = ReactDOM.findDOMNode(this.refs.collapsibleref);
         $(collapse).collapsible('close', 0);
           this.setState({switchNav:false});
@@ -145,11 +141,11 @@ export class NavBarPage extends Component{
         <i className="large material-icons">arrow_drop_up</i> :
         <i className="large material-icons">arrow_drop_down</i>
       }</div>
-        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/jobmatches'>Job Matches</Link></div>
-        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/applied'>Applied Jobs</Link></div>
-        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
-        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
-        <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming</Link></div>
+        <div className="collapsible-body center-align sidenav-close"  ><Link onClick={this.sideClick.bind(this)} to='/jobmatches'>Job Matches</Link></div>
+        <div className="collapsible-body center-align sidenav-close"  ><Link onClick={this.sideClick.bind(this)} to='/applied'>Applied Jobs</Link></div>
+        <div className="collapsible-body center-align sidenav-close"  ><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
+        <div className="collapsible-body center-align sidenav-close"  ><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
+        <div className="collapsible-body center-align sidenav-close"  ><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming</Link></div>
         </li>
 
       :
@@ -159,20 +155,20 @@ export class NavBarPage extends Component{
           <i className="large material-icons">arrow_drop_up</i> :
           <i className="large material-icons">arrow_drop_down</i>
           }</div>
-          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
-          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
-          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/createjob'>Create Job</Link></div>
-          <div className="collapsible-body"  style={{paddingLeft:'35px'}}><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming</Link></div>
+          <div className="collapsible-body center-align sidenav-close"><Link onClick={this.sideClick.bind(this)} to='/current'>Current Jobs</Link></div>
+          <div className="collapsible-body  center-align sidenav-close"  ><Link onClick={this.sideClick.bind(this)} to='/completed'>Completed Jobs</Link></div>
+          <div className="collapsible-body  center-align sidenav-close" ><Link onClick={this.sideClick.bind(this)} to='/createjob'>Create Job</Link></div>
+          <div className="collapsible-body  center-align sidenav-close" ><Link onClick={this.sideClick.bind(this)} to='/upcoming'>Upcoming</Link></div>
 
 
         </li>
 
         return(
             <div className="row">
-            <div ref="sideNav" data-activates="sideNav" className="col s4 hide-on-med-and-up">
+            <div  data-target="sideNav" className="col s4 sidenav-trigger hide-on-med-and-up">
                 <div className="valign-wrapper left-align">
                   <i style={styles.icon}className="material-icons">menu</i>{this.props.general > 0 ?
-                  <span className="new badge">{this.props.general}</span> : null}
+                  <span className="new badge notification-red-alert darken-1">{this.props.general}</span> : null}
                 </div>
             </div>
             <div style={{textAlign:'center'}}className="col s4 m1">
@@ -182,7 +178,7 @@ export class NavBarPage extends Component{
             </div>
             <div style={styles.links} className="col m2 hide-on-small-only genText"><Link style={styles.links}to="/">Home</Link></div>
 
-            <div style={styles.links} ref="jobdropdown" data-activates='jobs' className="col m2 hide-on-small-only genText">
+            <div style={styles.links} ref="jobdropdown" data-target='jobs' className="dropdown-trigger col m2 hide-on-small-only genText">
                 <div className="valign-wrapper">
                   <Link style={{color:'white'}} to="/upcoming">Jobs
                   </Link>
@@ -191,16 +187,16 @@ export class NavBarPage extends Component{
             </div>
 
 
-            <div ref="dropdownnotes" data-activates='notification' style={styles.links} className="col m2 hide-on-small-only genText">
+            <div ref="dropdownnotes" data-target='notification' style={styles.links} className="dropdown-trigger col m3 hide-on-small-only genText">
               <div className="valign-wrapper">
 
               <Link style={{color:'white'}} to="/notifications">Notifications{this.props.general > 0 ?
-                    <span className="new badge">{this.props.general}</span> : null}
+                    <span className="new badge notification-red-alert darken-1">{this.props.general}</span> : null}
                 </Link>
               </div>
             </div>
 
-            <div ref="dropdown" data-activates='account' style={styles.account}className="col s3 m3 push-m2 push-s1">
+            <div ref="dropdown" data-target='account' onClick={this.openAccoutDrop} style={styles.account}className="dropdown-trigger col s3 m3 push-m1 push-s1">
                 <div style={styles.firstName} className="hide-on-small-only">
                   <Link style={{color:'black'}}to="/profile">{this.props.user.profile.firstName}</Link>
                 </div>
@@ -241,7 +237,7 @@ export class NavBarPage extends Component{
 
             <div>{jobDropDownLinks}</div>
 
-            <ul id="sideNav" className="side-nav">
+            <ul id="sideNav" ref="sideNav" className="sidenav">
                 <li>
                     <div style={styles.wrkbook}>
                         <WrkBookIcon/>
@@ -251,20 +247,20 @@ export class NavBarPage extends Component{
                     <div className="divider"> </div>
                 </li>
                 <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/">Home</Link>
+                    <Link  className="sidenav-close" onClick={this.sideClick.bind(this)} to = "/">Home</Link>
                 </li>
                 <li>
-                    <Link onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>
+                    <Link className="sidenav-close"  onClick={this.sideClick.bind(this)} to = "/profile">Profile</Link>
                 </li>
                 <li>
-                    <ul ref="collapsibleref" className="collapsible" data-collapsible="accordion" onClick={this.arrow.bind(this)}>
+                    <ul ref="collapsibleref" className="collapsible"  onClick={this.arrow.bind(this)}>
                         {jobDropDownLinksSideNav}
                     </ul>
                 </li>
                 {/*
                 <li>
                     <Link onClick={this.sideClick.bind(this)} to = "/notifications">Notifications{this.props.general > 0 ?
-                        <span className="new badge">{this.props.general}</span> : null}</Link>
+                        <span className="new badge notification-red-alert darken-1">{this.props.general}</span> : null}</Link>
                 </li>
 
                   <li>
@@ -287,8 +283,10 @@ export default NavBar = withTracker( params => {
   let handle = Meteor.subscribe('notifications-for-user');
   let messageHandle = Meteor.subscribe('unread-messages');
   let ready = handle.ready();
+  let userId = Meteor.userId();
   let messageReady = messageHandle.ready();
-  let messages = Message.find({seen:false}).count();
+  let messages = Message.find({$or:[{seen: false,to:userId,owner:{$ne:userId}},
+      {seen:{$nin:[userId]},channelId:{$exists:true},owner:{$ne:userId}}]}).count();
   let notifications = Notification.find({seen:false}).count();
   let match = Notification.find({typeNotifi:'MATCH'}).count();
   let appliedEmployer = Notification.find({typeNotifi:'APPLIED'}).count();

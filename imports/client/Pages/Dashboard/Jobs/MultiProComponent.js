@@ -36,8 +36,6 @@ export default class JobCreateComponent extends Component{
       if(this.refs.startDate.value == ''){
         startDate = this.state.startdate;
       }
-      console.log(startDate);
-      console.log(endDate);
       const startAt = new Date(startDate +" "+ startTime);
       const endAt = new Date(endDate +" "+ endTime);
       let responsibilities = this.state.responsibilities;
@@ -85,15 +83,15 @@ export default class JobCreateComponent extends Component{
   }
   componentDidMount(){
     let st = ReactDOM.findDOMNode(this.refs.startTime);
-    $(st).pickatime();
+    $(st).timepicker();
     let sd = ReactDOM.findDOMNode(this.refs.startDate);
-    $(sd).pickadate({
+    $(sd).datepicker({
       format: 'mmm dd yyyy'
     });
     let et = ReactDOM.findDOMNode(this.refs.endTime);
-    $(et).pickatime();
+    $(et).timepicker();
     let ed = ReactDOM.findDOMNode(this.refs.endDate);
-    $(ed).pickadate({
+    $(ed).datepicker({
       format: 'mmm dd yyyy'
     });
     if(this.props.fromEditJob){

@@ -42,7 +42,7 @@ export default class EditRef extends Component {
         })
     }
     componentDidMount(){
-        Materialize.updateTextFields();
+        M.updateTextFields();
     }
     render() {
         let tooLong = "must be between 1 and 250 characters";

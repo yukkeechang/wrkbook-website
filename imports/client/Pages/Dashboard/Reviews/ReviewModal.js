@@ -37,7 +37,7 @@ export default class ProModalReview extends React.Component{
 
 
       <div>
-         <button className="waves-effect waves-teal teal btn-flat" onClick={this.openModal}>
+         <button style={{width:'55%'}}className="teal lighten-2 roundish-button-flat" onClick={this.openModal}>
            <div className="white-text">
                Rate and Review
            </div>
@@ -57,7 +57,7 @@ export default class ProModalReview extends React.Component{
               }
            </div>
            <div className="modal-footer">
-             <a onClick={this.submitReview} style={{width:'100%'}} className="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+             <a onClick={this.submitReview} style={{width:'50%'}} className="center-align modal-action modal-close teal lighten-2 roundish-button-flat">Submit</a>
            </div>
           </div>
 

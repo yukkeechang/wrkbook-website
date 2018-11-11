@@ -25,7 +25,7 @@ class EmpJobPost extends React.Component{
 
     let select = ReactDOM.findDOMNode(this.refs.jobEvent);
     $(select).ready(()=>{
-      $('select').material_select();
+      $('select').formSelect();
     });
     $(this.refs.jobEvent).on('change',(e)=>{
       this.changeEventDate(e);
@@ -171,10 +171,13 @@ class EmpJobPost extends React.Component{
               />
               :
               <div className="center-align">
-                <a style={{width:'50%',fontSize:'18px'}} className="waves-effect grey lighten-3 black-text roundish-button-flat-large disabled">
-                <div style={{lineHeight:'70px',height:'70px'}} className="valign-wrapper flex-center">
-                  Job Completed
-                  </div>
+                <a style={{width:'50%',fontSize:'18px'}} className="waves-effect grey-border thin-border  black-text roundish-button-flat-large disabled">
+                  <div style={{lineHeight:'70px',height:'70px'}} className="hide-on-small-only valign-wrapper flex-center">
+                    Job Completed
+                    </div>
+                    <div style={{lineHeight:'70px',height:'70px'}} className="show-on-small valign-wrapper flex-center">
+                     Completed
+                    </div>
                 </a>
               </div>
               }

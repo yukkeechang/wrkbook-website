@@ -15,7 +15,7 @@ export default class EditJob extends Component {
   componentDidMount(){
     let page = ReactDOM.findDOMNode(this.refs.editJobPage);
     $(page).ready(()=>{
-      $('select').material_select();
+      $('select').formSelect();
       $('.modal').modal();
     });
     this.setState({

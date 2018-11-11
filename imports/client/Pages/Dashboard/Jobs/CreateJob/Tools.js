@@ -26,17 +26,23 @@ export default class Tools extends Component {
           <div className="col m2 s4">
             <label>Are tools required?</label>
             <div>
+              <label>
               <input name="group1" type="radio" id="toolYes"  onClick={this.handletoolYesClick} />
-              <label htmlFor="toolYes">Yes</label>
+              <span>Yes</span>
+              </label>
             </div>
             <div>
+            <label>
               <input name="group1" type="radio" id="toolNo" onClick={this.handletoolNoClick} />
-              <label htmlFor="toolNo">No</label>
+              <span>No</span>
+            </label>
             </div>
           </div>
           <div id="toolDisplay" style={{display:'none'}} className="input-field col m10 s8">
+            <label>
             <input id="tools" ref="tools" type="text"/>
-            <label htmlFor="tools">Required tools:</label>
+            <span>Required tools:</span>
+            </label>
           </div>
         </div>
       </form>

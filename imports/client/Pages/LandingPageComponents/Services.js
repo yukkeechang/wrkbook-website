@@ -38,11 +38,8 @@ export default class Services extends Component{
   }
   changeIcons=()=>{
     let count = this.state.count;
-    if(count >= 6){
-      count = 0;
-    }else{
-      count = count + 6;
-    }
+    count = count >= 6 ? 0: count + 6;
+
     let items = imageText.slice(count,count+6).map(i=>{
           return i;
     });
@@ -55,7 +52,7 @@ export default class Services extends Component{
   render(){
     const items = this.state.items.map((item,i) =>{
       return(
-        <div style={{padding:'0px',margin:'0px'}}className="col s6 m2  center-align" key={item.text}>
+        <div className="col s6 m2  center-align no-padd-margin" key={item.text}>
           <Step img={item.img} text={item.text}/>
         </div>
       );

@@ -15,13 +15,14 @@ export default class Banner extends React.Component {
           color: "white"
         }}
       >
-        <span> Our Beta Version 2.0 is coming out August 2018.</span>
+        <span> *Snippet of Infomation.*</span>
         <button
           className="teal"
           style={{ border: "None"}}
           onClick={this.handleClick}
         >
           <span
+            className="teal white-text  montserrat-med"
             style={{
               borderBottom: "2px",
               paddingBottom: "1px",

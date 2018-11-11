@@ -8,7 +8,48 @@ body {
   background-color: $primary-color;
   min-width: 275px;
 }
-
+.notification-circle{
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+.bottom-divider {
+  border-bottom: 1px solid  #e0e0e0;
+}
+.round-border{
+  @extend .grey;
+  @extend .lighten-3;
+  border-radius: 10px;
+}
+.round-border h6 {
+  font-weight: bolder;
+}
+.round-border span {
+  font-weight: normal;
+}
+.zero-margin{
+  margin: 0px;
+}
+.take-up-height{
+  height: 100%;
+}
+.take-up-width{
+  width: 100%;
+}
+.take-up-dims{
+  @extend .take-up-width;
+  @extend .take-up-height;
+}
+.no-padding{
+  padding: 0px;
+}
+.no-margin{
+  margin: 0px;
+}
+.no-padd-margin{
+  @extend .no-padding;
+  @extend .no-margin;
+}
 .fill-height{
   height: 100vmin;
 }
@@ -26,8 +67,6 @@ html {
 }
 .wrapper {
   min-height: 100%;
-  /* Equal to height of footer */
-  /* But also accounting for potential margin-bottom of last child */
   margin-bottom: -1*$footer-height;
 }
 .footer,
