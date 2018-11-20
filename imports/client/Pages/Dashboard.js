@@ -74,7 +74,7 @@ class Dash extends Component{
                   <Switch>
                   <Route exact path="/" render={()=> (<Upcoming/> )}/>
                   <Route exact path="/jobmatches" component={EmpJobPosts}/>
-                  <Route  path="/profile" component={Profile}/>
+                  <Route  path="/profile" component={ProfileRefactor}/>
                   <Route  path="/profilerefactor" component={ProfileRefactor}/>
                   <Route  path="/user/:value" component={OtherUser}/>
 

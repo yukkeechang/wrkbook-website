@@ -144,8 +144,9 @@ Meteor.publish('cert-pdfs',function(arrayofId){
 
 Meteor.methods({
   /**
-   * [updateImage description]
-   * @param  {String} imageId [description]
+   * Will change the image of user based upon the image associated with an imageId.
+   * The image that was associated with the user prior will be deleted.* DOES NOT INCLUDE THE DEFUALT IMAGE*
+   * @param  {String} imageId the id associated with an image
    * throws {Meteor.Error}
    */
   updateImage(imageId){
@@ -177,8 +178,9 @@ Meteor.methods({
     }
   },
   /**
-   * [uploadCertificate description]
-   * @param  {String} imageId [description]
+   * Will update the user collections of certificates.
+   * the parameter of imageID is ambiguous, in reality it could be an id of an image or id of a pdf submitted to the server.
+   * @param  {String} imageId the id associated with an image
    * @throws {Meteor.Error}
    */
   uploadCertificate(imageId){
