@@ -7,6 +7,7 @@ export default class CollectEmails extends React.Component {
     super(props);
     this.state = {
       pro: true,
+
       isEmail: true,
       nameEmpty: false,
       emailEmpty: false,
@@ -27,6 +28,7 @@ export default class CollectEmails extends React.Component {
         console.log(err.reason);
         this.setState(err.reason);
       } else {
+
         M.toast({html:'Email and name has been submitted', displayLength:6000, classes:'rounded'});
         this.setState({
               pro: true,
@@ -34,6 +36,7 @@ export default class CollectEmails extends React.Component {
               nameEmpty: false,
               emailEmpty: false,
               existAlready:false });
+
 
         this.refs.name.reset();
         this.refs.email.reset();
@@ -113,6 +116,7 @@ export default class CollectEmails extends React.Component {
           </div>
         </div>
         <div style={{paddingBottom:'15px',marginBottom:'0px'}} className="row">
+
           <div className="center-align col s12 m6 l6 offset-l3 offset-m3">
             <a
               className=" take-up-width roundish-button-flat-large grey darken-2 "
@@ -121,6 +125,7 @@ export default class CollectEmails extends React.Component {
               <h4>Submit</h4>
             </a>
           </div>
+
         </div>
       </div>
     );

@@ -34,8 +34,6 @@ class Application extends Component {
                     transitionLeaveTimeout={300}>
                     <Switch location={location} key={location.pathname}>
                         <Route exact path="/" component={LandingPage}/>
-                        <Route exact path="/login" component={SignIn}/>
-                        <Route exact path="/register" component={SignUp}/>
                         <Route exact path="/questions" component={Faq} />
                         <Route exact path="/forgot" component={Forgot}/>
                         <Route exact path="/reset/:value" component={ResetPassword}/>
