@@ -25,10 +25,10 @@ if ( Meteor.isClient ) {
       it('simulates click event',()=>{
         const wrapper = shallow(<ResetPasswordComponent />);
         const onButtonClick = sinon.spy();
-        const childThings = wrapper.find('a').get(0);
+        const childThings = wrapper.find('button').get(0);
         const childWrapper = shallow(childThings);
         childWrapper.setProps({ onClick: onButtonClick });
-        childWrapper.find('a').simulate('click');
+        childWrapper.find('button').simulate('click');
         expect(onButtonClick.calledOnce).to.equal(true);
       });
   });
